@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.components;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -36,6 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.PartInitException;
 
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.UIUtils;
@@ -54,7 +56,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
     
     private StyledText fStyledText;
     
-    private Cursor fHandCursor, fBusyCursor;
+    private Cursor fHandCursor;
     private Cursor fCurrentCursor;
     
     private int fNormalFontHeight;
@@ -108,13 +110,14 @@ public class StyledTextControl implements Listener, LineStyleListener {
         fStyledText.setKeyBinding(ST.SELECT_ALL, ST.SELECT_ALL);
         
         fHandCursor = new Cursor(styledText.getDisplay(), SWT.CURSOR_HAND);
-        fBusyCursor = new Cursor(styledText.getDisplay(), SWT.CURSOR_WAIT);
         
         fStyledText.addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
-                fHandCursor.dispose();
-                fBusyCursor.dispose();
+                if(fHandCursor != null && !fHandCursor.isDisposed()) {
+                    fHandCursor.dispose();
+                    fHandCursor = null;
+                }
                 
                 fStyledText.removeListener(SWT.MouseUp, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseMove, StyledTextControl.this);
@@ -124,8 +127,6 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 
                 fStyledText.removeLineStyleListener(StyledTextControl.this);
                 
-                fHandCursor = null;
-                fBusyCursor = null;
                 fCurrentCursor = null;
                 fLinks = null;
                 
@@ -376,11 +377,14 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 return;
             }
             
-            // Open link
+            // Open link in Browser
             if(isLinkAt(offset)) {
-                fStyledText.setCursor(fBusyCursor);
-                HTMLUtils.openLinkInBrowser(getLinkAt(offset));
-                setCursor(null);
+                try {
+                    HTMLUtils.openLinkInBrowser(getLinkAt(offset));
+                }
+                catch(PartInitException | MalformedURLException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -518,7 +522,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
     }
     
     /**
-     * Optimise setting cursor 1000s of times
+     * Optimise setting cursor 1000s of times on mouse motions
      */
     private void setCursor(Cursor cursor) {
         if(fCurrentCursor != cursor) {

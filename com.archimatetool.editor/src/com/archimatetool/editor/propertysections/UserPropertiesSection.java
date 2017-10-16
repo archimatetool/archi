@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -79,6 +80,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -459,7 +461,12 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(selected.getValue());
         if(matcher.find()) {
             String href = matcher.group();
-            HTMLUtils.openLinkInBrowser(href);
+            try {
+                HTMLUtils.openLinkInBrowser(href);
+            }
+            catch(PartInitException | MalformedURLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

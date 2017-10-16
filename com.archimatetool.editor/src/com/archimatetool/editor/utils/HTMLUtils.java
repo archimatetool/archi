@@ -68,29 +68,13 @@ public class HTMLUtils {
     /**
      * Open a link in a Browser
      * @param href
+     * @throws PartInitException 
+     * @throws MalformedURLException 
      */
-    public static void openLinkInBrowser(String href) {
-        // format the href for an html file (file:///<filename.html>
-        // required for Mac only.
-        if(href.startsWith("file:")) { //$NON-NLS-1$
-            href = href.substring(5);
-            while(href.startsWith("/")) { //$NON-NLS-1$
-                href = href.substring(1);
-            }
-            href = "file:///" + href; //$NON-NLS-1$
-        }
-        
+    public static void openLinkInBrowser(String href) throws PartInitException, MalformedURLException {
         IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-        try {
-            IWebBrowser browser = support.getExternalBrowser();
-            browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
-        }
-        catch(MalformedURLException ex) {
-            ex.printStackTrace();
-        }
-        catch(PartInitException ex) {
-            ex.printStackTrace();
-        }
+        IWebBrowser browser = support.getExternalBrowser();
+        browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
     }
 
     private static String urlEncodeForSpaces(char[] input) {
