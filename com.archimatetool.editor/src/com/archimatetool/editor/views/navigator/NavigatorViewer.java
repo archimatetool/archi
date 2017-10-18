@@ -56,6 +56,7 @@ public class NavigatorViewer extends TreeViewer {
         if(fShowTargetElements != set) {
             fShowTargetElements = set;
             refresh();
+            expandToLevel(3);
         }
     }
     
