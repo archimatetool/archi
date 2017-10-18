@@ -16,19 +16,16 @@ import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
-import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
@@ -94,6 +91,7 @@ public class TreeModelViewer extends TreeViewer {
         super(parent, style | SWT.MULTI);
         
         setContentProvider(new ModelTreeViewerContentProvider());
+        setLabelProvider(new ModelTreeViewerLabelProvider());
         
         setUseHashlookup(true);
         
@@ -147,25 +145,27 @@ public class TreeModelViewer extends TreeViewer {
         // Edit cell programmatically, not on mouse click
         TreeViewerEditor.create(this, new ColumnViewerEditorActivationStrategy(this){
             @Override
-            protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {  
+            protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
                 return event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
             }  
             
         }, ColumnViewerEditor.DEFAULT);
         
-        TreeViewerColumn column = new TreeViewerColumn(this, SWT.NONE);
-        column.getColumn().setWidth(100);
+        setCellEditors(new CellEditor[]{ fCellEditor });
         
-        column.setLabelProvider(new ModelTreeViewerLabelProvider());
-        
-        column.setEditingSupport(new EditingSupport(this) {
+        setCellModifier(new ICellModifier() {
             @Override
-            protected void setValue(Object element, Object value) {
-                RenameCommandHandler.doRenameCommand((INameable)element, value.toString());
+            public void modify(Object element, String property, Object value) {
+                if(element instanceof TreeItem) {
+                    Object data = ((TreeItem)element).getData();
+                    if(data instanceof INameable) {
+                        RenameCommandHandler.doRenameCommand((INameable)data, value.toString());
+                    }
+                }
             }
             
             @Override
-            protected Object getValue(Object element) {
+            public Object getValue(Object element, String property) {
                 if(element instanceof INameable) {
                     return ((INameable)element).getName();
                 }
@@ -173,25 +173,8 @@ public class TreeModelViewer extends TreeViewer {
             }
             
             @Override
-            protected CellEditor getCellEditor(Object element) {
-                return fCellEditor;
-            }
-            
-            @Override
-            protected boolean canEdit(Object element) {
+            public boolean canModify(Object element, String property) {
                 return RenameCommandHandler.canRename(element);
-            }
-        });
-        
-        // Column is width of tree
-        getControl().addControlListener(new ControlListener() {
-            @Override
-            public void controlResized(ControlEvent e) {
-                column.getColumn().setWidth(((Tree)e.getSource()).getBounds().width);
-            }
-            
-            @Override
-            public void controlMoved(ControlEvent e) {
             }
         });
         
@@ -439,7 +422,4 @@ public class TreeModelViewer extends TreeViewer {
             }
         }
     }
-    
-    
-
 }
