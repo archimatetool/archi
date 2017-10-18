@@ -11,21 +11,33 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IColorProvider;
-import org.eclipse.jface.viewers.IFontProvider;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
@@ -35,13 +47,17 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
 
 
 
@@ -49,11 +65,13 @@ import com.archimatetool.model.IFolder;
 /**
  * Tree Viewer for Model Tree View
  * 
+ * Text Cell Editing code inspired by http://ramkulkarni.com/blog/in-place-editing-in-eclipse-treeviewer/
+ * 
  * @author Phillip Beauvoir
  */
 public class TreeModelViewer extends TreeViewer {
     
-    private TreeCellEditor fCellEditor;
+    private TextCellEditor fCellEditor;
     
     /**
      * Show elements as grey if not in Viewpoint
@@ -76,7 +94,6 @@ public class TreeModelViewer extends TreeViewer {
         super(parent, style | SWT.MULTI);
         
         setContentProvider(new ModelTreeViewerContentProvider());
-        setLabelProvider(new ModelTreeViewerLabelProvider());
         
         setUseHashlookup(true);
         
@@ -123,7 +140,60 @@ public class TreeModelViewer extends TreeViewer {
         });
         
         // Cell Editor
-        fCellEditor = new TreeCellEditor(getTree());
+        fCellEditor = new TreeTextCellEditor(getTree());
+        setColumnProperties(new String[]{ "col1" }); //$NON-NLS-1$
+        setCellEditors(new CellEditor[]{ fCellEditor });
+        
+        // Edit cell programmatically, not on mouse click
+        TreeViewerEditor.create(this, new ColumnViewerEditorActivationStrategy(this){
+            @Override
+            protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {  
+                return event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
+            }  
+            
+        }, ColumnViewerEditor.DEFAULT);
+        
+        TreeViewerColumn column = new TreeViewerColumn(this, SWT.NONE);
+        column.getColumn().setWidth(100);
+        
+        column.setLabelProvider(new ModelTreeViewerLabelProvider());
+        
+        column.setEditingSupport(new EditingSupport(this) {
+            @Override
+            protected void setValue(Object element, Object value) {
+                RenameCommandHandler.doRenameCommand((INameable)element, value.toString());
+            }
+            
+            @Override
+            protected Object getValue(Object element) {
+                if(element instanceof INameable) {
+                    return ((INameable)element).getName();
+                }
+                return null;
+            }
+            
+            @Override
+            protected CellEditor getCellEditor(Object element) {
+                return fCellEditor;
+            }
+            
+            @Override
+            protected boolean canEdit(Object element) {
+                return RenameCommandHandler.canRename(element);
+            }
+        });
+        
+        // Column is width of tree
+        getControl().addControlListener(new ControlListener() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                column.getColumn().setWidth(((Tree)e.getSource()).getBounds().width);
+            }
+            
+            @Override
+            public void controlMoved(ControlEvent e) {
+            }
+        });
         
         // Filter
         fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
@@ -143,30 +213,7 @@ public class TreeModelViewer extends TreeViewer {
      * @param element the element to be edited
      */
     public void editElement(Object element) {
-        TreeItem item = findTreeItem(element);
-        if(item != null) {
-            fCellEditor.editItem(item);
-        }
-    }
-    
-    @Override
-    public void refresh(Object element) {
-        if(isEditing()) {
-            fCellEditor.cancelEditing();
-        }
-        super.refresh(element);
-    }
-    
-    @Override
-    public void refresh(Object element, boolean updateLabels) {
-        if(isEditing()) {
-            fCellEditor.cancelEditing();
-        }
-        super.refresh(element, updateLabels);
-    }
-    
-    boolean isEditing() {
-        return fCellEditor != null && fCellEditor.isEditing();
+        editElement(element, 0);
     }
     
     /**
@@ -218,12 +265,12 @@ public class TreeModelViewer extends TreeViewer {
         return super.getSortedChildren(parentElementOrTreePath);
     }
     
-    // ========================= Model Provoders =====================================
+    // ========================= Model Providers =====================================
     
     /**
      *  Content Provider
      */
-    class ModelTreeViewerContentProvider implements ITreeContentProvider {
+    private class ModelTreeViewerContentProvider implements ITreeContentProvider {
         
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
@@ -273,7 +320,7 @@ public class TreeModelViewer extends TreeViewer {
     /**
      * Label Provider
      */
-    class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
+    private class ModelTreeViewerLabelProvider extends CellLabelProvider {
         Font fontNormal = null;
         Font fontItalic = FontFactory.SystemFontItalic;
         Font fontBold = FontFactory.SystemFontBold;
@@ -288,7 +335,14 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         @Override
-        public String getText(Object element) {
+        public void update(ViewerCell cell) {
+            cell.setText(getText(cell.getElement()));
+            cell.setImage(getImage(cell.getElement()));
+            cell.setForeground(getForeground(cell.getElement()));
+            cell.setFont(getFont(cell.getElement()));
+        }
+        
+        String getText(Object element) {
             String name = ArchiLabelProvider.INSTANCE.getLabel(element);
             
             // If a dirty model show asterisk
@@ -311,13 +365,11 @@ public class TreeModelViewer extends TreeViewer {
             return name;
         }
         
-        @Override
-        public Image getImage(Object element) {
+        Image getImage(Object element) {
             return ArchiLabelProvider.INSTANCE.getImage(element);
         }
         
-        @Override
-        public Font getFont(Object element) {
+        Font getFont(Object element) {
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
                 return fontBold;
@@ -333,14 +385,61 @@ public class TreeModelViewer extends TreeViewer {
             return fontNormal;
         }
 
-        @Override
-        public Color getForeground(Object element) {
+        Color getForeground(Object element) {
             return fViewpointFilterProvider.getTextColor(element);
+        }
+    }
+    
+    // ========================= Text Cell Editor =====================================
+    
+    private class TreeTextCellEditor extends TextCellEditor {
+        int minHeight = 0;
+        CellEditorGlobalActionHandler fGlobalActionHandler;
+
+        public TreeTextCellEditor(Tree tree) {
+            super(tree, SWT.BORDER);
+            Text txt = (Text)getControl();
+            
+            // Filter out nasties
+            UIUtils.applyInvalidCharacterFilter(txt);
+            
+            // Not sure if we need this
+            //UIUtils.conformSingleTextControl(txt);
+
+            FontData[] fontData = txt.getFont().getFontData();
+            if(fontData != null && fontData.length > 0) {
+                minHeight = fontData[0].getHeight() + 10;
+            }
         }
 
         @Override
-        public Color getBackground(Object element) {
-            return null;
+        public LayoutData getLayoutData() {
+            LayoutData data = super.getLayoutData();
+            if(minHeight > 0) {
+                data.minimumHeight = minHeight;
+            }
+            return data;
+        }
+        
+        @Override
+        public void activate() {
+            // Clear global key binds
+            fGlobalActionHandler = new CellEditorGlobalActionHandler();
+            fGlobalActionHandler.clearGlobalActions();
+        }
+        
+        @Override
+        public void deactivate() {
+            super.deactivate();
+            
+            // Restore global key binds
+            if(fGlobalActionHandler != null) {
+                fGlobalActionHandler.restoreGlobalActions();
+                fGlobalActionHandler = null;
+            }
         }
     }
+    
+    
+
 }
