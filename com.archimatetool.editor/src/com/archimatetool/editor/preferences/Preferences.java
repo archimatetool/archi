@@ -44,14 +44,6 @@ public class Preferences implements IPreferenceConstants {
         return STORE.getBoolean(OPEN_DIAGRAMS_ON_LOAD);
     }
     
-    public static boolean doAnimate() {
-        return STORE.getBoolean(ANIMATE);
-    }
-    
-    public static int getAnimationSpeed() {
-        return STORE.getInt(ANIMATION_SPEED);
-    }
-    
     public static boolean useAntiAliasing() {
         return STORE.getBoolean(ANTI_ALIAS);
     }

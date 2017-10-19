@@ -17,7 +17,9 @@ import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import com.archimatetool.editor.diagram.commands.IAnimatableCommand;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -27,13 +29,23 @@ import com.archimatetool.editor.preferences.Preferences;
  * @author Phillip Beauvoir
  */
 public final class AnimationUtil {
+    
+    /**
+     * @return True if OS and version supports animation
+     */
+    public static boolean supportsAnimation() {
+        // It doesn't work on Mac High Sierra 10.13.x (or any Mac version with Eclipse 4.7 Oxygen)
+        boolean macSupported = PlatformUtils.isMac() && !System.getProperty("os.version").startsWith("10.13"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        return macSupported || PlatformUtils.isWindows() || PlatformUtils.isLinux();
+    }
 
     public static boolean doAnimate() {
-        return Preferences.doAnimate();
+        return supportsAnimation() && Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE);
     }
     
     public static int animationSpeed() {
-        return Preferences.getAnimationSpeed();
+        return Preferences.STORE.getInt(IPreferenceConstants.ANIMATION_SPEED);
     }
 
     /**
@@ -41,6 +53,10 @@ public final class AnimationUtil {
      * @param stack
      */
     public static void registerCommandStack(CommandStack stack) {
+        if(!supportsAnimation()) {
+            return;
+        }
+        
         stack.addCommandStackEventListener(new CommandStackEventListener() {
             public void stackChanged(CommandStackEvent event) {
                 if(doAnimate()) {
@@ -79,7 +95,9 @@ public final class AnimationUtil {
      * @param figure
      */
     public static void addFigureForAnimation(IFigure figure) {
-        figure.addLayoutListener(LayoutAnimator.getDefault());
+        if(supportsAnimation()) {
+            figure.addLayoutListener(LayoutAnimator.getDefault());
+        }
     }
     
     /**
@@ -87,6 +105,8 @@ public final class AnimationUtil {
      * @param connection
      */
     public static void addConnectionForRoutingAnimation(PolylineConnection connection) {
-        connection.addRoutingListener(RoutingAnimator.getDefault());
+        if(supportsAnimation()) {
+            connection.addRoutingListener(RoutingAnimator.getDefault());
+        }
     }
 }

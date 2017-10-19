@@ -36,6 +36,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 /**
@@ -176,6 +177,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fAnimateVisualiserNodesButton.setLayoutData(gd);
+        
+        fAnimateVisualiserNodesButton.setEnabled(AnimationUtil.supportsAnimation());
         
         setValues();
         

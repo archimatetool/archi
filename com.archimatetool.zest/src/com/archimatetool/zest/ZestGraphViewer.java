@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 
@@ -35,7 +36,7 @@ public class ZestGraphViewer extends GraphViewer {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(IPreferenceConstants.ANIMATE_VISUALISER_NODES.equals(event.getProperty())) {
+            if(AnimationUtil.supportsAnimation() && IPreferenceConstants.ANIMATE_VISUALISER_NODES.equals(event.getProperty())) {
                 Object input = getInput(); // save this
                 setInput(null); // can't set node style if input is not null
                 setNodeStyle(Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES) ? 0 : ZestStyles.NODES_NO_LAYOUT_ANIMATION);
@@ -51,7 +52,7 @@ public class ZestGraphViewer extends GraphViewer {
         setLabelProvider(new ZestViewerLabelProvider());
         
         // Don't animate nodes if set
-        if(!Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES)) {
+        if(!AnimationUtil.supportsAnimation() || !Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES)) {
             setNodeStyle(ZestStyles.NODES_NO_LAYOUT_ANIMATION);
         }
         

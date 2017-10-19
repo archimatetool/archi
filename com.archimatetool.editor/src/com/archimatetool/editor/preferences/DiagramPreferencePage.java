@@ -21,6 +21,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
+
 /**
  * Diagram Preferences Page
  * 
@@ -118,14 +120,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDoAnimationButton.setLayoutData(gd);
+        fDoAnimationButton.setEnabled(AnimationUtil.supportsAnimation());
 
         // Animation Speed
         label = new Label(animationGroup, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_3);
+        label.setEnabled(AnimationUtil.supportsAnimation());
 
         fAnimationSpeedSpinner = new Spinner(animationGroup, SWT.BORDER);
         fAnimationSpeedSpinner.setMinimum(10);
         fAnimationSpeedSpinner.setMaximum(500);
+        fAnimationSpeedSpinner.setEnabled(AnimationUtil.supportsAnimation());
         
         // -------------- View ----------------------------
 
