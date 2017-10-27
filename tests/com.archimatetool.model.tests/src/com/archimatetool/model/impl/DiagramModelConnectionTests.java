@@ -193,8 +193,12 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     private void testPreConnect() {
         assertNull(connection.getSource());
         assertNull(connection.getTarget());
-        assertFalse(source.getSourceConnections().contains(source));
-        assertFalse(target.getTargetConnections().contains(target));
+        
+        assertFalse(source.getSourceConnections().contains(connection));
+        assertFalse(source.getTargetConnections().contains(connection));
+
+        assertFalse(target.getTargetConnections().contains(connection));
+        assertFalse(target.getSourceConnections().contains(connection));
     }
     
     private void testPostConnect() {
