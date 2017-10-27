@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -71,6 +72,11 @@ class PoofAnimater {
             Display.getCurrent().update();
             
             try { Thread.sleep(30); } catch(InterruptedException ex) { }
+            
+            // Later versions of Mac OS X require this
+            if(PlatformUtils.isMac()) {
+                while(Display.getCurrent().readAndDispatch());
+            }
             
             if(forward) {
                 index ++;
