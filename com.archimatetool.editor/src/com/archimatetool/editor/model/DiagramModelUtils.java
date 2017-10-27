@@ -342,7 +342,8 @@ public class DiagramModelUtils {
         
         // If the connection's source element contains the target element, or the connection's target element contains the source element
         if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
-            if(((IDiagramModelContainer)source).getChildren().contains(target) || ((IDiagramModelContainer)target).getChildren().contains(source)) {
+            if(((IDiagramModelContainer)source).getChildren().contains((IDiagramModelArchimateObject)target) 
+                    || ((IDiagramModelContainer)target).getChildren().contains((IDiagramModelArchimateObject)source)) {
                 // And it's a relationship type we have chosen to hide
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
                     if(connection.getArchimateRelationship().eClass() == eClass) {
