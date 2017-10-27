@@ -339,25 +339,10 @@ public class DiagramModelUtils {
             
         IDiagramModelArchimateComponent source = (IDiagramModelArchimateComponent)connection.getSource();
         IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)connection.getTarget();
-
-        // If the connection's source element contains the target
-        if(source instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
-            if(parent.getChildren().contains(target)) {
-                // And it's a relationship type we have chosen to hide
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
-                    if(connection.getArchimateRelationship().eClass() == eClass) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        // If the connection's target element contains the source
-        // TODO: Not sure if this directionality should be allowed
-        if(target instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
-            if(parent.getChildren().contains(source)) {
+        
+        // If the connection's source element contains the target element, or the connection's target element contains the source element
+        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
+            if(((IDiagramModelContainer)source).getChildren().contains(target) || ((IDiagramModelContainer)target).getChildren().contains(source)) {
                 // And it's a relationship type we have chosen to hide
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
                     if(connection.getArchimateRelationship().eClass() == eClass) {
