@@ -192,7 +192,7 @@ public final class ZipUtils {
         }
         
         ImageLoader loader = new ImageLoader();
-        loader.data = new ImageData[] { image.getImageDataAtCurrentZoom() };
+        loader.data = new ImageData[] { image.getImageData() };
         loader.save(zOut, format);
         zOut.closeEntry();
 	}

@@ -33,7 +33,7 @@ public class CompositeMultiImageDescriptor extends CompositeImageDescriptor {
     protected void drawCompositeImage(int width, int height) {
         for(ImageDescriptor overlay : fOverlays) {
             if(overlay != null) {
-                drawImage(overlay.getImageData(), 0, 0);
+                drawImage(zoom -> overlay.getImageData(100), 0, 0); // Not sure how this works
             }
         }
     }
@@ -45,7 +45,7 @@ public class CompositeMultiImageDescriptor extends CompositeImageDescriptor {
             fSize = new Point(1, 1);
             for(ImageDescriptor overlay : fOverlays) {
                 if(overlay != null) {
-                    ImageData id = overlay.getImageData();
+                    ImageData id = overlay.getImageData(100);
                     fSize.x = Math.max(fSize.x, id.width);
                     fSize.y = Math.max(fSize.y, id.height);
                 }

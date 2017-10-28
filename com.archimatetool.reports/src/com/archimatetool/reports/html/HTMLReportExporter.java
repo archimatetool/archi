@@ -320,7 +320,7 @@ public class HTMLReportExporter {
 
             try {
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageDataAtCurrentZoom() };
+                loader.data = new ImageData[] { image.getImageData() };
                 File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }

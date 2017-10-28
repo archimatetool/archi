@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ui.IArchiImages;
@@ -97,7 +98,9 @@ class PoofAnimater {
         image[2] = IArchiImages.ImageFactory.getImage("img/poof3.png"); //$NON-NLS-1$
         image[3] = IArchiImages.ImageFactory.getImage("img/poof4.png"); //$NON-NLS-1$
         image[4] = IArchiImages.ImageFactory.getImage("img/poof5.png"); //$NON-NLS-1$
-        width = image[0].getImageDataAtCurrentZoom().width;
-        height = image[0].getImageDataAtCurrentZoom().height;
+        
+        Rectangle bounds = image[0].getBounds();
+        width = bounds.width;
+        height = bounds.height;
     }
 }

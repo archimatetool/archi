@@ -51,7 +51,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 
                 try {
                     image = DiagramUtils.createImage(fDiagramViewer, 1, 10);
-                    ImageData imageData = image.getImageDataAtCurrentZoom();
+                    ImageData imageData = image.getImageData();
                     
                     cb = new Clipboard(Display.getDefault());
                     

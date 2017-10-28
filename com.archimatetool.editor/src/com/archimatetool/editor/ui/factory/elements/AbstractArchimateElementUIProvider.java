@@ -79,7 +79,7 @@ implements IArchimateElementUIProvider {
                 return originalImageDescriptor;
             }
 
-            ImageData imageData = originalImageDescriptor.getImageData();
+            ImageData imageData = originalImageDescriptor.getImageData(100);
 
             for(int i = 0; i < imageData.width; i++) {
                 for(int j = 0; j < imageData.height; j++) {
@@ -90,7 +90,7 @@ implements IArchimateElementUIProvider {
                 }
             }
 
-            newImageDescriptor = ImageDescriptor.createFromImageData(imageData);
+            newImageDescriptor = ImageDescriptor.createFromImageDataProvider(zoom -> imageData); // Not sure how this works!
             fImageRegistry.put(imageName, newImageDescriptor);
         }
 
