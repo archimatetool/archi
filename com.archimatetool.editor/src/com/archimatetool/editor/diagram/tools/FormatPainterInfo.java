@@ -27,11 +27,11 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class FormatPainterInfo {
     
-    protected static ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER).getImageData();
+    protected static ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER).getImageData(100);
     
     protected static Cursor defaultCursor = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(),
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(100),
             0,
             cursorImageData.height - 1);
     
