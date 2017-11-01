@@ -177,6 +177,12 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
+        MenuManager strategyMenu = new MenuManager(Messages.SearchWidget_15);
+        dropDownAction.add(strategyMenu);
+        for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
+            strategyMenu.add(createObjectAction(eClass));
+        }
+        
         MenuManager businessMenu = new MenuManager(Messages.SearchWidget_6);
         dropDownAction.add(businessMenu);
         for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
@@ -189,10 +195,14 @@ public class SearchWidget extends Composite {
             applicationMenu.add(createObjectAction(eClass));
         }
         
-        MenuManager technologyMenu = new MenuManager(Messages.SearchWidget_8);
-        dropDownAction.add(technologyMenu);
+        MenuManager technologyPhysicalMenu = new MenuManager(Messages.SearchWidget_8);
+        dropDownAction.add(technologyPhysicalMenu);
         for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            technologyMenu.add(createObjectAction(eClass));
+            technologyPhysicalMenu.add(createObjectAction(eClass));
+        }
+        technologyPhysicalMenu.add(new Separator());
+        for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
+            technologyPhysicalMenu.add(createObjectAction(eClass));
         }
         
         MenuManager motivationMenu = new MenuManager(Messages.SearchWidget_9);
@@ -210,6 +220,10 @@ public class SearchWidget extends Composite {
         MenuManager otherMenu = new MenuManager(Messages.SearchWidget_14);
         dropDownAction.add(otherMenu);
         for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
+            otherMenu.add(createObjectAction(eClass));
+        }
+        otherMenu.add(new Separator());
+        for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
             otherMenu.add(createObjectAction(eClass));
         }
 
