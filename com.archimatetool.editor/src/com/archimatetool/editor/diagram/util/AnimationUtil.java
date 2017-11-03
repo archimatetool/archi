@@ -34,10 +34,8 @@ public final class AnimationUtil {
      * @return True if OS and version supports animation
      */
     public static boolean supportsAnimation() {
-        // It doesn't work on Mac High Sierra 10.13.x (or any Mac version with Eclipse 4.7 Oxygen)
-        boolean macSupported = PlatformUtils.isMac() && !System.getProperty("os.version").startsWith("10.13"); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        return macSupported || PlatformUtils.isWindows() || PlatformUtils.isLinux();
+        // It doesn't work on Mac with Eclipse 4.7 Oxygen
+        return PlatformUtils.isWindows() || PlatformUtils.isLinux();
     }
 
     public static boolean doAnimate() {
