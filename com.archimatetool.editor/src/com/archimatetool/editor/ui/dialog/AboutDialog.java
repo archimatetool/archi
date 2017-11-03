@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.ui.dialog;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -179,26 +179,13 @@ public class AboutDialog extends TrayDialog {
         if(licenseText.getText().length() == 0) {
             File file = new File(ArchiPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
             if(file.exists()) {
-                byte[] buffer = new byte[(int) file.length()];
-                BufferedInputStream is = null;
                 try {
-                    is = new BufferedInputStream(new FileInputStream(file));
-                    is.read(buffer);
+                    String content = new String(Files.readAllBytes(Paths.get(file.getPath())));
+                    licenseText.setText(content);
                 }
                 catch(IOException ex) {
                     ex.printStackTrace();
                 }
-                finally {
-                    if(is != null) {
-                        try {
-                            is.close();
-                        }
-                        catch(IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-                licenseText.setText(new String(buffer));
             }
         }
     }
