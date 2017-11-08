@@ -290,26 +290,21 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	}
 	
 	/**
-	 * Allow points comparison (works only for aligned points) 
-	 * Based on this thread:
+	 * Allow points comparison
+	 * Originally based on this thread (works only for aligned points) :
 	 * http://stackoverflow.com/questions/4199509/java-how-to-sort-an-arraylist-of-point-objects
+	 * Changed in Nov. 2017 to work for loosely aligned points
 	 */
 	private static class PointCompare implements Comparator<Point> {
 		@Override
 		public int compare(final Point a, final Point b) {
-		    if (a.x < b.x) {
-		        return -1;
-		    }
-		    else if (a.x > b.x) {
-		        return 1;
-		    }
-		    else if (a.y < b.y) {
-		        return -1;
-		    }
-		    else if (a.y > b.y) {
-		        return 1;
-		    } else
-		    	return 0;
+			int delta_x = a.x - b.x;
+			int delta_y = a.y - b.y;
+			if (Math.abs(delta_x) > Math.abs(delta_y)) {
+				return (int) Math.signum(delta_x);
+			} else {
+				return (int) Math.signum(delta_y);
+			}
 		}
 	}
 }
