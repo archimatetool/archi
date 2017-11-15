@@ -83,6 +83,13 @@ public class InstallPluginAction extends Action {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
+        
+        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
+        if(path != null && PlatformUtils.isMac()) {
+            while(Display.getCurrent().readAndDispatch());
+        }
+        
         return path != null ? new File(path) : null;
     }
 }
