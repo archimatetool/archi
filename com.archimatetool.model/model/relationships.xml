@@ -2214,7 +2214,7 @@
         <target concept="Goal" relations="cgnors" derived="" />
         <target concept="Grouping" relations="acfginorstv" derived="" />
         <target concept="ImplementationEvent" relations="cfgiost" derived="" />
-        <target concept="Junction" relations="acfginortv" derived="" />
+        <target concept="Junction" relations="afinortv" derived="" />
         <target concept="Location" relations="cfgorst" derived="" />
         <target concept="Material" relations="acgiors" derived="" />
         <target concept="Meaning" relations="cgnos" derived="" />
@@ -2406,7 +2406,7 @@
         <target concept="Goal" relations="cgnor" derived="cgnr" />
         <target concept="Grouping" relations="acfginorstv" derived="" />
         <target concept="ImplementationEvent" relations="cgo" derived="cg" />
-        <target concept="Junction" relations="acfginortv" derived="" />
+        <target concept="Junction" relations="afinortv" derived="" />
         <target concept="Location" relations="cfgost" derived="cfgt" />
         <target concept="Material" relations="acgo" derived="acg" />
         <target concept="Meaning" relations="cgno" derived="cgn" />
@@ -2790,7 +2790,7 @@
         <target concept="Goal" relations="cgnor" derived="cgnr" />
         <target concept="Grouping" relations="cgnorst" derived="" />
         <target concept="ImplementationEvent" relations="ot" derived="t" />
-        <target concept="Junction" relations="cgnort" derived="" />
+        <target concept="Junction" relations="nort" derived="" />
         <target concept="Location" relations="cgor" derived="cgr" />
         <target concept="Material" relations="cgor" derived="cgr" />
         <target concept="Meaning" relations="no" derived="n" />
