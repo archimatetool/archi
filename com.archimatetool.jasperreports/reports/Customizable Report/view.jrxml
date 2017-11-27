@@ -82,7 +82,7 @@
 					<printWhenExpression><![CDATA[$V{REPORT_ENTRY} != 1]]></printWhenExpression>
 				</reportElement>
 			</break>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="Title 2" x="0" y="1" width="515" height="19"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$P{HIDE_VIEW_NUMBERING}.equals("true") ? $F{name}.replaceAll("^[0-9.]*  *", "") : $F{name}]]></textFieldExpression>
