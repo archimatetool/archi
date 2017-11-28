@@ -35,6 +35,7 @@ import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -218,7 +219,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         
         @Override
         public ImageData getImageData() {
-            return image.getImageData();
+            return image.getImageData(ImageFactory.getDeviceZoom());
         }
         
         public void dispose() {

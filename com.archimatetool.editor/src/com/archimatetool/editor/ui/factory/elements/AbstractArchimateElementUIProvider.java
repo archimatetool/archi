@@ -18,6 +18,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 
@@ -79,8 +80,13 @@ implements IArchimateElementUIProvider {
                 return originalImageDescriptor;
             }
 
-            ImageData imageData = originalImageDescriptor.getImageData(100);
-
+            ImageData imageData = originalImageDescriptor.getImageData(ImageFactory.getDeviceZoom());
+            
+            // This may be null on 2x device zoom if the 2x image does not exist
+            if(imageData == null) {
+                return IArchiImages.ImageFactory.getImageDescriptor(imageName);
+            }
+            
             for(int i = 0; i < imageData.width; i++) {
                 for(int j = 0; j < imageData.height; j++) {
                     RGB rgb = imageData.palette.getRGB(imageData.getPixel(i, j));
@@ -90,7 +96,7 @@ implements IArchimateElementUIProvider {
                 }
             }
 
-            newImageDescriptor = ImageDescriptor.createFromImageDataProvider(zoom -> imageData); // Not sure how this works!
+            newImageDescriptor = ImageDescriptor.createFromImageDataProvider(zoom -> imageData);
             fImageRegistry.put(imageName, newImageDescriptor);
         }
 

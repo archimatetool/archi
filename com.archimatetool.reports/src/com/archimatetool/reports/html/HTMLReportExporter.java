@@ -42,6 +42,7 @@ import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -320,7 +321,7 @@ public class HTMLReportExporter {
 
             try {
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageData() };
+                loader.data = new ImageData[] { image.getImageData(ImageFactory.getDeviceZoom()) };
                 File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }

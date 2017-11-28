@@ -35,6 +35,7 @@ import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -230,7 +231,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         
         @Override
         public ImageData getImageData() {
-            return image.getImageData();
+            return image.getImageData(ImageFactory.getDeviceZoom());
         }
         
         public void dispose() {

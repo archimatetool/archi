@@ -41,6 +41,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
@@ -64,7 +65,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     
     private static Cursor cursor = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(100),
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(ImageFactory.getDeviceZoom()),
             0,
             0);
 

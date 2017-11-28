@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -28,9 +29,17 @@ import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public class ImageFactory {
     
     private AbstractUIPlugin fPlugin;
+    
+    /**
+     * @return The current device zoom level
+     */
+    public static int getDeviceZoom() {
+        return DPIUtil.getDeviceZoom();
+    }
     
     /**
      * @param plugin The plug-in where we can find the images
@@ -212,7 +221,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData();
+        ImageData sourceImageData = source.getImageData(ImageFactory.getDeviceZoom());
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;

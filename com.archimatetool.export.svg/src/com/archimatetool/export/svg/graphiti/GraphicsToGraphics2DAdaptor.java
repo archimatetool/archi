@@ -59,6 +59,8 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ui.ImageFactory;
+
 /**
  * Objects of this class can be used with draw2d to render to a Graphics2D
  * object.
@@ -453,7 +455,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             cloneGC(gc);
             layout.draw(gc, 0, 0, selectionStart, selectionEnd, selectionForeground, selectionBackground);
 
-            ImageData imageData = image.getImageData();
+            ImageData imageData = image.getImageData(ImageFactory.getDeviceZoom());
             imageData.transparentPixel = imageData.palette.getPixel(getBackgroundColor().getRGB());
 
             gc.dispose();
@@ -750,7 +752,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             gc.setFont(getFont());
             gc.drawString(s, 0, 0);
             gc.dispose();
-            ImageData data = image.getImageData();
+            ImageData data = image.getImageData(ImageFactory.getDeviceZoom());
             image.dispose();
             RGB backgroundRGB = getBackgroundColor().getRGB();
             for (int i = 0; i < data.width; i++) {
