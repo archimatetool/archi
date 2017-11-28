@@ -31,34 +31,35 @@
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="GTK"
+			label="Light"
 			os="linux">
 		</theme>
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_mac.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="Mac"
+			label="Light"
 			os="macosx">
 		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_default_win7.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="Windows 7"
-			os="win32"
-			os_version="6.1">
-		</theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4_default_win.css"
+            id="org.eclipse.e4.ui.css.theme.e4_default"
+            label="Light"
+            os="win32"
+            os_version="6.0,6.1,6.2,6.3,10.0">
+        </theme>
 		<theme
         	basestylesheeturi="themes/eclipse/css/e4_default_winxp_blu.css"
         	id="org.eclipse.e4.ui.css.theme.e4_default"
         	label="Windows XP Blue"
-        	os="win32">
+        	os="win32"
+        	os_version="5.1">
 		</theme>
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_classic_win7.css"
 			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="Windows 7 Classic"
+			label="Windows Classic"
 			os="win32"
-			os_version="6.1">
+			os_version="6.0,6.1,6.2,6.3">
 		</theme>
 	</extension>
    

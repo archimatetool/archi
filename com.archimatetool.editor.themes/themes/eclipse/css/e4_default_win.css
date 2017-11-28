@@ -8,6 +8,8 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
+ *     Frank Appel <fappel@codeaffine.com> - Bug 325937
+ *     Patrik Suzzi <psuzzi@gmail.com> - Bug 501250
  *******************************************************************************/
 
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
@@ -21,7 +23,31 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #B6BCCC;
+	color: #CCCCCC;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
+	color: #F4F6FC;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
+	color: #F4F6FC;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
+	color: #FFFFFF;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
+	color: #CED5E5;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
+	color: #D5E1ED;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
+	color: #FFFFFF;
 }
 
 .MTrimmedWindow {
@@ -38,7 +64,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-image:  url(./win7.png);
+	background-color: #F5F7FC #E1E6F6 100%;
 }
 
 .MToolControl.TrimStack {
@@ -48,6 +74,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 
 #PerspectiveSwitcher  {
 	background-color: #F5F7FC #E1E6F6 100%;
+	eclipse-perspective-keyline-color: #E1E6F6 #AAB0BF;
 }
 
 #org-eclipse-ui-editorss {
@@ -61,4 +88,33 @@ CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
 
 CTabFolder Canvas {
 	background-color: #F8F8F8;
+}
+
+Form, FormHeading {
+	background-color: #ffffff;
+	background: #ffffff;
+	background-image: #ffffff;
+	color: #505050;
+}
+
+Form {
+	/* Bug 465148: Additional styling for the Form */
+	text-background-color: #ffffff;
+
+	tb-toggle-hover-color: #505050;
+	tb-toggle-color: #505050;
+	h-hover-full-color: #505050;
+	h-hover-light-color: #505050;
+	h-bottom-keyline-2-color: #eaeaea;
+	h-bottom-keyline-1-color: #eaeaea;
+}
+
+
+
+Section {
+	background-color: #ffffff;
+  	color: #505050;
+  	background-color-titlebar: #eaeaea;
+  	background-color-gradient-titlebar: #eaeaea;
+  	border-color-titlebar: #ffffff;
 }

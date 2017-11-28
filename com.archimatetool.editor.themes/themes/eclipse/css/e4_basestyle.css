@@ -67,7 +67,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #FFFFFF;
+	color: #CCCCCC;
 	category: '#org-eclipse-ui-presentation-default';
 	label: 'Active part outer keyline color';
 }
@@ -110,14 +110,15 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
-	color: #000000;
+	/* Never use black */
+	color: #101010;
 }
 
 .MTrimmedWindow.topLevel {
-	margin-top: 3px;
-	margin-bottom: 3px;
-	margin-left: 3px;
-	margin-right: 3px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 1px;
+	margin-right: 1px;
 }
 
 .MPart.busy {
@@ -192,14 +193,14 @@ CTabItem:selected {
 	background-color: #A0A000;
 }
 
-.MPartStack#left Composite, .MPartStack#right Composite, .MPartStack#bottom Composite {
+.MPartStack > Composite {
 	background-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END';
 }
 
-.MPartStack#left.active Composite, .MPartStack#right.active Composite, .MPartStack#bottom.active Composite {
+.MPartStack.active > Composite {
 	background-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END';
 }
 
-.MPartStack#left.active.noFocus Composite, .MPartStack#right.active.noFocus Composite, .MPartStack#bottom.active.noFocus Composite {
+.MPartStack.active.noFocus > Composite {
 	background-color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END';
 }

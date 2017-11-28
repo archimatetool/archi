@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2014 IBM Corporation and others.
+ * Copyright (c) 2010, 2017 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
+ *     Patrik Suzzi <psuzzi@gmail.com> - Bug 497591, 501250, 512385
  *******************************************************************************/
 
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
@@ -31,6 +32,16 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 .MPartStack {
 	swt-simple: false;
 	swt-mru-visible: false;
+	swt-unselected-tabs-color: #E8E8E8 #FFFFFF 100%;
+	swt-outer-keyline-color: #FFFFFF;
+	swt-inner-keyline-color: #FFFFFF;
+	swt-tab-outline: #B6BCCC;
+}
+
+.MPartStack.active {
+	swt-tab-outline: #B6BCCC;
+	swt-shadow-visible: false;
+	swt-outer-keyline-color: #C4C5C1;
 }
 
 .MTrimBar {
@@ -38,22 +49,37 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color:  #CFCFCF #A8A8A8 100%;
+	background-color: #F0F0F0 #E8E8E8 100%;
 }
 
 .MToolControl.TrimStack {
-	frame-image:  url(./macTSFrame.png);
-	handle-image:  url(./macHandle.png);
+	frame-image: url(./macTSFrame.png);
+	handle-image: url(./macHandle.png);
+	frame-cuts: 5px 1px 5px 16px;
+}
+
+.MToolBar.Draggable {
+	handle-image: url(./macHandle.png);
+}
+
+.MTrimmedWindow {
+	background-color: #E8E8E8;
 }
 
 #PerspectiveSwitcher {
 	background-color: #F0F0F0 #E8E8E8 100%;
-	eclipse-perspective-keyline-color: #515151 #515151;
+	eclipse-perspective-keyline-color: #E8E8E8 #E8E8E8;
+	handle-image: url(./macHandle.png);
 }
 
 #org-eclipse-ui-editorss {
 	swt-tab-height: 8px;
 	padding: 0px 5px 7px;
+	swt-unselected-tabs-color: #D6DDE5 #D6DDE5 #D6DDE5 100% 100%;
+	swt-outer-keyline-color: #D6DDE5;
+	swt-inner-keyline-color: #D6DDE5;
+	swt-tab-outline: #D6DDE5;
+	color: #D6DDE5;
 }
 
 CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
@@ -61,5 +87,41 @@ CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
 }
 
 CTabFolder Canvas {
-	background-color: #F0F0F0;
+	background-color: #FFFFFF;
+}
+
+Form, FormHeading {
+	background-color: #ffffff;
+	background: #ffffff;
+	background-image: #ffffff;
+	color: #505050;
+}
+
+Form {
+	/* Bug 465148: Additional styling for the Form */
+	text-background-color: #ffffff;
+
+	tb-toggle-hover-color: #505050;
+	tb-toggle-color: #505050;
+	h-hover-full-color: #505050;
+	h-hover-light-color: #505050;
+	h-bottom-keyline-2-color: #eaeaea;
+	h-bottom-keyline-1-color: #eaeaea;
+}
+
+
+Section {
+	background-color: #ffffff;
+  	color: #505050;
+  	background-color-titlebar: #eaeaea;
+  	background-color-gradient-titlebar: #eaeaea;
+  	border-color-titlebar: #ffffff;
+}
+
+CTabFolder {
+  swt-selected-tabs-background: #CCE0F6 #3F97F9 100%;
+}
+
+CTabFolder CTabItem:selected {
+  background-color: #E9E8E9;
 }
