@@ -9,26 +9,26 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Image with bounds offset information
+ * Image with bounds information
  * 
  * @author schlechter
  */
 public class ModelReferencedImage {
 
 	private final Image image;
-	private final Rectangle offset;
+	private final Rectangle bounds;
 
-	public ModelReferencedImage(Image image, Rectangle offset) {
+	public ModelReferencedImage(Image image, Rectangle bounds) {
 		this.image = image;
-		this.offset = offset;
+		this.bounds = bounds;
 	}
 
 	public Image getImage() {
 		return image;
 	}
 
-	public Rectangle getOffset() {
-		return offset;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
 }

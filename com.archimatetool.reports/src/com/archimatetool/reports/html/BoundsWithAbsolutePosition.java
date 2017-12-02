@@ -5,10 +5,7 @@
  */
 package com.archimatetool.reports.html;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import com.archimatetool.model.IBounds;
-import com.archimatetool.model.impl.Bounds;
 
 /**
  * Extension of Bounds
@@ -19,40 +16,40 @@ import com.archimatetool.model.impl.Bounds;
  * @author schlechter
  *
  */
-public class BoundsWithAbsolutePosition extends Bounds implements IBounds {
+public class BoundsWithAbsolutePosition {
 
-	private int offsetX;
-	private int offsetY;
+    private int x, y, width, height;
 
-
-	public BoundsWithAbsolutePosition(IBounds b) {
-		this.setLocation(b.getX(), b.getY());
-		this.setSize(b.getWidth(), b.getHeight());
-	}
-
-	public void setOffset(int offsetX, int offsetY) {
-		this.offsetX = offsetX;
-		this.offsetY = offsetY;
-	}
+	public BoundsWithAbsolutePosition(IBounds bounds, double scale) {
+        x = (int)(bounds.getX() * scale);
+        y = (int)(bounds.getY() * scale);
+        width = (int)(bounds.getWidth() * scale);
+        height = (int)(bounds.getHeight() * scale);
+    }
+	
+    /**
+     * Set x, y offset
+     * @param offsetX
+     * @param offsetY
+     */
+    public void setOffset(int offsetX, int offsetY) {
+        x += offsetX;
+        y += offsetY;
+    }
 
 	public int getX1() {
-		return offsetX+getX();
+		return x;
 	}
 
 	public int getX2() {
-		return getX1()+getWidth();
+		return getX1() + width;
 	}
 
 	public int getY1() {
-		return offsetY+getY();
+		return y;
 	}
 
 	public int getY2() {
-		return getY1()+getHeight();
-	}
-
-	@Override
-	public IBounds getCopy() {
-		return EcoreUtil.copy(this);
+		return getY1() + height;
 	}
 }

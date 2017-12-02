@@ -152,15 +152,15 @@ public final class DiagramUtils {
             scale = 5;
         }
         
-        Rectangle rectangle = getMinimumBounds(figure);
-        if(rectangle == null) {
-            rectangle = new Rectangle(0, 0, 100, 100); // At least a minimum
+        Rectangle bounds = getMinimumBounds(figure);
+        if(bounds == null) {
+            bounds = new Rectangle(0, 0, 100, 100); // At least a minimum
         }
         else {
-            rectangle.expand(margin / scale, margin / scale);
+            bounds.expand(margin / scale, margin / scale);
         }
         
-        Image image = new Image(Display.getDefault(), (int)(rectangle.width * scale), (int)(rectangle.height * scale) );
+        Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale) );
         GC gc = new GC(image);
         SWTGraphics swtGraphics = new SWTGraphics(gc);
         Graphics graphics = swtGraphics;
@@ -172,7 +172,7 @@ public final class DiagramUtils {
         }
         
         // Compensate for negative co-ordinates
-        graphics.translate(rectangle.x * -1, rectangle.y * -1);
+        graphics.translate(bounds.x * -1, bounds.y * -1);
 
         // Paint onto graphics
         figure.paint(graphics);
@@ -184,7 +184,7 @@ public final class DiagramUtils {
             swtGraphics.dispose();
         }
         
-        return new ModelReferencedImage(image, rectangle);
+        return new ModelReferencedImage(image, bounds);
     }
     
     /**

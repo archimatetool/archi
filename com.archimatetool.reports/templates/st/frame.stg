@@ -19,14 +19,16 @@ expandAreasForChildren(children) ::= <<
 		^expandAreasForChildren(c.Children)^
 	^endif^
 	^if(c.ArchimateElement)^
-		<area shape="rect" coords="^c.Bounds.X1^,^c.Bounds.Y1^,^c.Bounds.X2^,^c.Bounds.Y2^" href="../elements/^c.ArchimateElement.Id^.html"  target="element">
+		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../elements/^c.ArchimateElement.Id^.html"  target="element">
 	^elseif(c.ReferencedModel)^
-		<area shape="rect" coords="^c.Bounds.X1^,^c.Bounds.Y1^,^c.Bounds.X2^,^c.Bounds.Y2^" href="../views/^c.ReferencedModel.Id^.html"  target="view">
+		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../views/^c.ReferencedModel.Id^.html"  target="view">
 	^endif^
 }^
 >>
 
-frame(element) ::= <<
+bounds(c, pos) ::= "^map.(c.Id).(pos)^"
+
+frame(element, map) ::= <<
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html class="frame" lang="en">
 <head>

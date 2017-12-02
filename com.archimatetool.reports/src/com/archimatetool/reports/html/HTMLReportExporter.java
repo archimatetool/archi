@@ -10,8 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -71,6 +73,16 @@ public class HTMLReportExporter {
     public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
     
     private IArchimateModel fModel;
+    
+    /**
+     * Map of new bounds for each digram for bounds offset
+     */
+    private Map<IDiagramModel, Rectangle> diagramBoundsMap = new HashMap<IDiagramModel, Rectangle>();
+    
+    /**
+     * Map of new bounds for child objects in images for hit areas
+     */
+    private Map<String, BoundsWithAbsolutePosition> childBoundsMap = new HashMap<String, BoundsWithAbsolutePosition>();
     
     public HTMLReportExporter(IArchimateModel model) {
         fModel = model;
@@ -258,27 +270,27 @@ public class HTMLReportExporter {
             return;
         }
 
-        Hashtable<IDiagramModel, Rectangle> offsetsTable = saveImages(imagesFolder);
+        // Save images
+        saveImages(imagesFolder);
 
-        for(IDiagramModel dmOrig : fModel.getDiagramModels()) {
-            // we need to add the necessary offsets in order to get correct absolute coordinates
-            // for the elements in the generated image
-            Rectangle offset = offsetsTable.get(dmOrig);
-            // we create a copy of the Model: (children will not be copied!)
-            IDiagramModel dmCopy = (IDiagramModel) dmOrig.getCopy();
-            // FIX THE ID WHICH IS NOT COPIED
-            dmCopy.setId(dmOrig.getId());
+        for(IDiagramModel dm : fModel.getDiagramModels()) {
+            // Add the necessary bounds in order to get correct absolute coordinates for the elements in the generated image
+            Rectangle bounds = diagramBoundsMap.get(dm);
+            
             // process the children
-            for (IDiagramModelObject dmoOrig: dmOrig.getChildren() ) {
-                IDiagramModelObject dmoCopy = getOffsetCopy(dmoOrig, offset.x*-1, offset.y*-1);
-                // add copy of child to copy of model
-                dmCopy.getChildren().add(dmoCopy);
+            for(IDiagramModelObject dmo: dm.getChildren() ) {
+                addNewBounds(dmo, bounds.x * -1, bounds.y * -1);
             }
 
-            File viewF = new File(viewsFolder, dmCopy.getId() + ".html"); //$NON-NLS-1$
+            File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
+            
             stFrame.remove("element"); //$NON-NLS-1$
-            stFrame.add("element", dmCopy); //$NON-NLS-1$
+            stFrame.add("element", dm); //$NON-NLS-1$
+            
+            stFrame.remove("map"); //$NON-NLS-1$
+            stFrame.add("map", childBoundsMap); //$NON-NLS-1$
+            
             viewW.write(stFrame.render());
             viewW.close();
         }
@@ -286,17 +298,18 @@ public class HTMLReportExporter {
     
     /**
      * Save diagram images
-     * return the offsets of the top-left element(s) in each image
      */
-    private Hashtable<IDiagramModel, Rectangle> saveImages(File imagesFolder) {
-        Hashtable<IDiagramModel, String> table = new Hashtable<IDiagramModel, String>();
-        // we store the offsets of the top-left element(s) in each image
-        Hashtable<IDiagramModel, Rectangle> offsetsTable = new Hashtable<>();
-        int i = 1;
+    private void saveImages(File imagesFolder) {
+        // Use this to generate unique name for image file
+        Hashtable<IDiagramModel, String> nameTable = new Hashtable<IDiagramModel, String>();
+        
+        int nameCount = 1;
         
         for(IDiagramModel dm : fModel.getDiagramModels()) {
             ModelReferencedImage geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
             Image image = geoImage.getImage();
+            
+            // Generate file name
             String diagramName = dm.getId();
             if(StringUtils.isSet(diagramName)) {
                 // removed this because ids can have hyphens in them (when imported from TOG format)
@@ -305,19 +318,21 @@ public class HTMLReportExporter {
                 
                 int j = 2;
                 String s = diagramName + ".png";  //$NON-NLS-1$
-                while(table.containsValue(s)) {
+                while(nameTable.containsValue(s)) {
                     s = diagramName + "_" + j++ + ".png"; //$NON-NLS-1$ //$NON-NLS-2$
                 }
                 diagramName = s;
             }
             else {
-                diagramName = Messages.HTMLReportExporter_1 + " " + i++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
+                diagramName = Messages.HTMLReportExporter_1 + " " + nameCount++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
             }
 
-            table.put(dm, diagramName);
+            nameTable.put(dm, diagramName);
 
-            // Get and store the offset of the top-left element in the figure
-            offsetsTable.put(dm,  geoImage.getOffset());
+            // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
+            Rectangle bounds = geoImage.getBounds();
+            bounds.performScale(ImageFactory.getDeviceZoom() / 100); // Account for device zoom level
+            diagramBoundsMap.put(dm, bounds);
 
             try {
                 ImageLoader loader = new ImageLoader();
@@ -329,7 +344,6 @@ public class HTMLReportExporter {
                 image.dispose();
             }
         }
-        return offsetsTable;
     }
     
     private File askSaveFolder() {
@@ -360,42 +374,20 @@ public class HTMLReportExporter {
         return folder;
     }
 
-    private IDiagramModelObject getOffsetCopy(IDiagramModelObject dmoOrig, int offsetX, int offsetY ) {
-        IDiagramModelObject dmoCopy;
-        // Prepare new bounds
-        BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(dmoOrig.getBounds());
-        b.setOffset(offsetX, offsetY);
-        // create and process copy
-        if (dmoOrig instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject dmaoOrig = (IDiagramModelArchimateObject) dmoOrig;
-            IDiagramModelArchimateObject dmaoCopy = (IDiagramModelArchimateObject) dmaoOrig.getCopy();
-            // NEED TO FIX ArchimateElement.ID WHICH IS NOT COPIED
-            dmaoCopy.getArchimateElement().setId(dmaoOrig.getArchimateElement().getId());
-            processChildren(dmaoOrig, dmaoCopy, b);
-            dmoCopy = dmaoCopy;
-        } else if (dmoOrig instanceof IDiagramModelGroup) {
-            IDiagramModelGroup dmgOrig = (IDiagramModelGroup) dmoOrig;
-            IDiagramModelGroup dmgCopy = (IDiagramModelGroup) dmgOrig.getCopy();
-            processChildren(dmgOrig, dmgCopy, b);
-            dmoCopy = dmgCopy;
-        } else {
-            // all other elements
-            dmoCopy = (IDiagramModelObject) dmoOrig.getCopy();
-        }
-        // NEED TO FIX ID WHICH IS NOT COPIED!
-        dmoCopy.setId(dmoOrig.getId());
-        // Set the offset bounds.
-        dmoCopy.setBounds(b);
-        return dmoCopy;
-    }
-
-    private void processChildren(IDiagramModelContainer orig, IDiagramModelContainer copy, BoundsWithAbsolutePosition b) {
-        // in case we have a ModelContainer, the contained coordinates are relative to the object container
-        // -> recursively add the containers base coordinate as an offset to the children
-        for (IDiagramModelObject childOrig: orig.getChildren() ) {
-            IDiagramModelObject childCopy = getOffsetCopy(childOrig, b.getX1(), b.getY1());
-            // add copy of child to copy of modelObject
-            copy.getChildren().add(childCopy);
+    /**
+     * Add new bounds for each diagram object in relation to its parent offset x,y
+     */
+    private void addNewBounds(IDiagramModelObject dmo, int offsetX, int offsetY) {
+        // Add new bounds caled to device zoom
+        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), ImageFactory.getDeviceZoom() / 100);
+        newBounds.setOffset(offsetX, offsetY); // Add offset
+        childBoundsMap.put(dmo.getId(), newBounds);
+        
+        // Children
+        if(dmo instanceof IDiagramModelArchimateObject || dmo instanceof IDiagramModelGroup) {
+            for(IDiagramModelObject child: ((IDiagramModelContainer)dmo).getChildren() ) {
+                addNewBounds(child, newBounds.getX1(), newBounds.getY1());
+            }
         }
     }
 
