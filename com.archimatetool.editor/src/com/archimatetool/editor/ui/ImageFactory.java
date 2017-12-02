@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -29,7 +28,6 @@ import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction")
 public class ImageFactory {
     
     private AbstractUIPlugin fPlugin;
@@ -38,7 +36,7 @@ public class ImageFactory {
      * @return The current device zoom level
      */
     public static int getDeviceZoom() {
-        return DPIUtil.getDeviceZoom();
+        return Integer.parseInt(System.getProperty("org.eclipse.swt.internal.deviceZoom")); //$NON-NLS-1$
     }
     
     /**
