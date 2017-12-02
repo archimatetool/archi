@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.tests.feature"
       label="Archi Unit Tests"
-      version="4.1.1.qualifier"
+      version="4.1.2.qualifier"
       provider-name="Phillip Beauvoir">
 
    <description>
