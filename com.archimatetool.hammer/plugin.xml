@@ -21,7 +21,7 @@
             locationURI="menu:window?after=show_view_append">
          <command
                commandId="com.archimatetool.hammer.command.showValidatorView"
-               icon="img/icon.gif"
+               icon="img/icon.png"
                id="com.archimatetool.hammer.menuitem.showValidatorView"
                label="%command.label"
                style="push">
@@ -32,7 +32,7 @@
             locationURI="toolbar:toolbar_views?after=com.archimatetool.help.toolbaritem.showHintsView">
          <command
                commandId="com.archimatetool.hammer.command.showValidatorView"
-               icon="img/icon.gif"
+               icon="img/icon.png"
                id="com.archimatetool.hammer.toolbaritem.showValidatorView"
                label="%command.label"
                style="push">
@@ -75,7 +75,7 @@
          point="org.eclipse.ui.views">
       <view
             class="com.archimatetool.hammer.view.ValidatorView"
-            icon="img/icon.gif"
+            icon="img/icon.png"
             id="com.archimatetool.hammer.validatorView"
             name="%view.name"
             restorable="true">
