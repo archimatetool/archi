@@ -76,8 +76,13 @@ extends ActionBarContributor {
     @Override
     protected void buildActions() {
         // Zoom in and out
-        addRetargetAction(new ZoomInRetargetAction());
-        addRetargetAction(new ZoomOutRetargetAction());
+        ZoomInRetargetAction zoomInAction = new ZoomInRetargetAction();
+        zoomInAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_IN));
+        addRetargetAction(zoomInAction);
+        
+        ZoomOutRetargetAction zoomOutAction = new ZoomOutRetargetAction();
+        zoomOutAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_OUT));
+        addRetargetAction(zoomOutAction);
         
         // Zoom normal
         RetargetAction retargetAction = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
