@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
@@ -17,6 +18,7 @@ import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -83,25 +85,52 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         // Register us as a Model Listener - this has to be done last, *after* the tree/selection listener is created
         IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
         
-        // Update status bar on selection
-        hookStatusLineSelectionListener();
+        // Listen to selections
+        hookSelectionListener();
     }
     
-    // Update status bar on selection
-    private void hookStatusLineSelectionListener() {
+    private void hookSelectionListener() {
         getViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
             public void selectionChanged(SelectionChangedEvent event) {
+                // Update status bar on selection
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(selected != null) {
-                    Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
-                    String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
-                    getViewSite().getActionBars().getStatusLineManager().setMessage(image, text);
-                }
-                else {
-                    getViewSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
-                }
+                updateStatusBarWithSelection(selected);
+                
+                // Update shell text
+                updateShellTitleBarWithFileName();
             }
         });
+    }
+    
+    /**
+     * Update Status Bar with selected image and text
+     * @param selected
+     */
+    protected void updateStatusBarWithSelection(Object selected) {
+        IStatusLineManager status = getViewSite().getActionBars().getStatusLineManager();
+        
+        if(selected != null) {
+            Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
+            String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
+            status.setMessage(image, text);
+        }
+        else {
+            status.setMessage(null, ""); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Update Shell title bar with file name of current model
+     */
+    protected void updateShellTitleBarWithFileName() {
+        String appname = Platform.getProduct().getName();
+        
+        if(getActiveArchimateModel() != null && getActiveArchimateModel().getFile() != null) {
+            getSite().getShell().setText(appname + " - " + getActiveArchimateModel().getFile().getPath()); //$NON-NLS-1$
+        }
+        else {
+            getSite().getShell().setText(appname);
+        }
     }
     
     /**
@@ -360,5 +389,8 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Unregister us as a Model Manager Listener
         IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
+        
+        // Update shell text
+        getSite().getShell().setText(Platform.getProduct().getName());
     }
 }

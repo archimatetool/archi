@@ -5,11 +5,13 @@
  */
 package com.archimatetool.editor.diagram;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -48,6 +50,7 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -317,24 +320,17 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Set some Properties
         setProperties();
         
-        // Update status bar on selection
-        hookStatusLineSelectionListener();
+        // Listen to selections
+        hookSelectionListener();
     }
     
-    // Update status bar on selection
-    private void hookStatusLineSelectionListener() {
-        getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
+    private void hookSelectionListener() {
+        getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
+                // Update status bar on selection
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(selected instanceof EditPart) {
-                    selected = ((EditPart)selected).getModel();
-                    Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
-                    String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
-                    getEditorSite().getActionBars().getStatusLineManager().setMessage(image, text);
-                }
-                else {
-                    getEditorSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
-                }
+                updateStatusBarWithSelection(selected);
             }
         });
     }
@@ -346,6 +342,40 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
         else {
             super.setFocus();
+            updateShellTitleBarWithFileName(); // Shell title
+        }
+    }
+    
+    /**
+     * Update Status Bar with selected image and text
+     * @param selected
+     */
+    protected void updateStatusBarWithSelection(Object selected) {
+        IStatusLineManager status = getEditorSite().getActionBars().getStatusLineManager();
+        
+        if(selected instanceof EditPart) {
+            selected = ((EditPart)selected).getModel();
+            Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
+            String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
+            status.setMessage(image, text);
+        }
+        else {
+            status.setMessage(null, ""); //$NON-NLS-1$
+        }
+    }
+    
+    /**
+     * Update Shell title bar with file name of current model
+     */
+    protected void updateShellTitleBarWithFileName() {
+        String appname = Platform.getProduct().getName();
+        File file = getModel().getArchimateModel().getFile();
+        
+        if(file != null) {
+            getEditorSite().getShell().setText(appname + " - " + file.getPath()); //$NON-NLS-1$
+        }
+        else {
+            getEditorSite().getShell().setText(appname);
         }
     }
     
@@ -884,5 +914,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         if(getModel() != null && getModel().getArchimateModel() != null) {
             getModel().getArchimateModel().eAdapters().remove(eCoreAdapter);
         }
+        
+        // Update shell text
+        getSite().getShell().setText(Platform.getProduct().getName());
     }
 }
