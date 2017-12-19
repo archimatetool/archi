@@ -7,6 +7,7 @@ package com.archimatetool.jasperreports;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -56,6 +57,8 @@ public class ExportJasperReportsWizard extends Wizard {
             return false;
         }
         
+        final Locale locale = fPage2.getLocale();
+        
         final File exportFolder = fPage1.getExportFolder();
         final String exportFileName = fPage1.getExportFilename();
         final String reportTitle = fPage1.getReportTitle();
@@ -82,7 +85,7 @@ public class ExportJasperReportsWizard extends Wizard {
                         public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
                             try {
                                 JasperReportsExporter exporter = new JasperReportsExporter(fModel, exportFolder, exportFileName, mainTemplateFile,
-                                        reportTitle, exportOptions);
+                                        reportTitle, locale, exportOptions);
                                 exporter.export(monitor);
                             }
                             catch(Exception ex) {

@@ -57,7 +57,7 @@ public class JasperReportsExporterTests {
         tmpFolder.mkdirs();
         
         // Create exporter
-        exporter = new JasperReportsExporter(model, exportFolder, exportFileName, mainTemplateFile, reportTitle, 0);
+        exporter = new JasperReportsExporter(model, exportFolder, exportFileName, mainTemplateFile, reportTitle, null, 0);
         
         // Set up diagrams and Jasper Print once (expensive operation)
         exporter.writeDiagrams(tmpFolder);

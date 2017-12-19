@@ -24,11 +24,11 @@
 	<title>
 		<band height="38">
 			<printWhenExpression><![CDATA[$P{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
-			<staticText>
+			<textField>
 				<reportElement style="Title 3" positionType="Float" x="1" y="0" width="514" height="35"/>
 				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Elements]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.elements}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -42,11 +42,11 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-            <staticText>
+            <textField>
                 <reportElement style="Table header" positionType="Float" x="0" y="18" width="150" height="16" isRemoveLineWhenBlank="true"/>
                 <textElement markup="none"/>
-                <text><![CDATA[Type]]></text>
-            </staticText>
+                <textFieldExpression><![CDATA[$R{text.type}]]></textFieldExpression>
+            </textField>
 			<textField>
 				<reportElement style="Table row" positionType="Float" x="150" y="18" width="365" height="16"/>
 				<textElement/>
@@ -65,16 +65,16 @@
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{relation_target}]]></textFieldExpression>
 			</textField>
-			<staticText>
+			<textField>
 				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
 				<textElement markup="none"/>
-				<text><![CDATA[Source]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{text.source}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="16" width="150" height="16" isRemoveLineWhenBlank="true"/>
 				<textElement markup="none"/>
-				<text><![CDATA[Target]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.target}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="16" splitType="Prevent">
 			<printWhenExpression><![CDATA[!$P{VIEW_DETAILED}.equals("true")]]></printWhenExpression>

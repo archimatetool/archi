@@ -7,7 +7,10 @@ package com.archimatetool.jasperreports;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -43,7 +46,11 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     private ComboViewer fComboTemplateViewer;
     
+    private ComboViewer fComboLocale;
+    
     private Template fLastSelectedTemplate;
+    
+    private static Locale fSelectedLocale = Locale.getDefault();
     
     private static class Template {
         String name;
@@ -105,6 +112,8 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fieldContainer.setLayout(new GridLayout(2, false));
         
+        // Template Combo
+        
         Label label = new Label(fieldContainer, SWT.NONE);
         label.setText(Messages.ExportJasperReportsWizardPage2_4);
         
@@ -147,11 +156,64 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         
         fComboTemplateViewer.setInput(""); //$NON-NLS-1$
         fComboTemplateViewer.setSelection(new StructuredSelection(fTemplates.get(0)));
+        
+        // Locale Combo
+        
+        label = new Label(fieldContainer, SWT.NONE);
+        label.setText(Messages.ExportJasperReportsWizardPage2_6);
+        
+        fComboLocale = new ComboViewer(new Combo(fieldContainer, SWT.READ_ONLY | SWT.BORDER));
+        fComboLocale.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        fComboLocale.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                Locale locale = (Locale)((IStructuredSelection)event.getSelection()).getFirstElement();
+                fSelectedLocale = locale;
+            }
+        });
+        
+        fComboLocale.setContentProvider(new IStructuredContentProvider() {
+            @Override
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+            }
+            
+            @Override
+            public void dispose() {
+            }
+            
+            @Override
+            public Object[] getElements(Object inputElement) {
+                Locale locales[] = Locale.getAvailableLocales();
+
+                Comparator<Locale> localeComparator = new Comparator<Locale>() {
+                    public int compare(Locale locale1, Locale locale2) {
+                        return locale1.toString().compareTo(locale2.toString());
+                    }
+                };
+                Arrays.sort(locales, localeComparator);
+                
+                return locales;
+            }
+        });
+        
+        fComboLocale.setLabelProvider(new LabelProvider() {
+            @Override
+            public String getText(Object element) {
+                return ((Locale)element).toLanguageTag();
+            }
+        });
+        
+        fComboLocale.setInput(""); //$NON-NLS-1$
+        fComboLocale.setSelection(new StructuredSelection(fSelectedLocale));
     }
     
     public File getMainTemplateFile() {
         Template template = (Template)((IStructuredSelection)fComboTemplateViewer.getSelection()).getFirstElement();
         return template.location;
+    }
+    
+    public Locale getLocale() {
+        return fSelectedLocale;
     }
     
     private void handleCustomDialog() {

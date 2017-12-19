@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
 <!-- 2016-11-01T21:12:25 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="main_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="0" uuid="9e79fc51-e815-4958-aec9-57089a7ce791">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="main_report"
+              pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="0"
+              uuid="9e79fc51-e815-4958-aec9-57089a7ce791">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -190,23 +195,23 @@
 				<reportElement style="Normal" x="0" y="30" width="515" height="15" uuid="38784cb9-ab24-4fac-9438-ab7792b48648"/>
 				<textFieldExpression><![CDATA[$F{purpose}]]></textFieldExpression>
 			</textField>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="0" width="515" height="25" uuid="06bbe657-0c16-403e-bf0f-391c3352aebc">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Purpose]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.purpose}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="55" splitType="Prevent">
 			<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
-			<staticText>
+			<textField>
 				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true" uuid="306b787d-d58c-4e8c-9f21-185a7bc7759c">
 					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
 				<box bottomPadding="0"/>
 				<textElement verticalAlignment="Bottom" markup="none"/>
-				<text><![CDATA[Properties]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.properties}]]></textFieldExpression>
+			</textField>
 			<componentElement>
 				<reportElement positionType="Float" mode="Transparent" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true" uuid="7aa6529f-64ac-4fea-aa89-9a4e87e1531f"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
@@ -235,12 +240,12 @@
 			<break>
 				<reportElement x="0" y="0" width="1" height="1" uuid="d7029caa-bea7-43fc-8b8a-e454ffd40713"/>
 			</break>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="eb501373-2891-4c92-bdfa-bd8289e89d4b">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Views]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.views}]]></textFieldExpression>
+			</textField>
 			<subreport>
 				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true" uuid="0834205d-fd47-4315-99d6-610229e94773"/>
 				<subreportParameter name="diagram_object_report">
@@ -261,6 +266,9 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getViewsDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{view_report}]]></subreportExpression>
 			</subreport>
@@ -279,18 +287,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Strategy"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("strategy")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="1471ff26-c738-4ee7-aa51-e74bca4b2945">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Strategy Layer]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.strategy_layer}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business") == true
@@ -306,18 +317,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Business"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="56377c18-0272-407e-ac13-78a5fbc531d5">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Business Layer]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.business_layer}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("application") == true
@@ -333,18 +347,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Application"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("application")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="dfa42361-16ad-41cd-9cb5-850d66f69e3d">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Application Layer]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.application_layer}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("technology") == true
@@ -360,18 +377,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Technology"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("technology")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="73edb842-0bff-4fa9-b487-039a0f0692a6">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Technology & Physical Layer]]></text>
-			</staticText>
+                <textFieldExpression><![CDATA[$R{text.technology_physical_layer}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("motivation") == true
@@ -387,18 +407,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Motivation"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("motivation")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="ca632e72-c2b2-4ffb-8527-73bb0b0d47fe">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Motivation]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.motivation}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("impl_migration") == true
@@ -414,18 +437,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Implementation and Migration"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("impl_migration")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="52bd7de1-15bd-4543-9fab-4cb25416df3b">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Implementation and Migration]]></text>
-			</staticText>
+                <textFieldExpression><![CDATA[$R{text.implementation_migration}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("other") == true
@@ -441,18 +467,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Other"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("other")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="7ce7dc56-03b2-4f22-a05b-9aab8191d3da">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Other]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.other}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("relations") == true
@@ -468,18 +497,21 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Relations"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("relations")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
-			<staticText>
+			<textField>
 				<reportElement style="Title 1" x="0" y="1" width="515" height="25" uuid="a5fca325-ae5c-4eaf-9338-32f61dc0a990">
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
-				<text><![CDATA[Relations]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.relations}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

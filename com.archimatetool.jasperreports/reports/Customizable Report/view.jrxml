@@ -118,11 +118,11 @@
 && ($P{REPORT_TAG}.equals("")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
-			<staticText>
+			<textField>
 				<reportElement style="Title 3" x="0" y="0" width="515" height="35"/>
 				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Documentation]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.documentation}]]></textFieldExpression>
+			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Documentation" x="0" y="38" width="515" height="16"/>
 				<textElement/>
@@ -135,14 +135,14 @@
 && ($P{REPORT_TAG}.equals("")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
-			<staticText>
+			<textField>
 				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
 				</reportElement>
 				<box bottomPadding="0"/>
 				<textElement verticalAlignment="Bottom" markup="none"/>
-				<text><![CDATA[Properties]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.properties}]]></textFieldExpression>
+			</textField>
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
@@ -185,6 +185,9 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getChildElementsDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{diagram_object_report}]]></subreportExpression>
 			</subreport>
@@ -198,6 +201,9 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Elements"]]></subreportParameterExpression>
 				</subreportParameter>

@@ -14,25 +14,25 @@
 	<field name="documentation" class="java.lang.String"/>
 	<title>
 		<band height="38">
-			<staticText>
+			<textField>
 				<reportElement style="Title 3" x="0" y="0" width="514" height="35"/>
 				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Elements]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.elements}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="16">
-			<staticText>
+			<textField>
 				<reportElement style="Table header" x="0" y="0" width="257" height="16"/>
 				<textElement markup="none"/>
-				<text><![CDATA[Element]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{text.element}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="257" y="0" width="257" height="16"/>
 				<textElement/>
-				<text><![CDATA[Type]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{text.type}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

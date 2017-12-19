@@ -7,23 +7,12 @@ package com.archimatetool.jasperreports;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import java.util.ResourceBundle;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
@@ -37,6 +26,22 @@ import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jasperreports.data.ArchimateModelDataSource;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 
 /**
@@ -64,6 +69,8 @@ public class JasperReportsExporter {
     private File fMainTemplateFile;
     private String fReportTitle;
     private int fExportOptions;
+    
+    private Locale fLocale;
 
     /**
      * Export model to one or more Jasper Reports
@@ -72,16 +79,18 @@ public class JasperReportsExporter {
      * @param exportFileName    The file name to use for all reports
      * @param mainTemplateFile  The Jasper main.jrxml template file
      * @param reportTitle       The title of the report
+     * @param locale            The target Locale, or null for default locale
      * @param exportOptions     Export options. XOR of EXPORT_* options
      */
     public JasperReportsExporter(IArchimateModel model, File exportFolder, String exportFileName,
-                                        File mainTemplateFile, String reportTitle, int exportOptions) {
+                                        File mainTemplateFile, String reportTitle, Locale locale, int exportOptions) {
         fModel = model;
         fExportFolder = exportFolder;
         fExportFileName = exportFileName;
         fMainTemplateFile = mainTemplateFile;
         fReportTitle = reportTitle;
         fExportOptions = exportOptions;
+        fLocale = locale == null ? Locale.getDefault() : locale;
         
         // Stop logging
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
@@ -212,7 +221,7 @@ public class JasperReportsExporter {
         }
     }
     
-    JasperPrint createJasperPrint(IProgressMonitor monitor, File tmpFolder) throws JRException {
+    JasperPrint createJasperPrint(IProgressMonitor monitor, File tmpFolder) throws JRException, IOException {
         // Set the location of the default Jasper Properties File
         File propsFile = new File(JasperReportsPlugin.INSTANCE.getPluginFolder(), "jasperreports.properties"); //$NON-NLS-1$
         System.setProperty(DefaultJasperReportsContext.PROPERTIES_FILE, propsFile.getAbsolutePath());
@@ -225,10 +234,23 @@ public class JasperReportsExporter {
 
         // Parameters referenced in Report
         params.put("REPORT_TITLE", fReportTitle); //$NON-NLS-1$
-        //params.put(JRParameter.REPORT_LOCALE, Locale.US);
         
-        // Path to main.jrxml
-        params.put("REPORT_PATH", fMainTemplateFile.getParent() + File.separator); //$NON-NLS-1$
+        // Report folder
+        File reportFolder = fMainTemplateFile.getParentFile();
+        
+        // Load local strings properties as a resource bundle - location is report folder. If not present, ignore
+        File bundleFile = new File(reportFolder, "strings.properties"); //$NON-NLS-1$
+        if(bundleFile.canRead()) {
+            ClassLoader loader = new URLClassLoader(new URL[] {reportFolder.toURI().toURL()});
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("strings", fLocale, loader); //$NON-NLS-1$
+            params.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        }
+        
+        // Set locale
+        params.put(JRParameter.REPORT_LOCALE, fLocale);
+        
+        // Path to report
+        params.put("REPORT_PATH", reportFolder.toString() + File.separator); //$NON-NLS-1$
         
         if(monitor != null) {
             monitor.worked(1);
@@ -242,8 +264,7 @@ public class JasperReportsExporter {
         JasperReport mainReport = JasperCompileManager.compileReport(fMainTemplateFile.getPath());
         
         // Compile sub-reports
-        File folder = fMainTemplateFile.getParentFile();
-        for(File file : folder.listFiles()) {
+        for(File file : reportFolder.listFiles()) {
             if(!file.equals(fMainTemplateFile) && file.getName().endsWith(".jrxml")) { //$NON-NLS-1$
                 //System.out.println("Compiling Sub-Report: " + file);
                 JasperReport jr = JasperCompileManager.compileReport(file.getPath());
