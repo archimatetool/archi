@@ -64,7 +64,7 @@ public class CSVExporter implements CSVConstants {
         fModel = model;
     }
     
-    void export(File folder) throws IOException {
+    public void export(File folder) throws IOException {
         writeModelAndElements(new File(folder, createElementsFileName()));
         writeRelationships(new File(folder, createRelationsFileName()));
         writeProperties(new File(folder, createPropertiesFileName()));
@@ -75,7 +75,7 @@ public class CSVExporter implements CSVConstants {
      * Default is the comma ","
      * @param delimiter
      */
-    void setDelimiter(char delimiter) {
+    public void setDelimiter(char delimiter) {
         fDelimiter = delimiter;
     }
     
@@ -83,21 +83,21 @@ public class CSVExporter implements CSVConstants {
      * Set the prefix to use on file names. A null value is ignored.
      * @param prefix
      */
-    void setFilePrefix(String prefix) {
+    public void setFilePrefix(String prefix) {
         if(prefix != null) {
             fFilePrefix = prefix;
         }
     }
     
-    void setStripNewLines(boolean set) {
+    public void setStripNewLines(boolean set) {
         fStripNewLines = set;
     }
     
-    void setUseLeadingCharsHack(boolean set) {
+    public void setUseLeadingCharsHack(boolean set) {
         fUseLeadingCharsHack = set;
     }
     
-    void setEncoding(String encoding) {
+    public void setEncoding(String encoding) {
         fEncoding = encoding;
     }
     

@@ -85,7 +85,7 @@ public class CSVImporter implements CSVConstants {
      * Do the actual import given the elements file
      * @param elementsFile
      */
-    void doImport(File elementsFile) throws IOException, CSVParseException {
+    public void doImport(File elementsFile) throws IOException, CSVParseException {
         // Import Elements into model
         importElements(elementsFile);
         
