@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.commandline.commandlineProvider">
+      <commandlineProvider
+            class="com.archimatetool.csv.commandline.ExportCSVProvider"
+            description="Export the current model to CSV file format"
+            id="com.archimatetool.csv.commandline.exportProvider"
+            name="Export to CSV">
+      </commandlineProvider>
+      <commandlineProvider
+            class="com.archimatetool.csv.commandline.ImportCSVProvider"
+            description="Import data from CSV into the current model"
+            id="com.archimatetool.csv.commandline.importProvider"
+            name="Import from CSV">
+      </commandlineProvider>
+   </extension>
+
+</plugin>

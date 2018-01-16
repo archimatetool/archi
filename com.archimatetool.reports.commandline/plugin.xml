@@ -4,8 +4,10 @@
    <extension
          point="com.archimatetool.commandline.commandlineProvider">
       <commandlineProvider
-            class="com.archimatetool.reports.commandline.HTMLReportCommandLine"
-            id="com.archimatetool.reports.commandlineProvider">
+            class="com.archimatetool.reports.commandline.HTMLReportProvider"
+            description="Generate a HTML report from the current model"
+            id="com.archimatetool.reports.commandlineProvider"
+            name="HTML Reports">
       </commandlineProvider>
    </extension>
 

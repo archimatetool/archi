@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CSV Command Line
+Bundle-SymbolicName: com.archimatetool.csv.commandline;singleton:=true
+Bundle-Localization: plugin
+Bundle-Version: 4.2.0.qualifier
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: com.archimatetool.csv,
+ com.archimatetool.commandline
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

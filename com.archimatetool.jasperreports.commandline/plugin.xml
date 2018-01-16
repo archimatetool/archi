@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.commandline.commandlineProvider">
+      <commandlineProvider
+            class="com.archimatetool.jasperreports.commandline.JasperReportsProvider"
+            description="Generate Jasper Reports from the current model"
+            id="com.archimatetool.jasperreports.commandlineProvider"
+            name="Jasper Reports">
+      </commandlineProvider>
+   </extension>
+
+</plugin>
