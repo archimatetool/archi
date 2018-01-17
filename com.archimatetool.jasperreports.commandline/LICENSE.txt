@@ -1,4 +1,4 @@
-Copyright (c) 2013-2017 Phillip Beauvoir, Jean-Baptiste Sarrodie
+Copyright (c) 2013-2018 Phillip Beauvoir, Jean-Baptiste Sarrodie
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
