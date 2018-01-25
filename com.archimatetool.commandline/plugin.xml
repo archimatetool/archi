@@ -14,5 +14,26 @@
          </run>
       </application>
    </extension>
+   <extension
+         point="com.archimatetool.commandline.commandlineProvider">
+      <commandlineProvider
+            class="com.archimatetool.commandline.providers.LoadModelFromFileProvider"
+            description="Load a model from file and set to the current model"
+            id="com.archimatetool.commandline.loadModelFromFileProvider"
+            name="Load Model">
+      </commandlineProvider>
+      <commandlineProvider
+            class="com.archimatetool.commandline.providers.CreateEmptyModelProvider"
+            description="Create an empty model and set to the current model (from optional template)"
+            id="com.archimatetool.commandline.createEmptyModelProvider"
+            name="Create Empty Model">
+      </commandlineProvider>
+      <commandlineProvider
+            class="com.archimatetool.commandline.providers.SaveModelProvider"
+            description="Save the current model to file"
+            id="com.archimatetool.commandline.saveModelProvider"
+            name="Save Model">
+      </commandlineProvider>
+   </extension>
 
 </plugin>

@@ -64,10 +64,30 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a Java class that implements com.archimatetool.commandline.ICommandLineProvider. This is the class of the provider.
+                  A fully qualified name of the Java class implementing &lt;samp&gt;com.archimatetool.commandline.ICommandLineProvider&lt;/samp&gt;.
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":com.archimatetool.commandline.ICommandLineProvider"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Name of the plugin
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  Description of the plugin
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
                </appinfo>
             </annotation>
          </attribute>

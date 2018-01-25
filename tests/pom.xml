@@ -16,17 +16,18 @@
     <modules>
         <module>com.archimatetool.testsupport</module>
 
+        <module>com.archimatetool.canvas.tests</module>
         <module>com.archimatetool.csv.tests</module>
+        <module>com.archimatetool.commandline.tests</module>
+        <module>com.archimatetool.editor.tests</module>
         <module>com.archimatetool.export.svg.tests</module>
 		<module>com.archimatetool.hammer.tests</module>
         <module>com.archimatetool.help.tests</module>
         <module>com.archimatetool.jasperreports.tests</module>
         <module>com.archimatetool.jdom.tests</module>
         <module>com.archimatetool.model.tests</module>
-        <module>com.archimatetool.editor.tests</module>
-        <module>com.archimatetool.canvas.tests</module>
-        <module>com.archimatetool.zest.tests</module>
 		<module>com.archimatetool.reports.tests</module>
+        <module>com.archimatetool.zest.tests</module>
     </modules>
 
     <build>
