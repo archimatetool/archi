@@ -121,7 +121,7 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 					<p><span class="i18n-about-pluginversion"></span></p>
 					<p><span class="i18n-about-plugintext1"></span></p>
 					<p><span class="i18n-about-plugintext2"></span></p>
-					<p><a href="http://www.archimatetool.com" target="_blank">Archi®</a> <span class="i18n-about-plugintext3"></span></p>
+					<p><a href="https://www.archimatetool.com" target="_blank">Archi®</a> <span class="i18n-about-plugintext3"></span></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default i18n-close" data-dismiss="modal"></button>
