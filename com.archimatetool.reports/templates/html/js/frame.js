@@ -122,7 +122,7 @@ $(document).ready(function() {
 	});
 	
 	// Update documentation div and create links
-	$('#doctgt').text($('#docsrc').html());
+	$('#doctgt').text($('#docsrc').text());
 	$('#doctgt').html($('#doctgt').html()
 		.replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
 		.replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
