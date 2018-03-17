@@ -124,16 +124,6 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		return conn;
 	}
 
-	private IFigure getConnectionOwner() {
-		IFigure connOwner;
-		if (isEnd())
-			connOwner = conn.getTargetAnchor().getOwner();
-		else
-			connOwner = conn.getSourceAnchor().getOwner();
-
-		return connOwner;
-	}
-
 	/**
 	 * Returns the distance in pixels from the anchor's owner.
 	 * 
@@ -178,8 +168,6 @@ public class ArchiConnectionEndpointLocator implements Locator {
 
 		conn.getPoints().getPoint(startPoint, startPointPosition);
 		conn.getPoints().getPoint(endPoint, endPointPosition);
-
-		IFigure connOwner = getConnectionOwner();
 
 		int quadrant;
 
