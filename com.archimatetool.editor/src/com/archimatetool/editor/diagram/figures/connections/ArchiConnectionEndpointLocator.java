@@ -221,12 +221,12 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		IFigure connOwner = getConnectionOwner();
 
 		int quadrant;
-		if (connOwner != null) {
-	        
-		    // *********************** Fix part 1: switch to relative ******************** 
-	        connOwner.translateToRelative(startPoint);
-	        connOwner.translateToRelative(endPoint);
-		}
+//		if (connOwner != null) {
+//	        
+//		    // *********************** Fix part 1: switch to relative ******************** 
+//	        connOwner.translateToRelative(startPoint);
+//	        connOwner.translateToRelative(endPoint);
+//		}
 	        // *********************** End of fix part 1 ***********************
 /*
 	        Rectangle connOwnerBounds = connOwner.getBounds();
@@ -270,9 +270,9 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		
 		
 		// *********************** Fix part 2: come back to absolute ***********************
-		if(connOwner != null) {
-	        connOwner.translateToAbsolute(figureBounds);
-		}
+//		if(connOwner != null) {
+//	        connOwner.translateToAbsolute(figureBounds);
+//		}
 		// *********************** End of fix part 2 ***********************
 		
 		figure.setBounds(figureBounds);
