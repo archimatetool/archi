@@ -20,10 +20,6 @@ import org.eclipse.draw2d.geometry.Transposer;
 
 /**
  * Replacement class for org.eclipse.draw2d.ConnectionEndpointLocator
- * Problem: when a Figure is inside another Figure which returns true for useLocalCoordinates() (uses local co-ordinate system)
- * then the connection's label locator is screwed if set to source and figure is on the right, or set to target and the 
- * figure is on the left.
- * Fix by JaiGuru.
  * 
  * Used to place IFigures along the endpoint or starting point of a
  * {@link Connection}. <code>uDistance</code> represents the distance from the
@@ -64,41 +60,6 @@ public class ArchiConnectionEndpointLocator implements Locator {
 			figureBounds = new Rectangle();
 		}
 
-	/*
-	 * Returns an integer representing the side of the passed Rectangle that a
-	 * point lies on. 1 == Top 2 == Right 3 == Bottom 4 == Left
-	 * 
-	 * @param loc The point that is to be located
-	 */
-/*	private int calculateConnectionLocation(Point loc, Point topLeft,
-			Point center) {
-		double m1, m2 = 0;
-		m1 = (double) (topLeft.y - center.y) / (double) (topLeft.x - center.x);
-
-		if (loc.x - center.x != 0)
-			m2 = (double) (loc.y - center.y) / (double) (loc.x - center.x);
-
-		if (loc.x == center.x) {
-			// Case where m2 is vertical
-			if (loc.y < center.y)
-				return 3;
-			else
-				return 1;
-		} else if (Math.abs(m2) <= Math.abs(m1)) {
-			// Connection start point along left or right side
-			if (loc.x < center.x)
-				return 4;
-			else
-				return 2;
-		} else {
-			// Connection start point along top or bottom
-			if (loc.y < center.y)
-				return 3;
-			else
-				return 1;
-		}
-	}
-*/
 	/*
 	 * This method is used to calculate the "quadrant" value of a connection
 	 * that does not have an owner on its starting point.
@@ -221,21 +182,8 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		IFigure connOwner = getConnectionOwner();
 
 		int quadrant;
-//		if (connOwner != null) {
-//	        
-//		    // *********************** Fix part 1: switch to relative ******************** 
-//	        connOwner.translateToRelative(startPoint);
-//	        connOwner.translateToRelative(endPoint);
-//		}
-	        // *********************** End of fix part 1 ***********************
-/*
-	        Rectangle connOwnerBounds = connOwner.getBounds();
-			Point connOwnerCenter = connOwnerBounds.getCenter();
-			Point connOwnerTL = connOwnerBounds.getTopLeft();
-			quadrant = calculateConnectionLocation(startPoint, connOwnerTL,
-					connOwnerCenter);
-		} else
-*/			quadrant = calculateConnectionLocation(startPoint, endPoint);
+
+		quadrant = calculateConnectionLocation(startPoint, endPoint);
 
 		int cos = 1;
 		transposer.setEnabled(false);
@@ -267,13 +215,6 @@ public class ArchiConnectionEndpointLocator implements Locator {
 
 		figureBounds.setSize(transposer.t(figureSize));
 		figureBounds.setLocation(transposer.t(figurePoint));
-		
-		
-		// *********************** Fix part 2: come back to absolute ***********************
-//		if(connOwner != null) {
-//	        connOwner.translateToAbsolute(figureBounds);
-//		}
-		// *********************** End of fix part 2 ***********************
 		
 		figure.setBounds(figureBounds);
 	}
