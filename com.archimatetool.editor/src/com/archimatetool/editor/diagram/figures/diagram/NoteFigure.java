@@ -85,7 +85,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
         ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         fTextPositionDelegate.updateTextPosition();
         
-        // Repaint for border
+        // Repaint
         repaint();
     }
     

@@ -87,6 +87,9 @@ extends AbstractDiagramModelObjectFigure {
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
+        
+        // Repaint
+        repaint();
     }
     
     public void updateImage() {

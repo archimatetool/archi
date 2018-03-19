@@ -105,6 +105,9 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
+
+        // Repaint
+        repaint();
     }
 
     public void updateImage() {

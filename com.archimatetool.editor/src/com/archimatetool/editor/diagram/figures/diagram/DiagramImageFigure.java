@@ -64,15 +64,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     public void refreshVisuals() {
         setBorderColor();
+        repaint();
     }
 
     protected void setBorderColor() {
         String val = getDiagramModelObject().getBorderColor();
-        Color c = ColorFactory.get(val);
-        if(c != fBorderColor) {
-            fBorderColor = c;
-            repaint();
-        }
+        fBorderColor = ColorFactory.get(val);
     }
     
     /**
@@ -89,8 +86,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setAntialias(SWT.ON);
         graphics.setInterpolation(SWT.HIGH);
+        
+        graphics.setAlpha(getDiagramModelObject().getAlpha());
         
         if(fImage != null) {
             if(useScaledImage) {
@@ -114,6 +115,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
         }
+        
+        graphics.popState();
     }
     
     /**

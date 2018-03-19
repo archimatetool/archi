@@ -127,11 +127,7 @@ implements IDiagramModelObjectFigure {
      */
     protected void setFillColor() {
         String val = fDiagramModelObject.getFillColor();
-        Color c = ColorFactory.get(val);
-        if(c != fFillColor) {
-            fFillColor = c;
-            repaint();
-        }
+        fFillColor = ColorFactory.get(val);
     }
     
     /**
@@ -164,11 +160,7 @@ implements IDiagramModelObjectFigure {
      */
     protected void setLineColor() {
         String val = fDiagramModelObject.getLineColor();
-        Color c = ColorFactory.get(val);
-        if(c != fLineColor) {
-            fLineColor = c;
-            repaint();
-        }            
+        fLineColor = ColorFactory.get(val);
     }
     
     /**
