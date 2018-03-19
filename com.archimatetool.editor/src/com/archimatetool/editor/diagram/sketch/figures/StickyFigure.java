@@ -39,13 +39,15 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
+        graphics.setAlpha(getAlpha());
+        
         Rectangle bounds = getBounds().getCopy();
 
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

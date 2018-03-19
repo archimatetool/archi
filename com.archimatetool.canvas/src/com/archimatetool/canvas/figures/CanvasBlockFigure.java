@@ -141,6 +141,8 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
         
+        graphics.setAlpha(getAlpha());
+        
         Rectangle bounds = getBounds().getCopy();
         
         graphics.setBackgroundColor(getFillColor());

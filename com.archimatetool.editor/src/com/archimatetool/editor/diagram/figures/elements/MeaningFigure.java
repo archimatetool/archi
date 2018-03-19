@@ -36,6 +36,8 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         
         // The following is the most awful code to draw a cloud...
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -45,7 +47,7 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
 

@@ -123,6 +123,8 @@ extends AbstractDiagramModelObjectFigure {
     protected void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
         
+        graphics.setAlpha(getAlpha());
+        
         Rectangle bounds = getBounds().getCopy();
         
         graphics.setForegroundColor(getFillColor());

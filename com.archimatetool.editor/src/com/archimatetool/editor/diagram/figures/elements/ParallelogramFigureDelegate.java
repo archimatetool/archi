@@ -49,6 +49,8 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         points.addPoint(bounds.x + bounds.width - FLANGE, bounds.y + bounds.height);
         points.addPoint(bounds.x, bounds.y + bounds.height);
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -58,7 +60,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

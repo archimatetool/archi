@@ -39,6 +39,8 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 Rectangle bounds = getBounds();
                 
+                graphics.setAlpha(getAlpha());
+                
                 if(!isEnabled()) {
                     setDisabledState(graphics);
                 }
@@ -48,7 +50,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 Pattern gradient = null;
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-                    gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+                    gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
                     graphics.setBackgroundPattern(gradient);
                 }
 

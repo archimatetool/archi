@@ -186,6 +186,10 @@ implements IDiagramModelObjectFigure {
         }
         return fLineColor;
     }
+    
+    protected int getAlpha() {
+        return fDiagramModelObject.getAlpha();
+    }
 
     @Override
     public IFigure getToolTip() {

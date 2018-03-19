@@ -121,11 +121,13 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
             points.addPoint(bounds.x, bounds.getBottomLeft().y - 1);
         }
         
+        graphics.setAlpha(getAlpha());
+        
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

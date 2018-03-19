@@ -45,6 +45,8 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         
         graphics.setAntialias(SWT.ON);
         
+        graphics.setAlpha(getAlpha());
+        
         int[] topRectangle = new int[] {
                 bounds.x, bounds.y,
                 (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y,
@@ -66,7 +68,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
 
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         
