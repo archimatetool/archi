@@ -345,6 +345,13 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
+               afterSection="textPositionSection"
+               class="com.archimatetool.editor.propertysections.OpacitySection"
+               filter="com.archimatetool.editor.propertysections.OpacitySection$Filter"
+               id="opacitySection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                class="com.archimatetool.editor.propertysections.FolderSection"
                filter="com.archimatetool.editor.propertysections.FolderSection$Filter"
                id="folderSection"
