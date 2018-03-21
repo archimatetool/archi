@@ -105,6 +105,9 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
+
+        // Repaint
+        repaint();
     }
 
     public void updateImage() {
@@ -140,6 +143,8 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
     @Override
     protected void drawFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
+        
+        graphics.setAlpha(getAlpha());
         
         Rectangle bounds = getBounds().getCopy();
         

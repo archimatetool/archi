@@ -41,6 +41,8 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         int offset = 6;
         int curve_y = bounds.y + bounds.height - offset;
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -62,7 +64,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

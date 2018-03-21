@@ -53,6 +53,8 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         int centre_y = bounds.y + bounds.height / 2 - 1;
         int arc_startx = bounds.x + bounds.width - indent;
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -73,7 +75,7 @@ public class EventFigure extends AbstractTextControlContainerFigure {
 
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
 

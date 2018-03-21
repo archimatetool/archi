@@ -55,12 +55,14 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
             setDisabledState(graphics);
         }
         
+        graphics.setAlpha(getAlpha());
+        
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
 

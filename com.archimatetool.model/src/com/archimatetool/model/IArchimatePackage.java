@@ -6202,13 +6202,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_OBJECT__FILL_COLOR = CONNECTABLE_FEATURE_COUNT + 6;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__ALPHA = CONNECTABLE_FEATURE_COUNT + 7;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Object</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 8;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.
@@ -6318,6 +6327,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_REFERENCE__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -6454,6 +6472,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_GROUP__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -6601,6 +6628,15 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Content</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6744,6 +6780,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_IMAGE__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -7496,6 +7541,15 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7894,6 +7948,15 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_STICKY__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8046,6 +8109,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_ACTOR__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -9501,6 +9573,17 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getDiagramModelObject_FillColor();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelObject#getAlpha <em>Alpha</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Alpha</em>'.
+     * @see com.archimatetool.model.IDiagramModelObject#getAlpha()
+     * @see #getDiagramModelObject()
+     * @generated
+     */
+    EAttribute getDiagramModelObject_Alpha();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}'.
@@ -11379,6 +11462,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute DIAGRAM_MODEL_OBJECT__FILL_COLOR = eINSTANCE.getDiagramModelObject_FillColor();
+
+        /**
+         * The meta object literal for the '<em><b>Alpha</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIAGRAM_MODEL_OBJECT__ALPHA = eINSTANCE.getDiagramModelObject_Alpha();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.

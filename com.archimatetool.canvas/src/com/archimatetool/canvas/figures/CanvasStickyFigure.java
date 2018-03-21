@@ -87,6 +87,9 @@ extends AbstractDiagramModelObjectFigure {
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
+        
+        // Repaint
+        repaint();
     }
     
     public void updateImage() {
@@ -122,6 +125,8 @@ extends AbstractDiagramModelObjectFigure {
     @Override
     protected void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
+        
+        graphics.setAlpha(getAlpha());
         
         Rectangle bounds = getBounds().getCopy();
         
