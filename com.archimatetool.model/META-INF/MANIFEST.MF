@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: com.archimatetool.model.jar
+Automatic-Module-Name: com.archimatetool.model

@@ -25,3 +25,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.archimatetool.jasperreports.JasperReportsPlugin
 Export-Package: com.archimatetool.jasperreports,
  com.archimatetool.jasperreports.data
+Automatic-Module-Name: com.archimatetool.jasperreports

@@ -10,3 +10,4 @@ Require-Bundle: org.junit,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Export-Package: com.archimatetool.testingtools
+Automatic-Module-Name: com.archimatetool.editor.tests

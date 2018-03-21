@@ -18,3 +18,4 @@ Require-Bundle: com.archimatetool.canvas,
  com.archimatetool.reports,
  com.archimatetool.zest,
  org.junit
+Automatic-Module-Name: com.archimatetool.tests

@@ -20,3 +20,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.archimatetool.help,
  com.archimatetool.help.cheatsheets,
  com.archimatetool.help.hints
+Automatic-Module-Name: com.archimatetool.help

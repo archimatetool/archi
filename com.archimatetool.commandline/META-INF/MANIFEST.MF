@@ -14,3 +14,4 @@ Export-Package: com.archimatetool.commandline,
  org.apache.commons.cli
 Bundle-ClassPath: lib/commons-cli-1.4.jar,
  .
+Automatic-Module-Name: com.archimatetool.commandline

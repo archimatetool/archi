@@ -9,3 +9,4 @@ Require-Bundle: com.archimatetool.commandline,
  com.archimatetool.jasperreports
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: com.archimatetool.jasperreports.commandline

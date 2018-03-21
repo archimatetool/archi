@@ -18,3 +18,4 @@ Bundle-Activator: com.archimatetool.reports.ArchiReportsPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.reports,
  com.archimatetool.reports.html
+Automatic-Module-Name: com.archimatetool.reports

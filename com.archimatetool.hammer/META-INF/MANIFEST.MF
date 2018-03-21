@@ -18,3 +18,4 @@ Export-Package: com.archimatetool.hammer,
  com.archimatetool.hammer.validation.checkers,
  com.archimatetool.hammer.validation.issues,
  com.archimatetool.hammer.view
+Automatic-Module-Name: com.archimatetool.hammer

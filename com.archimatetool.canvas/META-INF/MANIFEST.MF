@@ -28,3 +28,4 @@ Export-Package: com.archimatetool.canvas,
  com.archimatetool.canvas.model.impl,
  com.archimatetool.canvas.model.util,
  com.archimatetool.canvas.policies
+Automatic-Module-Name: com.archimatetool.canvas

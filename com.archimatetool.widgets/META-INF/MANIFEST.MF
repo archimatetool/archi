@@ -23,3 +23,4 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
 Bundle-Activator: com.archimatetool.widgets.ArchiWidgetsPlugin
+Automatic-Module-Name: com.archimatetool.widgets

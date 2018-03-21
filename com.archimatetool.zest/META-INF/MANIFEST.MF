@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-Activator: com.archimatetool.zest.ArchiZestPlugin
 Bundle-ClassPath: com.archimatetool.zest.jar
 Export-Package: com.archimatetool.zest
+Automatic-Module-Name: com.archimatetool.zest

@@ -30,3 +30,4 @@ Bundle-ClassPath: com.archimatetool.export.svg.jar,
  lib/batik-script.jar,
  lib/batik-gvt.jar
 Export-Package: com.archimatetool.export.svg
+Automatic-Module-Name: com.archimatetool.export.svg

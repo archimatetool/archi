@@ -6,3 +6,4 @@ Bundle-Version: 4.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
+Automatic-Module-Name: com.archimatetool.editor.themes

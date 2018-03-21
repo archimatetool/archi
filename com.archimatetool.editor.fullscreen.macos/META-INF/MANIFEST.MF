@@ -7,3 +7,4 @@ Bundle-Vendor: Archi
 Fragment-Host: com.archimatetool.editor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-PlatformFilter: (osgi.ws=cocoa)
+Automatic-Module-Name: com.archimatetool.editor.fullscreen.macos

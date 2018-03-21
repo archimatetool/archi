@@ -18,3 +18,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.templates.dialog,
  com.archimatetool.templates.model,
  com.archimatetool.templates.wizard
+Automatic-Module-Name: com.archimatetool.templates
