@@ -254,7 +254,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="SpecializationRelationship" eSuperTypes="#//OtherRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//DynamicRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
-      eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
+      eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable #//ArchimateModelObject">
     <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connectable" abstract="true" eSuperTypes="#//DiagramModelComponent">

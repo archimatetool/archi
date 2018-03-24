@@ -17,7 +17,7 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
-public interface IDiagramModelComponent extends IIdentifier, ICloneable, IAdapter, INameable {
+public interface IDiagramModelComponent extends IIdentifier, ICloneable, IAdapter, INameable, IArchimateModelObject {
     /**
      * <!-- begin-user-doc -->
      * <p>

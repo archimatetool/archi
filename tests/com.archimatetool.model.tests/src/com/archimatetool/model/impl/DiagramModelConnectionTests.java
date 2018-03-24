@@ -67,6 +67,20 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     }
 
     @Test
+    public void testGetArchimateModel() {
+        assertNull(connection.getArchimateModel());
+        
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
+        
+        IDiagramModelGroup dmo = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dm.getChildren().add(dmo);
+        connection.connect(dmo, dmo);
+        
+        assertSame(model, connection.getArchimateModel());
+    }
+
+    @Test
     public void testGetBendpoints() {
         assertTrue(connection.getBendpoints().isEmpty());
     }
@@ -202,8 +216,8 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     }
     
     private void testPostConnect() {
-        assertEquals(source, connection.getSource());
-        assertEquals(target, connection.getTarget());
+        assertSame(source, connection.getSource());
+        assertSame(target, connection.getTarget());
         
         assertTrue(source.getSourceConnections().contains(connection));
         assertFalse(source.getTargetConnections().contains(connection));
