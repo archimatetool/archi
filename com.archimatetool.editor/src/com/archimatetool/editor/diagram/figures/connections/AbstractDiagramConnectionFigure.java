@@ -16,10 +16,12 @@ import org.eclipse.draw2d.PolygonDecoration;
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
@@ -248,7 +250,18 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             setForegroundColor(fLineColor);
         }
 
+        // Margin around label
+        int labelMargin = 1;
+        // Save dimensions of original clipping area and label
+        Rectangle g = graphics.getClip(new Rectangle());
+        Rectangle l = fConnectionLabel.getTextBounds().expand(labelMargin, labelMargin).getIntersection(g);
+        // Create a Path that fills the clipping area minus the label
+        Path p = new Path(null);
+        p.addRectangle(g.x, g.y, g.width, g.height);
+        p.addRectangle(l.x, l.y, l.width, l.height);
+        graphics.setClip(p);
         super.paintFigure(graphics);
+        p.dispose();
     }
     
     
