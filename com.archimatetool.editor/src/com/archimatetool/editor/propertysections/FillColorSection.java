@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -25,7 +25,6 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -34,7 +33,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class FillColorSection extends AbstractArchimatePropertySection {
+public class FillColorSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -45,52 +44,59 @@ public class FillColorSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IDiagramModelObject.class;
         }
     }
-    
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Color event (From Undo/Redo and here)
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
     
     /**
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
-            if(isAlive()) {
-                if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
-                    RGB rgb = fColorChooser.getColorValue();
-                    String newColor = ColorFactory.convertRGBToString(rgb);
-                    if(!newColor.equals(fDiagramModelObject.getFillColor())) {
-                        getCommandStack().execute(new FillColorCommand(fDiagramModelObject, newColor));
+            if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
+                CompoundCommand result = new CompoundCommand();
+
+                RGB rgb = fColorChooser.getColorValue();
+                String newColor = ColorFactory.convertRGBToString(rgb);
+
+                for(EObject dmo : getEObjects()) {
+                    if(isAlive(dmo) && !isLocked(dmo)) {
+                        Command cmd = new FillColorCommand((IDiagramModelObject)dmo, newColor);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
                     }
                 }
-                else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
-                    // If user pref to save color is set then save the value, otherwise save as null
-                    String rgbValue = null;
-                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-                        Color color = ColorFactory.getDefaultFillColor(fDiagramModelObject);
-                        rgbValue = ColorFactory.convertColorToString(color);
+
+                executeCommand(result.unwrap());
+            }
+            else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject dmo : getEObjects()) {
+                    if(isAlive(dmo) && !isLocked(dmo)) {
+                        // If user pref to save color is set then save the value, otherwise save as null
+                        String rgbValue = null;
+
+                        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                            Color color = ColorFactory.getDefaultFillColor(dmo);
+                            rgbValue = ColorFactory.convertColorToString(color);
+                        }
+
+                        Command cmd = new FillColorCommand((IDiagramModelObject)dmo, rgbValue);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
                     }
-                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, rgbValue));
                 }
+
+                executeCommand(result.unwrap());
             }
         }
     };
@@ -103,13 +109,11 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         public void propertyChange(PropertyChangeEvent event) {
             if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ||
                     event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) { // This will affect the "Default" menu in color chooser
-                refreshControls();
+                update();
             }
         }
     };
     
-    private IDiagramModelObject fDiagramModelObject;
-
     private ColorChooser fColorChooser;
     
     @Override
@@ -131,35 +135,43 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fDiagramModelObject = (IDiagramModelObject)new Filter().adaptObject(element);
-        if(fDiagramModelObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
-        String colorValue = fDiagramModelObject.getFillColor();
+
+    @Override
+    protected void update() {
+        IDiagramModelObject lastSelected = (IDiagramModelObject)getFirstSelectedObject();
+        
+        String colorValue = lastSelected.getFillColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb == null) {
-            rgb = ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB();
+            rgb = ColorFactory.getDefaultFillColor(lastSelected).getRGB();
         }
         
         fColorChooser.setColorValue(rgb);
         
-        boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
-        fColorChooser.setEnabled(enabled);
+        fColorChooser.setEnabled(!isLocked(lastSelected));
         
         // If user pref is to save the color then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB());
+            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(lastSelected).getRGB());
         }
         fColorChooser.setIsDefaultColor(isDefaultColor);
     }
     
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
+    }
+
     @Override
     public void dispose() {
         super.dispose();
@@ -169,15 +181,5 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         }
         
         Preferences.STORE.removePropertyChangeListener(prefsListener);
-    }
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fDiagramModelObject;
     }
 }

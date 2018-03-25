@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
 
 
@@ -30,7 +29,7 @@ import com.archimatetool.model.ITextAlignment;
  * 
  * @author Phillip Beauvoir
  */
-public class TextAlignmentSection extends AbstractArchimatePropertySection {
+public class TextAlignmentSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -41,32 +40,16 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof ITextAlignment) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return ITextAlignment.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Alignment event (From Undo/Redo and here)
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private ITextAlignment fTextAlignmentObject;
-    
     private Button[] fAlignmentButtons = new Button[3];
     
     @Override
@@ -81,13 +64,19 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
                     // Command
                     if(fAlignmentButtons[i] == e.widget) {
                         int alignment = (Integer)fAlignmentButtons[i].getData();
-                        if(fTextAlignmentObject.getTextAlignment() != alignment) {
-                            if(isAlive()) {
-                                fIsExecutingCommand = true;
-                                getCommandStack().execute(new TextAlignmentCommand(fTextAlignmentObject, alignment));
-                                fIsExecutingCommand = false;
+                        
+                        CompoundCommand result = new CompoundCommand();
+                        
+                        for(EObject textAlignment : getEObjects()) {
+                            if(((ITextAlignment)textAlignment).getTextAlignment() != alignment && isAlive(textAlignment)) {
+                                Command cmd = new TextAlignmentCommand((ITextAlignment)textAlignment, alignment);
+                                if(cmd.canExecute()) {
+                                    result.add(cmd);
+                                }
                             }
                         }
+
+                        executeCommand(result.unwrap());
                     }
                 }
             }
@@ -120,29 +109,30 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fTextAlignmentObject = (ITextAlignment)new Filter().adaptObject(element);
-        if(fTextAlignmentObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
+
+    @Override
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
         
         for(int i = 0; i < fAlignmentButtons.length; i++) {
             fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
-            boolean enabled = fTextAlignmentObject instanceof ILockable ? !((ILockable)fTextAlignmentObject).isLocked() : true;
-            fAlignmentButtons[i].setEnabled(enabled);
+            fAlignmentButtons[i].setEnabled(!isLocked(getFirstSelectedObject()));
         }
     }
     
     private Button getAlignmentButton() {
-        int alignment = fTextAlignmentObject.getTextAlignment();
+        int alignment = ((ITextAlignment)getFirstSelectedObject()).getTextAlignment();
         
         switch(alignment) {
             case ITextAlignment.TEXT_ALIGNMENT_LEFT:
@@ -160,12 +150,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fTextAlignmentObject;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

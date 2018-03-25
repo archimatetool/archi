@@ -251,7 +251,6 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="archimateElementSection"
                class="com.archimatetool.editor.propertysections.DiagramConnectionSection"
                filter="com.archimatetool.editor.propertysections.DiagramConnectionSection$Filter"
                id="connectionAppearanceSection"
@@ -296,35 +295,21 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="fillColorSection"
+               afterSection="anySection"
                class="com.archimatetool.editor.propertysections.FontSection"
                filter="com.archimatetool.editor.propertysections.FontSection$Filter"
-               id="fontSection1"
+               id="fontSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="connectionTypeSection"
-               class="com.archimatetool.editor.propertysections.FontSection"
-               filter="com.archimatetool.editor.propertysections.FontSection$Filter2"
-               id="fontSection2"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="fontSection1"
+               afterSection="fontSection"
                class="com.archimatetool.editor.propertysections.FontColorSection"
                filter="com.archimatetool.editor.propertysections.FontColorSection$Filter"
-               id="fontColorSection1"
+               id="fontColorSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="fontSection2"
-               class="com.archimatetool.editor.propertysections.FontColorSection"
-               filter="com.archimatetool.editor.propertysections.FontColorSection$Filter2"
-               id="fontColorSection2"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="fontColorSection2"
+               afterSection="fontColorSection"
                class="com.archimatetool.editor.propertysections.LineColorSection"
                filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
                id="lineColorSection"
@@ -371,8 +356,8 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.NameSection"
-               filter="com.archimatetool.editor.propertysections.NameSection$Filter"
+               class="com.archimatetool.editor.propertysections.SketchStickyNameSection"
+               filter="com.archimatetool.editor.propertysections.SketchStickyNameSection$Filter"
                id="nameSection"
                tab="main.tab">
          </propertySection>
@@ -401,7 +386,7 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="fontColorSection1"
+               afterSection="fontColorSection"
                class="com.archimatetool.editor.propertysections.BorderColorSection"
                filter="com.archimatetool.editor.propertysections.BorderColorSection$Filter"
                id="borderColorSection"
@@ -421,7 +406,7 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="fontColorSection1"
+               afterSection="fontColorSection"
                class="com.archimatetool.editor.propertysections.NoteSection"
                filter="com.archimatetool.editor.propertysections.NoteSection$Filter"
                id="noteSection"

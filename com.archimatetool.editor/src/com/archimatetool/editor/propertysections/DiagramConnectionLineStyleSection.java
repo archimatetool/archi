@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
@@ -28,7 +28,6 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -37,7 +36,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramConnectionLineStyleSection extends AbstractArchimatePropertySection {
+public class DiagramConnectionLineStyleSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -46,32 +45,15 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof IDiagramModelConnection) && !(object instanceof IDiagramModelArchimateConnection);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IDiagramModelConnection.class;
         }
     }
-    
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private IDiagramModelConnection fConnection;
     
     private StyleSelector fLineStyleSelector;
     private StyleSelector fSourceArrowSelector;
@@ -102,40 +84,33 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     }
 
     @Override
-    protected void setElement(Object element) {
-        fConnection = (IDiagramModelConnection)new Filter().adaptObject(element);
-        if(fConnection == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        
+
+    @Override
+    protected void update() {
         fLineStyleSelector.update();
         fSourceArrowSelector.update();
         fTargetArrowSelector.update();
         
-        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        boolean enabled = !isLocked(getFirstSelectedObject());
         fLineStyleSelector.setEnabled(enabled);
         fSourceArrowSelector.setEnabled(enabled);
         fTargetArrowSelector.setEnabled(enabled);
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
-
-    @Override
-    protected EObject getEObject() {
-        return fConnection;
-    }
-    
     
     protected abstract class StyleSelector {
         protected Button fButton;
@@ -171,10 +146,20 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             IAction action = new Action(text, IAction.AS_RADIO_BUTTON) {
                 @Override
                 public void run() {
-                    if(isAlive()) {
-                        fValue = value;
-                        getCommandStack().execute(new ConnectionLineTypeCommand(fConnection, getLineTypeValue()));
+                    fValue = value;
+                    
+                    CompoundCommand result = new CompoundCommand();
+
+                    for(EObject connection : getEObjects()) {
+                        if(isAlive(connection)) {
+                            Command cmd = new ConnectionLineTypeCommand((IDiagramModelConnection)connection, getLineTypeValue());
+                            if(cmd.canExecute()) {
+                                result.add(cmd);
+                            }
+                        }
                     }
+
+                    executeCommand(result.unwrap());
                 }
                 
                 @Override
@@ -183,7 +168,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
                 }
             };
             
-            action.setChecked((fConnection.getType() & value) != 0);
+            action.setChecked((((IDiagramModelConnection)getFirstSelectedObject()).getType() & value) != 0);
             
             return action;
         }
@@ -206,8 +191,11 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         protected void addActions(MenuManager menuManager) {
             IAction action = createAction(Messages.DiagramConnectionLineStyleSection_2, IDiagramModelConnection.LINE_SOLID, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
             menuManager.add(action);
-            action.setChecked((fConnection.getType() & IDiagramModelConnection.LINE_DASHED) == 0 &
-                              (fConnection.getType() & IDiagramModelConnection.LINE_DOTTED) == 0);
+            
+            IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
+            
+            action.setChecked((lastSelectedConnection.getType() & IDiagramModelConnection.LINE_DASHED) == 0 &
+                              (lastSelectedConnection.getType() & IDiagramModelConnection.LINE_DOTTED) == 0);
             
             action = createAction(Messages.DiagramConnectionLineStyleSection_3, IDiagramModelConnection.LINE_DASHED, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_DASHED));
             menuManager.add(action);
@@ -218,7 +206,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         
         @Override
         protected void update() {
-            int connectionType = fConnection.getType();
+            int connectionType = ((IDiagramModelConnection)getFirstSelectedObject()).getType();
             
             if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
                 fValue = IDiagramModelConnection.LINE_DASHED;
@@ -242,10 +230,12 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
         @Override
         protected void addActions(MenuManager menuManager) {
+            IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
+            
             IAction action = createAction(Messages.DiagramConnectionLineStyleSection_6, IDiagramModelConnection.ARROW_NONE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
-            action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_SOURCE) == 0 &
-                              (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) == 0 &
-                              (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_SOURCE) == 0);
+            action.setChecked((lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_FILL_SOURCE) == 0 &
+                              (lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) == 0 &
+                              (lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_LINE_SOURCE) == 0);
             menuManager.add(action);
             
             action = createAction(Messages.DiagramConnectionLineStyleSection_7, IDiagramModelConnection.ARROW_FILL_SOURCE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_SOURCE_FILL));
@@ -260,7 +250,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         
         @Override
         protected void update() {
-            int connectionType = fConnection.getType();
+            int connectionType = ((IDiagramModelConnection)getFirstSelectedObject()).getType();
             
             if((connectionType & IDiagramModelConnection.ARROW_FILL_SOURCE) != 0) {
                 fValue = IDiagramModelConnection.ARROW_FILL_SOURCE;
@@ -288,10 +278,12 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
         @Override
         protected void addActions(MenuManager menuManager) {
+            IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
+            
             IAction action = createAction(Messages.DiagramConnectionLineStyleSection_11, IDiagramModelConnection.ARROW_NONE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
-            action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_TARGET) == 0 &
-                              (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_TARGET) == 0 &
-                              (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_TARGET) == 0);
+            action.setChecked((lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_FILL_TARGET) == 0 &
+                              (lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_TARGET) == 0 &
+                              (lastSelectedConnection.getType() & IDiagramModelConnection.ARROW_LINE_TARGET) == 0);
             menuManager.add(action);
             
             action = createAction(Messages.DiagramConnectionLineStyleSection_12, IDiagramModelConnection.ARROW_FILL_TARGET, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_TARGET_FILL));
@@ -306,7 +298,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         
         @Override
         protected void update() {
-            int connectionType = fConnection.getType();
+            int connectionType = ((IDiagramModelConnection)getFirstSelectedObject()).getType();
             
             if((connectionType & IDiagramModelConnection.ARROW_FILL_TARGET) != 0) {
                 fValue = IDiagramModelConnection.ARROW_FILL_TARGET;

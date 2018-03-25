@@ -10,57 +10,35 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelReference;
 
 
 
 /**
- * Property Section for a Diagram Model Reference
+ * Property Section for a Name element
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceSection extends AbstractECorePropertySection {
+public abstract class AbstractNameSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
-
-    /**
-     * Filter to show or reject this section depending on input value
-     */
-    public static class Filter extends ObjectFilter {
-        @Override
-        public boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelReference;
-        }
-
-        @Override
-        public Class<?> getAdaptableType() {
-            return IDiagramModelReference.class;
-        }
-        
-        @Override
-        public Object adaptObject(Object object) {
-            // Return the referenced diagram model
-            Object adapted = super.adaptObject(object);
-            return adapted == null ? null : ((IDiagramModelReference)adapted).getReferencedModel();
-        }
-    }
 
     private PropertySectionTextControl fTextName;
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, Messages.DiagramModelReferenceSection_0);
+        fTextName = createNameControl(parent, Messages.NameSection_0);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
     @Override
-    protected void notifyChanged(Notification msg) {
+    public void notifyChanged(Notification msg) {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
                 fPage.labelProviderChanged(null); // Update Main label
             }
@@ -74,10 +52,6 @@ public class DiagramModelReferenceSection extends AbstractECorePropertySection {
         }
         
         fTextName.refresh(getFirstSelectedObject());
-    }
-    
-    @Override
-    protected IObjectFilter getFilter() {
-        return new Filter();
+        fTextName.setEditable(!isLocked(getFirstSelectedObject()));
     }
 }
