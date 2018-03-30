@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -30,7 +29,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class TextPositionSection extends AbstractArchimatePropertySection {
+public class TextPositionSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -41,34 +40,17 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof ITextPosition) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return ITextPosition.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Position event (From Undo/Redo and here)
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private ITextPosition fTextPositionObject;
-    
     private Button[] fPositionButtons = new Button[3];
-    
     
     @Override
     protected void createControls(Composite parent) {
@@ -79,16 +61,22 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
                     // Select/deselects
                     fPositionButtons[i].setSelection(e.widget == fPositionButtons[i]);
                     
-                    // Command
+                    // Commands
                     if(fPositionButtons[i] == e.widget) {
                         int position = (Integer)fPositionButtons[i].getData();
-                        if(fTextPositionObject.getTextPosition() != position) {
-                            if(isAlive()) {
-                                fIsExecutingCommand = true;
-                                getCommandStack().execute(new TextPositionCommand(fTextPositionObject, position));
-                                fIsExecutingCommand = false;
+                        
+                        CompoundCommand result = new CompoundCommand();
+                        
+                        for(EObject textPosition : getEObjects()) {
+                            if(((ITextPosition)textPosition).getTextPosition() != position && isAlive(textPosition)) {
+                                Command cmd = new TextPositionCommand((ITextPosition)textPosition, position);
+                                if(cmd.canExecute()) {
+                                    result.add(cmd);
+                                }
                             }
                         }
+
+                        executeCommand(result.unwrap());
                     }
                 }
             }
@@ -121,29 +109,30 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fTextPositionObject = (ITextPosition)new Filter().adaptObject(element);
-        if(fTextPositionObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
     
-    protected void refreshControls() {
+    @Override
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
         
         for(int i = 0; i < fPositionButtons.length; i++) {
             fPositionButtons[i].setSelection(fPositionButtons[i] == getPositionButton());
-            boolean enabled = fTextPositionObject instanceof ILockable ? !((ILockable)fTextPositionObject).isLocked() : true;
-            fPositionButtons[i].setEnabled(enabled);
+            fPositionButtons[i].setEnabled(!isLocked(getFirstSelectedObject()));
         }
     }
     
     private Button getPositionButton() {
-        int position = fTextPositionObject.getTextPosition();
+        int position = ((ITextPosition)getFirstSelectedObject()).getTextPosition();
         
         switch(position) {
             case ITextPosition.TEXT_POSITION_TOP:
@@ -161,12 +150,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fTextPositionObject;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -36,7 +36,7 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  * 
  * @author Phillip Beauvoir
  */
-public class ViewpointSection extends AbstractArchimatePropertySection {
+public class ViewpointSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.diagramModelSection"; //$NON-NLS-1$
     
@@ -45,33 +45,15 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IArchimateDiagramModel;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IArchimateDiagramModel.class;
         }
     }
-
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Viewpoint event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
-                if(!fIsExecutingCommand) {
-                    refreshControls();
-                }
-            }
-        }
-    };
-    
-    private IArchimateDiagramModel fDiagramModel;
 
     private ComboViewer fComboViewer;
     
@@ -96,15 +78,22 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                     return;
                 }
                 
-                if(isAlive()) {
-                    IViewpoint viewPoint = (IViewpoint)((IStructuredSelection)event.getSelection()).getFirstElement();
-                    if(viewPoint != null) {
-                        fIsExecutingCommand = true;
-                        getCommandStack().execute(new EObjectFeatureCommand(Messages.ViewpointSection_1,
-                                fDiagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
-                                viewPoint.getID()));
-                        fIsExecutingCommand = false;
+                IViewpoint viewPoint = (IViewpoint)((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(viewPoint != null) {
+                    CompoundCommand result = new CompoundCommand();
+                    
+                    for(EObject diagramModel : getEObjects()) {
+                        if(isAlive(diagramModel)) {
+                            Command cmd = new EObjectFeatureCommand(Messages.ViewpointSection_1,
+                                    diagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
+                                    viewPoint.getID());
+                            if(cmd.canExecute()) {
+                                result.add(cmd);
+                            }
+                        }
                     }
+
+                    executeCommand(result.unwrap());
                 }
             }
         });
@@ -138,17 +127,23 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected void setElement(Object element) {
-        fDiagramModel = (IArchimateDiagramModel)new Filter().adaptObject(element);
-        if(fDiagramModel == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
+                update();
+            }
+        }
+    }
+
+    @Override
+    protected void update() {
+        if(fIsExecutingCommand) {
+           return; 
         }
         
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
-        String id = fDiagramModel.getViewpoint();
+        String id = ((IArchimateDiagramModel)getFirstSelectedObject()).getViewpoint();
         IViewpoint viewPoint = ViewpointManager.INSTANCE.getViewpoint(id);
         
         fIsRefreshing = true; // A Viewer will get a selectionChanged event when setting it
@@ -157,12 +152,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-    
-    @Override
-    protected EObject getEObject() {
-        return fDiagramModel;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

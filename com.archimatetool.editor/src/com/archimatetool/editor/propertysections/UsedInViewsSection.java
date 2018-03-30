@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -38,7 +36,7 @@ import com.archimatetool.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class UsedInViewsSection extends AbstractArchimatePropertySection {
+public class UsedInViewsSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.usedInViewsSection"; //$NON-NLS-1$
     
@@ -47,12 +45,12 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IArchimateConcept;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IArchimateConcept.class;
         }
     }
@@ -110,7 +108,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
-                if(!isAlive()) {
+                if(!isAlive(fArchimateConcept)) {
                     return;
                 }
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
@@ -128,27 +126,14 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fArchimateConcept = (IArchimateConcept)new Filter().adaptObject(element);
-        if(fArchimateConcept == null) {
-            System.err.println("UsedInViewsSection failed to get element for " + element); //$NON-NLS-1$
-        }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
+    protected void update() {
+        fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
         fTableViewer.setInput(fArchimateConcept);
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return null;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fArchimateConcept;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     @Override

@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,7 +19,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -28,7 +27,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class NoteSection extends AbstractArchimatePropertySection {
+public class NoteSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -37,32 +36,15 @@ public class NoteSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IDiagramModelNote;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IDiagramModelNote.class;
         }
     }
-
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model Name event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private IDiagramModelNote fNote;
     
     private Combo fComboBorderType;
     
@@ -82,12 +64,19 @@ public class NoteSection extends AbstractArchimatePropertySection {
         fComboBorderType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.NoteSection_4, fNote,
-                            IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE, fComboBorderType.getSelectionIndex()));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject note : getEObjects()) {
+                    if(isAlive(note)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.NoteSection_4, note,
+                                IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE, fComboBorderType.getSelectionIndex());
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         });
         
@@ -96,32 +85,29 @@ public class NoteSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected void setElement(Object element) {
-        fNote = (IDiagramModelNote)new Filter().adaptObject(element);
-        if(fNote == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        fComboBorderType.select(fNote.getBorderType());
-        
-        boolean enabled = fNote instanceof ILockable ? !((ILockable)fNote).isLocked() : true;
-        fComboBorderType.setEnabled(enabled);
-    }
-    
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
     }
 
     @Override
-    protected EObject getEObject() {
-        return fNote;
+    protected void update() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
+        
+        fComboBorderType.select(((IDiagramModelNote)getFirstSelectedObject()).getBorderType());
+        fComboBorderType.setEnabled(!isLocked(getFirstSelectedObject()));
+    }
+    
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

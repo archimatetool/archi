@@ -7,9 +7,10 @@ package com.archimatetool.canvas.propertysections;
 
 import java.io.File;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
@@ -39,10 +40,11 @@ import com.archimatetool.canvas.model.IIconic;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.propertysections.DiagramModelImageSection;
+import com.archimatetool.editor.propertysections.IObjectFilter;
 import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
+import com.archimatetool.editor.propertysections.ObjectFilter;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -58,36 +60,16 @@ public class IconSection extends DiagramModelImageSection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IIconic;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IIconic.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model event
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
-                refreshPreviewImage();
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
-                    || feature == ICanvasPackage.Literals.ICONIC__IMAGE_POSITION) {
-                refreshButtons();
-            }
-        }
-    };
-    
-    private IIconic fIconic;
-    
     private Image fImage;
     private Canvas fCanvas;
     private Combo fComboPosition;
@@ -132,10 +114,9 @@ public class IconSection extends DiagramModelImageSection {
         fCanvas.addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event) {
-                if(fIconic instanceof ILockable && ((ILockable)fIconic).isLocked()) {
-                    return;
+                if(!isLocked(getFirstSelectedObject())) {
+                    chooseImage();
                 }
-                chooseImage();
             }
         });
         
@@ -161,11 +142,10 @@ public class IconSection extends DiagramModelImageSection {
             @Override
             public void drop(DropTargetEvent event) {
                 if(event.data instanceof String[]) {
-                    if(fIconic instanceof ILockable && ((ILockable)fIconic).isLocked()) {
-                        return;
+                    if(!isLocked(getFirstSelectedObject())) {
+                        File file = new File(((String[])event.data)[0]);
+                        setImage(file);
                     }
-                    File file = new File(((String[])event.data)[0]);
-                    setImage(file);
                 }
             }
         });
@@ -183,14 +163,22 @@ public class IconSection extends DiagramModelImageSection {
         fComboPosition.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.IconSection_12,
-                                                fIconic,
-                                                ICanvasPackage.Literals.ICONIC__IMAGE_POSITION,
-                                                fComboPosition.getSelectionIndex()));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject iconic : getEObjects()) {
+                    if(isAlive(iconic)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.IconSection_12,
+                                iconic,
+                                ICanvasPackage.Literals.ICONIC__IMAGE_POSITION,
+                                fComboPosition.getSelectionIndex());
+                        
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         });
         
@@ -199,17 +187,27 @@ public class IconSection extends DiagramModelImageSection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fIconic = (IIconic)new Filter().adaptObject(element);
-        if(fIconic == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected IObjectFilter getFilter() {
+        return new Filter();
+    }
+
+    @Override
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
+                refreshPreviewImage();
+            }
+            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
+                    || feature == ICanvasPackage.Literals.ICONIC__IMAGE_POSITION) {
+                refreshButtons();
+            }
         }
-        
-        refreshControls();
     }
     
     @Override
-    protected void refreshControls() {
+    protected void update() {
         refreshPreviewImage();
         refreshButtons();
     }
@@ -217,12 +215,14 @@ public class IconSection extends DiagramModelImageSection {
     protected void refreshPreviewImage() {
         disposeImage();
         
-        if(fIconic.getImagePath() != null) {
-            IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
+        IIconic iconic = (IIconic)getFirstSelectedObject();
+        
+        if(iconic.getImagePath() != null) {
+            IArchiveManager archiveManager = (IArchiveManager)iconic.getAdapter(IArchiveManager.class);
             
             Image image = null;
             try {
-                image = archiveManager.createImage(fIconic.getImagePath());
+                image = archiveManager.createImage(iconic.getImagePath());
             }
             catch(Exception ex) {
                 ex.printStackTrace();
@@ -246,29 +246,19 @@ public class IconSection extends DiagramModelImageSection {
     
     @Override
     protected void refreshButtons() {
-        boolean enabled = fIconic instanceof ILockable ? !((ILockable)fIconic).isLocked() : true;
+        super.refreshButtons();
         
-        fImageButton.setEnabled(enabled);
+        IIconic iconic = (IIconic)getFirstSelectedObject();
         
-        int position = fIconic.getImagePosition();
+        int position = iconic.getImagePosition();
         if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_BOTTOM_RIGHT) {
             position = IIconic.ICON_POSITION_TOP_RIGHT;
         }
         
         if(!fIsExecutingCommand) {
             fComboPosition.select(position);
-            fComboPosition.setEnabled(enabled);
+            fComboPosition.setEnabled(!isLocked(iconic));
         }
-    }
-    
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected IIconic getEObject() {
-        return fIconic;
     }
     
     protected void disposeImage() {

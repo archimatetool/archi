@@ -11,13 +11,17 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.propertysections.messages"; //$NON-NLS-1$
 
-    public static String AbstractArchimatePropertySection_0;
+    public static String AbstractECorePropertySection_0;
 
-    public static String AbstractArchimatePropertySection_1;
+    public static String AbstractECorePropertySection_1;
 
-    public static String AbstractArchimatePropertySection_2;
+    public static String AbstractECorePropertySection_2;
 
-    public static String AbstractArchimatePropertySection_3;
+    public static String AbstractECorePropertySection_3;
+
+    public static String AbstractNameDocumentationSection_0;
+
+    public static String AbstractNameDocumentationSection_1;
 
     public static String AccessRelationshipSection_0;
 
@@ -30,10 +34,6 @@ public class Messages extends NLS {
     public static String AccessRelationshipSection_4;
 
     public static String AccessRelationshipSection_5;
-
-    public static String ArchimateElementSection_0;
-
-    public static String ArchimateElementSection_1;
 
     public static String ArchimateModelSection_0;
 
@@ -81,10 +81,6 @@ public class Messages extends NLS {
 
     public static String DiagramConnectionLineStyleSection_9;
 
-    public static String DiagramConnectionNameDocumentationSection_0;
-
-    public static String DiagramConnectionNameDocumentationSection_1;
-
     public static String DiagramConnectionSection_0;
 
     public static String DiagramConnectionSection_1;
@@ -121,27 +117,17 @@ public class Messages extends NLS {
 
     public static String DiagramModelImageSection_7;
 
-    public static String DiagramModelSection_0;
-
-    public static String DiagramModelSection_1;
+    public static String DiagramModelReferenceSection_0;
 
     public static String FillColorSection_0;
 
     public static String FillColorSection_1;
-
-    public static String FolderSection_0;
-
-    public static String FolderSection_1;
 
     public static String FontColorSection_0;
 
     public static String FontColorSection_1;
 
     public static String FontSection_0;
-
-    public static String GroupSection_0;
-
-    public static String GroupSection_1;
 
     public static String ImageManagerDialog_0;
 
@@ -162,6 +148,8 @@ public class Messages extends NLS {
     public static String JunctionTypeSection_1;
 
     public static String JunctionTypeSection_2;
+
+    public static String JunctionTypeSection_3;
 
     public static String LineColorSection_0;
 

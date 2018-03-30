@@ -5,16 +5,17 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.ISketchModelSticky;
 
 
 
 /**
- * Property Section for an Archimate Concept
+ * Property Section for a Sketch Sticky
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateConceptSection extends AbstractNameDocumentationSection {
+public class SketchStickyNameSection extends AbstractNameSection {
     
     /**
      * Filter to show or reject this section depending on input value
@@ -22,18 +23,17 @@ public class ArchimateConceptSection extends AbstractNameDocumentationSection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IArchimateConcept;
+            return object instanceof ISketchModelSticky;
         }
 
         @Override
         public Class<?> getAdaptableType() {
-            return IArchimateConcept.class;
+            return INameable.class;
         }
     }
-    
+
     @Override
     protected IObjectFilter getFilter() {
         return new Filter();
     }
-
 }

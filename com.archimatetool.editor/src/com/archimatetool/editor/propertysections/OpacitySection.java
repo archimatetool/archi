@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectAlphaCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -29,7 +28,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class OpacitySection extends AbstractArchimatePropertySection {
+public class OpacitySection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -40,29 +39,15 @@ public class OpacitySection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IDiagramModelObject.class;
         }
     }
-    
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Color event (From Undo/Redo and here)
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
     
     /**
      * Spinner listener
@@ -70,16 +55,22 @@ public class OpacitySection extends AbstractArchimatePropertySection {
     private Listener spinnerListener = new Listener() {
         public void handleEvent(Event event) {
             int newValue = fSpinner.getSelection();
-            if(newValue != fDiagramModelObject.getAlpha()) {
-                fIsExecutingCommand = true;
-                getCommandStack().execute(new DiagramModelObjectAlphaCommand(fDiagramModelObject, newValue));
-                fIsExecutingCommand = false;
+
+            CompoundCommand result = new CompoundCommand();
+
+            for(EObject dmo : getEObjects()) {
+                if(isAlive(dmo)) {
+                    Command cmd = new DiagramModelObjectAlphaCommand((IDiagramModelObject)dmo, newValue);
+                    if(cmd.canExecute()) {
+                        result.add(cmd);
+                    }
+                }
             }
+
+            executeCommand(result.unwrap());
         }
     };
     
-    private IDiagramModelObject fDiagramModelObject;
-
     private Spinner fSpinner;
     
     @Override
@@ -107,24 +98,32 @@ public class OpacitySection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fDiagramModelObject = (IDiagramModelObject)new Filter().adaptObject(element);
-        if(fDiagramModelObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
+
+    @Override
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
         
-        fSpinner.setSelection(fDiagramModelObject.getAlpha());
+        IDiagramModelObject lastSelected = (IDiagramModelObject)getFirstSelectedObject();
         
-        boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
-        fSpinner.setEnabled(enabled);
+        fSpinner.setSelection(lastSelected.getAlpha());
+
+        fSpinner.setEnabled(!isLocked(lastSelected));
+    }
+    
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     @Override
@@ -136,15 +135,5 @@ public class OpacitySection extends AbstractArchimatePropertySection {
             fSpinner.removeListener(SWT.FocusOut, spinnerListener);
             fSpinner.removeListener(SWT.DefaultSelection, spinnerListener);
         }
-    }
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fDiagramModelObject;
     }
 }

@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -25,7 +25,7 @@ import com.archimatetool.model.IInfluenceRelationship;
  * 
  * @author Phillip Beauvoir
  */
-public class InfluenceRelationshipSection extends AbstractArchimatePropertySection {
+public class InfluenceRelationshipSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -34,31 +34,26 @@ public class InfluenceRelationshipSection extends AbstractArchimatePropertySecti
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IInfluenceRelationship;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IInfluenceRelationship.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
+    @Override
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
-            // Strength event (Undo/Redo and here)
+            
             if(feature == IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH) {
-                refreshControls();
+                update();
             }
         }
-    };
-    
-    private IInfluenceRelationship fInfluenceRelationship;
+    }
     
     private PropertySectionTextControl fTextStrength;
 
@@ -71,12 +66,19 @@ public class InfluenceRelationshipSection extends AbstractArchimatePropertySecti
         fTextStrength = new PropertySectionTextControl(text, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH) {
             @Override
             protected void textChanged(String oldText, String newText) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.InfluenceRelationshipSection_1, fInfluenceRelationship,
-                            IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, newText));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject relationship : getEObjects()) {
+                    if(isAlive(relationship)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.InfluenceRelationshipSection_1, relationship,
+                                IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, newText);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         };
         
@@ -87,30 +89,16 @@ public class InfluenceRelationshipSection extends AbstractArchimatePropertySecti
     }
 
     @Override
-    protected void setElement(Object element) {
-        fInfluenceRelationship = (IInfluenceRelationship)new Filter().adaptObject(element);
-        if(fInfluenceRelationship == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
-        }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
         
-        fTextStrength.refresh(fInfluenceRelationship);
-    }
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
+        fTextStrength.refresh(getFirstSelectedObject());
     }
     
     @Override
-    protected EObject getEObject() {
-        return fInfluenceRelationship;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

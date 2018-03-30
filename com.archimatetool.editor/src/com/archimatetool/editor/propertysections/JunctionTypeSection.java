@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,7 +28,7 @@ import com.archimatetool.model.IJunction;
  * 
  * @author Phillip Beauvoir
  */
-public class JunctionTypeSection extends AbstractArchimatePropertySection {
+public class JunctionTypeSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -37,31 +37,15 @@ public class JunctionTypeSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IJunction;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IJunction.class;
         }
     }
-
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Element type event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.JUNCTION__TYPE) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private IJunction fJunction;
 
     private Combo fComboType;
     
@@ -85,14 +69,21 @@ public class JunctionTypeSection extends AbstractArchimatePropertySection {
         fComboType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.AccessRelationshipSection_5,
-                                                        fJunction,
-                                                        IArchimatePackage.Literals.JUNCTION__TYPE,
-                                                        fTypeValues[fComboType.getSelectionIndex()]));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject junction : getEObjects()) {
+                    if(isAlive(junction)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.JunctionTypeSection_3,
+                                junction,
+                                IArchimatePackage.Literals.JUNCTION__TYPE,
+                                fTypeValues[fComboType.getSelectionIndex()]);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         });
 
@@ -101,21 +92,24 @@ public class JunctionTypeSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected void setElement(Object element) {
-        fJunction = (IJunction)new Filter().adaptObject(element);
-        if(fJunction == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.JUNCTION__TYPE) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
+
+    @Override
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
         
-        String type = fJunction.getType();
+        String type = ((IJunction)getFirstSelectedObject()).getType();
+        
         if(type == null) {
             type = IJunction.AND_JUNCTION_TYPE;
         }
@@ -133,12 +127,8 @@ public class JunctionTypeSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
-    
-    @Override
-    protected EObject getEObject() {
-        return fJunction;
-    }
+
 }

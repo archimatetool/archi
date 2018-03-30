@@ -5,10 +5,10 @@
  */
 package com.archimatetool.canvas.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -16,12 +16,13 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.INotesContent;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.propertysections.AbstractArchimatePropertySection;
+import com.archimatetool.editor.propertysections.AbstractECorePropertySection;
+import com.archimatetool.editor.propertysections.IObjectFilter;
 import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
+import com.archimatetool.editor.propertysections.ObjectFilter;
 import com.archimatetool.editor.propertysections.PropertySectionTextControl;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -30,7 +31,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class NotesSection extends AbstractArchimatePropertySection {
+public class NotesSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -39,32 +40,16 @@ public class NotesSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof INotesContent;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return INotesContent.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model event
-            if(feature == ICanvasPackage.Literals.NOTES_CONTENT__NOTES 
-                    || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private INotesContent fNotesContent;
     
     private PropertySectionTextControl fTextNotesControl;
     
@@ -77,12 +62,20 @@ public class NotesSection extends AbstractArchimatePropertySection {
         fTextNotesControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.NOTES_CONTENT__NOTES) {
             @Override
             protected void textChanged(String oldText, String newText) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.NotesSection_1, fNotesContent,
-                                                ICanvasPackage.Literals.NOTES_CONTENT__NOTES, newText));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject notesContent : getEObjects()) {
+                    if(isAlive(notesContent)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.NotesSection_1, notesContent,
+                                ICanvasPackage.Literals.NOTES_CONTENT__NOTES, newText);
+                        
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         };
         fTextNotesControl.setHint(Messages.NotesSection_2);
@@ -92,33 +85,31 @@ public class NotesSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected void setElement(Object element) {
-        fNotesContent = (INotesContent)new Filter().adaptObject(element);
-        if(fNotesContent == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            // Model event
+            if(feature == ICanvasPackage.Literals.NOTES_CONTENT__NOTES 
+                    || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        fTextNotesControl.refresh(fNotesContent);
-        
-        boolean enabled = fNotesContent instanceof ILockable ? !((ILockable)fNotesContent).isLocked() : true;
-        fTextNotesControl.setEditable(enabled);
-    }
-    
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
     }
 
     @Override
-    protected EObject getEObject() {
-        return fNotesContent;
+    protected void update() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
+        
+        fTextNotesControl.refresh(getFirstSelectedObject());
+        
+        fTextNotesControl.setEditable(!isLocked(getFirstSelectedObject()));
+    }
+    
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     @Override
