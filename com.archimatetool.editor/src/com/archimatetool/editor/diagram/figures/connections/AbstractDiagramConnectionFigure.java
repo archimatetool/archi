@@ -254,14 +254,19 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         int labelMargin = 1;
         // Save dimensions of original clipping area and label
         Rectangle g = graphics.getClip(new Rectangle());
-        Rectangle l = fConnectionLabel.getTextBounds().expand(labelMargin, labelMargin).getIntersection(g);
-        // Create a Path that fills the clipping area minus the label
-        Path p = new Path(null);
-        p.addRectangle(g.x, g.y, g.width, g.height);
-        p.addRectangle(l.x, l.y, l.width, l.height);
-        graphics.setClip(p);
-        super.paintFigure(graphics);
-        p.dispose();
+        Rectangle l = fConnectionLabel.getTextBounds();
+        if(!l.isEmpty()) {
+        	l.expand(labelMargin, labelMargin).getIntersection(g);
+	        // Create a Path that fills the clipping area minus the label
+	        Path p = new Path(null);
+	        p.addRectangle(g.x, g.y, g.width, g.height);
+	        p.addRectangle(l.x, l.y, l.width, l.height);
+	        graphics.setClip(p);
+	        super.paintFigure(graphics);
+	        p.dispose();
+        } else {
+        	super.paintFigure(graphics);
+        }
     }
     
     
