@@ -41,8 +41,8 @@ public class RenameAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        setEnabled(selection.size() == 1 && RenameCommandHandler.canRename(selection.getFirstElement()));
+    public void update() {
+        setEnabled(getSelection().size() == 1 && RenameCommandHandler.canRename(getSelection().getFirstElement()));
     }
 
 }

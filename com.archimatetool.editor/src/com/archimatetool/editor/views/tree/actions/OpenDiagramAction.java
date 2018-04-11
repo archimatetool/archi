@@ -6,7 +6,6 @@
 package com.archimatetool.editor.views.tree.actions;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IDiagramModel;
@@ -37,8 +36,8 @@ public class OpenDiagramAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        Object selected = selection.getFirstElement();
+    public void update() {
+        Object selected = getSelection().getFirstElement();
         setEnabled(selected instanceof IDiagramModel);
     }
 

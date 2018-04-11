@@ -8,7 +8,6 @@ package com.archimatetool.editor.views.tree.actions;
 import java.io.IOException;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateModel;
@@ -46,8 +45,8 @@ public class CloseModelAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        Object selected = selection.getFirstElement();
+    public void update() {
+        Object selected = getSelection().getFirstElement();
         setEnabled(selected instanceof IArchimateModel);
     }
 

@@ -66,12 +66,10 @@ import com.archimatetool.editor.views.tree.actions.FindReplaceAction;
 import com.archimatetool.editor.views.tree.actions.GenerateViewAction;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.LinkToEditorAction;
-import com.archimatetool.editor.views.tree.actions.NewFolderAction;
 import com.archimatetool.editor.views.tree.actions.OpenDiagramAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.editor.views.tree.actions.RenameAction;
 import com.archimatetool.editor.views.tree.actions.SaveModelAction;
-import com.archimatetool.editor.views.tree.actions.TreeModelViewActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
@@ -116,7 +114,6 @@ implements ITreeModelView, IUIRequestListener {
     private IViewerAction fActionDelete;
     private IViewerAction fActionRename;
     private IViewerAction fActionOpenDiagram;
-    private IViewerAction fActionNewFolder;
     private IViewerAction fActionDuplicate;
     
     private IViewerAction fActionGenerateView;
@@ -300,8 +297,6 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionLinkToEditor = new LinkToEditorAction();
         
-        fActionNewFolder = new NewFolderAction(getSelectionProvider());
-        
         fActionDuplicate = new DuplicateAction(getViewer());
         
         fActionGenerateView = new GenerateViewAction(getSelectionProvider());
@@ -406,44 +401,21 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        MenuManager newMenu = new MenuManager(Messages.TreeModelView_1, "new"); //$NON-NLS-1$
-        manager.add(newMenu);
+        manager.add(new Separator("new")); //$NON-NLS-1$
         
-        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer()); //$NON-NLS-1$
-
-        manager.add(new Separator());
-        
-        // Selected model
+        // Selected a Model
         if(selected instanceof IArchimateModel) {
             manager.add(fActionCloseModel);
             manager.add(fActionSaveModel);
             manager.add(new Separator());
         }
         
-        // Selected Diagram
+        // Selected a Diagram
         if(selected instanceof IDiagramModel) {
             manager.add(fActionOpenDiagram);
             manager.add(new Separator("open")); //$NON-NLS-1$
         }
         
-        if(selected instanceof IFolder) {
-            newMenu.add(fActionNewFolder);
-            newMenu.add(new Separator());
-        }
-        
-        // Create "New" Actions
-        List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selected);
-        for(IAction action : actions) {
-            if(action == null) {
-                newMenu.add(new Separator());
-            }
-            else {
-                newMenu.add(action);
-            }
-        }
-        
-        newMenu.add(new Separator("new_additions")); //$NON-NLS-1$
-       
         if(!isEmpty) {
             manager.add(new Separator());
             manager.add(fActionDelete);
@@ -492,17 +464,14 @@ implements ITreeModelView, IUIRequestListener {
      * Update the Local Actions depending on the selection 
      */
     private void updateActions() {
-        IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
-        
-        fActionSaveModel.update(selection);
-        fActionOpenDiagram.update(selection);
-        fActionCloseModel.update(selection);
-        fActionDelete.update(selection);
-        fActionDuplicate.update(selection);
-        fActionRename.update(selection);
-        fActionProperties.update(selection);
-        fActionNewFolder.update(selection);
-        fActionGenerateView.update(selection);
+        fActionSaveModel.update();
+        fActionOpenDiagram.update();
+        fActionCloseModel.update();
+        fActionDelete.update();
+        fActionDuplicate.update();
+        fActionRename.update();
+        fActionProperties.update();
+        fActionGenerateView.update();
         
         updateUndoActions();
     }

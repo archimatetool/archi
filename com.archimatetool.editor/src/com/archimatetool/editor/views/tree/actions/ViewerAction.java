@@ -33,7 +33,7 @@ public abstract class ViewerAction extends Action implements IViewerAction {
     }
     
     @Override
-    public void update(IStructuredSelection selection) {
+    public void update() {
         // do nothing
     }
 

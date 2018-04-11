@@ -40,8 +40,8 @@ public class DuplicateAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        setEnabled(DuplicateCommandHandler.canDuplicate(selection));
+    public void update() {
+        setEnabled(DuplicateCommandHandler.canDuplicate(getSelection()));
     }
 
 }

@@ -254,8 +254,7 @@ implements INavigatorView, ISelectionListener {
      * Update the Local Actions depending on the selection 
      */
     private void updateActions() {
-        IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
-        fActionProperties.update(selection);
+        fActionProperties.update();
         updateUndoActions();
     }
     

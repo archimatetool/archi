@@ -21,6 +21,8 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.editor.views.tree.commands.NewElementCommand;
+import com.archimatetool.editor.views.tree.commands.NewFolderCommand;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
@@ -51,57 +53,63 @@ public class TreeModelViewActionFactory {
      */
     public List<IAction> getNewObjectActions(Object selected) {
         List<IAction> list = new ArrayList<IAction>();
-
-        // If we have selected a leaf object, go up to parent
-        if(selected instanceof IArchimateElement || selected instanceof IDiagramModel) {
+        
+        // Selected a Folder so add new Folder action
+        if(selected instanceof IFolder) {
+            IAction action = createNewFolderAction((IFolder)selected);
+            list.add(action);
+            list.add(null);
+        }
+        // Else, if we have selected a leaf object, go up to its parent
+        else if(selected instanceof IArchimateElement || selected instanceof IDiagramModel) {
             selected = ((EObject)selected).eContainer();
         }
         
-        // We want a folder
+        // We haven't selected a folder
         if(!(selected instanceof IFolder)) {
             return list;
         }
         
-        IFolder folder = (IFolder)selected;
+        IFolder selectedFolder = (IFolder)selected;
         
-        // Find topmost folder type
-        IFolder f = folder;
-        while(f.eContainer() instanceof IFolder) {
-            f = (IFolder)f.eContainer();
+        // Find the topmost folder type
+        IFolder topMostFolder = selectedFolder;
+        while(topMostFolder.eContainer() instanceof IFolder) {
+            topMostFolder = (IFolder)topMostFolder.eContainer();
         }
 
-        switch(f.getType()) {
+        switch(topMostFolder.getType()) {
             case STRATEGY:
                 for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
 
             case BUSINESS:
                 for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
 
             case APPLICATION:
                 for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
 
             case MOTIVATION:
                 for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
 
             case IMPLEMENTATION_MIGRATION:
                 for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
@@ -109,7 +117,7 @@ public class TreeModelViewActionFactory {
             case TECHNOLOGY:
                 // Technology
                 for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 
@@ -117,7 +125,7 @@ public class TreeModelViewActionFactory {
                 
                 // Physical
                 for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
@@ -125,7 +133,7 @@ public class TreeModelViewActionFactory {
             case OTHER:
                 // Grouping and Location
                 for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 
@@ -133,18 +141,23 @@ public class TreeModelViewActionFactory {
                 
                 // Connectors
                 for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-                    IAction action = createNewElementAction(folder, eClass);
+                    IAction action = createNewElementAction(selectedFolder, eClass);
                     list.add(action);
                 }
                 break;
                 
             case DIAGRAMS:
-                list.add(createNewArchimateDiagramAction(folder));
-                list.add(createNewSketchAction(folder));
+                list.add(createNewArchimateDiagramAction(selectedFolder));
+                list.add(createNewSketchAction(selectedFolder));
                 break;
 
             default:
                 break;
+        }
+        
+        // Remove any trailing separator
+        if(list.get(list.size() - 1) == null) {
+            list.remove(list.size() - 1);
         }
 
         return list;
@@ -207,6 +220,26 @@ public class TreeModelViewActionFactory {
         };
 
         action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SKETCH));
+        return action;
+    }
+    
+    private IAction createNewFolderAction(final IFolder folder) {
+        IAction action = new Action(Messages.NewFolderAction_0) {
+            @Override
+            public void run() {
+                // Create a new Folder, set its name
+                IFolder newFolder = IArchimateFactory.eINSTANCE.createFolder();
+                newFolder.setName(Messages.NewFolderAction_1);
+                newFolder.setType(FolderType.USER);
+                
+                // Execute Command
+                Command cmd = new NewFolderCommand(folder, newFolder);
+                CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
+                commandStack.execute(cmd);
+            }
+        };
+
+        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_FOLDER));
         return action;
     }
 }

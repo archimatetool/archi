@@ -632,7 +632,7 @@
       </command>
       <command
             id="com.archimatetool.com.paste_special"
-            name="Paste Special">
+            name="%command.name.14">
       </command>
    </extension>
    <extension
@@ -660,6 +660,22 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:com.archimatetool.editor.treeModelView?after=new">
+         <menu
+               id="com.archimatetool.editor.treeModelView.new_menu"
+               label="%menu.label.0">
+            <dynamic
+                  class="com.archimatetool.editor.views.tree.actions.NewMenuContributionItem"
+                  id="com.archimatetool.editor.treeModelView.new_items">
+            </dynamic>
+            <separator
+                  name="new_additions"
+                  visible="true">
+            </separator>
+         </menu>
+      </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="toolbar:toolbar_file?after=start">
