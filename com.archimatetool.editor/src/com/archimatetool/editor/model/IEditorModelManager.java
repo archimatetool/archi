@@ -83,11 +83,20 @@ public interface IEditorModelManager {
     void openModel(IArchimateModel model);
     
     /**
-     * Load a model
+     * Load a model, register and show in the UI
      * @param file
      * @return The newly loaded model or null
      */
     IArchimateModel loadModel(File file);
+    
+    /**
+     * Load a model, register and show in the UI if option set
+     * @param file
+     * @param inUI If this is true the model will be registered in the UI and UI feedback will be shown
+     * in error dialogs
+     * @return The newly loaded model or null
+     */
+    IArchimateModel loadModel(File file, boolean inUI);
     
     /**
      * Close a model

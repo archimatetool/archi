@@ -19,6 +19,7 @@ import org.eclipse.osgi.util.NLS;
 import com.archimatetool.commandline.AbstractCommandLineProvider;
 import com.archimatetool.commandline.CommandLineState;
 import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -85,7 +86,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
         tmp.deleteOnExit();
 
         File file = ZipUtils.extractZipEntry(fileTemplate, "model.archimate", tmp); //$NON-NLS-1$
-        IArchimateModel model = LoadModelFromFileProvider.loadModel(file);
+        IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file, false);
 
         if(model == null) {
             logError(Messages.CreateEmptyModelProvider_4);
