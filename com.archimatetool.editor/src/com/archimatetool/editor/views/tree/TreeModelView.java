@@ -403,6 +403,8 @@ implements ITreeModelView, IUIRequestListener {
         
         manager.add(new Separator("new")); //$NON-NLS-1$
         
+        manager.add(new Separator());
+        
         // Selected a Model
         if(selected instanceof IArchimateModel) {
             manager.add(fActionCloseModel);
