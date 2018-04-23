@@ -13,9 +13,11 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IProperty;
 
 
 
+@SuppressWarnings("nls")
 public class ArchimateFactoryTests {
     
     public static junit.framework.Test suite() {
@@ -23,7 +25,7 @@ public class ArchimateFactoryTests {
     }
     
     @Test
-    public void testCreateBounds() {
+    public void createBounds_WithParamaters() {
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(1, 2, 3, 4);
         assertNotNull(bounds);
         assertEquals(1, bounds.getX());
@@ -33,4 +35,11 @@ public class ArchimateFactoryTests {
     }
     
 
+    @Test
+    public void createProperty_WithParamaters() {
+        IProperty p = IArchimateFactory.eINSTANCE.createProperty("key", "value");
+        assertNotNull(p);
+        assertEquals("key", p.getKey());
+        assertEquals("value", p.getValue());
+    }
 }

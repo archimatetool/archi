@@ -282,6 +282,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
         return property;
     }
 
+    /* (non-Javadoc)
+     * @see com.archimatetool.model.IArchimateFactory#createProperty(java.lang.String, java.lang.String)
+     */
+    public IProperty createProperty(String key, String value) {
+        IProperty property = createProperty();
+        property.setKey(key);
+        property.setValue(value);
+        return property;
+    }
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1022,8 +1032,11 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
         return sketchModelActor;
     }
 
+    /* (non-Javadoc)
+     * @see com.archimatetool.model.IArchimateFactory#createBounds(int, int, int, int)
+     */
     public IBounds createBounds(int x, int y, int width, int height) {
-        Bounds bounds = new Bounds();
+        IBounds bounds = createBounds();
         bounds.setX(x);
         bounds.setY(y);
         bounds.setWidth(width);
