@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -52,7 +50,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-public class UsedInRelationshipsSection extends AbstractArchimatePropertySection {
+public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.usedInRelationshipsSection"; //$NON-NLS-1$
     
@@ -61,12 +59,12 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IArchimateElement;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IArchimateElement.class;
         }
     }
@@ -114,7 +112,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
-                if(isAlive()) {
+                if(isAlive(fArchimateElement)) {
                     Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                     if(o instanceof IArchimateRelationship) {
                         IArchimateRelationship relation = (IArchimateRelationship)o;
@@ -152,27 +150,14 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     }
     
     @Override
-    protected void setElement(Object element) {
-        fArchimateElement = (IArchimateElement)new Filter().adaptObject(element);
-        if(fArchimateElement == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
-        }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
+    protected void update() {
+        fArchimateElement = (IArchimateElement)getFirstSelectedObject();
         fTableViewer.setInput(fArchimateElement);
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return null;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fArchimateElement;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     @Override

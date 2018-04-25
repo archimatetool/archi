@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -26,7 +26,6 @@ import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -35,7 +34,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class LineColorSection extends AbstractArchimatePropertySection {
+public class LineColorSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -46,53 +45,56 @@ public class LineColorSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return (object instanceof ILineObject) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return ILineObject.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Color event (From Undo/Redo and here)
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
     /**
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
-            if(isAlive()) {
-                if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
-                    RGB rgb = fColorChooser.getColorValue();
-                    String newColor = ColorFactory.convertRGBToString(rgb);
-                    if(!newColor.equals(fLineObject.getLineColor())) {
-                        getCommandStack().execute(new LineColorCommand(fLineObject, newColor));
+            CompoundCommand result = new CompoundCommand();
+            
+            if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
+                RGB rgb = fColorChooser.getColorValue();
+                String newColor = ColorFactory.convertRGBToString(rgb);
+                
+                for(EObject lineObject : getEObjects()) {
+                    if(isAlive(lineObject)) {
+                        Command cmd = new LineColorCommand((ILineObject)lineObject, newColor);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
                     }
-                }
-                else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
-                    // If user pref to save color is set then save the value, otherwise save as null
-                    String rgbValue = null;
-                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-                        Color color = ColorFactory.getDefaultLineColor(fLineObject);
-                        rgbValue = ColorFactory.convertColorToString(color);
-                    }
-                    getCommandStack().execute(new LineColorCommand(fLineObject, rgbValue));
                 }
             }
+            else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
+                for(EObject lineObject : getEObjects()) {
+                    if(isAlive(lineObject)) {
+                        // If user pref to save color is set then save the value, otherwise save as null
+                        String rgbValue = null;
+                        
+                        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                            Color color = ColorFactory.getDefaultLineColor(lineObject);
+                            rgbValue = ColorFactory.convertColorToString(color);
+                        }
+
+                        Command cmd = new LineColorCommand((ILineObject)lineObject, rgbValue);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
+                }
+            }
+            
+            executeCommand(result.unwrap());
         }
     };
     
@@ -106,12 +108,10 @@ public class LineColorSection extends AbstractArchimatePropertySection {
                     event.getProperty().equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR) ||
                     event.getProperty().equals(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR) ||
                     event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) { // This will affect the "Default" menu in color chooser
-                refreshControls();
+                update();
             }
         }
     };
-
-    private ILineObject fLineObject;
 
     private ColorChooser fColorChooser;
     
@@ -134,27 +134,33 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fLineObject = (ILineObject)new Filter().adaptObject(element);
-        if(fLineObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
-        String colorValue = fLineObject.getLineColor();
+
+    @Override
+    protected void update() {
+        ILineObject lineObject = (ILineObject)getFirstSelectedObject();
+        
+        String colorValue = lineObject.getLineColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb == null) {
-            rgb = ColorFactory.getDefaultLineColor(fLineObject).getRGB();
+            rgb = ColorFactory.getDefaultLineColor(lineObject).getRGB();
         }
         
         fColorChooser.setColorValue(rgb);
 
         // Locked
-        boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
+        boolean enabled = !isLocked(lineObject);
+        
         fColorChooser.setEnabled(enabled);
+        
         if(!enabled) {
             return;
         }
@@ -162,12 +168,12 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(fLineObject).getRGB());
+            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(lineObject).getRGB());
         }
         fColorChooser.setIsDefaultColor(isDefaultColor);
         
         // If this is an element line disable some things
-        if(fLineObject instanceof IDiagramModelObject) {
+        if(lineObject instanceof IDiagramModelObject) {
             boolean deriveElementLineColor = Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
             fColorChooser.setDoShowColorImage(!deriveElementLineColor);
             fColorChooser.getColorButton().setEnabled(!deriveElementLineColor);
@@ -181,6 +187,11 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     }
     
     @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
+    }
+    
+    @Override
     public void dispose() {
         super.dispose();
         
@@ -189,15 +200,5 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         }
         
         Preferences.STORE.removePropertyChangeListener(prefsListener);
-    }
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fLineObject;
     }
 }

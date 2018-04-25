@@ -44,13 +44,15 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         
         graphics.setAntialias(SWT.ON);
         
+        graphics.setAlpha(getAlpha());
+        
         graphics.setLineDash(new float[] { (float)(8 * graphics.getAbsoluteScale()), (float)(4 * graphics.getAbsoluteScale()) });
         
         graphics.setBackgroundColor(getFillColor());
        
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

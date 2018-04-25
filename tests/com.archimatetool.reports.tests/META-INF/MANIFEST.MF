@@ -10,3 +10,4 @@ Require-Bundle: org.junit,
  com.archimatetool.help
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.archimatetool.testingtools
+Automatic-Module-Name: com.archimatetool.reports.tests

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Command Line
 Bundle-SymbolicName: com.archimatetool.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,
@@ -14,3 +14,4 @@ Export-Package: com.archimatetool.commandline,
  org.apache.commons.cli
 Bundle-ClassPath: lib/commons-cli-1.4.jar,
  .
+Automatic-Module-Name: com.archimatetool.commandline

@@ -6,7 +6,6 @@
 package com.archimatetool.editor.views.tree.actions;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 
 import com.archimatetool.editor.ui.services.ViewManager;
@@ -35,8 +34,8 @@ public class PropertiesAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        setEnabled(!selection.isEmpty());
+    public void update() {
+        setEnabled(!getSelection().isEmpty());
     }
 
 }

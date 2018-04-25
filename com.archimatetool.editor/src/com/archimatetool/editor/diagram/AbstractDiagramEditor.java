@@ -90,6 +90,7 @@ import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -739,6 +740,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
 
         // Font Colour
         action = new FontColorAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
+        
+        // Opacity
+        action = new OpacityAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);

@@ -218,7 +218,7 @@ implements IZestView, ISelectionListener {
      */
     void updateActions() {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
-        fActionProperties.update(selection);
+        fActionProperties.update();
         fActionSelectInModelTree.setEnabled(!selection.isEmpty());
         
         boolean hasData = fGraphViewer.getInput() != null;

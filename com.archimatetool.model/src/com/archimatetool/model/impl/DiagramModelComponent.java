@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDiagramModel;
@@ -161,6 +163,18 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    public IArchimateModel getArchimateModel() {
+        if(eContainer() == null) {
+            return null;
+        }
+        return ((IArchimateModelObject)eContainer()).getArchimateModel();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -280,6 +294,11 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 default: return -1;
             }
         }
+        if (baseClass == IArchimateModelObject.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -303,6 +322,11 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
         if (baseClass == INameable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME;
+                default: return -1;
+            }
+        }
+        if (baseClass == IArchimateModelObject.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }

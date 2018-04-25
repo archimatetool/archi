@@ -2,8 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Windows Launcher
 Bundle-SymbolicName: com.archimatetool.editor.launch.win32;singleton:=true
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Archi
 Fragment-Host: com.archimatetool.editor;bundle-version="4.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-PlatformFilter: (osgi.ws=win32)
+Automatic-Module-Name: com.archimatetool.editor.launch.win32

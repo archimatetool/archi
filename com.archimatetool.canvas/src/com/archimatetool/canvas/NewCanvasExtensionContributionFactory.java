@@ -50,23 +50,6 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
 
     @Override
     public void createContributionItems(IServiceLocator serviceLocator, IContributionRoot additions) {
-        boolean enabled = CanvasEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED);
-        if(!enabled) {
-            return;
-        }
-        
-        // TODO: Hack hack hack!
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=485931
-        int methodCount = 0;
-        for(StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
-            if(stackTraceElement.getMethodName().equals("processContributions")) { //$NON-NLS-1$
-                methodCount++;
-                if(methodCount == 2) {
-                    return;
-                }
-            }
-        }
-        
         // New Blank Canvas
         IContributionItem item = new ActionContributionItem(new NewCanvasAction());
         additions.addContributionItem(item, diagramFolderExpression);
@@ -170,9 +153,17 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
         @Override
         public EvaluationResult evaluate(IEvaluationContext context) throws CoreException {
             fCurrentFolder = null;
+            
+            // Evaluate visibility here (otherwise we might see an empty "New" menu item if Canvas is not enabled)
+            if(!CanvasEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED)) {
+                return EvaluationResult.FALSE;
+            }
+            
             Object o = context.getDefaultVariable();
+            
             if(o instanceof List<?> && ((List<?>)o).size() > 0) {
                 o = ((List<?>)o).get(0);
+                
                 if(o instanceof IFolder && isDiagramFolder((IFolder)o)) {
                     fCurrentFolder = (IFolder)o;
                 }
@@ -180,6 +171,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
                     fCurrentFolder = (IFolder)((IDiagramModel)o).eContainer();
                 }
             }
+            
             return fCurrentFolder != null ? EvaluationResult.TRUE : EvaluationResult.FALSE;
         }
     };

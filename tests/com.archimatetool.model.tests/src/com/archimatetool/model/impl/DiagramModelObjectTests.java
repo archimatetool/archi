@@ -51,7 +51,18 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         dm.getChildren().add(object);
         assertSame(dm, object.getDiagramModel());
     }
+
+    @Test
+    public void testGetArchimateModel() {
+        assertNull(object.getArchimateModel());
         
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
+        dm.getChildren().add(object);
+        
+        assertSame(model, object.getArchimateModel());
+    }
+
     @Test
     public void testGetBounds() {
         assertNull(object.getBounds());
@@ -97,6 +108,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertNull(object.getFontColor());
         object.setFontColor("#ffffff");
         assertEquals("#ffffff", object.getFontColor());
+    }
+    
+    @Test
+    public void testGetAlpha() {
+        assertEquals(255, object.getAlpha());
+        object.setAlpha(100);
+        assertEquals(100, object.getAlpha());
     }
     
     @Test

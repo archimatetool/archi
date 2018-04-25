@@ -47,8 +47,8 @@ public class GenerateViewAction extends ViewerAction {
     }
 
     @Override
-    public void update(IStructuredSelection selection) {
-        setEnabled(!getValidSelectedObjects(selection).isEmpty());
+    public void update() {
+        setEnabled(!getValidSelectedObjects(getSelection()).isEmpty());
     }
     
     private List<IArchimateElement> getValidSelectedObjects(IStructuredSelection selection) {

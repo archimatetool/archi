@@ -27,7 +27,7 @@ import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
-public class DiagramModelArchimateConnectionTests {
+public class DiagramModelArchimateConnectionTests extends DiagramModelConnectionTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelArchimateConnectionTests.class);
@@ -51,9 +51,10 @@ public class DiagramModelArchimateConnectionTests {
     }
     
     
+    @Override
     @Test
     public void testGetName() {
-        CommonTests.testGetName(connection);
+        super.testGetName();
         
         // Set relationship name directly
         relationship.setName("another");
@@ -65,18 +66,19 @@ public class DiagramModelArchimateConnectionTests {
         connection.connect(IArchimateFactory.eINSTANCE.createDiagramModelGroup(), IArchimateFactory.eINSTANCE.createDiagramModelGroup());
     }
 
-    @Test
+    @Override
     public void testConnect() {
-        connection.connect(source, target);
-        assertSame(source, connection.getSource());
-        assertSame(target, connection.getTarget());
+        super.testConnect();
+        
+        assertSame(relationship, connection.getArchimateRelationship());
+        assertSame(relationship.getSource(), connection.getArchimateRelationship().getSource());
+        assertSame(relationship.getTarget(), connection.getArchimateRelationship().getTarget());
     }
 
+    @Override
     @Test
     public void testReconnect() {
-        connection.connect(source, target);
-        connection.disconnect();
-        connection.reconnect();
+        super.testReconnect();
         
         assertSame(relationship, connection.getArchimateRelationship());
         assertSame(relationship.getSource(), connection.getArchimateRelationship().getSource());
@@ -132,8 +134,11 @@ public class DiagramModelArchimateConnectionTests {
         assertSame(expectedFolder, connection.getArchimateRelationship().eContainer());
     }
     
+    @Override
     @Test
     public void testGetCopy() {
+        super.testGetCopy();
+        
         connection.setName("name");
         
         IDiagramModelArchimateConnection copy = (IDiagramModelArchimateConnection)connection.getCopy();

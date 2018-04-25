@@ -35,6 +35,8 @@ public class Messages extends NLS {
 
     public static String DeleteBendpointCommand_0;
 
+    public static String DiagramModelObjectAlphaCommand_0;
+
     public static String FillColorCommand_0;
 
     public static String FontColorCommand_0;

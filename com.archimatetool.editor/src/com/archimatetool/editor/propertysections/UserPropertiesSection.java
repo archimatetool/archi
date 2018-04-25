@@ -14,13 +14,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
@@ -107,7 +105,7 @@ import com.archimatetool.model.IProperty;
  * 
  * @author Phillip Beauvoir
  */
-public class UserPropertiesSection extends AbstractArchimatePropertySection {
+public class UserPropertiesSection extends AbstractECorePropertySection {
 
     private static final String HELP_ID = "com.archimatetool.help.userProperties"; //$NON-NLS-1$
 
@@ -116,70 +114,57 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IProperties;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IProperties.class;
         }
     }
-
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     * This one is a EContentAdapter to listen to child IProperty changes
-     */
-    private Adapter eAdapter = new EContentAdapter() {
-        private boolean ignoreMessages;
-
-        @Override
-        public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
-
-            if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.START) {
-                ignoreMessages = true;
-                return;
-            }
-            else if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.END) {
-                ignoreMessages = false;
-                fTableViewer.refresh();
-            }
-
-            if(!ignoreMessages) {
-                Object feature = msg.getFeature();
-                if(feature == IArchimatePackage.Literals.PROPERTIES__PROPERTIES) {
-                    fTableViewer.refresh();
-                }
-                if(feature == IArchimatePackage.Literals.PROPERTY__KEY
-                        || feature == IArchimatePackage.Literals.PROPERTY__VALUE) {
-                    fTableViewer.update(msg.getNotifier(), null);
-                }
-            }
-        }
-    };
 
     private IProperties fPropertiesElement;
 
     private TableViewer fTableViewer;
     private IAction fActionNewProperty, fActionNewMultipleProperty, fActionRemoveProperty, fActionShowKeyEditor;
 
+    private boolean ignoreMessages;
+    
     @Override
     protected void createControls(Composite parent) {
         createTableControl(parent);
     }
 
     @Override
-    protected void setElement(Object element) {
-        fPropertiesElement = (IProperties)new Filter().adaptObject(element);
-        if(fPropertiesElement == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.START) {
+            ignoreMessages = true;
+            return;
         }
-        
-        refreshControls();
+        else if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.END) {
+            ignoreMessages = false;
+            fTableViewer.refresh();
+        }
+
+        if(!ignoreMessages) {
+            Object feature = msg.getFeature();
+
+            if(feature == IArchimatePackage.Literals.PROPERTIES__PROPERTIES) {
+                fTableViewer.refresh();
+            }
+
+            if(feature == IArchimatePackage.Literals.PROPERTY__KEY
+                    || feature == IArchimatePackage.Literals.PROPERTY__VALUE) {
+                fTableViewer.update(msg.getNotifier(), null);
+            }
+        }
     }
 
-    protected void refreshControls() {
+    @Override
+    protected void update() {
+        fPropertiesElement = (IProperties)getFirstSelectedObject();
+        
         fTableViewer.setInput(fPropertiesElement);
         
         // Update kludge
@@ -187,13 +172,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fPropertiesElement;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     /**
@@ -280,14 +260,14 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fActionNewProperty = new Action(Messages.UserPropertiesSection_2) {
             @Override
             public void run() {
-                if(isAlive()) {
+                if(isAlive(fPropertiesElement)) {
                     int index = -1;
                     IProperty selected = (IProperty)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
                     if(selected != null) {
                         index = fPropertiesElement.getProperties().indexOf(selected) + 1;
                     }
                     IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-                    getCommandStack().execute(new NewPropertyCommand(fPropertiesElement.getProperties(), property, index));
+                    executeCommand(new NewPropertyCommand(fPropertiesElement.getProperties(), property, index));
                     fTableViewer.editElement(property, 1);
                 }
             }
@@ -307,10 +287,10 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fActionNewMultipleProperty = new Action(Messages.UserPropertiesSection_3) {
             @Override
             public void run() {
-                if(isAlive()) {
+                if(isAlive(fPropertiesElement)) {
                     MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell());
                     if(dialog.open() == Window.OK) {
-                        getCommandStack().execute(dialog.getCommand());
+                        executeCommand(dialog.getCommand());
                     }
                 }
             }
@@ -330,7 +310,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fActionRemoveProperty = new Action(Messages.UserPropertiesSection_4) {
             @Override
             public void run() {
-                if(isAlive()) {
+                if(isAlive(fPropertiesElement)) {
                     CompoundCommand compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement) {
                         @Override
                         public String getLabel() {
@@ -341,7 +321,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
                         Command cmd = new RemovePropertyCommand(fPropertiesElement.getProperties(), (IProperty)o);
                         compoundCmd.add(cmd);
                     }
-                    getCommandStack().execute(compoundCmd);
+                    executeCommand(compoundCmd);
                 }
             }
 
@@ -361,7 +341,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fActionShowKeyEditor = new Action(Messages.UserPropertiesSection_7) {
             @Override
             public void run() {
-                if(isAlive()) {
+                if(isAlive(fPropertiesElement)) {
                     UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
                             getArchimateModel());
                     dialog.open();
@@ -449,8 +429,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
      * Sort Keys
      */
     private void sortKeys() {
-        if(isAlive()) {
-            getCommandStack().execute(new SortPropertiesCommand(fPropertiesElement.getProperties()));
+        if(isAlive(fPropertiesElement)) {
+            executeCommand(new SortPropertiesCommand(fPropertiesElement.getProperties()));
         }
     }
 
@@ -527,13 +507,12 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             }
 
             public void dragStart(DragSourceEvent event) {
-                if(!isAlive()) {
-                    return;
+                if(isAlive(fPropertiesElement)) {
+                    IStructuredSelection selection = (IStructuredSelection)fTableViewer.getSelection();
+                    LocalSelectionTransfer.getTransfer().setSelection(selection);
+                    event.doit = true;
+                    fDragSourceValid = true;
                 }
-                IStructuredSelection selection = (IStructuredSelection)fTableViewer.getSelection();
-                LocalSelectionTransfer.getTransfer().setSelection(selection);
-                event.doit = true;
-                fDragSourceValid = true;
             }
         });
     }
@@ -635,7 +614,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             index++;
         }
 
-        getCommandStack().execute(compoundCmd.unwrap());
+        executeCommand(compoundCmd.unwrap());
     }
 
     private int getDropTargetPosition(DropTargetEvent event) {
@@ -749,7 +728,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         protected CellEditor getCellEditor(Object element) {
             String[] items = new String[0];
 
-            if(isAlive()) {
+            if(isAlive(fPropertiesElement)) {
                 items = getAllUniquePropertyKeysForModel();
             }
 
@@ -769,8 +748,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         @Override
         protected void setValue(Object element, Object value) {
-            if(isAlive()) {
-                getCommandStack().execute(new EObjectFeatureCommand(Messages.UserPropertiesSection_10, (IProperty)element,
+            if(isAlive(fPropertiesElement)) {
+                executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_10, (IProperty)element,
                                             IArchimatePackage.Literals.PROPERTY__KEY, value));
             }
         }
@@ -807,8 +786,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         @Override
         protected void setValue(Object element, Object value) {
-            if(isAlive()) {
-                getCommandStack().execute(new EObjectFeatureCommand(Messages.UserPropertiesSection_11, (IProperty)element,
+            if(isAlive(fPropertiesElement)) {
+                executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_11, (IProperty)element,
                                         IArchimatePackage.Literals.PROPERTY__VALUE, value));
             }
         }

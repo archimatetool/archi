@@ -29,6 +29,8 @@ public class ContractFigure extends ObjectFigure {
             
             graphics.pushState();
             
+            graphics.setAlpha(getAlpha());
+            
             Rectangle bounds = getBounds();
             
             // Line

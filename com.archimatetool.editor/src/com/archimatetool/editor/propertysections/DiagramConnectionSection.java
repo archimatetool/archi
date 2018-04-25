@@ -5,12 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -23,7 +21,7 @@ import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ILineObject;
 
 
 
@@ -32,58 +30,25 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramConnectionSection extends AbstractArchimatePropertySection {
+public class DiagramConnectionSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        public boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelConnection;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IDiagramModelConnection adaptObject(Object object) {
-            if(object instanceof IDiagramModelConnection) {
-                return (IDiagramModelConnection)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IDiagramModelConnection.class);
-                return (IDiagramModelConnection)((o instanceof IDiagramModelConnection) ? o : null);
-            }
-            
-            return null;
+
+        @Override
+        public Class<?> getAdaptableType() {
+            return IDiagramModelConnection.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
-                refreshTextPositionCombo();
-            }
-            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
-                refreshLineWidthCombo();
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private IDiagramModelConnection fConnection;
-    
     private Combo fComboTextPosition;
     private Combo fComboLineWidth;
     
@@ -119,11 +84,18 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         fComboTextPosition.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new ConnectionTextPositionCommand(fConnection, fComboTextPosition.getSelectionIndex()));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject connection : getEObjects()) {
+                    if(isAlive(connection)) {
+                        Command cmd = new ConnectionTextPositionCommand((IDiagramModelConnection)connection, fComboTextPosition.getSelectionIndex());
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         });
     }
@@ -139,26 +111,41 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         fComboLineWidth.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new LineWidthCommand(fConnection, fComboLineWidth.getSelectionIndex() + 1));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject connection : getEObjects()) {
+                    if(isAlive(connection)) {
+                        Command cmd = new LineWidthCommand((ILineObject)connection, fComboLineWidth.getSelectionIndex() + 1);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         });
     }
     
     @Override
-    protected void setElement(Object element) {
-        fConnection = Filter.adaptObject(element);
-        if(fConnection == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
+                refreshTextPositionCombo();
+            }
+            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
+                refreshLineWidthCombo();
+            }
+            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
-    
-    protected void refreshControls() {
+
+    @Override
+    protected void update() {
         refreshTextPositionCombo();
         refreshLineWidthCombo();
     }
@@ -167,31 +154,30 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         if(fIsExecutingCommand) {
             return; 
         }
-        int pos = fConnection.getTextPosition();
+        
+        IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
+        
+        int pos = lastSelectedConnection.getTextPosition();
         fComboTextPosition.select(pos);
         
-        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
-        fComboTextPosition.setEnabled(enabled);
+        fComboTextPosition.setEnabled(!isLocked(lastSelectedConnection));
     }
     
     protected void refreshLineWidthCombo() {
         if(fIsExecutingCommand) {
             return; 
         }
-        int lineWidth = fConnection.getLineWidth();
+        
+        IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
+        
+        int lineWidth = lastSelectedConnection.getLineWidth();
         fComboLineWidth.select(lineWidth - 1);
         
-        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
-        fComboLineWidth.setEnabled(enabled);
+        fComboLineWidth.setEnabled(!isLocked(lastSelectedConnection));
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fConnection;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

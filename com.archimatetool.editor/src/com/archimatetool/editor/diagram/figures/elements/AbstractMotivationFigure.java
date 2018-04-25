@@ -56,6 +56,8 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         points.addPoint(x, y + height - FLANGE);
         points.addPoint(x, y + FLANGE);
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -65,7 +67,7 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

@@ -38,6 +38,7 @@ import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -133,12 +134,13 @@ extends ActionBarContributor {
         retargetAction.setActionDefinitionId(ExportAsImageToClipboardAction.ID); // key binding
         addRetargetAction(retargetAction);
         
-        // Fill color, line width, font, color
+        // Fill color, line width, font, color, opacity
         addRetargetAction(new RetargetAction(FillColorAction.ID, FillColorAction.TEXT));
         addRetargetAction(new RetargetAction(ConnectionLineWidthAction.ID, ConnectionLineWidthAction.TEXT));
         addRetargetAction(new RetargetAction(LineColorAction.ID, LineColorAction.TEXT));
         addRetargetAction(new RetargetAction(FontAction.ID, FontAction.TEXT));
         addRetargetAction(new RetargetAction(FontColorAction.ID, FontColorAction.TEXT));
+        addRetargetAction(new RetargetAction(OpacityAction.ID, OpacityAction.TEXT));
         
         // Text Alignments
         for(RetargetAction action : TextAlignmentAction.createRetargetActions()) {
@@ -283,13 +285,16 @@ extends ActionBarContributor {
         // Copy as Image to Clipboard
         editMenu.insertAfter(ActionFactory.COPY.getId(), getAction(ExportAsImageToClipboardAction.ID));
         
-        // Fill Color Action
+        // Fill Color
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FillColorAction.ID));
         
+        // Alpha opacity
+        editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(OpacityAction.ID));
+
         // Connection Line Width and Color
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(ConnectionLineWidthAction.ID));
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(LineColorAction.ID));
-
+        
         // Font
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FontAction.ID));
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FontColorAction.ID));

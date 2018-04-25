@@ -28,3 +28,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit
 Bundle-ClassPath: .,
  mockito/mockito-all-1.9.5.jar
+Automatic-Module-Name: com.archimatetool.testsupport

@@ -36,6 +36,7 @@ import com.archimatetool.model.ITextAlignment;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFillColor <em>Fill Color</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getAlpha <em>Alpha</em>}</li>
  * </ul>
  *
  * @generated
@@ -172,6 +173,26 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     protected String fillColor = FILL_COLOR_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getAlpha() <em>Alpha</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getAlpha()
+     * @generated
+     * @ordered
+     */
+    protected static final int ALPHA_EDEFAULT = 255;
+
+    /**
+     * The cached value of the '{@link #getAlpha() <em>Alpha</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getAlpha()
+     * @generated
+     * @ordered
+     */
+    protected int alpha = ALPHA_EDEFAULT;
+
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -262,6 +283,27 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         fillColor = newFillColor;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR, oldFillColor, fillColor));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setAlpha(int newAlpha) {
+        int oldAlpha = alpha;
+        alpha = newAlpha;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA, oldAlpha, alpha));
     }
 
     /**
@@ -415,6 +457,8 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return getBounds();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 return getFillColor();
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
+                return getAlpha();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -447,6 +491,9 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 setFillColor((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
+                setAlpha((Integer)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -481,6 +528,9 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 setFillColor(FILL_COLOR_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
+                setAlpha(ALPHA_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -507,6 +557,8 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return bounds != null;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
+                return alpha != ALPHA_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -593,6 +645,8 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         result.append(textAlignment);
         result.append(", fillColor: "); //$NON-NLS-1$
         result.append(fillColor);
+        result.append(", alpha: "); //$NON-NLS-1$
+        result.append(alpha);
         result.append(')');
         return result.toString();
     }

@@ -6,7 +6,6 @@
 package com.archimatetool.editor.views.tree.actions;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.IStructuredSelection;
 
 
 /**
@@ -16,6 +15,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  */
 public interface IViewerAction extends IAction {
     
-    void update(IStructuredSelection selection);
+    void update();
     
 }

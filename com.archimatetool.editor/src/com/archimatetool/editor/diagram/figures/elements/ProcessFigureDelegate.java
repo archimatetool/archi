@@ -35,6 +35,8 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -43,7 +45,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = FigureUtils.createGradient(graphics, getBounds(), getFillColor());
+            gradient = FigureUtils.createGradient(graphics, getBounds(), getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         

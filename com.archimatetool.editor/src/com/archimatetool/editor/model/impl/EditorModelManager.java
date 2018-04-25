@@ -170,7 +170,7 @@ implements IEditorModelManager {
         getModels().add(model);
         
         // New Command Stack
-        createNewCommandStack(model);
+        createNewCommandStack(model, true);
         
         // New Archive Manager
         createNewArchiveManager(model);
@@ -216,7 +216,7 @@ implements IEditorModelManager {
         getModels().add(model);
         
         // New Command Stack
-        createNewCommandStack(model);
+        createNewCommandStack(model, true);
         
         // New Archive Manager
         createNewArchiveManager(model);
@@ -228,14 +228,23 @@ implements IEditorModelManager {
     
     @Override
     public IArchimateModel loadModel(File file) {
+        return loadModel(file, true);
+    }
+    
+    @Override
+    public IArchimateModel loadModel(File file, boolean inUI) {
         if(file == null || !file.exists()) {
             return null;
         }
         
+        IArchimateModel model = null;
+        
         // If it is already loaded return it
-        IArchimateModel model = locateLoadedModel(file);
-        if(model != null) {
-            return model;
+        if(inUI) {
+            model = locateLoadedModel(file);
+            if(model != null) {
+                return model;
+            }
         }
         
         // Ascertain if this is an archive file
@@ -260,10 +269,14 @@ implements IEditorModelManager {
             }
             catch(IncompatibleModelException ex1) {
                 // Was it a disaster?
-                MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                        Messages.EditorModelManager_2,
-                        NLS.bind(Messages.EditorModelManager_3, file)
-                        + "\n" + ex1.getMessage()); //$NON-NLS-1$
+                if(inUI) {
+                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            Messages.EditorModelManager_2,
+                            NLS.bind(Messages.EditorModelManager_3, file)
+                            + "\n" + ex1.getMessage()); //$NON-NLS-1$
+                    
+                }
+
                 return null;
             }
         }
@@ -271,35 +284,37 @@ implements IEditorModelManager {
         model = (IArchimateModel)resource.getContents().get(0);
 
         // Once loaded - check for later model version
-        boolean isLaterModelVersion = modelCompatibility.isLaterModelVersion(ModelVersion.VERSION);
-        if(isLaterModelVersion) {
-            boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    Messages.EditorModelManager_4,
-                    NLS.bind(Messages.EditorModelManager_5,
-                            file, model.getVersion()));
-            if(!answer) {
-                return null;
-            }
-        }
-        // Check for unknown model features which might be OK to load
-        else {
-            List<Diagnostic> exceptions = modelCompatibility.getAcceptableExceptions();
-            if(!exceptions.isEmpty()) {
-                String message = ""; //$NON-NLS-1$
-                for(int i = 0; i < exceptions.size(); i++) {
-                    if(i == 3) {
-                        message += (exceptions.size() - 3) + " " + Messages.EditorModelManager_12; //$NON-NLS-1$
-                        break;
-                    }
-                    message += exceptions.get(i).getMessage() + "\n"; //$NON-NLS-1$
-                }
-                
+        if(inUI) {
+            boolean isLaterModelVersion = modelCompatibility.isLaterModelVersion(ModelVersion.VERSION);
+            if(isLaterModelVersion) {
                 boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                         Messages.EditorModelManager_4,
-                        NLS.bind(Messages.EditorModelManager_13, file)
-                        + "\n\n" + message); //$NON-NLS-1$
+                        NLS.bind(Messages.EditorModelManager_5,
+                                file, model.getVersion()));
                 if(!answer) {
                     return null;
+                }
+            }
+            // Check for unknown model features which might be OK to load
+            else {
+                List<Diagnostic> exceptions = modelCompatibility.getAcceptableExceptions();
+                if(!exceptions.isEmpty()) {
+                    String message = ""; //$NON-NLS-1$
+                    for(int i = 0; i < exceptions.size(); i++) {
+                        if(i == 3) {
+                            message += (exceptions.size() - 3) + " " + Messages.EditorModelManager_12; //$NON-NLS-1$
+                            break;
+                        }
+                        message += exceptions.get(i).getMessage() + "\n"; //$NON-NLS-1$
+                    }
+                    
+                    boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                            Messages.EditorModelManager_4,
+                            NLS.bind(Messages.EditorModelManager_13, file)
+                            + "\n\n" + message); //$NON-NLS-1$
+                    if(!answer) {
+                        return null;
+                    }
                 }
             }
         }
@@ -313,20 +328,25 @@ implements IEditorModelManager {
 
         model.setFile(file);
         model.setDefaults();
-        getModels().add(model);
-        model.eAdapters().add(new ECoreAdapter());
+        
+        if(inUI) {
+            getModels().add(model);
+            model.eAdapters().add(new ECoreAdapter());
+        }
 
         // New Command Stack
-        createNewCommandStack(model);
+        createNewCommandStack(model, inUI);
         
         // New Archive Manager
         createNewArchiveManager(model);
         
-        // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
-        markDiagramModelsAsSaved(model);
+        if(inUI) {
+            // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
+            markDiagramModelsAsSaved(model);
 
-        // This last
-        firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
+            // This last
+            firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
+        }
         
         return model;
     }
@@ -537,19 +557,21 @@ implements IEditorModelManager {
      * Create a new ComandStack for the Model
      * @param model
      */
-    private void createNewCommandStack(final IArchimateModel model) {
+    private void createNewCommandStack(final IArchimateModel model, boolean inUI) {
         CommandStack cmdStack = new CommandStack();
         
-        // Forward on CommandStack Event to Tree
-        cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
-            public void stackChanged(CommandStackEvent event) {
-                // Send notification to Tree
-                firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
-            }
-        });
-        
-        // Animate Commands
-        AnimationUtil.registerCommandStack(cmdStack);
+        if(inUI) {
+            // Forward on CommandStack Event to Tree
+            cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
+                public void stackChanged(CommandStackEvent event) {
+                    // Send notification to Tree
+                    firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
+                }
+            });
+            
+            // Animate Commands
+            AnimationUtil.registerCommandStack(cmdStack);
+        }
         
         model.setAdapter(CommandStack.class, cmdStack);
     }

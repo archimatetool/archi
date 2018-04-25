@@ -11,18 +11,12 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.commandline.AbstractCommandLineProvider;
 import com.archimatetool.commandline.CommandLineState;
-import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
-import com.archimatetool.editor.model.compatibility.ModelCompatibility;
+import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 
 
 /**
@@ -59,7 +53,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
             String filePath = commandLine.getOptionValue(OPTION_LOAD_FILE_MODEL);
             File file = new File(filePath);
             
-            IArchimateModel model = loadModel(file);
+            IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file, false);
             
             if(model == null) {
                 throw new IOException(Messages.LoadModelFromFileProvider_3);
@@ -71,48 +65,6 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
         }
     }
     
-    static IArchimateModel loadModel(File file) throws IOException {
-        if(file == null || !file.exists()) {
-            return null;
-        }
-        
-        // Ascertain if this is an archive file
-        boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
-
-        // Create the Resource
-        Resource resource = ArchimateResourceFactory.createNewResource(useArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
-
-        // Check model compatibility
-        ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
-        
-        // Load model
-        resource.load(null);
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
-        
-        // And then fix any backward compatibility issues
-        try {
-            modelCompatibility.fixCompatibility();
-        }
-        catch(CompatibilityHandlerException ex) {
-        }
-
-        model.setFile(file);
-        model.setDefaults();
-        
-        // Add an Archive Manager and load images
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
-        model.setAdapter(IArchiveManager.class, archiveManager);
-        archiveManager.loadImages();
-        
-        // Add a Command Stack
-        CommandStack cmdStack = new CommandStack();
-        model.setAdapter(CommandStack.class, cmdStack);
-
-        return model;
-    }
-
     public int getPriority() {
         return PRIORITY_LOAD_OR_CREATE_MODEL;
     }

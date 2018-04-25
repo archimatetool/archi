@@ -17,6 +17,7 @@ package com.archimatetool.model;
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getFillColor <em>Fill Color</em>}</li>
+ *   <li>{@link com.archimatetool.model.IDiagramModelObject#getAlpha <em>Alpha</em>}</li>
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject()
@@ -75,6 +76,33 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @generated
      */
     void setFillColor(String value);
+
+    /**
+     * Returns the value of the '<em><b>Alpha</b></em>' attribute.
+     * The default value is <code>"255"</code>.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Alpha</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Alpha</em>' attribute.
+     * @see #setAlpha(int)
+     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject_Alpha()
+     * @model default="255"
+     * @generated
+     */
+    int getAlpha();
+
+    /**
+     * Sets the value of the '{@link com.archimatetool.model.IDiagramModelObject#getAlpha <em>Alpha</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Alpha</em>' attribute.
+     * @see #getAlpha()
+     * @generated
+     */
+    void setAlpha(int value);
 
     /**
      * <!-- begin-user-doc -->

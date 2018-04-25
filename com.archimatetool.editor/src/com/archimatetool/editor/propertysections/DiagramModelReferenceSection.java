@@ -5,16 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 
 
@@ -24,7 +19,7 @@ import com.archimatetool.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceSection extends AbstractArchimatePropertySection {
+public class DiagramModelReferenceSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -33,74 +28,56 @@ public class DiagramModelReferenceSection extends AbstractArchimatePropertySecti
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IDiagramModelReference;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
-            return IDiagramModelObject.class;
+        public Class<?> getAdaptableType() {
+            return IDiagramModelReference.class;
+        }
+        
+        @Override
+        public Object adaptObject(Object object) {
+            // Return the referenced diagram model
+            Object adapted = super.adaptObject(object);
+            return adapted == null ? null : ((IDiagramModelReference)adapted).getReferencedModel();
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model Name event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refreshNameField();
-                fPage.labelProviderChanged(null); // Update Main label
-            }
-        }
-    };
-    
-    private IDiagramModel fDiagramModel;
-    
     private PropertySectionTextControl fTextName;
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, Messages.DiagramModelSection_0);
+        fTextName = createNameControl(parent, Messages.DiagramModelReferenceSection_0);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
     @Override
-    protected void setElement(Object element) {
-        IDiagramModelReference ref = (IDiagramModelReference)new Filter().adaptObject(element);
-        if(ref == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
+                update();
+                fPage.labelProviderChanged(null); // Update Main label
+            }
         }
-        else {
-            fDiagramModel = ref.getReferencedModel();
-        }
+    }
 
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
-        refreshNameField();
-    }
-    
-    protected void refreshNameField() {
+    @Override
+    protected void update() {
         if(fIsExecutingCommand) {
             return; 
         }
-        fTextName.refresh(fDiagramModel);
+        
+        fTextName.refresh(getFirstSelectedObject());
     }
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fDiagramModel;
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
 }

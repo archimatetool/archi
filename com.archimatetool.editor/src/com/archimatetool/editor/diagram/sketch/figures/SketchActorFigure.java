@@ -32,6 +32,8 @@ public class SketchActorFigure extends AbstractLabelFigure {
     protected void paintFigure(Graphics graphics) {
         super.paintFigure(graphics);
         
+        graphics.setAlpha(getAlpha());
+        
         graphics.setForegroundColor(getFillColor());
         
         graphics.setAntialias(SWT.ON);

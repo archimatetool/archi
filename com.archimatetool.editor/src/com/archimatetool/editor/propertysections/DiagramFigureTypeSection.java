@@ -6,10 +6,7 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -38,7 +35,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
+public class DiagramFigureTypeSection extends AbstractECorePropertySection {
 
     private static final String HELP_ID = "com.archimatetool.help.diagramFigureTypeSection"; //$NON-NLS-1$
     
@@ -47,7 +44,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             if(object instanceof IDiagramModelArchimateObject) {
                 IArchimateElementUIProvider provider = (IArchimateElementUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelArchimateObject)object);
                 return provider.hasAlternateFigure();
@@ -56,26 +53,10 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IDiagramModelArchimateObject.class;
         }
     }
-    
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private IDiagramModelArchimateObject fDiagramObject;
     
     private ImageFigure figure1, figure2;
 
@@ -88,8 +69,11 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         figure2 = new ImageFigure(parent);
     }
     
-    protected void refreshControls() {
-        IArchimateElement element = fDiagramObject.getArchimateElement();
+    @Override
+    protected void update() {
+        IDiagramModelArchimateObject diagramObject = (IDiagramModelArchimateObject)getFirstSelectedObject();
+        
+        IArchimateElement element = diagramObject.getArchimateElement();
         
         Image image1 = FigureImagePreviewFactory.getFigurePreviewImageForClass(element.eClass());
         Image image2 = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(element.eClass());
@@ -99,31 +83,27 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         
         figure1.getParent().layout();
 
-        int type = fDiagramObject.getType();
+        int type = diagramObject.getType();
         figure1.setSelected(type == 0);
         figure2.setSelected(type == 1);
     }
 
     @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fDiagramObject;
-    }
-
-    @Override
-    protected void setElement(Object element) {
-        fDiagramObject = (IDiagramModelArchimateObject)new Filter().adaptObject(element);
-        if(fDiagramObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
-        }
-        
-        refreshControls();
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
+    @Override
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
+                update();
+            }
+        }
+    }
+
     @Override
     public boolean shouldUseExtraSpace() {
         // Need this so different image heights draw correctly
@@ -161,9 +141,12 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseDown(MouseEvent e) {
-                    if(!selected && isAlive()) {
-                        int newType = fDiagramObject.getType() == 0 ? 1 : 0;
-                        getCommandStack().execute(new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, getEObject(),
+                    IDiagramModelArchimateObject diagramObject = (IDiagramModelArchimateObject)getFirstSelectedObject();
+                    
+                    if(!selected && isAlive(diagramObject)) {
+                        int newType = diagramObject.getType() == 0 ? 1 : 0;
+                        
+                        executeCommand(new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, diagramObject,
                                 IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, newType));
                     }
                 }

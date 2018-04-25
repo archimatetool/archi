@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -23,7 +23,6 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
-import com.archimatetool.model.ILockable;
 
 
 
@@ -32,7 +31,7 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
-public class BorderColorSection extends AbstractArchimatePropertySection {
+public class BorderColorSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -41,48 +40,40 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof IBorderObject;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return IBorderObject.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
     /**
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
-            if(isAlive()) {
-                RGB rgb = fColorChooser.getColorValue();
-                String newColor = ColorFactory.convertRGBToString(rgb);
-                if(!newColor.equals(fBorderObject.getBorderColor())) {
-                    getCommandStack().execute(new BorderColorCommand(fBorderObject, newColor));
+            CompoundCommand result = new CompoundCommand();
+
+            for(EObject bo : getEObjects()) {
+                if(isAlive(bo)) {
+                    RGB rgb = fColorChooser.getColorValue();
+                    String newColor = ColorFactory.convertRGBToString(rgb);
+                    if(!newColor.equals(((IBorderObject)bo).getBorderColor())) {
+                        Command cmd = new BorderColorCommand((IBorderObject)bo, newColor);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
             }
+
+            executeCommand(result.unwrap());
         }
     };
     
-    private IBorderObject fBorderObject;
-
     private ColorChooser fColorChooser;
     
     private IAction fNoBorderAction;
@@ -106,11 +97,21 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         fNoBorderAction = new Action(Messages.BorderColorSection_1) {
             @Override
             public void run() {
-                if(isAlive()) {
-                    getCommandStack().execute(new BorderColorCommand(fBorderObject, null));
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject bo : getEObjects()) {
+                    if(isAlive(bo)) {
+                        Command cmd = new BorderColorCommand((IBorderObject)bo, null);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         };
+        
         fColorChooser.addMenuAction(fNoBorderAction);
         
         getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
@@ -118,17 +119,21 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     }
     
     @Override
-    protected void setElement(Object element) {
-        fBorderObject = (IBorderObject)new Filter().adaptObject(element);
-        if(fBorderObject == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
     }
     
-    protected void refreshControls() {
-        String colorValue = fBorderObject.getBorderColor();
+    @Override
+    protected void update() {
+        IBorderObject bo = (IBorderObject)getFirstSelectedObject();
+        
+        String colorValue = bo.getBorderColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb == null) {
             rgb = new RGB(0, 0, 0);
@@ -136,11 +141,15 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         
         fColorChooser.setColorValue(rgb);
         
-        boolean enabled = fBorderObject instanceof ILockable ? !((ILockable)fBorderObject).isLocked() : true;
-        fColorChooser.setEnabled(enabled);
+        fColorChooser.setEnabled(!isLocked(bo));
         
         fNoBorderAction.setEnabled(colorValue != null);
         fColorChooser.setDoShowColorImage(colorValue != null);
+    }
+    
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
     }
     
     @Override
@@ -150,15 +159,5 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         if(fColorChooser != null) {
             fColorChooser.removeListener(colorListener);
         }
-    }
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
-    }
-
-    @Override
-    protected EObject getEObject() {
-        return fBorderObject;
     }
 }

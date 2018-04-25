@@ -254,7 +254,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="SpecializationRelationship" eSuperTypes="#//OtherRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//DynamicRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
-      eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
+      eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable #//ArchimateModelObject">
     <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connectable" abstract="true" eSuperTypes="#//DiagramModelComponent">
@@ -307,6 +307,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" eType="#//Bounds"
         containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="255"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

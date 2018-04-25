@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %productName
 Bundle-SymbolicName: com.archimatetool.help;singleton:=true
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
@@ -20,3 +20,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.archimatetool.help,
  com.archimatetool.help.cheatsheets,
  com.archimatetool.help.hints
+Automatic-Module-Name: com.archimatetool.help

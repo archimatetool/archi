@@ -71,6 +71,13 @@ public class FigureUtils {
      * Create a Pattern class with consideration to the scale of the Graphics class using the default gradient direction and default gradient end color
      */
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color) {
+        return createGradient(graphics, r, color, 255);
+    }
+
+    /**
+     * Create a Pattern class with consideration to the scale of the Graphics class using the default gradient direction and default gradient end color and alpha transparency
+     */
+    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
         Direction direction = Direction.TOP;
         Color endColor = ColorConstants.white;
         
@@ -81,20 +88,19 @@ public class FigureUtils {
             case TOP:
             default:
                 int delta = (int) (r.height * deltaFactor); 
-                return createGradient(graphics, Display.getDefault(), r.x, r.y, r.x, r.getBottom().y + delta, color, endColor);
+                return createGradient(graphics, Display.getDefault(), r.x, r.y, r.x, r.getBottom().y + delta, color, alpha, endColor, alpha);
             
             case LEFT:
                 delta = (int) (r.width * deltaFactor); 
-                return createGradient(graphics, Display.getDefault(), r.x, r.y, r.getRight().x + delta, r.y, color, endColor);
+                return createGradient(graphics, Display.getDefault(), r.x, r.y, r.getRight().x + delta, r.y, color, alpha, endColor, alpha);
             
             case RIGHT:
                 delta = (int) (r.width * deltaFactor); 
-                return createGradient(graphics, Display.getDefault(), r.getRight().x, r.y, r.x - delta, r.y, color, endColor);
+                return createGradient(graphics, Display.getDefault(), r.getRight().x, r.y, r.x - delta, r.y, color, alpha, endColor, alpha);
             
             case BOTTOM:
                 delta = (int) (r.height * deltaFactor); 
-                return createGradient(graphics, Display.getDefault(), r.x, r.getBottom().y, r.x, r.y - delta, color, endColor);
+                return createGradient(graphics, Display.getDefault(), r.x, r.getBottom().y, r.x, r.y - delta, color, alpha, endColor, alpha);
         }
     }
-
 }

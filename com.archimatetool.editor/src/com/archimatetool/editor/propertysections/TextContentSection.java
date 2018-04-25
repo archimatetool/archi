@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -16,7 +16,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextContent;
 
 
@@ -26,7 +25,7 @@ import com.archimatetool.model.ITextContent;
  * 
  * @author Phillip Beauvoir
  */
-public class TextContentSection extends AbstractArchimatePropertySection {
+public class TextContentSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -35,32 +34,16 @@ public class TextContentSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        protected boolean isRequiredType(Object object) {
+        public boolean isRequiredType(Object object) {
             return object instanceof ITextContent;
         }
 
         @Override
-        protected Class<?> getAdaptableType() {
+        public Class<?> getAdaptableType() {
             return ITextContent.class;
         }
     }
 
-    /*
-     * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
-     */
-    private Adapter eAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            Object feature = msg.getFeature();
-            // Model Name event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.TEXT_CONTENT__CONTENT ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshControls();
-            }
-        }
-    };
-    
-    private ITextContent fTextContent;
     
     private PropertySectionTextControl fTextContentControl;
     
@@ -73,14 +56,22 @@ public class TextContentSection extends AbstractArchimatePropertySection {
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {
             @Override
             protected void textChanged(String oldText, String newText) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.TextContentSection_1, fTextContent,
-                                                IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, newText));
-                    fIsExecutingCommand = false;
+                CompoundCommand result = new CompoundCommand();
+                
+                for(EObject textContent : getEObjects()) {
+                    if(isAlive(textContent)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.TextContentSection_1, textContent,
+                                IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, newText);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
                 }
+
+                executeCommand(result.unwrap());
             }
         };
+        
         fTextContentControl.setHint(Messages.TextContentSection_2);
         
         // Help
@@ -88,35 +79,33 @@ public class TextContentSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected void setElement(Object element) {
-        fTextContent = (ITextContent)new Filter().adaptObject(element);
-        if(fTextContent == null) {
-            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+    protected void notifyChanged(Notification msg) {
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.TEXT_CONTENT__CONTENT ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
-        
-        refreshControls();
-    }
-    
-    protected void refreshControls() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        fTextContentControl.refresh(fTextContent);
-        
-        boolean enabled = fTextContent instanceof ILockable ? !((ILockable)fTextContent).isLocked() : true;
-        fTextContentControl.setEditable(enabled);
-    }
-    
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
     }
 
     @Override
-    protected EObject getEObject() {
-        return fTextContent;
+    protected void update() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
+        
+        fTextContentControl.refresh(getFirstSelectedObject());
+        
+        fTextContentControl.setEditable(!isLocked(getFirstSelectedObject()));
     }
     
+    @Override
+    protected IObjectFilter getFilter() {
+        return new Filter();
+    }
+
     @Override
     public boolean shouldUseExtraSpace() {
         return true;

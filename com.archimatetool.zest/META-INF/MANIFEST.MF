@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Zest Visualiser
 Bundle-SymbolicName: com.archimatetool.zest;singleton:=true
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-Activator: com.archimatetool.zest.ArchiZestPlugin
 Bundle-ClassPath: com.archimatetool.zest.jar
 Export-Package: com.archimatetool.zest
+Automatic-Module-Name: com.archimatetool.zest

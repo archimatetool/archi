@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Reports
 Bundle-SymbolicName: com.archimatetool.reports;singleton:=true
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -18,3 +18,4 @@ Bundle-Activator: com.archimatetool.reports.ArchiReportsPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.reports,
  com.archimatetool.reports.html
+Automatic-Module-Name: com.archimatetool.reports

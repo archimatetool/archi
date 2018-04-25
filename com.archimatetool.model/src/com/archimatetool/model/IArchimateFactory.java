@@ -33,6 +33,14 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IProperty createProperty();
+    
+    /**
+     * Convenience method to create a Property
+     * @param key The key
+     * @param value The value
+     * @return New property
+     */
+    IProperty createProperty(String key, String value);
 
     /**
      * Returns a new object of class '<em>Metadata</em>'.
