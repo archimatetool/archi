@@ -232,14 +232,10 @@ implements IEditorModelManager {
             return null;
         }
         
-        IArchimateModel model = null;
-        
         // If it is already loaded return it
-        if(PlatformUI.isWorkbenchRunning()) {
-            model = locateLoadedModel(file);
-            if(model != null) {
-                return model;
-            }
+        IArchimateModel model = locateLoadedModel(file);
+        if(model != null) {
+            return model;
         }
         
         // Ascertain if this is an archive file
@@ -324,10 +320,8 @@ implements IEditorModelManager {
         model.setFile(file);
         model.setDefaults();
         
-        if(PlatformUI.isWorkbenchRunning()) {
-            getModels().add(model);
-            model.eAdapters().add(new ECoreAdapter());
-        }
+        getModels().add(model);
+        model.eAdapters().add(new ECoreAdapter());
 
         // New Command Stack
         createNewCommandStack(model);
@@ -335,13 +329,11 @@ implements IEditorModelManager {
         // New Archive Manager
         createNewArchiveManager(model);
         
-        if(PlatformUI.isWorkbenchRunning()) {
-            // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
-            markDiagramModelsAsSaved(model);
+        // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
+        markDiagramModelsAsSaved(model);
 
-            // This last
-            firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
-        }
+        // This last
+        firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
         
         return model;
     }
