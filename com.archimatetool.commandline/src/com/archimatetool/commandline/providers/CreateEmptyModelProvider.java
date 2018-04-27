@@ -86,7 +86,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
         tmp.deleteOnExit();
 
         File file = ZipUtils.extractZipEntry(fileTemplate, "model.archimate", tmp); //$NON-NLS-1$
-        IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file, false);
+        IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file);
 
         if(model == null) {
             logError(Messages.CreateEmptyModelProvider_4);

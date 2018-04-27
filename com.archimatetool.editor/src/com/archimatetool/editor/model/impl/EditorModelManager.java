@@ -170,7 +170,7 @@ implements IEditorModelManager {
         getModels().add(model);
         
         // New Command Stack
-        createNewCommandStack(model, true);
+        createNewCommandStack(model);
         
         // New Archive Manager
         createNewArchiveManager(model);
@@ -216,7 +216,7 @@ implements IEditorModelManager {
         getModels().add(model);
         
         // New Command Stack
-        createNewCommandStack(model, true);
+        createNewCommandStack(model);
         
         // New Archive Manager
         createNewArchiveManager(model);
@@ -228,11 +228,6 @@ implements IEditorModelManager {
     
     @Override
     public IArchimateModel loadModel(File file) {
-        return loadModel(file, true);
-    }
-    
-    @Override
-    public IArchimateModel loadModel(File file, boolean inUI) {
         if(file == null || !file.exists()) {
             return null;
         }
@@ -240,7 +235,7 @@ implements IEditorModelManager {
         IArchimateModel model = null;
         
         // If it is already loaded return it
-        if(inUI) {
+        if(PlatformUI.isWorkbenchRunning()) {
             model = locateLoadedModel(file);
             if(model != null) {
                 return model;
@@ -269,7 +264,7 @@ implements IEditorModelManager {
             }
             catch(IncompatibleModelException ex1) {
                 // Was it a disaster?
-                if(inUI) {
+                if(PlatformUI.isWorkbenchRunning()) {
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
                             Messages.EditorModelManager_2,
                             NLS.bind(Messages.EditorModelManager_3, file)
@@ -284,7 +279,7 @@ implements IEditorModelManager {
         model = (IArchimateModel)resource.getContents().get(0);
 
         // Once loaded - check for later model version
-        if(inUI) {
+        if(PlatformUI.isWorkbenchRunning()) {
             boolean isLaterModelVersion = modelCompatibility.isLaterModelVersion(ModelVersion.VERSION);
             if(isLaterModelVersion) {
                 boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
@@ -329,18 +324,18 @@ implements IEditorModelManager {
         model.setFile(file);
         model.setDefaults();
         
-        if(inUI) {
+        if(PlatformUI.isWorkbenchRunning()) {
             getModels().add(model);
             model.eAdapters().add(new ECoreAdapter());
         }
 
         // New Command Stack
-        createNewCommandStack(model, inUI);
+        createNewCommandStack(model);
         
         // New Archive Manager
         createNewArchiveManager(model);
         
-        if(inUI) {
+        if(PlatformUI.isWorkbenchRunning()) {
             // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
             markDiagramModelsAsSaved(model);
 
@@ -358,7 +353,7 @@ implements IEditorModelManager {
         }
         
         // Check if model needs saving
-        if(isModelDirty(model)) {
+        if(PlatformUI.isWorkbenchRunning() && isModelDirty(model)) {
             boolean result = askSaveModel(model);
             if(!result) {
                 return false;
@@ -557,10 +552,10 @@ implements IEditorModelManager {
      * Create a new ComandStack for the Model
      * @param model
      */
-    private void createNewCommandStack(final IArchimateModel model, boolean inUI) {
+    private void createNewCommandStack(final IArchimateModel model) {
         CommandStack cmdStack = new CommandStack();
         
-        if(inUI) {
+        if(PlatformUI.isWorkbenchRunning()) {
             // Forward on CommandStack Event to Tree
             cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
                 public void stackChanged(CommandStackEvent event) {
