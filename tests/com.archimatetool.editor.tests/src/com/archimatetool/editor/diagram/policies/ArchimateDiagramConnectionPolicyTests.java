@@ -171,7 +171,9 @@ public class ArchimateDiagramConnectionPolicyTests {
         IDiagramModelReference dmRef = IArchimateFactory.eINSTANCE.createDiagramModelReference();
         
         // Source == Target
-        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(group, group, relationshipType));
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(note, note, relationshipType));
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(group, group, relationshipType));
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmRef, dmRef, relationshipType));
 
         // Both ArchiMate types
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(dmao1, dmao2, relationshipType));
