@@ -18,7 +18,6 @@ import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
@@ -30,11 +29,8 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
@@ -44,8 +40,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.UIUtils;
-import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
+import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
@@ -67,8 +62,6 @@ import com.archimatetool.model.INameable;
  * @author Phillip Beauvoir
  */
 public class TreeModelViewer extends TreeViewer {
-    
-    private TextCellEditor fCellEditor;
     
     /**
      * Show elements as grey if not in Viewpoint
@@ -138,9 +131,9 @@ public class TreeModelViewer extends TreeViewer {
         });
         
         // Cell Editor
-        fCellEditor = new TreeTextCellEditor(getTree());
+        TreeTextCellEditor cellEditor = new TreeTextCellEditor(getTree());
         setColumnProperties(new String[]{ "col1" }); //$NON-NLS-1$
-        setCellEditors(new CellEditor[]{ fCellEditor });
+        setCellEditors(new CellEditor[]{ cellEditor });
         
         // Edit cell programmatically, not on mouse click
         TreeViewerEditor.create(this, new ColumnViewerEditorActivationStrategy(this){
@@ -151,7 +144,7 @@ public class TreeModelViewer extends TreeViewer {
             
         }, ColumnViewerEditor.DEFAULT);
         
-        setCellEditors(new CellEditor[]{ fCellEditor });
+        setCellEditors(new CellEditor[]{ cellEditor });
         
         setCellModifier(new ICellModifier() {
             @Override
@@ -373,53 +366,4 @@ public class TreeModelViewer extends TreeViewer {
         }
     }
     
-    // ========================= Text Cell Editor =====================================
-    
-    private class TreeTextCellEditor extends TextCellEditor {
-        int minHeight = 0;
-        CellEditorGlobalActionHandler fGlobalActionHandler;
-
-        public TreeTextCellEditor(Tree tree) {
-            super(tree, SWT.BORDER);
-            Text txt = (Text)getControl();
-            
-            // Filter out nasties
-            UIUtils.applyInvalidCharacterFilter(txt);
-            
-            // Not sure if we need this
-            //UIUtils.conformSingleTextControl(txt);
-
-            FontData[] fontData = txt.getFont().getFontData();
-            if(fontData != null && fontData.length > 0) {
-                minHeight = fontData[0].getHeight() + 10;
-            }
-        }
-
-        @Override
-        public LayoutData getLayoutData() {
-            LayoutData data = super.getLayoutData();
-            if(minHeight > 0) {
-                data.minimumHeight = minHeight;
-            }
-            return data;
-        }
-        
-        @Override
-        public void activate() {
-            // Clear global key binds
-            fGlobalActionHandler = new CellEditorGlobalActionHandler();
-            fGlobalActionHandler.clearGlobalActions();
-        }
-        
-        @Override
-        public void deactivate() {
-            super.deactivate();
-            
-            // Restore global key binds
-            if(fGlobalActionHandler != null) {
-                fGlobalActionHandler.restoreGlobalActions();
-                fGlobalActionHandler = null;
-            }
-        }
-    }
 }
