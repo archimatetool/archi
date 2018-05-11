@@ -9,6 +9,7 @@ import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IInfluenceRelationship;
 
 
@@ -40,7 +41,11 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
     @Override
     protected void setConnectionText() {
         IInfluenceRelationship rel = (IInfluenceRelationship)getModelConnection().getArchimateRelationship();
-        getConnectionLabel().setText(getModelConnection().getName() + " " + rel.getStrength()); //$NON-NLS-1$
+        String text = getModelConnection().getName();
+        if(StringUtils.isSet(rel.getStrength())) {
+            text += " " + rel.getStrength(); //$NON-NLS-1$
+        }
+        getConnectionLabel().setText(text);
     }
     
     @Override
