@@ -274,9 +274,10 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
          */
         if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
             // Not circular
-            if(source == target) {
-                return false;
-            }
+            // Edit - allowed for JB!
+            //if(source == target) {
+                //return false;
+            //}
             // Notes
             if(source instanceof IDiagramModelNote || target instanceof IDiagramModelNote) {
                 return true;
