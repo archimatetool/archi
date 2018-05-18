@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -136,6 +137,9 @@ public class CentralScrutinizer implements IApplication {
     // Run providers' options
     @SuppressWarnings("deprecation")
     private int runProviderOptions(CommandLine commandLine) {
+        // Ensure Display is initialised
+        ensureDefaultDisplay();
+        
         // Invoke providers' run() method
         for(ICommandLineProvider provider : providers.keySet()) {
             try {
@@ -214,6 +218,17 @@ public class CentralScrutinizer implements IApplication {
     }
     
     public void stop() {
+    }
+
+    
+    /**
+     * Some classes like ColorFactory use the Display class to do their thing
+     * This ensures that the default display is created
+     */
+    private void ensureDefaultDisplay() {
+        if(Display.getCurrent() == null) {
+            Display.getDefault();
+        }
     }
 
 }

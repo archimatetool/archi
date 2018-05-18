@@ -25,8 +25,8 @@ import com.archimatetool.reports.html.HTMLReportExporter;
  * Typical usage - (should be all on one line):
  * 
  * Archi -consoleLog -nosplash -application com.archimatetool.commandline.app
-   -loadModel "/pathToModel/model.archimate"
-   -createHTMLReport "/pathToOutputFolder"
+   --loadModel "/pathToModel/model.archimate"
+   --html.createReport "/pathToOutputFolder"
  * 
  * @author Phillip Beauvoir
  */
