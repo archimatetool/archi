@@ -17,6 +17,10 @@ public class Messages extends NLS {
     public static String CentralScrutinizer_4;
 
     public static String CentralScrutinizer_5;
+
+    public static String CentralScrutinizer_6;
+
+    public static String CentralScrutinizer_7;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

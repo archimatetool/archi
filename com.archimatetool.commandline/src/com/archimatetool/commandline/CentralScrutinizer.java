@@ -5,6 +5,7 @@
  */
 package com.archimatetool.commandline;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Map;
@@ -68,6 +69,9 @@ public class CentralScrutinizer implements IApplication {
         // Show help if set and exit
         if(commandLine.hasOption("help")) { //$NON-NLS-1$
             showHelp();
+            if(commandLine.hasOption("pause")) { //$NON-NLS-1$
+                pause();
+            }
             return EXIT_OK;
         }
         
@@ -130,6 +134,7 @@ public class CentralScrutinizer implements IApplication {
         
         options.addOption("h", "help", false, Messages.CentralScrutinizer_0); //$NON-NLS-1$ //$NON-NLS-2$
         options.addOption("a", "abortOnException", false, Messages.CentralScrutinizer_1); //$NON-NLS-1$ //$NON-NLS-2$
+        options.addOption("p", "pause", false, Messages.CentralScrutinizer_6); //$NON-NLS-1$ //$NON-NLS-2$
         
         return options;
     }
@@ -163,6 +168,10 @@ public class CentralScrutinizer implements IApplication {
                     // Consume?
                 }
             }
+        }
+        
+        if(commandLine.hasOption("pause")) { //$NON-NLS-1$
+            pause();
         }
         
         return EXIT_OK;
@@ -220,6 +229,17 @@ public class CentralScrutinizer implements IApplication {
     public void stop() {
     }
 
+    private void pause() {
+        System.out.println();
+        System.out.println(Messages.CentralScrutinizer_7);
+        
+        try {
+            System.in.read();
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     
     /**
      * Some classes like ColorFactory use the Display class to do their thing
