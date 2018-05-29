@@ -128,6 +128,7 @@ public class ZipUtilsTests {
         assertTrue(true);
     }
     
+    @Test
     public void testAddImageToZip() throws IOException {
         // Zip file
         File tmpZipFile = TestUtils.createTempFile(".zip");
