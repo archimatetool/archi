@@ -128,7 +128,6 @@ public class ZipUtilsTests {
         assertTrue(true);
     }
     
-    @Test
     public void testAddImageToZip() throws IOException {
         // Zip file
         File tmpZipFile = TestUtils.createTempFile(".zip");
@@ -251,4 +250,27 @@ public class ZipUtilsTests {
         ZipUtils.unpackZip(new File("bogus_file.zip"), TestUtils.createTempFolder("ziptest"));
     }
 
+    /**
+     * Test for cases where a zip entry has "../../file" which would unpack and possibly over-write a file
+     * in a parent folder.
+     */
+    @Test (expected=IOException.class)
+    public void testUnpackZipFileTriesToUnzipInParentRelativeFolder() throws Exception {
+        // Create a Zip file
+        File tmpZipFile = TestUtils.createTempFile(".zip");
+        
+        // Add afile
+        File srcFile = new File(TestSupport.getTestDataFolder(), "filetest/readme.txt");
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmpZipFile));
+        ZipOutputStream zOut = new ZipOutputStream(out);
+        
+        // But add it with a malicious path
+        ZipUtils.addFileToZip(srcFile, "../../" + srcFile.getName(), zOut);
+        zOut.flush();
+        zOut.close();
+
+        // Now unpack it and expect an exception
+        File folderTemp = new File(TestUtils.getMainTempFolder(), "ziptest");
+        ZipUtils.unpackZip(tmpZipFile, folderTemp);
+    }
 }

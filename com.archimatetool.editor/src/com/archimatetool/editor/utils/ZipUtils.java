@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -468,6 +470,15 @@ public final class ZipUtils {
 				// Don't add directories
 				if(!zipEntry.isDirectory()) {
 					File outFile = new File(targetFolder, zipEntry.getName());
+					
+					// Check that the path of the outfile is a sub-directory of targetFolder
+					// To ensure that it doesn't over-write something it shouldn't from entries like "../../entry"
+					Path parentFolder = Paths.get(targetFolder.getCanonicalPath());
+					Path childFile = Paths.get(outFile.getCanonicalPath());
+					if(!childFile.startsWith(parentFolder)) {
+					    zIn.close();
+					    throw new IOException("Attempt to write file outside of folder: " + childFile); //$NON-NLS-1$
+					}
 					
 					// Ensure that the parent Folder exists
 					if(!outFile.getParentFile().exists()) {
