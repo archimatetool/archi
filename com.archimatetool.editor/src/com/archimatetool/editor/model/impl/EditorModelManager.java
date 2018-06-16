@@ -167,7 +167,9 @@ implements IEditorModelManager {
         }
         
         // Add to Models
-        getModels().add(model);
+        if(!getModels().contains(model)) {
+            getModels().add(model);
+        }
         
         // New Command Stack
         createNewCommandStack(model);
@@ -176,7 +178,9 @@ implements IEditorModelManager {
         createNewArchiveManager(model);
         
         firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
-        model.eAdapters().add(new ECoreAdapter());
+        
+        // New Ecore Adapter
+        createNewECoreAdapter(model);
     }
     
     @Override
@@ -221,7 +225,8 @@ implements IEditorModelManager {
         // New Archive Manager
         createNewArchiveManager(model);
         
-        model.eAdapters().add(new ECoreAdapter());
+        // New Ecore Adapter
+        createNewECoreAdapter(model);
 
         firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
     }
@@ -321,7 +326,9 @@ implements IEditorModelManager {
         model.setDefaults();
         
         getModels().add(model);
-        model.eAdapters().add(new ECoreAdapter());
+        
+        // New Ecore Adapter
+        createNewECoreAdapter(model);
 
         // New Command Stack
         createNewCommandStack(model);
@@ -540,6 +547,12 @@ implements IEditorModelManager {
         return file;
     }
     
+    private void createNewECoreAdapter(IArchimateModel model) {
+        if(model.getAdapter(ECoreAdapter.class) == null) {
+            model.eAdapters().add(new ECoreAdapter());
+        }
+    }
+    
     /**
      * Create a new ComandStack for the Model
      * @param model
@@ -587,6 +600,9 @@ implements IEditorModelManager {
      * Create a new ArchiveManager for the model
      */
     private IArchiveManager createNewArchiveManager(IArchimateModel model) {
+        // dispose any previous one
+        deleteArchiveManager(model);
+        
         IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
         model.setAdapter(IArchiveManager.class, archiveManager);
         
