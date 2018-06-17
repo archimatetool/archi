@@ -163,7 +163,6 @@ public interface IArchiImages {
     String ICON_NAVIGATOR_DOWNWARD = IMGPATH + "nav-downward.png"; //$NON-NLS-1$
     String ICON_NAVIGATOR_UPWARD = IMGPATH + "nav-upward.png"; //$NON-NLS-1$
     String ICON_NEW_FILE = IMGPATH + "newfile_wiz.png"; //$NON-NLS-1$
-    String ICON_NEW_OVERLAY = IMGPATH + "new_overlay.gif"; //$NON-NLS-1$
     String ICON_NOTE = IMGPATH + "note.png"; //$NON-NLS-1$
     String ICON_OPEN = IMGPATH + "open.png"; //$NON-NLS-1$
     String ICON_PIN = IMGPATH + "pin.png"; //$NON-NLS-1$
