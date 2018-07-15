@@ -17,6 +17,8 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditor_2;
 
+    public static String AbstractDiagramEditor_3;
+
     public static String AbstractDiagramEditorActionBarContributor_0;
 
     public static String AbstractDiagramEditorActionBarContributor_1;

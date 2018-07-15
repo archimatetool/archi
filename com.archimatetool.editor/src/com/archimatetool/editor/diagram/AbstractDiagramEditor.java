@@ -58,6 +58,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
@@ -68,7 +69,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -90,7 +90,6 @@ import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
-import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -99,6 +98,7 @@ import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
 import com.archimatetool.editor.diagram.actions.PasteSpecialAction;
 import com.archimatetool.editor.diagram.actions.PrintDiagramAction;
@@ -262,17 +262,22 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         fErrorComposite = new Composite(parent, SWT.NULL);
         fErrorComposite.setLayout(new GridLayout());
         fErrorComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-        String message1 = Messages.AbstractDiagramEditor_0;
-        String message2 = Messages.AbstractDiagramEditor_1;
-        CLabel imageLabel = new CLabel(fErrorComposite, SWT.NULL);
-        imageLabel.setImage(Display.getDefault().getSystemImage(SWT.ICON_INFORMATION));
-        imageLabel.setText(message1);
+        
+        String errorMessage = Messages.AbstractDiagramEditor_0 + " "; //$NON-NLS-1$
+        
         String fileName = fNullInput.getFileName();
         if(fileName != null) {
-            message2 += " " + fileName; //$NON-NLS-1$
+            if(!new File(fileName).exists()) {
+                errorMessage += NLS.bind(Messages.AbstractDiagramEditor_1, fileName);
+            }
+            else {
+                errorMessage += NLS.bind(Messages.AbstractDiagramEditor_3, fileName);
+            }
         }
-        Label l = new Label(fErrorComposite, SWT.NULL);
-        l.setText(message2);
+
+        CLabel imageLabel = new CLabel(fErrorComposite, SWT.NULL);
+        imageLabel.setImage(Display.getDefault().getSystemImage(SWT.ICON_INFORMATION));
+        imageLabel.setText(errorMessage);
     }
     
     public IDiagramModel getModel() {
