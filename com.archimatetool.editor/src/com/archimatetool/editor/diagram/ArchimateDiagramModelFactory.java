@@ -113,7 +113,6 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
-            ((IDiagramModelGroup)object).setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
         
         // Note
