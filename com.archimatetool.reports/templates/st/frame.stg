@@ -104,7 +104,7 @@ frame(element, map) ::= <<
 								</tr>
 							</thead>
 							<tbody>
-								^element.Properties:{p | <tr><td> ^p.Key^ </td><td> <xmp class="no-margin" style="white-space:pre-wrap">^p.Value^</xmp> </td></tr>}^
+								^element.Properties:{p | <tr><td> ^p.Key;format="xml-encode"^ </td><td> <xmp class="no-margin" style="white-space:pre-wrap">^p.Value^</xmp> </td></tr>}^
 							</tbody>
 						</table>
 					</div>
