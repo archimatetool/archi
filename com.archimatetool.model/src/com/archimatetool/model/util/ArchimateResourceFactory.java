@@ -7,6 +7,7 @@ package com.archimatetool.model.util;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -92,6 +93,15 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         
         resource.getDefaultLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
         resource.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+        
+        
+        Map<String, Object> parserFeatures = new HashMap<String, Object>();
+        // Don't allow DTD loading in case of XSS exploits
+        parserFeatures.put("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE); //$NON-NLS-1$
+        parserFeatures.put("http://apache.org/xml/features/nonvalidating/load-external-dtd", Boolean.FALSE); //$NON-NLS-1$
+        parserFeatures.put("http://xml.org/sax/features/external-general-entities", Boolean.FALSE); //$NON-NLS-1$
+        parserFeatures.put("http://xml.org/sax/features/external-parameter-entities", Boolean.FALSE); //$NON-NLS-1$
+        resource.getDefaultLoadOptions().put(XMLResource.OPTION_PARSER_FEATURES, parserFeatures);
         
         // Not sure about this
         // resource.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
