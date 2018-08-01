@@ -335,7 +335,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         html.append("</head>"); //$NON-NLS-1$
         
         html.append("<body>"); //$NON-NLS-1$
-        html.append(sanitiseBrowserText(text));
+        html.append(text);
         html.append("</body>"); //$NON-NLS-1$
         
         html.append("</html>"); //$NON-NLS-1$
@@ -435,13 +435,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private Color getTitleColor(Object object) {
         return ColorFactory.get(220, 235, 235);
     }
-    
-    private String sanitiseBrowserText(String text) {
-        // Don't allow JS
-        text = text.replace("<script>", ""); //$NON-NLS-1$ //$NON-NLS-2$
-        text = text.replace("</script>", ""); //$NON-NLS-1$ //$NON-NLS-2$
-        return text;
-    }
+
     
     @Override
     public void dispose() {
