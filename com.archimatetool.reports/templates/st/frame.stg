@@ -43,12 +43,12 @@ expandFolderForQuery(folder) ::= <<
 }^
 ^folder.Elements:{c |
 	^if(c.Source)^
-		dataRelations.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), mysource:"^c.Source.Id^", mytarget:"^c.Target.Id^"\});
+		dataRelations.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Description;format="url-encode"^"), source:"^c.Source.Id^", target:"^c.Target.Id^"\});
 		^c.Properties:{p |
 			dataProperties.push({id:"^c.Id^", key:decodeURL("^p.Key;format="url-encode"^"), value:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
 	^else^
-		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^")\});
+		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Description;format="url-encode"^")\});
 		^c.Properties:{p |
 			dataProperties.push({id:"^c.Id^", key:decodeURL("^p.Key;format="url-encode"^"), value:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
