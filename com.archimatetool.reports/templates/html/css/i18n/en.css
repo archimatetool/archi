@@ -2,10 +2,14 @@
 :lang(en) .i18n-documentation:after {content: "Documentation"}
 :lang(en) .i18n-properties:after {content: "Properties"}
 :lang(en) .i18n-elements:after {content: "Elements"}
+:lang(en) .i18n-relationships:after {content: "Relationships"}
 :lang(en) .i18n-key:after {content: "Key"}
 :lang(en) .i18n-value:after {content: "Value"}
 :lang(en) .i18n-name:after {content: "Name"}
 :lang(en) .i18n-type:after {content: "Type"}
+:lang(en) .i18n-source:after {content: "Source"}
+:lang(en) .i18n-target:after {content: "Target"}
+:lang(en) .i18n-query:after {content: "Query"}
 
 /* element panel */
 :lang(en) .i18n-empty_element_message:after {content: "Select an element in the model tree or in a view to show its details here"}
@@ -131,7 +135,7 @@
 :lang(en) .i18n-close:after {content: "Close"}
 :lang(en) .i18n-about:after {content: "About"}
 :lang(en) .i18n-about-pluginname:after {content: "Archi HTML Report plugin"}
-:lang(en) .i18n-about-pluginversion:after {content: "Version 1.1.0"}
-:lang(en) .i18n-about-plugintext1:after {content: "This plugin has been developed by Jean-Baptiste Sarrodie and Quentin Varquet."}
+:lang(en) .i18n-about-pluginversion:after {content: "Version 1.2.0"}
+:lang(en) .i18n-about-plugintext1:after {content: "This plugin has been developed by Jean-Baptiste Sarrodie, Quentin Varquet and Phil Beauvoir."}
 :lang(en) .i18n-about-plugintext2:after {content: "This document has been created using Archi®. Archi® is a free, open source, cross-platform tool to create ArchiMate models and is targeted toward all levels of Enterprise Architects and Modellers. It provides a low cost to entry solution to users who may be making their first steps in the ArchiMate modelling language, or who are looking for a free, cross-platform ArchiMate modelling tool for their company or institution and wish to engage with the language within a TOGAF® or other Enterprise Architecture framework."}
 :lang(en) .i18n-about-plugintext3:after {content: "is a registered trademark of Phillip Beauvoir."}
