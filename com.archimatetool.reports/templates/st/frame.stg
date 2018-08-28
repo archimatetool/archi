@@ -118,7 +118,7 @@ frame(element, map) ::= <<
 					<li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab" class="i18n-properties"></a></li>
 					^if(element.Children)^
 						<li role="presentation"><a href="#elements" aria-controls="elements" role="tab" data-toggle="tab" class="i18n-elements"></a></li>
-						<li role="presentation"><a href="#relationships" aria-controls="relationahips" role="tab" data-toggle="tab" class="i18n-relationships"></a></li>
+						<li role="presentation"><a href="#relationships" aria-controls="relationships" role="tab" data-toggle="tab" class="i18n-relationships"></a></li>
 					^elseif(element.Purpose)^
 						<li role="presentation"><a href="#query" aria-controls="query" role="tab" data-toggle="tab" class="i18n-query"></a></li>
 					^endif^
