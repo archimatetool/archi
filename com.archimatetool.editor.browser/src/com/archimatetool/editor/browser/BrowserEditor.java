@@ -54,6 +54,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         if(fBrowser == null) {
             Label label = new Label(parent, SWT.NONE);
             label.setText(Messages.BrowserEditor_0);
+            label.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
             label.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
             return;
         }

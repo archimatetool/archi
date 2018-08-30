@@ -128,7 +128,9 @@ public class HTMLReportExporter {
                 };
                 
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
-                editor.getBrowser().refresh();
+                if(editor != null && editor.getBrowser() != null) {
+                    editor.getBrowser().refresh();
+                }
             }
             catch(IOException ex) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.HTMLReportAction_0, ex.getMessage());
