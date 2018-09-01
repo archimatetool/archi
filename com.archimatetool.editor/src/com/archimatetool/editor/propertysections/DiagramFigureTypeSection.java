@@ -7,6 +7,9 @@ package com.archimatetool.editor.propertysections;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -65,15 +68,29 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
-        figure1 = new ImageFigure(parent);
-        figure2 = new ImageFigure(parent);
+        figure1 = new ImageFigure(parent, 0);
+        figure2 = new ImageFigure(parent, 1);
     }
     
     @Override
     protected void update() {
-        IDiagramModelArchimateObject diagramObject = (IDiagramModelArchimateObject)getFirstSelectedObject();
+        figure1.setVisible(false);
+        figure2.setVisible(false);
         
-        IArchimateElement element = diagramObject.getArchimateElement();
+        // Ensure we have the same type of figure
+        for(int i = 0; i < getEObjects().size() - 1; i++) {
+            IDiagramModelArchimateObject first = (IDiagramModelArchimateObject)getEObjects().get(i);
+            IDiagramModelArchimateObject next = (IDiagramModelArchimateObject)getEObjects().get(i + 1);
+            if(first.getArchimateConcept().eClass() != next.getArchimateConcept().eClass()) {
+                return;
+            }
+        }
+        
+        figure1.setVisible(true);
+        figure2.setVisible(true);
+        
+        IDiagramModelArchimateObject firstSelected = (IDiagramModelArchimateObject)getFirstSelectedObject();
+        IArchimateElement element = firstSelected.getArchimateElement();
         
         Image image1 = FigureImagePreviewFactory.getFigurePreviewImageForClass(element.eClass());
         Image image2 = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(element.eClass());
@@ -83,7 +100,7 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         
         figure1.getParent().layout();
 
-        int type = diagramObject.getType();
+        int type = firstSelected.getType();
         figure1.setSelected(type == 0);
         figure2.setSelected(type == 1);
     }
@@ -114,7 +131,7 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         boolean selected;
         Label label;
 
-        public ImageFigure(Composite parent) {
+        public ImageFigure(Composite parent, int value) {
             super(parent, SWT.NULL);
             setBackgroundMode(SWT.INHERIT_DEFAULT);
             GridLayout gridLayout = new GridLayout();
@@ -141,14 +158,19 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseDown(MouseEvent e) {
-                    IDiagramModelArchimateObject diagramObject = (IDiagramModelArchimateObject)getFirstSelectedObject();
-                    
-                    if(!selected && isAlive(diagramObject)) {
-                        int newType = diagramObject.getType() == 0 ? 1 : 0;
-                        
-                        executeCommand(new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, diagramObject,
-                                IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, newType));
+                    CompoundCommand result = new CompoundCommand();
+
+                    for(EObject eObject : getEObjects()) {
+                        if(isAlive(eObject) && !isLocked(eObject)) {
+                            Command cmd = new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, eObject,
+                                    IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, value);
+                            if(cmd.canExecute()) {
+                                result.add(cmd);
+                            }
+                        }
                     }
+
+                    executeCommand(result.unwrap());
                 }
             });
         }
