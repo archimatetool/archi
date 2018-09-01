@@ -166,19 +166,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fShowUnusedElementsInModelTreeButton.setLayoutData(gd);
         
-        // Visualiser
-        Group visualiserGroup = new Group(client, SWT.NULL);
-        visualiserGroup.setText(Messages.GeneralPreferencePage_6);
-        visualiserGroup.setLayout(new GridLayout(2, false));
-        visualiserGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fAnimateVisualiserNodesButton = new Button(visualiserGroup, SWT.CHECK);
-        fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_7);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fAnimateVisualiserNodesButton.setLayoutData(gd);
-        
-        fAnimateVisualiserNodesButton.setEnabled(AnimationUtil.supportsAnimation());
+        // Visualiser animation
+        if(AnimationUtil.supportsAnimation()) {
+            Group visualiserGroup = new Group(client, SWT.NULL);
+            visualiserGroup.setText(Messages.GeneralPreferencePage_6);
+            visualiserGroup.setLayout(new GridLayout(2, false));
+            visualiserGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            fAnimateVisualiserNodesButton = new Button(visualiserGroup, SWT.CHECK);
+            fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_7);
+            gd = new GridData(GridData.FILL_HORIZONTAL);
+            gd.horizontalSpan = 2;
+            fAnimateVisualiserNodesButton.setLayoutData(gd);
+        }
         
         setValues();
         
@@ -198,7 +198,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         setSpinnerValues();
         fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
-        fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
+        
+        if(fAnimateVisualiserNodesButton != null) {
+            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
+        }
+        
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
 
@@ -220,7 +224,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(BACKUP_ON_SAVE, fBackupOnSaveButton.getSelection());
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
-        getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
+        
+        if(fAnimateVisualiserNodesButton != null) {
+            getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
+        }
+        
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         
@@ -238,7 +246,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fBackupOnSaveButton.setSelection(getPreferenceStore().getDefaultBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
-        fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
+        
+        if(fAnimateVisualiserNodesButton != null) {
+            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
+        }
+        
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         

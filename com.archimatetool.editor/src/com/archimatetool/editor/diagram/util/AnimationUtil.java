@@ -35,7 +35,8 @@ public final class AnimationUtil {
      */
     public static boolean supportsAnimation() {
         // It doesn't work on Mac with Eclipse 4.7 Oxygen
-        return PlatformUtils.isWindows() || PlatformUtils.isLinux();
+        // And doesn't work with Linux GTK3
+        return PlatformUtils.isWindows();
     }
 
     public static boolean doAnimate() {

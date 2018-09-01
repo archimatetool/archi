@@ -109,28 +109,28 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // -------------- Animation ----------------------------
         
-        Group animationGroup = new Group(client, SWT.NULL);
-        animationGroup.setText(Messages.DiagramPreferencePage_0);
-        animationGroup.setLayout(new GridLayout(2, false));
-        animationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Animate Layout
-        fDoAnimationButton = new Button(animationGroup, SWT.CHECK);
-        fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fDoAnimationButton.setLayoutData(gd);
-        fDoAnimationButton.setEnabled(AnimationUtil.supportsAnimation());
+        if(AnimationUtil.supportsAnimation()) {
+            Group animationGroup = new Group(client, SWT.NULL);
+            animationGroup.setText(Messages.DiagramPreferencePage_0);
+            animationGroup.setLayout(new GridLayout(2, false));
+            animationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            // Animate Layout
+            fDoAnimationButton = new Button(animationGroup, SWT.CHECK);
+            fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
+            gd = new GridData(GridData.FILL_HORIZONTAL);
+            gd.horizontalSpan = 2;
+            fDoAnimationButton.setLayoutData(gd);
 
-        // Animation Speed
-        label = new Label(animationGroup, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_3);
-        label.setEnabled(AnimationUtil.supportsAnimation());
+            // Animation Speed
+            label = new Label(animationGroup, SWT.NULL);
+            label.setText(Messages.DiagramPreferencePage_3);
+            label.setEnabled(AnimationUtil.supportsAnimation());
 
-        fAnimationSpeedSpinner = new Spinner(animationGroup, SWT.BORDER);
-        fAnimationSpeedSpinner.setMinimum(10);
-        fAnimationSpeedSpinner.setMaximum(500);
-        fAnimationSpeedSpinner.setEnabled(AnimationUtil.supportsAnimation());
+            fAnimationSpeedSpinner = new Spinner(animationGroup, SWT.BORDER);
+            fAnimationSpeedSpinner.setMinimum(10);
+            fAnimationSpeedSpinner.setMaximum(500);
+        }
         
         // -------------- View ----------------------------
 
@@ -222,7 +222,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         setSpinnerValues();
         
-        fDoAnimationButton.setSelection(getPreferenceStore().getBoolean(ANIMATE));
+        if(fDoAnimationButton != null) {
+            fDoAnimationButton.setSelection(getPreferenceStore().getBoolean(ANIMATE));
+        }
         
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
@@ -242,15 +244,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void setSpinnerValues() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getInt(GRID_SIZE));
-        fAnimationSpeedSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_SPEED));
+        
+        if(fAnimationSpeedSpinner != null) {
+            fAnimationSpeedSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_SPEED));
+        }
     }
     
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(GRID_SIZE, fGridSizeSpinner.getSelection());
 
-        getPreferenceStore().setValue(ANIMATE, fDoAnimationButton.getSelection());
-        getPreferenceStore().setValue(ANIMATION_SPEED, fAnimationSpeedSpinner.getSelection());
+        if(fDoAnimationButton != null) {
+            getPreferenceStore().setValue(ANIMATE, fDoAnimationButton.getSelection());
+        }
+        
+        if(fAnimationSpeedSpinner != null) {
+            getPreferenceStore().setValue(ANIMATION_SPEED, fAnimationSpeedSpinner.getSelection());
+        }
         
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
@@ -299,8 +309,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void performGeneralDefaults() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(GRID_SIZE));
 
-        fDoAnimationButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE));
-        fAnimationSpeedSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATION_SPEED));
+        if(fDoAnimationButton != null) {
+            fDoAnimationButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE));
+        }
+        
+        if(fAnimationSpeedSpinner != null) {
+            fAnimationSpeedSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATION_SPEED));
+        }
         
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
