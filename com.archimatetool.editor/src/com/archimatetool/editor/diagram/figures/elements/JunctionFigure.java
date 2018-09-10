@@ -35,6 +35,8 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
         
         graphics.setAntialias(SWT.ON);
         
+        graphics.setAlpha(getAlpha());
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -50,6 +52,7 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
+                graphics.setForegroundColor(getLineColor());
                 graphics.setBackgroundColor(getFillColor());
                 graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
                 break;
@@ -60,7 +63,14 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     public void refreshVisuals() {
-        repaint(); // repaint when figure changes
+        // Fill Color
+        setFillColor();
+        
+        // Line Color
+        setLineColor();
+        
+        // Repaint
+        repaint();
     }
     
     @Override

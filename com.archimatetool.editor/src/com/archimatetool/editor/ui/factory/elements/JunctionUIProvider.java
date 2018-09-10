@@ -70,6 +70,9 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public boolean shouldExposeFeature(EAttribute feature) {
-        return false; // Junctions don't expose UI features
+        // Junctions don't expose all UI features
+        return feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR ||
+                feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR ||
+                feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA; 
     }
 }
