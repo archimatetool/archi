@@ -42,12 +42,12 @@ public class BusinessInteractionUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERACTION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BUSINESS_INTERACTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERACTION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_BUSINESS_INTERACTION);
     }
     
     @Override

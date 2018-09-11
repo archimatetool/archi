@@ -42,12 +42,12 @@ public class ApplicationEventUIProvider extends AbstractArchimateElementUIProvid
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_EVENT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APPLICATION_EVENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_EVENT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_APPLICATION_EVENT);
     }
     
     @Override

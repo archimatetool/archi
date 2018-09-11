@@ -42,12 +42,12 @@ public class CapabilityUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_CAPABILITY);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CAPABILITY);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_CAPABILITY);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CAPABILITY);
     }
     
     @Override

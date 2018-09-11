@@ -42,12 +42,12 @@ public class FacilityUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_FACILITY);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FACILITY);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_FACILITY);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FACILITY);
     }
     
     @Override

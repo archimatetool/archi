@@ -64,7 +64,6 @@ public interface IPreferenceConstants {
     String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile"; //$NON-NLS-1$
     String DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor"; //$NON-NLS-1$
     String DERIVE_ELEMENT_LINE_COLOR_FACTOR = "deriveElementLineColorFactor"; //$NON-NLS-1$
-    String SHOW_FILL_COLORS_IN_GUI = "showFillColorsInGui"; //$NON-NLS-1$
     
     String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor"; //$NON-NLS-1$
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor"; //$NON-NLS-1$

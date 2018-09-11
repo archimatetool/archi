@@ -42,12 +42,12 @@ public class NodeUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_NODE);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_NODE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_NODE);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NODE);
     }
     
     @Override

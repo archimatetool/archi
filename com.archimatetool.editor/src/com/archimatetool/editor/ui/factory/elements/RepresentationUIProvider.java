@@ -42,12 +42,12 @@ public class RepresentationUIProvider extends AbstractArchimateElementUIProvider
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_REPRESENTATION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_REPRESENTATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_REPRESENTATION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_REPRESENTATION);
     }
     
     @Override

@@ -42,12 +42,12 @@ public class ImplementationEventUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_IMPLEMENTATION_EVENT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_IMPLEMENTATION_EVENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_IMPLEMENTATION_EVENT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_IMPLEMENTATION_EVENT);
     }
     
     @Override

@@ -42,12 +42,12 @@ public class TechnologyInteractionUIProvider extends AbstractArchimateElementUIP
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERACTION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TECHNOLOGY_INTERACTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERACTION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TECHNOLOGY_INTERACTION);
     }
     
     @Override

@@ -42,12 +42,12 @@ public class AssessmentUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_ASSESSMENT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ASSESSMENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_ASSESSMENT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASSESSMENT);
     }
 
     @Override

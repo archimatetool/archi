@@ -42,12 +42,12 @@ public class CourseOfActionUIProvider extends AbstractArchimateElementUIProvider
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_COURSE_OF_ACTION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_COURSE_OF_ACTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_COURSE_OF_ACTION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COURSE_OF_ACTION);
     }
     
     @Override

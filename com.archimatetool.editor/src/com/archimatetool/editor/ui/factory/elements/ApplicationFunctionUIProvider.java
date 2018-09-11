@@ -42,12 +42,12 @@ public class ApplicationFunctionUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_FUNCTION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APPLICATION_FUNCTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_FUNCTION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_APPLICATION_FUNCTION);
     }
     
     @Override

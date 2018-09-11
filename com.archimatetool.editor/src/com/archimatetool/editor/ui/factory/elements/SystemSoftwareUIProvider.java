@@ -42,12 +42,12 @@ public class SystemSoftwareUIProvider extends AbstractArchimateElementUIProvider
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_SYSTEM_SOFTWARE);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_SYSTEM_SOFTWARE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_SYSTEM_SOFTWARE);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SYSTEM_SOFTWARE);
     }
     
     @Override

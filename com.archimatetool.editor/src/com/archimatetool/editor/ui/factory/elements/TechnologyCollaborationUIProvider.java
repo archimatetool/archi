@@ -42,12 +42,12 @@ public class TechnologyCollaborationUIProvider extends AbstractArchimateElementU
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_COLLABORATION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TECHNOLOGY_COLLABORATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_COLLABORATION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TECHNOLOGY_COLLABORATION);
     }
     
     @Override

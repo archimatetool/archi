@@ -42,12 +42,12 @@ public class CommunicationNetworkUIProvider extends AbstractArchimateElementUIPr
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_COMMUNICATION_NETWORK);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_COMMUNICATION_NETWORK);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_COMMUNICATION_NETWORK);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COMMUNICATION_NETWORK);
     }
     
     @Override

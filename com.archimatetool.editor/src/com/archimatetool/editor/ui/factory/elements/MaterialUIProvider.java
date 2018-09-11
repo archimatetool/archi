@@ -42,12 +42,12 @@ public class MaterialUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_MATERIAL);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MATERIAL);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_MATERIAL);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MATERIAL);
     }
     
     @Override

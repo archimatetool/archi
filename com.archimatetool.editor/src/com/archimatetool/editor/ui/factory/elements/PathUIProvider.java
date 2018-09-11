@@ -42,12 +42,12 @@ public class PathUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_PATH);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_PATH);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_PATH);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PATH);
     }
     
     @Override

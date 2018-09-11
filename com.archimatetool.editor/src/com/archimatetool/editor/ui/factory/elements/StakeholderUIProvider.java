@@ -42,12 +42,12 @@ public class StakeholderUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_STAKEHOLDER);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_STAKEHOLDER);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_STAKEHOLDER);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_STAKEHOLDER);
     }
 
     @Override

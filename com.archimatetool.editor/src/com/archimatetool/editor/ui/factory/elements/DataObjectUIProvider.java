@@ -42,12 +42,12 @@ public class DataObjectUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_DATA_OBJECT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DATA_OBJECT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_DATA_OBJECT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DATA_OBJECT);
     }
     
     @Override

@@ -42,12 +42,12 @@ public class TechnologyEventUIProvider extends AbstractArchimateElementUIProvide
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_EVENT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TECHNOLOGY_EVENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_EVENT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TECHNOLOGY_EVENT);
     }
     
     @Override

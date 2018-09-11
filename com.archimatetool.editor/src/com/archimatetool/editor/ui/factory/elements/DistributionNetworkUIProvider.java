@@ -42,12 +42,12 @@ public class DistributionNetworkUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_DISTRIBUTION_NETWORK);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DISTRIBUTION_NETWORK);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_DISTRIBUTION_NETWORK);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DISTRIBUTION_NETWORK);
     }
     
     @Override

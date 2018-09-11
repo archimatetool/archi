@@ -42,12 +42,12 @@ public class TechnologyProcessUIProvider extends AbstractArchimateElementUIProvi
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_PROCESS);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TECHNOLOGY_PROCESS);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_PROCESS);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TECHNOLOGY_PROCESS);
     }
     
     @Override

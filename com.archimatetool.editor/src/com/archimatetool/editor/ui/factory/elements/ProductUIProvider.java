@@ -42,12 +42,12 @@ public class ProductUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_PRODUCT);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_PRODUCT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_PRODUCT);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PRODUCT);
     }
     
     @Override

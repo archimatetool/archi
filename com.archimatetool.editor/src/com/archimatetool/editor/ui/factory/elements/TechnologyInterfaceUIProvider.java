@@ -42,12 +42,12 @@ public class TechnologyInterfaceUIProvider extends AbstractInterfaceUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
     }
     
     @Override

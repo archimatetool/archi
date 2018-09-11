@@ -86,7 +86,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     // Buttons
     private Button fPersistUserDefaultColors;
-    private Button fShowUserDefaultFillColorsInApplication;
     private Button fEditFillColorButton;
     private Button fResetFillColorButton;
     private Button fDeriveElementLineColorsButton;
@@ -416,12 +415,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPersistUserDefaultColors.setText(Messages.ColoursFontsPreferencePage_1);
         fPersistUserDefaultColors.setLayoutData(gd);
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_COLOR));
-        
-        // Use colours in application
-        fShowUserDefaultFillColorsInApplication = new Button(client, SWT.CHECK);
-        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursFontsPreferencePage_6);
-        fShowUserDefaultFillColorsInApplication.setLayoutData(gd);
-        fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getBoolean(SHOW_FILL_COLORS_IN_GUI));
     }
     
     private void createFontsTab() {
@@ -602,7 +595,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR, fDeriveElementLineColorsButton.getSelection());
         getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR_FACTOR, fElementLineColorContrastSpinner.getSelection());
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
-        getPreferenceStore().setValue(SHOW_FILL_COLORS_IN_GUI, fShowUserDefaultFillColorsInApplication.getSelection());
         
         saveColors(getPreferenceStore());        
         
@@ -632,7 +624,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void performColoursDefaults() {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
-        fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_FILL_COLORS_IN_GUI));
         
         fElementLineColorContrastSpinner.setSelection(getPreferenceStore().getDefaultInt(DERIVE_ELEMENT_LINE_COLOR_FACTOR));
 

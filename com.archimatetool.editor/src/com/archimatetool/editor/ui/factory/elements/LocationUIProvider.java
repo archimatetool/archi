@@ -47,11 +47,11 @@ public class LocationUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_LOCATION);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LOCATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_LOCATION);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCATION);
     }
 }
