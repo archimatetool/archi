@@ -847,7 +847,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         if(!editParts.isEmpty()) {
             getGraphicalViewer().setSelection(new StructuredSelection(editParts));
-            getGraphicalViewer().reveal(editParts.get(0));
+            
+            getSite().getShell().getDisplay().asyncExec(()-> { // Needs to be on a thread
+                getGraphicalViewer().reveal(editParts.get(0));
+            });
         }
         else {
             getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
