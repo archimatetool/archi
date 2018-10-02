@@ -114,7 +114,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(o instanceof IDiagramModel) {
                     IDiagramModel diagramModel = (IDiagramModel)o;
-                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel);
+                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel, false);
                     if(editor instanceof IArchimateDiagramEditor) {
                         ((IArchimateDiagramEditor)editor).selectArchimateConcepts(new IArchimateConcept[] { fArchimateConcept });
                     }

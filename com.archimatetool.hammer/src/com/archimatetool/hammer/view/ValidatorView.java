@@ -329,7 +329,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             
             if(!viewList.isEmpty()) {
                 for(IDiagramModel dm : viewList) {
-                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
+                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm, false);
                     if(editor instanceof IArchimateDiagramEditor) {
                         ((IArchimateDiagramEditor)editor).selectObjects(viewComponentList.toArray());
                     }

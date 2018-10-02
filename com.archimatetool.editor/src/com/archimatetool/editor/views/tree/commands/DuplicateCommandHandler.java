@@ -208,7 +208,7 @@ public class DuplicateCommandHandler {
             copyConnections();
 
             // Open Editor
-            EditorManager.openDiagramEditor(fDiagramModelCopy);
+            EditorManager.openDiagramEditor(fDiagramModelCopy, false);
         }
         
         @Override
@@ -222,7 +222,7 @@ public class DuplicateCommandHandler {
         public void redo() {
             fParent.getElements().add(fDiagramModelCopy);
             // Open Editor
-            EditorManager.openDiagramEditor(fDiagramModelCopy);
+            EditorManager.openDiagramEditor(fDiagramModelCopy, false);
         }
         
         /*
