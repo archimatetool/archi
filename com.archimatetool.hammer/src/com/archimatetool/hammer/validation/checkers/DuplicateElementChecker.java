@@ -17,6 +17,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
 
 
 /**
@@ -68,6 +69,12 @@ public class DuplicateElementChecker implements IChecker {
     }
     
     private boolean isDuplicate(IArchimateElement element1, IArchimateElement element2) {
+        // Ignore Junctions as these tend to just be called "Junction" or may well have a common name like "Or" or "And"
+        if(element1.eClass() == IArchimatePackage.eINSTANCE.getJunction() &&
+                element2.eClass() == IArchimatePackage.eINSTANCE.getJunction()) {
+            return false;
+        }
+        
         String name1 = StringUtils.safeString(element1.getName());
         String name2 = StringUtils.safeString(element2.getName());
         
