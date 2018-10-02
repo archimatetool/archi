@@ -51,7 +51,7 @@ public class EditorManager {
         
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         try {
-            return page.openEditor(input, editorID, false);
+            return page.openEditor(input, editorID, activate);
         }
         catch(PartInitException ex) {
             Logger.logError("Could not open Editor " + editorID); //$NON-NLS-1$
