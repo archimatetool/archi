@@ -48,8 +48,12 @@ public class TreeTextCellEditor extends TextCellEditor {
     }
     
     @Override
-    public void activate() {
+    protected void doSetFocus() {
+        super.doSetFocus();
+        
         // Clear global key binds
+        // We do this on doSetFocus() rather than activate() because in the case where we open an EditorPart on new diagram
+        // the focus gets transferred to the EditorPart and we end up with the wrong actionBars
         fGlobalActionHandler = new CellEditorGlobalActionHandler();
         fGlobalActionHandler.clearGlobalActions();
     }
