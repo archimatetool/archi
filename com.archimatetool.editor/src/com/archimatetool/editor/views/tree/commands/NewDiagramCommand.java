@@ -67,7 +67,7 @@ public class NewDiagramCommand extends Command {
         UIRequestManager.INSTANCE.fireRequest(new TreeSelectionRequest(this, new StructuredSelection(fDiagramModel), true));
         
         // Open Editor
-        EditorManager.openDiagramEditor(fDiagramModel);
+        EditorManager.openDiagramEditor(fDiagramModel, false);
     }
     
     @Override

@@ -40,7 +40,7 @@ implements IWorkbenchAction
         IArchimateModel model = IEditorModelManager.INSTANCE.createNewModel();
         
         // Open Diagram Editor
-        EditorManager.openDiagramEditor(model.getDefaultDiagramModel());
+        EditorManager.openDiagramEditor(model.getDefaultDiagramModel(), false);
         
         // Edit in-place in Tree
         UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
