@@ -37,19 +37,21 @@ import com.archimatetool.model.ISketchModel;
 public class EditorManager {
     
     /**
-     * Open an Editor
+     * Open an Editor and activate if required
      * 
      * @param input
      * @param editorID
+     * @param activate
+     * @return
      */
-    public static IEditorPart openEditor(IEditorInput input, String editorID) {
+    public static IEditorPart openEditor(IEditorInput input, String editorID, boolean activate) {
         if(!PlatformUI.isWorkbenchRunning()) {
             return null;
         }
         
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         try {
-            return page.openEditor(input, editorID);
+            return page.openEditor(input, editorID, false);
         }
         catch(PartInitException ex) {
             Logger.logError("Could not open Editor " + editorID); //$NON-NLS-1$
@@ -57,12 +59,31 @@ public class EditorManager {
             return null;
         }
     }
+    
+    /**
+     * Open an Editor and activate will be true
+     * @param input
+     * @param editorID
+     * @return
+     */
+    public static IEditorPart openEditor(IEditorInput input, String editorID) {
+        return openEditor(input, editorID, true);
+    }
 
+    /**
+     * Open the Diagram Editor for a given DiagramModel Model
+     * Activate is true
+     * @param name
+     */
+    public static IDiagramModelEditor openDiagramEditor(IDiagramModel model) {
+        return openDiagramEditor(model, true);
+    }   
+    
     /**
      * Open the Diagram Editor for a given DiagramModel Model
      * @param name
      */
-    public static IDiagramModelEditor openDiagramEditor(IDiagramModel model) {
+    public static IDiagramModelEditor openDiagramEditor(IDiagramModel model, boolean activate) {
         if(model == null || model.eContainer() == null || !PlatformUI.isWorkbenchRunning()) {
             return null;
         }
@@ -90,7 +111,7 @@ public class EditorManager {
             throw new RuntimeException("Unsupported model type"); //$NON-NLS-1$
         }
         
-        IEditorPart part = openEditor(editorInput, id);
+        IEditorPart part = openEditor(editorInput, id, activate);
         
         // Check it actually is IDiagramModelEditor, it could be an org.eclipse.ui.internal.ErrorEditorPart if an error occurs
         return part instanceof IDiagramModelEditor ? (IDiagramModelEditor)part : null;
