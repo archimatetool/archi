@@ -56,5 +56,27 @@ public class DuplicateElementCheckerTests {
         assertSame(e2, issues.get(1).getObject());
     }
     
-    
+    @Test
+    public void testJunctionsAllowedSameNames() {
+        List<IArchimateElement> elements = new ArrayList<IArchimateElement>();
+        
+        IArchimateElement e1 = IArchimateFactory.eINSTANCE.createJunction();
+        elements.add(e1);
+        
+        IArchimateElement e2 = IArchimateFactory.eINSTANCE.createJunction();
+        elements.add(e2);
+        
+        DuplicateElementChecker checker = new DuplicateElementChecker(elements);
+        
+        // Should be OK
+        List<IIssue> issues = checker.getIssues();
+        assertTrue(issues.isEmpty());
+        
+        // Set name the same
+        e1.setName("And");
+        e2.setName("And");
+        issues = checker.getIssues();
+        assertTrue(issues.isEmpty());
+    }
+
 }
