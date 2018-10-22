@@ -217,6 +217,9 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         getShell().getDisplay().removeFilter(SWT.KeyDown, this);
         getShell().getDisplay().removeFilter(SWT.KeyUp, this);
         
+        // BUG on Mac: If a combo selection is not "completed" (return press or lost focus) the value is not set
+        fTableViewer.applyEditorValue();
+        
         return super.close();
     }
     
