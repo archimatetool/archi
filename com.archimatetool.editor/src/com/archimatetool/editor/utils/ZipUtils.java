@@ -7,14 +7,12 @@ package com.archimatetool.editor.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -204,26 +202,42 @@ public final class ZipUtils {
 	}
 
     /**
-	 * Adds a String as a field entry to an already opened ZipOutputStream
-	 * @param text
-	 * @param entryName
-	 * @param zOut
-	 * @throws IOException
-	 */
-	public static void addStringToZip(String text, String entryName, ZipOutputStream zOut) throws IOException {
-		BufferedReader reader = new BufferedReader(new StringReader(text));
-		
-		ZipEntry zipEntry = new ZipEntry(entryName);
-		
-		zOut.putNextEntry(zipEntry);
-		
-		int i;
-		while((i = reader.read()) != -1) {
-			zOut.write(i);
-		}
-		zOut.closeEntry();
-	}
-	
+     * Adds a String as a field entry to an already opened ZipOutputStream
+     * @param text
+     * @param entryName
+     * @param zOut
+     * @throws IOException
+     */
+    public static void addStringToZip(String text, String entryName, ZipOutputStream zOut) throws IOException {
+        addStringToZip(text, entryName, zOut, null);
+    }
+    
+    /**
+     * Adds a String as a field entry to an already opened ZipOutputStream
+     * @param text
+     * @param entryName
+     * @param zOut
+     * @param charset
+     * @throws IOException
+     */
+    public static void addStringToZip(String text, String entryName, ZipOutputStream zOut, Charset charset) throws IOException {
+        ZipEntry zipEntry = new ZipEntry(entryName);
+        zOut.putNextEntry(zipEntry);
+        
+        byte[] data;
+        
+        if(charset != null) {
+            data = text.getBytes(charset);
+        }
+        else {
+            data = text.getBytes();
+        }
+        
+        zOut.write(data);
+        
+        zOut.closeEntry();
+    }
+
 	/**
 	 * @param zipFile
 	 * @param entryName
