@@ -131,8 +131,9 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
             zOut = new ZipOutputStream(out);
 
             // Add Manifest
-            String manifest = createManifest();
-            ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
+            File manifest = saveManifestToTempFile();
+            ZipUtils.addFileToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
+            manifest.delete();
             
             // Add any thumbnails
             if(fIncludeThumbnails) {
@@ -165,7 +166,10 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         }
     }
     
-    private String createManifest() throws IOException {
+    /**
+     * Creating the manifest as a file preserves UTF-8 encoding
+     */
+    private File saveManifestToTempFile() throws IOException {
         Document doc = new Document();
         Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
         doc.setRootElement(root);
@@ -203,7 +207,12 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
             }
         }
         
-        return JDOMUtils.write2XMLString(doc);
+        File tmpFile = File.createTempFile("manifest", null); //$NON-NLS-1$
+        tmpFile.deleteOnExit();
+        
+        JDOMUtils.write2XMLFile(doc, tmpFile);
+        
+        return tmpFile;
     }
 
     private File saveModelToTempFile() throws IOException {

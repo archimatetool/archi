@@ -149,7 +149,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             return;
         }
         
-        // Manifest
+        // Create Manifest as JDOM
         Document doc = new Document();
         Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
         doc.setRootElement(root);
@@ -168,18 +168,21 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             root.addContent(elementKeyThumb);
         }
         
-        String manifest = JDOMUtils.write2XMLString(doc);
-        
-        // Model
-        String model = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MODEL);
-        
-        // Start a zip stream
+        // Open a zip stream
         File tmpFile = File.createTempFile("architemplate", null); //$NON-NLS-1$
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmpFile));
         ZipOutputStream zOut = new ZipOutputStream(out);
         
-        ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
-        ZipUtils.addStringToZip(model, TemplateManager.ZIP_ENTRY_MODEL, zOut);
+        // Add Manifest
+        File manifestFile = File.createTempFile("archi", null); //$NON-NLS-1$
+        JDOMUtils.write2XMLFile(doc, manifestFile);
+        ZipUtils.addFileToZip(manifestFile, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
+        manifestFile.delete();
+        
+        // Add Model
+        File modelFile = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MODEL, File.createTempFile("archi", null)); //$NON-NLS-1$
+        ZipUtils.addFileToZip(modelFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
+        modelFile.delete();
 
         // Thumbnails
         Image[] images = getThumbnails();
@@ -204,11 +207,13 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         fDescription = ""; //$NON-NLS-1$
         
         if(fFile != null && fFile.exists()) {
+            File manifest = null;
+            
             try {
                 // Manifest
-                String manifest = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MANIFEST);
+                manifest = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MANIFEST, File.createTempFile("manifest", null)); //$NON-NLS-1$
                 if(manifest != null) {
-                    Document doc = JDOMUtils.readXMLString(manifest);
+                    Document doc = JDOMUtils.readXMLFile(manifest);
                     Element rootElement = doc.getRootElement();
                     
                     // Name
@@ -232,6 +237,11 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             }
             catch(Exception ex) {
                 ex.printStackTrace();
+            }
+            finally {
+                if(manifest != null) {
+                    manifest.delete();
+                }
             }
         }
     }

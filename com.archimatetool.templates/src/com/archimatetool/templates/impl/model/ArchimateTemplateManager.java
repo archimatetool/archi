@@ -7,6 +7,7 @@ package com.archimatetool.templates.impl.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.eclipse.swt.graphics.Image;
 import org.jdom2.Attribute;
@@ -98,7 +99,7 @@ public class ArchimateTemplateManager extends TemplateManager {
         }
         
         // Ensure the template is of the right kind
-        String xmlString = ZipUtils.extractZipEntry(file, ZIP_ENTRY_MANIFEST);
+        String xmlString = ZipUtils.extractZipEntry(file, ZIP_ENTRY_MANIFEST, Charset.forName("UTF-8")); //$NON-NLS-1$
         if(xmlString == null) {
             return false;
         }
