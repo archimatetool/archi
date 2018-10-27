@@ -8,12 +8,14 @@ package com.archimatetool.editor.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -251,22 +253,38 @@ public final class ZipUtils {
 		return foundEntry;
 	}
 
+    /**
+     * Extracts a named entry out of the zip file and returns the entry as a String
+     * Returns null if weirdness happens
+     * @param zipFile
+     * @param entryName
+     * @return
+     * @throws IOException
+     */
+    public static String extractZipEntry(File zipFile, String entryName) throws IOException {
+        return extractZipEntry(zipFile, entryName, (Charset)null);
+    }
+    
 	/**
 	 * Extracts a named entry out of the zip file and returns the entry as a String
 	 * Returns null if weirdness happens
 	 * @param zipFile
 	 * @param entryName
+	 * @param charset
 	 * @return
 	 * @throws IOException
 	 */
-	public static String extractZipEntry(File zipFile, String entryName) throws IOException {
+	public static String extractZipEntry(File zipFile, String entryName, Charset charset) throws IOException {
 		ZipEntry zipEntry;
 		ZipInputStream zIn;
-		int bit;
-		StringBuffer sb;
 		
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(zipFile));
-		zIn = new ZipInputStream(in);
+		if(charset != null) {
+		    zIn = new ZipInputStream(in, charset);
+		}
+		else {
+		    zIn = new ZipInputStream(in);
+		}
 		
 		// Get zip entry
 		while((zipEntry = zIn.getNextEntry()) != null) {
@@ -286,16 +304,25 @@ public final class ZipUtils {
 			return null;
 		}
 		
-		sb = new StringBuffer();
-		
-		// Extract it
-		while((bit = zIn.read()) != -1) {
-			sb.append((char)bit);
-		}
-		
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int read = 0;
+        while((read = zIn.read(buffer, 0, buffer.length)) > 0) {
+            baos.write(buffer, 0, read);
+        }
+        
+        String content;
+        if(charset != null) {
+            content = baos.toString(charset.name());
+        }
+        else {
+            content = baos.toString();
+        }
+        
+        baos.close();
 		zIn.close();
 		
-		return sb.toString();
+		return content;
 	}
 	
     /**
