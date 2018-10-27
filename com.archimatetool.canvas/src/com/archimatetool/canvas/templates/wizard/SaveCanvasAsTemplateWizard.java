@@ -9,6 +9,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.zip.ZipOutputStream;
 
@@ -141,9 +142,8 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
             }
             
             // Manifest
-            File manifest = saveManifestToTempFile();
-            ZipUtils.addFileToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
-            manifest.delete();
+            String manifest = createManifest();
+            ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut, Charset.forName("UTF-8")); //$NON-NLS-1$
             
             // Thumbnail
             if(fIncludeThumbnail) {
@@ -164,10 +164,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         }
     }
     
-    /**
-     * Creating the manifest as a file preserves UTF-8 encoding
-     */
-    private File saveManifestToTempFile() throws IOException {
+    private String createManifest() throws IOException {
         Document doc = new Document();
         Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
         doc.setRootElement(root);
@@ -196,12 +193,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
             root.addContent(elementKeyThumb);
         }
         
-        File tmpFile = File.createTempFile("manifest", null); //$NON-NLS-1$
-        tmpFile.deleteOnExit();
-        
-        JDOMUtils.write2XMLFile(doc, tmpFile);
-        
-        return tmpFile;
+        return JDOMUtils.write2XMLString(doc);
     }
 
     private File saveModelToTempFile() throws IOException {

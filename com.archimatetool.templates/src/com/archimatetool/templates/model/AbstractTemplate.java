@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -174,12 +175,11 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         ZipOutputStream zOut = new ZipOutputStream(out);
         
         // Add Manifest
-        File manifestFile = File.createTempFile("archi", null); //$NON-NLS-1$
-        JDOMUtils.write2XMLFile(doc, manifestFile);
-        ZipUtils.addFileToZip(manifestFile, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
-        manifestFile.delete();
+        String manifest = JDOMUtils.write2XMLString(doc);
+        ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut, Charset.forName("UTF-8")); //$NON-NLS-1$
         
         // Add Model
+        // Save to temporary file rather than string because the actual encoding can either be ANSI or UTF-8 depending on content
         File modelFile = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MODEL, File.createTempFile("archi", null)); //$NON-NLS-1$
         ZipUtils.addFileToZip(modelFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
         modelFile.delete();
@@ -207,13 +207,11 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         fDescription = ""; //$NON-NLS-1$
         
         if(fFile != null && fFile.exists()) {
-            File manifest = null;
-            
             try {
                 // Manifest
-                manifest = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MANIFEST, File.createTempFile("manifest", null)); //$NON-NLS-1$
+                String manifest = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MANIFEST, Charset.forName("UTF-8")); //$NON-NLS-1$
                 if(manifest != null) {
-                    Document doc = JDOMUtils.readXMLFile(manifest);
+                    Document doc = JDOMUtils.readXMLString(manifest);
                     Element rootElement = doc.getRootElement();
                     
                     // Name
@@ -237,11 +235,6 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             }
             catch(Exception ex) {
                 ex.printStackTrace();
-            }
-            finally {
-                if(manifest != null) {
-                    manifest.delete();
-                }
             }
         }
     }
