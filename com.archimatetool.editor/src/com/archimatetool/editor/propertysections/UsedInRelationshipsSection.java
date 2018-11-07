@@ -97,12 +97,15 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
 
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
             
+            @Override
             public void dispose() {
             }
             
+            @Override
             public Object[] getElements(Object inputElement) {
                 return ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateElement)inputElement).toArray();
             }
@@ -111,6 +114,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         fTableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider(fTableViewer.getTable()));
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 if(isAlive(fArchimateElement)) {
                     Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
@@ -130,12 +134,14 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         // DND
         fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK, new Transfer[] { LocalSelectionTransfer.getTransfer() },
                 new DragSourceListener() {
+            @Override
             public void dragStart(DragSourceEvent event) {
                 // Drag started from the Table
                 LocalSelectionTransfer.getTransfer().setSelection(fTableViewer.getSelection());
                 event.doit = true;
             }
             
+            @Override
             public void dragSetData(DragSourceEvent event) {
                 // For consistency set the data to the selection even though
                 // the selection is provided by the LocalSelectionTransfer
@@ -143,6 +149,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
                 event.data = LocalSelectionTransfer.getTransfer().getSelection();
             }
             
+            @Override
             public void dragFinished(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
             }

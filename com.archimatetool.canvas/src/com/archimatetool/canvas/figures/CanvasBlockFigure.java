@@ -54,6 +54,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         setLayoutManager(new DelegatingLayout());
 
         Locator mainLocator = new Locator() {
+            @Override
             public void relocate(IFigure target) {
                 Rectangle bounds = getBounds().getCopy();
                 translateFromParent(bounds);
@@ -84,6 +85,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         fIconicDelegate.updateImage();
     }
     
+    @Override
     public void refreshVisuals() {
         // Text
         setText();
@@ -136,6 +138,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         return fBorderColor;
     }
 
+    @Override
     public TextFlow getTextControl() {
         return fTextFlow;
     }

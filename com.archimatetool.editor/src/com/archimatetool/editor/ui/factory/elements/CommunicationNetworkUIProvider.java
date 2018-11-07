@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class CommunicationNetworkUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getCommunicationNetwork();
     }

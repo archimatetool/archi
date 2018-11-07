@@ -141,6 +141,7 @@ public class AboutDialog extends TrayDialog {
         final String copyright = ArchiPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         imageControl.addPaintListener(new PaintListener() {
+            @Override
             public void paintControl(PaintEvent e) {
                 int fontHeight = e.gc.getFontMetrics().getHeight() + 2;
                 

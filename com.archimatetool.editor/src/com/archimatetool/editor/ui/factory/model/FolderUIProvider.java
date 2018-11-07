@@ -22,6 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class FolderUIProvider extends AbstractObjectUIProvider {
     
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getFolder();
     }

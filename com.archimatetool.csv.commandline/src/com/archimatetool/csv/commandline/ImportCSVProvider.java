@@ -77,6 +77,7 @@ public class ImportCSVProvider extends AbstractCommandLineProvider {
         return PREFIX;
     }
     
+    @Override
     public int getPriority() {
         return PRIORITY_IMPORT;
     }

@@ -83,6 +83,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         UIUtils.conformSingleTextControl(fFolderTextField);
         
         fFolderTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
                 updateFileLabels();
@@ -121,6 +122,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         fFilePrefixTextField.setLayoutData(gd);
         
         fFilePrefixTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
                 updateFileLabels();

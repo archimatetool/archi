@@ -36,7 +36,8 @@ public final class MouseWheelHorizontalScrollHandler implements MouseWheelHandle
 	 * 
 	 * @see MouseWheelHandler#handleMouseWheel(Event, EditPartViewer)
 	 */
-	public void handleMouseWheel(Event event, EditPartViewer viewer) {
+	@Override
+    public void handleMouseWheel(Event event, EditPartViewer viewer) {
         ZoomManager zoomMgr = (ZoomManager)viewer.getProperty(ZoomManager.class.toString());
         if(zoomMgr != null) {
             Viewport viewport = zoomMgr.getViewport();

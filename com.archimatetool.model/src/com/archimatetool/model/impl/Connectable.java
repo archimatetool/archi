@@ -81,6 +81,7 @@ public abstract class Connectable extends DiagramModelComponent implements IConn
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelConnection> getSourceConnections() {
         if (sourceConnections == null) {
             sourceConnections = new EObjectContainmentEList<IDiagramModelConnection>(IDiagramModelConnection.class, this, IArchimatePackage.CONNECTABLE__SOURCE_CONNECTIONS);
@@ -93,6 +94,7 @@ public abstract class Connectable extends DiagramModelComponent implements IConn
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelConnection> getTargetConnections() {
         if (targetConnections == null) {
             targetConnections = new EObjectEList<IDiagramModelConnection>(IDiagramModelConnection.class, this, IArchimatePackage.CONNECTABLE__TARGET_CONNECTIONS);
@@ -105,6 +107,7 @@ public abstract class Connectable extends DiagramModelComponent implements IConn
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void addConnection(IDiagramModelConnection connection) {
         if(connection == null) {
             throw new IllegalArgumentException("Connection was null"); //$NON-NLS-1$
@@ -125,6 +128,7 @@ public abstract class Connectable extends DiagramModelComponent implements IConn
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void removeConnection(IDiagramModelConnection connection) {
         if(connection == null) {
             throw new IllegalArgumentException();

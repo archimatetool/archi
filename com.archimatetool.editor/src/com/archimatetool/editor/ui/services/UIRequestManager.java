@@ -39,6 +39,7 @@ public final class UIRequestManager {
         }
         
         Display.getCurrent().asyncExec(new Runnable() {
+            @Override
             public void run() {
                 Object[] listenersArray = listeners.toArray();
                 for(int i = 0; i < listenersArray.length; i++) {

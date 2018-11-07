@@ -156,6 +156,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -165,6 +166,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setId(String newId) {
         String oldId = id;
         id = newId;
@@ -177,6 +179,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -186,6 +189,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setName(String newName) {
         String oldName = name;
         name = newName;
@@ -198,6 +202,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -207,6 +212,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -219,6 +225,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES);
@@ -247,6 +254,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public EObject getCopy() {
         IArchimateConcept newObject = EcoreUtil.copy(this);
         newObject.setId(null); // need a new ID
@@ -258,6 +266,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateModel getArchimateModel() {
         if(eContainer() == null) {
             return null;
@@ -270,6 +279,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -283,6 +293,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
     }

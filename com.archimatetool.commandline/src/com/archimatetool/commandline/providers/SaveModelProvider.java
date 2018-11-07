@@ -35,6 +35,7 @@ public class SaveModelProvider extends AbstractCommandLineProvider {
     public SaveModelProvider() {
     }
 
+    @Override
     public Options getOptions() {
         Options options = new Options();
         
@@ -50,6 +51,7 @@ public class SaveModelProvider extends AbstractCommandLineProvider {
         return options;
     }
     
+    @Override
     public void run(CommandLine commandLine) throws Exception {
         if(commandLine.hasOption(OPTION_SAVE_MODEL)) {
             IArchimateModel model = CommandLineState.getModel();
@@ -81,6 +83,7 @@ public class SaveModelProvider extends AbstractCommandLineProvider {
         stack.markSaveLocation();
     }
 
+    @Override
     public int getPriority() {
         return PRIORITY_SAVE_MODEL;
     }

@@ -29,6 +29,7 @@ public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider im
     
     private IGraphicsIcon graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getArchimateDiagramModel();
     }

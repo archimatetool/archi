@@ -91,6 +91,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         return browser;
     }
     
+    @Override
     public void setBrowserEditorInput(BrowserEditorInput input) {
         setInput(input);
         
@@ -104,6 +105,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
     /**
      * @return The Browser component
      */
+    @Override
     public Browser getBrowser() {
         return fBrowser;
     }

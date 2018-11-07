@@ -54,6 +54,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
     private ZoomListener zoomListener = new ZoomListener() {
+        @Override
         public void zoomChanged(double newZoomValue) {
             handleZoomChanged(newZoomValue);
         }
@@ -87,7 +88,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected void handleZoomChanged(double newZoomValue) {
     }
     
-	public void setModelConnection(IDiagramModelConnection connection) {
+	@Override
+    public void setModelConnection(IDiagramModelConnection connection) {
 	    fDiagramModelConnection = connection;
 	    
 	    setFigureProperties();
@@ -96,7 +98,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 	    AnimationUtil.addConnectionForRoutingAnimation(this);
 	}
 	
-	public IDiagramModelConnection getModelConnection() {
+	@Override
+    public IDiagramModelConnection getModelConnection() {
 	    return fDiagramModelConnection;
 	}
 	
@@ -104,6 +107,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 		setTargetDecoration(new PolygonDecoration()); // arrow at target endpoint
 	}
 	
+    @Override
     public void refreshVisuals() {
         // If the text position has been changed by user update it
         if(fDiagramModelConnection.getTextPosition() != fTextPosition) {
@@ -128,12 +132,14 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
      * @param copy
      * @return True if the user clicked on the Relationship edit label
      */
+    @Override
     public boolean didClickConnectionLabel(Point requestLoc) {
         Label label = getConnectionLabel();
         label.translateToRelative(requestLoc);
         return label.containsPoint(requestLoc);
     }
 
+    @Override
     public Label getConnectionLabel() {
         if(fConnectionLabel == null) {
             fConnectionLabel = new Label(""); //$NON-NLS-1$

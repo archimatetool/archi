@@ -49,6 +49,7 @@ public abstract class PropertySectionTextControl implements FocusListener {
         // Listen for Return keypress on SINGLE text controls
         if((textControl.getStyle() & SWT.SINGLE) != 0) {
             textControl.addListener(SWT.DefaultSelection, new Listener() {
+                @Override
                 public void handleEvent(Event e) {
                     updateText();
                 }

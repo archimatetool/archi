@@ -28,6 +28,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getGrouping();
     }

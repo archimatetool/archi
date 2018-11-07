@@ -78,6 +78,7 @@ public class NewMenuContributionItem extends ContributionItem implements IWorkbe
         return (IStructuredSelection)selectionService.getSelection(ITreeModelView.ID);
     }
 
+    @Override
     public void initialize(IServiceLocator serviceLocator) {
         this.selectionService = serviceLocator.getService(ISelectionService.class);
     }    

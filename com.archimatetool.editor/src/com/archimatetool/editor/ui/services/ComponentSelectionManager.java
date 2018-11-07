@@ -44,6 +44,7 @@ public final class ComponentSelectionManager {
         for(int i = 0; i < listenersArray.length; i++) {
             final IComponentSelectionListener l = (IComponentSelectionListener)listenersArray[i];
             SafeRunner.run(new SafeRunnable() {
+                @Override
                 public void run() {
                     l.componentSelectionChanged(source, selection);
                 }

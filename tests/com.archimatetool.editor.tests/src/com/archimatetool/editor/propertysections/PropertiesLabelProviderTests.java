@@ -188,6 +188,7 @@ public class PropertiesLabelProviderTests {
         IAdaptable adaptable = new IAdaptable() {
             IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
             
+            @Override
             @SuppressWarnings({"rawtypes", "unchecked"})
             public Object getAdapter(Class adapter) {
                 if(adapter != null && (adapter.isInstance(element) || adapter.isInstance(this))) {

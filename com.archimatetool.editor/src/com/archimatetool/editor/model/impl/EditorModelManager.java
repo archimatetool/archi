@@ -91,9 +91,11 @@ implements IEditorModelManager {
      * Listen to the App closing so we can ask to save
      */
     private IWorkbenchListener workBenchListener = new IWorkbenchListener() {
+        @Override
         public void postShutdown(IWorkbench workbench) {
         }
 
+        @Override
         public boolean preShutdown(IWorkbench  workbench, boolean forced) {
             // Handle modified models
             if(fModels != null) { // Dont call getModels() - we don't want to call loadState();
@@ -563,6 +565,7 @@ implements IEditorModelManager {
         if(PlatformUI.isWorkbenchRunning()) {
             // Forward on CommandStack Event to Tree
             cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
+                @Override
                 public void stackChanged(CommandStackEvent event) {
                     // Send notification to Tree
                     firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
@@ -630,6 +633,7 @@ implements IEditorModelManager {
 
     //========================== Persist backing file  ==========================
 
+    @Override
     public void saveState() throws IOException {
         Document doc = new Document();
         Element rootElement = new Element("models"); //$NON-NLS-1$
@@ -663,14 +667,17 @@ implements IEditorModelManager {
     
     //========================== Model Listener events  ==========================
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         fListeners.addPropertyChangeListener(listener);
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         fListeners.removePropertyChangeListener(listener);
     }
     
+    @Override
     public void firePropertyChange(Object source, String prop, Object oldValue, Object newValue) {
         fListeners.firePropertyChange(new PropertyChangeEvent(source, prop, oldValue, newValue));
     }

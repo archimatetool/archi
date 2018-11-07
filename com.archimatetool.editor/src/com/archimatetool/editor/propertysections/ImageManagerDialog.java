@@ -232,6 +232,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         
         // Double-clicks
         fGallery.addListener(SWT.MouseDoubleClick, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
                 if(item != null) {

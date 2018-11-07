@@ -133,6 +133,7 @@ implements IDiagramModelObjectFigure {
     /**
      * @return The Fill Color to use
      */
+    @Override
     public Color getFillColor() {
         if(fFillColor == null) {
             return ColorFactory.getDefaultFillColor(fDiagramModelObject);
@@ -166,6 +167,7 @@ implements IDiagramModelObjectFigure {
     /**
      * @return The Line Color to use
      */
+    @Override
     public Color getLineColor() {
         // User preference to derive element line colour
         if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
@@ -213,6 +215,7 @@ implements IDiagramModelObjectFigure {
         return toolTipFigure;
     }
 
+    @Override
     public boolean didClickTextControl(Point requestLoc) {
         IFigure figure = getTextControl();
         if(figure != null) {
@@ -238,6 +241,7 @@ implements IDiagramModelObjectFigure {
         return new ChopboxAnchor(this);
     }
 
+    @Override
     public void dispose() {
     }
 }

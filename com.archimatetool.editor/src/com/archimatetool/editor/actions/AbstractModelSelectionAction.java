@@ -63,6 +63,7 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
         return fModelSelectionHandler.getActiveArchimateModel();
     }
 
+    @Override
     public void dispose() {
         fModelSelectionHandler.dispose();
     }

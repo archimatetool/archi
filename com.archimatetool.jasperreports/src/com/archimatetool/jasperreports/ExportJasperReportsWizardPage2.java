@@ -186,6 +186,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
                 Locale locales[] = Locale.getAvailableLocales();
 
                 Comparator<Locale> localeComparator = new Comparator<Locale>() {
+                    @Override
                     public int compare(Locale locale1, Locale locale2) {
                         return locale1.toString().compareTo(locale2.toString());
                     }

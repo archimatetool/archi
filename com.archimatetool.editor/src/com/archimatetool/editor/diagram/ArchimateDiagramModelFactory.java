@@ -85,10 +85,12 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         fTemplate = template;
     }
     
+    @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof IArchimateDiagramEditor;
     }
     
+    @Override
     public Object getNewObject() {
         if(fTemplate == null) {
             return null;
@@ -129,6 +131,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         return object;
     }
 
+    @Override
     public Object getObjectType() {
         return fTemplate;
     }

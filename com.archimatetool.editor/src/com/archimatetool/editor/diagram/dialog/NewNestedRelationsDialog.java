@@ -264,18 +264,22 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         }
         
         class RelationsTableViewerContentProvider implements IStructuredContentProvider {
+            @Override
             public void inputChanged(Viewer v, Object oldInput, Object newInput) {
             }
             
+            @Override
             public void dispose() {
             }
             
+            @Override
             public Object[] getElements(Object parent) {
                 return fMappings;
             }
         }
 
         class RelationsTableViewerLabelCellProvider extends LabelProvider implements ITableLabelProvider {
+            @Override
             public Image getColumnImage(Object element, int columnIndex) {
                 if(columnIndex == 0) {
                     return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getChildObject());

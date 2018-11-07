@@ -220,6 +220,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         
         // Double-clicks
         fGallery.addListener(SWT.MouseDoubleClick, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
                 if(item != null) {
@@ -266,6 +267,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         tableComp.setLayoutData(gd);
         final TemplateGroupsTableViewer tableViewer = new TemplateGroupsTableViewer(tableComp, SWT.NULL);
         tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 handleTableItemSelected(o);

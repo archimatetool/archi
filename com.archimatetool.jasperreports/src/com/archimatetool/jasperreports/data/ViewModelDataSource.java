@@ -55,6 +55,7 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
         return null;
     }
     
+    @Override
     public PropertiesModelDataSource getPropertiesDataSource() {
         return new PropertiesModelDataSource(fCurrentView);
     }

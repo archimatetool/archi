@@ -81,6 +81,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -90,6 +91,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -102,6 +104,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModel getReferencedModel() {
         return referencedModel;
     }
@@ -111,6 +114,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setReferencedModel(IDiagramModel newReferencedModel) {
         IDiagramModel oldReferencedModel = referencedModel;
         referencedModel = newReferencedModel;

@@ -121,6 +121,7 @@ implements NodeEditPart {
         return getFilteredModelTargetConnections();
     }
     
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
     	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), connection, true);
@@ -129,6 +130,7 @@ implements NodeEditPart {
     	return getDefaultConnectionAnchor();
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
     	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     		return new OrthogonalAnchor(getFigure(), connection, false);
@@ -137,6 +139,7 @@ implements NodeEditPart {
     	return getDefaultConnectionAnchor();
     }
 
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
     	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, true);
@@ -145,6 +148,7 @@ implements NodeEditPart {
     	return getDefaultConnectionAnchor();
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
     	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, false);

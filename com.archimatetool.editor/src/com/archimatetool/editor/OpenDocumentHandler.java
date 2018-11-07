@@ -28,6 +28,7 @@ public class OpenDocumentHandler {
     private static final File[] EMPTY_QUEUE = new File[0];
 
     private class OpenDocumentHook implements Listener {
+        @Override
         public void handleEvent(Event event) {
             String str = event.text;
             if(str != null && !"".equals(str)) { //$NON-NLS-1$

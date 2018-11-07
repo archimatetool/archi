@@ -229,6 +229,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         UIUtils.conformSingleTextControl(fNameTextField);
 
         fNameTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 String text = fNameTextField.getText();
                 if(fIsSettingFields || !StringUtils.isSet(text)) {
@@ -262,6 +263,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         gd.heightHint = 100;
         fDescriptionTextField.setLayoutData(gd);
         fDescriptionTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 String text = fDescriptionTextField.getText();
                 if(fIsSettingFields || !StringUtils.isSet(text)) {

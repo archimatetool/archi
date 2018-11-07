@@ -32,6 +32,7 @@ import com.archimatetool.model.IDiagramModelReference;
  */
 public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelReference();
     }

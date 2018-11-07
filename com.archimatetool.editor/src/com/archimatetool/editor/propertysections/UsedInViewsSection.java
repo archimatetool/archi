@@ -83,12 +83,15 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
 
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
             
+            @Override
             public void dispose() {
             }
             
+            @Override
             public Object[] getElements(Object inputElement) {
                 return DiagramModelUtils.findReferencedDiagramsForArchimateConcept((IArchimateConcept)inputElement).toArray();
             }
@@ -107,6 +110,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         });
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 if(!isAlive(fArchimateConcept)) {
                     return;

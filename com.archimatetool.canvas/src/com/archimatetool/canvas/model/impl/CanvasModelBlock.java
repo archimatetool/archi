@@ -261,6 +261,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelObject> getChildren() {
         if (children == null) {
             children = new EObjectContainmentEList<IDiagramModelObject>(IDiagramModelObject.class, this, ICanvasPackage.CANVAS_MODEL_BLOCK__CHILDREN);
@@ -273,6 +274,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getContent() {
         return content;
     }
@@ -282,6 +284,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setContent(String newContent) {
         String oldContent = content;
         content = newContent;
@@ -294,6 +297,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -303,6 +307,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -315,6 +320,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, ICanvasPackage.CANVAS_MODEL_BLOCK__PROPERTIES);
@@ -327,6 +333,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean isLocked() {
         return locked;
     }
@@ -336,6 +343,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLocked(boolean newLocked) {
         boolean oldLocked = locked;
         locked = newLocked;
@@ -348,6 +356,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getImagePath() {
         return imagePath;
     }
@@ -357,6 +366,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setImagePath(String newImagePath) {
         String oldImagePath = imagePath;
         imagePath = newImagePath;
@@ -369,6 +379,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getImagePosition() {
         return imagePosition;
     }
@@ -378,6 +389,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setImagePosition(int newImagePosition) {
         int oldImagePosition = imagePosition;
         imagePosition = newImagePosition;
@@ -390,6 +402,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getHintTitle() {
         return hintTitle;
     }
@@ -399,6 +412,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setHintTitle(String newHintTitle) {
         String oldHintTitle = hintTitle;
         hintTitle = newHintTitle;
@@ -411,6 +425,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getHintContent() {
         return hintContent;
     }
@@ -420,6 +435,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setHintContent(String newHintContent) {
         String oldHintContent = hintContent;
         hintContent = newHintContent;
@@ -442,6 +458,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getBorderColor() {
         return borderColor;
     }
@@ -451,6 +468,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBorderColor(String newBorderColor) {
         String oldBorderColor = borderColor;
         borderColor = newBorderColor;

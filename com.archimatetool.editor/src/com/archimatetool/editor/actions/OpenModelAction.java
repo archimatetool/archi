@@ -66,6 +66,7 @@ implements IWorkbenchAction
             }
             
             BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+                @Override
                 public void run() {
                     IEditorModelManager.INSTANCE.openModel(file);
                 }
@@ -93,6 +94,7 @@ implements IWorkbenchAction
         return null;
     }
 
+    @Override
     public void dispose() {
     } 
 }

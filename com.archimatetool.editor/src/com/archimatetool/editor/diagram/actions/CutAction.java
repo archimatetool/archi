@@ -48,6 +48,7 @@ public class CutAction extends CopyAction {
         super.run();
         
         BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
             public void run() {
                 CompoundCommand result = new CompoundCommand(Messages.CutAction_1);
                 

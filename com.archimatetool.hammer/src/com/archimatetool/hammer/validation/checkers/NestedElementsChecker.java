@@ -46,6 +46,7 @@ public class NestedElementsChecker implements IChecker {
         fViews = views;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findWrongNestedElements();
     }

@@ -41,6 +41,7 @@ public class ViewpointChecker implements IChecker {
         fViews = views;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findComponentsInWrongViewpoints();
     }

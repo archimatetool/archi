@@ -71,6 +71,7 @@ public class ZestGraphViewer extends GraphViewer {
         getGraphControl().addMouseWheelListener(new MouseWheelListener() {
             final int DELTA = 30;
             
+            @Override
             public void mouseScrolled(MouseEvent e) {
                 // Zoom in and out with Ctrl Key and mouse wheel - need better icons for this to look good
 //                if((e.stateMask & SWT.MOD1) != 0) {

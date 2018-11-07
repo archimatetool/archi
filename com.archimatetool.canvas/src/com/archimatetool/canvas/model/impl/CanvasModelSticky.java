@@ -225,6 +225,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getImagePath() {
         return imagePath;
     }
@@ -234,6 +235,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setImagePath(String newImagePath) {
         String oldImagePath = imagePath;
         imagePath = newImagePath;
@@ -246,6 +248,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getImagePosition() {
         return imagePosition;
     }
@@ -255,6 +258,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setImagePosition(int newImagePosition) {
         int oldImagePosition = imagePosition;
         imagePosition = newImagePosition;
@@ -267,6 +271,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getContent() {
         return content;
     }
@@ -276,6 +281,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setContent(String newContent) {
         String oldContent = content;
         content = newContent;
@@ -288,6 +294,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, ICanvasPackage.CANVAS_MODEL_STICKY__PROPERTIES);
@@ -300,6 +307,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean isLocked() {
         return locked;
     }
@@ -309,6 +317,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLocked(boolean newLocked) {
         boolean oldLocked = locked;
         locked = newLocked;
@@ -321,6 +330,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getBorderColor() {
         return borderColor;
     }
@@ -330,6 +340,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBorderColor(String newBorderColor) {
         String oldBorderColor = borderColor;
         borderColor = newBorderColor;
@@ -342,6 +353,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -351,6 +363,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -363,6 +376,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getNotes() {
         return notes;
     }
@@ -372,6 +386,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setNotes(String newNotes) {
         String oldNotes = notes;
         notes = newNotes;

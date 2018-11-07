@@ -39,6 +39,7 @@ public final class UIUtils {
         
         if((textControl.getStyle() & SWT.SINGLE) != 0) {
             textControl.addListener(SWT.Verify, new Listener() {
+                @Override
                 public void handleEvent(Event event) {
                     if(StringUtils.isSet(event.text)) {
                         event.text = event.text.replaceAll("(\\r\\n|\\r|\\n)", " "); //$NON-NLS-1$ //$NON-NLS-2$
@@ -66,6 +67,7 @@ public final class UIUtils {
      */
     public static void applyInvalidCharacterFilter(Text textControl) {
         textControl.addVerifyListener(new VerifyListener() {
+            @Override
             public void verifyText(VerifyEvent e) {
                 e.text = e.text.replaceAll(xml10pattern, ""); //$NON-NLS-1$
             }
@@ -79,6 +81,7 @@ public final class UIUtils {
      */
     public static void applyInvalidCharacterFilter(StyledText textControl) {
         textControl.addVerifyListener(new VerifyListener() {
+            @Override
             public void verifyText(VerifyEvent e) {
                 e.text = e.text.replaceAll(xml10pattern, ""); //$NON-NLS-1$
             }

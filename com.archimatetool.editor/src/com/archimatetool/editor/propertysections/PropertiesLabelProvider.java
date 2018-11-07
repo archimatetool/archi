@@ -24,6 +24,7 @@ import com.archimatetool.model.IArchimateConcept;
  */
 public class PropertiesLabelProvider implements ILabelProvider {
 
+    @Override
     public Image getImage(Object object) {
         if(!(object instanceof IStructuredSelection)) {
             return null;
@@ -38,6 +39,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return ArchiLabelProvider.INSTANCE.getImage(object);
     }
 
+    @Override
     public String getText(Object object) {
         if(!(object instanceof IStructuredSelection)) {
             return " "; //$NON-NLS-1$
@@ -77,16 +79,20 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return typeName;
     }
     
+    @Override
     public void addListener(ILabelProviderListener listener) {
     }
 
+    @Override
     public void dispose() {
     }
 
+    @Override
     public boolean isLabelProperty(Object element, String property) {
         return false;
     }
 
+    @Override
     public void removeListener(ILabelProviderListener listener) {
     }
 

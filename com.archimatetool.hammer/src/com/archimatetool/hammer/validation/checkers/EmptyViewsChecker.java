@@ -34,6 +34,7 @@ public class EmptyViewsChecker implements IChecker {
         fViews = views;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findEmptyViews();
     }

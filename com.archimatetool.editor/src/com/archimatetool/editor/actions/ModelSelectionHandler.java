@@ -57,6 +57,7 @@ public class ModelSelectionHandler implements IPartListener {
      * Listen to Tree Selections to update state
      */
     protected ISelectionChangedListener selectionListener = new ISelectionChangedListener() {
+        @Override
         public void selectionChanged(SelectionChangedEvent event) {
             fListener.updateState();
         }
@@ -77,9 +78,11 @@ public class ModelSelectionHandler implements IPartListener {
 
     // ------------------ Part Listener --------------------------
 
+    @Override
     public void partOpened(IWorkbenchPart part) {
     }
 
+    @Override
     public void partClosed(IWorkbenchPart part) {
         if(part instanceof IModelSelectionView) {
             fActiveModelView = null;
@@ -93,6 +96,7 @@ public class ModelSelectionHandler implements IPartListener {
         }
     }
 
+    @Override
     public void partActivated(IWorkbenchPart part) {
         if(part instanceof IModelSelectionView) {
             fActiveModelView = (IModelSelectionView)part;
@@ -105,12 +109,14 @@ public class ModelSelectionHandler implements IPartListener {
         fListener.updateState();
     }
     
+    @Override
     public void partDeactivated(IWorkbenchPart part) {
         if(part instanceof IModelSelectionView) {
             ((IModelSelectionView)part).getSelectionProvider().removeSelectionChangedListener(selectionListener);
         }
     }
     
+    @Override
     public void partBroughtToTop(IWorkbenchPart part) {
     }
     

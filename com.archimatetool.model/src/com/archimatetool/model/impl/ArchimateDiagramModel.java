@@ -73,6 +73,7 @@ public class ArchimateDiagramModel extends DiagramModel implements IArchimateDia
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getViewpoint() {
         return viewpoint;
     }
@@ -82,6 +83,7 @@ public class ArchimateDiagramModel extends DiagramModel implements IArchimateDia
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setViewpoint(String newViewpoint) {
         String oldViewpoint = viewpoint;
         viewpoint = newViewpoint;

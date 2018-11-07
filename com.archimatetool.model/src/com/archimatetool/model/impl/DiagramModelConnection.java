@@ -277,6 +277,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getFont() {
         return font;
     }
@@ -286,6 +287,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFont(String newFont) {
         String oldFont = font;
         font = newFont;
@@ -298,6 +300,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getFontColor() {
         return fontColor;
     }
@@ -307,6 +310,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFontColor(String newFontColor) {
         String oldFontColor = fontColor;
         fontColor = newFontColor;
@@ -319,6 +323,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES);
@@ -331,6 +336,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -340,6 +346,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -353,6 +360,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getText() {
         return text;
     }
@@ -363,6 +371,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setText(String newText) {
         String oldText = text;
         text = newText;
@@ -375,6 +384,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IConnectable getSource() {
         return source;
     }
@@ -384,6 +394,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setSource(IConnectable newSource) {
         IConnectable oldSource = source;
         source = newSource;
@@ -396,6 +407,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IConnectable getTarget() {
         return target;
     }
@@ -405,6 +417,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTarget(IConnectable newTarget) {
         IConnectable oldTarget = target;
         target = newTarget;
@@ -417,6 +430,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelBendpoint> getBendpoints() {
         if (bendpoints == null) {
             bendpoints = new EObjectContainmentEList<IDiagramModelBendpoint>(IDiagramModelBendpoint.class, this, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS);
@@ -429,6 +443,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getLineWidth() {
         return lineWidth;
     }
@@ -438,6 +453,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLineWidth(int newLineWidth) {
         int oldLineWidth = lineWidth;
         lineWidth = newLineWidth;
@@ -450,6 +466,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getLineColor() {
         return lineColor;
     }
@@ -459,6 +476,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLineColor(String newLineColor) {
         String oldLineColor = lineColor;
         lineColor = newLineColor;
@@ -471,6 +489,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -480,6 +499,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -492,6 +512,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getType() {
         return type;
     }
@@ -501,6 +522,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setType(int newType) {
         int oldType = type;
         type = newType;
@@ -513,6 +535,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void connect(IConnectable source, IConnectable target) {
         if(source == null || target == null) {
             throw new IllegalArgumentException("Source or Target cannot be null"); //$NON-NLS-1$
@@ -537,6 +560,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void disconnect() {
         if(source != null && target != null) {
             source.removeConnection(this);
@@ -549,6 +573,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void reconnect() {
         if(source != null && target != null) {
             source.addConnection(this);

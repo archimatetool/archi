@@ -71,6 +71,7 @@ public class ViewpointAction extends Action implements Disposable {
         setChecked(diagramModel.getViewpoint().equals(viewPoint.getID()));
     }
     
+    @Override
     public void dispose() {
         diagramModel.eAdapters().remove(eAdapter);
         viewPoint = null;

@@ -44,16 +44,20 @@ public class TemplatesTreeViewer extends TreeViewer {
      */
     private class TemplatesTreeViewerContentProvider implements ITreeContentProvider {
         
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         
+        @Override
         public void dispose() {
         }
         
+        @Override
         public Object[] getElements(Object parent) {
             return getChildren(parent);
         }
 
+        @Override
         public Object[] getChildren(Object parentElement) {
             if(parentElement instanceof List<?>) {
                 return ((List<?>)parentElement).toArray();
@@ -66,10 +70,12 @@ public class TemplatesTreeViewer extends TreeViewer {
             return new Object[0];
         }
 
+        @Override
         public Object getParent(Object element) {
             return null;
         }
 
+        @Override
         public boolean hasChildren(Object element) {
             if(element instanceof ITemplateGroup) {
                 return getChildren(element).length > 0;

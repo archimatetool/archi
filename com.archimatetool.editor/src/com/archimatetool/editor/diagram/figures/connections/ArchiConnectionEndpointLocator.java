@@ -154,7 +154,8 @@ public class ArchiConnectionEndpointLocator implements Locator {
 	 * @param figure
 	 *            The figure to relocate
 	 */
-	public void relocate(IFigure figure) {
+	@Override
+    public void relocate(IFigure figure) {
 		Connection conn = getConnection();
 		Point startPoint = Point.SINGLETON;
 		Point endPoint = new Point();

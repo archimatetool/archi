@@ -36,6 +36,7 @@ public class SketchModelFactory implements ICreationFactory {
         this(template, null);
     }
     
+    @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof ISketchEditor;
     }
@@ -50,6 +51,7 @@ public class SketchModelFactory implements ICreationFactory {
         fParam = param;
     }
     
+    @Override
     public Object getNewObject() {
         Object object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
@@ -98,6 +100,7 @@ public class SketchModelFactory implements ICreationFactory {
         return object;
     }
 
+    @Override
     public Object getObjectType() {
         return fTemplate;
     }

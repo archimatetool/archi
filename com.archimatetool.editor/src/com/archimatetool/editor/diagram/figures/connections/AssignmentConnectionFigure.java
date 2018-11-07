@@ -34,6 +34,7 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
             setSize(radius * 2 + 1, radius * 2 + 1);
         }
 
+        @Override
         public void setReferencePoint(Point ref) {
             if(pLocation != null) {
                 PolarPoint pp = new PolarPoint(ref, pLocation);

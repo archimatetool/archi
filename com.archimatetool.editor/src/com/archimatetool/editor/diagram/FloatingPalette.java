@@ -90,6 +90,7 @@ public class FloatingPalette {
         
         // Disposed by system
         fShell.addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 if(fClient != null) {
                     fClient.dispose();

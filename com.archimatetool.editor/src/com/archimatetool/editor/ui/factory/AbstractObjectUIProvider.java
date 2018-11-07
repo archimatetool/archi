@@ -34,6 +34,7 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
         this.instance = instance;
     }
     
+    @Override
     public void setInstance(EObject instance) {
         this.instance = instance;
     }

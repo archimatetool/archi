@@ -128,6 +128,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelObject> getChildren() {
         if (children == null) {
             children = new EObjectContainmentEList<IDiagramModelObject>(IDiagramModelObject.class, this, IArchimatePackage.SKETCH_MODEL_STICKY__CHILDREN);
@@ -140,6 +141,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getContent() {
         return content;
     }
@@ -149,6 +151,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setContent(String newContent) {
         String oldContent = content;
         content = newContent;
@@ -161,6 +164,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.SKETCH_MODEL_STICKY__PROPERTIES);
@@ -173,6 +177,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -182,6 +187,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;

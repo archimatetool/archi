@@ -22,6 +22,7 @@ public class ShowViewCheatSheetAction
 extends Action
 implements ICheatSheetAction {
     
+    @Override
     public void run(String[] params, ICheatSheetManager manager) {
         if(params != null && params.length > 0) {
             ViewManager.showViewPart(params[0], true);

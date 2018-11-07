@@ -112,6 +112,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateRelationship getArchimateRelationship() {
         if(fRelationship == null) {
             Logger.logError("getArchimateRelationship() returning null", new Throwable()); //$NON-NLS-1$
@@ -125,6 +126,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setArchimateRelationship(IArchimateRelationship relationship) {
         if(relationship == null) {
             Logger.logError("setArchimateRelationship() setting null", new Throwable()); //$NON-NLS-1$
@@ -140,6 +142,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateRelationship getArchimateConcept() {
         return getArchimateRelationship();
     }
@@ -149,6 +152,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setArchimateConcept(IArchimateConcept concept) {
         if(!(concept instanceof IArchimateRelationship)) {
             throw new IllegalArgumentException("Should be of type IArchimateRelationship"); //$NON-NLS-1$

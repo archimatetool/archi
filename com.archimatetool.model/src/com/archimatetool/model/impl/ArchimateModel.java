@@ -212,6 +212,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         eAdapters().add(fIDAdapter);
     }
     
+    @Override
     public IDAdapter getIDAdapter() {
         return fIDAdapter;
     }
@@ -221,6 +222,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setDefaults() {
         // Element has no ID so allocate one
         if(getId() == null) {
@@ -264,6 +266,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IFolder getDefaultFolderForObject(EObject object) {
         addDefaultFolders(); // Check they haven't been deleted
         
@@ -303,6 +306,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IFolder getFolder(FolderType type) {
         for(Iterator<EObject> iter =  EcoreUtil.getAllContents(getFolders()); iter.hasNext();) {
             EObject eObject = iter.next();
@@ -321,6 +325,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -334,6 +339,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
     }
@@ -344,6 +350,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IDiagramModel getDefaultDiagramModel() {
         EList<IDiagramModel> list = getDiagramModels();
         return list.size() > 0 ? list.get(0) : null;
@@ -355,6 +362,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public EList<IDiagramModel> getDiagramModels() {
         EList<IDiagramModel> list = new BasicEList<IDiagramModel>();
         
@@ -387,6 +395,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -396,6 +405,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setName(String newName) {
         String oldName = name;
         name = newName;
@@ -408,6 +418,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -417,6 +428,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setId(String newId) {
         String oldId = id;
         id = newId;
@@ -429,6 +441,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateModel getArchimateModel() {
         return this;
     }
@@ -438,6 +451,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES);
@@ -450,6 +464,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IMetadata getMetadata() {
         return metadata;
     }
@@ -474,6 +489,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setMetadata(IMetadata newMetadata) {
         if (newMetadata != metadata) {
             NotificationChain msgs = null;
@@ -493,6 +509,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getPurpose() {
         return purpose;
     }
@@ -502,6 +519,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setPurpose(String newPurpose) {
         String oldPurpose = purpose;
         purpose = newPurpose;
@@ -514,6 +532,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IFolder> getFolders() {
         if (folders == null) {
             folders = new EObjectContainmentEList<IFolder>(IFolder.class, this, IArchimatePackage.ARCHIMATE_MODEL__FOLDERS);
@@ -526,6 +545,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public File getFile() {
         return file;
     }
@@ -535,6 +555,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFile(File newFile) {
         File oldFile = file;
         file = newFile;
@@ -547,6 +568,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getVersion() {
         return version;
     }
@@ -556,6 +578,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setVersion(String newVersion) {
         String oldVersion = version;
         version = newVersion;

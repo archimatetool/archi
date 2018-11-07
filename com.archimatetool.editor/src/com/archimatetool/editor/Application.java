@@ -40,7 +40,8 @@ implements IApplication {
 	public Application() {
 	}
 	
-	public Object start(IApplicationContext context) throws Exception {
+	@Override
+    public Object start(IApplicationContext context) throws Exception {
 	    // Check if workbench cleanup required
 	    WorkbenchCleaner.checkForReset();
 	    
@@ -90,6 +91,7 @@ implements IApplication {
 	}
 	
 	
+    @Override
     public void stop() {
     
     }

@@ -29,6 +29,7 @@ public class SketchModelUIProvider extends AbstractObjectUIProvider implements I
     
     private IGraphicsIcon graphicsIcon = new SketchModelGraphicsIcon();
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSketchModel();
     }

@@ -37,6 +37,7 @@ public class ArchimateModelDataSource implements JRDataSource, IPropertiesDataSo
         return fModel;
     }
     
+    @Override
     public PropertiesModelDataSource getPropertiesDataSource() {
         return new PropertiesModelDataSource(fModel);
     }

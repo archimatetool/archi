@@ -65,6 +65,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
         fTextPositionDelegate = new TextPositionDelegate(this, page, getDiagramModelObject());
     }
     
+    @Override
     public void refreshVisuals() {
         // Text
         setText(getDiagramModelObject().getContent());

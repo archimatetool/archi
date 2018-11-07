@@ -72,6 +72,7 @@ public class Junction extends ArchimateElement implements IJunction {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getType() {
         return type;
     }
@@ -81,6 +82,7 @@ public class Junction extends ArchimateElement implements IJunction {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setType(String newType) {
         String oldType = type;
         type = newType;

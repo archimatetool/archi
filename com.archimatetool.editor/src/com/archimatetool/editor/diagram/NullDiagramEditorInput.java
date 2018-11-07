@@ -37,18 +37,22 @@ implements IEditorInput {
         return fViewName;
     }
     
+    @Override
     public boolean exists() {
         return false;
     }
 
+    @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
 
+    @Override
     public String getName() {
         return getViewName() == null ? Messages.NullDiagramEditorInput_0 : Messages.NullDiagramEditorInput_1 + " - " + getViewName(); //$NON-NLS-1$
     }
 
+    @Override
     public String getToolTipText() {
         return getName();
     }
@@ -67,6 +71,7 @@ implements IEditorInput {
         return false;
     }
 
+    @Override
     public IPersistableElement getPersistable() {
         return null;
     }

@@ -161,6 +161,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Listen to User Preferences Changes
      */
     protected IPropertyChangeListener appPreferencesListener = new IPropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             applicationPreferencesChanged(event);
         }
@@ -280,6 +281,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         imageLabel.setText(errorMessage);
     }
     
+    @Override
     public IDiagramModel getModel() {
         return fDiagramModel;
     }

@@ -91,6 +91,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getHintTitle() {
         return hintTitle;
     }
@@ -100,6 +101,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setHintTitle(String newHintTitle) {
         String oldHintTitle = hintTitle;
         hintTitle = newHintTitle;
@@ -112,6 +114,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getHintContent() {
         return hintContent;
     }
@@ -121,6 +124,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setHintContent(String newHintContent) {
         String oldHintContent = hintContent;
         hintContent = newHintContent;

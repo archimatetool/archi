@@ -58,6 +58,7 @@ public class FillColorSection extends AbstractECorePropertySection {
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
                 CompoundCommand result = new CompoundCommand();

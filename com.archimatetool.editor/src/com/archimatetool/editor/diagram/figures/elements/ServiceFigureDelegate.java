@@ -70,6 +70,7 @@ implements IRoundedRectangleFigure {
         graphics.popState();
     }
     
+    @Override
     public Dimension getArc() {
         Rectangle bounds = getBounds();
         return new Dimension(Math.min(bounds.height, bounds.width * 8/10), bounds.height);

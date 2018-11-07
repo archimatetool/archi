@@ -70,6 +70,7 @@ public class AccessRelationship extends ArchimateRelationship implements IAccess
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getAccessType() {
         return accessType;
     }
@@ -79,6 +80,7 @@ public class AccessRelationship extends ArchimateRelationship implements IAccess
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setAccessType(int newAccessType) {
         int oldAccessType = accessType;
         accessType = newAccessType;

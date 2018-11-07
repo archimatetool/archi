@@ -54,6 +54,7 @@ public class BorderColorSection extends AbstractECorePropertySection {
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             CompoundCommand result = new CompoundCommand();
 

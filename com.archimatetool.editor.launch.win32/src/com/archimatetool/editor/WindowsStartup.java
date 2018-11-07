@@ -29,6 +29,7 @@ public class WindowsStartup implements IStartup {
         final IWorkbench workbench = PlatformUI.getWorkbench();
         final Display display = workbench.getDisplay();
         display.asyncExec(new Runnable() {
+            @Override
             public void run() {
                 IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                 if(window != null) {
@@ -44,9 +45,11 @@ public class WindowsStartup implements IStartup {
             Number hWnd = getShellWindowHandle(shell);
             logPrimaryWindow(hWnd);
             shell.addDisposeListener(new DisposeListener() {
+                @Override
                 public void widgetDisposed(DisposeEvent e) {
                     WindowState.get(WindowState.WINDOW).delete();
                     e.display.asyncExec(new Runnable() {
+                        @Override
                         public void run() {
                             checkRemainingWindow();
                         }

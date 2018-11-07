@@ -81,6 +81,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     private Listener eventHandler = new EventHandler();
 
     private class EventHandler implements Listener {
+        @Override
         public void handleEvent(Event event) {
             if(event.type == SWT.Modify) {
                 updateOperationButtons();
@@ -126,6 +127,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         SINGLETONS.put(window, this);
         
         window.getShell().addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 close();
                 SINGLETONS.remove(window);
@@ -149,6 +151,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         startListeningToPartChanges();
         
         newShell.addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 saveParameter();
                 stopListeningToPartChanges();
@@ -289,6 +292,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     private void registerOperationButton(final int id, final Button widget) {
         opButtons.put(Integer.valueOf(id), widget);
         widget.addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 unregisterOperationButton(id, widget);
             }
@@ -553,6 +557,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         widgets.add(widget);
         paramWidgets.put(key, widgets);
         widget.addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 removeParameterWidget(paramId, widget);
             }
@@ -603,6 +608,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
 
     // =============================== Part Listener ====================================
 
+    @Override
     public void partActivated(IWorkbenchPart part) {
         currentPart = part;
         setOperationProvider(getOperationProvider(part));
@@ -610,6 +616,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         updateParameterWidgets();
     }
 
+    @Override
     public void partClosed(IWorkbenchPart part) {
         if(part != currentPart) {
             return;
@@ -620,12 +627,15 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         updateParameterWidgets();
     }
 
+    @Override
     public void partBroughtToTop(IWorkbenchPart part) {
     }
 
+    @Override
     public void partDeactivated(IWorkbenchPart part) {
     }
 
+    @Override
     public void partOpened(IWorkbenchPart part) {
     }
     

@@ -112,6 +112,7 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelObject> getChildren() {
         if (children == null) {
             children = new EObjectContainmentEList<IDiagramModelObject>(IDiagramModelObject.class, this, IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN);
@@ -124,6 +125,7 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -133,6 +135,7 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -145,6 +148,7 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES);

@@ -20,6 +20,7 @@ import com.archimatetool.hammer.view.IValidatorView;
  */
 public class ShowValidatorViewHandler extends AbstractHandler {
 
+    @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         ViewManager.toggleViewPart(IValidatorView.ID, true);
         return null;

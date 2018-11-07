@@ -44,10 +44,12 @@ public class CanvasModelFactory implements ICreationFactory {
         fParam = param;
     }
     
+    @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof ICanvasEditor;
     }
     
+    @Override
     public Object getNewObject() {
         // Create the instance from the registered factory in case of extensions
         Object object = fTemplate.getEPackage().getEFactoryInstance().create(fTemplate);
@@ -89,6 +91,7 @@ public class CanvasModelFactory implements ICreationFactory {
         return object;
     }
 
+    @Override
     public Object getObjectType() {
         return fTemplate;
     }

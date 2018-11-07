@@ -43,6 +43,7 @@ public class SaveAction extends AbstractModelSelectionAction {
      * Listen to Command Stack changes to update state
      */
     private PropertyChangeListener commandStackListener = new PropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String propertyName = evt.getPropertyName();
             if(propertyName == IEditorModelManager.COMMAND_STACK_CHANGED) {

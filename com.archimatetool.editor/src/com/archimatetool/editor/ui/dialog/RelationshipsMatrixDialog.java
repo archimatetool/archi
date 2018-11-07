@@ -153,6 +153,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         menuMgr.setRemoveAllWhenShown(true);
         
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 final CellSelection selection = ((CellSelection)viewer.getSelection());
                 if(!selection.isEmpty()) {

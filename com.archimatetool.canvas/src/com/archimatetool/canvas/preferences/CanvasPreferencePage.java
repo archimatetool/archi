@@ -79,6 +79,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         super.performDefaults();
     }
     
+    @Override
     public void init(IWorkbench workbench) {
     }
 }

@@ -40,6 +40,7 @@ public class MainPerspective implements IPerspectiveFactory {
     static String FOLDER_BOTTOM = "folderBottom"; //$NON-NLS-1$
 
 
+    @Override
     public void createInitialLayout(IPageLayout layout) {
         layout.setEditorAreaVisible(true);
         

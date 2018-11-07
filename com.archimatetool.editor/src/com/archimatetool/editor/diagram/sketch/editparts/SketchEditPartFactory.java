@@ -25,6 +25,7 @@ import com.archimatetool.model.IDiagramModelReference;
 public class SketchEditPartFactory
 implements EditPartFactory {
     
+    @Override
     public EditPart createEditPart(EditPart context, Object model) {
         if(model == null) {
             return null;

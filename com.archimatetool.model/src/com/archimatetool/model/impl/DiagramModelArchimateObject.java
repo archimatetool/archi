@@ -121,6 +121,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelObject> getChildren() {
         if (children == null) {
             children = new EObjectContainmentEList<IDiagramModelObject>(IDiagramModelObject.class, this, IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__CHILDREN);
@@ -133,6 +134,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -142,6 +144,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -171,6 +174,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateElement getArchimateElement() {
         if(fArchimateElement == null) {
             Logger.logError("getArchimateElement() returning null", new Throwable()); //$NON-NLS-1$
@@ -184,6 +188,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setArchimateElement(IArchimateElement archimateElement) {
         if(archimateElement == null) {
             Logger.logError("setArchimateElement() setting null", new Throwable()); //$NON-NLS-1$
@@ -217,6 +222,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getType() {
         return type;
     }
@@ -226,6 +232,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setType(int newType) {
         int oldType = type;
         type = newType;
@@ -238,6 +245,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateElement getArchimateConcept() {
         return getArchimateElement();
     }
@@ -247,6 +255,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setArchimateConcept(IArchimateConcept concept) {
         if(!(concept instanceof IArchimateElement)) {
             throw new IllegalArgumentException("Should be of type IArchimateElement"); //$NON-NLS-1$
@@ -259,6 +268,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void addArchimateConceptToModel(IFolder parent) {
         IArchimateElement element = getArchimateElement();
 
@@ -279,6 +289,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void removeArchimateConceptFromModel() {
         IArchimateElement element = getArchimateElement();
         if(element != null) {

@@ -100,6 +100,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextOutputFolder);
         fTextOutputFolder.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }
@@ -131,6 +132,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextFilename);
         fTextFilename.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }
@@ -147,6 +149,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextReportTitle);
         fTextReportTitle.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }

@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class BusinessServiceUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getBusinessService();
     }

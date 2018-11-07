@@ -37,6 +37,7 @@ public class DuplicateElementChecker implements IChecker {
         fArchimateElements = archimateElements;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findDuplicateNamesElements();
     }

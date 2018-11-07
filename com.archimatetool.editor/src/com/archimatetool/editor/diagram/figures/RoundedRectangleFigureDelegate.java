@@ -70,11 +70,13 @@ implements IRoundedRectangleFigure {
         graphics.popState();
     }
     
+    @Override
     public void setArc(Dimension arc) {
         fArc.width = arc.width;
         fArc.height = arc.height;
     }
     
+    @Override
     public Dimension getArc() {
         return fArc.getCopy();
     }

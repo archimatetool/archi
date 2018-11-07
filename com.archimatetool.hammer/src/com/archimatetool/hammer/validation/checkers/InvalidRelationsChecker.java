@@ -35,6 +35,7 @@ public class InvalidRelationsChecker implements IChecker {
         fRelations = relations;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findInvalidRelations();
     }

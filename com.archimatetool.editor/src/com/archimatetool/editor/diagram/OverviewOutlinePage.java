@@ -83,16 +83,20 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
         return fCanvas;
     }
 
+    @Override
     public ISelection getSelection() {
         return StructuredSelection.EMPTY;
     }
 
+    @Override
     public void addSelectionChangedListener(ISelectionChangedListener listener) {
     }
 
+    @Override
     public void removeSelectionChangedListener(ISelectionChangedListener listener) {
     }
 
+    @Override
     public void setSelection(ISelection selection) {
     }
     
@@ -107,14 +111,17 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
     //                       Contextual Help support
     // =================================================================================
 
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.OverviewOutlinePage_0;
     }

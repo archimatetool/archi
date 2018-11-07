@@ -35,6 +35,7 @@ public class UnusedElementsChecker implements IChecker {
         fArchimateElements = archimateElements;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findUnusedElements();
     }

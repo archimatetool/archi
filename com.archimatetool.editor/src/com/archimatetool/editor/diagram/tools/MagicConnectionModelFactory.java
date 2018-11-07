@@ -27,6 +27,7 @@ public class MagicConnectionModelFactory implements ICreationFactory {
     
     private boolean fSwapSourceAndTarget;
     
+    @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof IArchimateDiagramEditor;
     }
@@ -47,10 +48,12 @@ public class MagicConnectionModelFactory implements ICreationFactory {
         return fElementTemplate;
     }
     
+    @Override
     public Object getNewObject() {
         return new ArchimateDiagramModelFactory(fRelationshipTemplate).getNewObject();
     }
 
+    @Override
     public Object getObjectType() {
         return fRelationshipTemplate;
     }

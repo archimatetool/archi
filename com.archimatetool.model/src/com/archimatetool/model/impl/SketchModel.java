@@ -70,6 +70,7 @@ public class SketchModel extends DiagramModel implements ISketchModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getBackground() {
         return background;
     }
@@ -79,6 +80,7 @@ public class SketchModel extends DiagramModel implements ISketchModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBackground(int newBackground) {
         int oldBackground = background;
         background = newBackground;

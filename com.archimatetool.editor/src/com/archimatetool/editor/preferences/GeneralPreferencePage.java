@@ -121,12 +121,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fThemeComboViewer.getCombo().setLayoutData(gd);
         
         fThemeComboViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
             
+            @Override
             public void dispose() {
             }
             
+            @Override
             public Object[] getElements(Object inputElement) {
                 return (Object[])inputElement;
             }
@@ -183,6 +186,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         setValues();
         
         fThemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
                 if(theme != null && theme != fThemeEngine.getActiveTheme()) {
@@ -273,6 +277,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         return super.performCancel();
     }
     
+    @Override
     public void init(IWorkbench workbench) {
         // e4 method (taken from org.eclipse.ui.internal.dialogs.ViewsPreferencePage init(IWorkbench))
         MApplication application = workbench.getService(MApplication.class);

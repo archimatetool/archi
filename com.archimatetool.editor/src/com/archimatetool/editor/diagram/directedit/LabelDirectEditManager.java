@@ -64,6 +64,7 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
          * Changes the size of the editor control to reflect the changed text
          */
         fVerifyListener = new VerifyListener() {
+            @Override
             public void verifyText(VerifyEvent event) {
                 String oldText = text.getText();
                 String leftText = oldText.substring(0, event.start);
@@ -110,6 +111,7 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
     
     
     class TextCellEditorLocator implements CellEditorLocator {
+        @Override
         public void relocate(CellEditor celleditor) {
             Text text = (Text)celleditor.getControl();
             

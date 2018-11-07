@@ -106,6 +106,7 @@ public class PluginInstaller {
         String pluginName = getPluginName(newPlugin.getName());
         
         return pluginsFolder.listFiles(new FileFilter() {
+            @Override
             public boolean accept(File file) {
                 String targetPluginName = getPluginName(file.getName());
                 return targetPluginName.equals(pluginName) && !newPlugin.getName().equals(file.getName());

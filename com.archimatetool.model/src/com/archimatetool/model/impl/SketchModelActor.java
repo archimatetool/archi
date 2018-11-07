@@ -90,6 +90,7 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -99,6 +100,7 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -111,6 +113,7 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES);

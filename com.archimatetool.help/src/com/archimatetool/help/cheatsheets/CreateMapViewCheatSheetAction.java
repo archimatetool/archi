@@ -36,6 +36,7 @@ public class CreateMapViewCheatSheetAction
 extends Action
 implements ICheatSheetAction {
     
+    @Override
     public void run(String[] params, ICheatSheetManager manager) {
         IViewPart viewPart = ViewManager.showViewPart(ITreeModelView.ID, true);
         if(viewPart == null) {

@@ -82,6 +82,7 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
     
     protected abstract int getType();
     
+    @Override
     public void dispose() {
         diagramModel.eAdapters().remove(eAdapter);
     }

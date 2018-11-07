@@ -137,6 +137,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getStartX() {
         return startX;
     }
@@ -146,6 +147,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setStartX(int newStartX) {
         int oldStartX = startX;
         startX = newStartX;
@@ -158,6 +160,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getStartY() {
         return startY;
     }
@@ -167,6 +170,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setStartY(int newStartY) {
         int oldStartY = startY;
         startY = newStartY;
@@ -179,6 +183,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getEndX() {
         return endX;
     }
@@ -188,6 +193,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setEndX(int newEndX) {
         int oldEndX = endX;
         endX = newEndX;
@@ -200,6 +206,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getEndY() {
         return endY;
     }
@@ -209,6 +216,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setEndY(int newEndY) {
         int oldEndY = endY;
         endY = newEndY;
@@ -221,6 +229,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public EObject getCopy() {
         return EcoreUtil.copy(this);
     }

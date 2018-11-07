@@ -38,6 +38,7 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
         setToolTipText(text);
     }
 
+    @Override
     public Menu getMenu(Menu parent) {
         if(fMenu == null) {
             fMenu = new Menu(parent);
@@ -47,6 +48,7 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
         return fMenu;
     }
 
+    @Override
     public Menu getMenu(Control parent) {
         if(fMenu == null) {
             fMenu = new Menu(parent);
@@ -89,6 +91,7 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
         fItems.add(item);
     }
     
+    @Override
     public void dispose() {
         if(fMenu != null) {
             fMenu.dispose();

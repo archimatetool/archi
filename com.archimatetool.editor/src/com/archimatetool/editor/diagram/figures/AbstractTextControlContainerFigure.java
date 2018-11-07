@@ -58,6 +58,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         setLayoutManager(new DelegatingLayout());
         
         Locator textLocator = new Locator() {
+            @Override
             public void relocate(IFigure target) {
                 Rectangle bounds = calculateTextControlBounds();
                 if(bounds == null) {
@@ -71,6 +72,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         fTextControl = createTextControl(textLocator);
         
         Locator mainLocator = new Locator() {
+            @Override
             public void relocate(IFigure target) {
                 Rectangle bounds = getBounds().getCopy();
                 translateFromParent(bounds);
@@ -84,6 +86,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         AnimationUtil.addFigureForAnimation(getMainFigure());
     }
     
+    @Override
     public void refreshVisuals() {
         // Text
         setText();
@@ -144,6 +147,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         }
     }
     
+    @Override
     public IFigure getTextControl() {
         return fTextControl;
     }

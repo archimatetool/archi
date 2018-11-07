@@ -94,6 +94,7 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getBorderColor() {
         return borderColor;
     }
@@ -103,6 +104,7 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBorderColor(String newBorderColor) {
         String oldBorderColor = borderColor;
         borderColor = newBorderColor;
@@ -115,6 +117,7 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getImagePath() {
         return imagePath;
     }
@@ -124,6 +127,7 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setImagePath(String newImagePath) {
         String oldImagePath = imagePath;
         imagePath = newImagePath;

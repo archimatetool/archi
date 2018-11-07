@@ -57,6 +57,7 @@ public class FontColorSection extends AbstractECorePropertySection {
      * Color listener
      */
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             CompoundCommand result = new CompoundCommand();
             

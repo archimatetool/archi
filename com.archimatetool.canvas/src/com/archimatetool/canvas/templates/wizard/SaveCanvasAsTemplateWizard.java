@@ -112,6 +112,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
                 catch(final IOException ex) {
                     ex.printStackTrace();
                     Display.getCurrent().asyncExec(new Runnable() { // Display after wizard closes
+                        @Override
                         public void run() {
                             MessageDialog.openError(getShell(), Messages.SaveCanvasAsTemplateWizard_3, ex.getMessage());
                         }

@@ -34,6 +34,7 @@ public class SearchTextWidget extends Composite {
     private Label fCancelLabel;
     
     private ModifyListener fModifyListener = new ModifyListener() {
+        @Override
         public void modifyText(ModifyEvent e) {
             String text = getText();
             if("".equals(text) && fCancelLabel != null && !fCancelLabel.isDisposed()) { //$NON-NLS-1$

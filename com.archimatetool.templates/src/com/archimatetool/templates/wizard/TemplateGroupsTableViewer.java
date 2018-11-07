@@ -55,12 +55,15 @@ public class TemplateGroupsTableViewer extends TableViewer {
 
     class CategoriesTableViewerContentProvider implements IStructuredContentProvider {
         
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         
+        @Override
         public void dispose() {
         }
         
+        @Override
         public Object[] getElements(Object parent) {
             if(parent instanceof TemplateManager) {
                 List<ITemplateGroup> list = new ArrayList<ITemplateGroup>();

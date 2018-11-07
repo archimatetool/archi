@@ -118,6 +118,7 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         ArchimateModelDataSource.sort(fConcepts);
     }
 
+    @Override
     public PropertiesModelDataSource getPropertiesDataSource() {
         return new PropertiesModelDataSource(fCurrentConcept);
     }

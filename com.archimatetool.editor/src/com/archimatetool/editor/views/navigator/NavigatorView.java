@@ -108,6 +108,7 @@ implements INavigatorView, ISelectionListener {
          * Listen to Double-click Action
          */
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 fDrillDownAdapter.goInto();
             }
@@ -115,6 +116,7 @@ implements INavigatorView, ISelectionListener {
         
         // Tree selection listener
         fTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 // Update actions
                 updateActions();
@@ -217,6 +219,7 @@ implements INavigatorView, ISelectionListener {
         menuMgr.setRemoveAllWhenShown(true);
         
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -406,14 +409,17 @@ implements INavigatorView, ISelectionListener {
     //                       Contextual Help support
     // =================================================================================
 
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.NavigatorView_6;
     }

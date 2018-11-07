@@ -186,6 +186,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -195,6 +196,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setName(String newName) {
         String oldName = name;
         name = newName;
@@ -207,6 +209,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IDiagramModel getDiagramModel() {
         return this;
     }
@@ -216,6 +219,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateModel getArchimateModel() {
         if(eContainer() == null) {
             return null;
@@ -228,6 +232,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -237,6 +242,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setId(String newId) {
         String oldId = id;
         id = newId;
@@ -249,6 +255,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IDiagramModelObject> getChildren() {
         if (children == null) {
             children = new EObjectContainmentEList<IDiagramModelObject>(IDiagramModelObject.class, this, IArchimatePackage.DIAGRAM_MODEL__CHILDREN);
@@ -261,6 +268,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getConnectionRouterType() {
         return connectionRouterType;
     }
@@ -270,6 +278,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setConnectionRouterType(int newConnectionRouterType) {
         int oldConnectionRouterType = connectionRouterType;
         connectionRouterType = newConnectionRouterType;
@@ -282,6 +291,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -291,6 +301,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -303,6 +314,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL__PROPERTIES);
@@ -315,6 +327,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -328,6 +341,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
     }
@@ -338,6 +352,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public EObject getCopy() {
         IDiagramModel newDiagramModel = EcoreUtil.copy(this);
         newDiagramModel.setId(null); // need a new ID

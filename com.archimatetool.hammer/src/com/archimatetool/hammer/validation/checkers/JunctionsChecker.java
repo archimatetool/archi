@@ -36,6 +36,7 @@ public class JunctionsChecker implements IChecker {
         fArchimateElements = archimateElements;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findBogusJunctions();
     }

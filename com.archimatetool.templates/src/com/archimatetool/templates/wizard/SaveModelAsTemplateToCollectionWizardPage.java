@@ -106,6 +106,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         fCategoriesTableViewer = new TemplateGroupsTableViewer(tableComp, SWT.BORDER | SWT.MULTI);
         
         fCategoriesTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 fSelectedTemplateGroup = (ITemplateGroup)((IStructuredSelection)event.getSelection()).getFirstElement();
             }

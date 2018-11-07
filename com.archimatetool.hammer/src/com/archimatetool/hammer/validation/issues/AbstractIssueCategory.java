@@ -26,22 +26,27 @@ public abstract class AbstractIssueCategory implements IIssueCategory {
         setIssues(issues);
     }
     
+    @Override
     public String getName() {
         return fName;
     }
     
+    @Override
     public void setName(String name) {
         fName = name;
     }
     
+    @Override
     public List<? extends IIssue> getIssues() {
         return fIssues;
     }
     
+    @Override
     public void setIssues(List<? extends IIssue> issues) {
         fIssues = issues;
     }
     
+    @Override
     public Image getImage() {
         return null;
     }

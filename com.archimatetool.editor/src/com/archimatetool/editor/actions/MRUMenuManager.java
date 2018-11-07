@@ -210,6 +210,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
             if(file.exists()) {
                 if(!IEditorModelManager.INSTANCE.isModelLoaded(file)) {
                     BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+                        @Override
                         public void run() {
                             IEditorModelManager.INSTANCE.openModel(file);
                         }

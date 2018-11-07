@@ -34,6 +34,7 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         setLayoutManager(new DelegatingLayout());
         
         Locator labelLocator = new Locator() {
+            @Override
             public void relocate(IFigure target) {
                 Rectangle bounds = calculateTextControlBounds();
                 if(bounds != null) {
@@ -46,6 +47,7 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         add(getLabel(), labelLocator);
     }
     
+    @Override
     public void refreshVisuals() {
         // Text
         setText();

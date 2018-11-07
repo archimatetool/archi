@@ -19,26 +19,32 @@ public abstract class AbstractFindReplaceProvider implements IFindReplaceProvide
 
     private int parameter = 0;
     
+    @Override
     public boolean canFind(String toFind) {
         return StringUtils.isSet(toFind);
     }
     
+    @Override
     public boolean canFindAll(String toFind) {
         return StringUtils.isSet(toFind);
     }
     
+    @Override
     public boolean canReplace(String toFind, String toReplaceWith) {
         return canFind(toFind) && toReplaceWith != null;
     }
     
+    @Override
     public boolean canReplaceAll(String toFind, String toReplaceWith) {
         return canReplace(toFind, toReplaceWith);
     }
     
+    @Override
     public int getParameter() {
         return parameter;
     }
 
+    @Override
     public void setParameter(int op, boolean value) {
         if(value) {
             parameter |= op;
@@ -48,10 +54,12 @@ public abstract class AbstractFindReplaceProvider implements IFindReplaceProvide
         }
     }
 
+    @Override
     public void setParameter(int parameter) {
         this.parameter = parameter;
     }
     
+    @Override
     public boolean understandsParameter(int parameter) {
         return true;
     }

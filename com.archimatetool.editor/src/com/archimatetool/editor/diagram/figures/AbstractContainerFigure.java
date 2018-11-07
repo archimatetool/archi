@@ -50,10 +50,12 @@ implements IContainerFigure {
         return fMainFigure;
     }
     
+    @Override
     public IFigure getContentPane() {
         return getMainFigure();
     }
 
+    @Override
     public void translateMousePointToRelative(Translatable t) {
         getContentPane().translateToRelative(t);
     }
@@ -114,6 +116,7 @@ implements IContainerFigure {
         graphics.popState();
     }
     
+    @Override
     public void eraseTargetFeedback() {
         if(SHOW_TARGET_FEEDBACK) {
             SHOW_TARGET_FEEDBACK = false;
@@ -121,6 +124,7 @@ implements IContainerFigure {
         }
     }
 
+    @Override
     public void showTargetFeedback() {
         if(!SHOW_TARGET_FEEDBACK) {
             SHOW_TARGET_FEEDBACK = true;

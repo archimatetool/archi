@@ -59,6 +59,7 @@ public class CentralScrutinizer implements IApplication {
 
     private Map<ICommandLineProvider, ProviderInfo> providers;
     
+    @Override
     public Object start(IApplicationContext context) throws Exception {
         // Register providers
         registerProviders();
@@ -226,6 +227,7 @@ public class CentralScrutinizer implements IApplication {
         pw.flush();
     }
     
+    @Override
     public void stop() {
     }
 

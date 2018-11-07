@@ -33,6 +33,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
     public LoadModelFromFileProvider() {
     }
 
+    @Override
     public Options getOptions() {
         Options options = new Options();
         
@@ -48,6 +49,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
         return options;
     }
     
+    @Override
     public void run(CommandLine commandLine) throws Exception {
         if(commandLine.hasOption(OPTION_LOAD_FILE_MODEL)) {
             String filePath = commandLine.getOptionValue(OPTION_LOAD_FILE_MODEL);
@@ -65,6 +67,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
         }
     }
     
+    @Override
     public int getPriority() {
         return PRIORITY_LOAD_OR_CREATE_MODEL;
     }

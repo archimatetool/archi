@@ -24,6 +24,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class AssociationRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getAssociationRelationship();
     }

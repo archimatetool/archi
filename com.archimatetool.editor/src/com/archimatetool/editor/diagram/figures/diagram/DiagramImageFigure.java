@@ -62,6 +62,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         repaint();
     }
     
+    @Override
     public void refreshVisuals() {
         setBorderColor();
         repaint();

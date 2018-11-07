@@ -60,6 +60,7 @@ public class FontSection extends AbstractECorePropertySection {
      * Font listener
      */
     private IPropertyChangeListener fontListener = new IPropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             CompoundCommand result = new CompoundCommand();
             

@@ -37,18 +37,22 @@ implements IEditorInput, IPersistableElement {
         return fModel;
     }
     
+    @Override
     public boolean exists() {
         return fModel.getArchimateModel() != null;
     }
 
+    @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
 
+    @Override
     public String getName() {
         return fModel.getArchimateModel() == null ? Messages.DiagramEditorInput_0 : fModel.getArchimateModel().getName() + ": " + fModel.getName(); //$NON-NLS-1$
     }
 
+    @Override
     public String getToolTipText() {
         return getName();
     }
@@ -75,6 +79,7 @@ implements IEditorInput, IPersistableElement {
         return false;
     }
 
+    @Override
     public IPersistableElement getPersistable() {
         // This can happen somehow (but can't remember how - so, a sanity check)
         if(fModel.getArchimateModel() == null) {

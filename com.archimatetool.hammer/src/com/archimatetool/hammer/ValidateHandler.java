@@ -22,6 +22,7 @@ import com.archimatetool.hammer.view.IValidatorView;
  */
 public class ValidateHandler extends AbstractModelSelectionHandler {
 
+    @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IValidatorView view = (IValidatorView)page.findView(IValidatorView.ID);

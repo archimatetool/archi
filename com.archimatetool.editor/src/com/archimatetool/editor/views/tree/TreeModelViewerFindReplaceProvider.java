@@ -43,6 +43,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
         fTreeModelViewer = viewer;
     }
     
+    @Override
     public boolean find(String toFind) {
         // Find All
         if(isAll()) {
@@ -60,6 +61,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
         }
     }
     
+    @Override
     public boolean replace(String toFind, String toReplaceWith) {
         // Replace All
         if(isAll()) {

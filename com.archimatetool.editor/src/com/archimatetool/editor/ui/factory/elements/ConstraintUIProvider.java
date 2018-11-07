@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class ConstraintUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getConstraint();
     }

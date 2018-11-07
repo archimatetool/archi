@@ -36,6 +36,7 @@ public class ShowHintsViewHandler extends AbstractHandler {
             // We are closing the View so put it on a thread for the workaround
             if(part != null) {
                 Display.getCurrent().asyncExec(new Runnable() {
+                    @Override
                     public void run() {
                         ViewManager.hideViewPart(IHintsView.ID);
                     }

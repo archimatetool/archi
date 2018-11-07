@@ -109,6 +109,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -118,6 +119,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setId(String newId) {
         String oldId = id;
         id = newId;
@@ -130,6 +132,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -139,6 +142,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setName(String newName) {
         String oldName = name;
         name = newName;
@@ -151,6 +155,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IDiagramModel getDiagramModel() {
         if(eContainer() == null) {
             return null;
@@ -163,6 +168,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateModel getArchimateModel() {
         if(eContainer() == null) {
             return null;
@@ -175,6 +181,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -188,6 +195,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
     }
@@ -197,6 +205,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public EObject getCopy() {
         IDiagramModelComponent newObject = EcoreUtil.copy(this);
         newObject.setId(null); // need a new ID

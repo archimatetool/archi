@@ -32,22 +32,27 @@ public class TemplateGroup implements ITemplateGroup {
         fName = name;
     }
 
+    @Override
     public String getName() {
         return fName;
     }
 
+    @Override
     public void setName(String name) {
         fName = name;
     }
 
+    @Override
     public List<ITemplate> getTemplates() {
         return fTemplates;
     }
 
+    @Override
     public void addTemplate(ITemplate template) {
         fTemplates.add(template);
     }
 
+    @Override
     public boolean removeTemplate(ITemplate template) {
         return fTemplates.remove(template);
     }

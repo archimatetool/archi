@@ -70,6 +70,7 @@ public class InfluenceRelationship extends ArchimateRelationship implements IInf
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getStrength() {
         return strength;
     }
@@ -79,6 +80,7 @@ public class InfluenceRelationship extends ArchimateRelationship implements IInf
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setStrength(String newStrength) {
         String oldStrength = strength;
         strength = newStrength;

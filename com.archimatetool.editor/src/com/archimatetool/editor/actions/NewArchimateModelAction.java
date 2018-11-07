@@ -46,6 +46,7 @@ implements IWorkbenchAction
         UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
     }
 
+    @Override
     public void dispose() {
     } 
 }

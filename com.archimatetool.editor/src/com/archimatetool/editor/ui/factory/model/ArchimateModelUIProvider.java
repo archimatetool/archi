@@ -22,6 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class ArchimateModelUIProvider extends AbstractObjectUIProvider {
     
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getArchimateModel();
     }

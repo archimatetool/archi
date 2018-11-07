@@ -321,11 +321,13 @@ extends ActionBarContributor {
                 Combo combo = (Combo)super.createControl(parent);
                 
                 combo.addFocusListener(new FocusListener() {
+                    @Override
                     public void focusGained(FocusEvent e) {
                         globalActionHandler = new CellEditorGlobalActionHandler(getActionBars());
                         globalActionHandler.clearGlobalActions();
                     }
 
+                    @Override
                     public void focusLost(FocusEvent e) {
                         if(globalActionHandler != null) {
                             globalActionHandler.restoreGlobalActions();

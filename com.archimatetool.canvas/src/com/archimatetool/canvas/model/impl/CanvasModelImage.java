@@ -75,6 +75,7 @@ public class CanvasModelImage extends DiagramModelImage implements ICanvasModelI
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean isLocked() {
         return locked;
     }
@@ -84,6 +85,7 @@ public class CanvasModelImage extends DiagramModelImage implements ICanvasModelI
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLocked(boolean newLocked) {
         boolean oldLocked = locked;
         locked = newLocked;

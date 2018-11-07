@@ -109,6 +109,7 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         
         // Sort them by name
         Collections.sort(fChoices, new Comparator<ImageChoice>() {
+            @Override
             public int compare(ImageChoice o1, ImageChoice o2) {
                 return o1.name.compareTo(o2.name);
             }
@@ -126,12 +127,14 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         // Fix row height
         // This is definitely needed on some Linux versions where the row height is stuck at 17 for some reason
         fTableViewer.getTable().addListener(SWT.MeasureItem, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 event.height = itemHeight;
              }
         });
         
         fTableViewer.getTable().addListener(SWT.PaintItem, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 TableItem item = (TableItem)event.item;
                 int row = fTableViewer.getTable().indexOf(item);

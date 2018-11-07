@@ -127,14 +127,17 @@ implements NodeEditPart {
         return getFilteredModelTargetConnections();
     }
 
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
         return new LineConnectionAnchor(getFigure());
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
         return new LineConnectionAnchor(getFigure());
     }
 
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
         if(request instanceof ReconnectRequest) {
             return null;
@@ -142,6 +145,7 @@ implements NodeEditPart {
         return new LineConnectionAnchor(getFigure());
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         if(request instanceof ReconnectRequest) {
             return null;

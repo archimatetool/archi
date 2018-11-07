@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class NodeUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getNode();
     }

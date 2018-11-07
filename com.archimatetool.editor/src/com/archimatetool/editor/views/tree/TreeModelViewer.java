@@ -178,6 +178,7 @@ public class TreeModelViewer extends TreeViewer {
         Preferences.STORE.addPropertyChangeListener(prefsListener);
         
         getTree().addDisposeListener(new DisposeListener() {
+            @Override
             public void widgetDisposed(DisposeEvent e) {
                 Preferences.STORE.removePropertyChangeListener(prefsListener);
             }
@@ -198,6 +199,7 @@ public class TreeModelViewer extends TreeViewer {
      */
     void refreshInBackground(final Object element) {
         getControl().getDisplay().asyncExec(new Runnable() {
+            @Override
             public void run() {
                 if(!getControl().isDisposed()) { // check inside run loop
                     try {
@@ -248,16 +250,20 @@ public class TreeModelViewer extends TreeViewer {
      */
     private class ModelTreeViewerContentProvider implements ITreeContentProvider {
         
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         
+        @Override
         public void dispose() {
         }
         
+        @Override
         public Object[] getElements(Object parent) {
             return getChildren(parent);
         }
 
+        @Override
         public Object[] getChildren(Object parentElement) {
             if(parentElement instanceof IEditorModelManager) {
             	return ((IEditorModelManager)parentElement).getModels().toArray();
@@ -281,6 +287,7 @@ public class TreeModelViewer extends TreeViewer {
             return new Object[0];
         }
 
+        @Override
         public Object getParent(Object element) {
             if(element instanceof EObject) {
                 return ((EObject)element).eContainer();
@@ -288,6 +295,7 @@ public class TreeModelViewer extends TreeViewer {
             return null;
         }
 
+        @Override
         public boolean hasChildren(Object element) {
         	return getFilteredChildren(element).length > 0;
         }

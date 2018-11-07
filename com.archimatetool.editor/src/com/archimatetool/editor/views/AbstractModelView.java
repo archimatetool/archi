@@ -91,6 +91,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     private void hookSelectionListener() {
         getViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 // Update status bar on selection
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
@@ -205,6 +206,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      */
     private List<Notification> fNotificationBuffer;
     
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         Object newValue = evt.getNewValue();

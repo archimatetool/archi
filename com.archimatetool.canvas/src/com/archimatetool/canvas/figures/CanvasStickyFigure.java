@@ -66,6 +66,7 @@ extends AbstractDiagramModelObjectFigure {
         fIconicDelegate.updateImage();
     }
     
+    @Override
     public void refreshVisuals() {
         // Text
         setText();
@@ -102,6 +103,7 @@ extends AbstractDiagramModelObjectFigure {
         getTextControl().setText(StringUtils.safeString(text));
     }
 
+    @Override
     public TextFlow getTextControl() {
         return fTextFlow;
     }

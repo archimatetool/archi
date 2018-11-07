@@ -236,12 +236,15 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         // Content Provider
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
 
+            @Override
             public void dispose() {
             }
 
+            @Override
             public Object[] getElements(Object inputElement) {
                 return ((IProperties)inputElement).getProperties().toArray();
             }
@@ -407,6 +410,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         menuMgr.setRemoveAllWhenShown(true);
 
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -494,11 +498,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         int operations = DND.DROP_MOVE;
         Transfer[] transferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };
         fTableViewer.addDragSupport(operations, transferTypes, new DragSourceListener() {
+            @Override
             public void dragFinished(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
                 fDragSourceValid = false;
             }
 
+            @Override
             public void dragSetData(DragSourceEvent event) {
                 // For consistency set the data to the selection even though
                 // the selection is provided by the LocalSelectionTransfer
@@ -506,6 +512,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 event.data = LocalSelectionTransfer.getTransfer().getSelection();
             }
 
+            @Override
             public void dragStart(DragSourceEvent event) {
                 if(isAlive(fPropertiesElement)) {
                     IStructuredSelection selection = (IStructuredSelection)fTableViewer.getSelection();
@@ -521,16 +528,20 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         int operations = DND.DROP_MOVE;
         Transfer[] transferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };
         fTableViewer.addDropSupport(operations, transferTypes, new DropTargetListener() {
+            @Override
             public void dragEnter(DropTargetEvent event) {
             }
 
+            @Override
             public void dragLeave(DropTargetEvent event) {
             }
 
+            @Override
             public void dragOperationChanged(DropTargetEvent event) {
                 event.detail = getEventDetail(event);
             }
 
+            @Override
             public void dragOver(DropTargetEvent event) {
                 event.detail = getEventDetail(event);
 
@@ -544,10 +555,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 event.feedback |= DND.FEEDBACK_SCROLL;
             }
 
+            @Override
             public void drop(DropTargetEvent event) {
                 doDropOperation(event);
             }
 
+            @Override
             public void dropAccept(DropTargetEvent event) {
             }
 
@@ -673,6 +686,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      * Label Provider
      */
     private static class LabelCellProvider extends LabelProvider implements ITableLabelProvider, ITableColorProvider {
+        @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
         }
@@ -1076,12 +1090,15 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             // Content Provider
             tableViewer.setContentProvider(new IStructuredContentProvider() {
+                @Override
                 public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
                 }
 
+                @Override
                 public void dispose() {
                 }
 
+                @Override
                 public Object[] getElements(Object inputElement) {
                     return keys;
                 }

@@ -142,6 +142,7 @@ implements ITreeModelView, IUIRequestListener {
          * Listen to Double-click and press Return Action
          */
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 handleOpenAction();
             }
@@ -149,6 +150,7 @@ implements ITreeModelView, IUIRequestListener {
         
         // Tree selection listener
         fTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 // Update actions
                 updateActions();
@@ -265,10 +267,12 @@ implements ITreeModelView, IUIRequestListener {
     /**
      * @return The Selection Provider
      */
+    @Override
     public ISelectionProvider getSelectionProvider() {
         return fTreeViewer;
     }
     
+    @Override
     public TreeModelViewer getViewer() {
         return fTreeViewer;
     }
@@ -375,6 +379,7 @@ implements ITreeModelView, IUIRequestListener {
         menuMgr.setRemoveAllWhenShown(true);
         
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -650,6 +655,7 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected void doRefreshFromNotifications(final List<Notification> notifications) {
         Display.getCurrent().asyncExec(new Runnable() {
+            @Override
             public void run() {
                 if(!getViewer().getControl().isDisposed()) { // check inside run loop
                     refreshFromNotifications(notifications);
@@ -705,14 +711,17 @@ implements ITreeModelView, IUIRequestListener {
     //                       Contextual Help support
     // =================================================================================
 
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.TreeModelView_2;
     }

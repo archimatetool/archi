@@ -25,6 +25,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class SketchStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSketchModelSticky();
     }

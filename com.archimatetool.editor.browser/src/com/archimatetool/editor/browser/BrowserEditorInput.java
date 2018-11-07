@@ -78,6 +78,7 @@ public class BrowserEditorInput implements IBrowserEditorInput {
         return getName();
     }
 
+    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Object getAdapter(Class adapter) {
         return null;

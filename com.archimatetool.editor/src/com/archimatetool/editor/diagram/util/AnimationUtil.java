@@ -57,6 +57,7 @@ public final class AnimationUtil {
         }
         
         stack.addCommandStackEventListener(new CommandStackEventListener() {
+            @Override
             public void stackChanged(CommandStackEvent event) {
                 if(doAnimate()) {
                     if(event.getDetail() == CommandStack.PRE_UNDO || event.getDetail() == CommandStack.PRE_REDO) {

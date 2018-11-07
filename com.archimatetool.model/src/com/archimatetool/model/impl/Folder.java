@@ -184,6 +184,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -193,6 +194,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setName(String newName) {
         String oldName = name;
         name = newName;
@@ -205,6 +207,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -214,6 +217,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setId(String newId) {
         String oldId = id;
         id = newId;
@@ -226,6 +230,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getDocumentation() {
         return documentation;
     }
@@ -235,6 +240,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setDocumentation(String newDocumentation) {
         String oldDocumentation = documentation;
         documentation = newDocumentation;
@@ -247,6 +253,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getProperties() {
         if (properties == null) {
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.FOLDER__PROPERTIES);
@@ -259,6 +266,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<EObject> getElements() {
         if (elements == null) {
             elements = new EObjectContainmentEList<EObject>(EObject.class, this, IArchimatePackage.FOLDER__ELEMENTS);
@@ -271,6 +279,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public FolderType getType() {
         return type;
     }
@@ -280,6 +289,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setType(FolderType newType) {
         FolderType oldType = type;
         type = newType == null ? TYPE_EDEFAULT : newType;
@@ -292,6 +302,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public Object getAdapter(Object adapter) {
         if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
             return ((IAdapter)eContainer()).getAdapter(adapter);
@@ -305,6 +316,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
     }
@@ -314,6 +326,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public IArchimateModel getArchimateModel() {
         if(eContainer() == null) {
             return null;
@@ -326,6 +339,7 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IFolder> getFolders() {
         if (folders == null) {
             folders = new EObjectContainmentEList<IFolder>(IFolder.class, this, IArchimatePackage.FOLDER__FOLDERS);

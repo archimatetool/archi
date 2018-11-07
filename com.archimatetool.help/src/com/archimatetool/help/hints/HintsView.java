@@ -228,6 +228,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         selectionChanged(component, selection);
     }
 
+    @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
         if(selection instanceof IStructuredSelection && !selection.isEmpty()) {
             Object selected = ((IStructuredSelection)selection).getFirstElement();
@@ -448,14 +449,17 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     //                       Contextual Help support
     // =================================================================================
     
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.HintsView_4;
     }

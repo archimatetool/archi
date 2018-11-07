@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class DataObjectUIProvider extends AbstractArchimateElementUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDataObject();
     }

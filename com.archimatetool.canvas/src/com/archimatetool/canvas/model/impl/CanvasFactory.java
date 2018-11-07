@@ -75,6 +75,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasModel createCanvasModel() {
         CanvasModel canvasModel = new CanvasModel();
         return canvasModel;
@@ -85,6 +86,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasModelSticky createCanvasModelSticky() {
         CanvasModelSticky canvasModelSticky = new CanvasModelSticky();
         return canvasModelSticky;
@@ -95,6 +97,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasModelBlock createCanvasModelBlock() {
         CanvasModelBlock canvasModelBlock = new CanvasModelBlock();
         return canvasModelBlock;
@@ -105,6 +108,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasModelImage createCanvasModelImage() {
         CanvasModelImage canvasModelImage = new CanvasModelImage();
         return canvasModelImage;
@@ -115,6 +119,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasModelConnection createCanvasModelConnection() {
         CanvasModelConnection canvasModelConnection = new CanvasModelConnection();
         return canvasModelConnection;
@@ -125,6 +130,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasPackage getCanvasPackage() {
         return (ICanvasPackage)getEPackage();
     }

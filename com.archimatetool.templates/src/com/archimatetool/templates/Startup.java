@@ -16,6 +16,7 @@ import org.eclipse.ui.IStartup;
  */
 public class Startup implements IStartup {
 
+    @Override
     public void earlyStartup() {
         // Do nothing - this will initialise the "Save As Template..." menu item
     }

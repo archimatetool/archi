@@ -35,6 +35,7 @@ public class UnusedRelationsChecker implements IChecker {
         fRelations = relations;
     }
 
+    @Override
     public List<IIssue> getIssues() {
         return findUnusedRelations();
     }

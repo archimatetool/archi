@@ -277,6 +277,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IProperty createProperty() {
         Property property = new Property();
         return property;
@@ -285,6 +286,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     /* (non-Javadoc)
      * @see com.archimatetool.model.IArchimateFactory#createProperty(java.lang.String, java.lang.String)
      */
+    @Override
     public IProperty createProperty(String key, String value) {
         IProperty property = createProperty();
         property.setKey(key);
@@ -297,6 +299,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IMetadata createMetadata() {
         Metadata metadata = new Metadata();
         return metadata;
@@ -307,6 +310,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimateModel createArchimateModel() {
         ArchimateModel archimateModel = new ArchimateModel();
         return archimateModel;
@@ -317,6 +321,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IJunction createJunction() {
         Junction junction = new Junction();
         return junction;
@@ -327,6 +332,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IResource createResource() {
         Resource resource = new Resource();
         return resource;
@@ -337,6 +343,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IFolder createFolder() {
         Folder folder = new Folder();
         return folder;
@@ -347,6 +354,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessActor createBusinessActor() {
         BusinessActor businessActor = new BusinessActor();
         return businessActor;
@@ -357,6 +365,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessCollaboration createBusinessCollaboration() {
         BusinessCollaboration businessCollaboration = new BusinessCollaboration();
         return businessCollaboration;
@@ -367,6 +376,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IContract createContract() {
         Contract contract = new Contract();
         return contract;
@@ -377,6 +387,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessEvent createBusinessEvent() {
         BusinessEvent businessEvent = new BusinessEvent();
         return businessEvent;
@@ -387,6 +398,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessFunction createBusinessFunction() {
         BusinessFunction businessFunction = new BusinessFunction();
         return businessFunction;
@@ -397,6 +409,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessInteraction createBusinessInteraction() {
         BusinessInteraction businessInteraction = new BusinessInteraction();
         return businessInteraction;
@@ -407,6 +420,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessInterface createBusinessInterface() {
         BusinessInterface businessInterface = new BusinessInterface();
         return businessInterface;
@@ -417,6 +431,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IMeaning createMeaning() {
         Meaning meaning = new Meaning();
         return meaning;
@@ -427,6 +442,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessObject createBusinessObject() {
         BusinessObject businessObject = new BusinessObject();
         return businessObject;
@@ -437,6 +453,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessProcess createBusinessProcess() {
         BusinessProcess businessProcess = new BusinessProcess();
         return businessProcess;
@@ -447,6 +464,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IProduct createProduct() {
         Product product = new Product();
         return product;
@@ -457,6 +475,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IRepresentation createRepresentation() {
         Representation representation = new Representation();
         return representation;
@@ -467,6 +486,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessRole createBusinessRole() {
         BusinessRole businessRole = new BusinessRole();
         return businessRole;
@@ -477,6 +497,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBusinessService createBusinessService() {
         BusinessService businessService = new BusinessService();
         return businessService;
@@ -487,6 +508,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICapability createCapability() {
         Capability capability = new Capability();
         return capability;
@@ -497,6 +519,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICommunicationNetwork createCommunicationNetwork() {
         CommunicationNetwork communicationNetwork = new CommunicationNetwork();
         return communicationNetwork;
@@ -507,6 +530,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IValue createValue() {
         Value value = new Value();
         return value;
@@ -517,6 +541,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ILocation createLocation() {
         Location location = new Location();
         return location;
@@ -527,6 +552,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IMaterial createMaterial() {
         Material material = new Material();
         return material;
@@ -537,6 +563,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationComponent createApplicationComponent() {
         ApplicationComponent applicationComponent = new ApplicationComponent();
         return applicationComponent;
@@ -547,6 +574,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationEvent createApplicationEvent() {
         ApplicationEvent applicationEvent = new ApplicationEvent();
         return applicationEvent;
@@ -557,6 +585,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationFunction createApplicationFunction() {
         ApplicationFunction applicationFunction = new ApplicationFunction();
         return applicationFunction;
@@ -567,6 +596,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationInteraction createApplicationInteraction() {
         ApplicationInteraction applicationInteraction = new ApplicationInteraction();
         return applicationInteraction;
@@ -577,6 +607,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationInterface createApplicationInterface() {
         ApplicationInterface applicationInterface = new ApplicationInterface();
         return applicationInterface;
@@ -587,6 +618,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationProcess createApplicationProcess() {
         ApplicationProcess applicationProcess = new ApplicationProcess();
         return applicationProcess;
@@ -597,6 +629,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDataObject createDataObject() {
         DataObject dataObject = new DataObject();
         return dataObject;
@@ -607,6 +640,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationService createApplicationService() {
         ApplicationService applicationService = new ApplicationService();
         return applicationService;
@@ -617,6 +651,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArtifact createArtifact() {
         Artifact artifact = new Artifact();
         return artifact;
@@ -627,6 +662,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public INode createNode() {
         Node node = new Node();
         return node;
@@ -637,6 +673,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IOutcome createOutcome() {
         Outcome outcome = new Outcome();
         return outcome;
@@ -647,6 +684,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ISystemSoftware createSystemSoftware() {
         SystemSoftware systemSoftware = new SystemSoftware();
         return systemSoftware;
@@ -657,6 +695,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyCollaboration createTechnologyCollaboration() {
         TechnologyCollaboration technologyCollaboration = new TechnologyCollaboration();
         return technologyCollaboration;
@@ -667,6 +706,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyEvent createTechnologyEvent() {
         TechnologyEvent technologyEvent = new TechnologyEvent();
         return technologyEvent;
@@ -677,6 +717,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyFunction createTechnologyFunction() {
         TechnologyFunction technologyFunction = new TechnologyFunction();
         return technologyFunction;
@@ -687,6 +728,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyInterface createTechnologyInterface() {
         TechnologyInterface technologyInterface = new TechnologyInterface();
         return technologyInterface;
@@ -697,6 +739,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyInteraction createTechnologyInteraction() {
         TechnologyInteraction technologyInteraction = new TechnologyInteraction();
         return technologyInteraction;
@@ -707,6 +750,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyProcess createTechnologyProcess() {
         TechnologyProcess technologyProcess = new TechnologyProcess();
         return technologyProcess;
@@ -717,6 +761,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITechnologyService createTechnologyService() {
         TechnologyService technologyService = new TechnologyService();
         return technologyService;
@@ -727,6 +772,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDevice createDevice() {
         Device device = new Device();
         return device;
@@ -737,6 +783,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDistributionNetwork createDistributionNetwork() {
         DistributionNetwork distributionNetwork = new DistributionNetwork();
         return distributionNetwork;
@@ -747,6 +794,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IEquipment createEquipment() {
         Equipment equipment = new Equipment();
         return equipment;
@@ -757,6 +805,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IFacility createFacility() {
         Facility facility = new Facility();
         return facility;
@@ -767,6 +816,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IStakeholder createStakeholder() {
         Stakeholder stakeholder = new Stakeholder();
         return stakeholder;
@@ -777,6 +827,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDriver createDriver() {
         Driver driver = new Driver();
         return driver;
@@ -787,6 +838,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IAssessment createAssessment() {
         Assessment assessment = new Assessment();
         return assessment;
@@ -797,6 +849,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IGoal createGoal() {
         Goal goal = new Goal();
         return goal;
@@ -807,6 +860,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IGrouping createGrouping() {
         Grouping grouping = new Grouping();
         return grouping;
@@ -817,6 +871,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IImplementationEvent createImplementationEvent() {
         ImplementationEvent implementationEvent = new ImplementationEvent();
         return implementationEvent;
@@ -827,6 +882,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IRequirement createRequirement() {
         Requirement requirement = new Requirement();
         return requirement;
@@ -837,6 +893,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IConstraint createConstraint() {
         Constraint constraint = new Constraint();
         return constraint;
@@ -847,6 +904,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICourseOfAction createCourseOfAction() {
         CourseOfAction courseOfAction = new CourseOfAction();
         return courseOfAction;
@@ -857,6 +915,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IPrinciple createPrinciple() {
         Principle principle = new Principle();
         return principle;
@@ -867,6 +926,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IWorkPackage createWorkPackage() {
         WorkPackage workPackage = new WorkPackage();
         return workPackage;
@@ -877,6 +937,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDeliverable createDeliverable() {
         Deliverable deliverable = new Deliverable();
         return deliverable;
@@ -887,6 +948,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IPlateau createPlateau() {
         Plateau plateau = new Plateau();
         return plateau;
@@ -897,6 +959,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IGap createGap() {
         Gap gap = new Gap();
         return gap;
@@ -907,6 +970,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimateDiagramModel createArchimateDiagramModel() {
         ArchimateDiagramModel archimateDiagramModel = new ArchimateDiagramModel();
         return archimateDiagramModel;
@@ -917,6 +981,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelReference createDiagramModelReference() {
         DiagramModelReference diagramModelReference = new DiagramModelReference();
         return diagramModelReference;
@@ -927,6 +992,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelArchimateObject createDiagramModelArchimateObject() {
         DiagramModelArchimateObject diagramModelArchimateObject = new DiagramModelArchimateObject();
         return diagramModelArchimateObject;
@@ -937,6 +1003,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelGroup createDiagramModelGroup() {
         DiagramModelGroup diagramModelGroup = new DiagramModelGroup();
         return diagramModelGroup;
@@ -947,6 +1014,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelNote createDiagramModelNote() {
         DiagramModelNote diagramModelNote = new DiagramModelNote();
         return diagramModelNote;
@@ -957,6 +1025,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelImage createDiagramModelImage() {
         DiagramModelImage diagramModelImage = new DiagramModelImage();
         return diagramModelImage;
@@ -967,6 +1036,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelConnection createDiagramModelConnection() {
         DiagramModelConnection diagramModelConnection = new DiagramModelConnection();
         return diagramModelConnection;
@@ -977,6 +1047,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelArchimateConnection createDiagramModelArchimateConnection() {
         DiagramModelArchimateConnection diagramModelArchimateConnection = new DiagramModelArchimateConnection();
         return diagramModelArchimateConnection;
@@ -987,6 +1058,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IDiagramModelBendpoint createDiagramModelBendpoint() {
         DiagramModelBendpoint diagramModelBendpoint = new DiagramModelBendpoint();
         return diagramModelBendpoint;
@@ -997,6 +1069,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBounds createBounds() {
         Bounds bounds = new Bounds();
         return bounds;
@@ -1007,6 +1080,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ISketchModel createSketchModel() {
         SketchModel sketchModel = new SketchModel();
         return sketchModel;
@@ -1017,6 +1091,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ISketchModelSticky createSketchModelSticky() {
         SketchModelSticky sketchModelSticky = new SketchModelSticky();
         return sketchModelSticky;
@@ -1027,6 +1102,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ISketchModelActor createSketchModelActor() {
         SketchModelActor sketchModelActor = new SketchModelActor();
         return sketchModelActor;
@@ -1035,6 +1111,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     /* (non-Javadoc)
      * @see com.archimatetool.model.IArchimateFactory#createBounds(int, int, int, int)
      */
+    @Override
     public IBounds createBounds(int x, int y, int width, int height) {
         IBounds bounds = createBounds();
         bounds.setX(x);
@@ -1069,6 +1146,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IApplicationCollaboration createApplicationCollaboration() {
         ApplicationCollaboration applicationCollaboration = new ApplicationCollaboration();
         return applicationCollaboration;
@@ -1079,6 +1157,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IPath createPath() {
         Path path = new Path();
         return path;
@@ -1089,6 +1168,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IAccessRelationship createAccessRelationship() {
         AccessRelationship accessRelationship = new AccessRelationship();
         return accessRelationship;
@@ -1099,6 +1179,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IAggregationRelationship createAggregationRelationship() {
         AggregationRelationship aggregationRelationship = new AggregationRelationship();
         return aggregationRelationship;
@@ -1109,6 +1190,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IAssignmentRelationship createAssignmentRelationship() {
         AssignmentRelationship assignmentRelationship = new AssignmentRelationship();
         return assignmentRelationship;
@@ -1119,6 +1201,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IAssociationRelationship createAssociationRelationship() {
         AssociationRelationship associationRelationship = new AssociationRelationship();
         return associationRelationship;
@@ -1129,6 +1212,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICompositionRelationship createCompositionRelationship() {
         CompositionRelationship compositionRelationship = new CompositionRelationship();
         return compositionRelationship;
@@ -1139,6 +1223,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IFlowRelationship createFlowRelationship() {
         FlowRelationship flowRelationship = new FlowRelationship();
         return flowRelationship;
@@ -1149,6 +1234,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ITriggeringRelationship createTriggeringRelationship() {
         TriggeringRelationship triggeringRelationship = new TriggeringRelationship();
         return triggeringRelationship;
@@ -1159,6 +1245,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IInfluenceRelationship createInfluenceRelationship() {
         InfluenceRelationship influenceRelationship = new InfluenceRelationship();
         return influenceRelationship;
@@ -1169,6 +1256,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IRealizationRelationship createRealizationRelationship() {
         RealizationRelationship realizationRelationship = new RealizationRelationship();
         return realizationRelationship;
@@ -1179,6 +1267,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IServingRelationship createServingRelationship() {
         ServingRelationship servingRelationship = new ServingRelationship();
         return servingRelationship;
@@ -1189,6 +1278,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ISpecializationRelationship createSpecializationRelationship() {
         SpecializationRelationship specializationRelationship = new SpecializationRelationship();
         return specializationRelationship;
@@ -1199,6 +1289,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimatePackage getArchimatePackage() {
         return (IArchimatePackage)getEPackage();
     }

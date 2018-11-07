@@ -118,6 +118,7 @@ implements ISketchEditor {
         viewer.setRootEditPart(rootPart);
     }
     
+    @Override
     public void updateBackgroundImage() {
         ISketchModel model = getModel();
         
@@ -194,14 +195,17 @@ implements ISketchEditor {
     //                       Contextual Help support
     // =================================================================================
     
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.SketchEditor_0;
     }

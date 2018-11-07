@@ -80,6 +80,7 @@ public class HeapStatusWidget extends Composite {
 	protected volatile boolean isInGC = false;
 
     private final Runnable timer = new Runnable() {
+        @Override
         public void run() {
             if (!isDisposed()) {
                 updateStats();
@@ -130,6 +131,7 @@ public class HeapStatusWidget extends Composite {
 		
         Listener listener = new Listener() {
 
+            @Override
             public void handleEvent(Event event) {
                 switch (event.type) {
                 case SWT.Dispose:
@@ -195,7 +197,8 @@ public class HeapStatusWidget extends Composite {
 		updateStats();
 
         getDisplay().asyncExec(new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				if (!isDisposed()) {
 					getDisplay().timerExec(updateInterval, timer);
 				}
@@ -278,7 +281,8 @@ public class HeapStatusWidget extends Composite {
         MenuManager menuMgr = new MenuManager();
         menuMgr.setRemoveAllWhenShown(true);
         menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager menuMgr) {
+			@Override
+            public void menuAboutToShow(IMenuManager menuMgr) {
 				fillMenu(menuMgr);
 			}
 		});
@@ -322,7 +326,8 @@ public class HeapStatusWidget extends Composite {
             public void run() {
 				busyGC();
 				getDisplay().asyncExec(new Runnable() {
-					public void run() {
+					@Override
+                    public void run() {
 						if (!isDisposed()) {
 							gcRunning(false);
 						}

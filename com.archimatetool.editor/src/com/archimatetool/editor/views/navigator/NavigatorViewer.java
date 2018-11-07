@@ -65,12 +65,15 @@ public class NavigatorViewer extends TreeViewer {
      */
     private class NavigatorViewerContentProvider implements ITreeContentProvider {
         
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         
+        @Override
         public void dispose() {
         }
         
+        @Override
         public Object[] getElements(Object parent) {
             if(parent instanceof Object[]) {
                 // Check if it was deleted
@@ -84,6 +87,7 @@ public class NavigatorViewer extends TreeViewer {
             return new Object[0];
         }
 
+        @Override
         public Object[] getChildren(Object parent) {
             if(parent instanceof IArchimateRelationship) {
                 IArchimateRelationship relation = (IArchimateRelationship)parent;
@@ -107,10 +111,12 @@ public class NavigatorViewer extends TreeViewer {
             return new Object[0];
         }
 
+        @Override
         public Object getParent(Object element) {
             return null;
         }
 
+        @Override
         public boolean hasChildren(Object element) {
             return getChildren(element).length > 0;
         }

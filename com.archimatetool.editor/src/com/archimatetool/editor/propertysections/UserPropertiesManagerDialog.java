@@ -178,6 +178,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         menuMgr.setRemoveAllWhenShown(true);
 
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -222,12 +223,15 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
         // Content Provider
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
 
+            @Override
             public void dispose() {
             }
 
+            @Override
             public Object[] getElements(Object inputElement) {
                 return fKeysTable.entrySet().toArray();
             }
@@ -326,6 +330,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void execute() {
                 BusyIndicator.showWhile(null, new Runnable() {
+                    @Override
                     public void run() {
                         doSuperExecute();
                     }
@@ -335,6 +340,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void undo() {
                 BusyIndicator.showWhile(null, new Runnable() {
+                    @Override
                     public void run() {
                         doSuperUndo();
                     }
@@ -344,6 +350,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void redo() {
                 BusyIndicator.showWhile(null, new Runnable() {
+                    @Override
                     public void run() {
                         doSuperRedo();
                     }
@@ -425,6 +432,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
      * Label Provider
      */
     private static class LabelCellProvider extends LabelProvider implements ITableLabelProvider, ITableColorProvider {
+        @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
         }

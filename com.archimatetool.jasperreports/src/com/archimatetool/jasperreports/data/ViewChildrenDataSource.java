@@ -62,6 +62,7 @@ public class ViewChildrenDataSource implements JRRewindableDataSource, IProperti
         return fCurrentElement != null;
     }
 
+    @Override
     public PropertiesModelDataSource getPropertiesDataSource() {
         return new PropertiesModelDataSource(fCurrentElement);
     }

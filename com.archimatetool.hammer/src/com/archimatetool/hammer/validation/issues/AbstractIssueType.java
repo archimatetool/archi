@@ -43,50 +43,62 @@ public abstract class AbstractIssueType implements IIssue {
         setObject(obj);
     }
 
+    @Override
     public void setName(String name) {
         fName = name;
     }
 
+    @Override
     public String getName() {
         return fName;
     }
     
+    @Override
     public void setDescription(String description) {
         fDescription = description;
     }
 
+    @Override
     public String getDescription() {
         return fDescription;
     }
     
+    @Override
     public void setExplanation(String explanation) {
         fExplanation = explanation;
     }
     
+    @Override
     public String getExplanation() {
         return fExplanation;
     }
     
+    @Override
     public void setObject(Object obj) {
         fObject = obj;
     }
     
+    @Override
     public Object getObject() {
         return fObject;
     }
     
+    @Override
     public Image getImage() {
         return null;
     }
     
+    @Override
     public String getHelpHintTitle() {
         return getName();
     }
     
+    @Override
     public String getHelpHintContent() {
         return getExplanation();
     }
     
+    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Object getAdapter(Class adapter) {
         if(adapter == IHelpHintProvider.class) {

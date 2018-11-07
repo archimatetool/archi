@@ -49,13 +49,16 @@ public class TemplateManagerDialogDragDropHandler {
     private void registerDragSupport(final StructuredViewer viewer) {
         viewer.addDragSupport(fDragOperations, sourceTransferTypes, new DragSourceListener() {
             
+            @Override
             public void dragFinished(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
             }
 
+            @Override
             public void dragSetData(DragSourceEvent event) {
             }
 
+            @Override
             public void dragStart(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(viewer.getSelection());
                 event.doit = true;
@@ -68,25 +71,31 @@ public class TemplateManagerDialogDragDropHandler {
      */
     private void registerDropSupport(final StructuredViewer viewer) {
         viewer.addDropSupport(fDragOperations, sourceTransferTypes, new DropTargetListener() {
+            @Override
             public void dragEnter(DropTargetEvent event) {
             }
 
+            @Override
             public void dragLeave(DropTargetEvent event) {
             }
 
+            @Override
             public void dragOperationChanged(DropTargetEvent event) {
                 event.detail = getEventDetail(event);
             }
 
+            @Override
             public void dragOver(DropTargetEvent event) {
                 event.detail = getEventDetail(event);
                 event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
             }
 
+            @Override
             public void drop(DropTargetEvent event) {
                 doDropOperation(event);
             }
 
+            @Override
             public void dropAccept(DropTargetEvent event) {
             }
             

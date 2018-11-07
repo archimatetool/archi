@@ -81,6 +81,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimateConcept getSource() {
         return source;
     }
@@ -90,6 +91,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setSource(IArchimateConcept newSource) {
         IArchimateConcept oldSource = source;
         source = newSource;
@@ -110,6 +112,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimateConcept getTarget() {
         return target;
     }
@@ -119,6 +122,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setTarget(IArchimateConcept newTarget) {
         IArchimateConcept oldTarget = target;
         target = newTarget;
@@ -139,6 +143,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void connect(IArchimateConcept source, IArchimateConcept target) {
         setSource(source);
         setTarget(target);
@@ -149,6 +154,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void reconnect() {
         if(source != null) {
             source.getSourceRelationships().add(this);
@@ -163,6 +169,7 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void disconnect() {
         if(source != null) {
             source.getSourceRelationships().remove(this);

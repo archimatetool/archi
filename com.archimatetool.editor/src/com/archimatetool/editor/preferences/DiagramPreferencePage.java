@@ -333,6 +333,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
 
+    @Override
     public void init(IWorkbench workbench) {
     }
     

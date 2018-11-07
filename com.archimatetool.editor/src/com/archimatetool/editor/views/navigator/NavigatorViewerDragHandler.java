@@ -42,10 +42,12 @@ public class NavigatorViewerDragHandler {
     private void registerDragSupport() {
         fViewer.addDragSupport(fDragOperations, sourceTransferTypes, new DragSourceListener() {
             
+            @Override
             public void dragFinished(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
             }
 
+            @Override
             public void dragSetData(DragSourceEvent event) {
                 // For consistency set the data to the selection even though
                 // the selection is provided by the LocalSelectionTransfer
@@ -53,6 +55,7 @@ public class NavigatorViewerDragHandler {
                 event.data = LocalSelectionTransfer.getTransfer().getSelection();
             }
 
+            @Override
             public void dragStart(DragSourceEvent event) {
                 // Drag started from the Tree
                 LocalSelectionTransfer.getTransfer().setSelection(fViewer.getSelection());

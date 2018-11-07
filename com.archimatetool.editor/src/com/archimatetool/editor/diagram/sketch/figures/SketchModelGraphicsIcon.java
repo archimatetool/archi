@@ -25,6 +25,7 @@ public class SketchModelGraphicsIcon implements IGraphicsIcon {
     static Color color1 = ColorFactory.get(255, 247, 173);
     static Color color2 = ColorFactory.get(255, 214, 123);
 
+    @Override
     public void drawIcon(Graphics graphics, Point origin) {
         graphics.pushState();
         

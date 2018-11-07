@@ -38,16 +38,20 @@ public class PasteAction extends SelectionAction {
     private Point fMousePosition = null;
     
     private IWindowListener windowListener = new IWindowListener() {
+        @Override
         public final void windowActivated(IWorkbenchWindow window) {
             refresh();
         }
 
+        @Override
         public final void windowClosed(IWorkbenchWindow window) {
         }
 
+        @Override
         public final void windowDeactivated(IWorkbenchWindow window) {
         }
 
+        @Override
         public final void windowOpened(IWorkbenchWindow window) {
         }
     };

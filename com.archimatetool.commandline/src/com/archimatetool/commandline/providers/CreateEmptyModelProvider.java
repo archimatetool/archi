@@ -41,6 +41,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
     public CreateEmptyModelProvider() {
     }
 
+    @Override
     public Options getOptions() {
         Options options = new Options();
         
@@ -57,6 +58,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
         return options;
     }
     
+    @Override
     public void run(CommandLine commandLine) throws Exception {
         if(commandLine.hasOption(OPTION_CREATE_EMPTY_MODEL)) {
             IArchimateModel model = null;
@@ -133,6 +135,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
         return model;
     }
     
+    @Override
     public int getPriority() {
         return PRIORITY_LOAD_OR_CREATE_MODEL - 2;
     }

@@ -28,6 +28,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelImage();
     }

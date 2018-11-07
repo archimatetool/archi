@@ -20,6 +20,7 @@ import com.archimatetool.editor.ui.dialog.AboutDialog;
  */
 public class AboutHandler extends AbstractHandler {
 
+    @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         new AboutDialog(HandlerUtil.getActiveShellChecked(event)).open();
         return null;

@@ -56,16 +56,20 @@ public class ModelViewsTreeViewer extends TreeViewer {
      */
     private class ModelViewsTreeViewerContentProvider implements ITreeContentProvider {
         
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         
+        @Override
         public void dispose() {
         }
         
+        @Override
         public Object[] getElements(Object parent) {
             return getChildren(parent);
         }
 
+        @Override
         public Object[] getChildren(Object parentElement) {
             if(parentElement instanceof IFolder) {
                 List<Object> list = new ArrayList<Object>();
@@ -82,6 +86,7 @@ public class ModelViewsTreeViewer extends TreeViewer {
             return new Object[0];
         }
 
+        @Override
         public Object getParent(Object element) {
             if(element instanceof EObject) {
                 return ((EObject)element).eContainer();
@@ -89,6 +94,7 @@ public class ModelViewsTreeViewer extends TreeViewer {
             return null;
         }
 
+        @Override
         public boolean hasChildren(Object element) {
             if(element instanceof IFolder) {
                 return getChildren(element).length > 0;

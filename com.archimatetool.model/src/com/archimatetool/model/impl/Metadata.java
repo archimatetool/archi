@@ -71,6 +71,7 @@ public class Metadata extends EObjectImpl implements IMetadata {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EList<IProperty> getEntries() {
         if (entries == null) {
             entries = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.METADATA__ENTRIES);
@@ -78,6 +79,7 @@ public class Metadata extends EObjectImpl implements IMetadata {
         return entries;
     }
 
+    @Override
     public IProperty addEntry(String key, String value) {
         if(key == null) {
             throw new IllegalArgumentException("key cannot be null"); //$NON-NLS-1$
@@ -97,6 +99,7 @@ public class Metadata extends EObjectImpl implements IMetadata {
         return property;
     }
 
+    @Override
     public IProperty getEntry(String key) {
         if(key == null) {
             throw new IllegalArgumentException("key cannot be null"); //$NON-NLS-1$

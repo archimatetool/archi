@@ -115,6 +115,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getContent() {
         return content;
     }
@@ -124,6 +125,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setContent(String newContent) {
         String oldContent = content;
         content = newContent;
@@ -136,6 +138,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -145,6 +148,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextPosition(int newTextPosition) {
         int oldTextPosition = textPosition;
         textPosition = newTextPosition;
@@ -157,6 +161,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getBorderType() {
         return borderType;
     }
@@ -166,6 +171,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBorderType(int newBorderType) {
         int oldBorderType = borderType;
         borderType = newBorderType;

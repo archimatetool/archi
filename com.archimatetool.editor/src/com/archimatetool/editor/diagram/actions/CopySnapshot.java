@@ -203,6 +203,7 @@ public final class CopySnapshot {
          * If each has the same container parent
          */
         Collections.sort(objects, new Comparator<Object>() {
+            @Override
             public int compare(Object o1, Object o2) {
                 if(o1 instanceof IDiagramModelObject && o2 instanceof IDiagramModelObject) {
                     IDiagramModelContainer parent1 = (IDiagramModelContainer)((IDiagramModelObject)o1).eContainer();

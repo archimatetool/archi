@@ -23,6 +23,7 @@ public class CanvasModelGraphicsIcon implements IGraphicsIcon {
     
     static Color blue = ColorFactory.get(150, 210, 247);
 
+    @Override
     public void drawIcon(Graphics graphics, Point origin) {
         graphics.pushState();
         

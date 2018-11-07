@@ -75,6 +75,7 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
      * CellEditorLocator
      */
     class MultiLineCellEditorLocator implements CellEditorLocator {
+        @Override
         public void relocate(CellEditor celleditor) {
             IFigure figure = getEditPart().getFigure();
             Text text = (Text)celleditor.getControl();

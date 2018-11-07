@@ -163,6 +163,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getIconic() {
         return iconicEClass;
     }
@@ -172,6 +173,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getIconic_ImagePosition() {
         return (EAttribute)iconicEClass.getEStructuralFeatures().get(0);
     }
@@ -181,6 +183,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCanvasModel() {
         return canvasModelEClass;
     }
@@ -190,6 +193,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCanvasModelSticky() {
         return canvasModelStickyEClass;
     }
@@ -199,6 +203,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCanvasModelBlock() {
         return canvasModelBlockEClass;
     }
@@ -208,6 +213,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCanvasModelImage() {
         return canvasModelImageEClass;
     }
@@ -217,6 +223,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCanvasModelConnection() {
         return canvasModelConnectionEClass;
     }
@@ -226,6 +233,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getHintProvider() {
         return hintProviderEClass;
     }
@@ -235,6 +243,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getHintProvider_HintTitle() {
         return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(0);
     }
@@ -244,6 +253,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getHintProvider_HintContent() {
         return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(1);
     }
@@ -253,6 +263,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getHelpHintProvider() {
         return helpHintProviderEClass;
     }
@@ -262,6 +273,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getNotesContent() {
         return notesContentEClass;
     }
@@ -271,6 +283,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getNotesContent_Notes() {
         return (EAttribute)notesContentEClass.getEStructuralFeatures().get(0);
     }
@@ -280,6 +293,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public ICanvasFactory getCanvasFactory() {
         return (ICanvasFactory)getEFactoryInstance();
     }

@@ -96,12 +96,14 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         fViewer = new ValidatorViewer(treeComp, SWT.NULL);
         
         fViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 selectObjects((IStructuredSelection)event.getSelection());
             }
         });
         
         fViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 updateMenuItems((IStructuredSelection)event.getSelection());
             }
@@ -131,6 +133,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
         if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {  //$NON-NLS-1$//$NON-NLS-2$
             Display.getCurrent().asyncExec(new Runnable() {
+                @Override
                 public void run() {
                     validateModel();
                 }
@@ -237,6 +240,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         menuMgr.setRemoveAllWhenShown(true);
         
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -284,6 +288,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         return fViewer;
     }
 
+    @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
         if(part == this || part == null) {
             return;
@@ -338,8 +343,10 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
        }
     }
     
+    @Override
     public void validateModel() {
         BusyIndicator.showWhile(null, new Runnable() {
+            @Override
             public void run() {
                 updateStatusBar();
                 Validator validator = new Validator(fModel);
@@ -436,14 +443,17 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     //                       Contextual Help support
     // =================================================================================
 
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.ValidatorView_3;
     }

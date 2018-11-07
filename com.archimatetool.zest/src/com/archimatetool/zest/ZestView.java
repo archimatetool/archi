@@ -117,6 +117,7 @@ implements IZestView, ISelectionListener {
         
         // Graph selection listener
         fGraphViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 // Update actions
                 updateActions();
@@ -127,6 +128,7 @@ implements IZestView, ISelectionListener {
         
         // Double-click
         fGraphViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 fDrillDownManager.goInto();
             }
@@ -515,6 +517,7 @@ implements IZestView, ISelectionListener {
         menuMgr.setRemoveAllWhenShown(true);
         
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
@@ -679,14 +682,17 @@ implements IZestView, ISelectionListener {
     //                       Contextual Help support
     // =================================================================================
     
+    @Override
     public int getContextChangeMask() {
         return NONE;
     }
 
+    @Override
     public IContext getContext(Object target) {
         return HelpSystem.getContext(HELP_ID);
     }
 
+    @Override
     public String getSearchExpression(Object target) {
         return Messages.ZestView_2;
     }

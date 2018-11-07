@@ -216,6 +216,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IBounds getBounds() {
         return bounds;
     }
@@ -225,6 +226,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
         setBounds(bounds);
@@ -250,6 +252,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setBounds(IBounds newBounds) {
         if (newBounds != bounds) {
             NotificationChain msgs = null;
@@ -269,6 +272,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getFillColor() {
         return fillColor;
     }
@@ -278,6 +282,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFillColor(String newFillColor) {
         String oldFillColor = fillColor;
         fillColor = newFillColor;
@@ -290,6 +295,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getAlpha() {
         return alpha;
     }
@@ -299,6 +305,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setAlpha(int newAlpha) {
         int oldAlpha = alpha;
         alpha = newAlpha;
@@ -311,6 +318,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getFont() {
         return font;
     }
@@ -320,6 +328,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFont(String newFont) {
         String oldFont = font;
         font = newFont;
@@ -332,6 +341,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getFontColor() {
         return fontColor;
     }
@@ -341,6 +351,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setFontColor(String newFontColor) {
         String oldFontColor = fontColor;
         fontColor = newFontColor;
@@ -353,6 +364,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getTextAlignment() {
         return textAlignment;
     }
@@ -362,6 +374,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setTextAlignment(int newTextAlignment) {
         int oldTextAlignment = textAlignment;
         textAlignment = newTextAlignment;
@@ -374,6 +387,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public int getLineWidth() {
         return lineWidth;
     }
@@ -383,6 +397,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLineWidth(int newLineWidth) {
         int oldLineWidth = lineWidth;
         lineWidth = newLineWidth;
@@ -395,6 +410,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String getLineColor() {
         return lineColor;
     }
@@ -404,6 +420,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setLineColor(String newLineColor) {
         String oldLineColor = lineColor;
         lineColor = newLineColor;

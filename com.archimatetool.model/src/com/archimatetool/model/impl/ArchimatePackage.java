@@ -1147,6 +1147,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAdapter() {
         return adapterEClass;
     }
@@ -1156,6 +1157,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getIdentifier() {
         return identifierEClass;
     }
@@ -1165,6 +1167,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getIdentifier_Id() {
         return (EAttribute)identifierEClass.getEStructuralFeatures().get(0);
     }
@@ -1174,6 +1177,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getProperties() {
         return propertiesEClass;
     }
@@ -1183,6 +1187,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getProperties_Properties() {
         return (EReference)propertiesEClass.getEStructuralFeatures().get(0);
     }
@@ -1192,6 +1197,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getMetadata() {
         return metadataEClass;
     }
@@ -1201,6 +1207,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getMetadata_Entries() {
         return (EReference)metadataEClass.getEStructuralFeatures().get(0);
     }
@@ -1210,6 +1217,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getNameable() {
         return nameableEClass;
     }
@@ -1219,6 +1227,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getNameable_Name() {
         return (EAttribute)nameableEClass.getEStructuralFeatures().get(0);
     }
@@ -1228,6 +1237,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTextContent() {
         return textContentEClass;
     }
@@ -1237,6 +1247,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getTextContent_Content() {
         return (EAttribute)textContentEClass.getEStructuralFeatures().get(0);
     }
@@ -1246,6 +1257,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDocumentable() {
         return documentableEClass;
     }
@@ -1255,6 +1267,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDocumentable_Documentation() {
         return (EAttribute)documentableEClass.getEStructuralFeatures().get(0);
     }
@@ -1264,6 +1277,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCloneable() {
         return cloneableEClass;
     }
@@ -1273,6 +1287,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getFolderContainer() {
         return folderContainerEClass;
     }
@@ -1282,6 +1297,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getFolderContainer_Folders() {
         return (EReference)folderContainerEClass.getEStructuralFeatures().get(0);
     }
@@ -1291,6 +1307,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getProperty() {
         return propertyEClass;
     }
@@ -1300,6 +1317,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getProperty_Key() {
         return (EAttribute)propertyEClass.getEStructuralFeatures().get(0);
     }
@@ -1309,6 +1327,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getProperty_Value() {
         return (EAttribute)propertyEClass.getEStructuralFeatures().get(1);
     }
@@ -1318,6 +1337,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateModel() {
         return archimateModelEClass;
     }
@@ -1327,6 +1347,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getArchimateModel_Purpose() {
         return (EAttribute)archimateModelEClass.getEStructuralFeatures().get(0);
     }
@@ -1336,6 +1357,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getArchimateModel_File() {
         return (EAttribute)archimateModelEClass.getEStructuralFeatures().get(1);
     }
@@ -1345,6 +1367,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getArchimateModel_Version() {
         return (EAttribute)archimateModelEClass.getEStructuralFeatures().get(2);
     }
@@ -1354,6 +1377,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getArchimateModel_Metadata() {
         return (EReference)archimateModelEClass.getEStructuralFeatures().get(3);
     }
@@ -1363,6 +1387,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getJunction() {
         return junctionEClass;
     }
@@ -1372,6 +1397,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getJunction_Type() {
         return (EAttribute)junctionEClass.getEStructuralFeatures().get(0);
     }
@@ -1381,6 +1407,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getResource() {
         return resourceEClass;
     }
@@ -1390,6 +1417,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getFolder() {
         return folderEClass;
     }
@@ -1399,6 +1427,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getFolder_Elements() {
         return (EReference)folderEClass.getEStructuralFeatures().get(0);
     }
@@ -1408,6 +1437,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getFolder_Type() {
         return (EAttribute)folderEClass.getEStructuralFeatures().get(1);
     }
@@ -1417,6 +1447,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateModelObject() {
         return archimateModelObjectEClass;
     }
@@ -1426,6 +1457,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateConcept() {
         return archimateConceptEClass;
     }
@@ -1435,6 +1467,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateElement() {
         return archimateElementEClass;
     }
@@ -1444,6 +1477,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArtifact() {
         return artifactEClass;
     }
@@ -1453,6 +1487,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getNode() {
         return nodeEClass;
     }
@@ -1462,6 +1497,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getOutcome() {
         return outcomeEClass;
     }
@@ -1471,6 +1507,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getSystemSoftware() {
         return systemSoftwareEClass;
     }
@@ -1480,6 +1517,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyCollaboration() {
         return technologyCollaborationEClass;
     }
@@ -1489,6 +1527,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyEvent() {
         return technologyEventEClass;
     }
@@ -1498,6 +1537,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyFunction() {
         return technologyFunctionEClass;
     }
@@ -1507,6 +1547,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyInterface() {
         return technologyInterfaceEClass;
     }
@@ -1516,6 +1557,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyInteraction() {
         return technologyInteractionEClass;
     }
@@ -1525,6 +1567,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyObject() {
         return technologyObjectEClass;
     }
@@ -1534,6 +1577,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyProcess() {
         return technologyProcessEClass;
     }
@@ -1543,6 +1587,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyService() {
         return technologyServiceEClass;
     }
@@ -1552,6 +1597,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDevice() {
         return deviceEClass;
     }
@@ -1561,6 +1607,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDistributionNetwork() {
         return distributionNetworkEClass;
     }
@@ -1570,6 +1617,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getEquipment() {
         return equipmentEClass;
     }
@@ -1579,6 +1627,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getFacility() {
         return facilityEClass;
     }
@@ -1588,6 +1637,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getMotivationElement() {
         return motivationElementEClass;
     }
@@ -1597,6 +1647,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getStakeholder() {
         return stakeholderEClass;
     }
@@ -1606,6 +1657,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDriver() {
         return driverEClass;
     }
@@ -1615,6 +1667,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAssessment() {
         return assessmentEClass;
     }
@@ -1624,6 +1677,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getGoal() {
         return goalEClass;
     }
@@ -1633,6 +1687,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getGrouping() {
         return groupingEClass;
     }
@@ -1642,6 +1697,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getImplementationEvent() {
         return implementationEventEClass;
     }
@@ -1651,6 +1707,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getRequirement() {
         return requirementEClass;
     }
@@ -1660,6 +1717,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getConstraint() {
         return constraintEClass;
     }
@@ -1669,6 +1727,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCourseOfAction() {
         return courseOfActionEClass;
     }
@@ -1678,6 +1737,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getPrinciple() {
         return principleEClass;
     }
@@ -1687,6 +1747,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getImplementationMigrationElement() {
         return implementationMigrationElementEClass;
     }
@@ -1696,6 +1757,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCompositeElement() {
         return compositeElementEClass;
     }
@@ -1705,6 +1767,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBehaviorElement() {
         return behaviorElementEClass;
     }
@@ -1714,6 +1777,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getStructureElement() {
         return structureElementEClass;
     }
@@ -1723,6 +1787,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getActiveStructureElement() {
         return activeStructureElementEClass;
     }
@@ -1732,6 +1797,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getPassiveStructureElement() {
         return passiveStructureElementEClass;
     }
@@ -1741,6 +1807,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getStructuralRelationship() {
         return structuralRelationshipEClass;
     }
@@ -1750,6 +1817,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDependendencyRelationship() {
         return dependendencyRelationshipEClass;
     }
@@ -1759,6 +1827,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDynamicRelationship() {
         return dynamicRelationshipEClass;
     }
@@ -1768,6 +1837,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getOtherRelationship() {
         return otherRelationshipEClass;
     }
@@ -1777,6 +1847,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getStrategyElement() {
         return strategyElementEClass;
     }
@@ -1786,6 +1857,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getWorkPackage() {
         return workPackageEClass;
     }
@@ -1795,6 +1867,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDeliverable() {
         return deliverableEClass;
     }
@@ -1804,6 +1877,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getPlateau() {
         return plateauEClass;
     }
@@ -1813,6 +1887,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getGap() {
         return gapEClass;
     }
@@ -1822,6 +1897,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateRelationship() {
         return archimateRelationshipEClass;
     }
@@ -1831,6 +1907,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getArchimateRelationship_Source() {
         return (EReference)archimateRelationshipEClass.getEStructuralFeatures().get(0);
     }
@@ -1840,6 +1917,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getArchimateRelationship_Target() {
         return (EReference)archimateRelationshipEClass.getEStructuralFeatures().get(1);
     }
@@ -1849,6 +1927,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModel() {
         return diagramModelEClass;
     }
@@ -1858,6 +1937,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModel_ConnectionRouterType() {
         return (EAttribute)diagramModelEClass.getEStructuralFeatures().get(0);
     }
@@ -1867,6 +1947,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getArchimateDiagramModel() {
         return archimateDiagramModelEClass;
     }
@@ -1876,6 +1957,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getArchimateDiagramModel_Viewpoint() {
         return (EAttribute)archimateDiagramModelEClass.getEStructuralFeatures().get(0);
     }
@@ -1885,6 +1967,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelArchimateComponent() {
         return diagramModelArchimateComponentEClass;
     }
@@ -1894,6 +1977,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelReference() {
         return diagramModelReferenceEClass;
     }
@@ -1903,6 +1987,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelReference_ReferencedModel() {
         return (EReference)diagramModelReferenceEClass.getEStructuralFeatures().get(0);
     }
@@ -1912,6 +1997,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelComponent() {
         return diagramModelComponentEClass;
     }
@@ -1921,6 +2007,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getConnectable() {
         return connectableEClass;
     }
@@ -1930,6 +2017,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getConnectable_SourceConnections() {
         return (EReference)connectableEClass.getEStructuralFeatures().get(0);
     }
@@ -1939,6 +2027,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getConnectable_TargetConnections() {
         return (EReference)connectableEClass.getEStructuralFeatures().get(1);
     }
@@ -1948,6 +2037,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelObject() {
         return diagramModelObjectEClass;
     }
@@ -1957,6 +2047,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelObject_Bounds() {
         return (EReference)diagramModelObjectEClass.getEStructuralFeatures().get(0);
     }
@@ -1966,6 +2057,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelObject_FillColor() {
         return (EAttribute)diagramModelObjectEClass.getEStructuralFeatures().get(1);
     }
@@ -1975,6 +2067,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelObject_Alpha() {
         return (EAttribute)diagramModelObjectEClass.getEStructuralFeatures().get(2);
     }
@@ -1984,6 +2077,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelArchimateObject() {
         return diagramModelArchimateObjectEClass;
     }
@@ -1993,6 +2087,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelArchimateObject_ArchimateElement() {
         return (EReference)diagramModelArchimateObjectEClass.getEStructuralFeatures().get(0);
     }
@@ -2002,6 +2097,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelArchimateObject_Type() {
         return (EAttribute)diagramModelArchimateObjectEClass.getEStructuralFeatures().get(1);
     }
@@ -2011,6 +2107,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelContainer() {
         return diagramModelContainerEClass;
     }
@@ -2020,6 +2117,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelContainer_Children() {
         return (EReference)diagramModelContainerEClass.getEStructuralFeatures().get(0);
     }
@@ -2029,6 +2127,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelGroup() {
         return diagramModelGroupEClass;
     }
@@ -2038,6 +2137,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelNote() {
         return diagramModelNoteEClass;
     }
@@ -2047,6 +2147,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelNote_BorderType() {
         return (EAttribute)diagramModelNoteEClass.getEStructuralFeatures().get(0);
     }
@@ -2056,6 +2157,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelImage() {
         return diagramModelImageEClass;
     }
@@ -2065,6 +2167,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelConnection() {
         return diagramModelConnectionEClass;
     }
@@ -2074,6 +2177,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelConnection_Text() {
         return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(0);
     }
@@ -2083,6 +2187,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelConnection_TextPosition() {
         return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(1);
     }
@@ -2092,6 +2197,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelConnection_Source() {
         return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(2);
     }
@@ -2101,6 +2207,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelConnection_Target() {
         return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(3);
     }
@@ -2110,6 +2217,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelConnection_Bendpoints() {
         return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(4);
     }
@@ -2119,6 +2227,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelConnection_Type() {
         return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(5);
     }
@@ -2128,6 +2237,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelArchimateConnection() {
         return diagramModelArchimateConnectionEClass;
     }
@@ -2137,6 +2247,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EReference getDiagramModelArchimateConnection_ArchimateRelationship() {
         return (EReference)diagramModelArchimateConnectionEClass.getEStructuralFeatures().get(0);
     }
@@ -2146,6 +2257,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelBendpoint() {
         return diagramModelBendpointEClass;
     }
@@ -2155,6 +2267,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelBendpoint_StartX() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(0);
     }
@@ -2164,6 +2277,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelBendpoint_StartY() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(1);
     }
@@ -2173,6 +2287,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelBendpoint_EndX() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(2);
     }
@@ -2182,6 +2297,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelBendpoint_EndY() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(3);
     }
@@ -2191,6 +2307,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getLineObject() {
         return lineObjectEClass;
     }
@@ -2200,6 +2317,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getLineObject_LineWidth() {
         return (EAttribute)lineObjectEClass.getEStructuralFeatures().get(0);
     }
@@ -2209,6 +2327,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getLineObject_LineColor() {
         return (EAttribute)lineObjectEClass.getEStructuralFeatures().get(1);
     }
@@ -2218,6 +2337,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getFontAttribute() {
         return fontAttributeEClass;
     }
@@ -2227,6 +2347,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getFontAttribute_Font() {
         return (EAttribute)fontAttributeEClass.getEStructuralFeatures().get(0);
     }
@@ -2236,6 +2357,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getFontAttribute_FontColor() {
         return (EAttribute)fontAttributeEClass.getEStructuralFeatures().get(1);
     }
@@ -2245,6 +2367,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTextPosition() {
         return textPositionEClass;
     }
@@ -2254,6 +2377,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getTextPosition_TextPosition() {
         return (EAttribute)textPositionEClass.getEStructuralFeatures().get(0);
     }
@@ -2263,6 +2387,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTextAlignment() {
         return textAlignmentEClass;
     }
@@ -2272,6 +2397,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getTextAlignment_TextAlignment() {
         return (EAttribute)textAlignmentEClass.getEStructuralFeatures().get(0);
     }
@@ -2281,6 +2407,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBorderObject() {
         return borderObjectEClass;
     }
@@ -2290,6 +2417,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getBorderObject_BorderColor() {
         return (EAttribute)borderObjectEClass.getEStructuralFeatures().get(0);
     }
@@ -2299,6 +2427,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDiagramModelImageProvider() {
         return diagramModelImageProviderEClass;
     }
@@ -2308,6 +2437,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getDiagramModelImageProvider_ImagePath() {
         return (EAttribute)diagramModelImageProviderEClass.getEStructuralFeatures().get(0);
     }
@@ -2317,6 +2447,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBounds() {
         return boundsEClass;
     }
@@ -2326,6 +2457,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getBounds_X() {
         return (EAttribute)boundsEClass.getEStructuralFeatures().get(0);
     }
@@ -2335,6 +2467,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getBounds_Y() {
         return (EAttribute)boundsEClass.getEStructuralFeatures().get(1);
     }
@@ -2344,6 +2477,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getBounds_Width() {
         return (EAttribute)boundsEClass.getEStructuralFeatures().get(2);
     }
@@ -2353,6 +2487,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getBounds_Height() {
         return (EAttribute)boundsEClass.getEStructuralFeatures().get(3);
     }
@@ -2362,6 +2497,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getLockable() {
         return lockableEClass;
     }
@@ -2371,6 +2507,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getLockable_Locked() {
         return (EAttribute)lockableEClass.getEStructuralFeatures().get(0);
     }
@@ -2380,6 +2517,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getSketchModel() {
         return sketchModelEClass;
     }
@@ -2389,6 +2527,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getSketchModel_Background() {
         return (EAttribute)sketchModelEClass.getEStructuralFeatures().get(0);
     }
@@ -2398,6 +2537,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getSketchModelSticky() {
         return sketchModelStickyEClass;
     }
@@ -2407,6 +2547,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getSketchModelActor() {
         return sketchModelActorEClass;
     }
@@ -2416,6 +2557,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EEnum getFolderType() {
         return folderTypeEEnum;
     }
@@ -2425,6 +2567,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EDataType getFile() {
         return fileEDataType;
     }
@@ -2434,6 +2577,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessActor() {
         return businessActorEClass;
     }
@@ -2443,6 +2587,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessCollaboration() {
         return businessCollaborationEClass;
     }
@@ -2452,6 +2597,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getContract() {
         return contractEClass;
     }
@@ -2461,6 +2607,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessEvent() {
         return businessEventEClass;
     }
@@ -2470,6 +2617,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessFunction() {
         return businessFunctionEClass;
     }
@@ -2479,6 +2627,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessInteraction() {
         return businessInteractionEClass;
     }
@@ -2488,6 +2637,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessInterface() {
         return businessInterfaceEClass;
     }
@@ -2497,6 +2647,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getMeaning() {
         return meaningEClass;
     }
@@ -2506,6 +2657,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessObject() {
         return businessObjectEClass;
     }
@@ -2515,6 +2667,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessProcess() {
         return businessProcessEClass;
     }
@@ -2524,6 +2677,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getProduct() {
         return productEClass;
     }
@@ -2533,6 +2687,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getRepresentation() {
         return representationEClass;
     }
@@ -2542,6 +2697,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessRole() {
         return businessRoleEClass;
     }
@@ -2551,6 +2707,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessService() {
         return businessServiceEClass;
     }
@@ -2560,6 +2717,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCapability() {
         return capabilityEClass;
     }
@@ -2569,6 +2727,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCommunicationNetwork() {
         return communicationNetworkEClass;
     }
@@ -2578,6 +2737,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getValue() {
         return valueEClass;
     }
@@ -2587,6 +2747,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getLocation() {
         return locationEClass;
     }
@@ -2596,6 +2757,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getMaterial() {
         return materialEClass;
     }
@@ -2605,6 +2767,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationComponent() {
         return applicationComponentEClass;
     }
@@ -2614,6 +2777,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationEvent() {
         return applicationEventEClass;
     }
@@ -2623,6 +2787,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationFunction() {
         return applicationFunctionEClass;
     }
@@ -2632,6 +2797,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationInteraction() {
         return applicationInteractionEClass;
     }
@@ -2641,6 +2807,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationInterface() {
         return applicationInterfaceEClass;
     }
@@ -2650,6 +2817,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationProcess() {
         return applicationProcessEClass;
     }
@@ -2659,6 +2827,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getDataObject() {
         return dataObjectEClass;
     }
@@ -2668,6 +2837,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationService() {
         return applicationServiceEClass;
     }
@@ -2677,6 +2847,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationCollaboration() {
         return applicationCollaborationEClass;
     }
@@ -2686,6 +2857,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAccessRelationship() {
         return accessRelationshipEClass;
     }
@@ -2695,6 +2867,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getAccessRelationship_AccessType() {
         return (EAttribute)accessRelationshipEClass.getEStructuralFeatures().get(0);
     }
@@ -2704,6 +2877,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAggregationRelationship() {
         return aggregationRelationshipEClass;
     }
@@ -2713,6 +2887,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAssignmentRelationship() {
         return assignmentRelationshipEClass;
     }
@@ -2722,6 +2897,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getAssociationRelationship() {
         return associationRelationshipEClass;
     }
@@ -2731,6 +2907,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getCompositionRelationship() {
         return compositionRelationshipEClass;
     }
@@ -2740,6 +2917,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getFlowRelationship() {
         return flowRelationshipEClass;
     }
@@ -2749,6 +2927,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTriggeringRelationship() {
         return triggeringRelationshipEClass;
     }
@@ -2758,6 +2937,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getInfluenceRelationship() {
         return influenceRelationshipEClass;
     }
@@ -2767,6 +2947,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EAttribute getInfluenceRelationship_Strength() {
         return (EAttribute)influenceRelationshipEClass.getEStructuralFeatures().get(0);
     }
@@ -2776,6 +2957,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getRealizationRelationship() {
         return realizationRelationshipEClass;
     }
@@ -2785,6 +2967,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getServingRelationship() {
         return servingRelationshipEClass;
     }
@@ -2794,6 +2977,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getSpecializationRelationship() {
         return specializationRelationshipEClass;
     }
@@ -2803,6 +2987,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getBusinessElement() {
         return businessElementEClass;
     }
@@ -2812,6 +2997,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getApplicationElement() {
         return applicationElementEClass;
     }
@@ -2821,6 +3007,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getTechnologyElement() {
         return technologyElementEClass;
     }
@@ -2830,6 +3017,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getPhysicalElement() {
         return physicalElementEClass;
     }
@@ -2839,6 +3027,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EClass getPath() {
         return pathEClass;
     }
@@ -2848,6 +3037,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public IArchimateFactory getArchimateFactory() {
         return (IArchimateFactory)getEFactoryInstance();
     }

@@ -53,6 +53,7 @@ public class OpacitySection extends AbstractECorePropertySection {
      * Spinner listener
      */
     private Listener spinnerListener = new Listener() {
+        @Override
         public void handleEvent(Event event) {
             int newValue = fSpinner.getSelection();
 

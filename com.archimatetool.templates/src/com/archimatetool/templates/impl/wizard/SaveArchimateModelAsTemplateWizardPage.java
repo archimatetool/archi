@@ -101,6 +101,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }
@@ -135,6 +136,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fNameTextField);
         fNameTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }
