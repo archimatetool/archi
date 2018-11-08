@@ -33,6 +33,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
+    private EClass fElementClass;
     private EClass fRelationshipClass;
     private int fDirection = DIR_BOTH;
     
