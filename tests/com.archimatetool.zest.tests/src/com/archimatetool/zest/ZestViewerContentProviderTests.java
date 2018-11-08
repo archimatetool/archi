@@ -76,6 +76,18 @@ public class ZestViewerContentProviderTests {
     }
 
     @Test
+    public void testSetElementFilter() {
+        // default element
+        EClass defaultElement = null;
+        assertTrue(provider.getElementFilter() == defaultElement);
+        // test with a Business Function
+        provider.setElementFilter(IArchimatePackage.eINSTANCE.getBusinessFunction());
+        assertSame(provider.getElementFilter(), IArchimatePackage.eINSTANCE.getBusinessFunction());
+        // back to default
+        provider.setElementFilter(defaultElement);
+    }
+
+    @Test
     public void testSetRelationshipFilter() {
         // Default Relationship
         EClass defaultRelationship = null;
