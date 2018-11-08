@@ -431,21 +431,6 @@ implements IZestView, ISelectionListener {
                 elementAction.setChecked(true);
         }
 
-/*
-        ArrayList<EClass> elementsActionList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
-        elementsActionList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
-        for (EClass elem : elementsActionList) {
-            elementAction = createElementMenuAction(elem);
-            fElementActions.add(elementAction);
-            elementMenuManager.add(elementAction);
-
-            // Set Checked
-            if(elementClass != null && elem.getName().equals(elementClass.getName()))
-                elementAction.setChecked(true);
-
-        }*/
-
-
         // Set filter based on Relationship
         IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
         menuManager.add(relationshipMenuManager);
