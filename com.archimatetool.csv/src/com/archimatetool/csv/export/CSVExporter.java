@@ -28,6 +28,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProperty;
 
 
@@ -241,6 +242,19 @@ public class CSVExporter implements CSVConstants {
         else if(concept instanceof IAccessRelationship) {
             writer.write(CRLF);
             writer.write(createPropertyRow(concept.getId(), ACCESS_TYPE, ACCESS_TYPES.get(((IAccessRelationship)concept).getAccessType())));
+        }
+        
+        // Junction Type
+        else if(concept instanceof IJunction) {
+            String type = ((IJunction)concept).getType();
+            if(IJunction.AND_JUNCTION_TYPE.equals(type)) {
+                type = JUNCTION_AND;
+            }
+            else {
+                type = JUNCTION_OR;
+            }
+            writer.write(CRLF);
+            writer.write(createPropertyRow(concept.getId(), JUNCTION_TYPE, type));
         }
     }
     

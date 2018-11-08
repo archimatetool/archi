@@ -42,6 +42,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -464,14 +465,26 @@ public class CSVImporter implements CSVConstants {
         String key = normalise(csvRecord.get(1));
         String value = normalise(csvRecord.get(2));
         
-        // Special properties for relationship attributes
+        // Handle special properties for some concepts' attributes
         if(INFLUENCE_STRENGTH.equals(key) && propertiesObject instanceof IInfluenceRelationship) {
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, value);
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
+                    IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, value);
             return;
         }
         else if(ACCESS_TYPE.equals(key) && propertiesObject instanceof IAccessRelationship) {
             int newvalue = ACCESS_TYPES.indexOf(value);
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE, newvalue);
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
+                    IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE, newvalue);
+            return;
+        }
+        else if(JUNCTION_TYPE.equals(key) && propertiesObject instanceof IJunction) {
+            if(JUNCTION_AND.equals(value)) {
+                value = IJunction.AND_JUNCTION_TYPE;
+            }
+            else {
+                value = IJunction.OR_JUNCTION_TYPE;
+            }
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.JUNCTION__TYPE, value);
             return;
         }
         
