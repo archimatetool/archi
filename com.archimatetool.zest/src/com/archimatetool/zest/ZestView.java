@@ -221,7 +221,7 @@ implements IZestView, ISelectionListener {
         String elementName = getElementFilterName(getContentProvider().getElementFilter());
        	String relationshipName = getRelationshipFilterName(getContentProvider().getRelationshipFilter());
 
-        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + /* Messages.ZestView_9 + ": " */ "Element Filter: " + elementName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + Messages.ZestView_9 + ": " + elementName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
@@ -294,15 +294,15 @@ implements IZestView, ISelectionListener {
             }
         }
         // Set filter based on Elements
-        IMenuManager elementMenuManager = new MenuManager( "Element Filter" /* Messages.ZestView_9*/ ),
-                strategyElementMenuManager = new MenuManager( "Strategy Elements" /* Messages.ZestView_10*/ ),
-                businessElementMenuManager = new MenuManager( "Business Elements" /* Messages.ZestView_11*/ ),
-                applicationElementMenuManager = new MenuManager( "Application Elements" /* Messages.ZestView_12*/ ),
-                technologyElementMenuManager = new MenuManager( "Technology Elements" /* Messages.ZestView_13*/ ),
-                physicalElementMenuManager = new MenuManager( "Physical Elements" /* Messages.ZestView_14*/ ),
-                motivationElementMenuManager = new MenuManager( "Technology Elements" /* Messages.ZestView_15*/ ),
-                implementationMigrationElementMenuManager = new MenuManager( "Implementation & Migration Elements" /* Messages.ZestView_16*/ ),
-                otherElementMenuManager = new MenuManager( "Other Elements" /* Messages.ZestView_17*/ );
+        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
+                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
+                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
+                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
+                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
+                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
+                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
+                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
+                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
 
         menuManager.add(elementMenuManager);
         elementMenuManager.add(strategyElementMenuManager);
@@ -733,15 +733,15 @@ implements IZestView, ISelectionListener {
         }
 
         // Element filter
-        IMenuManager elementMenuManager = new MenuManager( "Element Filter" /* Messages.ZestView_9*/ ),
-                strategyElementMenuManager = new MenuManager( "Strategy Elements" /* Messages.ZestView_10*/ ),
-                businessElementMenuManager = new MenuManager( "Business Elements" /* Messages.ZestView_11*/ ),
-                applicationElementMenuManager = new MenuManager( "Application Elements" /* Messages.ZestView_12*/ ),
-                technologyElementMenuManager = new MenuManager( "Technology Elements" /* Messages.ZestView_13*/ ),
-                physicalElementMenuManager = new MenuManager( "Physical Elements" /* Messages.ZestView_14*/ ),
-                motivationElementMenuManager = new MenuManager( "Motivation Elements" /* Messages.ZestView_15*/ ),
-                implementationMigrationElementMenuManager = new MenuManager( "Implementation & Migration Elements" /* Messages.ZestView_16*/ ),
-                otherElementMenuManager = new MenuManager( "Other Elements" /* Messages.ZestView_17*/ );
+        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
+                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
+                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
+                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
+                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
+                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
+                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
+                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
+                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
 
         manager.add(elementMenuManager);
         elementMenuManager.add(strategyElementMenuManager);
