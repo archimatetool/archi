@@ -170,8 +170,9 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     }
     
     private boolean isFilteredByElement(IArchimateElement element) {
-        if(fElementClass == null)
+        if(fElementClass == null) {
             return false;
+        }
         return fElementClass != element.eClass();
     }
 

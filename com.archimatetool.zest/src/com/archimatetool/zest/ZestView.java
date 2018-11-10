@@ -87,10 +87,13 @@ implements IZestView, ISelectionListener {
     private IAction fActionSelectInModelTree;
     
     private IAction[] fDepthActions;
-    
+    private IAction[] fDirectionActions;
     private List<IAction> fViewpointActions;
     
-    private List<IAction> fElementActions;
+    private List<IAction> fRelationshipActions;
+
+    private List<IAction> fAllElementActions;
+    private IAction fNoneElementAction;
     private List<IAction> fStrategyElementActions;
     private List<IAction> fBusinessElementActions;
     private List<IAction> fApplicationElementActions;
@@ -100,11 +103,6 @@ implements IZestView, ISelectionListener {
     private List<IAction> fMotivationElementActions;
     private List<IAction> fOtherElementActions;
   
-    private List<IAction> fRelationshipActions;
-    
-    private IAction[] fDirectionActions;
-
-
     private DrillDownManager fDrillDownManager;
     
     @Override
@@ -323,6 +321,8 @@ implements IZestView, ISelectionListener {
     }
     
     private void addElementsActions(IMenuManager menuManager) {
+        fAllElementActions = new ArrayList<IAction>();
+        
         IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
                 strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
                 businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
@@ -334,6 +334,13 @@ implements IZestView, ISelectionListener {
                 otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
 
         menuManager.add(elementMenuManager);
+        
+        // The "All" option
+        fNoneElementAction = createElementMenuAction(null);
+        elementMenuManager.add(fNoneElementAction);
+        fAllElementActions.add(fNoneElementAction);
+
+        // Sub-menus
         elementMenuManager.add(strategyElementMenuManager);
         elementMenuManager.add(businessElementMenuManager);
         elementMenuManager.add(applicationElementMenuManager);
@@ -342,22 +349,6 @@ implements IZestView, ISelectionListener {
         elementMenuManager.add(motivationElementMenuManager);
         elementMenuManager.add(implementationMigrationElementMenuManager);
         elementMenuManager.add(otherElementMenuManager);
-        
-        // Get selected element from prefs
-        String elementsID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENT);
-        EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(elementsID);
-        getContentProvider().setElementFilter(elementClass);
-        
-        // Element actions, first the "All" concept
-        fElementActions = new ArrayList <IAction>();
-        IAction elementAction = createElementMenuAction(null);
-        if(elementClass == null) {
-            elementAction.setChecked(true);
-        }
-        fElementActions.add(elementAction);
-        elementMenuManager.add(elementAction);
-
-        // Then get all Elements and sort them
         
         // Strategy
         fStrategyElementActions = createElementActionsGroup(strategyElementMenuManager, ArchimateModelUtils.getStrategyClasses());
@@ -382,6 +373,23 @@ implements IZestView, ISelectionListener {
 
         // Other
         fOtherElementActions = createElementActionsGroup(otherElementMenuManager, ArchimateModelUtils.getOtherClasses());
+
+        // Get selected element from prefs
+        String elementsID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENT);
+        EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(elementsID);
+        getContentProvider().setElementFilter(elementClass);
+        
+        // Set Checked
+        if(elementClass == null) {
+            fNoneElementAction.setChecked(true);
+        }
+        else {
+            for(IAction a : fAllElementActions) {
+                if(a.getId().equals(elementClass.getName())) {
+                    a.setChecked(true);
+                }
+            }
+        }
     }
     
     private List<IAction> createElementActionsGroup(IMenuManager menuManager, EClass[] eClasses) {
@@ -394,10 +402,7 @@ implements IZestView, ISelectionListener {
             IAction elementAction = createElementMenuAction(elem);
             actions.add(elementAction);
             menuManager.add(elementAction);
-            // Set Checked
-//            if(elementClass != null && elem.getName().equals(elementClass.getName())) {
-//                elementAction.setChecked(true);
-//            }
+            fAllElementActions.add(elementAction);
         }
         
         return actions;
@@ -405,6 +410,7 @@ implements IZestView, ISelectionListener {
     
     private IAction createElementMenuAction (final EClass elementClass) {
         String id = elementClass == null ? "none" : elementClass.getName(); //$NON-NLS-1$
+        
         IAction act = new Action(getElementFilterName(elementClass), IAction.AS_RADIO_BUTTON) {
             @Override
             public void run() {
@@ -419,10 +425,18 @@ implements IZestView, ISelectionListener {
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
+                
+                // Uncheck all other actions
+                for(IAction a : fAllElementActions) {
+                    if(a != this) {
+                        a.setChecked(false);
+                    }
+                }
             }
         };
 
         act.setId(id);
+        
         return act;
     }
     
@@ -716,41 +730,48 @@ implements IZestView, ISelectionListener {
                 otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
 
         manager.add(elementMenuManager);
-        elementMenuManager.add(strategyElementMenuManager);
-        elementMenuManager.add(businessElementMenuManager);
-        elementMenuManager.add(applicationElementMenuManager);
-        elementMenuManager.add(technologyElementMenuManager);
-        elementMenuManager.add(physicalElementMenuManager);
-        elementMenuManager.add(motivationElementMenuManager);
-        elementMenuManager.add(implementationMigrationElementMenuManager);
-        elementMenuManager.add(otherElementMenuManager);
 
-        for(IAction action : fElementActions) {
-        		elementMenuManager.add(action);
-        }
+        // "All"
+        elementMenuManager.add(fNoneElementAction);
+
+        elementMenuManager.add(strategyElementMenuManager);
         for(IAction action : fStrategyElementActions) {
-        	strategyElementMenuManager.add(action);
+            strategyElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(businessElementMenuManager);
         for(IAction action : fBusinessElementActions) {
-        	businessElementMenuManager.add(action);
+            businessElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(applicationElementMenuManager);
         for(IAction action : fApplicationElementActions) {
-        	applicationElementMenuManager.add(action);
+            applicationElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(technologyElementMenuManager);
         for(IAction action : fTechnologyElementActions) {
-        	technologyElementMenuManager.add(action);
+            technologyElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(physicalElementMenuManager);
         for(IAction action : fPhysicalElementActions) {
-        	physicalElementMenuManager.add(action);
+            physicalElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(motivationElementMenuManager);
         for(IAction action : fMotivationElementActions) {
-        	motivationElementMenuManager.add(action);
+            motivationElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(implementationMigrationElementMenuManager);
         for(IAction action : fImplementationMigrationElementActions) {
-        	implementationMigrationElementMenuManager.add(action);
+            implementationMigrationElementMenuManager.add(action);
         }
+        
+        elementMenuManager.add(otherElementMenuManager);
         for(IAction action : fOtherElementActions) {
-        	otherElementMenuManager.add(action);
+            otherElementMenuManager.add(action);
         }
 
         // Relationship filter
@@ -760,7 +781,6 @@ implements IZestView, ISelectionListener {
         for(IAction action : fRelationshipActions) {
             relationshipMenuManager.add(action);
         }
-
         
         // Direction
         IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
@@ -769,7 +789,6 @@ implements IZestView, ISelectionListener {
         for(IAction action : fDirectionActions) {
             directionMenuManager.add(action);
         }
-        
         
         manager.add(new Separator());
         
