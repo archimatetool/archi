@@ -45,12 +45,15 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     public IViewpoint getViewpointFilter() {
         return fViewpoint;
     }
+    
     public void setElementFilter(EClass elementClass) {
         fElementClass = elementClass;
     }
+    
     public EClass getElementFilter() {
         return fElementClass;
     }
+    
     public void setRelationshipFilter(EClass relationshipClass) {
         fRelationshipClass = relationshipClass;
     }
