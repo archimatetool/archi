@@ -260,46 +260,134 @@ implements IZestView, ISelectionListener {
         final IMenuManager menuManager = bars.getMenuManager();
         
         // Depth
-        addDepthActions(menuManager);
-        
+        menuManager.add(createDepthMenu());
+
         // Viewpoints
-        addViewpointActions(menuManager);
-        
+        menuManager.add(createViewpointMenu());
+
         // Elements
-        addElementsActions(menuManager);
-        
+        menuManager.add(createElementsMenu());
+
         // Relationships
-        addRelationshipsActions(menuManager);
-        
-        // Orientation
-        addOrientationActions(menuManager);
-        
+        menuManager.add(createRelationshipsMenu());
+
+        // Direction
+        menuManager.add(createDirectionMenu());
+
 		menuManager.add(new Separator());
 		
 		menuManager.add(fActionSelectInModelTree);
 		menuManager.add(fActionCopyImageToClipboard);
 		menuManager.add(fActionExportImageToFile);
     }
-    
-    private void addDepthActions(IMenuManager menuManager) {
-        IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
-        menuManager.add(depthMenuManager); 
 
-        // Depth Actions
+    private String getRelationshipFilterName(EClass relationClass) {
+        return relationClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(relationClass);
+    }
+
+    private String getElementFilterName(EClass elementClass) {
+        return elementClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(elementClass);
+    }
+
+    @Override
+    public void setFocus() {
+        if(fGraphViewer != null) {
+            fGraphViewer.getControl().setFocus();
+        }
+    }
+
+    @Override
+    public ZestGraphViewer getViewer() {
+        return fGraphViewer;
+    }
+
+    // ==============================================================================================
+    // Menu Actions
+    // ==============================================================================================
+    
+    /**
+     * Make local actions
+     */
+    private void makeActions() {
+        // Depth
+        createDepthActions();
+        
+        // Viewpoints
+        createViewpointActions();
+        
+        // Elements
+        createElementsActions();
+        
+        // Relationships
+        createRelationshipsActions();
+        
+        // Direction
+        createDirectionActions();
+
+        fActionProperties = new PropertiesAction(getViewer());
+
+        fActionLayout = new Action(Messages.ZestView_0) {
+
+            @Override
+            public void run() {
+                fGraphViewer.doApplyLayout();
+            }
+
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/layout.gif"); //$NON-NLS-1$
+            }
+        };
+
+        fActionPinContent = new Action(Messages.ZestView_4, IAction.AS_CHECK_BOX) {
+
+            {
+                setToolTipText(Messages.ZestView_1);
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
+            }
+        };
+
+        fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(fGraphViewer);
+        fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
+
+        fActionSelectInModelTree = new Action(Messages.ZestView_8) {
+
+            @Override
+            public void run() {
+                IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+                ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, true);
+                if(view != null && !selection.isEmpty()) {
+                    view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
+                }
+            }
+
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+        };
+    }
+
+    private void createDepthActions() {
         fDepthActions = new Action[6];
         for(int i = 0; i < fDepthActions.length; i++) {
             fDepthActions[i] = createDepthAction(i, i + 1);
-            depthMenuManager.add(fDepthActions[i]);
         }
-        
+
         // Set depth from prefs
         int depth = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
         getContentProvider().setDepth(depth);
         fDepthActions[depth].setChecked(true);
     }
-    
+
     private IAction createDepthAction(final int actionId, final int depth) {
         IAction act = new Action(Messages.ZestView_3 + " " + depth, IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
+
             @Override
             public void run() {
                 IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
@@ -316,69 +404,89 @@ implements IZestView, ISelectionListener {
         };
 
         act.setId(Integer.toString(actionId));
-        
+
         return act;
     }
-    
-    private void addElementsActions(IMenuManager menuManager) {
-        fAllElementActions = new ArrayList<IAction>();
-        
-        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
-                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
-                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
-                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
-                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
-                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
-                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
-                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
-                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
 
-        menuManager.add(elementMenuManager);
-        
+    private void createViewpointActions() {
+        // Get viewpoint from prefs
+        String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        getContentProvider().setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
+
+        // Viewpoint actions
+        fViewpointActions = new ArrayList<IAction>();
+
+        for(IViewpoint vp : ViewpointManager.INSTANCE.getAllViewpoints()) {
+            IAction action = createViewpointMenuAction(vp);
+            fViewpointActions.add(action);
+
+            // Set checked
+            if(vp.getID().equals(viewpointID)) {
+                action.setChecked(true);
+            }
+        }
+    }
+
+    private IAction createViewpointMenuAction(final IViewpoint vp) {
+        IAction act = new Action(vp.getName(), IAction.AS_RADIO_BUTTON) {
+
+            @Override
+            public void run() {
+                // Set viewpoint filter
+                getContentProvider().setViewpointFilter(vp);
+                // Store in prefs
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
+
+                // update viewer
+                fGraphViewer.setInput(fGraphViewer.getInput());
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+                updateLabel();
+            }
+        };
+
+        act.setId(vp.getID());
+
+        return act;
+    }
+
+    private void createElementsActions() {
+        fAllElementActions = new ArrayList<IAction>();
+
         // The "All" option
-        fNoneElementAction = createElementMenuAction(null);
-        elementMenuManager.add(fNoneElementAction);
+        fNoneElementAction = createElementAction(null);
         fAllElementActions.add(fNoneElementAction);
 
-        // Sub-menus
-        elementMenuManager.add(strategyElementMenuManager);
-        elementMenuManager.add(businessElementMenuManager);
-        elementMenuManager.add(applicationElementMenuManager);
-        elementMenuManager.add(technologyElementMenuManager);
-        elementMenuManager.add(physicalElementMenuManager);
-        elementMenuManager.add(motivationElementMenuManager);
-        elementMenuManager.add(implementationMigrationElementMenuManager);
-        elementMenuManager.add(otherElementMenuManager);
-        
         // Strategy
-        fStrategyElementActions = createElementActionsGroup(strategyElementMenuManager, ArchimateModelUtils.getStrategyClasses());
-        
+        fStrategyElementActions = createElementActionsGroup(ArchimateModelUtils.getStrategyClasses());
+
         // Business
-        fBusinessElementActions = createElementActionsGroup(businessElementMenuManager, ArchimateModelUtils.getBusinessClasses());
+        fBusinessElementActions = createElementActionsGroup(ArchimateModelUtils.getBusinessClasses());
 
         // Application
-        fApplicationElementActions = createElementActionsGroup(applicationElementMenuManager, ArchimateModelUtils.getApplicationClasses());
+        fApplicationElementActions = createElementActionsGroup(ArchimateModelUtils.getApplicationClasses());
 
         // Technology
-        fTechnologyElementActions = createElementActionsGroup(technologyElementMenuManager, ArchimateModelUtils.getTechnologyClasses());
+        fTechnologyElementActions = createElementActionsGroup(ArchimateModelUtils.getTechnologyClasses());
 
         // Physical
-        fPhysicalElementActions = createElementActionsGroup(physicalElementMenuManager, ArchimateModelUtils.getPhysicalClasses());
-        
+        fPhysicalElementActions = createElementActionsGroup(ArchimateModelUtils.getPhysicalClasses());
+
         // Motivation
-        fMotivationElementActions = createElementActionsGroup(motivationElementMenuManager, ArchimateModelUtils.getMotivationClasses());
+        fMotivationElementActions = createElementActionsGroup(ArchimateModelUtils.getMotivationClasses());
 
         // Implementation & Migration
-        fImplementationMigrationElementActions = createElementActionsGroup(implementationMigrationElementMenuManager, ArchimateModelUtils.getImplementationMigrationClasses());
+        fImplementationMigrationElementActions = createElementActionsGroup(ArchimateModelUtils.getImplementationMigrationClasses());
 
         // Other
-        fOtherElementActions = createElementActionsGroup(otherElementMenuManager, ArchimateModelUtils.getOtherClasses());
+        fOtherElementActions = createElementActionsGroup(ArchimateModelUtils.getOtherClasses());
 
         // Get selected element from prefs
         String elementsID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENT);
         EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(elementsID);
         getContentProvider().setElementFilter(elementClass);
-        
+
         // Set Checked
         if(elementClass == null) {
             fNoneElementAction.setChecked(true);
@@ -391,27 +499,27 @@ implements IZestView, ISelectionListener {
             }
         }
     }
-    
-    private List<IAction> createElementActionsGroup(IMenuManager menuManager, EClass[] eClasses) {
+
+    private List<IAction> createElementActionsGroup(EClass[] eClasses) {
         List<IAction> actions = new ArrayList<IAction>();
-        
+
         ArrayList<EClass> list = new ArrayList<EClass>(Arrays.asList(eClasses));
-        list.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
-        
+        list.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
         for(EClass elem : list) {
-            IAction elementAction = createElementMenuAction(elem);
+            IAction elementAction = createElementAction(elem);
             actions.add(elementAction);
-            menuManager.add(elementAction);
             fAllElementActions.add(elementAction);
         }
-        
+
         return actions;
     }
-    
-    private IAction createElementMenuAction (final EClass elementClass) {
+
+    private IAction createElementAction(final EClass elementClass) {
         String id = elementClass == null ? "none" : elementClass.getName(); //$NON-NLS-1$
-        
+
         IAction act = new Action(getElementFilterName(elementClass), IAction.AS_RADIO_BUTTON) {
+
             @Override
             public void run() {
                 // Set element filter
@@ -425,7 +533,7 @@ implements IZestView, ISelectionListener {
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
-                
+
                 // Uncheck all other actions
                 for(IAction a : fAllElementActions) {
                     if(a != this) {
@@ -436,66 +544,16 @@ implements IZestView, ISelectionListener {
         };
 
         act.setId(id);
-        
+
         return act;
     }
-    
-    private void addViewpointActions(IMenuManager menuManager) {
-        // Set filter based on Viewpoint
-        IMenuManager viewpointMenuManager = new MenuManager(Messages.ZestView_5);
-        menuManager.add(viewpointMenuManager);
-        
-        // Get viewpoint from prefs
-        String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
-        getContentProvider().setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
-        
-        // Viewpoint actions
-        fViewpointActions = new ArrayList<IAction>();
-        
-        for(IViewpoint vp : ViewpointManager.INSTANCE.getAllViewpoints()) {
-            IAction action = createViewpointMenuAction(vp);
-            fViewpointActions.add(action);
-            viewpointMenuManager.add(action);
-            
-            // Set checked
-            if(vp.getID().equals(viewpointID)) {
-                action.setChecked(true);
-            }
-        }
-    }
 
-    private IAction createViewpointMenuAction(final IViewpoint vp) {
-        IAction act = new Action(vp.getName(), IAction.AS_RADIO_BUTTON) {
-            @Override
-            public void run() {
-            	// Set viewpoint filter
-                getContentProvider().setViewpointFilter(vp);
-            	// Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
-
-                // update viewer
-            	fGraphViewer.setInput(fGraphViewer.getInput());
-                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
-                fGraphViewer.setSelection(selection);
-                fGraphViewer.doApplyLayout();
-                updateLabel();
-            }
-        };
-        
-        act.setId(vp.getID());
-        
-        return act;
-    }
-    
-    private void addRelationshipsActions(IMenuManager menuManager) {
-        // Set filter based on Relationship
-        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
-        menuManager.add(relationshipMenuManager);
-        
+    private void createRelationshipsActions() {
         // Get relationship from prefs
         String relationshipID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIP);
         EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(relationshipID);
         getContentProvider().setRelationshipFilter(eClass);
+
         // Relationship actions, first the "None" relationship
         fRelationshipActions = new ArrayList<IAction>();
         IAction action = createRelationshipMenuAction(null);
@@ -503,159 +561,81 @@ implements IZestView, ISelectionListener {
             action.setChecked(true);
         }
         fRelationshipActions.add(action);
-        relationshipMenuManager.add(action);
-        
+
         // Then get all relationships and sort them
         ArrayList<EClass> actionList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
         actionList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
         for(EClass rel : actionList) {
             action = createRelationshipMenuAction(rel);
             fRelationshipActions.add(action);
-            relationshipMenuManager.add(action);
-            
+
             // Set checked
             if(eClass != null && rel.getName().equals(eClass.getName())) {
                 action.setChecked(true);
             }
         }
     }
-    
+
     private IAction createRelationshipMenuAction(final EClass relationClass) {
         String id = relationClass == null ? "none" : relationClass.getName(); //$NON-NLS-1$
-        
-    	IAction act = new Action(getRelationshipFilterName(relationClass), IAction.AS_RADIO_BUTTON) {
-    		@Override
+
+        IAction act = new Action(getRelationshipFilterName(relationClass), IAction.AS_RADIO_BUTTON) {
+
+            @Override
             public void run() {
-            	// Set relationship filter
+                // Set relationship filter
                 getContentProvider().setRelationshipFilter(relationClass);
-            	// Store in prefs
+                // Store in prefs
                 ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIP, id);
 
                 // update viewer
-            	fGraphViewer.setInput(fGraphViewer.getInput());
+                fGraphViewer.setInput(fGraphViewer.getInput());
                 IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
             }
 
-    	};
-    	
+        };
+
         act.setId(id);
-        
-    	return act;
+
+        return act;
     }
-    
-    private void addOrientationActions(IMenuManager menuManager) {
-        // Orientation
-        IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);
-        menuManager.add(orientationMenuManager);
-        
+
+    private void createDirectionActions() {
         // Direction
         fDirectionActions = new Action[3];
-        fDirectionActions[0] = createOrientationMenuAction(0, Messages.ZestView_33, ZestViewerContentProvider.DIR_BOTH);
-        orientationMenuManager.add(fDirectionActions[0]);
-        fDirectionActions[1] = createOrientationMenuAction(1, Messages.ZestView_34, ZestViewerContentProvider.DIR_IN);
-        orientationMenuManager.add(fDirectionActions[1]);
-        fDirectionActions[2] = createOrientationMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
-        orientationMenuManager.add(fDirectionActions[2]);
-        
+        fDirectionActions[0] = createDirectionMenuAction(0, Messages.ZestView_33, ZestViewerContentProvider.DIR_BOTH);
+        fDirectionActions[1] = createDirectionMenuAction(1, Messages.ZestView_34, ZestViewerContentProvider.DIR_IN);
+        fDirectionActions[2] = createDirectionMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
+
         // Set direction from prefs
         int direction = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
         getContentProvider().setDirection(direction);
         fDirectionActions[direction].setChecked(true);
     }
-    
-    private IAction createOrientationMenuAction(final int actionId, String label, final int orientation) {
+
+    private IAction createDirectionMenuAction(final int actionId, String label, final int orientation) {
         IAction act = new Action(label, IAction.AS_RADIO_BUTTON) {
+
             @Override
             public void run() {
-            	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
-            	// Set orientation 
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                // Set orientation
                 getContentProvider().setDirection(orientation);
-            	// Store in prefs
+                // Store in prefs
                 ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
                 // update viewer
-            	fGraphViewer.setInput(fGraphViewer.getInput());
+                fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
             }
         };
-        
+
         act.setId(Integer.toString(actionId));
-        
+
         return act;
-    }
-    
-    private String getRelationshipFilterName(EClass relationClass) {
-        return relationClass == null ? Messages.ZestView_7: ArchiLabelProvider.INSTANCE.getDefaultName(relationClass);
-    }
-
-    private String getElementFilterName(EClass elementClass) {
-        return elementClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(elementClass);
-    }
-
-    @Override
-    public void setFocus() {
-        if(fGraphViewer != null) {
-            fGraphViewer.getControl().setFocus();
-        }
-    }
-    
-    @Override
-    public ZestGraphViewer getViewer() {
-        return fGraphViewer;
-    }
-    
-    /**
-     * Make local actions
-     */
-    private void makeActions() {
-        fActionProperties = new PropertiesAction(getViewer());
-        
-        fActionLayout = new Action(Messages.ZestView_0) {
-            @Override
-            public void run() {
-                fGraphViewer.doApplyLayout();
-            }
-            
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-            
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID,
-                        "img/layout.gif"); //$NON-NLS-1$
-            }
-        };
-        
-        fActionPinContent = new Action(Messages.ZestView_4, IAction.AS_CHECK_BOX) {
-            {
-                setToolTipText(Messages.ZestView_1);
-                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
-            }
-        };
-        
-        fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(fGraphViewer);
-        fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
-        
-        fActionSelectInModelTree = new Action(Messages.ZestView_8) {
-            @Override
-            public void run() {
-                IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
-                ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, true);
-                if(view != null && !selection.isEmpty()) {
-                    view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
-                }
-            }
-            
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-        };
     }
 
     /**
@@ -663,146 +643,172 @@ implements IZestView, ISelectionListener {
      */
     private void registerGlobalActions() {
         IActionBars actionBars = getViewSite().getActionBars();
-        
+
         // Register our interest in the global menu actions
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
     }
-    
+
     /**
      * Hook into a right-click menu
      */
     private void hookContextMenu() {
         MenuManager menuMgr = new MenuManager("#ZestViewPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
-        
+
         menuMgr.addMenuListener(new IMenuListener() {
+
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 fillContextMenu(manager);
             }
         });
-        
+
         Menu menu = menuMgr.createContextMenu(getViewer().getControl());
         getViewer().getControl().setMenu(menu);
-        
+
         getSite().registerContextMenu(menuMgr, getViewer());
     }
-    
+
     /**
      * Fill context menu when user right-clicks
+     * 
      * @param manager
      */
     private void fillContextMenu(IMenuManager manager) {
         Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
         boolean isEmpty = selected == null;
-        
+
         fDrillDownManager.addNavigationActions(manager);
         manager.add(new Separator());
         manager.add(fActionLayout);
-        
+
         manager.add(new Separator());
-        
+
         // Depth
-        IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
-        manager.add(depthMenuManager); 
-        
-        for(IAction action : fDepthActions) {
-            depthMenuManager.add(action);
-        }
+        manager.add(createDepthMenu());
         
         // Viewpoint filter
-        IMenuManager vpMenuManager = new MenuManager(Messages.ZestView_5);
-        manager.add(vpMenuManager); 
-        
-        for(IAction action : fViewpointActions) {
-            vpMenuManager.add(action);
-        }
+        manager.add(createViewpointMenu());
 
         // Element filter
-        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
-                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
-                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
-                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
-                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
-                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
-                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
-                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
-                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
-
-        manager.add(elementMenuManager);
-
-        // "All"
-        elementMenuManager.add(fNoneElementAction);
-
-        elementMenuManager.add(strategyElementMenuManager);
-        for(IAction action : fStrategyElementActions) {
-            strategyElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(businessElementMenuManager);
-        for(IAction action : fBusinessElementActions) {
-            businessElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(applicationElementMenuManager);
-        for(IAction action : fApplicationElementActions) {
-            applicationElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(technologyElementMenuManager);
-        for(IAction action : fTechnologyElementActions) {
-            technologyElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(physicalElementMenuManager);
-        for(IAction action : fPhysicalElementActions) {
-            physicalElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(motivationElementMenuManager);
-        for(IAction action : fMotivationElementActions) {
-            motivationElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(implementationMigrationElementMenuManager);
-        for(IAction action : fImplementationMigrationElementActions) {
-            implementationMigrationElementMenuManager.add(action);
-        }
-        
-        elementMenuManager.add(otherElementMenuManager);
-        for(IAction action : fOtherElementActions) {
-            otherElementMenuManager.add(action);
-        }
+        manager.add(createElementsMenu());
 
         // Relationship filter
-        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
-        manager.add(relationshipMenuManager); 
-
-        for(IAction action : fRelationshipActions) {
-            relationshipMenuManager.add(action);
-        }
+        manager.add(createRelationshipsMenu());
         
         // Direction
-        IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
-        manager.add(directionMenuManager); 
-        
-        for(IAction action : fDirectionActions) {
-            directionMenuManager.add(action);
-        }
-        
+        manager.add(createDirectionMenu());
+
         manager.add(new Separator());
-        
+
         manager.add(fActionCopyImageToClipboard);
         manager.add(fActionExportImageToFile);
-        
+
         if(!isEmpty) {
             manager.add(fActionSelectInModelTree);
             manager.add(new Separator());
             manager.add(fActionProperties);
         }
-        
+
         // Other plug-ins can contribute their actions here
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+    }
+    
+    private IMenuManager createViewpointMenu() {
+        IMenuManager vpMenuManager = new MenuManager(Messages.ZestView_5);
+
+        for(IAction action : fViewpointActions) {
+            vpMenuManager.add(action);
+        }
+        
+        return vpMenuManager;
+    }
+    
+    private IMenuManager createDirectionMenu() {
+        IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
+
+        for(IAction action : fDirectionActions) {
+            directionMenuManager.add(action);
+        }
+
+        return directionMenuManager;
+    }
+    
+    private IMenuManager createDepthMenu() {
+        IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
+
+        for(IAction action : fDepthActions) {
+            depthMenuManager.add(action);
+        }
+
+        return depthMenuManager;
+    }
+
+    private IMenuManager createElementsMenu() {
+        IMenuManager elementMenuManager = new MenuManager(Messages.ZestView_9);
+
+        // "All"
+        elementMenuManager.add(fNoneElementAction);
+
+        IMenuManager strategyElementMenuManager = new MenuManager(Messages.ZestView_10);
+        elementMenuManager.add(strategyElementMenuManager);
+        for(IAction action : fStrategyElementActions) {
+            strategyElementMenuManager.add(action);
+        }
+
+        IMenuManager businessElementMenuManager = new MenuManager(Messages.ZestView_11);
+        elementMenuManager.add(businessElementMenuManager);
+        for(IAction action : fBusinessElementActions) {
+            businessElementMenuManager.add(action);
+        }
+
+        IMenuManager applicationElementMenuManager = new MenuManager(Messages.ZestView_12);
+        elementMenuManager.add(applicationElementMenuManager);
+        for(IAction action : fApplicationElementActions) {
+            applicationElementMenuManager.add(action);
+        }
+
+        IMenuManager technologyElementMenuManager = new MenuManager(Messages.ZestView_13);
+        elementMenuManager.add(technologyElementMenuManager);
+        for(IAction action : fTechnologyElementActions) {
+            technologyElementMenuManager.add(action);
+        }
+
+        IMenuManager physicalElementMenuManager = new MenuManager(Messages.ZestView_14);
+        elementMenuManager.add(physicalElementMenuManager);
+        for(IAction action : fPhysicalElementActions) {
+            physicalElementMenuManager.add(action);
+        }
+
+        IMenuManager motivationElementMenuManager = new MenuManager(Messages.ZestView_15);
+        elementMenuManager.add(motivationElementMenuManager);
+        for(IAction action : fMotivationElementActions) {
+            motivationElementMenuManager.add(action);
+        }
+
+        IMenuManager implementationMigrationElementMenuManager = new MenuManager(Messages.ZestView_16);
+        elementMenuManager.add(implementationMigrationElementMenuManager);
+        for(IAction action : fImplementationMigrationElementActions) {
+            implementationMigrationElementMenuManager.add(action);
+        }
+
+        IMenuManager otherElementMenuManager = new MenuManager(Messages.ZestView_17);
+        elementMenuManager.add(otherElementMenuManager);
+        for(IAction action : fOtherElementActions) {
+            otherElementMenuManager.add(action);
+        }
+
+        return elementMenuManager;
+    }
+    
+    private IMenuManager createRelationshipsMenu() {
+        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
+
+        for(IAction action : fRelationshipActions) {
+            relationshipMenuManager.add(action);
+        }
+
+        return relationshipMenuManager;
     }
     
     @Override
