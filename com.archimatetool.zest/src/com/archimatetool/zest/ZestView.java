@@ -89,6 +89,15 @@ implements IZestView, ISelectionListener {
     // Depth Actions
     private IAction[] fDepthActions;
     private List<IAction> fViewpointActions;
+    private List<IAction> fElementActions;
+    private List<IAction> fStrategyElementActions;
+    private List<IAction> fBusinessElementActions;
+    private List<IAction> fApplicationElementActions;
+    private List<IAction> fTechnologyElementActions;
+    private List<IAction> fPhysicalElementActions;
+    private List<IAction> fImplementationMigrationElementActions;
+    private List<IAction> fMotivationElementActions;
+    private List<IAction> fOtherElementActions;
     private List<IAction> fRelationshipActions;
     private IAction[] fDirectionActions;
 
@@ -209,9 +218,10 @@ implements IZestView, ISelectionListener {
         text = StringUtils.escapeAmpersandsInText(text);
         
         String viewPointName = getContentProvider().getViewpointFilter().getName();
-       	String relationshipName = getRelationshipFilterName(getContentProvider().getRelationshipFilter());	
-        
-        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        String elementName = getElementFilterName(getContentProvider().getElementFilter());
+       	String relationshipName = getRelationshipFilterName(getContentProvider().getRelationshipFilter());
+
+        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + Messages.ZestView_9 + ": " + elementName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
@@ -283,7 +293,144 @@ implements IZestView, ISelectionListener {
                 action.setChecked(true);
             }
         }
-        
+        // Set filter based on Elements
+        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
+                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
+                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
+                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
+                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
+                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
+                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
+                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
+                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
+
+        menuManager.add(elementMenuManager);
+        elementMenuManager.add(strategyElementMenuManager);
+        elementMenuManager.add(businessElementMenuManager);
+        elementMenuManager.add(applicationElementMenuManager);
+        elementMenuManager.add(technologyElementMenuManager);
+        elementMenuManager.add(physicalElementMenuManager);
+        elementMenuManager.add(motivationElementMenuManager);
+        elementMenuManager.add(implementationMigrationElementMenuManager);
+        elementMenuManager.add(otherElementMenuManager);
+
+        // Get elements from prefs
+        String elementsID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENT);
+
+
+        EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(elementsID);
+        getContentProvider().setElementFilter(elementClass);
+        // Element actions, first the "None" concept
+        fElementActions = new ArrayList <IAction>();
+        IAction elementAction = createElementMenuAction(null);
+        if(elementClass == null)
+            elementAction.setChecked(true);
+        fElementActions.add(elementAction);
+        elementMenuManager.add(elementAction);
+
+        // Then get all Elements and sort them
+        // Strategy Element
+        fStrategyElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsStrategyClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getStrategyClasses()));
+        elementsStrategyClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsStrategyClassList) {
+            elementAction = createElementMenuAction(elem);
+            fStrategyElementActions.add(elementAction);
+            strategyElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+        // Business
+        fBusinessElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsBusinessClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getBusinessClasses()));
+        elementsBusinessClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsBusinessClassList) {
+            elementAction = createElementMenuAction(elem);
+            fBusinessElementActions.add(elementAction);
+            businessElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
+        // Application
+        fApplicationElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsApplicationClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getApplicationClasses()));
+        elementsApplicationClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsApplicationClassList) {
+            elementAction = createElementMenuAction(elem);
+            fApplicationElementActions.add(elementAction);
+            applicationElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
+        // Technology
+        fTechnologyElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsTechnologyClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getTechnologyClasses()));
+        elementsTechnologyClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsTechnologyClassList) {
+            elementAction = createElementMenuAction(elem);
+            fTechnologyElementActions.add(elementAction);
+            technologyElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
+        // Physical
+        fPhysicalElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsPhysicalClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getPhysicalClasses()));
+        elementsPhysicalClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsPhysicalClassList) {
+            elementAction = createElementMenuAction(elem);
+            fPhysicalElementActions.add(elementAction);
+            physicalElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+        // Motivation
+        fMotivationElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsMotivationClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getMotivationClasses()));
+        elementsMotivationClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsMotivationClassList) {
+            elementAction = createElementMenuAction(elem);
+            fMotivationElementActions.add(elementAction);
+            motivationElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
+        // Implementation & Migration
+        fImplementationMigrationElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsImplementationMigrationClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getImplementationMigrationClasses()));
+        elementsImplementationMigrationClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsImplementationMigrationClassList) {
+            elementAction = createElementMenuAction(elem);
+            fImplementationMigrationElementActions.add(elementAction);
+            implementationMigrationElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
+        // Other
+        fOtherElementActions = new ArrayList<IAction>();
+        ArrayList<EClass> elementsOtherClassList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getOtherClasses()));
+        elementsOtherClassList.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
+        for (EClass elem : elementsOtherClassList) {
+            elementAction = createElementMenuAction(elem);
+            fOtherElementActions.add(elementAction);
+            otherElementMenuManager.add(elementAction);
+            // Set Checked
+            if(elementClass != null && elem.getName().equals(elementClass.getName()))
+                elementAction.setChecked(true);
+        }
+
         // Set filter based on Relationship
         IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
         menuManager.add(relationshipMenuManager);
@@ -361,6 +508,28 @@ implements IZestView, ISelectionListener {
         
         return act;
     }
+    private IAction createElementMenuAction (final EClass elementClass) {
+        String id = elementClass == null ? "none" : elementClass.getName(); //$NON-NLS-1$
+        IAction act = new Action(getElementFilterName(elementClass), IAction.AS_RADIO_BUTTON) {
+            @Override
+            public void run() {
+                // Set element filter
+                getContentProvider().setElementFilter(elementClass);
+                // Store in prefs
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ELEMENT, id);
+
+                // update viewer
+                fGraphViewer.setInput(fGraphViewer.getInput());
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+                updateLabel();
+            }
+        };
+
+        act.setId(id);
+        return act;
+    }
 
     private IAction createViewpointMenuAction(final IViewpoint vp) {
         IAction act = new Action(vp.getName(), IAction.AS_RADIO_BUTTON) {
@@ -435,7 +604,11 @@ implements IZestView, ISelectionListener {
     private String getRelationshipFilterName(EClass relationClass) {
         return relationClass == null ? Messages.ZestView_7: ArchiLabelProvider.INSTANCE.getDefaultName(relationClass);
     }
-    
+
+    private String getElementFilterName(EClass elementClass) {
+        return elementClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(elementClass);
+    }
+
     @Override
     public void setFocus() {
         if(fGraphViewer != null) {
@@ -557,6 +730,55 @@ implements IZestView, ISelectionListener {
         
         for(IAction action : fViewpointActions) {
             vpMenuManager.add(action);
+        }
+
+        // Element filter
+        IMenuManager elementMenuManager = new MenuManager( Messages.ZestView_9 ),
+                strategyElementMenuManager = new MenuManager( Messages.ZestView_10 ),
+                businessElementMenuManager = new MenuManager( Messages.ZestView_11 ),
+                applicationElementMenuManager = new MenuManager( Messages.ZestView_12 ),
+                technologyElementMenuManager = new MenuManager( Messages.ZestView_13 ),
+                physicalElementMenuManager = new MenuManager( Messages.ZestView_14 ),
+                motivationElementMenuManager = new MenuManager( Messages.ZestView_15 ),
+                implementationMigrationElementMenuManager = new MenuManager( Messages.ZestView_16 ),
+                otherElementMenuManager = new MenuManager( Messages.ZestView_17 );
+
+        manager.add(elementMenuManager);
+        elementMenuManager.add(strategyElementMenuManager);
+        elementMenuManager.add(businessElementMenuManager);
+        elementMenuManager.add(applicationElementMenuManager);
+        elementMenuManager.add(technologyElementMenuManager);
+        elementMenuManager.add(physicalElementMenuManager);
+        elementMenuManager.add(motivationElementMenuManager);
+        elementMenuManager.add(implementationMigrationElementMenuManager);
+        elementMenuManager.add(otherElementMenuManager);
+
+        for(IAction action : fElementActions) {
+        		elementMenuManager.add(action);
+        }
+        for(IAction action : fStrategyElementActions) {
+        	strategyElementMenuManager.add(action);
+        }
+        for(IAction action : fBusinessElementActions) {
+        	businessElementMenuManager.add(action);
+        }
+        for(IAction action : fApplicationElementActions) {
+        	applicationElementMenuManager.add(action);
+        }
+        for(IAction action : fTechnologyElementActions) {
+        	technologyElementMenuManager.add(action);
+        }
+        for(IAction action : fPhysicalElementActions) {
+        	physicalElementMenuManager.add(action);
+        }
+        for(IAction action : fMotivationElementActions) {
+        	motivationElementMenuManager.add(action);
+        }
+        for(IAction action : fImplementationMigrationElementActions) {
+        	implementationMigrationElementMenuManager.add(action);
+        }
+        for(IAction action : fOtherElementActions) {
+        	otherElementMenuManager.add(action);
         }
 
         // Relationship filter

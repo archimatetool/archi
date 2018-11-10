@@ -33,6 +33,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
+    private EClass fElementClass;
     private EClass fRelationshipClass;
     private int fDirection = DIR_BOTH;
     
@@ -44,7 +45,12 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     public IViewpoint getViewpointFilter() {
         return fViewpoint;
     }
-    
+    public void setElementFilter(EClass elementClass) {
+        fElementClass = elementClass;
+    }
+    public EClass getElementFilter() {
+        return fElementClass;
+    }
     public void setRelationshipFilter(EClass relationshipClass) {
         fRelationshipClass = relationshipClass;
     }
@@ -129,7 +135,10 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
             if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
-                    mainList.add(relationship);
+                    // if the other concept is filtered
+                    if(!isFilteredByElement((IArchimateElement)other)) {
+                        mainList.add(relationship);
+                    }
                 }
             }
 
@@ -157,6 +166,12 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         return null;
     }
     
+    private boolean isFilteredByElement(IArchimateElement element) {
+        if(fElementClass == null)
+            return false;
+        return fElementClass != element.eClass();
+    }
+
 	private boolean isFilteredByRelationship(IArchimateRelationship relation) {
 		if(fRelationshipClass == null){
 			return false;
