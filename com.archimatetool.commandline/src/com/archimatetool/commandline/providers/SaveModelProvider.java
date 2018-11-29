@@ -76,11 +76,17 @@ public class SaveModelProvider extends AbstractCommandLineProvider {
         
         // Use Archive Manager to save contents
         IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+        if(archiveManager == null) {
+            archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+            model.setAdapter(IArchiveManager.class, archiveManager);
+        }
         archiveManager.saveModel();
 
-        // Set CommandStack Save point
+        // Set CommandStack Save point if we have one
         CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-        stack.markSaveLocation();
+        if(stack != null) {
+            stack.markSaveLocation();
+        }
     }
 
     @Override
