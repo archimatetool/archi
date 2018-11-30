@@ -28,6 +28,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
@@ -95,8 +96,10 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         // Gather suitable child objects
         List<IDiagramModelArchimateObject> childObjectsForDialog = new ArrayList<IDiagramModelArchimateObject>();
         for(IDiagramModelArchimateObject childObject : fChildObjects) {
-            if(canAddNewRelationship(fParentObject, childObject)) {
-                childObjectsForDialog.add(childObject);
+            if(!(childObject.getArchimateConcept() instanceof IJunction)) { // Don't apply to Junctions
+                if(canAddNewRelationship(fParentObject, childObject)) {
+                    childObjectsForDialog.add(childObject);
+                }
             }
         }
         
