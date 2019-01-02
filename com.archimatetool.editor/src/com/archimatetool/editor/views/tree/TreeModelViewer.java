@@ -115,7 +115,8 @@ public class TreeModelViewer extends TreeViewer {
                     name2 = "";//$NON-NLS-1$
                 }
                 
-                return getComparator().compare(name1, name2);
+                //return getComparator().compare(name1, name2);
+                return name1.compareToIgnoreCase(name2);
             }
             
             @Override
