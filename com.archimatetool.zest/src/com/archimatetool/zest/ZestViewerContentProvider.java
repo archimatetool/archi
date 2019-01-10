@@ -138,8 +138,8 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
             if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
-                    // if the other concept is filtered
-                    if(!isFilteredByElement((IArchimateElement)other)) {
+                    // If the other concept is an element and is filtered
+                    if(other instanceof IArchimateElement && !isFilteredByElement((IArchimateElement)other)) {
                         mainList.add(relationship);
                     }
                 }
