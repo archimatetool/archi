@@ -40,7 +40,7 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -55,20 +55,56 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.NewNestedRelationDialog"; //$NON-NLS-1$
     
-    private TableViewer fTableViewer;
-    
-    private IArchimateElement fParentElement, fChildElement;
-    
-    private EClass[] fValidRelations;
-    private EClass fSelected;
+    public static class NestedConnectionInfo {
+        private IDiagramModelArchimateObject sourceObject;
+        private IDiagramModelArchimateObject targetObject;
+        private boolean isReverse;
+        private EClass eClass;
+        
+        // Source = parent, Target = child
+        public NestedConnectionInfo(IDiagramModelArchimateObject sourceObject, IDiagramModelArchimateObject targetObject, boolean isReverse, EClass eClass) {
+            this.sourceObject = sourceObject;
+            this.targetObject = targetObject;
+            this.isReverse = isReverse;
+            this.eClass = eClass;
+        }
+        
+        public IDiagramModelArchimateObject getSourceObject() {
+            return isInverted() ? targetObject : sourceObject;
+        }
 
-    public NewNestedRelationDialog(IDiagramModelArchimateObject parentObject, IDiagramModelArchimateObject childObject) {
+        public IDiagramModelArchimateObject getTargetObject() {
+            return isInverted() ? sourceObject : targetObject;
+        }
+        
+        public EClass getEClass() {
+            return eClass;
+        }
+        
+        private boolean isInverted() {
+            return eClass == IArchimatePackage.eINSTANCE.getSpecializationRelationship();
+        }
+        
+        public boolean isReverse() {
+            return isReverse;
+        }
+    }
+
+    private RelationsTableViewer fTableViewer;
+    
+    private IDiagramModelArchimateObject fSourceObject, fTargetObject;
+    
+    private NestedConnectionInfo fSelected;
+    
+    // Source = parent, Target = child
+    public NewNestedRelationDialog(IDiagramModelArchimateObject sourceObject, IDiagramModelArchimateObject targetObject) {
         super(Display.getCurrent().getActiveShell(), "NewNestedRelationDialog"); //$NON-NLS-1$
+        
         setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fParentElement = parentObject.getArchimateElement();
-        fChildElement = childObject.getArchimateElement();
+        fSourceObject = sourceObject;
+        fTargetObject = targetObject;
     }
 
     @Override
@@ -83,9 +119,10 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle(Messages.NewNestedRelationDialog_1);
-        String message = NLS.bind(Messages.NewNestedRelationDialog_2,
-                fParentElement.getName(), fChildElement.getName());
+        
+        String message = NLS.bind(Messages.NewNestedRelationDialog_2, fSourceObject.getName(), fTargetObject.getName());
         setMessage(message);
+        
         Composite composite = (Composite)super.createDialogArea(parent);
 
         Composite client = new Composite(composite, SWT.NULL);
@@ -96,6 +133,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         Composite tableComp = new Composite(client, SWT.BORDER);
         tableComp.setLayout(new TableColumnLayout());
         tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
         fTableViewer = new RelationsTableViewer(tableComp, SWT.NONE);
         fTableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         fTableViewer.setInput(""); // anything will do //$NON-NLS-1$
@@ -110,12 +148,12 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                fSelected = (EClass)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
+                fSelected = (NestedConnectionInfo)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
             }
         });
         
-        if(fValidRelations != null && fValidRelations.length > 0) {
-            fTableViewer.setSelection(new StructuredSelection(fValidRelations[0]));
+        if(fTableViewer.validRelations != null && !fTableViewer.validRelations.isEmpty()) {
+            fTableViewer.setSelection(new StructuredSelection(fTableViewer.validRelations.get(0)));
         }
         
         return composite;
@@ -129,32 +167,22 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         // create OK and Cancel buttons by default
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-                true);
-        createButton(parent, IDialogConstants.CANCEL_ID,
-                Messages.NewNestedRelationDialog_3, false);
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+        createButton(parent, IDialogConstants.CANCEL_ID, Messages.NewNestedRelationDialog_3, false);
     }
     
-    public EClass getSelectedType() {
+    public NestedConnectionInfo getSelected() {
         return fSelected;
     }
     
-    private EClass[] getValidRelationships(IArchimateElement sourceElement, IArchimateElement targetElement) {
-        List<EClass> list = new ArrayList<EClass>();
-        
-        for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
-            if(ArchimateModelUtils.isValidRelationship(sourceElement, targetElement, eClass)) {
-                list.add(eClass); 
-            }
-        }
-        
-        return list.toArray(new EClass[list.size()]);
-    }
-    
     class RelationsTableViewer extends TableViewer {
+        List<NestedConnectionInfo> validRelations;
+        
         RelationsTableViewer(Composite parent, int style) {
             super(parent, SWT.FULL_SELECTION | style);
+            
             setColumns();
+            
             setContentProvider(new RelationsTableViewerContentProvider());
             setLabelProvider(new RelationsTableViewerLabelCellProvider());
         }
@@ -183,20 +211,50 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
             
             @Override
             public Object[] getElements(Object parent) {
-                fValidRelations = getValidRelationships(fParentElement, fChildElement);
-                return fValidRelations;
+                validRelations = createValidRelationships();
+                return validRelations.toArray();
+            }
+            
+            private List<NestedConnectionInfo> createValidRelationships() {
+                List<NestedConnectionInfo> list1 = new ArrayList<NestedConnectionInfo>();
+                List<NestedConnectionInfo> list2 = new ArrayList<NestedConnectionInfo>();
+                
+                // Normal direction
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
+                    if(ArchimateModelUtils.isValidRelationship(fSourceObject.getArchimateElement(), fTargetObject.getArchimateElement(), eClass)) {
+                        list1.add(new NestedConnectionInfo(fSourceObject, fTargetObject, false, eClass)); 
+                    }
+                }
+                
+                // Reverse direction
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
+                    if(ArchimateModelUtils.isValidRelationship(fTargetObject.getArchimateElement(), fSourceObject.getArchimateElement(), eClass)) {
+                        list2.add(new NestedConnectionInfo(fTargetObject, fSourceObject, true, eClass)); 
+                    }
+                }
+
+                list1.addAll(list2); // This puts the reverse items at the end of the list
+                
+                return list1;
             }
         }
 
         class RelationsTableViewerLabelCellProvider extends LabelProvider {
             @Override
             public String getText(Object element) {
-                return ArchiLabelProvider.INSTANCE.getDefaultName((EClass)element);
+                NestedConnectionInfo info = (NestedConnectionInfo)element;
+                
+                String relationshipName = ArchiLabelProvider.INSTANCE.getDefaultName(info.getEClass());
+                String reverse = info.isReverse() ? Messages.NewNestedRelationDialog_4 : ""; //$NON-NLS-1$
+                String sentence = ArchiLabelProvider.INSTANCE.getRelationshipSentence(info.getEClass(), info.getSourceObject().getArchimateConcept(),
+                        info.getTargetObject().getArchimateConcept());
+                
+                return NLS.bind(Messages.NewNestedRelationDialog_5, new Object[] { relationshipName, reverse, sentence });
             }
             
             @Override
             public Image getImage(Object element) {
-                return ArchiLabelProvider.INSTANCE.getImage(element);
+                return ArchiLabelProvider.INSTANCE.getImage(((NestedConnectionInfo)element).getEClass());
             }
          }
     }

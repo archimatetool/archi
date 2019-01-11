@@ -16,6 +16,7 @@ import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
@@ -161,57 +162,63 @@ public class ArchiLabelProvider {
      * @return A sentence that describes the relationship between the relation's source and target elements
      */
     public String getRelationshipSentence(IArchimateRelationship relation) {
-        if(relation != null) {
-            if(relation.getSource() != null && relation.getTarget() != null) {
-                String nameSource = ArchiLabelProvider.INSTANCE.getLabel(relation.getSource());
-                String nameTarget = ArchiLabelProvider.INSTANCE.getLabel(relation.getTarget());
-                
-                // If it's a Junction then do something special
-                if(relation.getSource() instanceof IJunction || relation.getTarget() instanceof IJunction) {
-                    return NLS.bind(Messages.ArchiLabelProvider_0, nameSource, nameTarget);
-                }
-                
-                switch(relation.eClass().getClassifierID()) {
-                    case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_3, nameSource, nameTarget);
-
-                    case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_4, nameSource, nameTarget);
-
-                    case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_5, nameSource, nameTarget);
-
-                    case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_6, nameSource, nameTarget);
-
-                    case IArchimatePackage.FLOW_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_7, nameSource, nameTarget);
-
-                    case IArchimatePackage.ACCESS_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_8, nameSource, nameTarget);
-
-                    case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_9, nameSource, nameTarget);
-
-                    case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_10, nameSource, nameTarget);
-
-                    case IArchimatePackage.REALIZATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_11, nameSource, nameTarget);
-
-                    case IArchimatePackage.SERVING_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_12, nameSource, nameTarget);
-
-                    case IArchimatePackage.INFLUENCE_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchiLabelProvider_13, nameSource, nameTarget);
-
-                    default:
-                        return ""; //$NON-NLS-1$
-                }
-            }
+        if(relation != null && relation.getSource() != null && relation.getTarget() != null) {
+            return getRelationshipSentence(relation.eClass(), relation.getSource(), relation.getTarget());
         }
         
         return ""; //$NON-NLS-1$
+    }
+
+    /**
+     * @param relation
+     * @return A sentence that describes the relationship between the relation's source and target elements
+     */
+    public String getRelationshipSentence(EClass relationshipType, IArchimateConcept source, IArchimateConcept target) {
+        String nameSource = getLabel(source);
+        String nameTarget = getLabel(target);
+        
+        // If it's a Junction then do something special
+        if(source instanceof IJunction || target instanceof IJunction) {
+            return NLS.bind(Messages.ArchiLabelProvider_0, nameSource, nameTarget);
+        }
+
+        switch(relationshipType.getClassifierID()) {
+            case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_3, nameSource, nameTarget);
+
+            case IArchimatePackage.COMPOSITION_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_4, nameSource, nameTarget);
+
+            case IArchimatePackage.AGGREGATION_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_5, nameSource, nameTarget);
+
+            case IArchimatePackage.TRIGGERING_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_6, nameSource, nameTarget);
+
+            case IArchimatePackage.FLOW_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_7, nameSource, nameTarget);
+
+            case IArchimatePackage.ACCESS_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_8, nameSource, nameTarget);
+
+            case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_9, nameSource, nameTarget);
+
+            case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_10, nameSource, nameTarget);
+
+            case IArchimatePackage.REALIZATION_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_11, nameSource, nameTarget);
+
+            case IArchimatePackage.SERVING_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_12, nameSource, nameTarget);
+
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP:
+                return NLS.bind(Messages.ArchiLabelProvider_13, nameSource, nameTarget);
+
+            default:
+                return ""; //$NON-NLS-1$
+        }
     }
 
     /**

@@ -57,6 +57,7 @@ public class ConnectionPreferences extends Preferences {
     }
     
     private static EClass[] fRelationClassesForNew = null;
+    private static EClass[] fRelationClassesForNewReverse = null;
     private static EClass[] fRelationClassesForHiding = null;
     
     /**
@@ -99,6 +100,16 @@ public class ConnectionPreferences extends Preferences {
     }
 
     /**
+     * @return The list of relation classes to consider when creating new reverse nested-type relations
+     */
+    public static EClass[] getRelationsClassesForNewReverseRelations() {
+        if(fRelationClassesForNewReverse == null) {
+            fRelationClassesForNewReverse = getRelationsClasses(NEW_REVERSE_RELATIONS_TYPES);
+        }
+        return fRelationClassesForNewReverse;
+    }
+
+    /**
      * @return The list of relation classes to consider as a nested-type relation without explicit connections
      */
     public static EClass[] getRelationsClassesForHiding() {
@@ -127,6 +138,7 @@ public class ConnectionPreferences extends Preferences {
      */
     static void reset() {
         fRelationClassesForNew = null;
+        fRelationClassesForNewReverse = null;
         fRelationClassesForHiding = null;
     }
 }

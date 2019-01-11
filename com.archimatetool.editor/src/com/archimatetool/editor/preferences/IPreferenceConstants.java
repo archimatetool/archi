@@ -51,6 +51,7 @@ public interface IPreferenceConstants {
     String CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER = "createRelationWhenMovingElementToContainer"; //$NON-NLS-1$
     
     String NEW_RELATIONS_TYPES = "newRelationsTypes"; //$NON-NLS-1$
+    String NEW_REVERSE_RELATIONS_TYPES = "newReverseRelationsTypes"; //$NON-NLS-1$
     String HIDDEN_RELATIONS_TYPES = "hiddenRelationsTypes"; //$NON-NLS-1$
     
     String VIEWPOINTS_FILTER_MODEL_TREE = "viewpointsFilterModelTree"; //$NON-NLS-1$

@@ -93,19 +93,11 @@ public class NestedElementsChecker implements IChecker {
             return false;
         }
         
-        // Specialization relationship goes the other way around
-        for(IArchimateRelationship relation : parentElement.getTargetRelationships()) {
-            if(relation.getSource() == childElement) {
-                if(relation instanceof ISpecializationRelationship) {
-                    return false;
-                }
-            }
-        }
-        
         // Other relationships
         for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
             if(relation.getTarget() == childElement) {
-                if(relation instanceof ICompositionRelationship || relation instanceof IAggregationRelationship
+                if(relation instanceof ICompositionRelationship || relation instanceof IAggregationRelationship 
+                        || relation instanceof ISpecializationRelationship
                         || relation instanceof IAssignmentRelationship || relation instanceof IRealizationRelationship
                         || relation instanceof IAccessRelationship) {
                     return false;

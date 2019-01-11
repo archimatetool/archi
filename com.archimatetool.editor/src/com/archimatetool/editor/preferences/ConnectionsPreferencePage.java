@@ -59,7 +59,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fCreateRelationWhenAddingModelTreeElementButton;
     private Button fCreateRelationWhenMovingElement;
     
-    private CheckboxTableViewer fTableViewerNewRelations, fTableViewerHiddenRelations;
+    private CheckboxTableViewer fTableViewerNewRelations, fTableViewerReversedRelations, fTableViewerHiddenRelations;
 
     private TabFolder fTabFolder;
     
@@ -205,6 +205,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewerNewRelations = createRelationsTable(client2);
         
         label = new Label(client2, SWT.NONE);
+        label.setText(Messages.ConnectionsPreferencePage_20);
+        fTableViewerReversedRelations = createRelationsTable(client2);
+
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_12);
         fTableViewerHiddenRelations = createRelationsTable(client2);
         
@@ -269,10 +273,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fCreateRelationWhenAddingModelTreeElementButton.setEnabled(enabled);
         fCreateRelationWhenMovingElement.setEnabled(enabled);
         
-        fTableViewerNewRelations.getTable().setEnabled(enabled && 
+        boolean alsoEnabled = enabled && 
                 (fCreateRelationWhenAddingNewElementButton.getSelection() || 
                         fCreateRelationWhenAddingModelTreeElementButton.getSelection() ||
-                            fCreateRelationWhenMovingElement.getSelection()));
+                            fCreateRelationWhenMovingElement.getSelection());
+        
+        fTableViewerNewRelations.getTable().setEnabled(alsoEnabled);
+        fTableViewerReversedRelations.getTable().setEnabled(alsoEnabled);
         
         fTableViewerHiddenRelations.getTable().setEnabled(enabled);
     }
@@ -294,6 +301,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fCreateRelationWhenMovingElement.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER));
         
         fTableViewerNewRelations.setInput(getPreferenceStore().getInt(NEW_RELATIONS_TYPES));
+        fTableViewerReversedRelations.setInput(getPreferenceStore().getInt(NEW_REVERSE_RELATIONS_TYPES));
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();
@@ -323,6 +331,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             value |= ConnectionPreferences.RELATION_KEYMAP.get(checked);
         }
         getPreferenceStore().setValue(NEW_RELATIONS_TYPES, value);
+        
+         value = 0;
+        for(Object checked :  fTableViewerReversedRelations.getCheckedElements()) {
+            value |= ConnectionPreferences.RELATION_KEYMAP.get(checked);
+        }
+        getPreferenceStore().setValue(NEW_REVERSE_RELATIONS_TYPES, value);
         
         value = 0;
         for(Object checked :  fTableViewerHiddenRelations.getCheckedElements()) {
@@ -370,6 +384,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fCreateRelationWhenMovingElement.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER));
         
         fTableViewerNewRelations.setInput(getPreferenceStore().getDefaultInt(NEW_RELATIONS_TYPES));
+        fTableViewerReversedRelations.setInput(getPreferenceStore().getDefaultInt(NEW_REVERSE_RELATIONS_TYPES));
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getDefaultInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();

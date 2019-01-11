@@ -38,11 +38,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.diagram.dialog.NewNestedRelationDialog.NestedConnectionInfo;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -59,33 +59,20 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
 
     private TableViewer fTableViewer;
     
-    private IArchimateElement fParentElement;
+    private IDiagramModelArchimateObject fParentObject;
     private Mapping[] fMappings;
 
     // Keep track of Ctrl key
     private boolean fModKeyPressed;
     
-    public static class SelectedRelationshipType {
-        // The child object
-        public IDiagramModelArchimateObject childObject;
-        // The type of relationship to create
-        public EClass relationshipType;
-    }
-    
     private class Mapping {
-        private IDiagramModelArchimateObject childObject;
-        private List<EClass> validRelations;
+        private List<NestedConnectionInfo> validRelations;
         private String[] names;
         private int selectedIndex;
         
         Mapping(IDiagramModelArchimateObject childObject) {
-            this.childObject = childObject;
-            validRelations = createValidRelations(fParentElement, childObject.getArchimateElement());
+            validRelations = createValidRelations(fParentObject, childObject);
             selectedIndex = 1;
-        }
-        
-        IDiagramModelArchimateObject getChildObject() {
-            return childObject;
         }
         
         String getSelectedRelationName() {
@@ -100,45 +87,77 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             return selectedIndex;
         }
         
-        EClass getSelectedType() {
+        NestedConnectionInfo getSelected() {
             return validRelations.get(selectedIndex);
         }
         
-        void setSelectedType(EClass type) {
-            int index = validRelations.indexOf(type);
-            selectedIndex = (index == -1) ? 0 : index;
+        void setSelected(NestedConnectionInfo selected) {
+            for(NestedConnectionInfo info : validRelations) {
+                if((info.getEClass() == selected.getEClass()) && (info.getSourceObject() == selected.getSourceObject() || 
+                        info.getTargetObject() == selected.getTargetObject())) {
+                    int index = validRelations.indexOf(info);
+                    selectedIndex = (index == -1) ? 0 : index;
+                    break;
+                }
+            }
         }
         
         String[] getValidRelationNames() {
             if(names == null) {
                 names = new String[validRelations.size()];
-                names[0] = Messages.NewNestedRelationsDialog_0;
+                
+                names[0] = Messages.NewNestedRelationsDialog_0; // none
+                
                 for(int i = 1; i < validRelations.size(); i++) {
-                    names[i] = ArchiLabelProvider.INSTANCE.getDefaultName(validRelations.get(i));
+                    NestedConnectionInfo info = validRelations.get(i);
+                    
+                    String relationshipName = ArchiLabelProvider.INSTANCE.getDefaultName(info.getEClass());
+                    String reverse = info.isReverse() ? Messages.NewNestedRelationsDialog_6 : ""; //$NON-NLS-1$
+                    String sentence = ArchiLabelProvider.INSTANCE.getRelationshipSentence(info.getEClass(), info.getSourceObject().getArchimateConcept(),
+                            info.getTargetObject().getArchimateConcept());
+                    
+                    names[i] = NLS.bind(Messages.NewNestedRelationsDialog_7, new Object[] { relationshipName, reverse, sentence });
                 }
             }
+            
             return names;
         }
         
-        private List<EClass> createValidRelations(IArchimateElement sourceElement, IArchimateElement targetElement) {
-            List<EClass> list = new ArrayList<EClass>();
+        private List<NestedConnectionInfo> createValidRelations(IDiagramModelArchimateObject sourceObject, IDiagramModelArchimateObject targetObject) {
+            List<NestedConnectionInfo> list1 = new ArrayList<NestedConnectionInfo>();
+            List<NestedConnectionInfo> list2 = new ArrayList<NestedConnectionInfo>();
+            
             // Entry for "none"
-            list.add(null);
+            list1.add(new NestedConnectionInfo(sourceObject, targetObject, false, null));
+            
+            // Normal direction
             for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
-                if(ArchimateModelUtils.isValidRelationship(sourceElement, targetElement, eClass)) {
-                    list.add(eClass); 
+                if(ArchimateModelUtils.isValidRelationship(sourceObject.getArchimateElement(), targetObject.getArchimateElement(), eClass)) {
+                    list1.add(new NestedConnectionInfo(sourceObject, targetObject, false, eClass)); 
                 }
             }
-            return list;
+            
+            // Reverse direction
+            for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
+                // Reverse direction
+                if(ArchimateModelUtils.isValidRelationship(targetObject.getArchimateElement(), sourceObject.getArchimateElement(), eClass)) {
+                    list2.add(new NestedConnectionInfo(targetObject, sourceObject, true, eClass)); 
+                }
+            }
+
+            list1.addAll(list2); // This puts the reverse items at the end of the list
+            
+            return list1;
         }
     }
 
     public NewNestedRelationsDialog(IDiagramModelArchimateObject parentObject, List<IDiagramModelArchimateObject> childObjects) {
         super(Display.getCurrent().getActiveShell(), "NewNestedRelationsDialog"); //$NON-NLS-1$
+        
         setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fParentElement = parentObject.getArchimateElement();
+        fParentObject = parentObject;
         
         fMappings = new Mapping[childObjects.size()];
         for(int i = 0; i < fMappings.length; i++) {
@@ -178,7 +197,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle(Messages.NewNestedRelationsDialog_2);
-        String message = NLS.bind(Messages.NewNestedRelationsDialog_3, fParentElement.getName());
+        String message = NLS.bind(Messages.NewNestedRelationsDialog_3, fParentObject.getName());
         setMessage(message);
         Composite composite = (Composite)super.createDialogArea(parent);
 
@@ -197,15 +216,12 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         return composite;
     }
     
-    public List<SelectedRelationshipType> getSelectedTypes() {
-        List<SelectedRelationshipType> list = new ArrayList<SelectedRelationshipType>();
+    public List<NestedConnectionInfo> getSelected() {
+        List<NestedConnectionInfo> list = new ArrayList<NestedConnectionInfo>();
         
         for(Mapping mapping : fMappings) {
-            if(mapping.getSelectedType() != null) {
-                SelectedRelationshipType selType = new SelectedRelationshipType();
-                selType.childObject = mapping.getChildObject();
-                selType.relationshipType = mapping.getSelectedType();
-                list.add(selType);
+            if(mapping.getSelected().getEClass() != null) {
+                list.add(mapping.getSelected());
             }
         }
         
@@ -252,11 +268,11 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             
             TableColumn c1 = new TableColumn(table, SWT.NONE, 0);
             c1.setText(columnNames[0]);
-            layout.setColumnData(c1, new ColumnWeightData(60, true));
+            layout.setColumnData(c1, new ColumnWeightData(50, true));
             
             TableViewerColumn c2 = new TableViewerColumn(this, SWT.NONE);
             c2.getColumn().setText(columnNames[1]);
-            layout.setColumnData(c2.getColumn(), new ColumnWeightData(40, true));
+            layout.setColumnData(c2.getColumn(), new ColumnWeightData(50, true));
             c2.setEditingSupport(new TableColumnEditingSupport(this));
             
             // Column names are properties, needed for editing
@@ -282,15 +298,15 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             @Override
             public Image getColumnImage(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getChildObject());
+                    return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelected().getTargetObject());
                 }
-                return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelectedType());
+                return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelected().getEClass());
             }
 
             @Override
             public String getColumnText(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ((Mapping)element).getChildObject().getName();
+                    return ((Mapping)element).getSelected().getTargetObject().getName();
                 }
                 return ((Mapping)element).getSelectedRelationName();
             }
@@ -324,16 +340,19 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
 
             @Override
             protected void setValue(Object element, Object value) {
-                ((Mapping)element).setSelectedIndex((Integer)value);
-                getViewer().update(element, null);
+                Mapping mapping = (Mapping)element;
                 
-                // Ctrl key pressed, set others to same if possible or (none) if not
+                mapping.setSelectedIndex((Integer)value);
+                getViewer().update(mapping, null);
+                
+                // Ctrl key pressed, set others to same selection if possible or (none) if not
                 if(fModKeyPressed) {
-                    EClass selectedClass = ((Mapping)element).getSelectedType();
-                    for(Mapping mapping : fMappings) {
-                        if(mapping != element) {
-                            mapping.setSelectedType(selectedClass);
-                            getViewer().update(mapping, null);
+                    NestedConnectionInfo selectedInfo = mapping.getSelected();
+                    
+                    for(Mapping m : fMappings) {
+                        if(m != mapping) {
+                            m.setSelected(selectedInfo);
+                            getViewer().update(m, null);
                         }
                     }
                 }
