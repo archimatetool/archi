@@ -23,7 +23,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.elements.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider;
@@ -60,6 +59,7 @@ import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GroupingUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MaterialUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;

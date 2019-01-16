@@ -21,6 +21,7 @@ import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextPosition;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -61,5 +62,11 @@ public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
         
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
         assertTrue(provider.shouldExposeFeature(null));
+    }
+    
+    @Override
+    @Test
+    public void testGetDefaultTextPosition() {
+        assertEquals(ITextPosition.TEXT_POSITION_CENTRE, getProvider().getDefaultTextPosition());
     }
 }

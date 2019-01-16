@@ -12,9 +12,12 @@ import org.eclipse.ui.IEditorPart;
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ITextAlignment;
@@ -65,9 +68,6 @@ public class SketchModelFactory implements ICreationFactory {
             ISketchModelSticky sticky = (ISketchModelSticky)object;
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             
-            sticky.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
-            sticky.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
-            
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);
                 sticky.setFillColor(color);
@@ -95,6 +95,16 @@ public class SketchModelFactory implements ICreationFactory {
             }
             
             ColorFactory.setDefaultColors(connection);
+        }
+        
+        if(object instanceof ITextAlignment) {
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelObject)object);
+            ((IDiagramModelObject)object).setTextAlignment(provider.getDefaultTextAlignment());
+        }
+                
+        if(object instanceof ITextPosition) {
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((ITextPosition)object);
+            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
         }
         
         return object;

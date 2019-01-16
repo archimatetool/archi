@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchStickyUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -43,4 +44,9 @@ public class SketchStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
         assertEquals(new Dimension(135, 70), getProvider().getDefaultSize());
     }
 
+    @Override
+    @Test
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
+    }
 }

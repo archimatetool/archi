@@ -21,6 +21,7 @@ import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -61,5 +62,11 @@ public class CanvasBlockUIProviderTests extends AbstractGraphicalObjectUIProvide
         
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
         assertTrue(provider.shouldExposeFeature(null));
+    }
+    
+    @Override
+    @Test
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
     }
 }

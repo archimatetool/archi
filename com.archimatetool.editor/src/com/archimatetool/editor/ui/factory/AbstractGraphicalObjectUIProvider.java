@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 /**
  * Abstract Object UI Provider
@@ -45,5 +47,15 @@ implements IGraphicalObjectUIProvider {
     @Override
     public Dimension getUserDefaultSize() {
         return getDefaultSize();
+    }
+    
+    @Override
+    public int getDefaultTextAlignment() {
+        return ITextAlignment.TEXT_ALIGNMENT_CENTER;
+    }
+    
+    @Override
+    public int getDefaultTextPosition() {
+        return ITextPosition.TEXT_POSITION_TOP;
     }
 }

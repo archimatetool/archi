@@ -17,6 +17,7 @@ import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -65,4 +66,10 @@ public class CanvasBlockUIProvider extends AbstractGraphicalObjectUIProvider {
         
         return true;
     }
+    
+    @Override
+    public int getDefaultTextAlignment() {
+        return ITextAlignment.TEXT_ALIGNMENT_LEFT;
+    }
+
 }

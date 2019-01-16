@@ -52,7 +52,8 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         Dimension size = provider.getUserDefaultSize();
         dmo.setBounds(0, 0, size.width, size.height);
         
-        dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
+        dmo.setTextPosition(provider.getDefaultTextPosition());
+        dmo.setTextAlignment(provider.getDefaultTextAlignment());
 
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);
@@ -120,14 +121,23 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Note
         else if(object instanceof IDiagramModelNote) {
             ColorFactory.setDefaultColors((IDiagramModelObject)object);
-            ((IDiagramModelNote)object).setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
         
         // Connection
         else if(object instanceof IDiagramModelConnection) {
             ColorFactory.setDefaultColors((IDiagramModelConnection)object);
         }
+        
+        if(object instanceof ITextAlignment) {
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelObject)object);
+            ((IDiagramModelObject)object).setTextAlignment(provider.getDefaultTextAlignment());
+        }
                 
+        if(object instanceof ITextPosition) {
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((ITextPosition)object);
+            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        }
+
         return object;
     }
 

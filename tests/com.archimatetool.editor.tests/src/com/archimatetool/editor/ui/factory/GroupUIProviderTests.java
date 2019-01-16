@@ -19,6 +19,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -60,6 +61,12 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
         provider.setInstance(instance);
         
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+    }
+
+    @Override
+    @Test
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
     }
 
 }

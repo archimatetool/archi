@@ -15,7 +15,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.ITextPosition;
 
 
 
@@ -40,8 +39,6 @@ public class AddDiagramModelReferenceCommand extends Command {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fReference);
         Dimension size = provider.getUserDefaultSize();
         fReference.setBounds(x, y, size.width, size.height);
-        
-        fReference.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
         
         ColorFactory.setDefaultColors(fReference);
     }

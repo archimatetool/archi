@@ -17,6 +17,7 @@ import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -64,5 +65,10 @@ public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
         }
         
         return true;
+    }
+    
+    @Override
+    public int getDefaultTextPosition() {
+        return ITextPosition.TEXT_POSITION_CENTRE;
     }
 }

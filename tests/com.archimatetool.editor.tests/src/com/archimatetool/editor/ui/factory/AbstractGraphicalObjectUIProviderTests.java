@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -49,6 +51,16 @@ public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObj
     public void testGetUserDefaultSize() {
         // User size defaults to default size
         assertEquals(getProvider().getDefaultSize(), getProvider().getUserDefaultSize());
+    }
+
+    @Test
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, getProvider().getDefaultTextAlignment());
+    }
+
+    @Test
+    public void testGetDefaultTextPosition() {
+        assertEquals(ITextPosition.TEXT_POSITION_TOP, getProvider().getDefaultTextPosition());
     }
 
 }

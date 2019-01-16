@@ -39,4 +39,14 @@ public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
      * @return The default size as set by the user for this object
      */
     Dimension getUserDefaultSize();
+    
+    /**
+     * @return The default text alignment
+     */
+    int getDefaultTextAlignment();
+
+    /**
+     * @return The default text position
+     */
+    int getDefaultTextPosition();
 }

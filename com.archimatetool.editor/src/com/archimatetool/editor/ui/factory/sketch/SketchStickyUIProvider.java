@@ -15,6 +15,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -53,5 +54,10 @@ public class SketchStickyUIProvider extends AbstractGraphicalObjectUIProvider {
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_STICKY);
+    }
+    
+    @Override
+    public int getDefaultTextAlignment() {
+        return ITextAlignment.TEXT_ALIGNMENT_LEFT;
     }
 }

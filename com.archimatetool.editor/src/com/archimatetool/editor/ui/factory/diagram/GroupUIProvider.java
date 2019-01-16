@@ -18,6 +18,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -71,5 +72,9 @@ public class GroupUIProvider extends AbstractGraphicalObjectUIProvider {
 
         return true;
     }
-
+    
+    @Override
+    public int getDefaultTextAlignment() {
+        return ITextAlignment.TEXT_ALIGNMENT_LEFT;
+    }
 }

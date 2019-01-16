@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -18,7 +19,6 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -71,7 +71,8 @@ public class FigureImagePreviewFactory {
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
             dmo.setName(provider.getDefaultName());
-            dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
+            dmo.setTextPosition(provider.getDefaultTextPosition());
+            dmo.setTextAlignment(provider.getDefaultTextAlignment());
             ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
 
@@ -81,7 +82,7 @@ public class FigureImagePreviewFactory {
             editPart.setModel(dmo);
             
             IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
-            figure.setSize(provider.getDefaultSize());
+            figure.setSize(new Dimension(120, 55));
             figure.refreshVisuals();
             figure.validate();
 
