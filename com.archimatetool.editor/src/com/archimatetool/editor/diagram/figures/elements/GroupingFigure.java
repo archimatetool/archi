@@ -18,6 +18,8 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -33,7 +35,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
     private static final float INSET = 1.4f;
     
     public GroupingFigure() {
-        super(LABEL_CONTROL);
+        super(TEXT_FLOW_CONTROL);
     }
     
     @Override
@@ -49,44 +51,59 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         graphics.setLineDash(new float[] { (float)(8 * graphics.getAbsoluteScale()), (float)(4 * graphics.getAbsoluteScale()) });
         
         graphics.setBackgroundColor(getFillColor());
-       
+        graphics.setForegroundColor(getLineColor());
+        
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }
         
-        int[] fillShape = new int[] {
-                bounds.x, bounds.y,
-                (int)(bounds.x + (bounds.width / INSET)), bounds.y,
-                (int)(bounds.x + (bounds.width / INSET)), bounds.y + TOPBAR_HEIGHT,
-                bounds.getRight().x, bounds.y + TOPBAR_HEIGHT,
-                bounds.getRight().x, bounds.getBottom().y,
-                bounds.x, bounds.getBottom().y
-        };
+        int type = getDiagramModelObject().getType();
         
-        graphics.fillPolygon(fillShape);
+        int[] mainRectangle;
+        
+        if(type == 1) {
+            mainRectangle = new int[] {
+                    bounds.x, bounds.y,
+                    bounds.x + bounds.width - 1, bounds.y,
+                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
+                    bounds.x, bounds.y + bounds.height - 1
+            };
+            
+            graphics.fillPolygon(mainRectangle);
+        }
+        else {
+            mainRectangle = new int[] {
+                    bounds.x, bounds.y + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
+                    bounds.x, bounds.y + bounds.height - 1
+            };
+            
+            int[] fillShape = new int[] {
+                    bounds.x, bounds.y,
+                    (int)(bounds.x + (bounds.width / INSET)), bounds.y,
+                    (int)(bounds.x + (bounds.width / INSET)), bounds.y + TOPBAR_HEIGHT,
+                    bounds.getRight().x, bounds.y + TOPBAR_HEIGHT,
+                    bounds.getRight().x, bounds.getBottom().y,
+                    bounds.x, bounds.getBottom().y
+            };
+            
+            graphics.fillPolygon(fillShape);
+            
+            graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + TOPBAR_HEIGHT);
+            graphics.drawLine(bounds.x, bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y);
+            graphics.drawLine((int)(bounds.x + (bounds.width / INSET)), bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y + TOPBAR_HEIGHT);
+        }
         
         if(gradient != null) {
             gradient.dispose();
         }
 
         // Outlines
-        graphics.setForegroundColor(getLineColor());
-        
-        int[] mainRectangle = new int[] {
-                bounds.x, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                bounds.x, bounds.y + bounds.height - 1
-        };
-        
         graphics.drawPolygon(mainRectangle);
         
-        graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + TOPBAR_HEIGHT);
-        graphics.drawLine(bounds.x, bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y);
-        graphics.drawLine((int)(bounds.x + (bounds.width / INSET)), bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y + TOPBAR_HEIGHT);
-
         graphics.popState();
     }
     
@@ -94,12 +111,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
     protected Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         
-        // This first
-        bounds.x += 5;
-        bounds.y += 2;
-
-        bounds.width = getTextControl().getPreferredSize().width;
-        bounds.height = getTextControl().getPreferredSize().height;
+        int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+            bounds.y -= 3;
+        }
         
         return bounds;
     }
@@ -107,7 +122,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
     /**
      * Connection Anchor adjusts for Group shape
      */
-    static class GroupingFigureConnectionAnchor extends ChopboxAnchor {
+    class GroupingFigureConnectionAnchor extends ChopboxAnchor {
         public GroupingFigureConnectionAnchor(IFigure owner) {
             super(owner);
         }
@@ -115,6 +130,12 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         @Override
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
+            
+            int type = getDiagramModelObject().getType();
+
+            if(type == 1) {
+                return pt;
+            }
             
             Rectangle r = getBox().getCopy();
             getOwner().translateToAbsolute(r);
@@ -127,6 +148,11 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             
             return pt;
         };
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 
     @Override
