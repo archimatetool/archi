@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.Graphics;
@@ -12,6 +14,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.ScaledGraphics;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
@@ -256,24 +259,59 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             setForegroundColor(fLineColor);
         }
 
-        // Margin around label
-        int labelMargin = 1;
-        // Save dimensions of original clipping area and label
-        Rectangle g = graphics.getClip(new Rectangle());
-        Rectangle l = fConnectionLabel.getTextBounds();
-        if(!l.isEmpty()) {
-        	l.expand(labelMargin, labelMargin).getIntersection(g);
-	        // Create a Path that fills the clipping area minus the label
-	        Path p = new Path(null);
-	        p.addRectangle(g.x, g.y, g.width, g.height);
-	        p.addRectangle(l.x, l.y, l.width, l.height);
-	        graphics.setClip(p);
-	        super.paintFigure(graphics);
-	        p.dispose();
-        } else {
-        	super.paintFigure(graphics);
+        if(fConnectionLabel.getTextBounds().isEmpty()) {
+            super.paintFigure(graphics);
+        }
+        else {
+            clipTextLabel(graphics);
         }
     }
     
-    
+    /**
+     * Clip the text label so it doesn't draw on the connection
+     */
+    protected void clipTextLabel(Graphics graphics) {
+        // Margin around label
+        final int labelMargin = 1;
+        
+        // Save dimensions of original clipping area and label
+        Rectangle l = fConnectionLabel.getTextBounds();
+        Rectangle g = graphics.getClip(new Rectangle());
+        
+        l.expand(labelMargin, labelMargin).getIntersection(g);
+        
+        // Create a Path that fills the clipping area minus the label
+        Path path = new Path(null);
+        path.addRectangle(g.x, g.y, g.width, g.height);
+        path.addRectangle(l.x, l.y, l.width, l.height);
+        graphics.setClip(path);
+        
+        // Monkey patch to fix NPE when connection is disabled when Viewpoint set
+        // If we set private field sharedClipping to false then SWTGraphics.checkSharedClipping() is not called
+        // See https://github.com/archimatetool/archi/issues/431
+        if(!isEnabled()) {
+            try {
+                Graphics graphicsCopy = graphics;
+                
+                // ScaledGraphics is a wrapper around SWTGraphics
+                if(graphics instanceof ScaledGraphics) {
+                    Field f = graphicsCopy.getClass().getDeclaredField("graphics"); //$NON-NLS-1$
+                    f.setAccessible(true);
+                    graphicsCopy = (Graphics)f.get(graphics);
+                }
+                
+                Field f = graphicsCopy.getClass().getDeclaredField("sharedClipping"); //$NON-NLS-1$
+                f.setAccessible(true);
+                f.set(graphicsCopy, false);
+            }
+            catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+                // Consume this exception as this only applies to SWTGraphics and ScaledGraphics
+                // SVG Image Export uses GraphicsToGraphics2DAdaptor and will throw a NoSuchFieldException
+            }
+        }
+
+        super.paintFigure(graphics);
+        
+        path.dispose();
+    }
 }
