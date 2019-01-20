@@ -53,6 +53,25 @@ public class PlatformUtils {
     }
 
     /**
+     * @return true if The OS version number matches version
+     */
+    public static boolean isOSVersion(String version) {
+        return System.getProperty("os.version").equals(version); //$NON-NLS-1$
+    }
+
+    /**
+     * Compare two OS version numbers with the format 1, 1.1, or 1.1.1
+     * and see if the current OS version is greater than the given version
+     * 
+     * @param version The version string to compare to system OS version
+     * @return true if current OS version is newer than version
+     */
+    public static boolean isOSVersionGreaterThan(String version) {
+        String current = System.getProperty("os.version"); //$NON-NLS-1$
+        return StringUtils.compareVersionNumbers(current, version) > 0;
+    }
+
+    /**
      * @return The App Data folder for each platform
      */
     public static File getApplicationDataFolder() {
