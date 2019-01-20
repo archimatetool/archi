@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.PngTransfer;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -46,7 +45,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                 
                 try {
                     image = DiagramUtils.createImage(fGraphViewer.getGraphControl().getContents(), 1, 10);
-                    ImageData imageData = image.getImageData(ImageFactory.getDeviceZoom());
+                    ImageData imageData = image.getImageData();
                             
                     cb = new Clipboard(Display.getDefault());
                     

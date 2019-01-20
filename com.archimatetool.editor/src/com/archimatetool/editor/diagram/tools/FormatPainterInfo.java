@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.RGB;
 
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
@@ -28,11 +27,11 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class FormatPainterInfo {
     
-    protected static ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER).getImageData(ImageFactory.getDeviceZoom());
+    protected static ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER).getImageData(100);
     
     protected static Cursor defaultCursor = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getDeviceZoom()),
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(100),
             0,
             cursorImageData.height - 1);
     

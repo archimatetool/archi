@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Spinner;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ImageFactory;
 
 
 
@@ -48,7 +47,7 @@ public class ImageExportProvider implements IImageExportProvider {
         
         try {
             image = DiagramUtils.createImage(fFigure, (double)fScaleSpinner.getSelection() / 100, 10);
-            ImageData imageData = image.getImageData(ImageFactory.getDeviceZoom());
+            ImageData imageData = image.getImageData();
             
             ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[] { imageData };
