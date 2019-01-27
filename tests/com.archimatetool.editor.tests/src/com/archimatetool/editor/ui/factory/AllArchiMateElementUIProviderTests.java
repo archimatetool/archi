@@ -23,7 +23,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.elements.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider;
@@ -60,6 +59,7 @@ import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GroupingUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MaterialUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
@@ -83,7 +83,6 @@ import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
 import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -243,17 +242,6 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         }
         else {
             super.testShouldExposeFeature();
-        }
-    }
-    
-    @Override
-    @Test
-    public void testGetDefaultTextAlignment() {
-        if(getProvider() instanceof GroupingUIProvider) {
-            assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
-        }
-        else {
-            super.testGetDefaultTextAlignment();
         }
     }
 }
