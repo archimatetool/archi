@@ -101,7 +101,7 @@ import com.archimatetool.model.IProperty;
 
 
 /**
- * User Properties Section for an Archimate Element, Archimate Model or Diagram Model
+ * Attributes Section for an Archimate Element, Archimate Model or Diagram Model
  * 
  * @author Phillip Beauvoir
  */
@@ -124,10 +124,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
     }
 
-    private IProperties fPropertiesElement;
+    private IProperties fAttributesElement;
 
     private TableViewer fTableViewer;
-    private IAction fActionNewProperty, fActionNewMultipleProperty, fActionRemoveProperty, fActionShowKeyEditor;
+    private IAction fActionNewAttribute, fActionNewMultipleAttribute, fActionRemoveAttribute, fActionShowKeyEditor;
 
     private boolean ignoreMessages;
     
@@ -163,9 +163,9 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        fPropertiesElement = (IProperties)getFirstSelectedObject();
+        fAttributesElement = (IProperties)getFirstSelectedObject();
         
-        fTableViewer.setInput(fPropertiesElement);
+        fTableViewer.setInput(fAttributesElement);
         
         // Update kludge
         ((UpdatingTableColumnLayout)fTableViewer.getTable().getParent().getLayout()).doRelayout();
@@ -181,11 +181,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      * @return 
      */
     protected IArchimateModel getArchimateModel() {
-        if(fPropertiesElement instanceof IArchimateModelObject) {
-            return ((IArchimateModelObject)fPropertiesElement).getArchimateModel();
+        if(fAttributesElement instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)fAttributesElement).getArchimateModel();
         }
-        if(fPropertiesElement instanceof IDiagramModelComponent) {
-            return ((IDiagramModelComponent)fPropertiesElement).getDiagramModel().getArchimateModel();
+        if(fAttributesElement instanceof IDiagramModelComponent) {
+            return ((IDiagramModelComponent)fAttributesElement).getDiagramModel().getArchimateModel();
         }
         return null;
     }
@@ -259,18 +259,18 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         ToolBarManager toolBarmanager = new ToolBarManager(toolBar);
 
-        // New Property
-        fActionNewProperty = new Action(Messages.UserPropertiesSection_2) {
+        // New Attribute
+        fActionNewAttribute = new Action(Messages.UserPropertiesSection_2) {
             @Override
             public void run() {
-                if(isAlive(fPropertiesElement)) {
+                if(isAlive(fAttributesElement)) {
                     int index = -1;
                     IProperty selected = (IProperty)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
                     if(selected != null) {
-                        index = fPropertiesElement.getProperties().indexOf(selected) + 1;
+                        index = fAttributesElement.getProperties().indexOf(selected) + 1;
                     }
                     IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-                    executeCommand(new NewPropertyCommand(fPropertiesElement.getProperties(), property, index));
+                    executeCommand(new NewAttributeCommand(fAttributesElement.getProperties(), property, index));
                     fTableViewer.editElement(property, 1);
                 }
             }
@@ -286,11 +286,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
         };
 
-        // New Multiple Properties
-        fActionNewMultipleProperty = new Action(Messages.UserPropertiesSection_3) {
+        // New Multiple Attributes
+        fActionNewMultipleAttribute = new Action(Messages.UserPropertiesSection_3) {
             @Override
             public void run() {
-                if(isAlive(fPropertiesElement)) {
+                if(isAlive(fAttributesElement)) {
                     MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell());
                     if(dialog.open() == Window.OK) {
                         executeCommand(dialog.getCommand());
@@ -309,19 +309,19 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
         };
 
-        // Remove Property
-        fActionRemoveProperty = new Action(Messages.UserPropertiesSection_4) {
+        // Remove Attribute
+        fActionRemoveAttribute = new Action(Messages.UserPropertiesSection_4) {
             @Override
             public void run() {
-                if(isAlive(fPropertiesElement)) {
-                    CompoundCommand compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement) {
+                if(isAlive(fAttributesElement)) {
+                    CompoundCommand compoundCmd = new EObjectNonNotifyingCompoundCommand(fAttributesElement) {
                         @Override
                         public String getLabel() {
                             return getCommands().size() > 1 ? Messages.UserPropertiesSection_5 : Messages.UserPropertiesSection_6;
                         }
                     };
                     for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
-                        Command cmd = new RemovePropertyCommand(fPropertiesElement.getProperties(), (IProperty)o);
+                        Command cmd = new RemoveAttributeCommand(fAttributesElement.getProperties(), (IProperty)o);
                         compoundCmd.add(cmd);
                     }
                     executeCommand(compoundCmd);
@@ -338,13 +338,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SMALL_X);
             }
         };
-        fActionRemoveProperty.setEnabled(false);
+        fActionRemoveAttribute.setEnabled(false);
 
         // Manage
         fActionShowKeyEditor = new Action(Messages.UserPropertiesSection_7) {
             @Override
             public void run() {
-                if(isAlive(fPropertiesElement)) {
+                if(isAlive(fAttributesElement)) {
                     UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
                             getArchimateModel());
                     dialog.open();
@@ -362,9 +362,9 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
         };
 
-        toolBarmanager.add(fActionNewProperty);
-        toolBarmanager.add(fActionNewMultipleProperty);
-        toolBarmanager.add(fActionRemoveProperty);
+        toolBarmanager.add(fActionNewAttribute);
+        toolBarmanager.add(fActionNewMultipleAttribute);
+        toolBarmanager.add(fActionRemoveAttribute);
         toolBarmanager.add(fActionShowKeyEditor);
         toolBarmanager.update(true);
 
@@ -374,7 +374,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                fActionRemoveProperty.setEnabled(!event.getSelection().isEmpty());
+                fActionRemoveAttribute.setEnabled(!event.getSelection().isEmpty());
             }
         });
 
@@ -388,7 +388,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
                 // Double-click into empty table creates new Property
                 if(item == null) {
-                    fActionNewProperty.run();                    
+                    fActionNewAttribute.run();                    
                 }
                 // Handle selected item property double-clicked
                 else {
@@ -406,7 +406,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      * Hook into a right-click menu
      */
     private void hookContextMenu() {
-        MenuManager menuMgr = new MenuManager("#PropertiesPopupMenu"); //$NON-NLS-1$
+        MenuManager menuMgr = new MenuManager("#AttributesPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
 
         menuMgr.addMenuListener(new IMenuListener() {
@@ -421,10 +421,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     private void fillContextMenu(IMenuManager manager) {
-        manager.add(fActionNewProperty);
-        manager.add(fActionNewMultipleProperty);
+        manager.add(fActionNewAttribute);
+        manager.add(fActionNewMultipleAttribute);
         manager.add(new Separator());
-        manager.add(fActionRemoveProperty);
+        manager.add(fActionRemoveAttribute);
         manager.add(new Separator());
         manager.add(fActionShowKeyEditor);
     }
@@ -433,8 +433,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      * Sort Keys
      */
     private void sortKeys() {
-        if(isAlive(fPropertiesElement)) {
-            executeCommand(new SortPropertiesCommand(fPropertiesElement.getProperties()));
+        if(isAlive(fAttributesElement)) {
+            executeCommand(new SortAttributesCommand(fAttributesElement.getProperties()));
         }
     }
 
@@ -455,9 +455,9 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     /**
-     * @return All unique Property Keys for an entire model (sorted)
+     * @return All unique Keys for an entire model (sorted)
      */
-    private String[] getAllUniquePropertyKeysForModel() {
+    private String[] getAllUniqueAttributeKeysForModel() {
         IArchimateModel model = getArchimateModel();
 
         List<String> list = new ArrayList<String>();
@@ -514,7 +514,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             @Override
             public void dragStart(DragSourceEvent event) {
-                if(isAlive(fPropertiesElement)) {
+                if(isAlive(fAttributesElement)) {
                     IStructuredSelection selection = (IStructuredSelection)fTableViewer.getSelection();
                     LocalSelectionTransfer.getTransfer().setSelection(selection);
                     event.doit = true;
@@ -589,17 +589,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         List<?> list = ((IStructuredSelection)selection).toList();
         for(Object o : list) {
             IProperty property = (IProperty)o;
-            int movedIndex = fPropertiesElement.getProperties().indexOf(property);
+            int movedIndex = fAttributesElement.getProperties().indexOf(property);
             if(movedIndex == index || (movedIndex + 1) == index) {
                 return;
             }
         }
 
-        movePropertiesToIndex((List<IProperty>)list, index);
+        moveAttributesToIndex((List<IProperty>)list, index);
     }
 
-    private void movePropertiesToIndex(List<IProperty> propertiesToMove, int index) {
-        EList<IProperty> properties = fPropertiesElement.getProperties();
+    private void moveAttributesToIndex(List<IProperty> propertiesToMove, int index) {
+        EList<IProperty> properties = fAttributesElement.getProperties();
 
         // Sanity check
         if(index < 0) {
@@ -622,7 +622,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 break;
             }
 
-            compoundCmd.add(new MovePropertyCommand(properties, property, index));
+            compoundCmd.add(new MoveAttributeCommand(properties, property, index));
 
             index++;
         }
@@ -640,10 +640,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
         else if(event.item != null) {
             IProperty property = (IProperty)event.item.getData();
-            index = fPropertiesElement.getProperties().indexOf(property);
+            index = fAttributesElement.getProperties().indexOf(property);
         }
         else {
-            index = fPropertiesElement.getProperties().size();
+            index = fAttributesElement.getProperties().size();
         }
 
         // Dropped in after position
@@ -742,8 +742,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         protected CellEditor getCellEditor(Object element) {
             String[] items = new String[0];
 
-            if(isAlive(fPropertiesElement)) {
-                items = getAllUniquePropertyKeysForModel();
+            if(isAlive(fAttributesElement)) {
+                items = getAllUniqueAttributeKeysForModel();
             }
 
             cellEditor.setItems(items);
@@ -762,7 +762,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected void setValue(Object element, Object value) {
-            if(isAlive(fPropertiesElement)) {
+            if(isAlive(fAttributesElement)) {
                 executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_10, (IProperty)element,
                                             IArchimatePackage.Literals.PROPERTY__KEY, value));
             }
@@ -800,7 +800,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected void setValue(Object element, Object value) {
-            if(isAlive(fPropertiesElement)) {
+            if(isAlive(fAttributesElement)) {
                 executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_11, (IProperty)element,
                                         IArchimatePackage.Literals.PROPERTY__VALUE, value));
             }
@@ -846,14 +846,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * New Property Command
+     * New Attribute Command
      */
-    private static class NewPropertyCommand extends Command {
+    private static class NewAttributeCommand extends Command {
         private EList<IProperty> properties;
         private IProperty property;
         private int index;
 
-        NewPropertyCommand(EList<IProperty> properties, IProperty property, int index) {
+        NewAttributeCommand(EList<IProperty> properties, IProperty property, int index) {
             this.properties = properties;
             this.property = property;
             this.index = index;
@@ -883,14 +883,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     /**
-     * Remove Property Command
+     * Remove Attribute Command
      */
-    private static class RemovePropertyCommand extends Command {
+    private static class RemoveAttributeCommand extends Command {
         private EList<IProperty> properties;
         private IProperty property;
         private int index;
 
-        RemovePropertyCommand(EList<IProperty> properties, IProperty property) {
+        RemoveAttributeCommand(EList<IProperty> properties, IProperty property) {
             this.properties = properties;
             this.property = property;
         }
@@ -920,15 +920,15 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     /**
-     * Move Property Command
+     * Move Attribute Command
      */
-    private static class MovePropertyCommand extends Command {
+    private static class MoveAttributeCommand extends Command {
         private EList<IProperty> properties;
         private IProperty property;
         private int oldIndex;
         private int newIndex;
 
-        MovePropertyCommand(EList<IProperty> properties, IProperty property, int newIndex) {
+        MoveAttributeCommand(EList<IProperty> properties, IProperty property, int newIndex) {
             this.properties = properties;
             this.property = property;
             this.newIndex = newIndex;
@@ -954,13 +954,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     /**
-     * Sort Properties Command
+     * Sort Attributes Command
      */
-    private static class SortPropertiesCommand extends Command implements Comparator<IProperty>  {
+    private static class SortAttributesCommand extends Command implements Comparator<IProperty>  {
         private EList<IProperty> properties;
         private List<IProperty> original;
 
-        public SortPropertiesCommand(EList<IProperty> properties) {
+        public SortAttributesCommand(EList<IProperty> properties) {
             setLabel(Messages.UserPropertiesSection_14);
             this.properties = properties;
 
@@ -1029,7 +1029,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
             setShellStyle(getShellStyle() | SWT.RESIZE);
 
-            keys = getAllUniquePropertyKeysForModel();
+            keys = getAllUniqueAttributeKeysForModel();
         }
 
         @Override
@@ -1145,12 +1145,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected void okPressed() {
-            compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement, Messages.UserPropertiesSection_20);
+            compoundCmd = new EObjectNonNotifyingCompoundCommand(fAttributesElement, Messages.UserPropertiesSection_20);
 
             for(Object o : tableViewer.getCheckedElements()) {
                 IProperty property = IArchimateFactory.eINSTANCE.createProperty();
                 property.setKey((String)o);
-                compoundCmd.add(new NewPropertyCommand(fPropertiesElement.getProperties(), property, -1));
+                compoundCmd.add(new NewAttributeCommand(fAttributesElement.getProperties(), property, -1));
             }
 
             super.okPressed();

@@ -27,13 +27,13 @@ public interface CSVConstants {
         "ID", "Type", "Name", "Documentation", "Source", "Target"
     };
 
-    String[] PROPERTIES_HEADER = {
+    String[] ATTRIBUTES_HEADER = {
         "ID", "Key", "Value"
     };
     
     String ELEMENTS_FILENAME = "elements";
     String RELATIONS_FILENAME = "relations";
-    String PROPERTIES_FILENAME = "properties";
+    String ATTRIBUTES_FILENAME = "attributes";
     String FILE_EXTENSION = ".csv";
     
     String CRLF = "\r\n";

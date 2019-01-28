@@ -173,7 +173,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     private void updateFileLabels() {
         fElementsFileNameLabel.setText(fFilePrefixTextField.getText() + ELEMENTS_FILENAME + FILE_EXTENSION);
         fRelationsFileNameLabel.setText(fFilePrefixTextField.getText() + RELATIONS_FILENAME + FILE_EXTENSION);
-        fPropertiesFileNameLabel.setText(fFilePrefixTextField.getText() + PROPERTIES_FILENAME + FILE_EXTENSION);
+        fPropertiesFileNameLabel.setText(fFilePrefixTextField.getText() + ATTRIBUTES_FILENAME + FILE_EXTENSION);
         fElementsFileNameLabel.getParent().layout();
     }
     

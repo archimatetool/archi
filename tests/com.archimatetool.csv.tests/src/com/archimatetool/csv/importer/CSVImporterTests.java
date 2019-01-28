@@ -48,11 +48,11 @@ public class CSVImporterTests {
     
     File elements1File = new File(testFolder, "test1-elements.csv");
     File relations1File = new File(testFolder, "test1-relations.csv");
-    File properties1File = new File(testFolder, "test1-properties.csv");
+    File attributes1File = new File(testFolder, "test1-attributes.csv");
     
     File elements2File = new File(testFolder, "test2-elements.csv");
     File relations2File = new File(testFolder, "test2-relations.csv");
-    File properties2File = new File(testFolder, "test2-properties.csv");
+    File attributes2File = new File(testFolder, "test2-attributes.csv");
     
     File elements3File = new File(testFolder, "test3-elements.csv");
     File relations3File = new File(testFolder, "test3-relations.csv");
@@ -105,8 +105,8 @@ public class CSVImporterTests {
         // Ensure new concepts is empty
         assertTrue(importer.newConcepts.isEmpty());
 
-        // Ensure new properties is empty
-        assertTrue(importer.newProperties.isEmpty());
+        // Ensure new attributes is empty
+        assertTrue(importer.newAttributes.isEmpty());
         
         // Model information
         assertEquals("Test Model changed", model.getName());
@@ -233,9 +233,9 @@ public class CSVImporterTests {
     public void testImportProperties() throws Exception {
         importer.importElements(elements1File);
         importer.importRelations(relations1File);
-        importer.importProperties(properties1File);
+        importer.importAttributes(attributes1File);
         
-        assertEquals(7, importer.newProperties.size());
+        assertEquals(7, importer.newAttributes.size());
     }
 
     @Test
@@ -257,12 +257,12 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testIsPropertiesFileName() {
-        assertFalse(CSVImporter.isPropertiesFileName(new File("elements.csv")));
-        assertFalse(CSVImporter.isPropertiesFileName(new File(CSVConstants.PROPERTIES_FILENAME + "-suffix.csv")));
-        assertTrue(CSVImporter.isPropertiesFileName(new File(CSVConstants.PROPERTIES_FILENAME + ".csv")));
-        assertTrue(CSVImporter.isPropertiesFileName(new File(CSVConstants.PROPERTIES_FILENAME)));
-        assertTrue(CSVImporter.isPropertiesFileName(new File("prefix-" + CSVConstants.PROPERTIES_FILENAME)));
+    public void testIsAttributesFileName() {
+        assertFalse(CSVImporter.isAttributesFileName(new File("elements.csv")));
+        assertFalse(CSVImporter.isAttributesFileName(new File(CSVConstants.ATTRIBUTES_FILENAME + "-suffix.csv")));
+        assertTrue(CSVImporter.isAttributesFileName(new File(CSVConstants.ATTRIBUTES_FILENAME + ".csv")));
+        assertTrue(CSVImporter.isAttributesFileName(new File(CSVConstants.ATTRIBUTES_FILENAME)));
+        assertTrue(CSVImporter.isAttributesFileName(new File("prefix-" + CSVConstants.ATTRIBUTES_FILENAME)));
     }
     
     @Test
@@ -272,20 +272,20 @@ public class CSVImporterTests {
         File file = new File(parentFolder, "elements");
         assertEquals(new File(parentFolder, "relations"),
                 CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "properties"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
+        assertEquals(new File(parentFolder, "attributes"),
+                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.ATTRIBUTES_FILENAME));
         
         file = new File(parentFolder, "elements.csv");
         assertEquals(new File(parentFolder, "relations.csv"),
                 CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "properties.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
+        assertEquals(new File(parentFolder, "attributes.csv"),
+                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.ATTRIBUTES_FILENAME));
         
         file = new File(parentFolder, "prefix-elements.csv");
         assertEquals(new File(parentFolder, "prefix-relations.csv"),
                 CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "prefix-properties.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
+        assertEquals(new File(parentFolder, "prefix-attributes.csv"),
+                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.ATTRIBUTES_FILENAME));
     }
     
     @Test
@@ -390,14 +390,14 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testGetProperty() {
+    public void testGetAttribute() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         IProperty property = IArchimateFactory.eINSTANCE.createProperty();
         property.setKey("key");
         property.setValue("value");
         element.getProperties().add(property);
         
-        assertEquals(property, importer.getProperty(element, "key"));
-        assertNull(importer.getProperty(element, "key2"));
+        assertEquals(property, importer.getAttribute(element, "key"));
+        assertNull(importer.getAttribute(element, "key2"));
     }
 }

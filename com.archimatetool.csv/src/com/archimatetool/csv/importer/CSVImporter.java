@@ -60,11 +60,11 @@ public class CSVImporter implements CSVConstants {
     // ID -> IArchimateConcept: new elements and relations added
     Map<String, IArchimateConcept> newConcepts = new HashMap<String, IArchimateConcept>();
     
-    // IProperty -> IProperties object: new Property added
-    Map<IProperty, IProperties> newProperties = new HashMap<IProperty, IProperties>();
+    // IProperty -> IProperties object: new Attribute added
+    Map<IProperty, IProperties> newAttributes = new HashMap<IProperty, IProperties>();
     
-    // IProperty -> Value: updated Property
-    Map<IProperty, String> updatedProperties = new HashMap<IProperty, String>();
+    // IProperty -> Value: updated Attribute
+    Map<IProperty, String> updatedAttributes = new HashMap<IProperty, String>();
 
     // IArchimateConcept -> Map [EAttribute, value] : Updated concepts' features
     Map<IArchimateConcept, Map<EAttribute, Object>> updatedConcepts = new HashMap<IArchimateConcept, Map<EAttribute, Object>>();
@@ -96,10 +96,10 @@ public class CSVImporter implements CSVConstants {
             importRelations(relationsFile);
         }
         
-        // Do we have a matching properties file?
-        File propertiesFile = CSVImporter.getAccessoryFileFromElementsFile(elementsFile, PROPERTIES_FILENAME);
-        if(propertiesFile.exists() && propertiesFile.isFile()) {
-            importProperties(propertiesFile);
+        // Do we have a matching attributes file?
+        File attributeFile = CSVImporter.getAccessoryFileFromElementsFile(elementsFile, ATTRIBUTES_FILENAME);
+        if(attributeFile.exists() && attributeFile.isFile()) {
+            importAttributes(attributeFile);
         }
         
         // Execute the Commands
@@ -161,8 +161,8 @@ public class CSVImporter implements CSVConstants {
             }
         }
 
-        // New Properties
-        for(Entry<IProperty, IProperties> entry : newProperties.entrySet()) {
+        // New Attributes
+        for(Entry<IProperty, IProperties> entry : newAttributes.entrySet()) {
             Command cmd = new Command() {
                 IProperty property = entry.getKey();
                 IProperties propertiesObject = entry.getValue();
@@ -183,8 +183,8 @@ public class CSVImporter implements CSVConstants {
             }
         }
         
-        // Updated Property Value
-        for(Entry<IProperty, String> entry : updatedProperties.entrySet()) {
+        // Updated Attribute Value
+        for(Entry<IProperty, String> entry : updatedAttributes.entrySet()) {
             Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.PROPERTY__VALUE, entry.getValue());
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
@@ -398,39 +398,39 @@ public class CSVImporter implements CSVConstants {
         }
     }
 
-    // -------------------------------- Import Properties --------------------------------
+    // -------------------------------- Import Attributes --------------------------------
     
     /**
-     * Import Properties from CSV file
+     * Import Attributes from CSV file
      * @param file The file to import
      * @throws IOException
      * @throws CSVParseException
      */
-    void importProperties(File file) throws IOException, CSVParseException {
+    void importAttributes(File file) throws IOException, CSVParseException {
         for(CSVRecord csvRecord : getRecords(file)) {
-            if(!isPropertiesRecordCorrectSize(csvRecord)) {
+            if(!isAttributesRecordCorrectSize(csvRecord)) {
                 throw new CSVParseException(Messages.CSVImporter_2);
             }
 
             // Header
-            if(isHeaderRecord(csvRecord, PROPERTIES_HEADER)) {
+            if(isHeaderRecord(csvRecord, ATTRIBUTES_HEADER)) {
                 continue;
             }
-            // Property
+            // Attribute
             else {
-                createPropertyFromRecord(csvRecord);
+                createAttributeFromRecord(csvRecord);
             }
         }
     }
     
-    private boolean isPropertiesRecordCorrectSize(CSVRecord csvRecord) {
-        return csvRecord.size() == PROPERTIES_HEADER.length;
+    private boolean isAttributesRecordCorrectSize(CSVRecord csvRecord) {
+        return csvRecord.size() == ATTRIBUTES_HEADER.length;
     }
     
     /**
-     * Create a Property from a given CSVRecord
+     * Create an Attribute from a given CSVRecord
      */
-    private void createPropertyFromRecord(CSVRecord csvRecord) throws CSVParseException {
+    private void createAttributeFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
         
@@ -488,17 +488,17 @@ public class CSVImporter implements CSVConstants {
             return;
         }
         
-        // Is there already a property with this key?
-        IProperty property = getProperty(propertiesObject, key);
+        // Is there already an attribute with this key?
+        IProperty property = getAttribute(propertiesObject, key);
         if(property != null) {
-            updatedProperties.put(property, value);
+            updatedAttributes.put(property, value);
         }
         // No, create new one
         else {
             property = IArchimateFactory.eINSTANCE.createProperty();
             property.setKey(key);
             property.setValue(value);
-            newProperties.put(property, propertiesObject);
+            newAttributes.put(property, propertiesObject);
         }
     }
 
@@ -582,11 +582,11 @@ public class CSVImporter implements CSVConstants {
 
     /**
      * @param file
-     * @return True if file contains the part "properties" at the end of its name
+     * @return True if file contains the part "attributes" at the end of its name
      */
-    static boolean isPropertiesFileName(File file) {
+    static boolean isAttributesFileName(File file) {
         String name = FileUtils.getFileNameWithoutExtension(file);
-        return name.endsWith(PROPERTIES_FILENAME);
+        return name.endsWith(ATTRIBUTES_FILENAME);
     }
     
     /**
@@ -715,7 +715,7 @@ public class CSVImporter implements CSVConstants {
         return eClass != null && IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass);
     }
     
-    boolean hasProperty(IProperties propertiesObject, String key, String value) {
+    boolean hasAttribute(IProperties propertiesObject, String key, String value) {
         for(IProperty property : propertiesObject.getProperties()) {
             if(property.getKey().equals(key) && property.getValue().equals(value)) {
                 return true;
@@ -725,7 +725,7 @@ public class CSVImporter implements CSVConstants {
         return false;
     }
     
-    IProperty getProperty(IProperties propertiesObject, String key) {
+    IProperty getAttribute(IProperties propertiesObject, String key) {
         for(IProperty property : propertiesObject.getProperties()) {
             if(property.getKey().equals(key)) {
                 return property;

@@ -184,12 +184,12 @@ public class CSVExporterTests {
         property.setValue("Some value");
         element.getProperties().add(property);
         
-        assertEquals("\"1234567a\",\"Some key\",\"Some value\"", exporter.createPropertyRow(element.getId(), property));
+        assertEquals("\"1234567a\",\"Some key\",\"Some value\"", exporter.createAttributeRow(element.getId(), property));
     }
 
     @Test
     public void testCreatePropertyRow_String() {
-        assertEquals("\"1234567a\",\"strength\",\"12\"", exporter.createPropertyRow("1234567a", "strength", "12"));
+        assertEquals("\"1234567a\",\"strength\",\"12\"", exporter.createAttributeRow("1234567a", "strength", "12"));
     }
 
     @Test
@@ -232,10 +232,10 @@ public class CSVExporterTests {
     }
 
     @Test
-    public void testCreatePropertiesFileName() {
-        assertEquals("properties.csv", exporter.createPropertiesFileName());
+    public void testCreateAttributesFileName() {
+        assertEquals("attributes.csv", exporter.createAttributesFileName());
         exporter.setFilePrefix("12345-");
-        assertEquals("12345-properties.csv", exporter.createPropertiesFileName());
+        assertEquals("12345-attributes.csv", exporter.createAttributesFileName());
     }
 
 }

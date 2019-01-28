@@ -68,7 +68,7 @@ public class CSVExporter implements CSVConstants {
     public void export(File folder) throws IOException {
         writeModelAndElements(new File(folder, createElementsFileName()));
         writeRelationships(new File(folder, createRelationsFileName()));
-        writeProperties(new File(folder, createPropertiesFileName()));
+        writeAttributes(new File(folder, createAttributesFileName()));
     }
     
     /**
@@ -186,11 +186,11 @@ public class CSVExporter implements CSVConstants {
     }
     
     /**
-     * Write All Properties
+     * Write All Attributes
      */
-    private void writeProperties(File file) throws IOException {
+    private void writeAttributes(File file) throws IOException {
         // Are there any to write?
-        if(!fWriteEmptyFile && !hasProperties()) {
+        if(!fWriteEmptyFile && !hasAttributes()) {
             return;
         }
         
@@ -200,13 +200,13 @@ public class CSVExporter implements CSVConstants {
         writeBOM(writer);
         
         // Write Header
-        String header = createHeader(PROPERTIES_HEADER);
+        String header = createHeader(ATTRIBUTES_HEADER);
         writer.write(header);
         
-        // Write Model Properties
+        // Write Model Attributes
         for(IProperty property : fModel.getProperties()) {
             writer.write(CRLF);
-            writer.write(createPropertyRow(fModel.getId(), property));
+            writer.write(createAttributeRow(fModel.getId(), property));
         }
         
         // Write Element and Relationship Properties
@@ -217,31 +217,31 @@ public class CSVExporter implements CSVConstants {
                 
                 for(IProperty property : concept.getProperties()) {
                     writer.write(CRLF);
-                    writer.write(createPropertyRow(concept.getId(), property));
+                    writer.write(createAttributeRow(concept.getId(), property));
                 }
                 
-                // Write special attributes as properties
-                writeSpecialProperties(writer, concept);
+                // Write special attributes
+                writeSpecialAttributes(writer, concept);
             }
         }
         
         writer.close();
     }
     
-    private void writeSpecialProperties(Writer writer, IArchimateConcept concept) throws IOException {
+    private void writeSpecialAttributes(Writer writer, IArchimateConcept concept) throws IOException {
         // Influence relationship strength
         if(concept instanceof IInfluenceRelationship) {
             String strength = ((IInfluenceRelationship)concept).getStrength();
             if(StringUtils.isSet(strength)) {
                 writer.write(CRLF);
-                writer.write(createPropertyRow(concept.getId(), INFLUENCE_STRENGTH, strength));
+                writer.write(createAttributeRow(concept.getId(), INFLUENCE_STRENGTH, strength));
             }
         }
         
         // Access relationship type
         else if(concept instanceof IAccessRelationship) {
             writer.write(CRLF);
-            writer.write(createPropertyRow(concept.getId(), ACCESS_TYPE, ACCESS_TYPES.get(((IAccessRelationship)concept).getAccessType())));
+            writer.write(createAttributeRow(concept.getId(), ACCESS_TYPE, ACCESS_TYPES.get(((IAccessRelationship)concept).getAccessType())));
         }
         
         // Junction Type
@@ -254,14 +254,14 @@ public class CSVExporter implements CSVConstants {
                 type = JUNCTION_OR;
             }
             writer.write(CRLF);
-            writer.write(createPropertyRow(concept.getId(), JUNCTION_TYPE, type));
+            writer.write(createAttributeRow(concept.getId(), JUNCTION_TYPE, type));
         }
     }
     
     /**
-     * @return true if the model has any user properties
+     * @return true if the model has any Attributes
      */
-    boolean hasProperties() {
+    boolean hasAttributes() {
         if(!fModel.getProperties().isEmpty()) {
             return true;
         }
@@ -386,16 +386,16 @@ public class CSVExporter implements CSVConstants {
     }
 
     /**
-     * Create a String Row for a Property
+     * Create a String Row for an Attribute
      */
-    String createPropertyRow(String conceptID, IProperty property) {
-        return createPropertyRow(conceptID, property.getKey(), property.getValue());
+    String createAttributeRow(String conceptID, IProperty property) {
+        return createAttributeRow(conceptID, property.getKey(), property.getValue());
     }
 
     /**
      * Create a String Row for a Key/Value
      */
-    String createPropertyRow(String conceptID, String key, String value) {
+    String createAttributeRow(String conceptID, String key, String value) {
         StringBuffer sb = new StringBuffer();
         
         sb.append(surroundWithQuotes(conceptID));
@@ -513,8 +513,8 @@ public class CSVExporter implements CSVConstants {
         return fFilePrefix + RELATIONS_FILENAME + FILE_EXTENSION;
     }
     
-    String createPropertiesFileName() {
-        return fFilePrefix + PROPERTIES_FILENAME + FILE_EXTENSION;
+    String createAttributesFileName() {
+        return fFilePrefix + ATTRIBUTES_FILENAME + FILE_EXTENSION;
     }
     
     OutputStreamWriter createOutputStreamWriter(File file) throws IOException {
