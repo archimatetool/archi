@@ -8,17 +8,14 @@ package com.archimatetool.editor.diagram.editparts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.tools.SelectEditPartTracker;
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
@@ -31,17 +28,6 @@ import com.archimatetool.model.ILockable;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
-    
-    /**
-     * Application Preferences Listener
-     */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            applicationPreferencesChanged(event);
-        }
-    };
-    
     
     // Class for new Figure
     protected Class<?> figureClass;
@@ -88,6 +74,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
      * Application User Preferences were changed
      * @param event
      */
+    @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
         if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(event.getProperty())) {
             refreshFigure();
@@ -108,57 +95,15 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     }
     
     @Override
-    public void activate() {
-        if(!isActive()) {
-            super.activate();
-            
-            // Listen to changes in Diagram Model Object
-            addECoreAdapter();
-            
-            // Listen to Prefs changes
-            Preferences.STORE.addPropertyChangeListener(prefsListener);
-        }
-    }
-
-    @Override
     public void deactivate() {
         if(isActive()) {
             super.deactivate();
             
-            // Remove Listener to changes in Diagram Model Object
-            removeECoreAdapter();
-            
-            // Remove Prefs listener
-            Preferences.STORE.removePropertyChangeListener(prefsListener);
-
             // Dispose of figure
             getFigure().dispose();
         }
     }
     
-    /**
-     * Add any Ecore Adapters
-     */
-    protected void addECoreAdapter() {
-        if(getECoreAdapter() != null) {
-            getModel().eAdapters().add(getECoreAdapter());
-        }
-    }
-    
-    /**
-     * Remove any Ecore Adapters
-     */
-    protected void removeECoreAdapter() {
-        if(getECoreAdapter() != null) {
-            getModel().eAdapters().remove(getECoreAdapter());
-        }
-    }
-    
-    /**
-     * @return The ECore Adapter to listen to model changes
-     */
-    protected abstract Adapter getECoreAdapter();
-
     @Override
     protected void refreshVisuals() {
         refreshBounds();

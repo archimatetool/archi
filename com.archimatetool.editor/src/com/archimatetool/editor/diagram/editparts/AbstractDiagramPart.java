@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToHelper;
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 
@@ -54,16 +53,6 @@ implements IEditPartFilterProvider {
         @Override
         public void notifyChanged(Notification msg) {
             eCoreChanged(msg);
-        }
-    };
-    
-    /**
-     * Application Preferences Listener
-     */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            applicationPreferencesChanged(event);
         }
     };
     
@@ -100,9 +89,15 @@ implements IEditPartFilterProvider {
         }
     }
     
+    @Override
+    protected Adapter getECoreAdapter() {
+        return adapter;
+    }
+    
     /**
      * Application User Preferences were changed
      */
+    @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
         if(event.getProperty() == IPreferenceConstants.ANTI_ALIAS) {
             setAntiAlias();
@@ -127,33 +122,12 @@ implements IEditPartFilterProvider {
     }
 
     @Override
-    public void activate() {
-        if(isActive()) {
-            return;
-        }
-        
-        super.activate();
-        
-        // Listen to Model
-        getModel().eAdapters().add(adapter);
-        
-        // Listen to Prefs changes
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
-    }
-
-    @Override
     public void deactivate() {
         if(!isActive()) {
             return;
         }
         
         super.deactivate();
-        
-        // Remove Model listener
-        getModel().eAdapters().remove(adapter);
-        
-        // Remove Prefs listener
-        Preferences.STORE.removePropertyChangeListener(prefsListener);
         
         // Clear Filters
         if(fEditPartFilters != null) {
