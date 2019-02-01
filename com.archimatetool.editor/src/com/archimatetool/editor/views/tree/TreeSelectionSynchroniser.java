@@ -24,6 +24,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
+import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.model.IArchimateConcept;
@@ -64,9 +65,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         @Override
         public void partActivated(IWorkbenchPart part) {
-            // Select editor in Tree
-            if(part instanceof IArchimateDiagramEditor) {
-                IArchimateDiagramEditor editor = (IArchimateDiagramEditor)part;
+            // Select all types of diagram in Tree
+            if(part instanceof IDiagramModelEditor) {
+                IDiagramModelEditor editor = (IDiagramModelEditor)part;
                 // Editor model could be null if model's file was deleted/renamed and app opened
                 if(editor.getModel() != null && doSync()) {
                     treeViewer.setSelection(new StructuredSelection(editor.getModel()), true);
