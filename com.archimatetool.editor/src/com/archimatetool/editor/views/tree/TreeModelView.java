@@ -120,6 +120,8 @@ implements ITreeModelView, IUIRequestListener {
     
     private TreeModelViewerFindReplaceProvider fFindReplaceProvider;
     
+    private TreeSelectionSynchroniser fSynchroniser;
+    
     public TreeModelView() {
     }
     
@@ -161,7 +163,7 @@ implements ITreeModelView, IUIRequestListener {
         getSite().setSelectionProvider(getViewer());
         
         // Add Selection Sync
-        TreeSelectionSynchroniser.INSTANCE.setTreeModelView(this);
+        fSynchroniser = new TreeSelectionSynchroniser(getViewer());
         
         // Register us as a UIRequest Listener
         UIRequestManager.INSTANCE.addListener(this);
@@ -299,7 +301,7 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
-        fActionLinkToEditor = new LinkToEditorAction();
+        fActionLinkToEditor = new LinkToEditorAction(fSynchroniser);
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
@@ -537,7 +539,7 @@ implements ITreeModelView, IUIRequestListener {
         super.dispose();
 
         // Remove Selection Sync
-        TreeSelectionSynchroniser.INSTANCE.removeTreeModelView();
+        fSynchroniser.dispose();
         
         // Remove UI Request Listener
         UIRequestManager.INSTANCE.removeListener(this);
@@ -587,15 +589,15 @@ implements ITreeModelView, IUIRequestListener {
         // Ecore Events will come so turn tree refresh off
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
             super.propertyChange(evt);
-            // Remove Syncing
-            TreeSelectionSynchroniser.INSTANCE.setSynchronise(false);
+            // Suspend Syncing
+            fSynchroniser.setSynchronise(false);
         }
         
         // Ecore Events have finished so turn tree refresh on
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
             super.propertyChange(evt);
-            // Add Syncing
-            TreeSelectionSynchroniser.INSTANCE.setSynchronise(true);
+            // Reactivate Syncing
+            fSynchroniser.setSynchronise(true);
         }
         
         else {

@@ -21,17 +21,20 @@ import com.archimatetool.editor.views.tree.TreeSelectionSynchroniser;
  */
 public class LinkToEditorAction extends Action {
     
-    public LinkToEditorAction() {
+    private TreeSelectionSynchroniser syncer;
+    
+    public LinkToEditorAction(TreeSelectionSynchroniser syncer) {
         super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED));
         setChecked(Preferences.doLinkView());
+        this.syncer = syncer;
     }
     
     @Override
     public void run() {
         Preferences.setLinkView(isChecked());
         if(isChecked()) {
-            TreeSelectionSynchroniser.INSTANCE.refresh();
+            syncer.updateSelection();
         }
     }
 
