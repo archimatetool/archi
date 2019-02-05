@@ -5,8 +5,8 @@
  */
 package com.archimatetool.model.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -33,8 +33,9 @@ public class IDAdapter extends EContentAdapter {
 
     /**
      * Keep track of unique IDs. An element's ID has to be unique.
+     * Use a HashSet for speed
      */
-    private List<String> fUsedIDs = new ArrayList<String>();
+    Set<String> usedIds = new HashSet<String>();
 
     @Override
     public void notifyChanged(Notification msg) {
@@ -55,10 +56,10 @@ public class IDAdapter extends EContentAdapter {
             }
         }
     }
-
+    
     public void registerID(String id) {
-        if(id != null && !fUsedIDs.contains(id)) {
-            fUsedIDs.add(id); 
+        if(id != null) {
+            usedIds.add(id); 
         }
     }
     
@@ -70,7 +71,7 @@ public class IDAdapter extends EContentAdapter {
         do {
             id = UUID.randomUUID().toString();
         }
-        while(fUsedIDs.contains(id));
+        while(usedIds.contains(id));
         
         registerID(id); 
         

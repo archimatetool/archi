@@ -10,10 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.junit.Test;
@@ -21,7 +17,8 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.impl.Folder;
-import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -51,17 +48,14 @@ public class IDAdapterTests {
         
         String id = "someID";
         adapter.registerID(null);
-        List<String> usedIDs = getPrivateIDList(adapter);
-        assertTrue(usedIDs.isEmpty());
+        assertTrue(adapter.usedIds.isEmpty());
         
         adapter.registerID(id);
-        usedIDs = getPrivateIDList(adapter);
-        assertTrue(usedIDs.contains(id));
+        assertTrue(adapter.usedIds.contains(id));
         
         adapter.registerID(id);
-        usedIDs = getPrivateIDList(adapter);
-        assertTrue(usedIDs.contains(id));
-        assertEquals(1, usedIDs.size());
+        assertTrue(adapter.usedIds.contains(id));
+        assertEquals(1, adapter.usedIds.size());
     }
     
     @Test
@@ -70,12 +64,6 @@ public class IDAdapterTests {
         String id = adapter.getNewID();
         assertEquals(36, id.length());
         
-        List<String> usedIDs = getPrivateIDList(adapter);
-        assertTrue(usedIDs.contains(id));
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<String> getPrivateIDList(IDAdapter adapter) throws Exception {
-        return (List<String>)TestUtils.getPrivateField(adapter, "fUsedIDs");
+        assertTrue(adapter.usedIds.contains(id));
     }
 } 
