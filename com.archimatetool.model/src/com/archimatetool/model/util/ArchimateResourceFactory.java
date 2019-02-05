@@ -91,12 +91,9 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         resource.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
         resource.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
         
-        // This speeds up loading by a ton!
-        resource.getDefaultLoadOptions().put(XMLResource.OPTION_DISABLE_NOTIFY, Boolean.TRUE);
-        
-        // This also speeds up loading by a ton!
         resource.getDefaultLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
         resource.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+        
         
         Map<String, Object> parserFeatures = new HashMap<String, Object>();
         // Don't allow DTD loading in case of XSS exploits
