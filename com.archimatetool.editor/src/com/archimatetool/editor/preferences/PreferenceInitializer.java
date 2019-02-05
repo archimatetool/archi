@@ -98,5 +98,8 @@ implements IPreferenceConstants {
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
         
         store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);
+        
+        store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download"); //$NON-NLS-1$
+        store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
     }
 }

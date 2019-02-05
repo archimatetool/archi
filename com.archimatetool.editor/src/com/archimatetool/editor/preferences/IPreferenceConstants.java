@@ -89,4 +89,7 @@ public interface IPreferenceConstants {
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree"; //$NON-NLS-1$
     
     String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior"; //$NON-NLS-1$
+    
+    String DOWNLOAD_URL = "downloadURL"; //$NON-NLS-1$
+    String UPDATE_URL = "updateURL"; //$NON-NLS-1$
 }

@@ -21,6 +21,8 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.archimatetool.editor.Application;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -31,10 +33,6 @@ import com.archimatetool.editor.utils.StringUtils;
  * @author Phillip Beauvoir
  */
 public class CheckForNewVersionAction extends Action {
-    
-    String versionFile = "https://www.archimatetool.com/archi-version.txt"; //$NON-NLS-1$
-    
-    String downloadPage = "https://www.archimatetool.com/download"; //$NON-NLS-1$
     
     public CheckForNewVersionAction() {
         super(Messages.CheckForNewVersionAction_0);
@@ -65,6 +63,12 @@ public class CheckForNewVersionAction extends Action {
     @Override
     public void run() {
         try {
+            String versionFile = Preferences.STORE.getString(IPreferenceConstants.UPDATE_URL);
+            
+            if(!StringUtils.isSet(versionFile)) {
+                return;
+            }
+            
             URL url = new URL(versionFile);
             String newVersion = getOnlineVersion(url);
             
@@ -72,16 +76,25 @@ public class CheckForNewVersionAction extends Action {
             String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
             
             if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
-                boolean reply = MessageDialog.openQuestion(null, Messages.CheckForNewVersionAction_1,
-                        Messages.CheckForNewVersionAction_2 +
-                        " (" + newVersion + "). " + //$NON-NLS-1$ //$NON-NLS-2$
-                        Messages.CheckForNewVersionAction_3);
+                String downloadURL = Preferences.STORE.getString(IPreferenceConstants.DOWNLOAD_URL);
                 
+                // No download URL
+                if(!StringUtils.isSet(downloadURL)) {
+                    MessageDialog.openInformation(null, Messages.CheckForNewVersionAction_1,
+                            Messages.CheckForNewVersionAction_2 + " (" + newVersion + "). "); //$NON-NLS-1$ //$NON-NLS-2$
+                    return;
+                }
+
+                // Does have download URL
+                boolean reply = MessageDialog.openQuestion(null, Messages.CheckForNewVersionAction_1,
+                        Messages.CheckForNewVersionAction_2 + " (" + newVersion + "). " + //$NON-NLS-1$ //$NON-NLS-2$
+                                Messages.CheckForNewVersionAction_3);
+
                 if(reply) {
                     IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
                     IWebBrowser browser = support.getExternalBrowser();
                     if(browser != null) {
-                        URL url2 = new URL(downloadPage);
+                        URL url2 = new URL(downloadURL);
                         browser.openURL(url2);
                     }
                 }
@@ -103,6 +116,12 @@ public class CheckForNewVersionAction extends Action {
         }
 
     };
+    
+    @Override
+    public boolean isEnabled() {
+        String versionFile = Preferences.STORE.getString(IPreferenceConstants.UPDATE_URL);
+        return StringUtils.isSet(versionFile);
+    }
     
     private void showErrorMessage(String message) {
         MessageDialog.openError(null, Messages.CheckForNewVersionAction_6, message);
