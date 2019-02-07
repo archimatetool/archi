@@ -23,6 +23,8 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ui.ImageFactory;
+
 /**
  * This is a helper class used to convert an SWT Image into an AWT
  * BufferedImage.
@@ -103,7 +105,7 @@ public class ImageConverter {
      *         as the swt <code>Image</code>
      */
     public static BufferedImage convert(Image srcImage) {
-        return convertFromImageData(srcImage.getImageData());
+        return convertFromImageData(srcImage.getImageData(ImageFactory.getImageDeviceZoom()));
     }
 
     /**

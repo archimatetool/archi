@@ -211,7 +211,7 @@ public class JasperReportsExporter {
             String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
             try {
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageData(ImageFactory.getDeviceZoom()) };
+                loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(tmpFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }

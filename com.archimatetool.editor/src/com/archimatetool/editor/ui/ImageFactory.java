@@ -20,6 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -33,10 +34,27 @@ public class ImageFactory {
     private AbstractUIPlugin fPlugin;
     
     /**
-     * @return The current device zoom level
+     * @return The actual device zoom level.
      */
     public static int getDeviceZoom() {
         return Integer.parseInt(System.getProperty("org.eclipse.swt.internal.deviceZoom")); //$NON-NLS-1$
+    }
+
+    /**
+     * @return The zoom level for creating images.
+     * On Mac Retina and Linux this is likely to be 100
+     * If Preferences are set to not use a scaled device zoom then return 100
+     */
+    public static int getImageDeviceZoom() {
+        return PlatformUtils.isWindows() ? getDeviceZoom() : 100;
+    }
+    
+    /**
+     * @return The zoom level for creating objects such as cursors.
+     * On Windows and Linux we need to use device zoom, but not on Mac
+     */
+    public static int getLogicalDeviceZoom() {
+        return PlatformUtils.isMac() ? 100 : getDeviceZoom();
     }
     
     /**
@@ -219,7 +237,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData();
+        ImageData sourceImageData = source.getImageData(ImageFactory.getImageDeviceZoom());
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;
