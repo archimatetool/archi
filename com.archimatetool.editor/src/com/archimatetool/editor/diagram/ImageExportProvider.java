@@ -85,9 +85,6 @@ public class ImageExportProvider implements IImageExportProvider {
         Label label = new Label(container, SWT.NONE);
         label.setText(Messages.ImageExportProvider_0);
         fScaleSpinner = new Spinner(container, SWT.BORDER);
-        GridData gd = new GridData();
-        gd.widthHint = 50;
-        fScaleSpinner.setLayoutData(gd);
         fScaleSpinner.setMinimum(25);
         fScaleSpinner.setMaximum(500);
         
