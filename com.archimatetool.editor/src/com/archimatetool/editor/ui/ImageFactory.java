@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -39,7 +40,12 @@ public class ImageFactory {
      * @return The actual device zoom level.
      */
     public static int getDeviceZoom() {
-        return Integer.parseInt(System.getProperty("org.eclipse.swt.internal.deviceZoom")); //$NON-NLS-1$
+        // This is needed if we are running from the Command Line to init Display and thus ensure DPIUtil.setDeviceZoom(int) is called
+        // when com.archimatetool.editor.preferences.PreferenceInitializer calls this method
+        Display.getDefault();
+        
+        String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
+        return deviceZoom == null ? 100 : Integer.parseInt(deviceZoom);
     }
 
     /**
