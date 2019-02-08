@@ -19,6 +19,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -42,11 +44,12 @@ public class ImageFactory {
 
     /**
      * @return The zoom level for creating images.
-     * On Mac Retina and Linux this is likely to be 100
+     * Windows OS with scaling > 100 needs to export images at x2 size
      * If Preferences are set to not use a scaled device zoom then return 100
      */
     public static int getImageDeviceZoom() {
-        return PlatformUtils.isWindows() ? getDeviceZoom() : 100;
+        boolean scaleImages = Preferences.STORE.getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
+        return scaleImages ? 200 : 100;
     }
     
     /**

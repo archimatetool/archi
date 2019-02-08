@@ -92,4 +92,6 @@ public interface IPreferenceConstants {
     
     String DOWNLOAD_URL = "downloadURL"; //$NON-NLS-1$
     String UPDATE_URL = "updateURL"; //$NON-NLS-1$
+    
+    String SCALE_IMAGE_EXPORT = "scaleImageExport"; //$NON-NLS-1$
 }
