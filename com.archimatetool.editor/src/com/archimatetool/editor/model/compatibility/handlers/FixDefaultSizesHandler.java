@@ -15,6 +15,7 @@ import com.archimatetool.editor.model.compatibility.CompatibilityHandlerExceptio
 import com.archimatetool.editor.model.compatibility.ICompatibilityHandler;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -26,7 +27,7 @@ import com.archimatetool.model.IJunction;
 
 
 /**
- *  In Archi versions >= 3.0.0 We no longer save default widths and heights as -1, -1
+ *  In Archi (and ModelVersion number) >= 3.0.0 we no longer save default widths and heights as -1, -1
  * 
  * @author Phillip Beauvoir
  */
@@ -37,9 +38,16 @@ public class FixDefaultSizesHandler implements ICompatibilityHandler {
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         
         // Check all widths and heights
-        fixMissingWidthAndHeight(model);
+        if(isVersion(model)) {
+            fixMissingWidthAndHeight(model);
+        }
     }
     
+    boolean isVersion(IArchimateModel model) {
+        String version = model.getVersion();
+        return version != null && StringUtils.compareVersionNumbers(version, "3.0.0") < 0; //$NON-NLS-1$
+    }
+
     /**
      * Fix missing width and height values
      */

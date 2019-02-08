@@ -6,12 +6,15 @@
 package com.archimatetool.editor.model.compatibility.handlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
@@ -21,6 +24,7 @@ import com.archimatetool.tests.TestUtils;
 import junit.framework.JUnit4TestAdapter;
 
 
+@SuppressWarnings("nls")
 public class FixDefaultSizesHandlerTests {
     
     public static junit.framework.Test suite() {
@@ -36,6 +40,25 @@ public class FixDefaultSizesHandlerTests {
         TestUtils.ensureDefaultDisplay();
     }
     
+    @Test
+    public void testIsVersion() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        
+        String[] oldVersions = { "1.1.0", "2.0.0", "2.1.0", "2.3.0"};
+        
+        for(String version : oldVersions) {
+            model.setVersion(version);
+            assertTrue(handler.isVersion(model));
+        }
+        
+        String[] newVersions = { "3.0.0", "3.1.0", "3.1.1", "4.0.0", "4.0.1", "4.1.0", "4.1.1", "4.2.0", "5.0.0"};
+        
+        for(String version : newVersions) {
+            model.setVersion(version);
+            assertFalse(handler.isVersion(model));
+        }
+    }
+
     @Test
     public void testGetNewSize_Group() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
