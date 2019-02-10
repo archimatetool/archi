@@ -8,16 +8,16 @@ The Archi® modelling tool is targeted toward all levels of Enterprise Architect
 
 ArchiMate® is an open and independent Enterprise Architecture modelling language that supports the description, analysis and visualization of architecture within and across business domains. ArchiMate is one of the open standards hosted by The Open Group and is fully aligned with TOGAF®.
 
-The main Archi website:
+Archi website:
 
-[http://www.archimatetool.com](http://www.archimatetool.com)
+[https://www.archimatetool.com](https://www.archimatetool.com)
 
 
 ## Building and running the code
 
 All developer resources are here:
 
-[http://www.archimatetool.com/developer](http://www.archimatetool.com/developer)
+[https://github.com/archimatetool/archi/wiki/Developer-Documentation](https://github.com/archimatetool/archi/wiki/Developer-Documentation)
 
 
 ## Contributing code to Archi
