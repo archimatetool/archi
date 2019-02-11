@@ -43,14 +43,16 @@ expandFolderForQuery(folder) ::= <<
 }^
 ^folder.Elements:{c |
 	^if(c.Source)^
-		dataRelations.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Description;format="url-encode"^"), source:"^c.Source.Id^", target:"^c.Target.Id^"\});
+		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Documentation;format="xml-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
 		^c.Properties:{p |
-			dataProperties.push({id:"^c.Id^", key:decodeURL("^p.Key;format="url-encode"^"), value:decodeURL("^p.Value;format="url-encode"^")\});
+			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
+	^elseif(c.Children)^
+		<!-- DEBUG: Skipping view ^c.Name^ -->
 	^else^
-		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Description;format="url-encode"^")\});
+		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Documentation;format="xml-encode"^")\});
 		^c.Properties:{p |
-			dataProperties.push({id:"^c.Id^", key:decodeURL("^p.Key;format="url-encode"^"), value:decodeURL("^p.Value;format="url-encode"^")\});
+			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
 	^endif^
 }^
@@ -214,17 +216,17 @@ frame(element, map) ::= <<
 							  
 							var dataElements = [ ];	  
 						  	var dataProperties = [ ];
-						 	var dataRelations = [ ];
+						 	var dataRelationships = [ ];
 							
 							^expandFolderForQuery(element)^
 							
 						    alasql('CREATE TABLE Elements');
 						    alasql('CREATE TABLE Properties');
-						    alasql('CREATE TABLE Relations');
+						    alasql('CREATE TABLE Relationships');
 						
 						    alasql.tables.Elements.data = dataElements;
 						    alasql.tables.Properties.data = dataProperties;
-						    alasql.tables.Relations.data = dataRelations;
+						    alasql.tables.Relationships.data = dataRelationships;
 						</script> 
 						</div>
 					^endif^
