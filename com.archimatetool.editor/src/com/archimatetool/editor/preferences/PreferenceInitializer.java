@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -101,5 +103,7 @@ implements IPreferenceConstants {
         
         store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download"); //$NON-NLS-1$
         store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
+        
+        store.setDefault(SCALE_IMAGE_EXPORT, (PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100) ? true : false);
     }
 }

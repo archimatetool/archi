@@ -217,8 +217,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         }
         
         @Override
-        public ImageData getImageData() {
-            return image.getImageData();
+        public ImageData getImageData(int zoom) {
+            return image.getImageData(zoom);
         }
         
         public void dispose() {

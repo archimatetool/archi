@@ -65,6 +65,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowStatusLineButton;
     
     private Button fShowUnusedElementsInModelTreeButton;
+    
+    private Button fScaleImagesButton;
 
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -183,6 +185,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fAnimateVisualiserNodesButton.setLayoutData(gd);
         }
         
+        // Other
+        Group otherGroup = new Group(client, SWT.NULL);
+        otherGroup.setText(Messages.GeneralPreferencePage_12);
+        otherGroup.setLayout(new GridLayout(2, false));
+        otherGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fScaleImagesButton = new Button(otherGroup, SWT.CHECK);
+        fScaleImagesButton.setText(Messages.GeneralPreferencePage_13);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fScaleImagesButton.setLayoutData(gd);
+        label = new Label(otherGroup, SWT.NULL);
+        label.setText(Messages.GeneralPreferencePage_14);
+        label.setLayoutData(gd);
+        
         setValues();
         
         fThemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -217,6 +234,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(activeTheme != null) {
             fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
+        
+        fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
     }
     
     private void setSpinnerValues() {
@@ -242,6 +261,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fCurrentTheme = theme;
         }
 
+        getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
+        
         return true;
     }
     
@@ -264,6 +285,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(activeTheme != null) {
             fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
+        
+        fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
         
         super.performDefaults();
     }

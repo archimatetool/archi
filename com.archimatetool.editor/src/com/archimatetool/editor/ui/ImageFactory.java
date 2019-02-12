@@ -16,10 +16,14 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -33,10 +37,33 @@ public class ImageFactory {
     private AbstractUIPlugin fPlugin;
     
     /**
-     * @return The current device zoom level
+     * @return The actual device zoom level.
      */
     public static int getDeviceZoom() {
-        return Integer.parseInt(System.getProperty("org.eclipse.swt.internal.deviceZoom")); //$NON-NLS-1$
+        // This is needed if we are running from the Command Line to init Display and thus ensure DPIUtil.setDeviceZoom(int) is called
+        // when com.archimatetool.editor.preferences.PreferenceInitializer calls this method
+        Display.getDefault();
+        
+        String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
+        return deviceZoom == null ? 100 : Integer.parseInt(deviceZoom);
+    }
+
+    /**
+     * @return The zoom level for creating images.
+     * Windows OS with scaling > 100 needs to export images at x2 size
+     * If Preferences are set to not use a scaled device zoom then return 100
+     */
+    public static int getImageDeviceZoom() {
+        boolean scaleImages = Preferences.STORE.getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
+        return scaleImages ? 200 : 100;
+    }
+    
+    /**
+     * @return The zoom level for creating objects such as cursors.
+     * On Windows and Linux we need to use device zoom, but not on Mac
+     */
+    public static int getLogicalDeviceZoom() {
+        return PlatformUtils.isMac() ? 100 : getDeviceZoom();
     }
     
     /**
@@ -219,7 +246,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData();
+        ImageData sourceImageData = source.getImageData(ImageFactory.getImageDeviceZoom());
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;
