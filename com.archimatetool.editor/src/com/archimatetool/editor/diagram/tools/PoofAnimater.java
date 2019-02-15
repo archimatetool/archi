@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -48,7 +47,6 @@ class PoofAnimater {
 
     void animate(boolean forward) {
         // In this case, the user closed the view between undo/redo
-        // TODO - re-acquire the current canvas
         if(canvas == null || canvas.isDisposed()) {
             return;
         }
@@ -63,21 +61,15 @@ class PoofAnimater {
         new_y = y - (ptViewPort.y - viewPortLocation.y);
         
         index = forward ? 0 : 4;
-        canvas.redraw();
-        Display.getCurrent().update();
         
         canvas.addPaintListener(listener);
         
         for(int i = 0; i < 5; i++) {
             canvas.redraw(new_x, new_y, width, height, false);
-            Display.getCurrent().update();
             
             try { Thread.sleep(30); } catch(InterruptedException ex) { }
             
-            // Later versions of Mac OS X require this
-            if(PlatformUtils.isMac()) {
-                while(Display.getCurrent().readAndDispatch());
-            }
+            while(Display.getCurrent().readAndDispatch());
             
             if(forward) {
                 index ++;
@@ -88,8 +80,8 @@ class PoofAnimater {
         }
 
         canvas.removePaintListener(listener);
+
         canvas.redraw();
-        Display.getCurrent().update();
     }
     
     private void loadImages() {
