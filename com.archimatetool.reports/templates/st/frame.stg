@@ -43,14 +43,14 @@ expandFolderForQuery(folder) ::= <<
 }^
 ^folder.Elements:{c |
 	^if(c.Source)^
-		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Documentation;format="xml-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
+		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
 		^c.Properties:{p |
 			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
 	^elseif(c.Children)^
 		<!-- DEBUG: Skipping view ^c.Name^ -->
 	^else^
-		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), description:decodeURL("^c.Documentation;format="xml-encode"^")\});
+		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
 		^c.Properties:{p |
 			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^

@@ -85,3 +85,8 @@ img.diagram {
 xmp {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
+/* ALasql console */
+#myconsole td {
+    white-space: pre-wrap;
+}
