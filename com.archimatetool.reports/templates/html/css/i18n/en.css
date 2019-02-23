@@ -1,5 +1,7 @@
 /* View pages */
+:lang(en) .i18n-content:after {content: "Content"}
 :lang(en) .i18n-documentation:after {content: "Documentation"}
+:lang(en) .i18n-purpose:after {content: "Purpose"}
 :lang(en) .i18n-properties:after {content: "Properties"}
 :lang(en) .i18n-elements:after {content: "Elements"}
 :lang(en) .i18n-relationships:after {content: "Relationships"}
@@ -44,6 +46,7 @@
 
 
 /* Elements (Class.SimpleName from com.archimatetool.model) */
+:lang(en) .i18n-elementtype-ArchimateModel:after {content: "Model"}
 :lang(en) .i18n-elementtype-AccessRelationship:after {content: "Access"}
 :lang(en) .i18n-elementtype-AggregationRelationship:after {content: "Aggregation"}
 :lang(en) .i18n-elementtype-ApplicationCollaboration:after {content: "Application Collaboration"}
@@ -116,6 +119,18 @@
 :lang(en) .i18n-elementtype-TriggeringRelationship:after {content: "Triggering"}
 :lang(en) .i18n-elementtype-Value:after {content: "Value"}
 :lang(en) .i18n-elementtype-WorkPackage:after {content: "Work Package"}
+
+/* Other Graphical Objects */
+:lang(en) .i18n-elementtype-DiagramModelGroup:after {content: "Group"}
+:lang(en) .i18n-elementtype-DiagramModelNote:after {content: "Note"}
+:lang(en) .i18n-elementtype-SketchModel:after {content: "Sketch"}
+:lang(en) .i18n-elementtype-SketchModelActor:after {content: "Actor"}
+:lang(en) .i18n-elementtype-SketchModelSticky:after {content: "Sticky"}
+:lang(en) .i18n-elementtype-CanvasModel:after {content: "Canvas"}
+:lang(en) .i18n-elementtype-CanvasModelBlock:after {content: "Block"}
+:lang(en) .i18n-elementtype-CanvasModelSticky:after {content: "Sticky"}
+:lang(en) .i18n-elementtype-CanvasModelImage:after {content: "Image"}
+
 
 /* Model Tree */
 :lang(en) .i18n-modeltree:after {content: "Model Tree"}

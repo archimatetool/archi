@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" xmlns:canvas="http://www.archimatetool.com/archimate/canvas" name="Test Model" id="96c117fa-871c-4021-bc67-dddd8c542a8a" version="4.0.1">
+  <folder name="Strategy" id="e2d341b3-5b88-4a62-b0f2-59b77a644a8f" type="strategy"/>
+  <folder name="Business" id="f08ec69d-5901-4134-ace2-160979e49266" type="business">
+    <element xsi:type="archimate:BusinessActor" name="Business Actor" id="51da80a4-b701-4bee-ab54-62ca3a96daf6"/>
+    <element xsi:type="archimate:BusinessInterface" name="Business Interface" id="128d4866-2796-4752-b7dc-63755b21f3a4"/>
+  </folder>
+  <folder name="Application" id="3ea1c6d9-b3e6-44b8-8faf-7228249effb6" type="application"/>
+  <folder name="Technology &amp; Physical" id="119f5c43-514b-4700-b2d4-80e38e6927ef" type="technology"/>
+  <folder name="Motivation" id="35fac576-af2f-4a32-a3d7-693e2b98b8ce" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="04bc0807-f99a-4b65-9600-3eb04c58a7a2" type="implementation_migration"/>
+  <folder name="Other" id="a70cff1e-8c7c-4d51-bf4f-bf6bd1e708ae" type="other">
+    <element xsi:type="archimate:Location" name="Location" id="b5450e61-cc1c-4d12-8a31-5cc9e6a72185"/>
+  </folder>
+  <folder name="Relations" id="7d3bd088-bda8-440d-a594-5857dffe86b4" type="relations">
+    <element xsi:type="archimate:CompositionRelationship" id="38436f23-2e95-4e2c-b8a9-c4dfac76e767" source="51da80a4-b701-4bee-ab54-62ca3a96daf6" target="128d4866-2796-4752-b7dc-63755b21f3a4"/>
+  </folder>
+  <folder name="Views" id="3dc08ec4-7647-4951-8aa6-ee7e7013055c" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" name="Default View" id="e5193720-d635-4899-9ea3-d367991ccdc4">
+      <child xsi:type="archimate:Group" id="8e99b081-cbc6-4b95-b684-f2058336a972" name="Group" textAlignment="1">
+        <bounds x="120" y="144" width="400" height="140"/>
+        <child xsi:type="archimate:DiagramObject" id="672409bf-bb4c-488e-9fbc-fb7f0efcce0f" archimateElement="b5450e61-cc1c-4d12-8a31-5cc9e6a72185">
+          <bounds x="48" y="48" width="120" height="55"/>
+        </child>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="136eaa78-737e-4696-8fb6-cf1827c649da" archimateElement="51da80a4-b701-4bee-ab54-62ca3a96daf6">
+        <bounds x="625" y="72" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="ee5c4750-3eef-4960-91a1-9a464dffa6ee" source="136eaa78-737e-4696-8fb6-cf1827c649da" target="49229df7-4230-465e-9360-8ffe841c7111" archimateRelationship="38436f23-2e95-4e2c-b8a9-c4dfac76e767"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="49229df7-4230-465e-9360-8ffe841c7111" targetConnections="ee5c4750-3eef-4960-91a1-9a464dffa6ee" archimateElement="128d4866-2796-4752-b7dc-63755b21f3a4">
+        <bounds x="625" y="180" width="120" height="55"/>
+      </child>
+      <child xsi:type="archimate:Note" id="2fc9b166-a82c-4bbb-b2ae-84c0692664e5" textAlignment="1">
+        <bounds x="600" y="300" width="185" height="80"/>
+        <content>Note</content>
+      </child>
+    </element>
+    <element xsi:type="archimate:SketchModel" name="New Sketch" id="ef92f44c-4a53-42d8-86f1-02b43da4f95b">
+      <child xsi:type="archimate:Group" id="6d701755-f468-4412-bff1-0d0d00b6491a" name="Group" textAlignment="1">
+        <bounds x="36" y="60" width="400" height="140"/>
+        <sourceConnection id="3c7acc1f-1a46-40e5-82c1-d95da52297e1" source="6d701755-f468-4412-bff1-0d0d00b6491a" target="7413792b-7680-434f-ba8f-3a1971582100" type="3"/>
+        <child xsi:type="archimate:SketchModelSticky" id="36de0db6-cbb6-4715-8f1c-3fc82e4a52b2" name="Sticky" lineColor="#5c5c5c" textAlignment="1" fillColor="#ffffb5">
+          <bounds x="49" y="48" width="135" height="70"/>
+          <content>Sticky</content>
+        </child>
+      </child>
+      <child xsi:type="archimate:SketchModelActor" id="7413792b-7680-434f-ba8f-3a1971582100" name="Actor" targetConnections="3c7acc1f-1a46-40e5-82c1-d95da52297e1">
+        <bounds x="624" y="109" width="75" height="100"/>
+      </child>
+      <child xsi:type="archimate:SketchModelSticky" id="fe61ef26-0335-45b1-be13-650becc422bc" name="Sticky" lineColor="#5c5c5c" textAlignment="1" fillColor="#60ff60">
+        <bounds x="305" y="313" width="135" height="70"/>
+      </child>
+    </element>
+    <element xsi:type="canvas:CanvasModel" name="New Canvas" id="25d4e8d4-f410-4a1a-bc28-f184d66ea408">
+      <child xsi:type="canvas:CanvasModelBlock" id="04d03b0c-e827-4f59-bff7-55dd3ac5eee6" textAlignment="1" borderColor="#000000">
+        <bounds x="88" y="43" width="200" height="200"/>
+        <content>Block</content>
+      </child>
+      <child xsi:type="canvas:CanvasModelImage" id="2817fc9e-5ab2-4653-9462-4681c79f85ea" borderColor="#000000">
+        <bounds x="395" y="51" width="200" height="150"/>
+      </child>
+      <child xsi:type="canvas:CanvasModelSticky" id="5315c06e-282e-4d0d-89ac-a37b34e9679c" fillColor="#ffff95" borderColor="#C0C0C0" textPosition="1">
+        <bounds x="681" y="75" width="75" height="63"/>
+        <content>Sticky</content>
+      </child>
+      <child xsi:type="canvas:CanvasModelSticky" id="6f726d59-7b37-46a3-b933-457b59f392ea" fillColor="#ffa093" borderColor="#C0C0C0" textPosition="1">
+        <bounds x="756" y="217" width="75" height="63"/>
+      </child>
+    </element>
+  </folder>
+</archimate:model>

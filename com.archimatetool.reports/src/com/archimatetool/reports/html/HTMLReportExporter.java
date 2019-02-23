@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,8 +55,8 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
@@ -164,6 +165,9 @@ public class HTMLReportExporter {
         File imagesFolder = new File(targetFolder, fModel.getId() + "/images"); //$NON-NLS-1$
         imagesFolder.mkdirs(); // Make dir
              
+        File objectsFolder = new File(targetFolder, fModel.getId() + "/objects"); //$NON-NLS-1$
+        objectsFolder.mkdirs(); // Make dir
+
         // Instantiate templates files
         File mainFile = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
         STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
@@ -179,6 +183,9 @@ public class HTMLReportExporter {
         
         // Write Diagrams and images
         writeDiagrams(imagesFolder, viewsFolder, stFrame);
+        
+        // Write other graphical objects
+        writeGraphicalObjects(objectsFolder, stFrame);
         
         // Write root model.html frame
         File indexFile = new File(targetFolder, indexFileName);
@@ -217,8 +224,14 @@ public class HTMLReportExporter {
      * @throws IOException 
      */
     private void copyHintsFiles(File targetFolder) throws IOException {
+        // Main hints
         Bundle bundle = Platform.getBundle("com.archimatetool.help"); //$NON-NLS-1$
         URL url = FileLocator.resolve(bundle.getEntry("hints")); //$NON-NLS-1$
+        FileUtils.copyFolder(new File(url.getPath()), new File(targetFolder, "hints")); //$NON-NLS-1$
+        
+        // Canvas hints
+        bundle = Platform.getBundle("com.archimatetool.canvas"); //$NON-NLS-1$
+        url = FileLocator.resolve(bundle.getEntry("help/hints")); //$NON-NLS-1$
         FileUtils.copyFolder(new File(url.getPath()), new File(targetFolder, "hints")); //$NON-NLS-1$
     }
 
@@ -264,6 +277,19 @@ public class HTMLReportExporter {
         elementW.close();
     }
     
+    /**
+     * Write grpahical objects
+     */
+    private void writeGraphicalObjects(File objectsFolder, ST stFrame) throws IOException {
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 
+                    && !(eObject instanceof IDiagramModelReference)) {
+                writeElement(new File(objectsFolder, ((IIdentifier) eObject).getId() + ".html"), stFrame, eObject); //$NON-NLS-1$
+            }
+        }
+    }
+
     /**
      * Write diagrams
      */
@@ -386,7 +412,7 @@ public class HTMLReportExporter {
         childBoundsMap.put(dmo.getId(), newBounds);
         
         // Children
-        if(dmo instanceof IDiagramModelArchimateObject || dmo instanceof IDiagramModelGroup) {
+        if(dmo instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child: ((IDiagramModelContainer)dmo).getChildren() ) {
                 addNewBounds(child, newBounds.getX1(), newBounds.getY1());
             }

@@ -1,12 +1,23 @@
 expandChildren(children) ::= <<
 ^children:{c |
 	^if(c.ArchimateElement)^
-		<tr><td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td><td class="i18n-elementtype-^c.ArchimateConcept.Class.SimpleName^"></td></tr>
+		<tr>
+		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td>
+		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^c.ArchimateConcept.Class.SimpleName^"> </a> </td>
+		</tr>
 	^elseif(c.ReferencedModel)^
-		<tr><td> <a href="../views/^c.ReferencedModel.Id^.html" target="view"> ^c.Name^ </a> </td><td class="i18n-viewpoint-^c.ReferencedModel.Viewpoint^"></td></tr>
-	^else^
-		<!-- DEBUG: Skipping element from class ^c.Class.Name^ -->
+		<tr>
+		    <td> <a href="../views/^c.ReferencedModel.Id^.html" target="view"> ^c.Name^ </a> </td>
+		    <td> <a href="../views/^c.ReferencedModel.Id^.html" target="view" class="i18n-viewpoint-^c.ReferencedModel.Viewpoint^"> </a> </td>
+		</tr>
+    <!-- Other graphical objects -->
+	^elseif(c.Bounds)^
+        <tr>
+           <td> <a href="../objects/^c.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td>
+           <td> <a href="../objects/^c.Id^.html" target="element" class="i18n-elementtype-^c.Class.SimpleName^"> </a> </td>
+        </tr>
 	^endif^
+	
 	^if(c.Children)^
 		^expandChildren(c.Children)^		
 	^endif^
@@ -68,6 +79,9 @@ expandAreasForChildren(children) ::= <<
 		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../elements/^c.ArchimateElement.Id^.html"  target="element">
 	^elseif(c.ReferencedModel)^
 		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../views/^c.ReferencedModel.Id^.html"  target="view">
+    <!-- Other diagram objects -->
+    ^elseif(c.Bounds)^
+        <area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../objects/^c.Id^.html" target="element" >
 	^endif^
 }^
 >>
@@ -96,31 +110,54 @@ frame(element, map) ::= <<
 
 <body>
 	<div class="panel panel-default root-panel">
+		
 		<div class="panel-heading root-panel-heading">
-			<b>^element.Name;format="xml-encode"^</b>
-			^if(element.Children)^
-			(<span class="i18n-viewpoint-^element.Viewpoint^"></span>)
-			<a class="glyphicon glyphicon-info-sign" id="hint-viewpoint_^element.Viewpoint^" target="hint"></a>
-			^elseif(element.Documentation)^
-			(<span class="i18n-elementtype-^element.Class.SimpleName^"></span>)
-			<a class="glyphicon glyphicon-info-sign" id="hint-^element.Class.SimpleName^" target="hint"></a>
+            <!-- Name -->
+		    ^if(element.Name && element.Name.Empty)^
+               <b class="i18n-elementtype-^element.Class.SimpleName^"></b>
+			^else^
+               <b>^element.Name;format="xml-encode"^</b>
+            ^endif^
+
+            <!-- If a View with Viewpoint -->
+			^if(element.Viewpoint)^
+			   (<span class="i18n-viewpoint-^element.Viewpoint^"></span>)
+			   <a class="glyphicon glyphicon-info-sign" id="hint-viewpoint_^element.Viewpoint^" target="hint"></a>
+            <!-- Or if a model (i.e has Purpose method) -->
+			^elseif(!element.Purpose)^
+			   (<span class="i18n-elementtype-^element.Class.SimpleName^"></span>)
+			   <a class="glyphicon glyphicon-info-sign" id="hint-^element.Class.SimpleName^" target="hint"></a>
 			^endif^
 		</div>
+		
 		<div class="panel-body root-panel-body">
-			^if(element.Children)^
-			<img class="diagram" src="../images/^element.Id^.png" alt="^element.Name^" usemap="#^element.Id^map">
-			<map name="^element.Id^map">
-				^expandAreasForChildren(element.Children)^
-			</map>
+		    <!-- If this is a digram model (has children and no bounds) show the image -->
+			^if(element.Children && !element.Bounds)^
+			   <img class="diagram" src="../images/^element.Id^.png" alt="^element.Name^" usemap="#^element.Id^map"/>
+			   <map name="^element.Id^map">
+				  ^expandAreasForChildren(element.Children)^
+			   </map>
 			^endif^
+			
 			<div role="tabpanel">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-documentation"></a></li>
-					<li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab" class="i18n-properties"></a></li>
+                    <!-- Purpose / Documentation / Content -->
+                    ^if(element.Purpose)^
+                       <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-purpose"></a></li>
+                    ^elseif(element.Documentation)^
+					   <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-documentation"></a></li>
+					^elseif(element.Content)^
+                       <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-content"></a></li>
+					^endif^
+					
+                    <!-- Properties -->
+                    <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab" class="i18n-properties"></a></li>
+					
 					^if(element.Children)^
 						<li role="presentation"><a href="#elements" aria-controls="elements" role="tab" data-toggle="tab" class="i18n-elements"></a></li>
 						<li role="presentation"><a href="#relationships" aria-controls="relationships" role="tab" data-toggle="tab" class="i18n-relationships"></a></li>
+                    <!-- Model, Query Tab -->
 					^elseif(element.Purpose)^
 						<li role="presentation"><a href="#query" aria-controls="query" role="tab" data-toggle="tab" class="i18n-query"></a></li>
 					^endif^
@@ -141,7 +178,7 @@ frame(element, map) ::= <<
 								</a> <br>
 							<br>
 						^endif^
-						<textarea id="docsrc" style="display:none">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^</textarea>
+						<textarea id="docsrc" style="display:none">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</textarea>
 						<div id="doctgt" style="white-space:pre-wrap"></div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">

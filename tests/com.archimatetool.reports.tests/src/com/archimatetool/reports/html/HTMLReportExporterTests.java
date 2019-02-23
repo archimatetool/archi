@@ -5,6 +5,7 @@
  */
 package com.archimatetool.reports.html;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -15,10 +16,13 @@ import org.junit.Test;
 
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.reports.TestData;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -34,7 +38,7 @@ public class HTMLReportExporterTests {
     @Test
     public void testCreateReport() throws Exception {
         // Create test model
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE);
         IArchimateModel model = tm.loadModel();
         
         // Create Exporter and output folder
@@ -54,13 +58,20 @@ public class HTMLReportExporterTests {
         
         File elementsFolder = new File(modelFolder, "elements");
         assertTrue(elementsFolder.exists());
+        assertEquals(5, elementsFolder.listFiles().length);
         
         File imagesFolder = new File(modelFolder, "images");
         assertTrue(imagesFolder.exists());
+        assertEquals(3, imagesFolder.listFiles().length);
         
         File viewsFolder = new File(modelFolder, "views");
         assertTrue(viewsFolder.exists());
+        assertEquals(3, viewsFolder.listFiles().length);
         
+        File objectsFolder = new File(modelFolder, "objects");
+        assertTrue(objectsFolder.exists());
+        assertEquals(10, objectsFolder.listFiles().length);
+
         assertTrue(new File(targetFolder, "css").exists());
         assertTrue(new File(targetFolder, "elements").exists());
         assertTrue(new File(targetFolder, "hints").exists());
@@ -79,9 +90,15 @@ public class HTMLReportExporterTests {
             }
             
             // Views & Images
-            if(eObject instanceof IArchimateDiagramModel) {
-                assertTrue(new File(imagesFolder, ((IArchimateDiagramModel)eObject).getId() + ".png").exists());
-                assertTrue(new File(viewsFolder, ((IArchimateDiagramModel)eObject).getId() + ".html").exists());
+            else if(eObject instanceof IDiagramModel) {
+                assertTrue(new File(imagesFolder, ((IDiagramModel)eObject).getId() + ".png").exists());
+                assertTrue(new File(viewsFolder, ((IDiagramModel)eObject).getId() + ".html").exists());
+            }
+            
+            // Diagram Objects
+            else if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 
+                    && !(eObject instanceof IDiagramModelReference)) {
+                assertTrue(new File(objectsFolder, ((IDiagramModelObject)eObject).getId() + ".html").exists());
             }
         }
         
