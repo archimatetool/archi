@@ -19,7 +19,6 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
-import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
@@ -81,9 +80,6 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         };
         
         add(getMainFigure(), mainLocator);
-
-        // Have to add this if we want Animation to work on figures!
-        AnimationUtil.addFigureForAnimation(getMainFigure());
     }
     
     @Override

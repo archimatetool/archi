@@ -37,9 +37,6 @@ implements IPreferenceConstants {
         
         store.setDefault(VIEW_TOOLTIPS, true);
         
-        store.setDefault(ANIMATE, true);
-        store.setDefault(ANIMATION_SPEED, 300);
-        
         store.setDefault(ANTI_ALIAS, true);
         
         store.setDefault(DEFAULT_VIEW_FONT, ""); //$NON-NLS-1$
@@ -53,7 +50,6 @@ implements IPreferenceConstants {
         
         store.setDefault(PALETTE_STATE, true);
 
-        store.setDefault(ANIMATE_MAGIC_CONNECTOR, true);
         store.setDefault(MAGIC_CONNECTOR_POLARITY, false);
         
         store.setDefault(ALLOW_CIRCULAR_CONNECTIONS, false);
@@ -81,8 +77,6 @@ implements IPreferenceConstants {
         store.setDefault(USE_ORTHOGONAL_ANCHOR, true);
         store.setDefault(USE_LINE_CURVES, true);
         store.setDefault(USE_LINE_JUMPS, true);
-        
-        store.setDefault(ANIMATE_VISUALISER_NODES, true);
         
         // Show gradient
         store.setDefault(SHOW_GRADIENT, false);

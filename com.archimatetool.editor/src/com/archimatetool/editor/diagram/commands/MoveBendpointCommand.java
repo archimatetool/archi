@@ -16,7 +16,7 @@ import com.archimatetool.model.IDiagramModelBendpoint;
  * 
  * @author Phillip Beauvoir
  */
-public class MoveBendpointCommand extends BendpointCommand implements IAnimatableCommand {
+public class MoveBendpointCommand extends BendpointCommand {
 
     private IDiagramModelBendpoint fOldBendpoint, fNewBendpoint;
     

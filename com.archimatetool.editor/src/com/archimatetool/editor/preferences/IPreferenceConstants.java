@@ -28,8 +28,6 @@ public interface IPreferenceConstants {
     String OPEN_DIAGRAMS_ON_LOAD = "openDiagramsOnLoad"; //$NON-NLS-1$
     String BACKUP_ON_SAVE = "backupOnSave"; //$NON-NLS-1$
     
-    String ANIMATE = "animate"; //$NON-NLS-1$
-    String ANIMATION_SPEED = "animationSpeed"; //$NON-NLS-1$
     String ANTI_ALIAS = "antiAlias"; //$NON-NLS-1$
     
     String DEFAULT_VIEW_FONT = "defaultViewFont"; //$NON-NLS-1$
@@ -40,7 +38,6 @@ public interface IPreferenceConstants {
     
     String PALETTE_STATE = "palette_state"; //$NON-NLS-1$
 
-    String ANIMATE_MAGIC_CONNECTOR = "animateMagicConnector"; //$NON-NLS-1$
     String MAGIC_CONNECTOR_POLARITY = "polarityMagicConnector"; //$NON-NLS-1$
     
     String ALLOW_CIRCULAR_CONNECTIONS = "circularConnections"; //$NON-NLS-1$
@@ -74,8 +71,6 @@ public interface IPreferenceConstants {
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
     String USE_LINE_CURVES = "lineCurves"; //$NON-NLS-1$
     String USE_LINE_JUMPS = "lineJumps"; //$NON-NLS-1$
-    
-    String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     
     String SHOW_GRADIENT = "showGradient"; //$NON-NLS-1$
     

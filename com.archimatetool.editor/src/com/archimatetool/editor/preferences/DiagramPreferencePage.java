@@ -21,8 +21,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.util.AnimationUtil;
-
 /**
  * Diagram Preferences Page
  * 
@@ -36,9 +34,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Spinner fGridSizeSpinner;
     
     private Button fViewTooltipsButton;
-    
-    private Button fDoAnimationButton;
-    private Spinner fAnimationSpeedSpinner;
     
     private Button fPaletteStateButton;
         
@@ -106,31 +101,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fGridSizeSpinner = new Spinner(c, SWT.BORDER);
         fGridSizeSpinner.setMinimum(5);
         fGridSizeSpinner.setMaximum(100);
-        
-        // -------------- Animation ----------------------------
-        
-        if(AnimationUtil.supportsAnimation()) {
-            Group animationGroup = new Group(client, SWT.NULL);
-            animationGroup.setText(Messages.DiagramPreferencePage_0);
-            animationGroup.setLayout(new GridLayout(2, false));
-            animationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            
-            // Animate Layout
-            fDoAnimationButton = new Button(animationGroup, SWT.CHECK);
-            fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            gd.horizontalSpan = 2;
-            fDoAnimationButton.setLayoutData(gd);
-
-            // Animation Speed
-            label = new Label(animationGroup, SWT.NULL);
-            label.setText(Messages.DiagramPreferencePage_3);
-            label.setEnabled(AnimationUtil.supportsAnimation());
-
-            fAnimationSpeedSpinner = new Spinner(animationGroup, SWT.BORDER);
-            fAnimationSpeedSpinner.setMinimum(10);
-            fAnimationSpeedSpinner.setMaximum(500);
-        }
         
         // -------------- View ----------------------------
 
@@ -222,10 +192,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         setSpinnerValues();
         
-        if(fDoAnimationButton != null) {
-            fDoAnimationButton.setSelection(getPreferenceStore().getBoolean(ANIMATE));
-        }
-        
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
         
@@ -244,24 +210,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void setSpinnerValues() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getInt(GRID_SIZE));
-        
-        if(fAnimationSpeedSpinner != null) {
-            fAnimationSpeedSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_SPEED));
-        }
     }
     
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(GRID_SIZE, fGridSizeSpinner.getSelection());
 
-        if(fDoAnimationButton != null) {
-            getPreferenceStore().setValue(ANIMATE, fDoAnimationButton.getSelection());
-        }
-        
-        if(fAnimationSpeedSpinner != null) {
-            getPreferenceStore().setValue(ANIMATION_SPEED, fAnimationSpeedSpinner.getSelection());
-        }
-        
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
         
@@ -309,14 +263,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void performGeneralDefaults() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(GRID_SIZE));
 
-        if(fDoAnimationButton != null) {
-            fDoAnimationButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE));
-        }
-        
-        if(fAnimationSpeedSpinner != null) {
-            fAnimationSpeedSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATION_SPEED));
-        }
-        
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
         

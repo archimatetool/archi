@@ -36,7 +36,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 /**
@@ -54,7 +53,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fBackupOnSaveButton;
     
     private Spinner fMRUSizeSpinner;
-    private Button fAnimateVisualiserNodesButton;
     
     private ComboViewer fThemeComboViewer;
     
@@ -171,20 +169,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fShowUnusedElementsInModelTreeButton.setLayoutData(gd);
         
-        // Visualiser animation
-        if(AnimationUtil.supportsAnimation()) {
-            Group visualiserGroup = new Group(client, SWT.NULL);
-            visualiserGroup.setText(Messages.GeneralPreferencePage_6);
-            visualiserGroup.setLayout(new GridLayout(2, false));
-            visualiserGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            
-            fAnimateVisualiserNodesButton = new Button(visualiserGroup, SWT.CHECK);
-            fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_7);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            gd.horizontalSpan = 2;
-            fAnimateVisualiserNodesButton.setLayoutData(gd);
-        }
-        
         // Other
         Group otherGroup = new Group(client, SWT.NULL);
         otherGroup.setText(Messages.GeneralPreferencePage_12);
@@ -220,10 +204,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         
-        if(fAnimateVisualiserNodesButton != null) {
-            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
-        }
-        
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
 
@@ -248,10 +228,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         
-        if(fAnimateVisualiserNodesButton != null) {
-            getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
-        }
-        
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         
@@ -271,10 +247,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fBackupOnSaveButton.setSelection(getPreferenceStore().getDefaultBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
-        
-        if(fAnimateVisualiserNodesButton != null) {
-            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
-        }
         
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));

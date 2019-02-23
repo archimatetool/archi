@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
@@ -298,7 +297,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
         
         // Create Compound Command first
-        CompoundCommand cmd = new CreateElementCompoundCommand((FigureCanvas)viewer.getControl(), location.x, location.y);
+        CompoundCommand cmd = new CompoundCommand(Messages.MagicConnectionCreationTool_6);
         
         // If the EditPart's Figure is a Container, adjust the location to relative co-ords
         if(targetEditPart.getFigure() instanceof IContainerFigure) {
@@ -547,34 +546,6 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     // ======================================================================================================
     // COMMANDS
     // ======================================================================================================
-    
-    /**
-     * Create Element Command
-     */
-    private static class CreateElementCompoundCommand extends CompoundCommand {
-        PoofAnimater animater;
-        
-        CreateElementCompoundCommand(FigureCanvas canvas, int x, int y) {
-            super(Messages.MagicConnectionCreationTool_6);
-            animater = new PoofAnimater(canvas, x, y);
-        }
-        
-        @Override
-        public void undo() {
-            super.undo();
-            if(Preferences.doAnimateMagicConnector()) {
-                animater.animate(false);
-            }
-        }
-        
-        @Override
-        public void redo() {
-            if(Preferences.doAnimateMagicConnector()) {
-                animater.animate(true);
-            }
-            super.redo();
-        }
-    }
     
     /**
      * Create New DiagramObject Command

@@ -23,7 +23,6 @@ import org.eclipse.swt.graphics.Color;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
-import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -77,9 +76,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         
         // This last
         add(getMainFigure(), mainLocator);
-
-        // Have to add this if we want Animation to work on figures!
-        AnimationUtil.addFigureForAnimation(getMainFigure());
 
         fIconicDelegate = new IconicDelegate(getDiagramModelObject());
         fIconicDelegate.updateImage();

@@ -44,7 +44,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private static String HELP_ID = "com.archimatetool.help.prefsConnections"; //$NON-NLS-1$
 
-    private Button fDoAnimateMagicConnectorButton;
     private Button fMagicConnectorPolarity1Button;
     private Button fMagicConnectorPolarity2Button;
     
@@ -91,14 +90,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         magicConnectorGroup.setLayout(new GridLayout());
         magicConnectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        fDoAnimateMagicConnectorButton = new Button(magicConnectorGroup, SWT.CHECK);
-        fDoAnimateMagicConnectorButton.setText(Messages.ConnectionsPreferencePage_1);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        fDoAnimateMagicConnectorButton.setLayoutData(gd);
-        
         fMagicConnectorPolarity1Button = new Button(magicConnectorGroup, SWT.RADIO);
         fMagicConnectorPolarity1Button.setText(Messages.ConnectionsPreferencePage_2);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity1Button.setLayoutData(gd);
         
         fMagicConnectorPolarity2Button = new Button(magicConnectorGroup, SWT.RADIO);
@@ -285,7 +279,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void setValues() {
-        fDoAnimateMagicConnectorButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_MAGIC_CONNECTOR));
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         
@@ -309,7 +302,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        getPreferenceStore().setValue(ANIMATE_MAGIC_CONNECTOR, fDoAnimateMagicConnectorButton.getSelection());
         getPreferenceStore().setValue(MAGIC_CONNECTOR_POLARITY, fMagicConnectorPolarity1Button.getSelection());
         
         getPreferenceStore().setValue(ALLOW_CIRCULAR_CONNECTIONS, fAllowCircularConnectionsButton.getSelection());
@@ -366,7 +358,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void performConnectionsDefaults() {
-        fDoAnimateMagicConnectorButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_MAGIC_CONNECTOR));
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         

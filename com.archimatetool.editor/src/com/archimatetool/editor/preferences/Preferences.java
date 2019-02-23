@@ -68,10 +68,6 @@ public class Preferences implements IPreferenceConstants {
         return STORE.getBoolean(PALETTE_STATE);
     }
     
-    public static boolean doAnimateMagicConnector() {
-        return STORE.getBoolean(ANIMATE_MAGIC_CONNECTOR);
-    }
-    
     public static boolean isMagicConnectorPolarity() {
         return STORE.getBoolean(MAGIC_CONNECTOR_POLARITY);
     }
