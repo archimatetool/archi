@@ -58,16 +58,16 @@ public class ImportCSVProvider extends AbstractCommandLineProvider {
             logError(Messages.ImportCSVProvider_2);
             return;
         }
-        File elementsFile = new File(value);
-        if(!elementsFile.exists()) {
+        File csvFile = new File(value);
+        if(!csvFile.exists()) {
             logError(NLS.bind(Messages.ImportCSVProvider_3, value));
             return;
         }
         
-        logMessage(NLS.bind(Messages.ImportCSVProvider_4, elementsFile.getPath(), model.getName()));
+        logMessage(NLS.bind(Messages.ImportCSVProvider_4, csvFile.getPath(), model.getName()));
         
         CSVImporter importer = new CSVImporter(model);
-        importer.doImport(elementsFile);
+        importer.doImport(csvFile);
 
         logMessage(Messages.ImportCSVProvider_5);
     }

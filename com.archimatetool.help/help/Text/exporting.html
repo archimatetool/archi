@@ -52,19 +52,27 @@
     
     <h2>Importing CSV Data into a Model</h2>
     
-    <p>Conversely you can import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional, but you need to provide an ID for an element if it is referenced by a relationship or property, and to provide an ID for a relationship if it is referenced by a property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
+    <p>You can also import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
     
-    <p>At the very least, you need to provide a CSV file named "xxx-elements.csv" where the "xxx-" part of the file name is optional. If you also provide a relations file it needs to be in the format described above and named "xxx-relations.csv". If you also provide a properties file it needs to be in the format described above and named "xxx-properties.csv". Again, the "xxx-" part of the file name is optional. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv".</p>
+    <p>When importing CSV data into an existing model you can provide just one or all three files (elements, relations, properties). Usually you will provide all three files. The format of the files is as follows:</p>
+
+    <p>"xxx-elements.csv"<br/>
+    "xxx-relations.csv"<br/>
+    "xxx-properties.csv"</p>
+
+    <p>The prefix ("xxx") is optional but must be the same for all three files if used. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv". At the very least, the filenames need to contain the ".csv" extension and the names end with "elements", "relations" or "properties".</p>
     
     <p>The best way to understand the required format is to export an existing model to CSV format, and open the resulting files in a text editor, or spreadsheet application</p>
     
-    <p><b>When importing the CSV file(s) into Archi make sure that you select the "xxx-elements.csv file in the Import dialog box. If there is a corresponding "xxx-relations.csv" file and/or a corresponding "xxx-properties.csv" file then these file(s) will be automatically imported at the same time.</b></p>
-    
+    <p>When importing the CSV file(s) into Archi you can select any of the three CSV files in the Import dialog box. If there are corresponding "*.csv" files then these file(s) will be automatically imported at the same time.</p>
+
     <p>It is also possible to merge/update the imported CSV data into an existing model. If a model element already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
     
     <p style="font-style:italic;">"ID","Type","Name","Documentation"<br/>
        "9240f5bf","BusinessActor","New Name","Additional Documentation" 
     </p>
+
+    <p>You can import just one or two CSV files into an existing model. If you import just an "elements.csv" file then only elements will be imported. If you then import a "relations.csv" file that uses the corresponding concept IDs you can import just the relations. The same is true for the "properties.csv" file.</p>
 
     <p>If you are manually creating CSV files make sure you save them using UTF-8 format to preserve all special characters.</p>
     

@@ -266,28 +266,56 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testGetAccessoryFileFromElementsFile_Relations() {
+    public void testGetMatchingFileElements() {
         String parentFolder = "parentFolder";
         
-        File file = new File(parentFolder, "elements");
-        assertEquals(new File(parentFolder, "relations"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "properties"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
+        File file = new File(parentFolder, "prefix-elements");
+        assertEquals(new File(parentFolder, "prefix-elements"), importer.getMatchingFile(file, CSVConstants.ELEMENTS_FILENAME));
         
-        file = new File(parentFolder, "elements.csv");
-        assertEquals(new File(parentFolder, "relations.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "properties.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
-        
-        file = new File(parentFolder, "prefix-elements.csv");
-        assertEquals(new File(parentFolder, "prefix-relations.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.RELATIONS_FILENAME));
-        assertEquals(new File(parentFolder, "prefix-properties.csv"),
-                CSVImporter.getAccessoryFileFromElementsFile(file, CSVConstants.PROPERTIES_FILENAME));
+        file = new File(parentFolder, "prefix-relations");
+        assertEquals(new File(parentFolder, "prefix-elements"), importer.getMatchingFile(file, CSVConstants.ELEMENTS_FILENAME));
+
+        file = new File(parentFolder, "prefix-properties");
+        assertEquals(new File(parentFolder, "prefix-elements"), importer.getMatchingFile(file, CSVConstants.ELEMENTS_FILENAME));
+
+        file = new File(parentFolder, "zoob");
+        assertNull(importer.getMatchingFile(file, CSVConstants.ELEMENTS_FILENAME));
     }
-    
+
+    @Test
+    public void testGetMatchingFileRelations() {
+        String parentFolder = "parentFolder";
+        
+        File file = new File(parentFolder, "prefix-elements");
+        assertEquals(new File(parentFolder, "prefix-relations"), importer.getMatchingFile(file, CSVConstants.RELATIONS_FILENAME));
+        
+        file = new File(parentFolder, "prefix-relations");
+        assertEquals(new File(parentFolder, "prefix-relations"), importer.getMatchingFile(file, CSVConstants.RELATIONS_FILENAME));
+
+        file = new File(parentFolder, "prefix-properties");
+        assertEquals(new File(parentFolder, "prefix-relations"), importer.getMatchingFile(file, CSVConstants.RELATIONS_FILENAME));
+
+        file = new File(parentFolder, "zoob");
+        assertNull(importer.getMatchingFile(file, CSVConstants.RELATIONS_FILENAME));
+    }
+
+    @Test
+    public void testGetMatchingFileProperties() {
+        String parentFolder = "parentFolder";
+        
+        File file = new File(parentFolder, "prefix-elements");
+        assertEquals(new File(parentFolder, "prefix-properties"), importer.getMatchingFile(file, CSVConstants.PROPERTIES_FILENAME));
+        
+        file = new File(parentFolder, "prefix-relations");
+        assertEquals(new File(parentFolder, "prefix-properties"), importer.getMatchingFile(file, CSVConstants.PROPERTIES_FILENAME));
+
+        file = new File(parentFolder, "prefix-properties");
+        assertEquals(new File(parentFolder, "prefix-properties"), importer.getMatchingFile(file, CSVConstants.PROPERTIES_FILENAME));
+
+        file = new File(parentFolder, "zoob");
+        assertNull(importer.getMatchingFile(file, CSVConstants.PROPERTIES_FILENAME));
+    }
+
     @Test
     public void testNormalise() {
         assertEquals("", importer.normalise(null));
@@ -335,7 +363,7 @@ public class CSVImporterTests {
     @Test
     public void testFindArchimateConceptInModel_DifferentClass() throws Exception {
         expectedEx.expect(CSVParseException.class);
-        expectedEx.expectMessage("Found element with same id but different class: f6a18059");
+        expectedEx.expectMessage("Found concept with same id but different class: f6a18059");
         
         importer.doImport(elements1File);
         importer.findArchimateConceptInModel("f6a18059", IArchimatePackage.eINSTANCE.getBusinessActor());

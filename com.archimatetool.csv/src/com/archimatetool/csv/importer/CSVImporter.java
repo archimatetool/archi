@@ -83,25 +83,27 @@ public class CSVImporter implements CSVConstants {
     }
     
     /**
-     * Do the actual import given the elements file
-     * @param elementsFile
+     * Do the actual import given the file
+     * @param file
      */
-    public void doImport(File elementsFile) throws IOException, CSVParseException {
-        // Import Elements into model
-        importElements(elementsFile);
+    public void doImport(File file) throws IOException, CSVParseException {
+        // What file is it?
         
-        // Do we have a matching relations file?
-        File relationsFile = CSVImporter.getAccessoryFileFromElementsFile(elementsFile, RELATIONS_FILENAME);
-        if(relationsFile.exists() && relationsFile.isFile()) {
+        File elementsFile = getMatchingFile(file, ELEMENTS_FILENAME);
+        if(elementsFile != null && elementsFile.exists()) {
+            importElements(elementsFile);
+        }
+
+        File relationsFile = getMatchingFile(file, RELATIONS_FILENAME);
+        if(relationsFile != null && relationsFile.exists()) {
             importRelations(relationsFile);
         }
         
-        // Do we have a matching properties file?
-        File propertiesFile = CSVImporter.getAccessoryFileFromElementsFile(elementsFile, PROPERTIES_FILENAME);
-        if(propertiesFile.exists() && propertiesFile.isFile()) {
+        File propertiesFile = getMatchingFile(file, PROPERTIES_FILENAME);
+        if(propertiesFile != null && propertiesFile.exists()) {
             importProperties(propertiesFile);
         }
-        
+
         // Execute the Commands
         CommandStack stack = (CommandStack)fModel.getAdapter(CommandStack.class);
         stack.execute(createCommands());
@@ -591,15 +593,30 @@ public class CSVImporter implements CSVConstants {
     
     /**
      * @param file
-     * @param one of RELATIONS_FILENAME or PROPERTIES_FILENAME
-     * @return A matching acessory file name given the elements file name
+     * @param target one of ELEMENTS_FILENAME, RELATIONS_FILENAME or PROPERTIES_FILENAME
+     * @return A matching acessory file name given the file name
      *         For example, given file "prefix-elements.csv" and matching on RELATIONS_FILENAME will return "prefix-relations.csv"
      */
-    static File getAccessoryFileFromElementsFile(File file, String targetFilename) {
-        String name = file.getPath();
-        int index = name.lastIndexOf(ELEMENTS_FILENAME);
-        name = new StringBuilder(name).replace(index, index + ELEMENTS_FILENAME.length(), targetFilename).toString();
-        return new File(name);
+    File getMatchingFile(File file, String target) {
+        String match = null;
+        
+        if(isElementsFileName(file)) {
+            match = ELEMENTS_FILENAME;
+        }
+        else if(isRelationsFileName(file)) {
+            match = RELATIONS_FILENAME;
+        }
+        else if(isPropertiesFileName(file)) {
+            match = PROPERTIES_FILENAME;
+        }
+        else {
+            return null;
+        }
+        
+        String path = file.getPath();
+        int index =  path.lastIndexOf(match);
+        path = new StringBuilder(path).replace(index, index + match.length(), target).toString();
+        return new File(path);
     }
 
     /**
