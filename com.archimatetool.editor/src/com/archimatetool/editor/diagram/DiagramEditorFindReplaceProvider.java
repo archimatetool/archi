@@ -8,14 +8,15 @@ package com.archimatetool.editor.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.diagram.editparts.AbstractDiagramPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -25,6 +26,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.ITextContent;
 
 
 /**
@@ -75,19 +77,21 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
         if(isAll()) {
             List<EditPart> editParts = getAllMatchingEditParts(toFind);
             if(!editParts.isEmpty()) {
-                List<String> newNames = new ArrayList<String>();
+                List<String> newStrings = new ArrayList<String>();
                 
                 for(EditPart editPart : editParts) {
-                    String newName = getNewName(((INameable)editPart.getModel()).getName(), toFind, toReplaceWith);
-                    newNames.add(newName);
+                    String oldString = getStringFromEditPart(editPart);
+                    String newString = getReplacedString(oldString, toFind, toReplaceWith);
+                    newStrings.add(newString);
                 }
                 
-                doRenameCommands(editParts, newNames);
+                doReplaceStringCommands(editParts, newStrings);
                 fGraphicalViewer.setSelection(new StructuredSelection(editParts));
                 fGraphicalViewer.reveal(editParts.get(0));
             }
             return !editParts.isEmpty();
         }
+        
         // Replace Next/Previous
         else {
             // Replace on selected EditParts
@@ -95,28 +99,31 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
                 List<EditPart> selected = getSelectedEditParts();
                 if(!selected.isEmpty()) {
                     List<EditPart> editParts = new ArrayList<EditPart>();
-                    List<String> newNames = new ArrayList<String>();
+                    List<String> newTexts = new ArrayList<String>();
                     
                     for(EditPart editPart : selected) {
                         if(matches(editPart, toFind)) {
                             editParts.add(editPart);
                             
-                            String newName = getNewName(((INameable)editPart.getModel()).getName(), toFind, toReplaceWith);
-                            newNames.add(newName);
+                            String oldString = getStringFromEditPart(editPart);
+                            String newString = getReplacedString(oldString, toFind, toReplaceWith);
+                            newTexts.add(newString);
                         }
                     }
                     
                     if(!editParts.isEmpty()) {
-                        doRenameCommands(editParts, newNames);
+                        doReplaceStringCommands(editParts, newTexts);
                         return true;
                     }
                 }
             }
+            
             // Replace on next single selection
             else {
                 EditPart editPart = getFirstSelectedEditPart();
                 if(matches(editPart, toFind)) {
-                    doRenameCommand(editPart, getNewName(((INameable)editPart.getModel()).getName(), toFind, toReplaceWith));
+                    String oldString = getStringFromEditPart(editPart);
+                    doReplaceStringCommand(editPart, getReplacedString(oldString, toFind, toReplaceWith));
                     return true;
                 }
             }
@@ -175,7 +182,7 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
     }
     
     /**
-     * @param toFind The string to find a match on. If this is null, then collect all EditParts in the tree viewer.
+     * @param toFind The string to find a match on. If this is null, then collect all EditParts in the viewer.
      * @return All elements in the Viewer that match the string, in sorted and filtered order
      */
     List<EditPart> getAllMatchingEditParts(String toFind) {
@@ -224,16 +231,16 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
     }
 
     /**
-     * @return True if editPart is a matching type and toFind is found in the editPart's name
+     * @return True if editPart is a matching type and toFind is found in the editPart's name or text content
      */
     private boolean matches(EditPart editPart, String toFind) {
-        return !(editPart instanceof AbstractDiagramPart)
-                && (editPart instanceof GraphicalEditPart)
-                && (editPart.getModel() instanceof INameable)
-                && editPart.isSelectable()
-                && StringUtils.isSet(toFind)
-                && ((INameable)editPart.getModel()).getName() != null
-                && ((INameable)editPart.getModel()).getName().matches(getSearchStringPattern(toFind));
+        if(editPart instanceof AbstractDiagramPart || !(editPart instanceof GraphicalEditPart)
+                || !editPart.isSelectable() || !StringUtils.isSet(toFind)) {
+            return false;
+        }
+        
+        String string = getStringFromEditPart(editPart);
+        return string != null && string.matches(getSearchStringPattern(toFind));
     }
     
     private EditPart getFirstSelectedEditPart() {
@@ -248,37 +255,65 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
         return selection.toList();
     }
 
-    void doRenameCommand(EditPart editPart, String newName) {
-        INameable object = (INameable)editPart.getModel();
-        
-        CommandStack stack = (CommandStack)((IAdapter)object).getAdapter(CommandStack.class);
-        if(stack != null) {
-            stack.execute(new EObjectFeatureCommand(NLS.bind(Messages.DiagramEditorFindReplaceProvider_0, object.getName()), object,
-                    IArchimatePackage.Literals.NAMEABLE__NAME, newName));
+    void doReplaceStringCommand(EditPart editPart, String newText) {
+        Command command = createCommand(editPart, newText);
+        CommandStack stack = (CommandStack)((IAdapter)editPart.getModel()).getAdapter(CommandStack.class);
+        if(command != null && stack != null) {
+            stack.execute(command);
         }
     }
     
-    void doRenameCommands(List<EditPart> editParts, List<String> newNames) {
+    void doReplaceStringCommands(List<EditPart> editParts, List<String> newTexts) {
         // Must match sizes
-        if(editParts.size() != newNames.size() || editParts.isEmpty()) {
+        if(editParts.size() != newTexts.size() || editParts.isEmpty()) {
             return;
         }
-        
-        CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(Messages.DiagramEditorFindReplaceProvider_1);
-        
-        for(int i = 0; i < editParts.size(); i++) {
-            INameable object = (INameable)editParts.get(i).getModel();
-            String newName = newNames.get(i);
-            
-            compoundCommand.add(new EObjectFeatureCommand(NLS.bind(Messages.DiagramEditorFindReplaceProvider_0, object.getName()), object,
-                    IArchimatePackage.Literals.NAMEABLE__NAME, newName));
-        }
-        
+
         CommandStack stack = (CommandStack)((IAdapter)editParts.get(0).getModel()).getAdapter(CommandStack.class);
-        if(stack != null) {
-            stack.execute(compoundCommand.unwrap());
+        if(stack == null) {
+            return;
         }
+
+        CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(Messages.DiagramEditorFindReplaceProvider_0);
+
+        for(int i = 0; i < editParts.size(); i++) {
+            EditPart editPart = editParts.get(i);
+            String newText = newTexts.get(i);
+            
+            Command command = createCommand(editPart, newText);
+            if(command != null) {
+                compoundCommand.add(command);
+            }
+        }
+
+        stack.execute(compoundCommand.unwrap());
     }
+    
+    Command createCommand(EditPart editPart, String newString) {
+        // Text Content
+        if(editPart.getModel() instanceof ITextContent) {
+            return new EObjectFeatureCommand(Messages.DiagramEditorFindReplaceProvider_0, (EObject)editPart.getModel(),
+                    IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, newString);
+        }
 
+        // Name
+        if(editPart.getModel() instanceof INameable) {
+            return new EObjectFeatureCommand(Messages.DiagramEditorFindReplaceProvider_0, (EObject)editPart.getModel(),
+                    IArchimatePackage.Literals.NAMEABLE__NAME, newString);
+        }
 
+        return null;
+    }
+    
+    String getStringFromEditPart(EditPart editPart) {
+        if(editPart.getModel() instanceof ITextContent) {
+            return ((ITextContent)editPart.getModel()).getContent();
+        }
+        
+        if(editPart.getModel() instanceof INameable) {
+            return ((INameable)editPart.getModel()).getName();
+        }
+        
+        return null;
+    }
 }

@@ -70,7 +70,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
                 List<String> newNames = new ArrayList<String>();
                 
                 for(INameable nameable : elements) {
-                    String newName = getNewName(nameable.getName(), toFind, toReplaceWith);
+                    String newName = getReplacedString(nameable.getName(), toFind, toReplaceWith);
                     newNames.add(newName);
                 }
                 
@@ -93,7 +93,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
                             INameable nameable = (INameable)object;
                             elements.add(nameable);
                             
-                            String newName = getNewName(nameable.getName(), toFind, toReplaceWith);
+                            String newName = getReplacedString(nameable.getName(), toFind, toReplaceWith);
                             newNames.add(newName);
                         }
                     }
@@ -108,7 +108,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
             else {
                 Object object = getFirstSelectedObject();
                 if(matches(object, toFind)) {
-                    RenameCommandHandler.doRenameCommand((INameable)object, getNewName(((INameable)object).getName(), toFind, toReplaceWith));
+                    RenameCommandHandler.doRenameCommand((INameable)object, getReplacedString(((INameable)object).getName(), toFind, toReplaceWith));
                     return true;
                 }
             }

@@ -122,7 +122,8 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         super(window.getShell());
         
         this.window = window;
-        setShellStyle(SWT.TITLE | SWT.MODELESS | SWT.CLOSE);
+
+        setShellStyle(SWT.TITLE | SWT.MODELESS | SWT.CLOSE | SWT.RESIZE);
         
         SINGLETONS.put(window, this);
         
@@ -133,6 +134,11 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
                 SINGLETONS.remove(window);
             }
         });
+    }
+    
+    @Override
+    protected boolean isResizable() {
+        return true;
     }
     
     @Override
@@ -239,11 +245,11 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     private Combo createInputWidget(Composite parent, String label, List<String> history) {
         Label labelWidget = new Label(parent, SWT.NONE);
         labelWidget.setText(label);
-        labelWidget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+        labelWidget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 
         final Combo input = new Combo(parent, SWT.SINGLE | SWT.BORDER | SWT.DROP_DOWN);
         GridData layoutData = new GridData(SWT.FILL, SWT.CENTER, true, true);
-        layoutData.widthHint = 120;
+        layoutData.widthHint = 200;
         input.setLayoutData(layoutData);
         
         for(String t : history) {
@@ -468,7 +474,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     
     @Override
     protected int getDialogBoundsStrategy() {
-        return DIALOG_PERSISTLOCATION;
+        return DIALOG_PERSISTLOCATION | DIALOG_PERSISTSIZE;
     }
     
     protected IDialogSettings getDialogSettings(String sectionName) {

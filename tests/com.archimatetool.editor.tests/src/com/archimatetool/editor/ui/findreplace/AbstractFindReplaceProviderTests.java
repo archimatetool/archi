@@ -82,24 +82,27 @@ public abstract class AbstractFindReplaceProviderTests {
     }
     
     @Test
-    public void testGetNewName() {
-        String oldName = "Hello World";
+    public void testGetReplacedString() {
+        String oldString = "Hello World";
 
-        assertEquals(oldName, provider.getNewName(oldName, "z", "zzz"));
-        assertEquals("Hellz Wzrld", provider.getNewName(oldName, "o", "z"));
-        assertEquals("Hellz Wzrld", provider.getNewName(oldName, "O", "z"));
+        assertEquals(oldString, provider.getReplacedString(oldString, "z", "zzz"));
+        assertEquals("Hellz Wzrld", provider.getReplacedString(oldString, "o", "z"));
+        assertEquals("Hellz Wzrld", provider.getReplacedString(oldString, "O", "z"));
         
         provider.setParameter(IFindReplaceProvider.PARAM_CASE_SENSITIVE, true);
-        assertEquals(oldName, provider.getNewName(oldName, "O", "z"));
+        assertEquals(oldString, provider.getReplacedString(oldString, "O", "z"));
         
         // Test regex characters don't mess things up
-        oldName = "Hello (World \b *. \\";
-        assertEquals(oldName, provider.getNewName(oldName, "O", "z"));
+        oldString = "Hello (World \b *. \\";
+        assertEquals(oldString, provider.getReplacedString(oldString, "O", "z"));
         provider.setParameter(IFindReplaceProvider.PARAM_CASE_SENSITIVE, false);
-        assertEquals("Hellz (Wzrld \b *. \\", provider.getNewName(oldName, "O", "z"));
+        assertEquals("Hellz (Wzrld \b *. \\", provider.getReplacedString(oldString, "O", "z"));
         
         // Test classic use case
-        assertEquals("Business Actor", provider.getNewName("Business Actor (copy)", " (copy)", ""));
+        assertEquals("Business Actor", provider.getReplacedString("Business Actor (copy)", " (copy)", ""));
+        
+        // Test CR
+        assertEquals("Some nice\ntext", provider.getReplacedString("Some vixe\ntext", "vixe", "nice"));
     }
     
     @Test

@@ -107,8 +107,6 @@ public class Messages extends NLS {
 
     public static String DiagramEditorFindReplaceProvider_0;
 
-    public static String DiagramEditorFindReplaceProvider_1;
-
     public static String DiagramEditorInput_0;
 
     public static String FloatingPalette_0;

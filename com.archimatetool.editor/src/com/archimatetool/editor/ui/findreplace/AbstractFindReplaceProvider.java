@@ -93,19 +93,19 @@ public abstract class AbstractFindReplaceProvider implements IFindReplaceProvide
     }
 
     /**
-     * @param oldName The old name
-     * @param toFind The string to find in the old name
+     * @param oldString The old string
+     * @param toFind The string to find in the old string
      * @param toReplaceWith The string to replace with
-     * @return A new name based on the old name, replacing the part toFind with toReplaceWith
+     * @return A new string based on the old string, replacing the part toFind with toReplaceWith
      */
-    protected String getNewName(String oldName, String toFind, String toReplaceWith) {
+    protected String getReplacedString(String oldString, String toFind, String toReplaceWith) {
         toFind = Pattern.quote(toFind);
 
         if(!isCaseSensitive()) {
             toFind = "(?i:" + toFind + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
-        return oldName.replaceAll(toFind, toReplaceWith);
+        return oldString.replaceAll(toFind, toReplaceWith);
     }
     
     /**
