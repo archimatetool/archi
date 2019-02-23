@@ -34,6 +34,7 @@ import org.eclipse.ui.internal.about.InstallationDialog;
 
 import com.archimatetool.editor.Application;
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.actions.CheckForNewVersionAction;
 import com.archimatetool.editor.ui.IArchiImages;
 
 
@@ -53,8 +54,12 @@ public class AboutDialog extends TrayDialog {
     private Text licenseText;
 
     private Button installationDetailsButton;
+    private Button checkNewVersionButton;
     
     private final static int INSTALLATION_DETAILS_ID = IDialogConstants.CLIENT_ID + 1;
+    private final static int CHECK_UPDATE_ID = INSTALLATION_DETAILS_ID + 1;
+    
+    private CheckForNewVersionAction checkNewVersionAction;
 
     public AboutDialog(Shell shell) {
         super(shell);
@@ -76,6 +81,9 @@ public class AboutDialog extends TrayDialog {
     protected void buttonPressed(int buttonId) {
         if(buttonId == INSTALLATION_DETAILS_ID) {
             new InstallationDialog(getShell(), PlatformUI.getWorkbench().getActiveWorkbenchWindow()).open();
+        }
+        else if(buttonId == CHECK_UPDATE_ID) {
+            checkNewVersionAction.run();
         }
         else {
             super.buttonPressed(buttonId);
@@ -200,6 +208,12 @@ public class AboutDialog extends TrayDialog {
         installationDetailsButton = createButton(parent, INSTALLATION_DETAILS_ID, Messages.AboutDialog_4, false);
         setButtonLayoutData(installationDetailsButton);
         
+        checkNewVersionAction = new CheckForNewVersionAction();
+        
+        checkNewVersionButton = createButton(parent, CHECK_UPDATE_ID, Messages.AboutDialog_7, false);
+        setButtonLayoutData(checkNewVersionButton);
+        checkNewVersionButton.setEnabled(checkNewVersionAction.isEnabled());
+
         createButton(parent, IDialogConstants.OK_ID, Messages.AboutDialog_6, true);
     }
 }
