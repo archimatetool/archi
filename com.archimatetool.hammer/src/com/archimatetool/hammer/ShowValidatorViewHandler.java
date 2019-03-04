@@ -22,7 +22,8 @@ public class ShowValidatorViewHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        ViewManager.toggleViewPart(IValidatorView.ID, true);
+        // activate = false to keep originating part in focus so we can update current selection
+        ViewManager.toggleViewPart(IValidatorView.ID, false); 
         return null;
     }
 
