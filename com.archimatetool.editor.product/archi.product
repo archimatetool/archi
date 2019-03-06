@@ -43,14 +43,6 @@
    <features>
       <feature id="com.archimatetool.editor.feature"/>
       <feature id="org.opengroup.archimate.xmlexchange.feature"/>
-      <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.eclipse.emf.common"/>
-      <feature id="org.eclipse.gef"/>
-      <feature id="org.eclipse.draw2d"/>
-      <feature id="org.eclipse.zest"/>
-      <feature id="org.eclipse.help"/>
-      <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.e4.rcp"/>
    </features>
 
 
