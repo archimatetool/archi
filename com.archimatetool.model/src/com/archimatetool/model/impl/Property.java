@@ -77,6 +77,12 @@ public class Property extends EObjectImpl implements IProperty {
     protected Property() {
         super();
     }
+    
+    public Property(String myKey,String myValue) {
+    	super();
+    	this.setKey(myKey);
+    	this.setValue(myValue);
+    }
 
     /**
      * <!-- begin-user-doc -->

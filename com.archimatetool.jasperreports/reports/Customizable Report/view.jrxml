@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="view_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="view_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a4b9516a-8b8f-4e31-be80-7c2278b9127e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
-	<subDataset name="PropertiesDataset">
+	<subDataset name="PropertiesDataset" uuid="c08c9434-1f30-467f-8a58-cca44d987a4d">
 		<field name="this" class="com.archimatetool.model.IProperty"/>
 		<field name="key" class="java.lang.String"/>
 		<field name="value" class="java.lang.String"/>
@@ -40,6 +41,9 @@
 	<variable name="VIEW_TAGS" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
+	<variable name="VIEW_RELATIONS" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
 	<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer" calculation="System">
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
@@ -50,7 +54,7 @@
 	<detail>
 		<band height="30">
 			<subreport>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="30" isRemoveLineWhenBlank="true"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="30" isRemoveLineWhenBlank="true" uuid="b7df58e8-c3d7-4ebf-bdb0-d47087f10d51"/>
 				<subreportParameter name="PROPERTY_2">
 					<subreportParameterExpression><![CDATA["Report:View:Detailed"]]></subreportParameterExpression>
 				</subreportParameter>
@@ -59,6 +63,9 @@
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_4">
 					<subreportParameterExpression><![CDATA["Report:View:Tag"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PROPERTY_5">
+					<subreportParameterExpression><![CDATA["Report:View:Relations"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_1">
 					<subreportParameterExpression><![CDATA["Report:View:Hide"]]></subreportParameterExpression>
@@ -69,6 +76,7 @@
 				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="VIEW_HIDE_DIAGRAM"/>
 				<returnValue subreportVariable="NON_REPORT_ENTRIES" toVariable="NON_REPORT_ENTRIES"/>
 				<returnValue subreportVariable="RETURNED_VALUE_4" toVariable="VIEW_TAGS"/>
+				<returnValue subreportVariable="RETURNED_VALUE_5" toVariable="VIEW_RELATIONS"/>
 				<subreportExpression><![CDATA[$P{properties_report}]]></subreportExpression>
 			</subreport>
 		</band>
@@ -78,12 +86,12 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<break>
-				<reportElement x="0" y="0" width="1" height="1">
+				<reportElement x="0" y="0" width="1" height="1" uuid="2a22c33a-8ddc-4f65-8df8-7e8ebf1a0268">
 					<printWhenExpression><![CDATA[$V{REPORT_ENTRY} != 1]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Title 2" x="0" y="1" width="515" height="19"/>
+				<reportElement style="Title 2" x="0" y="1" width="515" height="19" uuid="12f265d1-37d6-4e73-8ddd-cba7d35bff59"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$P{HIDE_VIEW_NUMBERING}.equals("true") ? $F{name}.replaceAll("^[0-9.]*  *", "") : $F{name}]]></textFieldExpression>
 			</textField>
@@ -96,8 +104,7 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<textField>
-				<reportElement style="Italic" x="0" y="0" width="515" height="15"/>
-				<textElement/>
+				<reportElement style="Italic" x="0" y="0" width="515" height="15" uuid="61d040d5-da10-4ebe-b060-04095d612a59"/>
 				<textFieldExpression><![CDATA[$F{viewpoint}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -108,7 +115,7 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<image scaleImage="RealSize">
-				<reportElement x="0" y="0" width="515" height="100"/>
+				<reportElement x="0" y="0" width="515" height="100" uuid="8fecda4f-8855-45d5-b6d3-a332ae02402f"/>
 				<imageExpression><![CDATA[$F{imagePath}]]></imageExpression>
 			</image>
 		</band>
@@ -119,13 +126,12 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<textField>
-				<reportElement style="Title 3" x="0" y="0" width="515" height="35"/>
+				<reportElement style="Title 3" x="0" y="0" width="515" height="35" uuid="0f41bceb-2948-4450-97ac-8cb3e4312088"/>
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$R{text.documentation}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Documentation" x="0" y="38" width="515" height="16"/>
-				<textElement/>
+				<reportElement style="Documentation" x="0" y="38" width="515" height="16" uuid="ca213f42-19ee-4f32-9e81-646928bf8abb"/>
 				<textFieldExpression><![CDATA[$F{documentation}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -136,34 +142,40 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<textField>
-				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true">
-					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true" uuid="e1cfc567-add8-447b-ae81-06e0ce9a8676">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1 && !$V{VIEW_RELATIONS}.equals("true")]]></printWhenExpression>
 				</reportElement>
 				<box bottomPadding="0"/>
 				<textElement verticalAlignment="Bottom" markup="none"/>
 				<textFieldExpression><![CDATA[$R{text.properties}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true" uuid="e1cfc567-add8-447b-ae81-06e0ce9a8676">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1 && $V{VIEW_RELATIONS}.equals("true")]]></printWhenExpression>
+				</reportElement>
+				<box bottomPadding="0"/>
+				<textElement verticalAlignment="Bottom" markup="none"/>
+				<textFieldExpression><![CDATA[$R{text.relations}]]></textFieldExpression>
+			</textField>
 			<componentElement>
-				<reportElement positionType="Float" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true" uuid="35990b79-5582-4910-a6fb-9565eebfcb77">
 					<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
 				</reportElement>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-					<datasetRun subDataset="PropertiesDataset">
+					<datasetRun subDataset="PropertiesDataset" uuid="ad713ffb-2052-45cc-883a-fa3006501c91">
 						<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="16" width="515">
 						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true">
+							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true" uuid="5726927b-47b6-4d6d-a8eb-e6767b89fe79">
 								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>
-							<textElement/>
 							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
 						</textField>
 						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16">
+							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" uuid="f8b2e56e-4291-4d36-9c1c-ab59f0c76fdf">
 								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>
-							<textElement/>
 							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
@@ -176,7 +188,7 @@
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
     || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<subreport>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="70" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="70" isRemoveLineWhenBlank="true" uuid="e7613e18-e964-4659-9c51-7714428016d1">
 					<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true") && !$V{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="VIEW_DETAILED">
@@ -185,14 +197,14 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
-                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
-                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-                </subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getChildElementsDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{diagram_object_report}]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="70" width="515" height="50" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="70" width="515" height="50" isRemoveLineWhenBlank="true" uuid="4f1aa3ec-0a5f-4561-9249-94ff53bfee48">
 					<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true") && $V{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="VIEW_DETAILED">
@@ -201,9 +213,9 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
-                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
-                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-                </subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Elements"]]></subreportParameterExpression>
 				</subreportParameter>

@@ -31,6 +31,10 @@ public class PropertiesModelDataSource implements JRRewindableDataSource, IDataS
         fProperties = properties.getProperties();
     }
     
+    public PropertiesModelDataSource(EList<IProperty> properties) {
+        fProperties = properties;
+    }
+    
     @Override
     public boolean next() throws JRException {
         if(currentIndex < fProperties.size() - 1) {
