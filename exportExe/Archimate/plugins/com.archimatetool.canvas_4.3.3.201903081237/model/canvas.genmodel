@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="This program and the accompanying materials&#xD;&#xA;are made available under the terms of the License&#xD;&#xA;which accompanies this distribution in the file LICENSE.txt"
+    modelDirectory="/com.archimatetool.canvas/src" editDirectory="/com.archimatetool.canvas.edit/src"
+    editorDirectory="/com.archimatetool.canvas.editor/src" modelPluginID="com.archimatetool.canvas"
+    modelName="Canvas" editPluginClass="com.archimatetool.canvas.provider.CanvasEditPlugin"
+    editorPluginClass="com.archimatetool.canvas.model.presentation.CanvasEditorPlugin"
+    nonNLSMarkers="true" testSuiteClass="com.archimatetool.canvas.model.tests.CanvasAllTests"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    editPluginID="com.archimatetool.canvas.edit" editorPluginID="com.archimatetool.canvas.editor"
+    usedGenPackages="../../com.archimatetool.model/model/archimate.genmodel#//model"
+    interfaceNamePattern="I{0}" classNamePattern="{0}" runtimePlatform="RCP">
+  <foreignModel>canvas.ecore</foreignModel>
+  <genPackages prefix="Canvas" basePackage="com.archimatetool.canvas" resource="XML"
+      disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="canvas.ecore#/">
+    <genClasses image="false" ecoreClass="canvas.ecore#//Iconic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//Iconic/imagePosition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="canvas.ecore#//HintProvider">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//HintProvider/hintTitle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//HintProvider/hintContent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="canvas.ecore#//HelpHintProvider"/>
+    <genClasses image="false" ecoreClass="canvas.ecore#//NotesContent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//NotesContent/notes"/>
+    </genClasses>
+    <genClasses ecoreClass="canvas.ecore#//CanvasModel"/>
+    <genClasses ecoreClass="canvas.ecore#//CanvasModelSticky"/>
+    <genClasses ecoreClass="canvas.ecore#//CanvasModelBlock"/>
+    <genClasses ecoreClass="canvas.ecore#//CanvasModelImage"/>
+    <genClasses ecoreClass="canvas.ecore#//CanvasModelConnection"/>
+  </genPackages>
+</genmodel:GenModel>

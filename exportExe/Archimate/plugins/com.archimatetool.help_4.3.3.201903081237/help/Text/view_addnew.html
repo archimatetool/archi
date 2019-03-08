@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Adding New Elements and Relations to the View</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+	<h2>Adding New Elements to the View from the Palette</h2>
+	
+	<p>To create and add new elements to the View select the  required element on the <a href="view_palette_creation_tools.html">Palette</a> and either click or drag the new figure onto  the canvas area. Once the figure has been added to the canvas you can resize  and re-position it by the usual drag actions.</p>
+
+	<h3>Adding Elements to the View Automatically Adds them to the Model Tree</h3>
+	
+	<p>It is important to understand that adding elements (and relationships) to a View from the palette automatically adds those elements to the Model Tree as well. For example, dragging a "Business Actor" element onto the canvas creates both a figure on the View called "Business Actor" and also a node on the <a href="model_tree.html">Model Tree</a> with the same name.</p>
+
+	<p>Furthermore, if you delete an element in a View the corresponding element in the Model Tree is <em>not</em> deleted. This is because the element may be referenced in another View in the model. To delete the element completely you have to delete it in the Model Tree or choose the right-click menu item, "Delete from Model".</p>
+	
+	<p>You can edit the element's name directly by clicking the  text area on a figure. Double-clicking on the figure opens the <a href="properties_window.html">Properties Window</a> where you may edit the properties of the selected element.</p>
+
+	<br/>
+
+	<h2>Editing the View's Elements' Properties</h2>
+	
+	<p>The properties for a selected element in a View can be edited in the <a href="properties_window.html">Properties Window</a>. To open the Properties Window, either double-click  the figure or select the figure and open the window from the toolbar or main  menu. Each element in the View has different properties that can be set or viewed in the Properties Window. For more information see the section, <a href="properties_window.html">The Properties Window</a>.</p>
+
+	<p>Double-clicking an Element in a View opens the <a href="properties_note.html">Properties Window</a>, single-clicking on an already selected Element's text field allows you to directly edit the Element's text.</p>
+
+	<br/>
+
+	<h2>Adding New Relationships (Connections) to the View from the Palette</h2>
+	<p>To add new relationships (connections) to the View select the required connection tool on the <a href="view_palette_creation_tools.html">Palette</a> and drag from one element on the View to  another on the same View.</p>
+
+	<p>As with adding elements from the palette, adding a  relationship to a View automatically adds it to the Model Tree as well, in the "Relations" folder.</p>
+	
+	<p>When adding a new connection in a View, if the same type of model relationship already exists between the source and target elements, a dialog box will appear giving you the option to reference that model relationship from the connection, or create a new connection <i>and</i> model relationship:</p>
+
+	<img src="../Images/connection_reuse_dialog.png" alt="Reuse Dialog"/>
+	<p class="caption">A dialog providing the option of re-using a model relationship.</p>
+
+	<br/>
+
+	<p class="boxout"><strong><img src="../Images/tip.png" class="tipImage"/>Relationships, Rules and Regulations.</strong><br/>ArchiMate elements can connect to other elements by a given set of relationships (connections). Some relationships are allowed, others are not. If a relationship is not allowed the cursor will show as a "Not Allowed" symbol, a circle with a diagonal line. If a relationship is allowed, it will show as a "plug" symbol.</p>
+
+	<br/>
+
+	<h2>Information about Connections</h2>
+	<p>Once a relationship (connection) has been created between elements, some useful information can be revealed when the mouse cursor hovers over the connection to reveal a tooltip. The tooltip displays the relationship's name, its type, and some text that describes the nature of the relationship between the source and target elements.</p>
+
+	<img src="../Images/connection_tooltip.png" alt="Connection Tooltip"/>
+	<p class="caption">A tooltip shows useful information when hovering over a connection</p>
+	
+	<br/>
+
+	<h2>Adding Circular Relationships (Connections)</h2>
+	<p>You may add a circular relationship (connection) if you wish. This is a relationship whose target and source element is the same. By default, this option is turned off in <a href="prefs_connections.html">Preferences</a>. Enabling the preference will allow you to draw a connection from an element to itself by selecting the required relationship from the Palette, clicking once on the element and clicking again on the element:</p>
+
+	<img src="../Images/circular_connection.png" alt="Circular connection"/>
+	<p class="caption">A circular relationship</p>
+
+	<p>&nbsp;</p>
+	
+</body>
+</html>

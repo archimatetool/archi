@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Container Elements and Nested Element Relationships</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h2>Container Elements and Nested Element Relationships</h2>
+    
+    <p>Each graphical element (except for notes and junctions) can  act as a container element for other elements. Dragging and dropping an element  inside of another element means that it becomes a  child of the parent  element. This is useful to represent containment type relationships such as Composition, Aggregation, and Association or for convenient grouping.</p>
+    
+    <p>In  the following screenshot the elements "Register", "Accept", "Valuate" and "Pay" are child elements of the parent "Handle Claim Process" element:</p>
+    
+    <img src="../Images/container1.png"/>
+    <p class="caption">Child elements contained by a parent element</p>
+    
+    <br/>
+    
+    <p>While dragging elements into or over other elements a visual cue is provided to indicate that the dragged element will be moved into the  parent (container) element. This is a blue highlight around the target element  as the element is dragged over it:</p>
+    
+    <img src="../Images/container2.png"/>
+    <p class="caption">A Child Element being Dragged into a Container Element. The Container highlighted in blue</p>
+    
+    <br/>
+    
+    <h2>Creating, Showing and Hiding Relationships between Nested Parent/Child Elements</h2>
+    
+    <p>The <a href="http://www.opengroup.org/archimate/doc/ts_archimate/">ArchiMate specification</a> states that some relationships may also be expressed by nesting the model elements. That is to say, an explicit connection need not be drawn between the parent and child elements but that it may be represented as a container nesting of elements.</p>
+    
+    <p>Archi supports this convention with <strong>Automatic Relationship Management</strong> (ARM). This system ensures that relationships are automatically created and hidden between qualifying parent/child elements. The system can be configured to suit the user's needs. See <a href="prefs_connections.html">Preferences</a> to configure the ARM.</p>
+    
+    <p>The best way to explain the <strong>Automatic Relationship Management</strong> system (ARM) is by an example.</p>
+    
+    <h3>Example - Nested sub-processes in a Composite relationship</h3>
+    
+    <p>Suppose the user has a Business Process element named "Handle Claim Process" that will act as a container element ("parent") for four sub-processes, "Register", "Accept", "Valuate" and "Pay". The relationship between the parent process and the sub-processes would normally be expressed as four Composition relationships. These can be drawn conventionally using connecting lines as follows:</p>
+    
+    <img src="../Images/container3.png"/>
+    <p class="caption">Composition relationship between parent and child processes</p>
+    
+    <p>However, this is visually not as clear as if the sub-processes were placed inside of the container parent process.</p>
+    
+    <p>We can solve this problem by enabling the ARM system in <a href="prefs_connections.html">Preferences</a>. This ensures that when the sub-processes are placed in the parent element the connections are hidden in the View, but are still present in the actual semantic model. Dragging the child elements in and out of the parent element hides and shows the explicit relationships. The hidden connections are "implicit" connections.</p>
+    
+    <img src="../Images/container1.png"/>
+    <p class="caption">The Connections now hidden from the View</p>
+    
+    <h3>Adding new elements to a parent element</h3>
+    
+    <p>Adding new elements to a parent element in a View from the Palette or dragging and dropping from the Model Tree results in a dialog box asking if a new relationship should be created between the parent and child elements:</p>
+    
+    <img src="../Images/container6.png"/>
+    <p class="caption">Dialog to create a new nested relationship</p>
+    
+    <p>Note that the dialog will only display valid relationships between the parent and child elements, and only those that are specified in <a href="prefs_connections.html">Preferences</a>. Valid relations between the child and parent elements can also be selected. These are shown as "(reverse)".</p>
+    
+    <p>If you do not wish to create a new relationship, select "None".</p>
+    
+    <h3>Moving existing elements to a parent element</h3>
+    
+    <p>If more than one element is moved (drag and drop operation) to a parent element  in a View or is dragged and dropped from the Model Tree onto a parent element, and there are no existing preferred relationships between the parent and the child elements then a dialog box is displayed offering to create new relationships between the parent element and the child elements. You can choose a different type of relationship for each child element:</p>
+    
+    <img src="../Images/container7.png"/>
+    <p class="caption">Dialog for creating more than one relationship</p>
+    
+    <p>If you do not wish to create a new relationship for an element, select "(none)" from the drop-down combo box. To select the same type of relationship in the drop-down combo-box, hold down the Ctrl / Command key and select.</p>
+        
+    <p>&nbsp;</p>
+
+</body>
+</html>

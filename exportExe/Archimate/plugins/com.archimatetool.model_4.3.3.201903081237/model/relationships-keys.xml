@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ArchiMate relationship key letters -->
+<relationshipskeys version="1.0">
+	<key char="a" relationship="AccessRelationship" />
+	<key char="c" relationship="CompositionRelationship" />
+	<key char="f" relationship="FlowRelationship" />
+	<key char="g" relationship="AggregationRelationship" />
+	<key char="i" relationship="AssignmentRelationship" />
+	<key char="n" relationship="InfluenceRelationship" />
+	<key char="o" relationship="AssociationRelationship" />
+	<key char="r" relationship="RealizationRelationship" />
+	<key char="s" relationship="SpecializationRelationship" />
+	<key char="t" relationship="TriggeringRelationship" />
+	<key char="v" relationship="ServingRelationship" />
+</relationshipskeys>

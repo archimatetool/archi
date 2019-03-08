@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>The Hints Window</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1 class="pagebreak">The Validator</h1>
+    
+    <p>The Validator offers advice and warnings on the integrity of an ArchiMate model. It can highlight the following issues:</p>
+    
+    <ul>
+        <li>Empty Views (Views without diagram elements)</li>
+        <li>Invalid Relations (possible if importing from another format)</li>
+        <li>Invalid nested elements (visual nesting without a relationship)</li>
+        <li>Unused elements (not referenced in a View)</li>
+        <li>Unused relations (not referenced in a View)</li>
+        <li>Invalid elements in viewpoints (elements that don't belong in a viewpoint)</li>
+        <li>Duplicate element names for the same element type</li>
+    </ul>
+    
+    <p>The Validator window can be opened from the main "Tools" menu, from the main toolbar, or from the main "Window" menu.</p>
+    
+    <p>To validate a model, ensure that the model has the focus by selecting it in the Models Tree or selecting one of the model's Views. Then either select "Validate Model" from the "Tools" menu, or from right-clicking in the Models Tree, or in the Validator window itself.</p>
+    
+    <img src="../Images/validator1.png" alt="image" />
+    <p class="caption">The Validator showing tips</p>
+    
+    <p>Double-clicking on an issue, or selecting the right-click menu item "Reveal Object" in the Validator window, will reveal the affected object in either the Models tree or a View.</p>
+    
+    <p>To show an explanatory hint about the issue, ensure the Hints window is open, or select the right-click menu item "Show Explanation Hint".</p>
+    
+    <p>Once all issues have been fixed in the model the Validator will indicate that everything is OK:</p>
+
+    <img src="../Images/validator2.png" alt="image" />
+    <p class="caption">The Validator is happy</p>
+    
+    <h3>Preferences</h3>
+    <p>Each of the validation rules can be enabled or disabled in <a href="prefs_validator.html">Preferences</a>.</p>
+
+    <p>&nbsp;</p>
+
+</body>
+</html>

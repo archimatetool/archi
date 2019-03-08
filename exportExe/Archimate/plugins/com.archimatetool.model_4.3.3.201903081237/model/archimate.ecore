@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.archimatetool.com/archimate" nsPrefix="archimate">
+  <eClassifiers xsi:type="ecore:EDataType" name="File" instanceClassName="java.io.File"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Adapter" abstract="true" interface="true">
+    <eOperations name="getAdapter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eParameters name="adapter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="setAdapter">
+      <eParameters name="adapter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Identifier" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Properties" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="property"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metadata">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//Property" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="entry"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Nameable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextContent" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Documentable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cloneable" abstract="true" interface="true">
+    <eOperations name="getCopy" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FolderType">
+    <eLiterals name="user"/>
+    <eLiterals name="strategy" value="1" literal="strategy"/>
+    <eLiterals name="business" value="2"/>
+    <eLiterals name="application" value="3"/>
+    <eLiterals name="technology" value="4"/>
+    <eLiterals name="relations" value="5"/>
+    <eLiterals name="other" value="6" literal="other"/>
+    <eLiterals name="diagrams" value="7"/>
+    <eLiterals name="motivation" value="8" literal="motivation"/>
+    <eLiterals name="implementation_migration" value="9" literal="implementation_migration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FolderContainer" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
+        eType="#//Folder" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="folder"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelObject #//FolderContainer #//Documentable #//Properties">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="element"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelObject" abstract="true"
+      interface="true" eSuperTypes="#//Adapter #//Nameable #//Identifier">
+    <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelObject #//Cloneable #//Documentable #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
+      eSuperTypes="#//ArchimateConcept">
+    <eOperations name="connect">
+      <eParameters name="source" eType="#//ArchimateConcept"/>
+      <eParameters name="target" eType="#//ArchimateConcept"/>
+    </eOperations>
+    <eOperations name="reconnect"/>
+    <eOperations name="disconnect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateConcept"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateConcept"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StrategyElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationElement" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyObject" abstract="true" interface="true"
+      eSuperTypes="#//TechnologyElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MotivationElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementationMigrationElement" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BehaviorElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructureElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActiveStructureElement" abstract="true"
+      interface="true" eSuperTypes="#//StructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassiveStructureElement" abstract="true"
+      interface="true" eSuperTypes="#//StructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralRelationship" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DependendencyRelationship" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DynamicRelationship" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OtherRelationship" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModel" eSuperTypes="#//FolderContainer #//ArchimateModelObject #//Properties">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="model"/>
+    </eAnnotations>
+    <eOperations name="setDefaults"/>
+    <eOperations name="getDefaultFolderForObject" eType="#//Folder">
+      <eParameters name="object" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="getDefaultDiagramModel" eType="#//DiagramModel"/>
+    <eOperations name="getDiagramModels" upperBound="-1" eType="#//DiagramModel"/>
+    <eOperations name="getFolder" eType="#//Folder">
+      <eParameters name="type" eType="#//FolderType"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="#//File" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" eType="#//Metadata"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//ArchimateElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationCollaboration" eSuperTypes="#//ApplicationElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationComponent" eSuperTypes="#//ApplicationElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationEvent" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationFunction" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInteraction" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInterface" eSuperTypes="#//ApplicationElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationProcess" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessActor" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessCollaboration" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessEvent" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessFunction" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessInteraction" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessInterface" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessObject" eSuperTypes="#//BusinessElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessProcess" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Capability" eSuperTypes="#//StrategyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationNetwork" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseOfAction" eSuperTypes="#//StrategyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//ApplicationElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deliverable" eSuperTypes="#//ImplementationMigrationElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Device" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionNetwork" eSuperTypes="#//PhysicalElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment" eSuperTypes="#//PhysicalElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Facility" eSuperTypes="#//PhysicalElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//CompositeElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementationEvent" eSuperTypes="#//ImplementationMigrationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//CompositeElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Outcome" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Path" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement #//CompositeElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Principle" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//BusinessElement #//CompositeElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Representation" eSuperTypes="#//BusinessElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//StrategyElement #//StructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Stakeholder" eSuperTypes="#//MotivationElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyCollaboration" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyEvent" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyFunction" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyInterface" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyInteraction" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyProcess" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyService" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage" eSuperTypes="#//ImplementationMigrationElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//DependendencyRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//StructuralRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//StructuralRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//OtherRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//StructuralRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//DynamicRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//DependendencyRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RealizationRelationship" eSuperTypes="#//StructuralRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServingRelationship" eSuperTypes="#//DependendencyRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecializationRelationship" eSuperTypes="#//OtherRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//DynamicRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
+      eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable #//ArchimateModelObject">
+    <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connectable" abstract="true" eSuperTypes="#//DiagramModelComponent">
+    <eOperations name="addConnection">
+      <eParameters name="connection" eType="#//DiagramModelConnection"/>
+    </eOperations>
+    <eOperations name="removeConnection">
+      <eParameters name="connection" eType="#//DiagramModelConnection"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceConnections" upperBound="-1"
+        eType="#//DiagramModelConnection" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="sourceConnection"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetConnections" upperBound="-1"
+        eType="#//DiagramModelConnection" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelContainer" abstract="true"
+      interface="true" eSuperTypes="#//DiagramModelComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//DiagramModelObject" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="child"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModel" abstract="true" eSuperTypes="#//ArchimateModelObject #//DiagramModelContainer #//Documentable #//Properties">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionRouterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject #//TextPosition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedModel" eType="#//DiagramModel"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="model"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelObject" abstract="true"
+      eSuperTypes="#//Connectable #//FontAttribute #//LineObject #//TextAlignment">
+    <eOperations name="setBounds">
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" eType="#//Bounds"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="255"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Group"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Note"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject">
+    <eOperations name="connect">
+      <eParameters name="source" eType="#//Connectable"/>
+      <eParameters name="target" eType="#//Connectable"/>
+    </eOperations>
+    <eOperations name="disconnect"/>
+    <eOperations name="reconnect"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        transient="true" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Connectable"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Connectable"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
+        eType="#//DiagramModelBendpoint" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="bendpoint"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelBendpoint" eSuperTypes="#//Cloneable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LineObject" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FontAttribute" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextPosition" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextAlignment" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BorderObject" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImageProvider" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bounds">
+    <eOperations name="setLocation">
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setSize">
+      <eParameters name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getCopy" eType="#//Bounds"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lockable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateDiagramModel" eSuperTypes="#//DiagramModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="viewpoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateComponent" abstract="true"
+      interface="true" eSuperTypes="#//Connectable">
+    <eOperations name="getArchimateConcept" eType="#//ArchimateConcept"/>
+    <eOperations name="setArchimateConcept">
+      <eParameters name="concept" eType="#//ArchimateConcept"/>
+    </eOperations>
+    <eOperations name="addArchimateConceptToModel">
+      <eParameters name="parent" eType="#//Folder"/>
+    </eOperations>
+    <eOperations name="removeArchimateConceptFromModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//DiagramModelArchimateComponent #//TextPosition">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="DiagramObject"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archimateElement" eType="#//ArchimateElement"
+        volatile="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateConnection" eSuperTypes="#//DiagramModelConnection #//DiagramModelArchimateComponent">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Connection"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archimateRelationship"
+        eType="#//ArchimateRelationship" volatile="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SketchModel" eSuperTypes="#//DiagramModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SketchModelActor" eSuperTypes="#//DiagramModelObject #//Documentable #//Properties"/>
+</ecore:EPackage>

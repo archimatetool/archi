@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:report_menu?before=report_ext">
+         <command
+               commandId="com.archimatetool.jasperreports.command.Jasper"
+               id="com.archimatetool.jasperreports.menuItem.Jasper"
+               label="Jasper..."
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.archimatetool.jasperreports.JasperReportsHandler"
+            id="com.archimatetool.jasperreports.command.Jasper"
+            name="Jasper">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="com.archimatetool.jasperreports.Startup"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.jasperreports.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.archimatetool.jasperreports.preferences.JasperReportsPreferencesPage"
+            id="com.archimatetool.jasperreports.preferences.JasperReportsPreferencePage"
+            name="%prefsJasper">
+      </page>
+   </extension>
+
+</plugin>

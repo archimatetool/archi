@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperTemplate PUBLIC "-//JasperReports//DTD Template//EN" "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
+
+<jasperTemplate>
+	<style name="Normal" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Bold" style="Normal" isBold="true"/>
+	<style name="Title" style="Normal" fontSize="22"/>
+	<style name="Title Date" style="Normal" fontSize="10"/>
+	<style name="Page footer" style="Normal" forecolor="#666666" fontSize="8"/>
+	<style name="Title 1" style="Normal" forecolor="#7CA9BF" fontSize="20"/>
+	<style name="Title 2" style="Normal" forecolor="#7CA9BF" fontSize="16"/>
+	<style name="Title 3" style="Normal" forecolor="#7CA9BF" fontSize="14"/>
+	<style name="Title 4" style="Normal" forecolor="#7CA9BF" fontSize="12"/>
+	<style name="Table row" style="Normal" mode="Transparent" forecolor="#000000" hAlign="Left" vAlign="Middle" fontSize="10">
+		<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+			<topPen lineWidth="0.5" lineColor="#7CA9BF"/>
+			<leftPen lineWidth="0.5" lineColor="#7CA9BF"/>
+			<bottomPen lineWidth="0.5" lineColor="#7CA9BF"/>
+			<rightPen lineWidth="0.5" lineColor="#7CA9BF"/>
+		</box>
+	</style>
+	<style name="Table header" style="Table row" mode="Opaque" backcolor="#A2C7DA" isBold="true"/>
+	<style name="Table row bold" style="Table row" isBold="true"/>
+	<style name="Italic" style="Normal" isItalic="true"/>
+	<style name="Documentation" style="Normal">
+		<box leftPadding="5">
+			<leftPen lineWidth="2.0" lineColor="#A2C7DA"/>
+		</box>
+	</style>
+</jasperTemplate>

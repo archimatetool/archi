@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<toc label="ArchiMate Resources">
+    
+    <topic href="https://www.archimatetool.com" label="Archi Website">
+    </topic>
+    <topic href="http://pubs.opengroup.org/architecture/archimate3-doc/toc.html" label="ArchiMate 3 Specification">
+    </topic>
+    <topic href="https://masteringarchimate.com/the-book-edition-iii/" label="Mastering ArchiMate Book">
+    </topic>
+
+</toc>

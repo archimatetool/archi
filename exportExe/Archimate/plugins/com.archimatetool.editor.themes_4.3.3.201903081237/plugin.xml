@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <!-- extension
+         point="org.eclipse.e4.ui.css.swt.theme">
+      <theme
+            basestylesheeturi="themes/archi/css/archi.css"
+            id="com.archimatetool.editor.theme"
+            label="Archi">
+      </theme>
+		
+        <stylesheet
+            uri="themes/archi/css/archi.css">
+            <osgiresourcelocator
+                uri="platform:/plugin/com.archimatetool.editor.themes/themes/archi/images/">
+            </osgiresourcelocator>
+            <themeid
+                refid="com.archimatetool.editor.theme">
+            </themeid>
+        </stylesheet>
+   </extension -->
+   
+	<extension
+       id="org.eclipse.e4.Themes"
+       point="org.eclipse.e4.ui.css.swt.theme">
+		<theme
+			basestylesheeturi="themes/eclipse/css/e4_classic_winxp.css"
+			id="org.eclipse.e4.ui.css.theme.e4_classic"
+			label="Classic">
+		</theme>
+		<theme
+			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
+			id="org.eclipse.e4.ui.css.theme.e4_default"
+			label="Light"
+			os="linux">
+		</theme>
+		<theme
+			basestylesheeturi="themes/eclipse/css/e4_default_mac.css"
+			id="org.eclipse.e4.ui.css.theme.e4_default"
+			label="Light"
+			os="macosx">
+		</theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4_default_win.css"
+            id="org.eclipse.e4.ui.css.theme.e4_default"
+            label="Light"
+            os="win32"
+            os_version="6.0,6.1,6.2,6.3,10.0">
+        </theme>
+		<theme
+        	basestylesheeturi="themes/eclipse/css/e4_default_winxp_blu.css"
+        	id="org.eclipse.e4.ui.css.theme.e4_default"
+        	label="Windows XP Blue"
+        	os="win32"
+        	os_version="5.1">
+		</theme>
+		<theme
+			basestylesheeturi="themes/eclipse/css/e4_classic_win7.css"
+			id="org.eclipse.e4.ui.css.theme.e4_classic"
+			label="Windows Classic"
+			os="win32"
+			os_version="6.0,6.1,6.2,6.3">
+		</theme>
+	</extension>
+   
+</plugin>

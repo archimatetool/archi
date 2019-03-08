@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+      title="Create a New Model">
+   <intro>
+      <description>
+         This cheat sheet is a step-by-step description of how to create a basic ArchiMate model.
+      </description>
+   </intro>
+   <item
+         skip="false"
+         title="Open the Model Tree">
+      <description>
+         In order to see the model in the Model Tree, make sure the Model Tree Window is visible.
+      </description>
+      <action
+      		required="false"
+      		pluginId="com.archimatetool.help"
+      		class="com.archimatetool.help.cheatsheets.ShowViewCheatSheetAction" 
+            param1="com.archimatetool.editor.treeModelView"/>
+            
+   </item>
+   <item
+         title="Add a New Model">
+      <description>
+         Add a new Model by clicking the <b>&quot;New Empty Model&quot;</b> button on the toolbar or by right-clicking in the Model Tree Window and selecting <b>&quot;New Empty Model&quot;</b>.
+      </description>
+      <action
+      		required="false"
+      		pluginId="com.archimatetool.editor"
+      		class="com.archimatetool.editor.actions.NewArchimateModelAction"/>
+   </item>
+   <item
+         title="Add Elements to the Model">
+      <description>
+         You should now see the basic folder structure of your new model in the Model Tree.  Also, you should see the <b>Model Diagram Window</b> open. This is where you can visually build your Model by dragging elements and connections from the palette to the diagram.
+<br/><br/>
+You can also add elements directly to the Model Tree by right-clicking on a folder and selecting the <b>&quot;New&quot;</b> menu action. Once added, the elements can be dragged from the Tree to the Diagram.
+      </description>
+   </item>
+</cheatsheet>

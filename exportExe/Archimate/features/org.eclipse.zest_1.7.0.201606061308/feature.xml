@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2005, 2009 IBM Corporation and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+        IBM Corporation - initial API and implementation
+ -->
+<feature
+      id="org.eclipse.zest"
+      label="%featureName"
+      version="1.7.0.201606061308"
+      provider-name="%providerName"
+      plugin="org.eclipse.zest.core">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/site.xml"/>
+   </url>
+
+   <includes
+         id="org.eclipse.draw2d"
+         version="3.10.100.201606061308"/>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.views" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.workbench" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.jface" version="3.2.0" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.zest.core"
+         download-size="146"
+         install-size="293"
+         version="1.5.300.201606061308"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.layouts"
+         download-size="129"
+         install-size="251"
+         version="1.1.300.201606061308"
+         unpack="false"/>
+
+</feature>

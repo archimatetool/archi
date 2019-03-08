@@ -1,0 +1,54 @@
+body, table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+h1 {
+    font-size: 16px;
+}
+
+h2 {
+    font-size: 14px;
+}
+
+h3 {
+	font-size: 13px;
+}
+
+a {
+	text-decoration:none;
+}
+a:link {
+	color:#0033CC;
+}
+a:visited {
+	color:#025999;
+}
+a:hover	{
+	color:#ff9900;
+}
+
+table.border {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td.border {
+	border: 1px solid black;
+	padding: 4px;
+}
+
+.caption {
+	font-style: italic;
+	font-size: 9pt;
+	margin-left: 5px;
+	line-height: 1.5;
+}
+
+.boxout {
+	border: 1px solid #000;
+	background-color: #CBDBF8;
+	padding: 12px;
+	margin-left: 15%;
+	margin-right: 15%;
+}

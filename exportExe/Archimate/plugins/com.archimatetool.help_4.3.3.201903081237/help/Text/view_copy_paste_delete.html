@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Copying, Pasting, Selecting and Deleting Elements</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h2>Selecting Elements in a View</h2>
+
+    <p>Diagram elements and connections may be selected in the view by clicking on them with the selection tool or the marquee tool. For more information about these tools see <a href="view_palette_tools.html">Palette Selection Tools</a>.</p>
+
+    <h2>Copying and Pasting Elements in a View</h2>
+    
+    <p>Diagram elements may be cut, copied and pasted in Views. There are, however, certain constraints on how this works:</p>
+    
+    <ul>
+      <li>If an element is pasted into a View <em>from the same model</em> where the element <em>already exists in that View</em> then a new model element and a new diagram element are created for the View. The new element is a copy of the original. Any connections are also newly created as copies.</li>
+      <li>If an element is pasted in a View <em>from the same model</em> where the element <em>does not already exist </em>then a new diagram element is created for the View and the original model element is referenced. This is equivalent to dragging the element from the Model Tree into the View. Any connections are also referenced.</li>
+    </ul>
+    
+    <p>If an element is pasted into a View <em>from a different model</em> then a new model element and a new diagram element are created for the View. The new element is a copy of the original. Any connections are also newly created as copies.</p>
+    
+    <p>If you choose the "Paste Special" menu option, instead of "Paste" then you can change this behaviour such that references to copied elements are created rather than new elements. You can set the behaviour for this feature in Preferences.</p>
+    
+    <p class="boxout"><img src="../Images/tip.png" class="tipImage"/>If you copy some diagram elements and then click on the View before pasting, the copied elements will be pasted at the point where you clicked.</p>
+    
+    <br/>
+    
+    <h2>Copy As Image to Clipboard</h2>
+    
+    <p>A View (diagram) can be copied as an image to the system clipboard. This is available from the "Copy As Image To Clipboard" menu command from the main "Edit" menu or by right-clicking on a View and selecting the menu item from the contextual menu. This menu command is only  available if a View is open and selected. The shortcut key combination is Ctrl-Shift-C (Command key on Mac). Once the View is copied to the system clipboard it can be pasted into other applications such as word processing and drawing tools.</p>
+
+    <br/>
+
+    <h2>Deleting Elements and Relationships (Connections) in a View</h2>
+    
+    <p>Selected elements and/or connections in a View can be  deleted from the View by choosing the "Delete from View" menu item from the main "Edit" menu, from the main toolbar or from the right-click menu. <em>Note - this action deletes those elements from the View not from the model. To delete the element completely you have to delete it in the Model Tree or select "Delete from Model".</em></p>
+    
+    <br/>
+    
+    <h2>Select in Model Tree</h2>
+    <p>This menu item is available when right-clicking an element or relationship in a View. It will select the corresponding model element in the Model Tree.</p>
+    
+    <br/>
+    
+    <h2>Delete from Model</h2>
+    <p>This  menu item is available when right-clicking an element or relationship in a View. The selected elements and/or relationships are then deleted from the  model itself and any Views that reference those elements. This is the  equivalent of selecting the elements in the Model Tree and choosing "Delete".</p>
+    
+    <p>&nbsp;</p>
+
+</body>
+</html>

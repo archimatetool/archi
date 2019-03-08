@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.archimatetool.templates.impl.NewArchimateModelFromTemplateHandler"
+            id="com.archimatetool.templates.modelFromTemplate"
+            name="New Model From Template">
+      </command>
+      <command
+            defaultHandler="com.archimatetool.templates.impl.SaveAsTemplateHandler"
+            id="com.archimatetool.templates.saveAsTemplate"
+            name="Save As Template">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:new_menu?after=new_menu.ext">
+         <command
+               commandId="com.archimatetool.templates.modelFromTemplate"
+               icon="img/newfile_wiz.png"
+               label="%action.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:com.archimatetool.menu.newDropdown">
+         <command
+               commandId="com.archimatetool.templates.modelFromTemplate"
+               icon="img/newfile_wiz.png"
+               label="%action.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:file?after=save.ext">
+         <command
+               commandId="com.archimatetool.templates.saveAsTemplate"
+               label="%action.label.0"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="com.archimatetool.templates.Startup"></startup>
+   </extension>
+
+</plugin>

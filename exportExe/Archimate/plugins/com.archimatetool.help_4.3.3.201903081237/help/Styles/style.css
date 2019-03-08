@@ -1,0 +1,94 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #444;
+}
+
+h1 {
+    font-size: 25px;
+    margin-bottom: 6px;
+    color: #1f92e0;
+}
+
+h2 {
+    font-size: 21px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+h3 {
+	font-size: 18px;
+	margin-bottom: 0;
+	color: #444;
+}
+
+p {
+    margin-top: 5px;
+    font-size: 15px;
+	line-height: 1.3em;
+}
+
+li {
+    font-size: 15px;
+	line-height: 1.3em;
+}
+
+a {
+	text-decoration:none;
+}
+a:link {
+	color:#0033ee;
+}
+a:visited {
+	color:#025999;
+}
+a:hover	{
+	color:#ff9900;
+}
+
+table {
+	font-size: 15px;
+	line-height: 1.3em;
+}
+
+table.border {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td {
+	padding: 5px;
+	min-width: 100px;
+}
+
+td.border {
+	border: 1px solid black;
+	padding: 4px;
+}
+
+.font12 {
+	font-size: 12pt;
+}
+
+.font14 {
+	font-size: 14pt;
+}
+
+.caption {
+	font-style: italic;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.boxout {
+	border: 1px solid #9d9d9d;
+	background-color: #cbe4f8;
+	padding: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
+	min-height: 40px;
+}
+
+.tipImage {
+    float:left;
+    padding-right: 10px;
+}

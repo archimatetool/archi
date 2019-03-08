@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2005, 2009 IBM Corporation and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+        IBM Corporation - initial API and implementation
+ -->
+<feature
+      id="org.eclipse.draw2d"
+      label="%featureName"
+      version="3.10.100.201606061308"
+      provider-name="%providerName">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+   </url>
+
+   <plugin
+         id="org.eclipse.draw2d"
+         download-size="601"
+         install-size="1165"
+         version="3.10.100.201606061308"
+         unpack="false"/>
+
+</feature>

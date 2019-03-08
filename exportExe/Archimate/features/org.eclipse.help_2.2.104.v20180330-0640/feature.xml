@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: Usually we keep branding and feature bundle version in sync, but we can't increase the major version -->
+<feature
+      id="org.eclipse.help"
+      label="%featureName"
+      version="2.2.104.v20180330-0640"
+      provider-name="%providerName"
+      plugin="org.eclipse.help.base">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="javax.el"
+         download-size="54"
+         install-size="114"
+         version="2.2.0.v201303151357"
+         unpack="false"/>
+
+   <plugin
+         id="javax.servlet"
+         download-size="102"
+         install-size="202"
+         version="3.1.0.v201410161800"
+         unpack="false"/>
+
+   <plugin
+         id="javax.servlet.jsp"
+         download-size="108"
+         install-size="280"
+         version="2.2.0.v201112011158"
+         unpack="false"/>
+
+   <plugin
+         id="com.sun.el"
+         download-size="133"
+         install-size="271"
+         version="2.2.0.v201303151357"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.commons.logging"
+         download-size="71"
+         install-size="148"
+         version="1.1.1.v201101211721"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.jasper.glassfish"
+         download-size="2378"
+         install-size="5568"
+         version="2.2.2.v201501141630"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.analyzers-common"
+         download-size="1527"
+         install-size="3457"
+         version="6.1.0.v20161115-1612"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.core"
+         download-size="2531"
+         install-size="5033"
+         version="6.1.0.v20170814-1820"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.analyzers-smartcn"
+         download-size="3529"
+         install-size="6382"
+         version="6.1.0.v20161115-1612"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.lucene.misc"
+         download-size="207"
+         install-size="429"
+         version="6.1.0.v20161115-1612"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.http.jetty"
+         download-size="27"
+         install-size="50"
+         version="3.4.0.v20170503-2025"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.http.registry"
+         download-size="45"
+         install-size="86"
+         version="1.1.400.v20150715-1528"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.http.servlet"
+         download-size="195"
+         install-size="443"
+         version="1.4.0.v20170524-1452"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.jsp.jasper"
+         download-size="27"
+         install-size="47"
+         version="1.0.500.v20150119-1358"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.jsp.jasper.registry"
+         download-size="11"
+         install-size="17"
+         version="1.0.300.v20130327-1442"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.base"
+         download-size="415"
+         install-size="807"
+         version="4.2.153.v20180330-0640"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.ui"
+         download-size="459"
+         install-size="951"
+         version="4.1.0.v20170311-0931"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.webapp"
+         download-size="622"
+         install-size="1303"
+         version="3.9.1.v20170816-0843"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.continuation"
+         download-size="22"
+         install-size="38"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.http"
+         download-size="172"
+         install-size="332"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.io"
+         download-size="136"
+         install-size="272"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.security"
+         download-size="100"
+         install-size="202"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.server"
+         download-size="595"
+         install-size="1264"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.servlet"
+         download-size="116"
+         install-size="247"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.util"
+         download-size="494"
+         install-size="964"
+         version="9.4.8.v20171121"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.net"
+         download-size="72"
+         install-size="139"
+         version="1.3.100.v20170516-0820"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.security"
+         download-size="107"
+         install-size="219"
+         version="1.2.300.v20170505-1235"
+         unpack="false"/>
+
+</feature>

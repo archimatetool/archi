@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config date="1552045154754" transient="false">
+	<site updateable="true" url="platform:/base/" enabled="true" policy="USER-EXCLUDE">
+		<feature id="org.eclipse.e4.rcp" version="1.6.3.v20180329-0507" url="features/org.eclipse.e4.rcp_1.6.3.v20180329-0507/">
+		</feature>
+		<feature id="org.eclipse.emf.ecore" version="2.13.0.v20170609-0707" url="features/org.eclipse.emf.ecore_2.13.0.v20170609-0707/">
+		</feature>
+		<feature id="org.eclipse.rcp" version="4.7.3.v20180330-0640" url="features/org.eclipse.rcp_4.7.3.v20180330-0640/">
+		</feature>
+		<feature id="org.eclipse.gef" version="3.11.0.201606061308" url="features/org.eclipse.gef_3.11.0.201606061308/">
+		</feature>
+		<feature id="org.eclipse.draw2d" version="3.10.100.201606061308" url="features/org.eclipse.draw2d_3.10.100.201606061308/">
+		</feature>
+		<feature id="org.eclipse.help" version="2.2.104.v20180330-0640" url="features/org.eclipse.help_2.2.104.v20180330-0640/" plugin-identifier="org.eclipse.help.base">
+		</feature>
+		<feature id="org.eclipse.emf.common" version="2.13.0.v20170609-0707" url="features/org.eclipse.emf.common_2.13.0.v20170609-0707/">
+		</feature>
+		<feature id="org.eclipse.zest" version="1.7.0.201606061308" url="features/org.eclipse.zest_1.7.0.201606061308/" plugin-identifier="org.eclipse.zest.core">
+		</feature>
+		<feature id="com.archimatetool.editor.feature" version="4.3.3.201903081237" url="features/com.archimatetool.editor.feature_4.3.3.201903081237/">
+		</feature>
+	</site>
+</config>

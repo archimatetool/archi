@@ -1,0 +1,92 @@
+/* Setup html pages */
+html {
+	height: 100%; /* Needed for 'empty-element.html' */
+}
+
+html.model > body {
+  background:#ddd;
+  padding: 10px;
+}
+
+html.frame > body {
+  height: 100%;
+  background:#ddd;
+  /* padding: 15px; */
+}
+
+/* ModelTree */
+ul, li {
+  list-style-type: none;
+  cursor: default;
+}
+li.tree-element, ul{
+	padding-left: 20px;
+}
+
+/* jQuery UI Layout style */
+.ui-layout-pane {
+  padding: 0px;
+  overflow: hidden;
+  border: 0px solid #ddd;
+	background: #ddd;
+}
+.ui-layout-resizer {
+  border: 2px solid #ddd;
+}
+
+/* Force panels width/height */
+.root-panel {
+	height: 100%;
+  overflow: hidden;
+	background: #FFF;
+}
+.root-panel-body {
+  /* height will be set though jQuery */
+  overflow: auto;
+}
+.no-padding {
+	padding: 0px;
+}
+.no-margin {
+	margin: 0px;
+}
+#doctgt {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.navbar {
+	height: 100%;
+}
+
+/* iFrames are inside panel-body */
+iframe {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+p.centered {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+.table-condensed th,td {
+	font-size: 14px;
+}
+
+img.diagram {
+	max-width: 100%;
+}
+
+xmp {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/* ALasql console */
+#myconsole td {
+    white-space: pre-wrap;
+}

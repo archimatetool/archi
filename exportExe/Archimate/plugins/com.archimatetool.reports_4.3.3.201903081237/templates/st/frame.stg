@@ -1,0 +1,277 @@
+expandChildren(children) ::= <<
+^children:{c |
+	^if(c.ArchimateElement)^
+		<tr>
+		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td>
+		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^c.ArchimateConcept.Class.SimpleName^"> </a> </td>
+		</tr>
+	^elseif(c.ReferencedModel)^
+		<tr>
+		    <td> <a href="../views/^c.ReferencedModel.Id^.html" target="view"> ^c.Name^ </a> </td>
+		    <td> <a href="../views/^c.ReferencedModel.Id^.html" target="view" class="i18n-viewpoint-^c.ReferencedModel.Viewpoint^"> </a> </td>
+		</tr>
+    <!-- Other graphical objects -->
+	^elseif(c.Bounds)^
+        <tr>
+           <td> <a href="../objects/^c.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td>
+           <td> <a href="../objects/^c.Id^.html" target="element" class="i18n-elementtype-^c.Class.SimpleName^"> </a> </td>
+        </tr>
+	^endif^
+	
+	^if(c.Children)^
+		^expandChildren(c.Children)^		
+	^endif^
+}^
+>>
+
+expandChildrenRel(children) ::= <<
+^children:{c |
+	^if(c.ArchimateElement)^
+		^if(c.SourceConnections)^
+			^c.SourceConnections:{r |
+				^if(r.ArchimateConcept)^
+					<tr>
+						<td> <a href="../elements/^r.ArchimateConcept.Id^.html" target="element"> ^r.Name;format="xml-encode"^ </a> </td>
+						<td> <a href="../elements/^r.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^r.ArchimateConcept.Class.SimpleName^"></a> </td>
+						<td> <a href="../elements/^r.ArchimateConcept.Source.Id^.html" target="element"> ^r.ArchimateConcept.Source.Name;format="xml-encode"^ </a> </td>
+						<td> <a href="../elements/^r.ArchimateConcept.Target.Id^.html" target="element"> ^r.ArchimateConcept.Target.Name;format="xml-encode"^ </a> </td>
+					</tr>
+				^endif^
+			}^
+		^endif^
+	^else^
+		<!-- DEBUG: Skipping element from class ^c.Class.Name^ -->
+	^endif^
+	^if(c.Children)^
+		^expandChildrenRel(c.Children)^		
+	^endif^
+}^
+>>
+
+expandFolderForQuery(folder) ::= <<
+^folder.Folders:{f |
+	^expandFolderForQuery(f)^
+}^
+^folder.Elements:{c |
+	^if(c.Source)^
+		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
+		^c.Properties:{p |
+			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
+		}^
+	^elseif(c.Children)^
+		<!-- DEBUG: Skipping view ^c.Name^ -->
+	^else^
+		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
+		^c.Properties:{p |
+			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
+		}^
+	^endif^
+}^
+
+>>
+
+expandAreasForChildren(children) ::= <<
+^children:{c |
+	^if(c.Children)^
+		^expandAreasForChildren(c.Children)^
+	^endif^
+	^if(c.ArchimateElement)^
+		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../elements/^c.ArchimateElement.Id^.html"  target="element">
+	^elseif(c.ReferencedModel)^
+		<area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../views/^c.ReferencedModel.Id^.html"  target="view">
+    <!-- Other diagram objects -->
+    ^elseif(c.Bounds)^
+        <area shape="rect" coords="^bounds(c, "X1")^,^bounds(c, "Y1")^,^bounds(c, "X2")^,^bounds(c, "Y2")^" href="../objects/^c.Id^.html" target="element" >
+	^endif^
+}^
+>>
+
+bounds(c, pos) ::= "^map.(c.Id).(pos)^"
+
+frame(element, map) ::= <<
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html class="frame" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>^element.Name^</title>
+
+	<!-- JQUERY (use 1.x branch to be compatible with IE 6/7/8) -->
+	<script type="text/javascript" src="../../lib/jquery/js/jquery-1.11.2.min.js"></script>
+	<!-- BOOTSTRAP -->
+	<link type="text/css" rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-3.3.2.min.css">
+	<link type="text/css" rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme-3.3.2.min.css">
+	<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap-3.3.2.min.js"></script>
+	<!-- REPORT SPECIFIC -->
+	<link type="text/css" rel="stylesheet" href="../../css/model.css">
+	<link type="text/css" rel="stylesheet" href="../../css/i18n.css">
+	<script type="text/javascript" src="../../js/frame.js"></script>
+	<script type="text/javascript" src="../../js/imageMapResizer.min.js"></script>
+</head>
+
+<body>
+	<div class="panel panel-default root-panel">
+		
+		<div class="panel-heading root-panel-heading">
+            <!-- Name -->
+		    ^if(element.Name && element.Name.Empty)^
+               <b class="i18n-elementtype-^element.Class.SimpleName^"></b>
+			^else^
+               <b>^element.Name;format="xml-encode"^</b>
+            ^endif^
+
+            <!-- If a View with Viewpoint -->
+			^if(element.Viewpoint)^
+			   (<span class="i18n-viewpoint-^element.Viewpoint^"></span>)
+			   <a class="glyphicon glyphicon-info-sign" id="hint-viewpoint_^element.Viewpoint^" target="hint"></a>
+            <!-- Or if a model (i.e has Purpose method) -->
+			^elseif(!element.Purpose)^
+			   (<span class="i18n-elementtype-^element.Class.SimpleName^"></span>)
+			   <a class="glyphicon glyphicon-info-sign" id="hint-^element.Class.SimpleName^" target="hint"></a>
+			^endif^
+		</div>
+		
+		<div class="panel-body root-panel-body">
+		    <!-- If this is a digram model (has children and no bounds) show the image -->
+			^if(element.Children && !element.Bounds)^
+			   <img class="diagram" src="../images/^element.Id^.png" alt="^element.Name^" usemap="#^element.Id^map"/>
+			   <map name="^element.Id^map">
+				  ^expandAreasForChildren(element.Children)^
+			   </map>
+			^endif^
+			
+			<div role="tabpanel">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+                    <!-- Purpose / Documentation / Content -->
+                    ^if(element.Purpose)^
+                       <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-purpose"></a></li>
+                    ^elseif(element.Documentation)^
+					   <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-documentation"></a></li>
+					^elseif(element.Content)^
+                       <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" class="i18n-content"></a></li>
+					^endif^
+					
+                    <!-- Properties -->
+                    <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab" class="i18n-properties"></a></li>
+					
+					^if(element.Children)^
+						<li role="presentation"><a href="#elements" aria-controls="elements" role="tab" data-toggle="tab" class="i18n-elements"></a></li>
+						<li role="presentation"><a href="#relationships" aria-controls="relationships" role="tab" data-toggle="tab" class="i18n-relationships"></a></li>
+                    <!-- Model, Query Tab -->
+					^elseif(element.Purpose)^
+						<li role="presentation"><a href="#query" aria-controls="query" role="tab" data-toggle="tab" class="i18n-query"></a></li>
+					^endif^
+				</ul>
+		
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="documentation">
+						^if(element.Source)^
+							<br>
+							<b class="i18n-relation-source"></b>
+								<a href="../elements/^element.Source.Id^.html" target="element">
+									^element.Source.Name;format="xml-encode"^
+								</a> <br>
+							<b class="i18n-relation-target"></b>
+								<a href="../elements/^element.Target.Id^.html" target="element">
+									^element.Target.Name;format="xml-encode"^
+								</a> <br>
+							<br>
+						^endif^
+						<textarea id="docsrc" style="display:none">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</textarea>
+						<div id="doctgt" style="white-space:pre-wrap"></div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="properties">
+						<table class="table table-striped table-hover table-condensed">
+							<thead>
+								<tr>
+									<th class="i18n-key"></th>
+									<th class="i18n-value"></th>
+								</tr>
+							</thead>
+							<tbody>
+								^element.Properties:{p | <tr><td> ^p.Key;format="xml-encode"^ </td><td> <xmp class="no-margin" style="white-space:pre-wrap">^p.Value^</xmp> </td></tr>}^
+							</tbody>
+						</table>
+					</div>
+					^if(element.Children)^
+						<div role="tabpanel" class="tab-pane" id="elements">
+							<table class="table table-striped table-hover table-condensed">
+								<thead>
+									<tr>
+										<th class="i18n-name"></th>
+										<th class="i18n-type"></th>
+									</tr>
+								</thead>
+								<tbody>
+									^expandChildren(element.Children)^
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="relationships">
+							<table class="table table-striped table-hover table-condensed">
+								<thead>
+									<tr>
+										<th class="i18n-name"></th>
+										<th class="i18n-type"></th>
+										<th class="i18n-source"></th>
+										<th class="i18n-target"></th>
+									</tr>
+								</thead>
+								<tbody>
+									^expandChildrenRel(element.Children)^
+								</tbody>
+							</table>
+						</div>
+					^elseif(element.Purpose)^
+						<div role="tabpanel" class="tab-pane" id="query">
+						<br>
+						<style>
+						#myprompt {
+						    width: 80%;
+						    font-family: Consolas,Monaco, monospace;
+						}
+						</style>
+						
+						<div id='myconsole'></div>
+						
+						<p>
+							<tt><span id="useid">alasql</span> &gt;</tt> <input id='myprompt' autofocus/> 
+						</p>
+						
+						<script src='../../lib/alasql/alasql.min.js'></script>
+						
+						<script>
+							function decodeURL(s) {
+								return decodeURIComponent(s.replace(/\+/g, "%20"));
+							}
+							
+							var first = decodeURI(location.search.substr(1));
+						 	alasql.options.logtarget = 'myconsole';
+							alasql.prompt('myprompt','useid');
+							alasql.prompt('myprompt','useid', first);
+							  
+							var dataElements = [ ];	  
+						  	var dataProperties = [ ];
+						 	var dataRelationships = [ ];
+							
+							^expandFolderForQuery(element)^
+							
+						    alasql('CREATE TABLE Elements');
+						    alasql('CREATE TABLE Properties');
+						    alasql('CREATE TABLE Relationships');
+						
+						    alasql.tables.Elements.data = dataElements;
+						    alasql.tables.Properties.data = dataProperties;
+						    alasql.tables.Relationships.data = dataRelationships;
+						</script> 
+						</div>
+					^endif^
+			  </div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">imageMapResize();</script>
+</body>
+</html>
+>>

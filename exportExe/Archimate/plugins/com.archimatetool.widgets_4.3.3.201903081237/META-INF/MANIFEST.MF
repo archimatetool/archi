@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.widgets
+Bundle-SymbolicName: com.archimatetool.widgets;singleton:=true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Archi
+Export-Package: com.archimatetool.widgets,org.eclipse.nebula.animation
+ ,org.eclipse.nebula.animation.effects,org.eclipse.nebula.animation.mo
+ vement,org.eclipse.nebula.jface.galleryviewer,org.eclipse.nebula.jfac
+ e.gridviewer,org.eclipse.nebula.jface.gridviewer.internal,org.eclipse
+ .nebula.widgets.gallery,org.eclipse.nebula.widgets.grid,org.eclipse.n
+ ebula.widgets.grid.internal
+Bundle-Name: Archi Widgets
+Bundle-Version: 4.3.3.201903081237
+Bundle-ClassPath: com.archimatetool.widgets.jar,lib/org.eclipse.nebula
+ .widgets.gallery_0.5.3.201111151116.jar,lib/org.eclipse.nebula.widget
+ s.grid_1.0.0.201112231516.jar
+Bundle-Activator: com.archimatetool.widgets.ArchiWidgetsPlugin
+Eclipse-BundleShape: dir
+
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="diagram_object_report" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
+	<parameter name="VIEW_DETAILED" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REPORT_PATH" class="java.lang.String"/>
+	<field name="this" class="com.archimatetool.model.IArchimateElement"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="documentation" class="java.lang.String"/>
+	<title>
+		<band height="38">
+			<textField>
+				<reportElement style="Title 3" x="0" y="0" width="514" height="35"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$R{text.elements}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="16">
+			<textField>
+				<reportElement style="Table header" x="0" y="0" width="257" height="16"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$R{text.element}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="257" y="0" width="257" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$R{text.type}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="257" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table row" stretchType="RelativeToBandHeight" x="257" y="0" width="257" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

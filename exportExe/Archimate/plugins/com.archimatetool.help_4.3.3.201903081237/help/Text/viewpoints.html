@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Viewpoints</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1 class="pagebreak">Viewpoints</h1>
+    
+    <p>The ArchiMate Specification states that "Viewpoints are a means to focus on particular aspects and layers of the architecture. These aspects and layers are determined by the concerns of a stakeholder with whom communication takes place. What should and should not be visible from a specific viewpoint is therefore entirely dependent on the argumentation with respect to a stakeholder’s concerns."</p>
+    
+    <p>In practice, a Viewpoint is a sub-set of elements and relationships aimed at a stakeholder. Archi allows you to specify the following Viewpoints:</p>
+    
+    <img src="../Images/viewpoints_menu.png" alt="Viewpoints"/>
+    <p class="caption">Supported Viewpoints</p>
+    
+    <p>When creating a new View in Archi, the default  Viewpoint is set to "None", meaning that all concepts can be added to the View. Setting a Viewpoint on a View means that a sub-set of elements is available to place on the View. Some other ArchiMate authoring tools require you to specify the Viewpoint in advance when creating the View. Unfortunately, this means that you cannot change your mind should you wish to later change the Viewpoint in the View. Archi, however, implements <strong>Dynamic Viewpoints</strong> so that you can change the Viewpoint at any time and those elements that are not permitted for that Viewpoint are "ghosted" out. Dynamic Viewpoints allow you to change your mind. You don't have to decide up-front what the Viewpoint will be. You can experiment with different Viewpoints for the same View. And if you decide to keep the Viewpoint, you can simply remove any disallowed elements from the View.</p>
+    
+    <br/>
+    
+    <h2>Setting the Viewpoint</h2>
+    
+    <p>To set the Viewpoint for a View, open the View in the View editor and select the required Viewpoint from the main "View-&gt;Viewpoint" menu, or by right-clicking on the View's drawing area and selecting it from the context menu. You can also change the Viewpoint from the View's <a href="properties_view.html">Properties</a> window.</p>
+    
+    <p>In the following example we start with a View that has the default "None" Viewpoint:</p>
+    
+    <img src="../Images/viewpoint_none.png" alt="Dynamic Viewpoint"/>
+    <p class="caption">A View with the "None" Viewpoint</p>
+    
+    <p>Notice that all elements from all the ArchiMate layers (Business, Application, and Technology) are displayed. Also, the Palette has all elements available.</p>
+    
+    <p>If we now change the Viewpoint to "Infrastructure" then  any elements that do not belong in this Viewpoint are "ghosted" out in the View. Notice, also, that only the elements permitted for the current Viewpoint are available in the Palette, whilst the others are not available:</p>
+    
+    <img src="../Images/viewpoint_changed.png" alt="Dynamic Viewpoint 2"/>
+    <p class="caption">The same View with the "Technology Usage" Viewpoint</p>
+    
+    <p>If we look at the  elements in the Model Tree we can see that non-permitted elements for the Viewpoint are also greyed out:</p>
+    
+    <img src="../Images/viewpoint_tree.png"/>
+    <p class="caption">Elements not permitted for the Viewpoint are greyed out</p>
+    
+    <p>If we choose to, we can drag and drop any element from the Model Tree to the View but the resulting element in the View will be greyed out. This means that we can work with the Viewpoint any way we want to but  we are reminded at all times of what should and shouldn't be added to the Viewpoint.</p>
+    
+    <p>If you are unsure of the constraints  for a Viewpoint select it then open the <a href="hints.html">Hints Window</a>. A full explanation is available for the Viewpoint:</p>
+    
+    <img src="../Images/viewpoint_hint.png"/>
+    <p class="caption">A Hint for a Viewpoint</p>
+    
+    <p>&nbsp;</p>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:report_menu?after=report_ext">
+         <command
+               commandId="com.archimatetool.reports.command.HTML"
+               id="com.archimatetool.reports.menuItem.HTML"
+               label="%command.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:tools">
+         <separator
+               name="com.archimatetool.reports.separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="com.archimatetool.reports.command.PreviewHTML"
+               id="com.archimatetool.reports.menuItem.PreviewHTML"
+               label="%command.label.0"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:com.archimatetool.editor.treeModelView?after=com.archimatetool.hammer.popup.separator">
+         <command
+               commandId="com.archimatetool.reports.command.PreviewHTML"
+               id="com.archimatetool.reports.popupmenu.PreviewHTML"
+               label="%command.label.0"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.archimatetool.reports.html.HTMLReportHandler"
+            id="com.archimatetool.reports.command.HTML"
+            name="%action.label">
+      </command>
+      <command
+            defaultHandler="com.archimatetool.reports.html.PreviewHTMLReportHandler"
+            id="com.archimatetool.reports.command.PreviewHTML"
+            name="Preview HTML Report">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="com.archimatetool.reports.Startup">
+      </startup>
+   </extension>
+
+</plugin>
