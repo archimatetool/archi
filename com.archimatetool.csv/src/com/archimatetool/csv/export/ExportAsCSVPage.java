@@ -214,6 +214,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
         dialog.setText(Messages.ExportAsCSVPage_11);
         dialog.setMessage(Messages.ExportAsCSVPage_12);
+        dialog.setFilterPath(fFolderTextField.getText());
         return dialog.open();
     }
 

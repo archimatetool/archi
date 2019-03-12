@@ -349,6 +349,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         DirectoryDialog dialog = new DirectoryDialog(getShell());
         dialog.setText(Messages.ExportJasperReportsWizardPage1_17);
         dialog.setMessage(Messages.ExportJasperReportsWizardPage1_18);
+        dialog.setFilterPath(fTextOutputFolder.getText());
+        
         String path = dialog.open();
         if(path != null) {
             fTextOutputFolder.setText(path);
