@@ -225,32 +225,26 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
 
     @Override
     public void componentSelectionChanged(Object component, Object selection) {
-        selectionChanged(component, selection);
+        showHintForSelected(component, selection);
     }
 
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
         if(selection instanceof IStructuredSelection && !selection.isEmpty()) {
             Object selected = ((IStructuredSelection)selection).getFirstElement();
-            selectionChanged(part, selected);
+            showHintForSelected(part, selected);
         }
     }
     
-    public void selectionChanged(Object source, Object selected) {
+    private void showHintForSelected(Object source, Object selected) {
         if(fActionPinContent.isChecked()) {
             return;
         }
         
         Object object = null;
-        String key = null;
 
-        // EClass (selected from Diagram Palette) so get Java class
-        if(selected instanceof EClass) {
-            EClass eClass = (EClass)selected;
-            object = eClass.getInstanceClass();
-        }
-        // Adaptable, dig in to get to get Element...
-        else if(selected instanceof IAdaptable) {
+        // Adaptable, dig in to get to get the actual object...
+        if(selected instanceof IAdaptable) {
             object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class); // This first
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
@@ -270,28 +264,39 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             object = selected;
         }
         
-        // Hint Provider, if set
+        // This is a Hint Provider...
         if(object instanceof IHelpHintProvider) {
-            String title = ((IHelpHintProvider)object).getHelpHintTitle();
-            String text = ((IHelpHintProvider)object).getHelpHintContent();
-            if(StringUtils.isSet(title) || StringUtils.isSet(text)) {
-                fTitleLabel.setText(title);
-                Color color = getTitleColor(object);
-                fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
-                text = makeHTMLEntry(text);
-                fBrowser.setText(text);
-                fLastPath = ""; //$NON-NLS-1$
-                return;
-            }
+            showHintForHintProvider((IHelpHintProvider)object);
         }
-
-        // Archimate Diagram Model use Viewpoint as key
+        // Object
+        else {
+            showHintForObject(source, object);
+        }
+    }
+    
+    private void showHintForObject(Object source, Object object) {
+        if(object == null) {
+            return;
+        }
+        
+        String className;
+        
+        // This will be from the Palette hover/select or the Magic Connector hover
+        if(object instanceof EClass) {
+            className = ((EClass)object).getName();
+        }
+        // Object Instance
+        else {
+            className = object.getClass().getSimpleName();
+        }
+        
+        // Archimate Diagram Model so append the Viewpoint name
         if(object instanceof IArchimateDiagramModel) {
-            key = ((IArchimateDiagramModel)object).getViewpoint();
+            className += ((IArchimateDiagramModel)object).getViewpoint();
         }
         
-        Hint hint = getHintFromObject(object, key);
-        
+        Hint hint = fLookupTable.get(className);
+
         if(hint != null) {
             if(fLastPath != hint.path) {
                 // Title and Color
@@ -311,11 +316,32 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
         else {
-            fBrowser.setText(""); //$NON-NLS-1$
-            fLastPath = ""; //$NON-NLS-1$
-            fTitleLabel.setText(""); //$NON-NLS-1$
-            fTitleLabel.setBackground(ColorConstants.white);
+            showBlankHint();
         }
+    }
+    
+    private void showHintForHintProvider(IHelpHintProvider provider) {
+        String title = provider.getHelpHintTitle();
+        String text = provider.getHelpHintContent();
+        
+        if(StringUtils.isSet(title) || StringUtils.isSet(text)) {
+            fTitleLabel.setText(title);
+            Color color = getTitleColor(provider);
+            fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
+            text = makeHTMLEntry(text);
+            fBrowser.setText(text);
+            fLastPath = ""; //$NON-NLS-1$
+        }
+        else {
+            showBlankHint();
+        }
+    }
+    
+    private void showBlankHint() {
+        fBrowser.setText(""); //$NON-NLS-1$
+        fLastPath = ""; //$NON-NLS-1$
+        fTitleLabel.setText(""); //$NON-NLS-1$
+        fTitleLabel.setBackground(ColorConstants.white);
     }
     
     /**
@@ -360,47 +386,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         });
     }
     
-    private Hint getHintFromObject(Object object, String key) {
-        if(object == null) {
-            return null;
-        }
-        
-        Hint hint = null;
-        
-        // Object - check class name
-        hint = fLookupTable.get(object.getClass().getName());
-        if(hint != null) {
-            return hint;
-        }
-        
-        // Class = check class name
-        if(object instanceof Class<?>) {
-            return fLookupTable.get(((Class<?>)object).getName());
-        }
-        
-        // Does a Java interface match on the object perhaps?
-        for(Class<?> interf : object.getClass().getInterfaces()) {
-            String interfaceName = interf.getName();
-            
-            // Add key, if any
-            if(key != null) {
-                interfaceName += key;
-            }
-            
-            hint = fLookupTable.get(interfaceName);
-            
-            if(hint != null) {
-                return hint;
-            }
-        }
-        
-        return null;
-    }
-    
     private void createFileMap() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-            String className = configurationElement.getAttribute("class"); //$NON-NLS-1$
+            String className = configurationElement.getAttribute("className"); //$NON-NLS-1$
             String fileName = configurationElement.getAttribute("file"); //$NON-NLS-1$
             String title = configurationElement.getAttribute("title"); //$NON-NLS-1$
             String key = configurationElement.getAttribute("key"); //$NON-NLS-1$

@@ -74,14 +74,11 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="className" type="string" use="required">
             <annotation>
                <documentation>
-                  A Java Interface
+                  A class name
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn="java.lang.Object:"/>
-               </appinfo>
             </annotation>
          </attribute>
          <attribute name="key" type="string">
