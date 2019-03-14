@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
@@ -154,6 +155,12 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      */
     protected Label createLabel(Composite parent, String text, int width, int verticalPosition) {
         Label label = getWidgetFactory().createLabel(parent, text, SWT.WRAP);
+        
+        // On Mac Group is filled with grey and label is white
+        if(parent instanceof Group && PlatformUtils.isMac()) {
+            label.setBackground(null);
+        }
+        
         GridData gd = new GridData(SWT.NONE, verticalPosition, false, false);
         gd.widthHint = width;
         label.setLayoutData(gd);
