@@ -136,10 +136,13 @@ $(document).ready(function() {
 	
 	// Update documentation div and create links
 	$('#doctgt').text($('#docsrc').text());
-	$('#doctgt').html($('#doctgt').html()
-		.replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
-		.replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
-	);
+	
+	if(typeof $('#doctgt').html() !== "undefined") {
+	   $('#doctgt').html($('#doctgt').html()
+		  .replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
+		  .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
+	   );
+	}
 	
 	// Replace Hint URL
 	for (var id in hints) {
