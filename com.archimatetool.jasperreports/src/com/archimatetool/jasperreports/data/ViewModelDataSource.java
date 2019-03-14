@@ -8,11 +8,17 @@ package com.archimatetool.jasperreports.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.osgi.util.NLS;
 
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IProperty;
+import com.archimatetool.model.impl.ArchimateRelationship;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -62,6 +68,38 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     
     public ViewChildrenDataSource getChildElementsDataSource() {
         return new ViewChildrenDataSource(fCurrentView);
+    }
+    
+    //extract relations from current view
+    public ElementsDataSource getRelationsOfCurrentView() {
+    	ElementsDataSource relationsElementsDataSource = new ElementsDataSource(fCurrentView.getArchimateModel(), "relations");
+    	ViewChildrenDataSource viewChildren = new ViewChildrenDataSource(fCurrentView);
+    	EList<IProperty> relationsProps = viewChildren.getPropertiesDataSourceWithRelations();
+    	
+    	List<IArchimateConcept> relations = new ArrayList<IArchimateConcept>();
+    	for (int i = 0; i < relationsElementsDataSource.getConceptList().size(); i++) {
+    		for (int j = 0; j < relationsProps.size(); j++) {
+    			String relSource = ((ArchimateRelationship)relationsElementsDataSource.getConceptList().get(i)).getSource().getName();
+    			String relTarget = ((ArchimateRelationship)relationsElementsDataSource.getConceptList().get(i)).getTarget().getName();
+    			if(relSource.equals(relationsProps.get(j).getKey())) {
+    				for (int k = 0; k < relationsProps.size(); k++) {
+						if(relTarget.equals(relationsProps.get(k).getValue())) {
+							//both source and target match: we want to print this relation 
+							if(!relations.contains(relationsElementsDataSource.getConceptList().get(i))) {
+								relations.add(relationsElementsDataSource.getConceptList().get(i));
+								System.out.println(relSource + " -> " +relTarget);
+							}
+						}
+					}
+    				
+    			}
+			}
+			
+			
+		}
+    	//override the current list of concepts
+    	relationsElementsDataSource.setConcepts(relations);
+        return relationsElementsDataSource;
     }
     
     @Override

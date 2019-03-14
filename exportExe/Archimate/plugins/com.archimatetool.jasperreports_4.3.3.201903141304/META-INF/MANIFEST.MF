@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.jasperreports
+Bundle-SymbolicName: com.archimatetool.jasperreports;singleton:=true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,com.archimatet
+ ool.editor
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Archi
+Export-Package: com.archimatetool.jasperreports,com.archimatetool.jasp
+ erreports.data
+Bundle-Name: Jasper Reports
+Bundle-Version: 4.3.3.201903141304
+Bundle-Localization: plugin
+Bundle-ClassPath: com.archimatetool.jasperreports.jar,lib/commons-bean
+ utils-1.8.0.jar,lib/commons-collections-3.2.1.jar,lib/commons-digeste
+ r-2.1.jar,lib/commons-logging-1.1.1.jar,lib/iText-2.1.7.js2.jar,lib/j
+ asperreports-6.3.1.jar,lib/jasperreports-fonts-6.3.1.jar,lib/ecj-4.5.
+ 1.jar,lib/jackson-databind-2.1.4.jar,lib/jackson-core-2.1.4.jar
+Bundle-Activator: com.archimatetool.jasperreports.JasperReportsPlugin
+Eclipse-BundleShape: dir
+
+

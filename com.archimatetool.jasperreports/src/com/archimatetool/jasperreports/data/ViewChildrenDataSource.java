@@ -80,11 +80,12 @@ public class ViewChildrenDataSource implements JRRewindableDataSource, IProperti
     		IArchimateElement elem = (IArchimateElement)fChildren.get(i);
     		EList<IArchimateRelationship> relations = elem.getSourceRelationships();
     		for (int x = 0; x < relations.size(); x++) {
-    			propList.add(new Property("Source: "+relations.get(x).getSource().getName(),"Target: "+relations.get(x).getTarget().getName()));
+    			propList.add(new Property(relations.get(x).getSource().getName(),relations.get(x).getTarget().getName()));
     		}
 		}
     	return propList;
     }
+    
     
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {

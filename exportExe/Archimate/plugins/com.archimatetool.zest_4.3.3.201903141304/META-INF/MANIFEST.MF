@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.zest
+Bundle-SymbolicName: com.archimatetool.zest;singleton:=true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,org.eclipse.he
+ lp.ui,com.archimatetool.editor,org.eclipse.zest.core,org.eclipse.zest
+ .layouts
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Archi
+Export-Package: com.archimatetool.zest
+Bundle-Name: Archi Zest Visualiser
+Bundle-Version: 4.3.3.201903141304
+Bundle-Localization: plugin
+Bundle-ClassPath: com.archimatetool.zest.jar
+Bundle-Activator: com.archimatetool.zest.ArchiZestPlugin
+Eclipse-BundleShape: dir
+
+

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.help
+Bundle-SymbolicName: com.archimatetool.help;singleton:=true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,org.eclipse.eq
+ uinox.http.jetty,org.eclipse.help.ui,org.eclipse.help.webapp,org.ecli
+ pse.ui.cheatsheets,com.archimatetool.editor
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Archi
+Export-Package: com.archimatetool.help,com.archimatetool.help.cheatshe
+ ets,com.archimatetool.help.hints
+Bundle-Name: %productName
+Bundle-Version: 4.3.3.201903141304
+Bundle-Localization: plugin
+Bundle-ClassPath: com.archimatetool.help.jar
+Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
+Eclipse-BundleShape: dir
+
+

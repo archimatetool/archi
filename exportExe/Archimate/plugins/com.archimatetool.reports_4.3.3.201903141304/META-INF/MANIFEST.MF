@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.reports
+Bundle-SymbolicName: com.archimatetool.reports;singleton:=true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,com.archimatet
+ ool.editor,com.archimatetool.editor.browser
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Archi
+Export-Package: com.archimatetool.reports,com.archimatetool.reports.ht
+ ml
+Bundle-Name: Archi Reports
+Bundle-Version: 4.3.3.201903141304
+Bundle-Localization: plugin
+Bundle-ClassPath: com.archimatetool.reports.jar,lib/ST-4.0.8.jar,lib/a
+ ntlr-runtime-4.4.jar
+Bundle-Activator: com.archimatetool.reports.ArchiReportsPlugin
+Eclipse-BundleShape: dir
+
+

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.archimatetool.editor.themes
+Bundle-SymbolicName: com.archimatetool.editor.themes;singleton:=true
+Bundle-Name: Themes for Archi
+Bundle-Version: 4.3.3.201903141304
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Archi
+Eclipse-BundleShape: dir
+
+

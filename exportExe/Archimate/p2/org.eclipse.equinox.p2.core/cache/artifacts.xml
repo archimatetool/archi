@@ -3,7 +3,7 @@
 <repository name='download cache' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.system' value='true'/>
-    <property name='p2.timestamp' value='1552045122354'/>
+    <property name='p2.timestamp' value='1552565110034'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
@@ -11,7 +11,7 @@
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
   </mappings>
   <artifacts size='1'>
-    <artifact classifier='binary' id='com.archimatetool.editor.product_root.win32.win32.x86_64' version='4.3.3.201903081237'>
+    <artifact classifier='binary' id='com.archimatetool.editor.product_root.win32.win32.x86_64' version='4.3.3.201903141304'>
       <properties size='1'>
         <property name='download.size' value='56984'/>
       </properties>
