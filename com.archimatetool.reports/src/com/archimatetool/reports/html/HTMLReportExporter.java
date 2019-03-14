@@ -22,6 +22,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -48,6 +49,7 @@ import com.archimatetool.editor.diagram.util.ModelReferencedImage;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -73,6 +75,8 @@ public class HTMLReportExporter {
     
     public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
     
+    static final String PREFS_LAST_FOLDER = "Reports_LastFolder"; //$NON-NLS-1$
+    
     private IArchimateModel fModel;
     
     /**
@@ -95,16 +99,33 @@ public class HTMLReportExporter {
             return;
         }
         
-        File file = createReport(targetFolder, "index.html"); //$NON-NLS-1$
+        IOException[] exception = new IOException[1];
         
-        // Open it in external Browser
-        IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-        try {
-            IWebBrowser browser = support.getExternalBrowser();
-            browser.openURL(file.toURI().toURL());
-        }
-        catch(PartInitException ex) {
-            ex.printStackTrace();
+        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    File file = createReport(targetFolder, "index.html"); //$NON-NLS-1$
+                    
+                    // Open it in external Browser
+                    IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+                    try {
+                        IWebBrowser browser = support.getExternalBrowser();
+                        // This method supports network URLs
+                        browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    }
+                    catch(PartInitException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                catch(IOException ex) {
+                    exception[0] = ex;
+                }
+            }
+        });
+        
+        if(exception[0] != null) {
+            throw exception[0];
         }
     }
     
@@ -378,6 +399,13 @@ public class HTMLReportExporter {
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
         dialog.setText(Messages.HTMLReportExporter_2);
         dialog.setMessage(Messages.HTMLReportExporter_3);
+        
+        IPreferenceStore store = ArchiReportsPlugin.INSTANCE.getPreferenceStore();
+        String lastFolder = store.getString(PREFS_LAST_FOLDER);
+        if(StringUtils.isSet(lastFolder)) {
+            dialog.setFilterPath(getLastDirectory(lastFolder));
+        }
+        
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -399,7 +427,26 @@ public class HTMLReportExporter {
             folder.mkdirs();
         }
         
+        store.setValue(PREFS_LAST_FOLDER, folder.getAbsolutePath());
+        
+        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
+        if(PlatformUtils.isMac()) {
+            while(Display.getCurrent().readAndDispatch());
+        }
+        
         return folder;
+    }
+    
+    private String getLastDirectory(String path) {
+        File file = new File(path);
+        
+        // Go up and find parent until found
+        while(file != null && !file.exists()) {
+            file = file.getParentFile();
+        }
+        
+        return file == null ? "" : file.getAbsolutePath(); //$NON-NLS-1$
     }
 
     /**
