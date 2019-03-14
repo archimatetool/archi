@@ -6,6 +6,8 @@
 package com.archimatetool.editor.views.tree.search;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -307,6 +309,14 @@ public class SearchWidget extends Composite {
 	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
 	        getAllUniquePropertyKeysForModel(model, list);
 	    }
+	    
+	    // Sort alphapetically
+	    Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.toLowerCase().compareTo(s2.toLowerCase());
+            }
+        });
 
 	    for(final String key : list) {
 	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
