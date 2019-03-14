@@ -137,6 +137,10 @@ public class TreeModelViewerDragDropHandler {
 
             @Override
             public void dropAccept(DropTargetEvent event) {
+                // Need to check and veto this!!!!
+                // User's mouse movements can still register DND in the background when
+                // app is doing long running operation and create non-allowed drag operations!!!
+                event.detail = getEventDetail(event);
             }
             
             private int getEventDetail(DropTargetEvent event) {

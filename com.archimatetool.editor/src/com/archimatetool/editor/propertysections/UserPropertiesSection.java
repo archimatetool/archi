@@ -562,6 +562,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             @Override
             public void dropAccept(DropTargetEvent event) {
+                event.detail = getEventDetail(event); // double-check this
             }
 
             private int getEventDetail(DropTargetEvent event) {
