@@ -29,7 +29,10 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * Archi -consoleLog -nosplash -application com.archimatetool.commandline.app
    --loadModel "/pathToModel/model.archimate"
-   --jasper.createReport "/pathToOutputFolder"
+   --jasper.createReport "pathToFolder"
+   --jasper.filename "filename"
+   --jasper.title "title"
+   --jasper.format "html,rtf"
  * 
  * @author Phillip Beauvoir
  */
@@ -108,14 +111,23 @@ public class JasperReportsProvider extends AbstractCommandLineProvider {
         }
         
         // Export options
-        int exportOptions = JasperReportsExporter.EXPORT_PDF;
-        String format = commandLine.getOptionValue(OPTION_JASPER_FORMAT).toLowerCase();
-        exportOptions |= format.contains("pdf") ? JasperReportsExporter.EXPORT_PDF : 0; //$NON-NLS-1$
-        exportOptions |= format.contains("html") ? JasperReportsExporter.EXPORT_HTML : 0; //$NON-NLS-1$
-        exportOptions |= format.contains("rtf") ? JasperReportsExporter.EXPORT_RTF : 0; //$NON-NLS-1$
-        exportOptions |= format.contains("ppt") ? JasperReportsExporter.EXPORT_PPT : 0; //$NON-NLS-1$
-        exportOptions |= format.contains("odt") ? JasperReportsExporter.EXPORT_ODT : 0; //$NON-NLS-1$
-        exportOptions |= format.contains("docx") ? JasperReportsExporter.EXPORT_DOCX : 0; //$NON-NLS-1$
+        int exportOptions = 0;
+        
+        String format = commandLine.getOptionValue(OPTION_JASPER_FORMAT);
+        if(StringUtils.isSet(format)) {
+            format = format.toLowerCase();
+            
+            exportOptions |= format.contains("pdf") ? JasperReportsExporter.EXPORT_PDF : 0; //$NON-NLS-1$
+            exportOptions |= format.contains("html") ? JasperReportsExporter.EXPORT_HTML : 0; //$NON-NLS-1$
+            exportOptions |= format.contains("rtf") ? JasperReportsExporter.EXPORT_RTF : 0; //$NON-NLS-1$
+            exportOptions |= format.contains("ppt") ? JasperReportsExporter.EXPORT_PPT : 0; //$NON-NLS-1$
+            exportOptions |= format.contains("odt") ? JasperReportsExporter.EXPORT_ODT : 0; //$NON-NLS-1$
+            exportOptions |= format.contains("docx") ? JasperReportsExporter.EXPORT_DOCX : 0; //$NON-NLS-1$
+        }
+        
+        if(exportOptions == 0) {
+            exportOptions = JasperReportsExporter.EXPORT_PDF;
+        }
         
         logMessage(NLS.bind(Messages.JasperReportsProvider_7, model.getName(), folderOutput.getPath()));
         
