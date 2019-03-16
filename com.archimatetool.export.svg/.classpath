@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-script.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-parser.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-anim.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/pdf-transcoder.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-transcoder.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-codec.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-ext.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-script-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-gvt-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-parser-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-anim-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-css-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-bridge-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-xml-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-ext-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-i18n-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-constants-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-util-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-dom-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-transcoder-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svggen-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext-1.3.04.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xmlgraphics-commons-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fop-transcoder-allinone-2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
