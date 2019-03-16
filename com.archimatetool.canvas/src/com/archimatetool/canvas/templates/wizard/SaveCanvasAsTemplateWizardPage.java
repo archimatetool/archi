@@ -143,6 +143,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fDescriptionTextField = new Text(fieldGroup, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
+        gd.widthHint = 550; // Stop overstretch
         fDescriptionTextField.setLayoutData(gd);
         if(StringUtils.isSet(fCanvasModel.getDocumentation())) {
             fDescriptionTextField.setText(fCanvasModel.getDocumentation());
@@ -212,7 +213,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         validateFields();
     }
     
-    /**
+    /**r
      * @return The File for the template
      */
     public String getFileName() {
