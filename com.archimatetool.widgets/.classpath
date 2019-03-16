@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.nebula.widgets.grid_1.0.0.201112231516.jar" sourcepath="lib/org.eclipse.nebula.widgets.grid.source_1.0.0.201112231516.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar" sourcepath="lib/org.eclipse.nebula.widgets.gallery.source_0.5.3.201111151116.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.nebula.widgets.grid_1.0.0.201706221838.jar" sourcepath="lib/org.eclipse.nebula.widgets.grid.source_1.0.0.201706221838.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.nebula.widgets.gallery_1.0.0.201812241324.jar" sourcepath="lib/org.eclipse.nebula.widgets.gallery.source_1.0.0.201812241324.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
