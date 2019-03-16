@@ -1,4 +1,58 @@
                         Apache Commons CSV
+                            Version 1.6
+                           Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.6 version of
+Apache Commons CSV. Commons CSV reads and writes files in variations of the
+Comma Separated Value (CSV) format.
+
+CSV requires at least Java 7.
+
+The Apache Commons CSV library provides a simple interface for reading and
+writing CSV files of various types.
+
+Feature and bug fix release.
+
+Changes in this version include:
+
+NEW FEATURES
+==============
+
+o CSV-217:  Add autoFlush option for CsvPrinter. PR #24.
+            Thanks to Korolyov Alexei.
+o CSV-220:  Add API org.apache.commons.csv.CSVFormat.withSystemRecordSeparator().
+            Thanks to Gary Gregory.
+
+FIXED BUGS
+============
+
+o CSV-219:  The behavior of quote char using is not similar as Excel does when
+            the first string contains CJK char(s). Thanks to Zhang Hongda.
+o CSV-172:  Don't quote cells just because they have UTF-8 encoded characters.
+            Thanks to Andrew Pennebaker.
+o CSV-223:  Inconsistency between Javadoc of CSVFormat DEFAULT EXCEL.
+            Thanks to Samuel Martin.
+o CSV-209:  Create CSVFormat.ORACLE preset. Thanks to Gary Gregory.
+o CSV-224:  Some multi-iterator parsing peek sequences incorrectly consume
+            elements. Thanks to David Warshaw.
+o CSV-225:  Parse method should avoid creating a redundant BufferedReader.
+            Thanks to Anson Schwabecher.
+
+CHANGES
+=========
+
+o CSV-231:  Add more documentation to CSVPrinter.
+
+
+Have fun!
+-Apache Commons CSV team
+
+------------------------------------------------------------------------------
+
+                        Apache Commons CSV
                             Version 1.5
                            Release Notes
 
