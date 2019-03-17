@@ -340,9 +340,15 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
 
             @Override
             protected void setValue(Object element, Object value) {
+                // Check for -1 value. On Mac this happens if the Mod key is down when selecting the same item from the conbo box
+                Integer index = (Integer)value;
+                if(index == -1) {
+                    return;
+                }
+                
                 Mapping mapping = (Mapping)element;
                 
-                mapping.setSelectedIndex((Integer)value);
+                mapping.setSelectedIndex(index);
                 getViewer().update(mapping, null);
                 
                 // Ctrl key pressed, set others to same selection if possible or (none) if not
