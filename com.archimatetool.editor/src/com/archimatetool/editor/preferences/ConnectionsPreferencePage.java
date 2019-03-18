@@ -47,7 +47,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fMagicConnectorPolarity1Button;
     private Button fMagicConnectorPolarity2Button;
     
-    private Button fAllowCircularConnectionsButton;
     private Button fDoAntiAliasButton;
     private Button fUseOrthogonalAnchorButton;
     private Button fUseLineCurvesButton;
@@ -127,15 +126,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLineJumpsButton.setLayoutData(gd);
         
         // Rules
-        Group rulesGroup = new Group(client, SWT.NULL);
-        rulesGroup.setText(Messages.ConnectionsPreferencePage_18);
-        rulesGroup.setLayout(new GridLayout());
-        rulesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fAllowCircularConnectionsButton = new Button(rulesGroup, SWT.CHECK);
-        fAllowCircularConnectionsButton.setText(Messages.ConnectionsPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fAllowCircularConnectionsButton.setLayoutData(gd);
+//        Group rulesGroup = new Group(client, SWT.NULL);
+//        rulesGroup.setText(Messages.ConnectionsPreferencePage_18);
+//        rulesGroup.setLayout(new GridLayout());
+//        rulesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // ARM
         
@@ -282,7 +276,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         
-        fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         fDoAntiAliasButton.setSelection(getPreferenceStore().getBoolean(ANTI_ALIAS));
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
@@ -304,7 +297,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public boolean performOk() {
         getPreferenceStore().setValue(MAGIC_CONNECTOR_POLARITY, fMagicConnectorPolarity1Button.getSelection());
         
-        getPreferenceStore().setValue(ALLOW_CIRCULAR_CONNECTIONS, fAllowCircularConnectionsButton.getSelection());
         getPreferenceStore().setValue(ANTI_ALIAS, fDoAntiAliasButton.getSelection());
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
@@ -361,7 +353,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         
-        fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         fDoAntiAliasButton.setSelection(getPreferenceStore().getDefaultBoolean(ANTI_ALIAS));
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));

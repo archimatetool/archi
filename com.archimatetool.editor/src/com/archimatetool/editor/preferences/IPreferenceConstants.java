@@ -40,8 +40,6 @@ public interface IPreferenceConstants {
 
     String MAGIC_CONNECTOR_POLARITY = "polarityMagicConnector"; //$NON-NLS-1$
     
-    String ALLOW_CIRCULAR_CONNECTIONS = "circularConnections"; //$NON-NLS-1$
-    
     String USE_NESTED_CONNECTIONS = "useNestedConnections"; //$NON-NLS-1$
     String CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER = "createRelationWhenAddingNewElementToContainer"; //$NON-NLS-1$
     String CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER = "createRelationWhenAddingModelTreeElementToContainer"; //$NON-NLS-1$

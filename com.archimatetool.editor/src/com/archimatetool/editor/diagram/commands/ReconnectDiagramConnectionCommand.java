@@ -9,8 +9,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
@@ -75,9 +73,7 @@ extends Command {
             return false;
         }
 
-        // Disallow same node connections if not enabled in Preferences
-        boolean allowCircularConnection = Preferences.STORE.getBoolean(IPreferenceConstants.ALLOW_CIRCULAR_CONNECTIONS);
-        return allowCircularConnection ? true : fNewSource != fOldTarget;
+        return true;
     }
     
     protected boolean checkTargetConnection() {
@@ -86,9 +82,7 @@ extends Command {
             return false;
         }
         
-        // Disallow same node connections if not enabled in Preferences
-        boolean allowCircularConnection = Preferences.STORE.getBoolean(IPreferenceConstants.ALLOW_CIRCULAR_CONNECTIONS);
-        return allowCircularConnection ? true : fNewTarget != fOldSource;
+        return true;
     }
 
     @Override
