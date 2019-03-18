@@ -61,7 +61,7 @@ public class JasperReportsExporterTests {
         
         // Set up diagrams and Jasper Print once (expensive operation)
         exporter.writeDiagrams(tmpFolder);
-        jasperPrint = exporter.createJasperPrint(null, tmpFolder);
+        jasperPrint = exporter.createJasperPrint(tmpFolder);
     }
     
     @AfterClass
