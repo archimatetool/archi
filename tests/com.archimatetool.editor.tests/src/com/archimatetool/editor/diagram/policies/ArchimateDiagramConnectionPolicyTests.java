@@ -178,17 +178,29 @@ public class ArchimateDiagramConnectionPolicyTests {
         // Both ArchiMate types
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(dmao1, dmao2, relationshipType));
         
-        // Target ArchiMate type
-        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(group, dmao2, relationshipType));
+        // Source = Group, Target = ArchiMate type
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(group, dmao2, relationshipType));
         
-        // Target ArchiMate type
-        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(dmRef, dmao2, relationshipType));
+        // Source = ArchiMate type, Target = Group
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmao2, group, relationshipType));
+        
+        // Source = Diagram Ref, Target = ArchiMate type
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmRef, dmao2, relationshipType));
 
-        // Source ArchiMate type to Note
+        // Source = ArchiMate type, Target = Diagram Ref
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmao2, dmRef, relationshipType));
+
+        // Source = Note, Target = ArchiMate type
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(note, dmao1, relationshipType));
+
+        // Source = ArchiMate type, Target = Note
         assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmao1, note, relationshipType));
 
-        // OK
+        // Source = Note, Target = Group
         assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(note, group, relationshipType));
+
+        // Source = Group, Target = Note
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(group, note, relationshipType));
     }
     
     @Test

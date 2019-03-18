@@ -284,11 +284,15 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             }
             // Groups
             if(source instanceof IDiagramModelGroup || target instanceof IDiagramModelGroup) {
-                return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
+                // Edit - allowed for JB!
+                return true;
+                //return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
             }
             // Diagram Refs
             if(source instanceof IDiagramModelReference || target instanceof IDiagramModelReference) {
-                return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
+                // Edit - allowed for JB!
+                return true;
+                //return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
             }
             
             return false;
