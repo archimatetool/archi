@@ -1930,6 +1930,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(diagramModelImage);
                 if (result == null) result = caseBorderObject(diagramModelImage);
                 if (result == null) result = caseDiagramModelImageProvider(diagramModelImage);
+                if (result == null) result = caseProperties(diagramModelImage);
                 if (result == null) result = caseConnectable(diagramModelImage);
                 if (result == null) result = caseFontAttribute(diagramModelImage);
                 if (result == null) result = caseLineObject(diagramModelImage);

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IDiagramModelImage extends IDiagramModelObject, IBorderObject, IDiagramModelImageProvider {
+public interface IDiagramModelImage extends IDiagramModelObject, IBorderObject, IDiagramModelImageProvider, IProperties {
 } // IDiagramModelImage

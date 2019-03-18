@@ -6,13 +6,21 @@
 package com.archimatetool.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
+import java.util.Collection;
 
 
 /**
@@ -25,6 +33,7 @@ import com.archimatetool.model.IDiagramModelImageProvider;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getBorderColor <em>Border Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getImagePath <em>Image Path</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getProperties <em>Properties</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +78,16 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected String imagePath = IMAGE_PATH_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * <!-- begin-user-doc -->
@@ -141,12 +160,41 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * @generated
      */
     @Override
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__BORDER_COLOR:
                 return getBorderColor();
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH:
                 return getImagePath();
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
+                return getProperties();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -156,6 +204,7 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -164,6 +213,10 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH:
                 setImagePath((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -183,6 +236,9 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH:
                 setImagePath(IMAGE_PATH_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
+                getProperties().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -199,6 +255,8 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 return BORDER_COLOR_EDEFAULT == null ? borderColor != null : !BORDER_COLOR_EDEFAULT.equals(borderColor);
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH:
                 return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
+                return properties != null && !properties.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -222,6 +280,12 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -241,6 +305,12 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
         if (baseClass == IDiagramModelImageProvider.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES;
                 default: return -1;
             }
         }
