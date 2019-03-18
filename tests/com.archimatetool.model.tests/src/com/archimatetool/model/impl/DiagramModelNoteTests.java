@@ -67,4 +67,10 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
         assertEquals(1, note.getBorderType());
     }
     
+    @Test
+    public void testGetProperties() {
+        CommonTests.testProperties(note);
+    }
+
+
 }

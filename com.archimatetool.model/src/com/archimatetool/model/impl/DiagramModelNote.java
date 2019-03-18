@@ -6,13 +6,21 @@
 package com.archimatetool.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
+import java.util.Collection;
 
 
 /**
@@ -25,6 +33,7 @@ import com.archimatetool.model.ITextPosition;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getBorderType <em>Border Type</em>}</li>
  * </ul>
  *
@@ -70,6 +79,16 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @ordered
      */
     protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * The default value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
@@ -162,6 +181,19 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @generated
      */
     @Override
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public int getBorderType() {
         return borderType;
     }
@@ -185,12 +217,28 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @generated
      */
     @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 return getContent();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
                 return getTextPosition();
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES:
+                return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 return getBorderType();
         }
@@ -202,6 +250,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -210,6 +259,10 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 setBorderType((Integer)newValue);
@@ -232,6 +285,9 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES:
+                getProperties().clear();
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 setBorderType(BORDER_TYPE_EDEFAULT);
                 return;
@@ -251,6 +307,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
                 return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES:
+                return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 return borderType != BORDER_TYPE_EDEFAULT;
         }
@@ -276,6 +334,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -295,6 +359,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         if (baseClass == ITextPosition.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES;
                 default: return -1;
             }
         }

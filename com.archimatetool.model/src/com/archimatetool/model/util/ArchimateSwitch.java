@@ -1910,6 +1910,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(diagramModelNote);
                 if (result == null) result = caseTextContent(diagramModelNote);
                 if (result == null) result = caseTextPosition(diagramModelNote);
+                if (result == null) result = caseProperties(diagramModelNote);
                 if (result == null) result = caseConnectable(diagramModelNote);
                 if (result == null) result = caseFontAttribute(diagramModelNote);
                 if (result == null) result = caseLineObject(diagramModelNote);

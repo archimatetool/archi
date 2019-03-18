@@ -3587,6 +3587,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelNoteEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelNoteEClass.getESuperTypes().add(this.getTextContent());
         diagramModelNoteEClass.getESuperTypes().add(this.getTextPosition());
+        diagramModelNoteEClass.getESuperTypes().add(this.getProperties());
         diagramModelImageEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelImageEClass.getESuperTypes().add(this.getBorderObject());
         diagramModelImageEClass.getESuperTypes().add(this.getDiagramModelImageProvider());
