@@ -7,7 +7,6 @@ package com.archimatetool.hammer.validation.issues;
 
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.help.hints.IHelpHintProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 
@@ -101,8 +100,10 @@ public abstract class AbstractIssueType implements IIssue {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Object getAdapter(Class adapter) {
-        if(adapter == IHelpHintProvider.class) {
-            return this;
+        // These are to update the Properties View...
+        
+        if(adapter == null) {
+            return null;
         }
         
         Object object = getObject();
@@ -110,13 +111,17 @@ public abstract class AbstractIssueType implements IIssue {
             return null;
         }
         
+        // Either the object itself
+        // Or this, in which case return the object so PropertiesLabelProvider updates title correctly
         if(adapter.isInstance(object) || adapter.isInstance(this)) {
             return object;
         }
         
-        if(adapter.isAssignableFrom(IArchimateConcept.class)) {
-            if(object instanceof IDiagramModelArchimateComponent) {
-                return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+        // Archimate concept inside of diagram component
+        if(object instanceof IDiagramModelArchimateComponent) {
+            IArchimateConcept concept = ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+            if(concept != null && adapter.isAssignableFrom(concept.getClass())) {
+                return concept;
             }
         }
         

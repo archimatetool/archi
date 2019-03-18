@@ -13,9 +13,13 @@ import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
-import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IAggregationRelationship;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -74,11 +78,6 @@ public abstract class AbstractIssueTypeTests {
     }
     
     @Test
-    public void testGetAdapter_IHelpHintProvider_Same() {
-        assertSame(issueType, issueType.getAdapter(IHelpHintProvider.class));
-    }
-    
-    @Test
     public void testGetAdapter_ObjectIsNull() {
         assertNull(issueType.getAdapter(Object.class));
     }
@@ -88,5 +87,28 @@ public abstract class AbstractIssueTypeTests {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         issueType.setObject(element);
         assertSame(element, issueType.getAdapter(element.getClass()));
+        assertSame(element, issueType.getAdapter(issueType.getClass()));
+    }
+    
+    @Test
+    public void testGetAdapter_ObjectIsAssignableFrom_Element() {
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IDiagramModelArchimateObject dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmc.setArchimateConcept(element);
+        issueType.setObject(dmc);
+        assertSame(element, issueType.getAdapter(IArchimateConcept.class));
+        assertSame(element, issueType.getAdapter(IArchimateElement.class));
+        assertNull(issueType.getAdapter(IArchimateRelationship.class));
+    }
+
+    @Test
+    public void testGetAdapter_ObjectIsAssignableFrom_Relation() {
+        IAggregationRelationship relation = IArchimateFactory.eINSTANCE.createAggregationRelationship();
+        IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        dmc.setArchimateConcept(relation);
+        issueType.setObject(dmc);
+        assertSame(relation, issueType.getAdapter(IArchimateConcept.class));
+        assertSame(relation, issueType.getAdapter(IArchimateRelationship.class));
+        assertNull(issueType.getAdapter(IArchimateElement.class));
     }
 }
