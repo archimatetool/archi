@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.commandline.AbstractCommandLineProvider;
@@ -68,7 +69,12 @@ public class HTMLReportProvider extends AbstractCommandLineProvider {
         logMessage(NLS.bind(Messages.HTMLReportProvider_4, model.getName(), sOutput));
 
         HTMLReportExporter ex = new HTMLReportExporter(model);
-        ex.createReport(folderOutput, "index.html"); //$NON-NLS-1$
+        ex.createReport(folderOutput, "index.html", new NullProgressMonitor() { //$NON-NLS-1$
+            @Override
+            public void subTask(String name) {
+                logMessage(name);
+            }
+        });
 
         logMessage(Messages.HTMLReportProvider_5);
     }

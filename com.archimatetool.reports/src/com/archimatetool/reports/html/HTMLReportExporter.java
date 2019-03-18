@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -17,15 +18,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -89,6 +92,22 @@ public class HTMLReportExporter {
      */
     private Map<String, BoundsWithAbsolutePosition> childBoundsMap = new HashMap<String, BoundsWithAbsolutePosition>();
     
+    private IProgressMonitor progressMonitor;
+    
+    static class CancelledException extends IOException {
+        public CancelledException(String message) {
+            super(message);
+        }
+    }
+    
+    /**
+     * Clean up preview files
+     * @throws IOException
+     */
+    public static void cleanPreviewFiles() throws IOException {
+        FileUtils.deleteFolder(PREVIEW_FOLDER);
+    }
+    
     public HTMLReportExporter(IArchimateModel model) {
         fModel = model;
     }
@@ -101,30 +120,42 @@ public class HTMLReportExporter {
         
         IOException[] exception = new IOException[1];
         
-        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-            @Override
-            public void run() {
+        // Since this can take a while, show the busy dialog
+        IRunnableWithProgress runnable = monitor -> {
+            try {
+                File file = createReport(targetFolder, "index.html", monitor); //$NON-NLS-1$
+                
+                // Open it in external Browser
+                IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
                 try {
-                    File file = createReport(targetFolder, "index.html"); //$NON-NLS-1$
-                    
-                    // Open it in external Browser
-                    IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-                    try {
-                        IWebBrowser browser = support.getExternalBrowser();
-                        // This method supports network URLs
-                        browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    }
-                    catch(PartInitException ex) {
-                        ex.printStackTrace();
-                    }
+                    monitor.subTask(Messages.HTMLReportExporter_7);
+                    IWebBrowser browser = support.getExternalBrowser();
+                    // This method supports network URLs
+                    browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
-                catch(IOException ex) {
-                    exception[0] = ex;
+                catch(PartInitException ex) {
+                    ex.printStackTrace();
                 }
             }
-        });
+            catch(IOException ex) {
+                exception[0] = ex;
+            }
+        };
         
+        try {
+            ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
+            dialog.run(false, true, runnable);
+        }
+        catch(InvocationTargetException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
         if(exception[0] != null) {
+            if(exception[0] instanceof CancelledException) {
+                MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
+                return;
+            }
+
             throw exception[0];
         }
     }
@@ -132,9 +163,12 @@ public class HTMLReportExporter {
     public void preview() {
         PREVIEW_FOLDER.mkdirs();
         
-        BusyIndicator.showWhile(Display.getCurrent(), () -> {
+        IOException[] exception = new IOException[1];
+        
+        // Since this can take a while, show the busy dialog
+        IRunnableWithProgress runnable = monitor -> {
             try {
-                File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html");  //$NON-NLS-1$//$NON-NLS-2$
+                File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html", monitor);  //$NON-NLS-1$//$NON-NLS-2$
                 
                 // Open it in Internal Browser
                 BrowserEditorInput input = new BrowserEditorInput(file.getPath(), fModel.getName()) {
@@ -151,30 +185,56 @@ public class HTMLReportExporter {
                 
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
                 if(editor != null && editor.getBrowser() != null) {
+                    monitor.subTask(Messages.HTMLReportExporter_7);
                     editor.getBrowser().refresh();
                 }
             }
             catch(IOException ex) {
-                MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.HTMLReportAction_0, ex.getMessage());
-                ex.printStackTrace();
+                exception[0] = ex;
             }
-        });
+        };
+        
+        try {
+            ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
+            dialog.run(false, true, runnable);
+        }
+        catch(InvocationTargetException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        if(exception[0] != null) {
+            if(exception[0] instanceof CancelledException) {
+                MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
+                return;
+            }
+            
+            MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.HTMLReportAction_0, exception[0].getMessage());
+            exception[0].printStackTrace();
+        }
     }
     
-    /**
-     * Clean up preview files
-     * @throws IOException
-     */
-    public static void cleanPreviewFiles() throws IOException {
-        FileUtils.deleteFolder(PREVIEW_FOLDER);
-    }
-
     public File createReport(File targetFolder, String indexFileName) throws IOException {
+        return createReport(targetFolder, indexFileName, null);
+    }
+    
+    public File createReport(File targetFolder, String indexFileName, IProgressMonitor monitor) throws IOException {
+        progressMonitor = monitor;
+        
+        if(progressMonitor != null) {
+            progressMonitor.beginTask(Messages.HTMLReportExporter_6, -1);
+        }
+        
+        setProgressSubTask(Messages.HTMLReportExporter_9);
+        
         // Copy HTML skeleton to target
         copyHTMLSkeleton(targetFolder);
         
+        setProgressSubTask(Messages.HTMLReportExporter_10);
+        
         // Copy hints files from the help plug-in
         copyHintsFiles(targetFolder);
+        
+        setProgressSubTask(Messages.HTMLReportExporter_11);
         
         // Create sub-folders
         File elementsFolder = new File(targetFolder, fModel.getId() + "/elements"); //$NON-NLS-1$
@@ -202,11 +262,17 @@ public class HTMLReportExporter {
         // Write all folders
         writeFolders(elementsFolder, stFrame, fModel.getFolders());
         
+        setProgressSubTask(Messages.HTMLReportExporter_12);
+        
         // Write Diagrams and images
         writeDiagrams(imagesFolder, viewsFolder, stFrame);
         
+        setProgressSubTask(Messages.HTMLReportExporter_11);
+        
         // Write other graphical objects
         writeGraphicalObjects(objectsFolder, stFrame);
+        
+        setProgressSubTask(Messages.HTMLReportExporter_13);
         
         // Write root model.html frame
         File indexFile = new File(targetFolder, indexFileName);
@@ -254,6 +320,8 @@ public class HTMLReportExporter {
         bundle = Platform.getBundle("com.archimatetool.canvas"); //$NON-NLS-1$
         url = FileLocator.resolve(bundle.getEntry("help/hints")); //$NON-NLS-1$
         FileUtils.copyFolder(new File(url.getPath()), new File(targetFolder, "hints")); //$NON-NLS-1$
+
+        updateProgress();
     }
 
     /**
@@ -296,6 +364,8 @@ public class HTMLReportExporter {
         stFrame.add("element", component); //$NON-NLS-1$
         elementW.write(stFrame.render());
         elementW.close();
+
+        updateProgress();
     }
     
     /**
@@ -347,8 +417,9 @@ public class HTMLReportExporter {
     
     /**
      * Save diagram images
+     * @throws IOException 
      */
-    private void saveImages(File imagesFolder) {
+    private void saveImages(File imagesFolder) throws IOException {
         // Use this to generate unique name for image file
         Hashtable<IDiagramModel, String> nameTable = new Hashtable<IDiagramModel, String>();
         
@@ -392,9 +463,27 @@ public class HTMLReportExporter {
             finally {
                 image.dispose();
             }
+            
+            updateProgress();
         }
     }
     
+    private void updateProgress() throws IOException {
+        if(progressMonitor != null && PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
+            while(Display.getCurrent().readAndDispatch());
+            
+            if(progressMonitor.isCanceled()) {
+                throw new CancelledException(Messages.HTMLReportExporter_14);
+            }
+        }
+    }
+    
+    private void setProgressSubTask(String task) {
+        if(progressMonitor != null) {
+            progressMonitor.subTask(task);
+        }
+    }
+
     private File askSaveFolder() {
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
         dialog.setText(Messages.HTMLReportExporter_2);
@@ -416,7 +505,7 @@ public class HTMLReportExporter {
             String[] children = folder.list();
             if(children != null && children.length > 0) {
                 boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                        Messages.HTMLReportExporter_4,
+                        Messages.HTMLReportExporter_2,
                         NLS.bind(Messages.HTMLReportExporter_5, folder));
                 if(!result) {
                     return null;
