@@ -49,17 +49,25 @@ expandChildrenRel(children) ::= <<
 >>
 
 expandFolderForQuery(folder) ::= <<
+dataFolders.push({id:"^folder.Id^", type:"^folder.Class.SimpleName^", name:decodeURL("^folder.Name;format="url-encode"^"), documentation:decodeURL("^folder.Documentation;format="url-encode"^")\});
 ^folder.Folders:{f |
+	dataFoldersContent.push({folderid:"^folder.Id^", contentid:"^f.Id^", contenttype:"^f.Class.SimpleName^"\});
 	^expandFolderForQuery(f)^
 }^
 ^folder.Elements:{c |
+	dataFoldersContent.push({folderid:"^folder.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
 	^if(c.Source)^
 		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
 		^c.Properties:{p |
 			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
-	^elseif(c.Children)^
-		<!-- DEBUG: Skipping view ^c.Name^ -->
+	^elseif(c.ConnectionRouterType)^
+		dataViews.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
+		^c.Properties:{p |
+			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
+		}^
+		^expandViewElementsForQuery(c, c.Children)^
+		^expandViewRelsForQuery(c, c.Children)^
 	^else^
 		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
 		^c.Properties:{p |
@@ -67,7 +75,36 @@ expandFolderForQuery(folder) ::= <<
 		}^
 	^endif^
 }^
+>>
 
+expandViewElementsForQuery(view, children) ::= <<
+^children:{c |
+	^if(c.ArchimateElement)^
+		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
+	^elseif(c.ReferencedModel)^
+		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
+	^endif^
+	^if(c.Children)^
+		^expandViewElementsForQuery(view, c.Children)^		
+	^endif^
+}^
+>>
+
+expandViewRelsForQuery(view, children) ::= <<
+^children:{c |
+	^if(c.ArchimateElement)^
+		^if(c.SourceConnections)^
+			^c.SourceConnections:{r |
+				^if(r.ArchimateConcept)^
+					dataViewsContent.push({viewid:"^view.Id^", contentid:"^r.Id^", contenttype:"^r.Class.SimpleName^"\});
+				^endif^
+			}^
+		^endif^
+	^endif^
+	^if(c.Children)^
+		^expandViewRelsForQuery(view, c.Children)^		
+	^endif^
+}^
 >>
 
 expandAreasForChildren(children) ::= <<
@@ -254,16 +291,28 @@ frame(element, map) ::= <<
 							var dataElements = [ ];	  
 						  	var dataProperties = [ ];
 						 	var dataRelationships = [ ];
+						 	var dataViews = [ ];
+						 	var dataViewsContent = [ ];
+						 	var dataFolders = [ ];
+						 	var dataFoldersContent = [ ];
 							
 							^expandFolderForQuery(element)^
 							
 						    alasql('CREATE TABLE Elements');
 						    alasql('CREATE TABLE Properties');
 						    alasql('CREATE TABLE Relationships');
+						    alasql('CREATE TABLE Views');
+						    alasql('CREATE TABLE ViewsContent');
+						    alasql('CREATE TABLE Folders');
+						    alasql('CREATE TABLE FoldersContent');
 						
 						    alasql.tables.Elements.data = dataElements;
 						    alasql.tables.Properties.data = dataProperties;
 						    alasql.tables.Relationships.data = dataRelationships;
+						    alasql.tables.Views.data = dataViews;
+						    alasql.tables.ViewsContent.data = dataViewsContent;
+						    alasql.tables.Folders.data = dataFolders;
+						    alasql.tables.FoldersContent.data = dataFoldersContent;
 						</script> 
 						</div>
 					^endif^
