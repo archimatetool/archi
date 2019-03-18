@@ -86,7 +86,7 @@ extends XYLayoutEditPolicy {
 
         // Return a command that can move and/or resize a child
         if(constraint instanceof Rectangle) {
-            return new SetConstraintObjectCommand((IDiagramModelObject)child.getModel(), (Rectangle)constraint);
+            return new SetConstraintObjectCommand(request, (IDiagramModelObject)child.getModel(), (Rectangle)constraint);
         }
 
         return null;

@@ -97,5 +97,7 @@ implements IPreferenceConstants {
         store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
         
         store.setDefault(SCALE_IMAGE_EXPORT, (PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100) ? true : false);
+        
+        store.setDefault(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, 0);
     }
 }

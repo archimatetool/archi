@@ -56,6 +56,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             Messages.DiagramPreferencePage_23
     };
     
+    private Button[] fResizeBehaviourButtons;
+    
+    private String[] RESIZE_BEHAVIOUR = {
+            Messages.DiagramPreferencePage_0,
+            Messages.DiagramPreferencePage_2
+    };
+    
 	/**
 	 * Constructor
 	 */
@@ -168,6 +175,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fPasteSpecialButtons[i].setLayoutData(gd);
         }
         
+        // -------------- Resize Behaviour ----------------------------
+        
+        Group resizeGroup = new Group(client, SWT.NULL);
+        resizeGroup.setText(Messages.DiagramPreferencePage_10);
+        resizeGroup.setLayout(new GridLayout());
+        resizeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fResizeBehaviourButtons = new Button[2];
+        for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
+            fResizeBehaviourButtons[i] = new Button(resizeGroup, SWT.RADIO);
+            fResizeBehaviourButtons[i].setText(RESIZE_BEHAVIOUR[i]);
+            gd = new GridData(GridData.FILL_HORIZONTAL);
+            fResizeBehaviourButtons[i].setLayoutData(gd);
+        }
+
         setValues();
     }
     
@@ -206,6 +228,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
         	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
         }
+        
+        for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
+            fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
+        }
     }
     
     private void setSpinnerValues() {
@@ -229,6 +255,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
             if(fPasteSpecialButtons[i].getSelection()) {
                 getPreferenceStore().setValue(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, i);
+            }
+        }
+        
+        for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
+            if(fResizeBehaviourButtons[i].getSelection()) {
+                getPreferenceStore().setValue(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, i);
             }
         }
         
@@ -276,6 +308,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
         	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
+        }
+        
+        for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
+            fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
     }
 
