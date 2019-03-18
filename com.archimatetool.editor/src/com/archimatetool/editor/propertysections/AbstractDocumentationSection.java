@@ -14,19 +14,19 @@ import com.archimatetool.model.IArchimatePackage;
 
 
 /**
- * Property Section for a Name element
+ * Property Section for a Documentation element
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractNameSection extends AbstractECorePropertySection {
+public abstract class AbstractDocumentationSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
-    private PropertySectionTextControl fTextName;
+    private PropertySectionTextControl fTextDocumentation;
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, Messages.NameSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.AbstractNameDocumentationSection_1);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -37,10 +37,9 @@ public abstract class AbstractNameSection extends AbstractECorePropertySection {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ||
+            if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION ||
                     feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
-                fPage.labelProviderChanged(null); // Update Main label
             }
         }
     }
@@ -51,7 +50,13 @@ public abstract class AbstractNameSection extends AbstractECorePropertySection {
             return; 
         }
         
-        fTextName.refresh(getFirstSelectedObject());
-        fTextName.setEditable(!isLocked(getFirstSelectedObject()));
+        fTextDocumentation.refresh(getFirstSelectedObject());
+        fTextDocumentation.setEditable(!isLocked(getFirstSelectedObject()));
     }
+    
+    @Override
+    public boolean shouldUseExtraSpace() {
+        return true;
+    }
+
 }

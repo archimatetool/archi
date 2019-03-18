@@ -42,7 +42,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelImageSection extends AbstractECorePropertySection {
+public class DiagramModelImageSection extends AbstractDocumentationSection {
     
     protected static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
@@ -66,6 +66,8 @@ public class DiagramModelImageSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(Composite parent) {
         createImageButton(parent);
+        
+        super.createControls(parent);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -122,6 +124,8 @@ public class DiagramModelImageSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
+        super.notifyChanged(msg);
+        
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
@@ -132,6 +136,7 @@ public class DiagramModelImageSection extends AbstractECorePropertySection {
     
     @Override
     protected void update() {
+        super.update();
         refreshButtons();
     }
     

@@ -50,4 +50,8 @@ public class DiagramModelImageTests extends DiagramModelObjectTests {
         CommonTests.testProperties(image);
     }
 
+    @Test
+    public void testGetDocumentation() {
+        CommonTests.testGetDocumentation(image);
+    }
 }

@@ -6827,13 +6827,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_IMAGE__PROPERTIES = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
 
     /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__DOCUMENTATION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Image</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_IMAGE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
+    int DIAGRAM_MODEL_IMAGE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelConnection <em>Diagram Model Connection</em>}' class.

@@ -18,6 +18,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import java.util.Collection;
@@ -34,6 +35,7 @@ import java.util.Collection;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getBorderColor <em>Border Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getImagePath <em>Image Path</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getProperties <em>Properties</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  *
  * @generated
@@ -88,6 +90,26 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected EList<IProperty> properties;
+
+    /**
+     * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
+
+    /**
+     * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected String documentation = DOCUMENTATION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -173,6 +195,29 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
      * @generated
      */
     @Override
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setDocumentation(String newDocumentation) {
+        String oldDocumentation = documentation;
+        documentation = newDocumentation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION, oldDocumentation, documentation));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
@@ -195,6 +240,8 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 return getImagePath();
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
                 return getProperties();
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION:
+                return getDocumentation();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -218,6 +265,9 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION:
+                setDocumentation((String)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -239,6 +289,9 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
                 getProperties().clear();
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION:
+                setDocumentation(DOCUMENTATION_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -257,6 +310,8 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES:
                 return properties != null && !properties.isEmpty();
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION:
+                return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
         }
         return super.eIsSet(featureID);
     }
@@ -283,6 +338,12 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
         if (baseClass == IProperties.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDocumentable.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION: return IArchimatePackage.DOCUMENTABLE__DOCUMENTATION;
                 default: return -1;
             }
         }
@@ -314,6 +375,12 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -331,6 +398,8 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
         result.append(borderColor);
         result.append(", imagePath: "); //$NON-NLS-1$
         result.append(imagePath);
+        result.append(", documentation: "); //$NON-NLS-1$
+        result.append(documentation);
         result.append(')');
         return result.toString();
     }

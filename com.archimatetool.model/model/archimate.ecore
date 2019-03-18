@@ -321,7 +321,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider #//Properties #//Documentable"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject">
     <eOperations name="connect">
       <eParameters name="source" eType="#//Connectable"/>
