@@ -38,9 +38,13 @@ package com.archimatetool.model;
  * 3.1.1 - Group figure removes 18 pixel offset
  * 4.0.0 - Everything changed for ArchiMate 3.0
  * 4.0.1 - Add alpha attribute to DiagramModelObject
+ * 4.4.0 - Add Properties to IDiagramModelNote
+ *       - Add Properties to IDiagramModelImage
+ *       - Add Documentation IDiagramModelImage
+ *       - Grouping's Text Alignment is checked for centre and converted to left
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "4.0.1"; //$NON-NLS-1$
+    String VERSION = "4.4.0"; //$NON-NLS-1$
 }
