@@ -55,9 +55,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchiHelpPlugin;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelComponent;
 
 
 
@@ -241,36 +239,31 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             return;
         }
         
-        Object object = null;
+        // Check if it's a IHelpHintProvider first as this over-rides other types
+        Object actualObject = (selected instanceof IHelpHintProvider) ? selected : null;
 
         // Adaptable, dig in to get to get the actual object...
-        if(selected instanceof IAdaptable) {
-            object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class); // This first
-            if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
-            }
-            if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
-            }
-            if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IDiagramModelConnection.class);
-            }
-            if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IDiagramModel.class);
+        if(actualObject == null && selected instanceof IAdaptable) {
+            // ArchiMate concept (in EditPart)
+            actualObject = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
+            
+            // Diagram Component (in EditPart)
+            if(actualObject == null) {
+                actualObject = ((IAdaptable)selected).getAdapter(IDiagramModelComponent.class);
             }
         }
         // Default
         else {
-            object = selected;
+            actualObject = selected;
         }
         
-        // This is a Hint Provider...
-        if(object instanceof IHelpHintProvider) {
-            showHintForHintProvider((IHelpHintProvider)object);
+        // This is a Hint Provider so this takes priority...
+        if(actualObject instanceof IHelpHintProvider) {
+            showHintForHintProvider((IHelpHintProvider)actualObject);
         }
         // Object
         else {
-            showHintForObject(source, object);
+            showHintForObject(source, actualObject);
         }
     }
     
