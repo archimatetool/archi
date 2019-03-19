@@ -31,6 +31,7 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBehaviorElement;
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessCollaboration;
@@ -1911,6 +1912,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTextContent(diagramModelNote);
                 if (result == null) result = caseTextPosition(diagramModelNote);
                 if (result == null) result = caseProperties(diagramModelNote);
+                if (result == null) result = caseBorderType(diagramModelNote);
                 if (result == null) result = caseConnectable(diagramModelNote);
                 if (result == null) result = caseFontAttribute(diagramModelNote);
                 if (result == null) result = caseLineObject(diagramModelNote);
@@ -1996,6 +1998,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.BORDER_OBJECT: {
                 IBorderObject borderObject = (IBorderObject)theEObject;
                 T result = caseBorderObject(borderObject);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BORDER_TYPE: {
+                IBorderType borderType = (IBorderType)theEObject;
+                T result = caseBorderType(borderType);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -3342,6 +3350,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseBorderObject(IBorderObject object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Border Type</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Border Type</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseBorderType(IBorderType object) {
         return null;
     }
 

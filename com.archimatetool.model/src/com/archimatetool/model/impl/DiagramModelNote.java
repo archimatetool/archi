@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -340,6 +341,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
                 default: return -1;
             }
         }
+        if (baseClass == IBorderType.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE: return IArchimatePackage.BORDER_TYPE__BORDER_TYPE;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -365,6 +372,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         if (baseClass == IProperties.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL_NOTE__PROPERTIES;
+                default: return -1;
+            }
+        }
+        if (baseClass == IBorderType.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.BORDER_TYPE__BORDER_TYPE: return IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE;
                 default: return -1;
             }
         }

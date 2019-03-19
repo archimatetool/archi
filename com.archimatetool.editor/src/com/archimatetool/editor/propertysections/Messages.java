@@ -51,6 +51,10 @@ public class Messages extends NLS {
 
     public static String BorderColorSection_1;
 
+    public static String BorderTypeSection_0;
+
+    public static String BorderTypeSection_1;
+
     public static String DiagramConnectionLineStyleSection_0;
 
     public static String DiagramConnectionLineStyleSection_1;
@@ -161,15 +165,11 @@ public class Messages extends NLS {
 
     public static String NameSection_0;
 
-    public static String NoteSection_0;
+    public static String NoteBorderTypeSection_0;
 
-    public static String NoteSection_1;
+    public static String NoteBorderTypeSection_1;
 
-    public static String NoteSection_2;
-
-    public static String NoteSection_3;
-
-    public static String NoteSection_4;
+    public static String NoteBorderTypeSection_2;
 
     public static String OpacitySection_0;
 

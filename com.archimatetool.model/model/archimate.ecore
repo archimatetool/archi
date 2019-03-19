@@ -315,11 +315,10 @@
       <details key="name" value="Group"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition #//Properties">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition #//Properties #//BorderType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Note"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider #//Properties #//Documentable"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject">
@@ -369,6 +368,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BorderObject" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BorderType" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImageProvider" abstract="true"
       interface="true">

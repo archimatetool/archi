@@ -5981,7 +5981,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 125;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 126;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -6100,7 +6100,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 123;
+    int ARCHIMATE_DIAGRAM_MODEL = 124;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7015,7 +7015,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 126;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 127;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -7231,6 +7231,34 @@ public interface IArchimatePackage extends EPackage {
     int BORDER_OBJECT_FEATURE_COUNT = 1;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.IBorderType <em>Border Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.IBorderType
+     * @see com.archimatetool.model.impl.ArchimatePackage#getBorderType()
+     * @generated
+     */
+    int BORDER_TYPE = 120;
+
+    /**
+     * The feature id for the '<em><b>Border Type</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BORDER_TYPE__BORDER_TYPE = 0;
+
+    /**
+     * The number of structural features of the '<em>Border Type</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BORDER_TYPE_FEATURE_COUNT = 1;
+
+    /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7238,7 +7266,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 120;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 121;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -7266,7 +7294,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 121;
+    int BOUNDS = 122;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -7321,7 +7349,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 122;
+    int LOCKABLE = 123;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -7421,7 +7449,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 124;
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 125;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7791,7 +7819,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 127;
+    int SKETCH_MODEL = 128;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7873,7 +7901,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 128;
+    int SKETCH_MODEL_STICKY = 129;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8036,7 +8064,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 129;
+    int SKETCH_MODEL_ACTOR = 130;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8181,7 +8209,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 130;
+    int FOLDER_TYPE = 131;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -8191,7 +8219,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 131;
+    int FILE = 132;
 
 
     /**
@@ -9686,17 +9714,6 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelNote();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelNote#getBorderType <em>Border Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Border Type</em>'.
-     * @see com.archimatetool.model.IDiagramModelNote#getBorderType()
-     * @see #getDiagramModelNote()
-     * @generated
-     */
-    EAttribute getDiagramModelNote_BorderType();
-
-    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelImage <em>Diagram Model Image</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -9983,6 +10000,27 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getBorderObject_BorderColor();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IBorderType <em>Border Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Border Type</em>'.
+     * @see com.archimatetool.model.IBorderType
+     * @generated
+     */
+    EClass getBorderType();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IBorderType#getBorderType <em>Border Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Border Type</em>'.
+     * @see com.archimatetool.model.IBorderType#getBorderType()
+     * @see #getBorderType()
+     * @generated
+     */
+    EAttribute getBorderType_BorderType();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}'.
@@ -11563,14 +11601,6 @@ public interface IArchimatePackage extends EPackage {
         EClass DIAGRAM_MODEL_NOTE = eINSTANCE.getDiagramModelNote();
 
         /**
-         * The meta object literal for the '<em><b>Border Type</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute DIAGRAM_MODEL_NOTE__BORDER_TYPE = eINSTANCE.getDiagramModelNote_BorderType();
-
-        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -11803,6 +11833,24 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute BORDER_OBJECT__BORDER_COLOR = eINSTANCE.getBorderObject_BorderColor();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.IBorderType <em>Border Type</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.IBorderType
+         * @see com.archimatetool.model.impl.ArchimatePackage#getBorderType()
+         * @generated
+         */
+        EClass BORDER_TYPE = eINSTANCE.getBorderType();
+
+        /**
+         * The meta object literal for the '<em><b>Border Type</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute BORDER_TYPE__BORDER_TYPE = eINSTANCE.getBorderType_BorderType();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}' class.

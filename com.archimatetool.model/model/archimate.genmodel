@@ -223,9 +223,7 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelGroup"/>
-    <genClasses ecoreClass="archimate.ecore#//DiagramModelNote">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelNote/borderType"/>
-    </genClasses>
+    <genClasses ecoreClass="archimate.ecore#//DiagramModelNote"/>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelImage"/>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelConnection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/text"/>
@@ -263,6 +261,9 @@
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//BorderObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//BorderObject/borderColor"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//BorderType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//BorderType/borderType"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//DiagramModelImageProvider">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelImageProvider/imagePath"/>

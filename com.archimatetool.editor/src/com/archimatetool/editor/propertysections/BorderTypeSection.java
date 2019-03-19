@@ -18,58 +18,37 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelNote;
-
+import com.archimatetool.model.IBorderType;
 
 
 /**
- * Property Section for a Note
+ * Property Section for a Border Type
  * 
  * @author Phillip Beauvoir
  */
-public class NoteSection extends AbstractECorePropertySection {
+public abstract class BorderTypeSection extends AbstractECorePropertySection {
     
-    private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+    protected Combo fComboBorderType;
 
-    /**
-     * Filter to show or reject this section depending on input value
-     */
-    public static class Filter extends ObjectFilter {
-        @Override
-        public boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelNote;
-        }
-
-        @Override
-        public Class<?> getAdaptableType() {
-            return IDiagramModelNote.class;
-        }
-    }
+    protected static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
-    private Combo fComboBorderType;
-    
-    private String[] comboItems = {
-            Messages.NoteSection_0,
-            Messages.NoteSection_1,
-            Messages.NoteSection_2
-    };
+    protected abstract String[] getComboItems();
     
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, Messages.NoteSection_3, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.BorderTypeSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         // Combo
         fComboBorderType = new Combo(parent, SWT.READ_ONLY);
-        fComboBorderType.setItems(comboItems);
         fComboBorderType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 CompoundCommand result = new CompoundCommand();
 
-                for(EObject note : getEObjects()) {
-                    if(isAlive(note)) {
-                        Command cmd = new EObjectFeatureCommand(Messages.NoteSection_4, note,
-                                IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE, fComboBorderType.getSelectionIndex());
+                for(EObject eObject : getEObjects()) {
+                    if(isAlive(eObject)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.BorderTypeSection_1, eObject,
+                                IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE, fComboBorderType.getSelectionIndex());
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -89,7 +68,7 @@ public class NoteSection extends AbstractECorePropertySection {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_NOTE__BORDER_TYPE ||
+            if(feature == IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE ||
                     feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
             }
@@ -102,12 +81,9 @@ public class NoteSection extends AbstractECorePropertySection {
             return; 
         }
         
-        fComboBorderType.select(((IDiagramModelNote)getFirstSelectedObject()).getBorderType());
+        fComboBorderType.setItems(getComboItems());
+        fComboBorderType.select(((IBorderType)getFirstSelectedObject()).getBorderType());
         fComboBorderType.setEnabled(!isLocked(getFirstSelectedObject()));
     }
     
-    @Override
-    protected IObjectFilter getFilter() {
-        return new Filter();
-    }
 }

@@ -33,6 +33,7 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBehaviorElement;
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessCollaboration;
@@ -716,6 +717,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass borderObjectEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass borderTypeEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2148,16 +2156,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
-    public EAttribute getDiagramModelNote_BorderType() {
-        return (EAttribute)diagramModelNoteEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
     public EClass getDiagramModelImage() {
         return diagramModelImageEClass;
     }
@@ -2420,6 +2418,26 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EAttribute getBorderObject_BorderColor() {
         return (EAttribute)borderObjectEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EClass getBorderType() {
+        return borderTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getBorderType_BorderType() {
+        return (EAttribute)borderTypeEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -3312,7 +3330,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelGroupEClass = createEClass(DIAGRAM_MODEL_GROUP);
 
         diagramModelNoteEClass = createEClass(DIAGRAM_MODEL_NOTE);
-        createEAttribute(diagramModelNoteEClass, DIAGRAM_MODEL_NOTE__BORDER_TYPE);
 
         diagramModelImageEClass = createEClass(DIAGRAM_MODEL_IMAGE);
 
@@ -3346,6 +3363,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         borderObjectEClass = createEClass(BORDER_OBJECT);
         createEAttribute(borderObjectEClass, BORDER_OBJECT__BORDER_COLOR);
+
+        borderTypeEClass = createEClass(BORDER_TYPE);
+        createEAttribute(borderTypeEClass, BORDER_TYPE__BORDER_TYPE);
 
         diagramModelImageProviderEClass = createEClass(DIAGRAM_MODEL_IMAGE_PROVIDER);
         createEAttribute(diagramModelImageProviderEClass, DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH);
@@ -3588,6 +3608,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelNoteEClass.getESuperTypes().add(this.getTextContent());
         diagramModelNoteEClass.getESuperTypes().add(this.getTextPosition());
         diagramModelNoteEClass.getESuperTypes().add(this.getProperties());
+        diagramModelNoteEClass.getESuperTypes().add(this.getBorderType());
         diagramModelImageEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelImageEClass.getESuperTypes().add(this.getBorderObject());
         diagramModelImageEClass.getESuperTypes().add(this.getDiagramModelImageProvider());
@@ -3914,7 +3935,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(diagramModelGroupEClass, IDiagramModelGroup.class, "DiagramModelGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelNoteEClass, IDiagramModelNote.class, "DiagramModelNote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getDiagramModelNote_BorderType(), ecorePackage.getEInt(), "borderType", null, 0, 1, IDiagramModelNote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelImageEClass, IDiagramModelImage.class, "DiagramModelImage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
@@ -3956,6 +3976,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(borderObjectEClass, IBorderObject.class, "BorderObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getBorderObject_BorderColor(), ecorePackage.getEString(), "borderColor", null, 0, 1, IBorderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(borderTypeEClass, IBorderType.class, "BorderType", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getBorderType_BorderType(), ecorePackage.getEInt(), "borderType", null, 0, 1, IBorderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelImageProviderEClass, IDiagramModelImageProvider.class, "DiagramModelImageProvider", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getDiagramModelImageProvider_ImagePath(), ecorePackage.getEString(), "imagePath", null, 0, 1, IDiagramModelImageProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

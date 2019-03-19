@@ -42,6 +42,7 @@ package com.archimatetool.model;
  *       - Add Properties to IDiagramModelImage
  *       - Add Documentation IDiagramModelImage
  *       - Grouping's Text Alignment is checked for centre and converted to left
+ *       - Added IBorderType to Ecore
  * 
  * @author Phillip Beauvoir
  */

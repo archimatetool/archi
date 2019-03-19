@@ -31,6 +31,7 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBehaviorElement;
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessCollaboration;
@@ -677,6 +678,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseBorderObject(IBorderObject object) {
                 return createBorderObjectAdapter();
+            }
+            @Override
+            public Adapter caseBorderType(IBorderType object) {
+                return createBorderTypeAdapter();
             }
             @Override
             public Adapter caseDiagramModelImageProvider(IDiagramModelImageProvider object) {
@@ -1855,6 +1860,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createBorderObjectAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IBorderType <em>Border Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IBorderType
+     * @generated
+     */
+    public Adapter createBorderTypeAdapter() {
         return null;
     }
 

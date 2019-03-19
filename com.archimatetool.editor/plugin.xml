@@ -407,9 +407,9 @@
          </propertySection>
          <propertySection
                afterSection="fontColorSection"
-               class="com.archimatetool.editor.propertysections.NoteSection"
-               filter="com.archimatetool.editor.propertysections.NoteSection$Filter"
-               id="noteSection"
+               class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
+               filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
+               id="noteBorderTypeSection"
                tab="appearance.tab">
          </propertySection>
       </propertySections>
