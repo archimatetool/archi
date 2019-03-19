@@ -133,6 +133,10 @@ public class Messages extends NLS {
 
     public static String FontSection_0;
 
+    public static String GroupBorderTypeSection_0;
+
+    public static String GroupBorderTypeSection_1;
+
     public static String ImageManagerDialog_0;
 
     public static String ImageManagerDialog_1;

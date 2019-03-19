@@ -16,5 +16,8 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='Group'"
  * @generated
  */
-public interface IDiagramModelGroup extends IDiagramModelObject, IDiagramModelContainer, IDocumentable, IProperties {
+public interface IDiagramModelGroup extends IDiagramModelObject, IDiagramModelContainer, IDocumentable, IProperties, ITextPosition, IBorderType {
+    int BORDER_TABBED = 0; // Default
+    int BORDER_RECTANGLE = 1;
+
 } // IDiagramModelGroup

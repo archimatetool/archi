@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -60,7 +59,7 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
         EObject instance = createInstanceForExpectedClass();
         provider.setInstance(instance);
         
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
     }
 
     @Override

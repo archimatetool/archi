@@ -43,6 +43,8 @@ package com.archimatetool.model;
  *       - Add Documentation IDiagramModelImage
  *       - Grouping's Text Alignment is checked for centre and converted to left
  *       - Added IBorderType to Ecore
+ *       - Group can have Rectangle Border Type
+ *       - Group implements ITextPosition
  * 
  * @author Phillip Beauvoir
  */

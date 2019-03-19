@@ -412,6 +412,13 @@
                id="noteBorderTypeSection"
                tab="appearance.tab">
          </propertySection>
+         <propertySection
+               afterSection="fontColorSection"
+               class="com.archimatetool.editor.propertysections.GroupBorderTypeSection"
+               filter="com.archimatetool.editor.propertysections.GroupBorderTypeSection$Filter"
+               id="groupBorderTypeSection"
+               tab="appearance.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

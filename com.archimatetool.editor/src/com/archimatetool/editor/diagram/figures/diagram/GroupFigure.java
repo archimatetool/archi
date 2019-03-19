@@ -20,7 +20,9 @@ import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -34,7 +36,12 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     private static final float INSET = 2f;
     
     public GroupFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject, LABEL_CONTROL);
+        super(diagramModelObject, TEXT_FLOW_CONTROL);
+    }
+    
+    @Override
+    public IDiagramModelGroup getDiagramModelObject() {
+        return (IDiagramModelGroup)super.getDiagramModelObject();
     }
     
     @Override
@@ -46,24 +53,38 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
-        
-        int[] topRectangle = new int[] {
-                bounds.x, bounds.y,
-                (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y,
-                (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y + TOPBAR_HEIGHT,
-                bounds.x, bounds.y + TOPBAR_HEIGHT,
-        };
 
-        int[] mainRectangle = new int[] {
-                bounds.x, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                bounds.x, bounds.y + bounds.height - 1
-        };
-        
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillPolygon(topRectangle);
-       
+        
+        int[] topRectangle = null;
+        int[] mainRectangle = null;
+        
+        if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {
+            topRectangle = new int[] {
+                    bounds.x, bounds.y,
+                    (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y,
+                    (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y + TOPBAR_HEIGHT,
+                    bounds.x, bounds.y + TOPBAR_HEIGHT,
+            };
+            
+            mainRectangle = new int[] {
+                    bounds.x, bounds.y + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
+                    bounds.x, bounds.y + bounds.height - 1
+            };
+            
+            graphics.fillPolygon(topRectangle);
+        }
+        else {
+            mainRectangle = new int[] {
+                    bounds.x, bounds.y,
+                    bounds.x + bounds.width - 1, bounds.y,
+                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
+                    bounds.x, bounds.y + bounds.height - 1
+            };
+        }
+
         graphics.setBackgroundColor(getFillColor());
 
         Pattern gradient = null;
@@ -80,7 +101,9 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
 
         // Line
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPolygon(topRectangle);
+        if(topRectangle != null) {
+            graphics.drawPolygon(topRectangle);
+        }
         graphics.drawPolygon(mainRectangle);
         
         graphics.popState();
@@ -90,12 +113,10 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     protected Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         
-        // This first
-        bounds.x += 5;
-        bounds.y += 2;
-
-        bounds.width = getTextControl().getPreferredSize().width;
-        bounds.height = getTextControl().getPreferredSize().height;
+        int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+            bounds.y -= 3;
+        }
         
         return bounds;
     }
@@ -116,7 +137,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     /**
      * Connection Anchor adjusts for Group shape
      */
-    static class GroupFigureConnectionAnchor extends ChopboxAnchor {
+    class GroupFigureConnectionAnchor extends ChopboxAnchor {
         public GroupFigureConnectionAnchor(IFigure owner) {
             super(owner);
         }
@@ -125,6 +146,10 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
             
+            if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_RECTANGLE) {
+                return pt;
+            }
+
             Rectangle r = getBox().getCopy();
             getOwner().translateToAbsolute(r);
             

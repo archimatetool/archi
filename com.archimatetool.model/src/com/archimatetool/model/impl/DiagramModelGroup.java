@@ -18,12 +18,14 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -37,6 +39,8 @@ import com.archimatetool.model.IProperty;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getProperties <em>Properties</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getBorderType <em>Border Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -80,6 +84,46 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected EList<IProperty> properties;
+
+    /**
+     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_POSITION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBorderType()
+     * @generated
+     * @ordered
+     */
+    protected static final int BORDER_TYPE_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBorderType()
+     * @generated
+     * @ordered
+     */
+    protected int borderType = BORDER_TYPE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -162,6 +206,52 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @generated
      */
     @Override
+    public int getTextPosition() {
+        return textPosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setTextPosition(int newTextPosition) {
+        int oldTextPosition = textPosition;
+        textPosition = newTextPosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION, oldTextPosition, textPosition));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int getBorderType() {
+        return borderType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setBorderType(int newBorderType) {
+        int oldBorderType = borderType;
+        borderType = newBorderType;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE, oldBorderType, borderType));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
@@ -186,6 +276,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return getDocumentation();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
                 return getProperties();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION:
+                return getTextPosition();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
+                return getBorderType();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -210,6 +304,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION:
+                setTextPosition((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
+                setBorderType((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -231,6 +331,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
                 getProperties().clear();
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION:
+                setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
+                setBorderType(BORDER_TYPE_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -249,6 +355,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
                 return properties != null && !properties.isEmpty();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION:
+                return textPosition != TEXT_POSITION_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
+                return borderType != BORDER_TYPE_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -275,6 +385,18 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         if (baseClass == IProperties.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
+        if (baseClass == ITextPosition.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION: return IArchimatePackage.TEXT_POSITION__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IBorderType.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE: return IArchimatePackage.BORDER_TYPE__BORDER_TYPE;
                 default: return -1;
             }
         }
@@ -306,6 +428,18 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == ITextPosition.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_GROUP__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IBorderType.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.BORDER_TYPE__BORDER_TYPE: return IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -321,6 +455,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (documentation: "); //$NON-NLS-1$
         result.append(documentation);
+        result.append(", textPosition: "); //$NON-NLS-1$
+        result.append(textPosition);
+        result.append(", borderType: "); //$NON-NLS-1$
+        result.append(borderType);
         result.append(')');
         return result.toString();
     }

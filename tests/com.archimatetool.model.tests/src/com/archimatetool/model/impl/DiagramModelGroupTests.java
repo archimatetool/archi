@@ -74,4 +74,12 @@ public class DiagramModelGroupTests extends DiagramModelObjectTests {
     public void testGetProperties() {
         CommonTests.testProperties(group);
     }
+    
+    @Test
+    public void testGetBorderType() {
+        assertEquals(0, group.getBorderType());
+        group.setBorderType(1);
+        assertEquals(1, group.getBorderType());
+    }
+    
 }

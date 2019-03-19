@@ -90,6 +90,13 @@ implements NodeEditPart {
                 else {
                     refreshFigure();
                 }
+                
+                // Update Connection Anchors if Border Type changes
+                if(feature == IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE
+                        && msg.getNotifier() == getModel()) {
+                    refreshConnectionAnchors();
+                }
+                
                 break;
 
             default:
