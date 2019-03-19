@@ -37,6 +37,9 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
@@ -49,6 +52,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
@@ -203,6 +207,20 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 
+        // Edit cell on double-click and add Tab key traversal
+        TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
+            @Override
+            protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
+                return super.isEditorActivationEvent(event) ||
+                      (event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION);
+            }
+            
+        }, ColumnViewerEditor.TABBING_HORIZONTAL | 
+                ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR | 
+                ColumnViewerEditor.TABBING_VERTICAL |
+                ColumnViewerEditor.KEEP_EDITOR_ON_DOUBLE_CLICK |
+                ColumnViewerEditor.KEYBOARD_ACTIVATION);
+        
         fTableViewer.getTable().setHeaderVisible(true);
         fTableViewer.getTable().setLinesVisible(true);
 
@@ -379,20 +397,23 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         });
 
         /*
-         * Table Double-click on cell
+         * Table Double-click
          */
         fTableViewer.getTable().addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event) {
                 // Get Table item
-                TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
+                Point pt = new Point(event.x, event.y);
+                TableItem item = fTableViewer.getTable().getItem(pt);
+                
                 // Double-click into empty table creates new Property
                 if(item == null) {
                     fActionNewProperty.run();                    
                 }
-                // Handle selected item property double-clicked
-                else {
-                    if(item.getData() instanceof IProperty) {
+                // Double-clicked in column 0 with item
+                else if(item.getData() instanceof IProperty) {
+                    Rectangle rect = item.getBounds(0);
+                    if(rect.contains(pt)) {
                         handleDoubleClick((IProperty)item.getData());
                     }
                 }
