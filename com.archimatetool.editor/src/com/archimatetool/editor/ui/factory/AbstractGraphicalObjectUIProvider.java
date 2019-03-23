@@ -7,7 +7,6 @@ package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.ColorFactory;
@@ -23,10 +22,6 @@ public abstract class AbstractGraphicalObjectUIProvider extends AbstractObjectUI
 implements IGraphicalObjectUIProvider {
     
     protected AbstractGraphicalObjectUIProvider() {
-    }
-
-    protected AbstractGraphicalObjectUIProvider(EObject instance) {
-        super(instance);
     }
 
     @Override

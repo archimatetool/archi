@@ -7,7 +7,6 @@ package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -21,12 +20,6 @@ import org.eclipse.swt.graphics.Image;
 public interface IObjectUIProvider {
     
     String EXTENSIONPOINT_ID = "com.archimatetool.editor.objectUIProvider"; //$NON-NLS-1$
-    
-    /**
-     * Set the instance
-     * @param instance
-     */
-    void setInstance(EObject instance);
     
     /**
      * @return The EClass for which this is an Element UI Provider

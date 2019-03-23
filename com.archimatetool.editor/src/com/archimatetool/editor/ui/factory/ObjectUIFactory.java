@@ -81,8 +81,17 @@ public class ObjectUIFactory {
         
         IObjectUIProvider provider = getProviderForClass(eClass);
         
+        // Make a new instance of the provider and add the eObject
+        // This is a safer approach than allowing the instance to be set elsewhere
+        // Or the old method of adding the eObject to the singleton providers
         if(provider != null) {
-            provider.setInstance(eObject);
+            try {
+                provider = provider.getClass().newInstance();
+                ((AbstractObjectUIProvider)provider).setInstance(eObject);
+            }
+            catch(InstantiationException | IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
         }
         
         return provider;

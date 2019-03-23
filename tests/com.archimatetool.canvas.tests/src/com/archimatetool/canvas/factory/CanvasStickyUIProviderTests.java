@@ -20,6 +20,7 @@ import org.junit.Test;
 import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextPosition;
 
@@ -58,7 +59,7 @@ public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
     @Override
     public void testShouldExposeFeature() {
         EObject instance = createInstanceForExpectedClass();
-        getProvider().setInstance(instance);
+        ((AbstractObjectUIProvider)getProvider()).setInstance(instance);
         
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
         assertTrue(provider.shouldExposeFeature(null));

@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,7 +70,7 @@ public class ObjectUIFactoryProviderTests {
         factory.registerProvider(provider);
         
         EObject eObject = IArchimateFactory.eINSTANCE.createBusinessActor();
-        assertEquals(provider, factory.getProvider(eObject));
+        assertSame(provider.providerFor(), factory.getProvider(eObject).providerFor());
     }
     
     @Test
@@ -78,7 +79,7 @@ public class ObjectUIFactoryProviderTests {
         factory.registerProvider(provider);
         
         EObject eObject = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        assertEquals(provider, factory.getProvider(eObject));
+        assertSame(provider.providerFor(), factory.getProvider(eObject).providerFor());
     }
 
     @Test
@@ -87,7 +88,7 @@ public class ObjectUIFactoryProviderTests {
         factory.registerProvider(provider);
         
         EObject eObject = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        assertEquals(provider, factory.getProvider(eObject));
+        assertSame(provider.providerFor(), factory.getProvider(eObject).providerFor());
     }
 
     @Test
@@ -99,7 +100,7 @@ public class ObjectUIFactoryProviderTests {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         eObject.setArchimateElement(element);
         
-        assertEquals(provider, factory.getProvider(eObject));
+        assertSame(provider.providerFor(), factory.getProvider(eObject).providerFor());
     }
 
     @Test
@@ -111,7 +112,7 @@ public class ObjectUIFactoryProviderTests {
         IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
         eObject.setArchimateRelationship(relation);
         
-        assertEquals(provider, factory.getProvider(eObject));
+        assertEquals(provider.providerFor(), factory.getProvider(relation).providerFor());
     }
     
     @Test

@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -24,10 +23,6 @@ public abstract class AbstractArchimateElementUIProvider extends AbstractGraphic
 implements IArchimateElementUIProvider {
     
     protected AbstractArchimateElementUIProvider() {
-    }
-    
-    protected AbstractArchimateElementUIProvider(EObject instance) {
-        super(instance);
     }
     
     @Override

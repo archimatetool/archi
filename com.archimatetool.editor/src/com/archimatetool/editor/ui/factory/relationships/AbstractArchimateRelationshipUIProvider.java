@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory.relationships;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
@@ -23,10 +22,6 @@ public abstract class AbstractArchimateRelationshipUIProvider extends AbstractGr
     protected AbstractArchimateRelationshipUIProvider() {
     }
     
-    protected AbstractArchimateRelationshipUIProvider(EObject instance) {
-        super(instance);
-    }
-
     @Override
     public Color getDefaultColor() {
         return ColorConstants.black;

@@ -57,7 +57,7 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
         super.testShouldExposeFeature();
         
         EObject instance = createInstanceForExpectedClass();
-        provider.setInstance(instance);
+        ((AbstractObjectUIProvider)provider).setInstance(instance);
         
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
     }

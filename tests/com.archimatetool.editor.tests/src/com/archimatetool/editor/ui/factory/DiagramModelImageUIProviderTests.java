@@ -47,7 +47,7 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
     @Override
     public void testShouldExposeFeature() {
         EObject instance = createInstanceForExpectedClass();
-        provider.setInstance(instance);
+        ((AbstractObjectUIProvider)provider).setInstance(instance);
         
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
         assertFalse(provider.shouldExposeFeature(null));

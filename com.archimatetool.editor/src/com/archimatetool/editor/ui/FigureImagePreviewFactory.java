@@ -76,8 +76,6 @@ public class FigureImagePreviewFactory {
             ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
 
-            provider.setInstance(dmo);
-
             GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
             editPart.setModel(dmo);
             

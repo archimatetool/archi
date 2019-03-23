@@ -63,7 +63,7 @@ public abstract class AbstractObjectUIProviderTests {
     @Test
     public void testGetImageInstance() {
         EObject instance = createInstanceForExpectedClass();
-        provider.setInstance(instance);
+        ((AbstractObjectUIProvider)provider).setInstance(instance);
         
         Image image = provider.getImage();
         assertNotNull(image);
@@ -72,7 +72,7 @@ public abstract class AbstractObjectUIProviderTests {
     @Test
     public void testShouldExposeFeature() {
         EObject instance = createInstanceForExpectedClass();
-        provider.setInstance(instance);
+        ((AbstractObjectUIProvider)provider).setInstance(instance);
         assertTrue(provider.shouldExposeFeature(null));
     }
     

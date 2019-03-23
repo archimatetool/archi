@@ -238,7 +238,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         // Junctions
         if(getProvider() instanceof JunctionUIProvider) {
             EObject instance = createInstanceForExpectedClass();
-            getProvider().setInstance(instance);
+            ((AbstractObjectUIProvider)getProvider()).setInstance(instance);
             assertFalse(getProvider().shouldExposeFeature(null));
         }
         else {
