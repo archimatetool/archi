@@ -33,35 +33,24 @@ public class FigureImagePreviewFactory {
     
     /**
      * @param eClass
-     * @return A preview image of the graphical Figure used by eClass
+     * @return A preview image of the graphical Figure used by eClass of type
      */
-    public static Image getFigurePreviewImageForClass(EClass eClass) {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
-        
-        if(provider instanceof IArchimateElementUIProvider ) {
-            return getPreviewImage((IArchimateElementUIProvider)provider, 0);
+    public static Image getPreviewImage(EClass eClass, int type) {
+        // Only two types
+        if(type < 0 || type > 1) {
+            return null;
         }
         
-        return null;
-    }
-    
-    /**
-     * @param eClass
-     * @return A preview image of the alternate graphical Figure used by eClass.
-     *         If there is no alternate graphical Figure return null
-     */
-    public static Image getAlternateFigurePreviewImageForClass(EClass eClass) {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
-        
-        if(provider instanceof IArchimateElementUIProvider && ((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
-            return getPreviewImage((IArchimateElementUIProvider)provider, 1);
-        }
-        
-        return null;
-    }
 
-    private static Image getPreviewImage(IArchimateElementUIProvider provider, int type) {
-        EClass eClass = provider.providerFor();
+        if(!(provider instanceof IArchimateElementUIProvider)) {
+            return null;
+        }
+        
+        // No alternate figure
+        if(type > 0 && !((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
+            return null;
+        }
         
         String key = eClass.getName() + type;
         

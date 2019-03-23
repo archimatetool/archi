@@ -57,8 +57,8 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         ImageChoice(IObjectUIProvider provider) {
             name = provider.getDefaultName();
             this.preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
-            images[0] = FigureImagePreviewFactory.getFigurePreviewImageForClass(provider.providerFor());
-            images[1] = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(provider.providerFor());
+            images[0] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
+            images[1] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
             chosenType = Preferences.STORE.getInt(preferenceKey);
         }
         

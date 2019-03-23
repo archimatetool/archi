@@ -25,20 +25,20 @@ public class FigureImagePreviewFactoryTests {
     }
 
     @Test
-    public void testGetFigurePreviewImageForClass() {
+    public void testGetPreviewImageType1() {
         for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
             if(provider instanceof IArchimateElementUIProvider) {
-                Image image = FigureImagePreviewFactory.getFigurePreviewImageForClass(provider.providerFor());
+                Image image = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
                 assertNotNull(image);
             }
         }
     }
     
     @Test
-    public void testGetAlternateFigurePreviewImageForClass() {
+    public void testGetPreviewImageType2() {
         for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
             if(provider instanceof IArchimateElementUIProvider) {
-                Image image = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(provider.providerFor());
+                Image image = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
                 
                 if(((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
                     assertNotNull(image);
@@ -49,4 +49,15 @@ public class FigureImagePreviewFactoryTests {
             }
         }
     }
+    
+    @Test
+    public void testGetPreviewImageTypeWrong() {
+        for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
+            if(provider instanceof IArchimateElementUIProvider) {
+                Image image = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 3);
+                assertNull(image);
+            }
+        }
+    }
+
 }

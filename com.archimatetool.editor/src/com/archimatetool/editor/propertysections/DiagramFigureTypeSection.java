@@ -92,8 +92,8 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         IDiagramModelArchimateObject firstSelected = (IDiagramModelArchimateObject)getFirstSelectedObject();
         IArchimateElement element = firstSelected.getArchimateElement();
         
-        Image image1 = FigureImagePreviewFactory.getFigurePreviewImageForClass(element.eClass());
-        Image image2 = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(element.eClass());
+        Image image1 = FigureImagePreviewFactory.getPreviewImage(element.eClass(), 0);
+        Image image2 = FigureImagePreviewFactory.getPreviewImage(element.eClass(), 1);
         
         figure1.setImage(image1);
         figure2.setImage(image2);
