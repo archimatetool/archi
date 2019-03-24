@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,10 +54,6 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        
-        EObject instance = createInstanceForExpectedClass();
-        ((AbstractObjectUIProvider)provider).setInstance(instance);
-        
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
     }
 

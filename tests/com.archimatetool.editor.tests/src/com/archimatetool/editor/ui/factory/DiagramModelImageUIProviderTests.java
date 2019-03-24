@@ -8,10 +8,8 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +17,8 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+
+import junit.framework.JUnit4TestAdapter;
 
 public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
@@ -46,9 +46,6 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
 
     @Override
     public void testShouldExposeFeature() {
-        EObject instance = createInstanceForExpectedClass();
-        ((AbstractObjectUIProvider)provider).setInstance(instance);
-        
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
         assertFalse(provider.shouldExposeFeature(null));
     }

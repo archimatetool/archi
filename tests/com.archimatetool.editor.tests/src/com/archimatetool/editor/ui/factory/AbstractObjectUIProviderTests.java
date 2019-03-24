@@ -71,8 +71,6 @@ public abstract class AbstractObjectUIProviderTests {
 
     @Test
     public void testShouldExposeFeature() {
-        EObject instance = createInstanceForExpectedClass();
-        ((AbstractObjectUIProvider)provider).setInstance(instance);
         assertTrue(provider.shouldExposeFeature(null));
     }
     

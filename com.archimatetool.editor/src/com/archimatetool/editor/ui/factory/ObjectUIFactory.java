@@ -81,9 +81,10 @@ public class ObjectUIFactory {
         
         IObjectUIProvider provider = getProviderForClass(eClass);
         
-        // Make a new instance of the provider and add the eObject
-        // This is a safer approach than allowing the instance to be set elsewhere
-        // Or the old method of adding the eObject to the singleton providers
+        // In two cases, a UIProvider needs an EObject instance to determine a feature rather than the Eclass provider
+        // (Default Size for alternate Interface Figure, and icon for DiagramModelReference). Maybe more in the future.
+        // So, make a new instance of the provider and add the eObject.
+        // This is a much safer approach than allowing the instance to be set on the singleton Eclass provider
         if(provider != null) {
             try {
                 provider = provider.getClass().newInstance();

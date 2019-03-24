@@ -11,7 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Before;
@@ -56,10 +55,6 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        
-        EObject instance = createInstanceForExpectedClass();
-        ((AbstractObjectUIProvider)getProvider()).setInstance(instance);
-        
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
     }

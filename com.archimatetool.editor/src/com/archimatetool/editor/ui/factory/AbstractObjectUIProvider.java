@@ -30,9 +30,9 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
     protected AbstractObjectUIProvider() {
     }
     
-    // Don't call this unless you are a Unit Test or know what you doing!
+    // Don't call this unless you are a Unit Test or a Factory
     // The instance needs to be of the same EClass as this is a provider for
-    public void setInstance(EObject instance) {
+    void setInstance(EObject instance) {
         this.instance = instance;
     }
     
