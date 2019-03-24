@@ -15,13 +15,16 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.graphics.Image;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -52,6 +55,19 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     @Test
     public void testExport() throws Exception {
         File tmp = TestUtils.createTempFile(null);
+        
+        // Add a child figure with an image to test image handling
+        IFigure childFigure = new Figure() {
+            @Override
+            public void paintFigure(Graphics graphics) {
+                super.paintFigure(graphics);
+                Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
+                graphics.drawImage(image, bounds.x, bounds.y);
+            }
+        };
+        childFigure.setBounds(new Rectangle(0, 0, 50, 50));
+        rootFigure.add(childFigure);
+        
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         provider.export(SVGExportProvider.SVG_IMAGE_EXPORT_PROVIDER, tmp);
         assertTrue(tmp.exists());

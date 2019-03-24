@@ -16,6 +16,7 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.fop.svg.AbstractFOPTranscoder;
 import org.apache.fop.svg.PDFTranscoder;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -44,7 +45,7 @@ public class PDFExportProvider extends AbstractExportProvider {
         Document document = createDocument();
         
         // Create a context for customisation
-        SVGGeneratorContext ctx = createContext(document, false); // Don't embed fonts, otherwise ther are artifacts in text
+        SVGGeneratorContext ctx = createContext(document, true); // Must embed fonts for this version of Batik
         
         // Create a Batik SVGGraphics2D instance
         SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, false);
@@ -82,6 +83,7 @@ public class PDFExportProvider extends AbstractExportProvider {
         
         PDFTranscoder transcoder = new PDFTranscoder();
         
+        transcoder.addTranscodingHint(AbstractFOPTranscoder.KEY_AUTO_FONTS, false); // Don't create font cache
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)bounds.width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)bounds.height);
         
