@@ -755,7 +755,7 @@
             id="com.archimatetool.editor.compatibility.archimate2converter">
       </compatibilityHandler>
       <compatibilityHandler
-            class="com.archimatetool.editor.model.compatibility.handlers.GroupingTextAlignmentHandler"
+            class="com.archimatetool.editor.model.compatibility.handlers.DefaultTextAlignmentHandler"
             id="com.archimatetool.editor.compatibility.groupingTextPosition">
       </compatibilityHandler>
    </extension>
