@@ -1,17 +1,14 @@
+# Use latest stuff
+dist: xenial
+
 language: java
 
-# Fixes Travis memory issue
-env:
-  - JAVA_TOOL_OPTIONS="-Xmx2048m -Xms512m"
-
 jdk:
-  - oraclejdk8
+  - openjdk8
 
-# fixes SWT display problem
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+# Creates a display for SWT
+services:
+  - xvfb
 
 script:
   - mvn clean verify
