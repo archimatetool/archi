@@ -6,12 +6,11 @@
     <parent>
         <groupId>com.archimatetool</groupId>
         <artifactId>parent</artifactId>
-        <version>4.4.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>../</relativePath>
     </parent>
 
     <artifactId>com.archimatetool.editor.fullscreen.macos</artifactId>
-    <version>4.4.0-SNAPSHOT</version>
     <packaging>eclipse-plugin</packaging>
 
     <name>Archi Mac Fullscreen </name>

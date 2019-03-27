@@ -5,15 +5,16 @@
 
     <groupId>com.archimatetool</groupId>
     <artifactId>parent</artifactId>
-    <version>4.4.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>Archi Tool Parent</name>
 
     <properties>
-        <tycho-version>0.25.0</tycho-version>
+        <tycho-version>1.3.0</tycho-version>
+        <revision>4.4.0-SNAPSHOT</revision>
     </properties>
-
+    
     <repositories>
         <repository>
             <id>Eclipse repository</id>
@@ -123,6 +124,7 @@
                     <version>${tycho-version}</version>
                     <configuration>
                         <encoding>UTF-8</encoding>
+                        <useProjectSettings>false</useProjectSettings>
                     </configuration>
                 </plugin>
                 <plugin>
