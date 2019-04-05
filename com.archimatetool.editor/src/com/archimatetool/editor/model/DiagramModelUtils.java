@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,11 +17,13 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -437,6 +440,128 @@ public class DiagramModelUtils {
             }
         }
         return false;
+    }
+
+    
+    // ========================================================================================================
+
+    /**
+     * Return the absolute bounds of a diagram model component
+     * TODO for connections
+     * @param dmc
+     * @return
+     */
+    public static final IBounds getAbsoluteBounds(IDiagramModelComponent dmc) {
+        if(dmc instanceof IDiagramModelObject) {
+            return getAbsoluteBounds((IDiagramModelObject)dmc);
+        }
+        
+        // TODO - how to calculate the bounds from this?????
+        else if(dmc instanceof IDiagramModelConnection) {
+            
+        }
+        
+        return null;
+    }
+
+    /**
+     * Return the absolute bounds of a diagram model object
+     * @param dmo The DiagramModelObject
+     * @return The absolute bounds of a diagram model object
+     */
+    public static final IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
+        IBounds bounds = dmo.getBounds().getCopy();
+        
+        EObject container = dmo.eContainer();
+        while(container instanceof IDiagramModelObject) {
+            IDiagramModelObject parent = (IDiagramModelObject)container;
+            IBounds parentBounds = parent.getBounds().getCopy();
+            
+            bounds.setX(bounds.getX() + parentBounds.getX());
+            bounds.setY(bounds.getY() + parentBounds.getY());
+            
+            container = container.eContainer();
+        }
+
+        return bounds;
+    }
+
+    /**
+     * Convert the given absolute bounds to the relative bounds in relation to its parent IDiagramModelObject
+     * @param absoluteBounds The absolute bounds
+     * @param parent The DiagramModelObject that is the parent into which we want to get the relative bounds for
+     * @return the relative bounds of the diagram model object
+     */
+    public static final IBounds getRelativeBounds(IBounds absoluteBounds, IDiagramModelObject parent) {
+        IBounds bounds = absoluteBounds.getCopy();
+        
+        do {
+            IBounds parentBounds = parent.getBounds();
+            
+            bounds.setX(bounds.getX() - parentBounds.getX());
+            bounds.setY(bounds.getY() - parentBounds.getY());
+            
+            parent = (parent.eContainer() instanceof IDiagramModelObject) ? (IDiagramModelObject)parent.eContainer() : null;
+        }
+        while(parent != null);
+
+        return bounds;
+    }
+    
+    /**
+     * Get the absolute bendpoint positions
+     * @param connection
+     * @return
+     */
+    public static List<Point> getAbsoluteBendpointPositions(IDiagramModelConnection connection) {
+        List<Point> points = new ArrayList<Point>();
+        
+        // TODO: Doesn't work for connection->connection
+        if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
+            return points;
+        }
+        
+        double bpindex = 1; // index count + 1
+        double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
+        
+        for(IDiagramModelBendpoint bendpoint : connection.getBendpoints()) {
+            // The weight of this Bendpoint should use to calculate its location.
+            // The weight should be between 0.0 and 1.0. A weight of 0.0 will
+            // cause the Bendpoint to follow the start point, while a weight
+            // of 1.0 will cause the Bendpoint to follow the end point
+            double bpweight = bpindex / bpcount;
+            
+            IBounds srcBounds = getAbsoluteBounds(connection.getSource()); // get bounds of source node
+            double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
+            startX *= (1.0 - bpweight);
+            double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
+            startY *= (1.0 - bpweight);
+            
+            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget()); // get bounds of target node
+            double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
+            endX *= bpweight;
+            double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
+            endY *= bpweight;
+            
+            int x = (int)(startX + endX);
+            int y = (int)(startY + endY);
+            
+            points.add(new Point(x, y));
+            
+            bpindex++;
+        }
+        
+        return points;
+    }
+    
+    /**
+     * @param outer
+     * @param inner
+     * @return True if outer bounds contains inner bounds
+     */
+    public static boolean outerBoundsContainsInnerBounds(IBounds outer, IBounds inner) {
+        return (outer.getX() <= inner.getX()) && (inner.getX() + inner.getWidth() <= outer.getX() + outer.getWidth())
+                && (outer.getY() <= inner.getY()) && (inner.getY() + inner.getHeight() <= outer.getY() + outer.getHeight());
     }
 
 }

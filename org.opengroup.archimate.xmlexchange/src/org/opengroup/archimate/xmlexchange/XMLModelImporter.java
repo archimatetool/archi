@@ -545,7 +545,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 
                 // Convert the given absolute bounds into relative bounds if this is in a child object
                 if(parentContainer instanceof IDiagramModelObject) {
-                    bounds = XMLExchangeUtils.getRelativeBounds(bounds, (IDiagramModelObject)parentContainer);
+                    bounds = DiagramModelUtils.getRelativeBounds(bounds, (IDiagramModelObject)parentContainer);
                 }
                 
                 dmo.setBounds(bounds);
@@ -772,8 +772,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
             connection.getBendpoints().add(bendpoint);
 
-            IBounds srcBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getSource());
-            IBounds tgtBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getTarget());
+            IBounds srcBounds = DiagramModelUtils.getAbsoluteBounds(connection.getSource());
+            IBounds tgtBounds = DiagramModelUtils.getAbsoluteBounds(connection.getTarget());
             
             int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
             int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));

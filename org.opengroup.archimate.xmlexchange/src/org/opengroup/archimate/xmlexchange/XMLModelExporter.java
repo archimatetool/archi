@@ -25,6 +25,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
@@ -948,7 +949,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             return;
         }
         
-        List<Point> points = XMLExchangeUtils.getActualBendpointPositions(connection);
+        List<Point> points = DiagramModelUtils.getAbsoluteBendpointPositions(connection);
         
         for(Point pt : points) {
             Element bendpointElement = new Element(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE);
@@ -1086,7 +1087,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write absolute bounds of a diagram object
      */
     void writeAbsoluteBounds(IDiagramModelObject dmo, Element element) {
-        IBounds bounds = XMLExchangeUtils.getAbsoluteBounds(dmo);
+        IBounds bounds = DiagramModelUtils.getAbsoluteBounds(dmo);
         
         int x = bounds.getX() - fCurrentDiagramNegativeOffset.x; // compensate for negative space
         int y = bounds.getY() - fCurrentDiagramNegativeOffset.y; // compensate for negative space
