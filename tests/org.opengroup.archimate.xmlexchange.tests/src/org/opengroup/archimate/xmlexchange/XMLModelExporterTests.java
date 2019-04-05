@@ -59,7 +59,7 @@ public class XMLModelExporterTests {
         // Organization
         exporter.setSaveOrganisation(true);
         
-        File outputFile = new File(TestSupport.testFolder, "archisurance.xml");
+        File outputFile = new File(TestUtils.createTempFolder("XMLModelExporterTests"), "archisurance.xml");
         exporter.exportModel(model, outputFile);
     }
 
