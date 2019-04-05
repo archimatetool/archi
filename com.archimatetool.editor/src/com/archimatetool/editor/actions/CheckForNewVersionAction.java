@@ -108,7 +108,7 @@ public class CheckForNewVersionAction extends Action {
         }
         catch(IOException ex) {
             ex.printStackTrace();
-            showErrorMessage(Messages.CheckForNewVersionAction_5);
+            showErrorMessage(Messages.CheckForNewVersionAction_5 + " " + ex.getMessage()); //$NON-NLS-1$
             return;
         }
         catch(PartInitException ex) {
