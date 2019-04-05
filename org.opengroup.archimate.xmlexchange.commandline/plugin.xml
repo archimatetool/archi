@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.commandline.commandlineProvider">
+      <commandlineProvider
+            class="com.archimatetool.xmlexchange.commandline.ExportXMLProvider"
+            description="Export the current model to the Open Exchange XML file format"
+            id="org.opengroup.archimate.xmlexchange.exportProvider"
+            name="Export to Open Exchange XML format">
+      </commandlineProvider>
+      <commandlineProvider
+            class="com.archimatetool.xmlexchange.commandline.ImportXMLProvider"
+            description="Import from an Open Exchange XML format file and set to the current model"
+            id="org.opengroup.archimate.xmlexchange.importProvider"
+            name="Import from Open Exchange XML format">
+      </commandlineProvider>
+   </extension>
+
+</plugin>

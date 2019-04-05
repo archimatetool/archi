@@ -30,6 +30,7 @@
 		<module>com.archimatetool.csv.commandline</module>
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
+        <module>com.archimatetool.editor.feature</module>
         <module>com.archimatetool.editor.fullscreen.macos</module>
         <module>com.archimatetool.editor.launch.win32</module>
         <module>com.archimatetool.editor.themes</module>
@@ -45,28 +46,12 @@
         <module>com.archimatetool.templates</module>
         <module>com.archimatetool.widgets</module>
         <module>com.archimatetool.zest</module>
-
-        <module>com.archimatetool.editor.feature</module>
-
-<!-- This pom.xml is set up to run unit tests on the above modules -->
-
-<!-- For a product build with no unit tests remove the following module -->
-        <module>tests</module>
-    
-<!-- For a full product build include the following module-->
-<!--
-        <module>com.archimatetool.editor.product</module>
--->
-
-<!-- You also need to include the following modules from https://github.com/archimatetool/OpenGroupXMLExchange -->
-<!-- Or you can remove the reference to org.opengroup.archimate.xmlexchange.feature in the archi.product file -->
-<!-- 
         <module>org.opengroup.archimate.xmlexchange</module>
-        <module>org.opengroup.archimate.xmlexchange.help</module>
         <module>org.opengroup.archimate.xmlexchange.commandline</module>
-        <module>org.opengroup.archimate.xmlexchange.feature</module>
- -->
-
+        <module>tests</module>
+        
+        <!-- For a full product build include the following module -->
+        <!-- <module>com.archimatetool.editor.product</module -->
     </modules>
 
     <build>

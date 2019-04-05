@@ -1,0 +1,1330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+           targetNamespace="http://www.opengroup.org/xsd/archimate/3.0/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xml="http://www.w3.org/XML/1998/namespace"
+           xmlns:archimate="http://www.opengroup.org/xsd/archimate/3.0/"
+           elementFormDefault="qualified"
+           version="3.0"
+           attributeFormDefault="unqualified">
+
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            -------------------------
+            Author: The Open Group ArchiMate Exchange Team
+            Start date: 04 Oct 2016
+            Revision date: 18 May 2017
+            XSD Version: 3.0
+            Status: Final
+            Description: The Open Group ArchiMate 3.0 Open Exchange Format
+        </xs:documentation>
+
+        <xs:documentation>
+            Notes and rationale
+            -------------------
+            This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
+
+            A number of example models in the exchange file format are available
+            for interoperability testing. For details of how to obtain those
+            files and for further information, see the ArchiMate Model Exchange File Format
+            page at http://www.opengroup.org/xsd/archimate/
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- ==================================== Referenceable Type ================================= -->
+
+    <xs:complexType name="LangStringType">
+        <xs:annotation>
+            <xs:documentation>
+                A base string type for multi-language strings.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute ref="xml:lang" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="PreservedLangStringType">
+        <xs:annotation>
+            <xs:documentation>
+                A base string type for multi-language strings that preserves whitespace.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:restriction base="LangStringType">
+                <xs:whiteSpace value="preserve" />
+            </xs:restriction>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:group name="NameGroup">
+        <xs:sequence>
+            <xs:element name="name" type="LangStringType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:group name="LabelGroup">
+        <xs:sequence>
+            <xs:element name="label" type="LangStringType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="ReferenceableType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Something that can be referenced in the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="NameGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="DocumentationGroup" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attributeGroup ref="IdentifierGroup" />
+        <xs:anyAttribute namespace="##other" processContents="strict" />
+    </xs:complexType>
+
+    <xs:attributeGroup name="IdentifierGroup">
+        <xs:attribute name="identifier" type="xs:ID" use="required" />
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="OptionalIdentifierGroup">
+        <xs:attribute name="identifier" type="xs:ID" use="optional" />
+    </xs:attributeGroup>
+
+    <xs:group name="DocumentationGroup">
+        <xs:sequence>
+            <xs:element name="documentation" type="PreservedLangStringType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Documentation of the object.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:group name="PropertiesGroup">
+        <xs:sequence>
+            <xs:element name="properties" type="PropertiesType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Any property instance of the object
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="NamedReferenceableType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                ObjectType which requires a Name and an ID.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:restriction base="ReferenceableType">
+                <xs:sequence>
+                    <xs:group ref="NameGroup" minOccurs="1" maxOccurs="unbounded" />
+                    <xs:group ref="DocumentationGroup" />
+                    <xs:group ref="grp.any" />
+                </xs:sequence>
+                <xs:attributeGroup ref="IdentifierGroup" />
+                <xs:anyAttribute namespace="##other" processContents="strict" />
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ========================== References ================================================= -->
+
+    <xs:complexType name="ReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                Generic Reference Type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="ref" type="xs:IDREF" use="required" />
+    </xs:complexType>
+
+    <!-- =========================== Declaration of the Root Model Element ========================== -->
+
+    <xs:element name="model" type="ModelType">
+
+        <xs:key name="ElementKey">
+            <xs:selector xpath="./archimate:elements/archimate:element" />
+            <xs:field xpath="@identifier" />
+        </xs:key>
+
+        <xs:key name="RelationshipKey">
+            <xs:selector xpath="./archimate:relationships/archimate:relationship" />
+            <xs:field xpath="@identifier" />
+        </xs:key>
+
+        <xs:key name="PropertyDefinitionKey">
+            <xs:selector xpath=".//archimate:propertyDefinition" />
+            <xs:field xpath="@identifier" />
+        </xs:key>
+
+        <xs:unique name="OrganizationKey">
+            <xs:selector xpath=".//archimate:item" />
+            <xs:field xpath="@identifier" />
+        </xs:unique>
+
+        <!-- Because Property Definitions can also reside in Profiles and Stereotypes the key range must be over the whole model -->
+
+        <xs:keyref name="PropertyDefinitionRef" refer="PropertyDefinitionKey">
+            <xs:selector xpath=".//archimate:propertyDefinitionRef" />
+            <xs:field xpath="@ref" />
+        </xs:keyref>
+
+        <xs:keyref name="PropertyDefinitionRefAttribute" refer="PropertyDefinitionKey">
+            <xs:selector xpath=".//archimate:*" />
+            <xs:field xpath="@propertyDefinitionRef" />
+        </xs:keyref>
+
+        <xs:keyref name="ElementRef" refer="ElementKey">
+            <xs:selector xpath=".//archimate:elementRef" />
+            <xs:field xpath="@ref" />
+        </xs:keyref>
+
+        <xs:keyref name="ElementRefAttribute" refer="ElementKey">
+            <xs:selector xpath=".//archimate:*" />
+            <xs:field xpath="@elementRef" />
+        </xs:keyref>
+
+        <xs:keyref name="RelationshipRef" refer="RelationshipKey">
+            <xs:selector xpath=".//archimate:relationshipRef" />
+            <xs:field xpath="@ref" />
+        </xs:keyref>
+
+        <xs:keyref name="RelationshipRefAttribute" refer="RelationshipKey">
+            <xs:selector xpath=".//archimate:*" />
+            <xs:field xpath="@relationshipRef" />
+        </xs:keyref>
+
+        <!-- Concept Keys and Keyrefs -->
+
+        <xs:key name="ConceptKey">
+            <xs:selector xpath="./archimate:relationships/archimate:relationship | ./archimate:elements/archimate:element" />
+            <xs:field xpath="@identifier" />
+        </xs:key>
+
+        <xs:keyref name="ConceptRef" refer="ConceptKey">
+            <xs:selector xpath=".//archimate:conceptRef" />
+            <xs:field xpath="@ref" />
+        </xs:keyref>
+
+        <xs:keyref name="ConceptRefAttribute" refer="ConceptKey">
+            <xs:selector xpath=".//archimate:*" />
+            <xs:field xpath="@conceptRef" />
+        </xs:keyref>
+
+        <xs:keyref name="SourceRef" refer="ConceptKey">
+            <xs:selector xpath=".//archimate:relationship" />
+            <xs:field xpath="@source" />
+        </xs:keyref>
+
+        <xs:keyref name="TargetRef" refer="ConceptKey">
+            <xs:selector xpath=".//archimate:relationship" />
+            <xs:field xpath="@target" />
+        </xs:keyref>
+
+        <!-- Stereotype References for Extension (these must be maintained in the Model XSD) -->
+
+        <!-- This is the only Key which is not as specific as it could be but must be here to work should be scoped under <extension><stereotype> -->
+
+        <xs:key name="StereotypeKey">
+            <xs:selector xpath="./extensions/stereotypes/archimate:stereotype" />
+            <xs:field xpath="@identifier" />
+        </xs:key>
+
+        <xs:keyref name="StereotypeRef" refer="StereotypeKey">
+            <xs:selector xpath=".//archimate:stereotypeRef" />
+            <xs:field xpath="@ref" />
+        </xs:keyref>
+
+        <xs:keyref name="StereotypeRefAttribute" refer="StereotypeKey">
+            <xs:selector xpath=".//archimate:*" />
+            <xs:field xpath="@stereotypeRef" />
+        </xs:keyref>
+
+    </xs:element>
+
+    <!-- ====================================================== Reference Groups ======================================================= -->
+
+    <!-- Note: These are here to allow extensions to use references -->
+
+    <xs:group name="ElementRefGroup">
+        <xs:sequence>
+            <xs:element name="elementRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ElementRefAttributeGroup">
+        <xs:attribute name="elementRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="RelationshipRefGroup">
+        <xs:sequence>
+            <xs:element name="relationshipRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="RelationshipRefAttributeGroup">
+        <xs:attribute name="relationshipRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="ConceptRefGroup">
+        <xs:sequence>
+            <xs:element name="conceptRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ConceptRefAttributeGroup">
+        <xs:attribute name="ConceptRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="PropertyDefinitionRefGroup">
+        <xs:sequence>
+            <xs:element name="propertyDefinitionRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="PropertyDefinitionRefAttributeGroup">
+        <xs:attribute name="propertyDefinitionRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="StereotypeRefGroup">
+        <xs:sequence>
+            <xs:element name="stereotypeRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="StereotypeRefAttributeGroup">
+        <xs:attribute name="stereotypeRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <!-- =================================================== Model Type ============================================================= -->
+
+    <xs:complexType name="ModelType">
+        <xs:annotation>
+            <xs:documentation>
+                This is the root model type.
+                It is a container for the elements, relationships, diagrams and organizations of the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="NamedReferenceableType">
+                <xs:sequence>
+
+                    <xs:group ref="PropertiesGroup" />
+
+                    <xs:element name="metadata" type="MetadataType" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The "metadata" element is the optional meta-data for the model.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                    <xs:element name="elements" type="ElementsType" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The "elements" element is optional and is a container for all elements.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                    <xs:element name="relationships" type="RelationshipsType" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The "relationships" element is optional and is a container for all relationships.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                    <xs:element name="organizations" type="OrganizationsType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The "organizations" element is optional and is a container for the tree nodes of the different
+                                structural organization of model elements and relationships.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                    <xs:element name="propertyDefinitions" type="PropertyDefinitionsType" minOccurs="0" maxOccurs="1" />
+
+                </xs:sequence>
+
+                <xs:attribute name="version" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Specifies the version of the model.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== Meta=data Type ========================== -->
+
+    <xs:complexType name="MetadataType">
+        <xs:annotation>
+            <xs:documentation>
+                An instance of the meta-data element contains data structures that declare descriptive information
+                about a meta-data element's parent only.
+
+                One or more different meta-data models may be declared as child extensions of a meta-data element.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:choice>
+            <xs:group ref="SchemaInfoGroup" />
+            <xs:element name="schemaInfo" type="SchemaInfoType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+
+    </xs:complexType>
+
+    <xs:group name="SchemaInfoGroup">
+        <xs:annotation>
+            <xs:documentation>
+                Provides a wrapper for multiple meta-data sets.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+
+            <xs:element name="schema" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        default="http://purl.org/dc/elements/1.1/"
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="schemaversion" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        default="1.1"
+                    </xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="SchemaInfoType">
+        <xs:group ref="SchemaInfoGroup" />
+    </xs:complexType>
+
+    <!-- ========================== Namespace extension Group ================================= -->
+
+    <xs:group name="grp.any">
+        <xs:annotation>
+            <xs:documentation>
+                Any namespace element from any namespace may be included within an "any" element. The
+                namespace for the imported element must be defined in the instance, and the schema must be imported.
+                The extension has a definition of "strict" i.e. they must have their own namespace.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>
+
+    <!-- ==================================== Property Types ================================= -->
+
+    <xs:complexType name="PropertyDefinitionsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for the Property definitions in the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="propertyDefinition" type="PropertyDefinitionType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PropertyDefinitionType">
+        <xs:annotation>
+            <xs:documentation>
+                A Property definition type containing its unique identifier, name, and data type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="NamedReferenceableType">
+                <xs:attribute name="type" type="DataType" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="DataType">
+        <xs:annotation>
+            <xs:documentation>
+                An enumeration of data types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="string" />
+            <xs:enumeration value="boolean" />
+            <xs:enumeration value="currency" />
+            <xs:enumeration value="date" />
+            <xs:enumeration value="time" />
+            <xs:enumeration value="number" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PropertiesType">
+        <xs:annotation>
+            <xs:documentation>
+                A container for all of the Property value instances for an object.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="property" type="PropertyType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PropertyType">
+        <xs:annotation>
+            <xs:documentation>
+                A Property instance type declaring the reference to a Property definition and containing the Property value.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="value" type="LangStringType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+
+        <xs:attribute name="propertyDefinitionRef" type="xs:IDREF" use="required" />
+    </xs:complexType>
+
+    <!-- ==================================== Concept Type ================================= -->
+
+    <xs:complexType name="ConceptType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                This is an abstract class for Concepts (Elements, Relationships, Composites, and RelationConnectors).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceableType">
+                <xs:sequence>
+                    <xs:group ref="ConceptGroup" />
+                </xs:sequence>
+                <xs:attributeGroup ref="ConceptAttributeGroup" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:group name="ConceptGroup">
+        <xs:annotation>
+            <xs:documentation>
+                Empty. Available for Extension purposes.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="PropertiesGroup" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ConceptAttributeGroup">
+        <xs:annotation>
+            <xs:documentation>
+                Empty. Available for Extension purposes.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:attributeGroup>
+
+    <!-- ==================================== Elements Types ================================= -->
+
+    <xs:complexType name="ElementsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for the elements of the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="element" type="ElementType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ElementType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                A base element type that can be extended by concrete ArchiMate types.
+
+                Note that ElementType is abstract, so one must have derived types of this type. this is indicated in xml
+                by having a tag name of "element" and an attribute of xsi:type="BusinessRole" where BusinessRole is
+                a derived type from ElementType.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ConceptType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ==================================== Relationship Types ================================= -->
+
+    <xs:complexType name="RelationshipsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for the relationships of the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="relationship" type="RelationshipType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RelationshipType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                A base relationship type that can be extended by concrete ArchiMate types.
+
+                Note that RelationshipType is abstract, so one must have derived types of this type. this is indicated in xml
+                by having a tag name of "relationship" and an attribute of xsi:type="AccessRelationship" where AccessRelationship is
+                a derived type from RelationshipType.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ConceptType">
+                <xs:attribute name="source" type="xs:IDREF" use="required" />
+                <xs:attribute name="target" type="xs:IDREF" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ==================================== Other Types ================================= -->
+
+    <xs:complexType name="RealElementType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Forces Real Elements to have Names.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:restriction base="ElementType">
+                <xs:sequence>
+                    <xs:group ref="NameGroup" minOccurs="1" maxOccurs="unbounded" />
+                    <xs:group ref="DocumentationGroup" />
+                    <xs:group ref="grp.any" />
+                    <xs:group ref="ConceptGroup" />
+                </xs:sequence>
+                <xs:attributeGroup ref="IdentifierGroup" />
+                <xs:attributeGroup ref="ConceptAttributeGroup" />
+                <xs:anyAttribute namespace="##other" processContents="strict" />
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="RelationshipConnectorType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                An abstract type for RelationshipConnectors. It is treated as an ElementType.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CompositeType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                An abstract type for Composites.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ==================================== Organizational Types ================================= -->
+
+    <xs:complexType name="OrganizationsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for the Organizations of the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="item" type="OrganizationType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OrganizationType">
+        <xs:annotation>
+            <xs:documentation>
+                An organization element represents a structural node in a particular organization of the model concepts.
+                An organization element may be a parent or sibling of other organization elements,
+                each one representing a unique structural node.
+
+                An organization element may reference an ArchiMate element, ArchiMate relationship,
+                or nothing (in which case it is a structural container)
+
+                An organization has no meaning unless it has at least child organization element.
+
+                Note that Organization must fit into a tree structure (so strictly nested).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="LabelGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="DocumentationGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="item" type="OrganizationType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attributeGroup ref="OptionalIdentifierGroup" />
+
+        <xs:attribute name="identifierRef" type="xs:IDREF" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    identifierRef could refer to anything that has an identifier in the model.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute namespace="##other" processContents="strict" />
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Business Layer Element Types ========================== -->
+
+    <xs:complexType name="BusinessActor">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessRole">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessCollaboration">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessInterface">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessProcess">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessFunction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessInteraction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessEvent">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessService">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BusinessObject">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Contract">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Representation">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Product">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Application Layer ElementTypes ========================== -->
+
+    <xs:complexType name="ApplicationComponent">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationCollaboration">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationInterface">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationFunction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationInteraction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationProcess">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationEvent">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicationService">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DataObject">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Technology Layer ElementTypes ========================== -->
+
+    <xs:complexType name="Node">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Device">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SystemSoftware">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyCollaboration">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyInterface">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Path">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CommunicationNetwork">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyFunction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyProcess">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyInteraction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyEvent">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="TechnologyService">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Artifact">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== Physical ElementTypes ========================== -->
+
+    <xs:complexType name="Equipment">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Facility">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DistributionNetwork">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Material">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Motivation ElementTypes ========================== -->
+
+    <xs:complexType name="Stakeholder">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Driver">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Assessment">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Goal">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Outcome">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Principle">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Requirement">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Constraint">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Meaning">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Value">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Strategy Layer ElementTypes ========================== -->
+
+    <xs:complexType name="Resource">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Capability">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CourseOfAction">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Implementation & Migration ElementTypes ========================== -->
+
+    <xs:complexType name="WorkPackage">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Deliverable">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ImplementationEvent">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Plateau">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Gap">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Composites ========================= -->
+
+    <xs:complexType name="Grouping">
+        <xs:complexContent>
+            <xs:extension base="CompositeType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Location">
+        <xs:complexContent>
+            <xs:extension base="CompositeType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Junctions ========================== -->
+
+    <xs:complexType name="AndJunction">
+        <xs:complexContent>
+            <xs:extension base="RelationshipConnectorType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="OrJunction">
+        <xs:complexContent>
+            <xs:extension base="RelationshipConnectorType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ArchiMate Relationships ========================== -->
+
+    <xs:complexType name="Composition">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Aggregation">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Assignment">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Realization">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Serving">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Access">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType">
+                <xs:attribute name="accessType" type="AccessTypeEnum" default="Access" use="optional" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="AccessTypeEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Element types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Access" />
+            <xs:enumeration value="Read" />
+            <xs:enumeration value="Write" />
+            <xs:enumeration value="ReadWrite" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Influence">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType">
+
+                <xs:attribute name="modifier" type="InfluenceModifierType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            This Attribute is only meaningful for Influence RelationshipType. This is optional for the Influence
+                            RelationshipType.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="InfluenceStrengthEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Influence Strength types. These are suggestions.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+
+            <xs:enumeration value="+" />
+            <xs:enumeration value="++" />
+            <xs:enumeration value="-" />
+            <xs:enumeration value="--" />
+
+            <xs:enumeration value="0" />
+            <xs:enumeration value="1" />
+            <xs:enumeration value="2" />
+            <xs:enumeration value="3" />
+            <xs:enumeration value="4" />
+            <xs:enumeration value="5" />
+            <xs:enumeration value="6" />
+            <xs:enumeration value="7" />
+            <xs:enumeration value="8" />
+            <xs:enumeration value="9" />
+            <xs:enumeration value="10" />
+
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="InfluenceModifierType">
+        <xs:union memberTypes="InfluenceStrengthEnum xs:string" />
+    </xs:simpleType>
+
+    <xs:complexType name="Triggering">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Flow">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Specialization">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Association">
+        <xs:complexContent>
+            <xs:extension base="RelationshipType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== Enums =============================== -->
+
+    <xs:simpleType name="ElementTypeEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Element types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="BusinessActor" />
+            <xs:enumeration value="BusinessRole" />
+            <xs:enumeration value="BusinessCollaboration" />
+            <xs:enumeration value="BusinessInterface" />
+            <xs:enumeration value="BusinessProcess" />
+            <xs:enumeration value="BusinessFunction" />
+            <xs:enumeration value="BusinessInteraction" />
+            <xs:enumeration value="BusinessEvent" />
+            <xs:enumeration value="BusinessService" />
+            <xs:enumeration value="BusinessObject" />
+            <xs:enumeration value="Contract" />
+            <xs:enumeration value="Representation" />
+            <xs:enumeration value="Product" />
+            <xs:enumeration value="ApplicationComponent" />
+            <xs:enumeration value="ApplicationCollaboration" />
+            <xs:enumeration value="ApplicationInterface" />
+            <xs:enumeration value="ApplicationFunction" />
+            <xs:enumeration value="ApplicationInteraction" />
+            <xs:enumeration value="ApplicationProcess" />
+            <xs:enumeration value="ApplicationEvent" />
+            <xs:enumeration value="ApplicationService" />
+            <xs:enumeration value="DataObject" />
+            <xs:enumeration value="Node" />
+            <xs:enumeration value="Device" />
+            <xs:enumeration value="SystemSoftware" />
+            <xs:enumeration value="TechnologyCollaboration" />
+            <xs:enumeration value="TechnologyInterface" />
+            <xs:enumeration value="Path" />
+            <xs:enumeration value="CommunicationNetwork" />
+            <xs:enumeration value="TechnologyFunction" />
+            <xs:enumeration value="TechnologyProcess" />
+            <xs:enumeration value="TechnologyInteraction" />
+            <xs:enumeration value="TechnologyEvent" />
+            <xs:enumeration value="TechnologyService" />
+            <xs:enumeration value="Artifact" />
+            <xs:enumeration value="Equipment" />
+            <xs:enumeration value="Facility" />
+            <xs:enumeration value="DistributionNetwork" />
+            <xs:enumeration value="Material" />
+            <xs:enumeration value="Stakeholder" />
+            <xs:enumeration value="Driver" />
+            <xs:enumeration value="Assessment" />
+            <xs:enumeration value="Goal" />
+            <xs:enumeration value="Outcome" />
+            <xs:enumeration value="Principle" />
+            <xs:enumeration value="Requirement" />
+            <xs:enumeration value="Constraint" />
+            <xs:enumeration value="Meaning" />
+            <xs:enumeration value="Value" />
+            <xs:enumeration value="Resource" />
+            <xs:enumeration value="Capability" />
+            <xs:enumeration value="CourseOfAction" />
+            <xs:enumeration value="WorkPackage" />
+            <xs:enumeration value="Deliverable" />
+            <xs:enumeration value="ImplementationEvent" />
+            <xs:enumeration value="Plateau" />
+            <xs:enumeration value="Gap" />
+            <xs:enumeration value="Grouping" />
+            <xs:enumeration value="Location" />
+            <xs:enumeration value="AndJunction" />
+            <xs:enumeration value="OrJunction" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="RelationshipConnectorEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Relationship Connector types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="AndJunction" />
+            <xs:enumeration value="OrJunction" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CompositeTypeEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Composite types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Grouping" />
+            <xs:enumeration value="Location" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ElementEnumType">
+        <xs:union memberTypes="ElementTypeEnum CompositeTypeEnum RelationshipConnectorEnum" />
+    </xs:simpleType>
+
+    <xs:simpleType name="RelationshipTypeEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Relationship types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Composition" />
+            <xs:enumeration value="Aggregation" />
+            <xs:enumeration value="Assignment" />
+            <xs:enumeration value="Realization" />
+            <xs:enumeration value="Serving" />
+            <xs:enumeration value="Access" />
+            <xs:enumeration value="Influence" />
+            <xs:enumeration value="Triggering" />
+            <xs:enumeration value="Flow" />
+            <xs:enumeration value="Specialization" />
+            <xs:enumeration value="Association" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

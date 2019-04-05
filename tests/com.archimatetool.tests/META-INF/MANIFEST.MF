@@ -17,5 +17,6 @@ Require-Bundle: com.archimatetool.canvas,
  com.archimatetool.model,
  com.archimatetool.reports,
  com.archimatetool.zest,
+ org.opengroup.archimate.xmlexchange,
  org.junit
 Automatic-Module-Name: com.archimatetool.tests

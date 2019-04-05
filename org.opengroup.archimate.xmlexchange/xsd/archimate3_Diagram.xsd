@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+           targetNamespace="http://www.opengroup.org/xsd/archimate/3.0/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:archimate="http://www.opengroup.org/xsd/archimate/3.0/"
+           elementFormDefault="qualified"
+           version="3.0"
+           attributeFormDefault="unqualified">
+
+    <xs:include schemaLocation="archimate3_View.xsd" />
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            -------------------------
+            Author: The Open Group ArchiMate Exchange Team
+            Start date: 04 Oct 2016
+            Revision date: 18 May 2017
+            XSD Version: 3.0
+            Status: Final
+            Description: The Open Group ArchiMate 3.0 Open Exchange Format
+        </xs:documentation>
+
+        <xs:documentation>
+            Notes and rationale
+            -------------------
+            This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
+
+            A number of example models in the exchange file format are available
+            for interoperability testing. For details of how to obtain those
+            files and for further information, see the ArchiMate Model Exchange File Format
+            page at http://www.opengroup.org/xsd/archimate/
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:redefine schemaLocation="archimate3_View.xsd">
+
+        <xs:complexType name="ViewsType">
+            <xs:complexContent>
+                <xs:extension base="ViewsType">
+                    <xs:sequence>
+                        <xs:element name="diagrams" type="DiagramsType" minOccurs="0" maxOccurs="1" />
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+
+    </xs:redefine>
+
+    <!-- =========================== Diagrams ========================== -->
+
+    <xs:complexType name="DiagramsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Diagrams in the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="view" type="Diagram" minOccurs="1" maxOccurs="unbounded">
+
+                <xs:key name="NodeKey">
+                    <xs:selector xpath=".//archimate:node" />
+                    <xs:field xpath="@identifier" />
+                </xs:key>
+
+                <xs:key name="ConnectionKey">
+                    <xs:selector xpath=".//archimate:connection" />
+                    <xs:field xpath="@identifier" />
+                </xs:key>
+
+                <xs:keyref name="NodeRef" refer="NodeKey">
+                    <xs:selector xpath=".//archimate:nodeRef" />
+                    <xs:field xpath="@ref" />
+                </xs:keyref>
+
+                <xs:keyref name="NodeRefAttribute" refer="NodeKey">
+                    <xs:selector xpath=".//archimate:*" />
+                    <xs:field xpath="@nodeRef" />
+                </xs:keyref>
+
+                <xs:keyref name="ConnectionRef" refer="ConnectionKey">
+                    <xs:selector xpath=".//archimate:connectionRef" />
+                    <xs:field xpath="@ref" />
+                </xs:keyref>
+
+                <xs:keyref name="ConnectionRefAttribute" refer="ConnectionKey">
+                    <xs:selector xpath=".//archimate:*" />
+                    <xs:field xpath="@connectionRef" />
+                </xs:keyref>
+
+                <!-- ViewConcept -->
+
+                <xs:key name="ViewConceptKey">
+                    <xs:selector xpath=".//archimate:node | .//archimate:connection" />
+                    <xs:field xpath="@identifier" />
+                </xs:key>
+
+                <xs:keyref name="ViewConceptRef" refer="ViewConceptKey">
+                    <xs:selector xpath=".//archimate:viewConceptRef" />
+                    <xs:field xpath="@ref" />
+                </xs:keyref>
+
+                <xs:keyref name="ViewConceptRefAttribute" refer="ViewConceptKey">
+                    <xs:selector xpath=".//archimate:*" />
+                    <xs:field xpath="@viewConceptRef" />
+                </xs:keyref>
+
+                <xs:keyref name="ConnectionSourceRef" refer="ViewConceptKey">
+                    <xs:selector xpath=".//archimate:connection" />
+                    <xs:field xpath="@source" />
+                </xs:keyref>
+
+                <xs:keyref name="ConnectionTargetRef" refer="ViewConceptKey">
+                    <xs:selector xpath=".//archimate:connection" />
+                    <xs:field xpath="@target" />
+                </xs:keyref>
+
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- =================================== Reference Types ========================================= -->
+
+    <xs:group name="NodeRefGroup">
+        <xs:sequence>
+            <xs:element name="nodeRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="NodeRefAttributeGroup">
+        <xs:attribute name="nodeRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="ConnectionRefGroup">
+        <xs:sequence>
+            <xs:element name="connectionRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ConnectionRefAttributeGroup">
+        <xs:attribute name="connectionRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="ViewConceptRefGroup">
+        <xs:sequence>
+            <xs:element name="viewConceptRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ViewConceptRefAttributeGroup">
+        <xs:attribute name="viewConceptRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <!-- =================================== Diagram Types ========================================= -->
+
+    <xs:complexType name="Diagram">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Nodes and Connections in the Diagrams.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ViewType">
+                <xs:sequence>
+                    <xs:element name="node" type="ViewNodeType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="connection" type="ConnectionType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== ViewConcept Type ========================== -->
+
+    <xs:complexType name="ViewConceptType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                This is an abstract super-type of Node and Connection.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:group ref="LabelGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="DocumentationGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="style" type="StyleType" minOccurs="0" maxOccurs="1" />
+
+            <xs:element name="viewRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        the "viewRef" of an "Concept" is to a view that allows drill-down diagrams.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+        <xs:attributeGroup ref="IdentifierGroup" />
+        <xs:anyAttribute namespace="##other" processContents="strict" />
+    </xs:complexType>
+
+    <!-- =========================== Nodes ========================== -->
+
+    <xs:complexType name="ViewNodeType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Graphical node type. It can contain child node types.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexContent>
+            <xs:extension base="ViewConceptType">
+
+                <xs:attributeGroup ref="LocationGroup" />
+                <xs:attributeGroup ref="SizeGroup" />
+
+                <xs:anyAttribute namespace="##other" processContents="strict" />
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
+    <xs:attributeGroup name="LocationGroup">
+        <xs:attribute name="x" type="xs:nonNegativeInteger" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The x (towards the right, associated with width) attribute from the Top,Left (i.e. 0,0) corner of the diagram to the
+                    Top, Left corner of the bounding box of the concept.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y" type="xs:nonNegativeInteger" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The y (towards the bottom, associated with height) attribute from the Top,Left (i.e. 0,0) corner of the diagram to the
+                    Top, Left corner of the bounding box of the concept.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:complexType name="LocationType">
+        <xs:attributeGroup ref="LocationGroup" />
+    </xs:complexType>
+
+    <xs:attributeGroup name="SizeGroup">
+        <xs:attribute name="w" type="xs:positiveInteger" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The width (associated with x) attribute from the Left side to the right side of the bounding box of a concept.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="h" type="xs:positiveInteger" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The height (associated with y) attribute from the top side to the bottom side of the bounding box of a concept.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:simpleType name="XPATH_2.0_Expression">
+        <xs:annotation>
+            <xs:documentation>
+                An XPath 2.0 expression.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:pattern value=".+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Label">
+        <xs:annotation>
+            <xs:documentation>
+                Node type to allow a Label in a Artifact. the "label" element holds the info for the Note.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ViewNodeType">
+                <xs:attribute name="conceptRef" type="xs:IDREF" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            conceptRef is a reference to an concept for this particular label, along with the attributeRef
+                            which references the particular concept's part which this label represents.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="xpathPart" type="XPATH_2.0_Expression" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            conceptRef is a reference to an concept for this particular label, along with the partRef
+                            which references the particular concept's part which this label represents. If this attribute
+                            is set, then there is no need to add a label tag in the Label parent (since it is contained in the model).
+                            the XPATH statement is meant to be interpreted in the context of what the conceptRef points to.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Container">
+        <xs:annotation>
+            <xs:documentation>
+                Node type to allow a Container in a Artifact. This is a visual grouping container.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ViewNodeType">
+
+                <xs:sequence>
+
+                    <xs:element name="node" type="ViewNodeType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                This is to support Nested Nodes on the Diagram
+
+                                The order of sibling nodes in their parent View or Node container as declared in the model
+                                instance dictates the z-order of the nodes. Given nodes A, B, and C as declared in that order,
+                                node B is considered to be in front of node A, node C is considered to be in front of node B, and
+                                node C is considered to be in front of nodes A and B.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                </xs:sequence>
+
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Element">
+        <xs:annotation>
+            <xs:documentation>
+                Node type to allow an Element in a Artifact.
+
+                The node's label, documentation and properties may be determined
+                (i.e inherited) from those in the referenced ArchiMate element. Otherwise the node's label, documentation and properties
+                can be provided and will be additional to (or over-ride) those contained in the referenced ArchiMate element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Container">
+                <xs:attribute name="elementRef" type="xs:IDREF" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the 'elementRef' restrictions will only allow references to an existing ArchiMate element.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== Connections ========================== -->
+
+    <xs:complexType name="ConnectionType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Graphical connection type.
+
+                If the 'relationshipRef' attribute is present, the connection should reference an existing ArchiMate relationship.
+
+                If the connection is an ArchiMate relationship type, the connection's label, documentation and properties may be determined
+                (i.e inherited) from those in the referenced ArchiMate relationship. Otherwise the connection's label, documentation and properties
+                 can be provided and will be additional to (or over-ride) those contained in the referenced ArchiMate relationship.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexContent>
+            <xs:extension base="ViewConceptType">
+
+                <xs:sequence>
+                    <xs:element name="sourceAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="bendpoint" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="targetAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
+                </xs:sequence>
+
+                <xs:attribute name="source" type="xs:IDREF" use="optional" />
+                <xs:attribute name="target" type="xs:IDREF" use="optional" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Line">
+        <xs:annotation>
+            <xs:documentation>
+                Line on the diagram.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ConnectionType" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SourcedConnectionType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Abstract Type requiring a source and target.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:restriction base="ConnectionType">
+                <xs:sequence>
+                    <xs:group ref="LabelGroup" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:group ref="DocumentationGroup" minOccurs="0" maxOccurs="unbounded" />
+
+                    <xs:element name="style" type="StyleType" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="viewRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+
+                    <xs:element name="sourceAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="bendpoint" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="targetAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
+                </xs:sequence>
+                <xs:attributeGroup ref="IdentifierGroup" />
+                <xs:attribute name="source" type="xs:IDREF" use="required" />
+                <xs:attribute name="target" type="xs:IDREF" use="required" />
+                <xs:anyAttribute namespace="##other" processContents="strict" />
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Relationship">
+        <xs:annotation>
+            <xs:documentation>
+                Connector for a Relationship.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="SourcedConnectionType">
+                <xs:attribute name="relationshipRef" type="xs:IDREF" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="NestingRelationship">
+        <xs:annotation>
+            <xs:documentation>
+                Connector for a Nested Relationship on an element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Relationship" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =========================== Style type ========================== -->
+
+    <xs:complexType name="StyleType">
+        <xs:annotation>
+            <xs:documentation>
+                A Style type for a node and a connection.
+                It is a container for style properties such as color, font.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="lineColor" type="RGBColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="fillColor" type="RGBColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="font" type="FontType" minOccurs="0" maxOccurs="1" />
+        </xs:all>
+        <xs:attribute name="lineWidth" type="xs:positiveInteger" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    An integer value representing the width (thickness) of the lines of each node in pixels.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- =========================== RGBA type ========================== -->
+
+    <xs:complexType name="RGBColorType">
+        <xs:annotation>
+            <xs:documentation>
+                RGB Color type.
+                The r, g, b attributes range from 0 - 255.
+                The a (alpha) transparency attribute is optional. 0 = full transparency, 100 = opaque.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="r" type="RGBValueType" use="required" />
+        <xs:attribute name="g" type="RGBValueType" use="required" />
+        <xs:attribute name="b" type="RGBValueType" use="required" />
+        <xs:attribute name="a" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:unsignedByte">
+                    <xs:minInclusive value="0" />
+                    <xs:maxInclusive value="100" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="RGBValueType">
+        <xs:restriction base="xs:unsignedByte">
+            <xs:minInclusive value="0" />
+            <xs:maxInclusive value="255" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- =========================== Font type ========================== -->
+
+    <xs:simpleType name="FontStyleEnum">
+        <xs:annotation>
+            <xs:documentation>
+                A value describing the style of the font. Style values can be combined
+                and shall be separated by a space. If no style values are declared, a default
+                style is to be assumed. Declaring a style of plain implies that no styling (bold, italic,
+                underline) shall be used by the receiver.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="plain" />
+            <xs:enumeration value="bold" />
+            <xs:enumeration value="italic" />
+            <xs:enumeration value="underline" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="FontStyleType">
+        <xs:list itemType="FontStyleEnum" />
+    </xs:simpleType>
+
+    <xs:simpleType name="nonNegativeDecimal">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="nonNegativeHalfGranularityDecimal">
+        <xs:restriction base="nonNegativeDecimal">
+            <xs:pattern value="[1-9][0-9]*(\.0|\.5)?" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="FontType">
+        <xs:annotation>
+            <xs:documentation>
+                Font type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="color" type="RGBColorType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="optional" />
+        <xs:attribute name="size" type="nonNegativeHalfGranularityDecimal" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    Size is given in points.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="FontStyleType" use="optional" />
+    </xs:complexType>
+
+</xs:schema>

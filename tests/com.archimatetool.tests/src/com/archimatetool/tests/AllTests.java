@@ -28,6 +28,7 @@ public class AllTests {
 		suite.addTest(getTest("com.archimatetool.model.AllTests"));
         suite.addTest(getTest("com.archimatetool.reports.AllTests"));
         suite.addTest(getTest("com.archimatetool.zest.AllTests"));
+        suite.addTest(getTest("org.opengroup.archimate.xmlexchange.AllTests"));
 
 		return suite;
 	}

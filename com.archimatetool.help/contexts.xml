@@ -185,5 +185,13 @@
        <description>Generate a View from Elements</description>
        <topic href="help/Text/generate_view.html" label="Generate a View from Elements"/>
     </context>
+    <context id="ExportToXMLPage">
+        <description>Export a model to The Open Group Exchange format</description>
+        <topic label="Exporting and Settings" href="help/Text/exchange-export.html"/>
+    </context>
+    <context id="ExportToXMLPageMetadata">
+       <description>Adding Metadata to The Open Group XML format</description>
+       <topic href="help/Text/exchange-export_metadata.html" label="Adding Metadata"/>
+    </context>
     
 </contexts>

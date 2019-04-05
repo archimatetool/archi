@@ -28,6 +28,7 @@
         <module>com.archimatetool.model.tests</module>
 		<module>com.archimatetool.reports.tests</module>
         <module>com.archimatetool.zest.tests</module>
+        <module>org.opengroup.archimate.xmlexchange.tests</module>
     </modules>
 
     <build>

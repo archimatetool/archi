@@ -120,6 +120,14 @@
     </topic>
     <topic href="help/Text/exporting.html" label="Importing and Exporting the Model and its Views">
     </topic>
+    <topic href="help/Text/exchange-intro.html" label="The Open Group&apos;s ArchiMate Exchange Format">
+       <topic href="help/Text/exchange-export.html" label="Exporting and Settings">
+       </topic>
+       <topic href="help/Text/exchange-export_metadata.html" label="Adding Metadata">
+       </topic>
+       <topic href="help/Text/exchange-import.html" label="Importing a Model from an Open Exchange Format file">
+       </topic>
+    </topic>
     <topic href="help/Text/reporting.html" label="Reporting">
        <topic href="help/Text/reporting-html.html" label="HTML Reports">
        </topic>

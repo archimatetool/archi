@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+           targetNamespace="http://www.opengroup.org/xsd/archimate/3.0/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:archimate="http://www.opengroup.org/xsd/archimate/3.0/"
+           elementFormDefault="qualified"
+           version="3.0"
+           attributeFormDefault="unqualified">
+
+    <xs:include schemaLocation="archimate3_Model.xsd" />
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            -------------------------
+            Author: The Open Group ArchiMate Exchange Team
+            Start date: 04 Oct 2016
+            Revision date: 18 May 2017
+            XSD Version: 3.0
+            Status: Final
+            Description: The Open Group ArchiMate 3.0 Open Exchange Format
+        </xs:documentation>
+
+        <xs:documentation>
+            Notes and rationale
+            -------------------
+            This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
+
+            A number of example models in the exchange file format are available
+            for interoperability testing. For details of how to obtain those
+            files and for further information, see the ArchiMate Model Exchange File Format
+            page at http://www.opengroup.org/xsd/archimate/
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- =========================== Declaration of the Root Model Element ========================== -->
+
+    <xs:redefine schemaLocation="archimate3_Model.xsd">
+
+        <xs:complexType name="ModelType">
+            <xs:complexContent>
+                <xs:extension base="ModelType">
+                    <xs:sequence>
+
+                        <xs:element name="views" type="ViewsType" minOccurs="0" maxOccurs="1">
+
+                            <xs:key name="ViewKey">
+                                <xs:selector xpath=".//archimate:view" />
+                                <xs:field xpath="@identifier" />
+                            </xs:key>
+
+                            <xs:key name="ViewpointKey">
+                                <xs:selector xpath="./archimate:viewpoints/archimate:viewpoint" />
+                                <xs:field xpath="@identifier" />
+                            </xs:key>
+
+                            <xs:keyref name="ViewRef" refer="ViewKey">
+                                <xs:selector xpath=".//archimate:viewRef" />
+                                <xs:field xpath="@ref" />
+                            </xs:keyref>
+
+                            <xs:keyref name="ViewRefAttribute" refer="ViewKey">
+                                <xs:selector xpath=".//archimate:*" />
+                                <xs:field xpath="@viewRef" />
+                            </xs:keyref>
+
+                            <xs:keyref name="ViewpointRef" refer="ViewpointKey">
+                                <xs:selector xpath=".//archimate:viewpointRef" />
+                                <xs:field xpath="@ref" />
+                            </xs:keyref>
+
+                            <xs:keyref name="ViewpointRefAttribute" refer="ViewpointKey">
+                                <xs:selector xpath=".//archimate:*" />
+                                <xs:field xpath="@viewpointRef" />
+                            </xs:keyref>
+
+                        </xs:element>
+
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+
+        </xs:complexType>
+
+    </xs:redefine>
+
+    <!-- =================================== Reference Types ========================================= -->
+
+    <!-- Note: These are here to allow extensions to use references -->
+
+    <xs:group name="ViewRefGroup">
+        <xs:sequence>
+            <xs:element name="viewRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ViewRefAttributeGroup">
+        <xs:attribute name="viewRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <xs:group name="ViewpointRefGroup">
+        <xs:sequence>
+            <xs:element name="viewpointRef" type="ReferenceType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:attributeGroup name="ViewpointRefAttributeGroup">
+        <xs:attribute name="viewpointRef" type="xs:IDREF" use="required" />
+    </xs:attributeGroup>
+
+    <!-- ==================================== Views Types ================================= -->
+
+    <xs:complexType name="ViewsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Views in the model.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="viewpoints" type="ViewpointsType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        viewpoints is optional and is a container for any viewpoints.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ViewType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Container for View type.
+
+                Note that View itself is abstract so one must have a derived type. the xml example must look like
+                a tag name "view" with an attribute of xsi:type="Diagram", if Diagram is a derived type from ViewType.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="NamedReferenceableType">
+                <xs:sequence>
+                    <xs:group ref="PropertiesGroup" />
+                </xs:sequence>
+                <xs:attribute name="viewpoint" type="ViewpointTypeType" use="optional" />
+                <xs:attribute name="viewpointRef" type="xs:IDREF" use="optional" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ======================================= Viewpoints ============================================== -->
+
+    <xs:complexType name="ViewpointsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Viewpoints in the model.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="viewpoint" type="ViewpointType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="ViewpointPurposeEnum">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Designing" />
+            <xs:enumeration value="Deciding" />
+            <xs:enumeration value="Informing" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ViewpointPurposeType">
+        <xs:list itemType="ViewpointPurposeEnum" />
+    </xs:simpleType>
+
+    <xs:simpleType name="ViewpointContentEnum">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Details" />
+            <xs:enumeration value="Coherence" />
+            <xs:enumeration value="Overview" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ViewpointContentType">
+        <xs:list itemType="ViewpointContentEnum" />
+    </xs:simpleType>
+
+    <xs:complexType name="ViewpointType">
+        <xs:complexContent>
+            <xs:extension base="NamedReferenceableType">
+                <xs:sequence>
+                    <xs:group ref="PropertiesGroup" />
+                    <xs:element name="concern" type="ConcernType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="viewpointPurpose" type="ViewpointPurposeType" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="viewpointContent" type="ViewpointContentType" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="allowedElementType" type="AllowedElementTypeType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="allowedRelationshipType" type="AllowedRelationshipTypeType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="modelingNote" type="ModelingNoteType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ModelingNoteType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a set of notes to the modeler on how to use and model with this viewpoint. Could contain rules
+                or constraints. The part hold the information for this element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="DocumentationGroup" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    This attribute expresses a type for the notes, e.g. OCL for OCL rules.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ConcernType">
+        <xs:annotation>
+            <xs:documentation>
+                document attribute holds all the concern information.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="LabelGroup" minOccurs="1" maxOccurs="unbounded" />
+            <xs:group ref="DocumentationGroup" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="stakeholders" type="StakeholdersType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="StakeholdersType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Stakeholders in the Concern.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="stakeholder" type="StakeholderType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="StakeholderType">
+        <xs:sequence>
+            <xs:group ref="LabelGroup" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AllowedElementTypeType">
+        <xs:attribute name="type" type="ElementEnumType" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="AllowedRelationshipTypeType">
+        <xs:attribute name="type" type="RelationshipTypeEnum" use="required" />
+    </xs:complexType>
+
+    <!-- =========================== Viewpoints ========================== -->
+
+    <xs:simpleType name="ViewpointsEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of Viewpoint types (informative).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+
+            <!-- Basic Viewpoints -->
+            <!-- Category:Composition Viewpoints that defines internal compositions and aggregations of elements. -->
+            <xs:enumeration value="Organization" />
+            <xs:enumeration value="Application Platform" />
+            <xs:enumeration value="Information Structure" />
+            <xs:enumeration value="Technology" />
+            <xs:enumeration value="Layered" />
+            <xs:enumeration value="Physical" />
+
+            <!-- Category:Support Viewpoints where you are looking at elements that are supported by other elements. Typically from one layer and upwards to an above layer. -->
+            <xs:enumeration value="Product" />
+            <xs:enumeration value="Application Usage" />
+            <xs:enumeration value="Technology Usage" />
+
+            <!-- Category:Cooperation Towards peer elements which cooperate with each other. Typically across aspects. -->
+            <xs:enumeration value="Business Process Cooperation" />
+            <xs:enumeration value="Application Cooperation" />
+
+            <!-- Category:Realization Viewpoints where you are looking at elements that realize other elements. Typically from one layer and downwards to a below layer. -->
+            <xs:enumeration value="Service Realization" />
+            <xs:enumeration value="Implementation and Deployment" />
+            <xs:enumeration value="Goal Realization" />
+            <xs:enumeration value="Goal Contribution" />
+            <xs:enumeration value="Principles" />
+            <xs:enumeration value="Requirements Realization" />
+            <xs:enumeration value="Motivation" />
+
+            <!-- Strategy Viewpoints -->
+            <xs:enumeration value="Strategy" />
+            <xs:enumeration value="Capability Map" />
+            <xs:enumeration value="Outcome Realization" />
+            <xs:enumeration value="Resource Map" />
+
+            <!-- Implementation and Migration Viewpoints -->
+            <xs:enumeration value="Project" />
+            <xs:enumeration value="Migration" />
+            <xs:enumeration value="Implementation and Migration" />
+
+            <!-- Other Viewpoints -->
+            <xs:enumeration value="Stakeholder" />
+
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ViewpointTypeType">
+        <xs:union memberTypes="xs:string ViewpointsEnum" />
+    </xs:simpleType>
+
+</xs:schema>

@@ -70,6 +70,7 @@ OTHER DEALINGS IN THE SOFTWARE.
       <import plugin="org.eclipse.ui.views" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.e4.ui.css.core" version="0.12.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.help.ui"/>
@@ -252,6 +253,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <plugin
          id="com.archimatetool.jasperreports.commandline"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengroup.archimate.xmlexchange"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengroup.archimate.xmlexchange.commandline"
          download-size="0"
          install-size="0"
          version="0.0.0"

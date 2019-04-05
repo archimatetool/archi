@@ -42,15 +42,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <requires>
       <import plugin="com.archimatetool.canvas"/>
+      <import plugin="com.archimatetool.commandline"/>
       <import plugin="com.archimatetool.csv"/>
       <import plugin="com.archimatetool.editor"/>
       <import plugin="com.archimatetool.export.svg"/>
+      <import plugin="com.archimatetool.hammer"/>
       <import plugin="com.archimatetool.help"/>
       <import plugin="com.archimatetool.jasperreports"/>
       <import plugin="com.archimatetool.jdom"/>
       <import plugin="com.archimatetool.model"/>
       <import plugin="com.archimatetool.reports"/>
       <import plugin="com.archimatetool.zest"/>
+      <import plugin="org.opengroup.archimate.xmlexchange"/>
       <import plugin="org.junit"/>
    </requires>
 

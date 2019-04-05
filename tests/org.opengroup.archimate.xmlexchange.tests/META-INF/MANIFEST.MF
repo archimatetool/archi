@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for ArchiMate Open Exchange Plugin
+Bundle-SymbolicName: org.opengroup.archimate.xmlexchange.tests
+Bundle-Version: 4.0.0
+Fragment-Host: org.opengroup.archimate.xmlexchange
+Bundle-Vendor: The Open Group
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests

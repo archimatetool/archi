@@ -42,7 +42,6 @@
 
    <features>
       <feature id="com.archimatetool.editor.feature"/>
-      <feature id="org.opengroup.archimate.xmlexchange.feature"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.gef"/>
