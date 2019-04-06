@@ -27,7 +27,7 @@
         <module>com.archimatetool.canvas</module>
         <module>com.archimatetool.commandline</module>
         <module>com.archimatetool.csv</module>
-		<module>com.archimatetool.csv.commandline</module>
+        <module>com.archimatetool.csv.commandline</module>
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
         <module>com.archimatetool.editor.feature</module>
@@ -38,7 +38,7 @@
         <module>com.archimatetool.hammer</module>
         <module>com.archimatetool.help</module>
         <module>com.archimatetool.jasperreports</module>
-		<module>com.archimatetool.jasperreports.commandline</module>
+        <module>com.archimatetool.jasperreports.commandline</module>
         <module>com.archimatetool.jdom</module>
         <module>com.archimatetool.model</module>
         <module>com.archimatetool.reports</module>
@@ -51,7 +51,7 @@
         <module>tests</module>
         
         <!-- For a full product build include the following module -->
-        <!-- <module>com.archimatetool.editor.product</module -->
+        <!-- <module>com.archimatetool.editor.product</module> -->
     </modules>
 
     <build>
