@@ -141,7 +141,6 @@ public class CentralScrutinizer implements IApplication {
     }
     
     // Run providers' options
-    @SuppressWarnings("deprecation")
     private int runProviderOptions(CommandLine commandLine) {
         // Ensure Display is initialised
         ensureDefaultDisplay();
@@ -149,15 +148,7 @@ public class CentralScrutinizer implements IApplication {
         // Invoke providers' run() method
         for(ICommandLineProvider provider : providers.keySet()) {
             try {
-                // Use the old method if it's used by the provider
-                try {
-                    provider.getClass().getDeclaredMethod("run", String[].class); //$NON-NLS-1$
-                    provider.run(Platform.getApplicationArgs()); // Backward compatibility
-                }
-                // Nope, so use new method
-                catch(NoSuchMethodException | SecurityException ex) {
-                    provider.run(commandLine);
-                }
+                provider.run(commandLine);
             }
             catch(Exception ex) {
                 ex.printStackTrace();
