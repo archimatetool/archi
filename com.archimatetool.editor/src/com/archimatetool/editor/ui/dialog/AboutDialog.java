@@ -163,6 +163,7 @@ public class AboutDialog extends TrayDialog {
     
     private void populateAboutTab() {
         installationDetailsButton.setVisible(true);
+        checkNewVersionButton.setVisible(true);
     }
     
     private void createLicenseTab() {
@@ -184,6 +185,7 @@ public class AboutDialog extends TrayDialog {
 
     private void populateLicenseTab() {
         installationDetailsButton.setVisible(false);
+        checkNewVersionButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
             File file = new File(ArchiPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
