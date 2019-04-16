@@ -76,6 +76,8 @@ public class ColorFactoryTests {
         assertEquals(1, color.getRed());
         assertEquals(2, color.getGreen());
         assertEquals(3, color.getBlue());
+        
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + actor.eClass().getName());
     }
 
     @Test
