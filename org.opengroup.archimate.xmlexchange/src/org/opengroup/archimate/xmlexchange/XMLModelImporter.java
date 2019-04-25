@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
@@ -81,6 +82,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // Connection/Node lookup
     private Map<String, IConnectable> fConnectionsNodesLookup;
     
+    // Diagram Model references lookup
+    private Map<IDiagramModelReference, String> fDiagramRefsLookup;
     
     public IArchimateModel createArchiMateModel(File instanceFile) throws IOException, JDOMException, XMLModelParserException {
         // Create a new Archimate Model and set its defaults
@@ -101,6 +104,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // New lookup tables
         fConceptsLookup = new HashMap<>();
         fConnectionsNodesLookup = new HashMap<>();
+        fDiagramRefsLookup = new HashMap<>();
         
         // Parse ArchiMate Elements
         parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, ARCHIMATE3_NAMESPACE));
@@ -440,16 +444,16 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             addConnections(viewElement);
         }
         
-        // Now add any pending view diagram references
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelReference) {
-                IDiagramModelReference dmRef = (IDiagramModelReference)eObject;
-                String refID = (String)dmRef.getAdapter(ATTRIBUTE_REF);
-                if(refID != null) {
-                    IArchimateDiagramModel dm = diagramModels.get(refID);
-                    dmRef.setReferencedModel(dm);
-                }
+        // Now add any view diagram references
+        for(Entry<IDiagramModelReference, String> element : fDiagramRefsLookup.entrySet()) {
+            IDiagramModelReference dmRef = element.getKey();
+            String refID = element.getValue();
+            IArchimateDiagramModel dm = diagramModels.get(refID);
+            if(dm != null) {
+                dmRef.setReferencedModel(dm);
+            }
+            else {
+                throw new XMLModelParserException(Messages.XMLModelImporter_15 + refID);
             }
         }
     }
@@ -510,9 +514,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     // View reference
                     Element viewRefElement = nodeElement.getChild(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
                     String viewRefID = viewRefElement.getAttributeValue(ATTRIBUTE_REF);
-                    // Note - the referenced diagram model will have to be set afterwards since we may not have created it yet
+                    // The referenced diagram model will have to be set afterwards since we may not have created it yet
                     // so we use this a temp store
-                    ref.setAdapter(ATTRIBUTE_REF, viewRefID);
+                    fDiagramRefsLookup.put(ref, viewRefID);
                 }
                 // A Note is our only other option
                 else {

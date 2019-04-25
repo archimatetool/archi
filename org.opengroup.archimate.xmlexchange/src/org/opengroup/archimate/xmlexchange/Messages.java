@@ -22,6 +22,8 @@ public class Messages extends NLS {
 
     public static String XMLModelImporter_14;
 
+    public static String XMLModelImporter_15;
+
     public static String XMLModelImporter_2;
 
     public static String XMLModelImporter_3;
