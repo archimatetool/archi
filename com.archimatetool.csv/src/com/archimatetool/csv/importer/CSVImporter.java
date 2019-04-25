@@ -68,6 +68,9 @@ public class CSVImporter implements CSVConstants {
 
     // IArchimateConcept -> Map [EAttribute, value] : Updated concepts' features
     Map<IArchimateConcept, Map<EAttribute, Object>> updatedConcepts = new HashMap<IArchimateConcept, Map<EAttribute, Object>>();
+    
+    // IArchimateRelationship -> Source/Target IDs in two String array objects [0] and [1]
+    Map<IArchimateRelationship, String[]> relationshipSourceTargets = new HashMap<IArchimateRelationship, String[]>();
 
     // CSV Model id. This might be set as a reference for Properties. Might be null.
     private String modelID;
@@ -331,9 +334,10 @@ public class CSVImporter implements CSVConstants {
             if(entry.getValue() instanceof IArchimateRelationship) {
                 IArchimateRelationship relation = (IArchimateRelationship)entry.getValue();
                 
-                // Get the ids from the temporary stores
-                IArchimateConcept source = findReferencedConcept((String)relation.getAdapter("sourceID")); //$NON-NLS-1$
-                IArchimateConcept target = findReferencedConcept((String)relation.getAdapter("targetID")); //$NON-NLS-1$
+                // Get the source and target ids from the lookup table
+                String[] sourceTargets = relationshipSourceTargets.get(relation);
+                IArchimateConcept source = findReferencedConcept(sourceTargets[0]);
+                IArchimateConcept target = findReferencedConcept(sourceTargets[1]);
                 
                 // Is it a valid relationship?
                 if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), relation.eClass())) {
@@ -389,12 +393,10 @@ public class CSVImporter implements CSVConstants {
             relation.setName(name);
             relation.setDocumentation(documentation);
             
-            // Get source and target ids and temporarily store their ids
+            // Get source and target ids and store in lookup table
             String sourceID = csvRecord.get(4);
-            relation.setAdapter("sourceID", sourceID); //$NON-NLS-1$
-            
             String targetID = csvRecord.get(5);
-            relation.setAdapter("targetID", targetID); //$NON-NLS-1$
+            relationshipSourceTargets.put(relation, new String[] { sourceID, targetID });
             
             newConcepts.put(id, relation);
         }
