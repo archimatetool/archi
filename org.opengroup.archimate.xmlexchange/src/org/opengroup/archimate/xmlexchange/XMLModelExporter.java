@@ -821,9 +821,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeNodeStyle(ref, nodeElement);
         
         // View Ref
-        Element viewRefElement = new Element(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
-        viewRefElement.setAttribute(ATTRIBUTE_REF, createID(ref.getReferencedModel()));
-        nodeElement.addContent(viewRefElement);
+        // Only write view references to ArchiMate diagrams
+        // If the view ref is sketch or canvas this will instead appear as a note
+        if(ref.getReferencedModel() instanceof IArchimateDiagramModel) {
+            Element viewRefElement = new Element(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
+            viewRefElement.setAttribute(ATTRIBUTE_REF, createID(ref.getReferencedModel()));
+            nodeElement.addContent(viewRefElement);
+        }
         
         return nodeElement;
     }
