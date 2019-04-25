@@ -501,9 +501,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     if(documentation != null) {
                         group.setDocumentation(documentation);
                     }
-                    
-                    // Properties
-                    addProperties(group, nodeElement);
                 }
                 // View Ref
                 else if(isViewRef) {

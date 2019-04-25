@@ -759,9 +759,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Documentation
         writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION, false);
 
-        // Properties
-        writeProperties(group, nodeElement);
-        
         // Style
         writeNodeStyle(group, nodeElement);
         
