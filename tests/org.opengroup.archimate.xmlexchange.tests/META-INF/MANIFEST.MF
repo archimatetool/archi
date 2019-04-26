@@ -6,6 +6,7 @@ Bundle-Version: 4.0.0
 Fragment-Host: org.opengroup.archimate.xmlexchange
 Bundle-Vendor: The Open Group
 Require-Bundle: org.junit,
- com.archimatetool.testsupport
+ com.archimatetool.testsupport,
+ com.archimatetool.canvas
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests
