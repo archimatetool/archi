@@ -14,6 +14,7 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -33,7 +34,7 @@ public class XMLModelExporterTests {
     }
 
     @Test
-    public void testExportModel() throws IOException {
+    public void testExportModel() throws IOException, SAXException {
         TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
         
         Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.archiFile1);
@@ -56,11 +57,16 @@ public class XMLModelExporterTests {
         metadata.put("title", "Archisurance Test Exchange Model");
         exporter.setMetadata(metadata);
         
-        // Organization
+        // Add Organization
         exporter.setSaveOrganisation(true);
         
+        // Export
         File outputFile = TestUtils.createTempFile(".xml");
         exporter.exportModel(model, outputFile);
+        
+        // And Validate
+        XMLValidator validator = new XMLValidator();
+        validator.validateXML(outputFile);
     }
 
 }
