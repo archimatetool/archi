@@ -5,13 +5,10 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -87,6 +84,37 @@ extends Command {
 
     @Override
     public void execute() {
+        doConnection();
+
+        // If it's a circular connection, add some bendpoints if there are none
+        if(fConnection.getSource() == fConnection.getTarget() && fConnection.getBendpoints().size() < 1) {
+            fBendpointCommand = CreateDiagramConnectionCommand.createBendPointsForCircularConnectionCommand(fConnection);
+            fBendpointCommand.execute();
+        }
+    }
+    
+    @Override
+    public void redo() {
+        doConnection();
+        
+        if(fBendpointCommand != null) {
+            fBendpointCommand.redo();
+        }
+    }
+
+    /**
+     * Reconnect the connection to its original source and target endpoints.
+     */
+    @Override
+    public void undo() {
+        if(fBendpointCommand != null) {
+            fBendpointCommand.undo();
+        }
+
+        fConnection.connect(fOldSource, fOldTarget);
+    }
+    
+    protected void doConnection() {
         if(fNewSource != null) {
             fConnection.connect(fNewSource, fOldTarget);
         }
@@ -96,79 +124,13 @@ extends Command {
         else {
             throw new IllegalStateException("Should not happen"); //$NON-NLS-1$
         }
-        
-        // If it's a circular connection, add some bendpoints if there are none
-        if(fConnection.getSource() == fConnection.getTarget() && fConnection.getBendpoints().size() < 2) {
-            if(fBendpointCommand == null) {
-                fBendpointCommand = createBendPointsCommand();
-            }
-            if(fBendpointCommand != null) {
-                fBendpointCommand.execute();
-            }
-        }
-    }
-
-    /**
-     * Reconnect the connection to its original source and target endpoints.
-     */
-    @Override
-    public void undo() {
-        fConnection.connect(fOldSource, fOldTarget);
-        
-        if(fBendpointCommand != null) {
-            fBendpointCommand.undo();
-        }
-    }
-    
-    /**
-     * Adding a circular connection requires some bendpoints
-     */
-    protected Command createBendPointsCommand() {
-        // Only works for IDiagramModelObject as source and target objects not for connections
-        if(!(fConnection.getSource() instanceof IDiagramModelObject) && !(fConnection.getTarget() instanceof IDiagramModelObject)) {
-            return null;
-        }
-        
-        IDiagramModelObject source = (IDiagramModelObject)fConnection.getSource();
-        IDiagramModelObject target = (IDiagramModelObject)fConnection.getTarget();
-
-        int width = source.getBounds().getWidth();
-        if(width == -1) {
-            width = 100;
-        }
-        int height = target.getBounds().getHeight();
-        if(height == -1) {
-            height = 60;
-        }
-        
-        width = (int)Math.max(100, width * 0.6);
-        height = (int)Math.max(60, height * 0.6);
-        
-        CompoundCommand result = new CompoundCommand();
-        
-        CreateBendpointCommand cmd = new CreateBendpointCommand();
-        cmd.setDiagramModelConnection(fConnection);
-        cmd.setRelativeDimensions(new Dimension(width, 0), new Dimension(width, 0));
-        result.add(cmd);
-        
-        cmd = new CreateBendpointCommand();
-        cmd.setDiagramModelConnection(fConnection);
-        cmd.setRelativeDimensions(new Dimension(width, height), new Dimension(width, height));
-        result.add(cmd);
-        
-        cmd = new CreateBendpointCommand();
-        cmd.setDiagramModelConnection(fConnection);
-        cmd.setRelativeDimensions(new Dimension(0, height), new Dimension(0, height));
-        result.add(cmd);
-        
-        return result;
     }
     
     @Override
     public void dispose() {
         fConnection = null;
         fNewSource = null;
-        fOldSource = null;
+        fNewTarget = null;
         fOldSource = null;
         fOldTarget = null;
     }

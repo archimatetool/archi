@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 
 import com.archimatetool.model.IConnectable;
@@ -82,7 +83,8 @@ extends Command {
         
         // If it's a circular connection, add some bendpoints
         if(fConnection.getSource() == fConnection.getTarget()) {
-            createBendPoints();
+            Command cmd = createBendPointsForCircularConnectionCommand(fConnection);
+            cmd.execute();
         }
     }
 
@@ -105,16 +107,17 @@ extends Command {
     }
     
     /**
-     * Adding a circular connection requires some bendpoints
+     * Create a Command for adding bendpoints to a circular connection
+     * So it looks good
      */
-    protected void createBendPoints() {
-        // TODO Only works for IDiagramModelObject as source and target objects not for connections
-        if(!(fConnection.getSource() instanceof IDiagramModelObject) && !(fConnection.getTarget() instanceof IDiagramModelObject)) {
-            return;
+    public static Command createBendPointsForCircularConnectionCommand(IDiagramModelConnection connection) {
+        // Only works for IDiagramModelObject as source and target objects not for connections
+        if(!(connection.getSource() instanceof IDiagramModelObject) && !(connection.getTarget() instanceof IDiagramModelObject)) {
+            return null;
         }
         
-        IDiagramModelObject source = (IDiagramModelObject)fConnection.getSource();
-        IDiagramModelObject target = (IDiagramModelObject)fConnection.getTarget();
+        IDiagramModelObject source = (IDiagramModelObject)connection.getSource();
+        IDiagramModelObject target = (IDiagramModelObject)connection.getTarget();
         
         int width = source.getBounds().getWidth();
         if(width == -1) {
@@ -128,17 +131,24 @@ extends Command {
         width = (int)Math.max(100, width * 0.6);
         height = (int)Math.max(60, height * 0.6);
         
+        CompoundCommand result = new CompoundCommand();
+        
         CreateBendpointCommand cmd = new CreateBendpointCommand();
-        cmd.setDiagramModelConnection(fConnection);
-        
+        cmd.setDiagramModelConnection(connection);
         cmd.setRelativeDimensions(new Dimension(width, 0), new Dimension(width, 0));
-        cmd.execute();
+        result.add(cmd);
         
+        cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(connection);
         cmd.setRelativeDimensions(new Dimension(width, height), new Dimension(width, height));
-        cmd.execute();
+        result.add(cmd);
         
+        cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(connection);
         cmd.setRelativeDimensions(new Dimension(0, height), new Dimension(0, height));
-        cmd.execute();
+        result.add(cmd);
+        
+        return result;
     }
     
     @Override
