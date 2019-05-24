@@ -55,7 +55,11 @@ public class ImageFactory {
      */
     public static int getImageDeviceZoom() {
         boolean scaleImages = Preferences.STORE.getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
-        return scaleImages ? 200 : 100;
+        int deviceZoom = getDeviceZoom();
+        // If scaling prefs x2 is true and device zoom is 100 then return 200
+        // Else return device zoom
+        // Else 100
+        return scaleImages ? (deviceZoom == 100) ? 200 : deviceZoom : 100;
     }
     
     /**
