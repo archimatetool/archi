@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
@@ -45,6 +46,7 @@ import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
@@ -148,6 +150,7 @@ public class HTMLReportExporter {
         }
         catch(InvocationTargetException | InterruptedException ex) {
             ex.printStackTrace();
+            Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
         }
 
         if(exception[0] != null) {
@@ -200,6 +203,7 @@ public class HTMLReportExporter {
         }
         catch(InvocationTargetException | InterruptedException ex) {
             ex.printStackTrace();
+            Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
         }
 
         if(exception[0] != null) {
@@ -275,11 +279,7 @@ public class HTMLReportExporter {
         setProgressSubTask(Messages.HTMLReportExporter_13);
         
         // Write root model.html frame
-        File indexFile = new File(targetFolder, indexFileName);
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(indexFile), "UTF8"); //$NON-NLS-1$
-        
         ST stModel = groupFile.getInstanceOf("modelreport"); //$NON-NLS-1$
-
         stModel.add("model", fModel); //$NON-NLS-1$
         stModel.add("strategyFolder", fModel.getFolder(FolderType.STRATEGY)); //$NON-NLS-1$
         stModel.add("businessFolder", fModel.getFolder(FolderType.BUSINESS)); //$NON-NLS-1$
@@ -291,8 +291,10 @@ public class HTMLReportExporter {
         stModel.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS)); //$NON-NLS-1$
         stModel.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS)); //$NON-NLS-1$
         
-        writer.write(stModel.render());
-        writer.close();
+        File indexFile = new File(targetFolder, indexFileName);
+        try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(indexFile), "UTF8")) { //$NON-NLS-1$
+            writer.write(stModel.render());
+        }
         
         return indexFile;
     }
@@ -358,12 +360,13 @@ public class HTMLReportExporter {
      * Write a single element
      */
     private void writeElement(File elementFile, ST stFrame, EObject component) throws IOException {
-        OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8"); //$NON-NLS-1$
         stFrame.remove("element"); //$NON-NLS-1$
         //frame.remove("children");
         stFrame.add("element", component); //$NON-NLS-1$
-        elementW.write(stFrame.render());
-        elementW.close();
+        
+        try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8")) { //$NON-NLS-1$
+            writer.write(stFrame.render());
+        }
 
         updateProgress();
     }
@@ -401,17 +404,16 @@ public class HTMLReportExporter {
                 addNewBounds(dmo, bounds.x * -1, bounds.y * -1);
             }
 
-            File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
-            OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
-            
             stFrame.remove("element"); //$NON-NLS-1$
             stFrame.add("element", dm); //$NON-NLS-1$
             
             stFrame.remove("map"); //$NON-NLS-1$
             stFrame.add("map", childBoundsMap); //$NON-NLS-1$
             
-            viewW.write(stFrame.render());
-            viewW.close();
+            File viewFile = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
+            try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(viewFile), "UTF8")) { //$NON-NLS-1$
+                writer.write(stFrame.render());
+            }
         }
     }
     
