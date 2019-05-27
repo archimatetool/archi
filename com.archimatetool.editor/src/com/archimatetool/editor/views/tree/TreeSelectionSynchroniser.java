@@ -28,8 +28,10 @@ import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
+import com.archimatetool.model.IDiagramModelReference;
 
 
 
@@ -146,6 +148,12 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
                         model = ((IDiagramModelArchimateComponent)model).getArchimateConcept();
                         selected.add(model);
                     }
+                    // If the selected object is a reference to a diagram model
+                    else if (model instanceof IDiagramModelReference) {
+                    	// TODO: Clarify it's getReferenceModel. But Why ???
+                    	//selected.add(((IDiagramModelReference) model).getDiagramModel());
+                    	selected.add(((IDiagramModelReference)model).getReferencedModel());
+                    }
                     // Diagram model
                     else if(model instanceof IDiagramModel) {
                         selected.add(model);
@@ -158,18 +166,23 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         }
         // Selection from Tree, so select objects in any open Archimate Diagram Editors
         else if(source instanceof TreeViewer) {
-            List<IArchimateConcept> selected = new ArrayList<IArchimateConcept>();
+            List<IArchimateConcept> selectedConcept = new ArrayList<IArchimateConcept>();
+            List<IDiagramModel> selectedDiagModel = new ArrayList<>();
             
             // Archimate concepts
             for(Object o : ((IStructuredSelection)selection).toArray()) {
                 if(o instanceof IArchimateConcept) {
-                    selected.add((IArchimateConcept)o);
+                	selectedConcept.add((IArchimateConcept)o);
+                }
+                else if(o instanceof IDiagramModel) {
+                	selectedDiagModel.add((IDiagramModel)o);
                 }
             }
             
             // Select these (or an empty selection) in the Diagram Editors
             for(IArchimateDiagramEditor editor : getOpenEditors()) {
-                editor.selectArchimateConcepts(selected.toArray(new IArchimateConcept[selected.size()]));
+                editor.selectArchimateConcepts(selectedConcept.toArray(new IArchimateConcept[selectedConcept.size()]));
+                editor.selectDiagramObject(selectedDiagModel.toArray(new IDiagramModel[selectedDiagModel.size()]));
             }
         }
         

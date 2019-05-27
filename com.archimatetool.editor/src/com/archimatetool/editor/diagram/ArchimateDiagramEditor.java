@@ -36,6 +36,7 @@ import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -159,7 +160,20 @@ implements IArchimateDiagramEditor {
         viewer.setContextMenu(provider);
         getSite().registerContextMenu(ArchimateDiagramEditorContextMenuProvider.ID, provider, viewer);
     }
-    
+    @Override
+    public void selectDiagramObject(IDiagramModel[] diagramModels) {
+    	List<Object> objects = new ArrayList<>();
+    	
+    	for(IDiagramModel diagramModel : diagramModels) {
+    		// Find Diagram Reference 
+    		for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelReferences(getModel(), diagramModel)) {
+    			if(!objects.contains(dc)) {
+    				objects.add(dc);
+    			}
+    		}
+    	}
+    	selectObjects(objects.toArray());
+    }
     @Override
     public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
         List<Object> objects = new ArrayList<Object>();

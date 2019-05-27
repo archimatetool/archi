@@ -6,6 +6,8 @@
 package com.archimatetool.editor.diagram;
 
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IDiagramModel;
 
 
 /**
@@ -23,4 +25,10 @@ public interface IArchimateDiagramEditor extends IDiagramModelEditor {
      * @param archimateConcepts
      */
     void selectArchimateConcepts(IArchimateConcept[] archimateConcepts);
+    
+    /**
+     * Select the graphical objects wrapping Diagrams (Archimate, Sketch, Canvas, ...)
+     * @param archimateDiagrams
+     */
+    void selectDiagramObject(IDiagramModel[] diagramModels);
 }
