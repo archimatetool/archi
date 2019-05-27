@@ -6,7 +6,6 @@
 package com.archimatetool.editor.diagram;
 
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
 
 

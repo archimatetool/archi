@@ -28,7 +28,6 @@ import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelReference;
