@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
@@ -231,7 +232,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(fObjects != null) {
-                    CompoundCommand result = new CompoundCommand(Messages.AbstractECorePropertySection_1);
+                    CompoundCommand result = new NonNotifyingCompoundCommand(Messages.AbstractECorePropertySection_1);
 
                     for(EObject eObject : fObjects) {
                         if(isAlive(eObject)) {
