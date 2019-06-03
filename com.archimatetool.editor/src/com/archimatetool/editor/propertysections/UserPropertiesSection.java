@@ -9,8 +9,10 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -481,19 +483,19 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     private String[] getAllUniquePropertyKeysForModel() {
         IArchimateModel model = getArchimateModel();
 
-        List<String> list = new ArrayList<String>();
+        Set<String> set = new HashSet<String>();
 
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty) {
                 String key = ((IProperty)element).getKey();
-                if(StringUtils.isSetAfterTrim(key) && !list.contains(key)) {
-                    list.add(key);
+                if(StringUtils.isSetAfterTrim(key)) {
+                    set.add(key);
                 }
             }
         }
 
-        String[] items = list.toArray(new String[list.size()]);
+        String[] items = set.toArray(new String[set.size()]);
         Arrays.sort(items, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
