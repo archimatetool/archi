@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.FolderType;
@@ -308,12 +307,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     @Override
     public IFolder getFolder(FolderType type) {
-        for(Iterator<EObject> iter =  EcoreUtil.getAllContents(getFolders()); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IFolder) {
-                if(((IFolder)eObject).getType() == type) {
-                    return (IFolder)eObject;
-                }
+        for(IFolder folder : getFolders()) {
+            if(folder.getType().equals(type)) {
+                return folder;
             }
         }
         

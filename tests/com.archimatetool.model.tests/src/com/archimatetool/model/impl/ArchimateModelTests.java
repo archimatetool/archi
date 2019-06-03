@@ -186,17 +186,36 @@ public class ArchimateModelTests {
 
     @Test
     public void testGetDiagramModels() {
+        model.addDefaultFolders();
+        
         EList<IDiagramModel> list = model.getDiagramModels();
         assertNotNull(list);
         assertTrue(list.isEmpty());
         
+        IFolder folder1 = model.getFolder(FolderType.DIAGRAMS);
+        
         IDiagramModel dm1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForObject(dm1).getElements().add(dm1);
+        folder1.getElements().add(dm1);
         IDiagramModel dm2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForObject(dm2).getElements().add(dm2);
+        folder1.getElements().add(dm2);
         
         list = model.getDiagramModels();
         assertEquals(2, list.size());
+        
+        IFolder folder2 = IArchimateFactory.eINSTANCE.createFolder();
+        folder1.getFolders().add(folder2);
+        
+        IDiagramModel dm3 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        folder2.getElements().add(dm3);
+        
+        IFolder folder3 = IArchimateFactory.eINSTANCE.createFolder();
+        folder2.getFolders().add(folder3);
+        
+        IDiagramModel dm4 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        folder3.getElements().add(dm4);
+        
+        list = model.getDiagramModels();
+        assertEquals(4, list.size());
     }
     
     @Test
