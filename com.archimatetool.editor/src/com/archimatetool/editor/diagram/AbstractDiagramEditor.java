@@ -21,7 +21,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -195,10 +195,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Adapter class to respond to Archimate Model notifications.
      */
-    protected Adapter eCoreAdapter = new EContentAdapter() {
+    protected Adapter eCoreAdapter = new AdapterImpl() {
         @Override
         public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
             eCoreModelChanged(msg);
         }
     };
@@ -223,7 +222,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // This first - set model
         fDiagramModel = ((DiagramEditorInput)input).getDiagramModel();
         
-        // Listen to its notifications
+        // Listen to notifications for name changes
+        fDiagramModel.eAdapters().add(eCoreAdapter);
         fDiagramModel.getArchimateModel().eAdapters().add(eCoreAdapter);
         
         // Edit Domain before init
@@ -990,6 +990,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
         
         if(getModel() != null && getModel().getArchimateModel() != null) {
+            getModel().eAdapters().remove(eCoreAdapter);
             getModel().getArchimateModel().eAdapters().remove(eCoreAdapter);
         }
         
