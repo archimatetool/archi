@@ -48,6 +48,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     // Store last selection event so a selection can be made when this is re-enabled
     private SelectionChangedEvent lastSelectionEvent;
     
+    // Store last activated Editor Part in order to not trigger spurious selections
+    private IDiagramModelEditor lastActiveEditor;
+    
     private PartListenerAdapter partListenerAdapter = new PartListenerAdapter() {
         @Override
         public void partOpened(IWorkbenchPart part) {
@@ -65,13 +68,20 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         @Override
         public void partActivated(IWorkbenchPart part) {
+            if(part == lastActiveEditor) {
+                return;
+            }
+            
             // Select all types of diagram in Tree
             if(part instanceof IDiagramModelEditor) {
                 IDiagramModelEditor editor = (IDiagramModelEditor)part;
+                
                 // Editor model could be null if model's file was deleted/renamed and app opened
                 if(editor.getModel() != null && doSync()) {
                     treeViewer.setSelection(new StructuredSelection(editor.getModel()), true);
                 }
+                
+                lastActiveEditor = editor;
             }                
         }
     };
