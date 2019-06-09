@@ -20,7 +20,9 @@ public interface IArchimateDiagramEditor extends IDiagramModelEditor {
     
     /**
      * Select the graphical objects wrapping the Archimate concepts
+     * Deprecated use selectObjects(Object[] objects)
      * @param archimateConcepts
      */
+    @Deprecated
     void selectArchimateConcepts(IArchimateConcept[] archimateConcepts);
 }

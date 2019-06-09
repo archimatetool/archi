@@ -120,7 +120,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                     IDiagramModel diagramModel = (IDiagramModel)o;
                     IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel, false);
                     if(editor instanceof IArchimateDiagramEditor) {
-                        ((IArchimateDiagramEditor)editor).selectArchimateConcepts(new IArchimateConcept[] { fArchimateConcept });
+                        ((IArchimateDiagramEditor)editor).selectObjects(new Object[] { fArchimateConcept });
                     }
                 }
             }

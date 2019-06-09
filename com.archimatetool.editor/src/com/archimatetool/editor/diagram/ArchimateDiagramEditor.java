@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor.diagram;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.emf.common.notify.Notification;
@@ -36,6 +37,7 @@ import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -161,19 +163,37 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
+    @Deprecated
     public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
-        List<Object> objects = new ArrayList<Object>();
+        selectObjects(archimateConcepts);
+    }
+    
+    @Override
+    public void selectObjects(Object[] objects) {
+        Set<Object> selection = new HashSet<>(Arrays.asList(objects));
         
-        for(IArchimateConcept archimateConcept : archimateConcepts) {
-            // Find Diagram Concepts
-            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getModel(), archimateConcept)) {
-                if(!objects.contains(dc)) {
-                    objects.add(dc);
+        for(Object object : objects) {
+            // Archimate concept types can appear more than once in this diagram
+            if(object instanceof IArchimateConcept) {
+                // remove the object
+                selection.remove(object);
+                // replace with the diagram objects
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getModel(), (IArchimateConcept)object)) {
+                    selection.add(dc);
+                }
+            }
+            // Diagram Model references
+            else if(object instanceof IDiagramModel) {
+                // remove the object
+                selection.remove(object);
+                // replace with the diagram objects
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelReferences(getModel(), (IDiagramModel)object)) {
+                    selection.add(dc);
                 }
             }
         }
         
-        selectObjects(objects.toArray());
+        super.selectObjects(selection.toArray());
     }
     
     /**

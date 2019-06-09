@@ -27,9 +27,9 @@ import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
-import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
+import com.archimatetool.model.IDiagramModelReference;
 
 
 
@@ -166,6 +166,10 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
                         model = ((IDiagramModelArchimateComponent)model).getArchimateConcept();
                         selected.add(model);
                     }
+                    // Diagram model reference
+                    else if (model instanceof IDiagramModelReference) {
+                        selected.add(((IDiagramModelReference)model).getReferencedModel());
+                    }
                     // Diagram model
                     else if(model instanceof IDiagramModel) {
                         selected.add(model);
@@ -178,18 +182,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         }
         // Selection from Tree, so select objects in any open Archimate Diagram Editors
         else if(source instanceof TreeViewer) {
-            List<IArchimateConcept> selected = new ArrayList<IArchimateConcept>();
-            
-            // Archimate concepts
-            for(Object o : ((IStructuredSelection)selection).toArray()) {
-                if(o instanceof IArchimateConcept) {
-                    selected.add((IArchimateConcept)o);
-                }
-            }
-            
             // Select these (or an empty selection) in the Diagram Editors
             for(IArchimateDiagramEditor editor : getOpenEditors()) {
-                editor.selectArchimateConcepts(selected.toArray(new IArchimateConcept[selected.size()]));
+                editor.selectObjects(((IStructuredSelection)selection).toArray());
             }
         }
         
