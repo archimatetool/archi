@@ -178,6 +178,11 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      * @generated
      */
     IFolder getFolder(FolderType type);
+    
+    /**
+     * Dispose of this model to free memory
+     */
+    void dispose();
 
     /**
      * @return The ID adapter for registering new child object IDs

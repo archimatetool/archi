@@ -27,7 +27,7 @@ implements IEditorInput, IPersistableElement {
     /**
      * Model
      */
-    protected IDiagramModel fModel;
+    private IDiagramModel fModel;
     
     public DiagramEditorInput(IDiagramModel model) {
         fModel = model;
@@ -81,8 +81,7 @@ implements IEditorInput, IPersistableElement {
 
     @Override
     public IPersistableElement getPersistable() {
-        // This can happen somehow (but can't remember how - so, a sanity check)
-        if(fModel.getArchimateModel() == null) {
+        if(fModel == null || fModel.getArchimateModel() == null) {
             return null;
         }
         
@@ -112,5 +111,9 @@ implements IEditorInput, IPersistableElement {
     @Override
     public void saveState(IMemento memento) {
         DiagramEditorInputFactory.saveState(memento, this);
+    }
+    
+    public void dispose() {
+        fModel = null;
     }
 }

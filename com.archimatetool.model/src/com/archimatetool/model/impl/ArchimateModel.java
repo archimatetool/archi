@@ -831,4 +831,51 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         return result.toString();
     }
 
+    @Override
+    public void dispose() {
+        // Don't send notifications when we do this as it's slow
+        eSetDeliver(false);
+        for(Iterator<EObject> iter = eAllContents(); iter.hasNext();) {
+            iter.next().eSetDeliver(false);
+        }
+        
+        id = null;
+        name = null;
+        purpose = null;
+        file = null;
+        
+        if(eAdapters != null) {
+            //eAdapters.clear(); // This can be slow
+            eAdapters = null;
+        }
+        
+        fAdapterMap.clear();
+        fAdapterMap = null;
+        
+        // Dispose of these in case they are referenced in an editor or similar
+        for(IDiagramModel dm : getDiagramModels()) {
+            dm.getProperties().clear();
+            dm.getChildren().clear();
+        }
+        
+        if(folders != null) {
+            for(IFolder f : folders) {
+                f.getFolders().clear();
+                f.getElements().clear();
+            }
+            folders.clear();
+            folders = null;
+        }
+        
+        if(properties != null) {
+            properties.clear();
+            properties = null;
+        }
+        
+        if(metadata != null) {
+            metadata.getEntries().clear();
+            metadata = null;
+        }
+    }
+
 } //ArchimateModel

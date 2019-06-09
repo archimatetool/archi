@@ -78,6 +78,9 @@ public class TreeViewpointFilterProvider implements IPartListener {
             	}
                 
                 Preferences.STORE.removePropertyChangeListener(prefsListener);
+                
+                fActiveDiagramModel = null;
+                fViewer = null;
             }
         });
     }

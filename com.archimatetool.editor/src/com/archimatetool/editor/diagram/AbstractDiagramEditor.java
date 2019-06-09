@@ -996,5 +996,15 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Update shell text
         getSite().getShell().setText(Platform.getProduct().getName());
+        
+        
+        // Can be garbage collected
+        fDiagramModel = null;
+        
+        // Very important to release the reference to the IDiagramModel in the DiagramEditorInput
+        // because it is not released by the system
+        if(getEditorInput() instanceof DiagramEditorInput) {
+            ((DiagramEditorInput)getEditorInput()).dispose();
+        }
     }
 }

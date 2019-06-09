@@ -551,6 +551,12 @@ implements ITreeModelView, IUIRequestListener {
         catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        // Garbage collection
+        fTreeViewer = null;
+        fFindReplaceProvider = null;
+        fSearchFilter = null;
+        fSynchroniser = null;
     }
     
     // ======================================================================
