@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +36,6 @@ import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -170,26 +168,18 @@ implements IArchimateDiagramEditor {
     
     @Override
     public void selectObjects(Object[] objects) {
-        Set<Object> selection = new HashSet<>(Arrays.asList(objects));
+        Set<Object> selection = new HashSet<>();
         
         for(Object object : objects) {
-            // Archimate concept types can appear more than once in this diagram
+            // If this is an Archimate concept replace it with diagram object instances
             if(object instanceof IArchimateConcept) {
-                // remove the object
-                selection.remove(object);
-                // replace with the diagram objects
                 for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getModel(), (IArchimateConcept)object)) {
                     selection.add(dc);
                 }
             }
-            // Diagram Model references
-            else if(object instanceof IDiagramModel) {
-                // remove the object
-                selection.remove(object);
-                // replace with the diagram objects
-                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelReferences(getModel(), (IDiagramModel)object)) {
-                    selection.add(dc);
-                }
+            // Else add it
+            else {
+                selection.add(object);
             }
         }
         

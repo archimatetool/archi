@@ -8,7 +8,9 @@ package com.archimatetool.editor.diagram;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -124,6 +126,7 @@ import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetLis
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
+import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -132,6 +135,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
 
 
 
@@ -902,9 +906,24 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     
     @Override
     public void selectObjects(Object[] objects) {
-        List<EditPart> editParts = new ArrayList<EditPart>();
+        Set<Object> selection = new HashSet<>();
         
         for(Object object : objects) {
+            // Diagram Model so replace with diagram reference objects
+            if(object instanceof IDiagramModel) {
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelReferences(getModel(), (IDiagramModel)object)) {
+                    selection.add(dc);
+                }
+            }
+            // Else add it
+            else {
+                selection.add(object);
+            }
+        }
+        
+        List<EditPart> editParts = new ArrayList<EditPart>();
+        
+        for(Object object : selection) {
             EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(object);
             if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
                 editParts.add(editPart);
