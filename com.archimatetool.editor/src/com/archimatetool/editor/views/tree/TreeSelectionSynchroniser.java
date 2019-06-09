@@ -64,6 +64,12 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             if(part instanceof IArchimateDiagramEditor) {
                 unregisterEditor((IArchimateDiagramEditor)part);
             }
+            
+            // This is important for garbage collection!
+            // If we hold a reference to an IDiagramModelEditor it can't be disposed and neither can its IDiagramModel
+            if(part == lastActiveEditor) {
+                lastActiveEditor = null;
+            }
         }
         
         @Override
@@ -93,7 +99,11 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     
     public void dispose() {
         unregisterListeners();
+        
+        // Ensure this stuff can be garbage collected
         treeViewer = null;
+        lastActiveEditor = null;
+        lastSelectionEvent = null;
     }
     
     /**
