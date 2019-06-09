@@ -259,21 +259,31 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
          * Select the initial model and image if there is one
          */
         if(fFirstSelected != null) {
-            // Select model
+            // Selected model
             fUserSelectedModel = ((IArchimateModelObject)fFirstSelected).getArchimateModel();
-            fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
-
             // Image path
             fUserSelectedImagePath = fFirstSelected.getImagePath();
             
-            // Make selection of image if path is set
-            if(fUserSelectedImagePath != null) {
-                for(GalleryItem item : fGalleryRoot.getItems()) {
-                    String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
-                    if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
-                        fGallery.setSelection(new GalleryItem[] { item });
-                        break;
+            // If we have this model in the table, select it
+            if(((ModelsViewerContentProvider)fModelsViewer.getContentProvider()).getModels().contains(fUserSelectedModel)) {
+                fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
+                
+                // Make selection of image path if it's set
+                if(fUserSelectedImagePath != null) {
+                    for(GalleryItem item : fGalleryRoot.getItems()) {
+                        String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
+                        if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
+                            fGallery.setSelection(new GalleryItem[] { item });
+                            break;
+                        }
                     }
+                }
+            }
+            // Else select the first model in the table, if there is one
+            else {
+                Object element = fModelsViewer.getElementAt(0);
+                if(element != null) {
+                    fModelsViewer.setSelection(new StructuredSelection(element), true);
                 }
             }
         }
@@ -284,7 +294,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * Clear old root group
      */
-    protected void clearGallery() {
+    private void clearGallery() {
         if(fGalleryRoot != null && !fGallery.isDisposed() && fGallery.getItemCount() > 0) {
             while(fGalleryRoot.getItemCount() > 0) {
                 GalleryItem item = fGalleryRoot.getItem(0);
@@ -293,7 +303,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         }
     }
 
-    protected void updateGallery(final IArchimateModel model) {
+    private void updateGallery(final IArchimateModel model) {
         BusyIndicator.showWhile(null, new Runnable() {
             @Override
             public void run() {
@@ -330,7 +340,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * User wants to open Image from file
      */
-    protected void handleOpenAction() {
+    private void handleOpenAction() {
         getShell().setVisible(false);
 
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
@@ -368,7 +378,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         return fUserSelectedModel;
     }
 
-    protected void disposeImages() {
+    private void disposeImages() {
         for(Entry<String, Image> entry : fImageCache.entrySet()) {
             Image image = entry.getValue();
             if(image != null && !image.isDisposed()) {
@@ -377,7 +387,11 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         }
     }
     
-    protected class ModelsViewer extends TableViewer {
+    // ====================================================================================================
+    // Table Viewer for models
+    // ====================================================================================================
+    
+    private class ModelsViewer extends TableViewer {
         public ModelsViewer(Composite parent) {
             super(parent, SWT.FULL_SELECTION);
             setColumns();
@@ -394,7 +408,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             });
         }
         
-        protected void setColumns() {
+        private void setColumns() {
             Table table = getTable();
             table.setHeaderVisible(false);
             
@@ -403,46 +417,54 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             TableViewerColumn column = new TableViewerColumn(this, SWT.NONE);
             layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         }
-
-        protected class ModelsViewerContentProvider implements IStructuredContentProvider {
-            @Override
-            public void dispose() {
-            }
-
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-
-            @Override
-            public Object[] getElements(Object inputElement) {
-                List<Object> list = new ArrayList<Object>();
-                
-                for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-                    IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-                    if(archiveManager.hasImages()) {
-                        list.add(model);
-                    }
-                }
-                
-                list.add(OPEN);
-
-                return list.toArray();
-            }
+    }
+    
+    private class ModelsViewerContentProvider implements IStructuredContentProvider {
+        private List<IArchimateModel> models;
+        
+        @Override
+        public void dispose() {
         }
 
-        protected class ModelsViewerLabelProvider extends LabelProvider {
-            @Override
-            public String getText(Object element) {
-                if(element instanceof INameable) {
-                    return ((INameable)element).getName();
+        @Override
+        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        }
+
+        @Override
+        public Object[] getElements(Object inputElement) {
+            List<Object> list = new ArrayList<Object>(getModels());
+            list.add(OPEN);
+            return list.toArray();
+        }
+        
+        public List<IArchimateModel> getModels() {
+            if(models == null) {
+                models = new ArrayList<>();
+                
+                // Add all models that have images
+                for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+                    IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+                    if(archiveManager != null && archiveManager.hasImages()) {
+                        models.add(model);
+                    }
                 }
-                return super.getText(element);
             }
-            
-            @Override
-            public Image getImage(Object element) {
-                return ArchiLabelProvider.INSTANCE.getImage(element);
+            return models;
+        }
+    }
+
+    private class ModelsViewerLabelProvider extends LabelProvider {
+        @Override
+        public String getText(Object element) {
+            if(element instanceof INameable) {
+                return ((INameable)element).getName();
             }
+            return super.getText(element);
+        }
+        
+        @Override
+        public Image getImage(Object element) {
+            return ArchiLabelProvider.INSTANCE.getImage(element);
         }
     }
 }
