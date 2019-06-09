@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -50,13 +50,12 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     private List<EObject> fObjects;
     
     /**
-     * Adapter to listen to model element changes
-     * Use a EContentAdapter to listen to child changes
+     * Default Adapter to listen to model element changes
+     * Sub-classes can return a different one if required via getECoreAdapter()
      */
-    private Adapter eAdapter = new EContentAdapter()  {
+    private Adapter eAdapter = new AdapterImpl()  {
         @Override
         public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
             AbstractECorePropertySection.this.notifyChanged(msg);
         }
     };
@@ -180,19 +179,24 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     }
 
     private void addEObjectAdapter() {
-        EObject object = getFirstSelectedObject();
-        
-        if(object != null && !object.eAdapters().contains(eAdapter)) {
-            object.eAdapters().add(eAdapter);
+        if(getFirstSelectedObject() != null && getECoreAdapter() != null && 
+                !getFirstSelectedObject().eAdapters().contains(getECoreAdapter())) {
+            getFirstSelectedObject().eAdapters().add(getECoreAdapter());
         }
     }
     
     private void removeEObjectAdapter() {
-        EObject object = getFirstSelectedObject();
-        
-        if(object != null) {
-            object.eAdapters().remove(eAdapter);
+        if(getECoreAdapter() != null && getFirstSelectedObject() != null) {
+            getFirstSelectedObject().eAdapters().remove(getECoreAdapter());
         }
+    }
+    
+    /**
+     * Return the Adapter to listen to model element changes
+     * Sub-classes can over-ride
+     */
+    protected Adapter getECoreAdapter() {
+        return eAdapter;
     }
     
     /**

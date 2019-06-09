@@ -16,11 +16,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
@@ -137,6 +139,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
     private boolean ignoreMessages;
     
+    /**
+     * We need an EContentAdapter to listen to all child IProperty objects
+     */
+    private Adapter eAdapter = new EContentAdapter()  {
+        @Override
+        public void notifyChanged(Notification msg) {
+            super.notifyChanged(msg);
+            UserPropertiesSection.this.notifyChanged(msg);
+        }
+    };
+
     @Override
     protected void createControls(Composite parent) {
         createTableControl(parent);
@@ -180,6 +193,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     @Override
     protected IObjectFilter getFilter() {
         return new Filter();
+    }
+    
+    @Override
+    protected Adapter getECoreAdapter() {
+        return eAdapter;
     }
     
     /**
