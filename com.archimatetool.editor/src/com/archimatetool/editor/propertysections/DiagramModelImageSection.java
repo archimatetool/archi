@@ -33,7 +33,6 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -163,50 +162,42 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
     }
     
     protected void chooseImage() {
-        IDiagramModelObject dmo = (IDiagramModelObject)getFirstSelectedObject();
+        IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)getFirstSelectedObject();
         
         if(isAlive(dmo)) {
-            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell(),
-                    dmo.getDiagramModel().getArchimateModel(),
-                    ((IDiagramModelImageProvider)dmo).getImagePath());
-            
+            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell(), dmo);
             if(dialog.open() == Window.OK) {
-                setImage(dialog.getSelectedObject());
+                // File
+                if(dialog.getUserSelectedFile() != null) {
+                    setImage(dialog.getUserSelectedFile());
+                }
+                // Existing image which could be in this model or a different model
+                else if(dialog.getUserSelectedImagePath() != null) {
+                    doImageCommand(dialog.getUserSelectedImagePath());
+                }
             }
         }
     }
     
-    protected void setImage(Object selected) {
-        String path = null;
-        
+    protected void setImage(File file) {
         try {
-            // User selected a file
-            if(selected instanceof File) {
-                File file = (File)selected;
-                if(!file.exists() || !file.canRead()) {
-                    return;
-                }
-                
-                IArchiveManager archiveManager = (IArchiveManager)((IAdapter)getFirstSelectedObject()).getAdapter(IArchiveManager.class);
-                path = archiveManager.addImageFromFile(file);
-            }
-            // User selected a Gallery image path
-            else if(selected instanceof String) {
-                path = (String)selected;
-            }
-            // User selected nothing
-            else {
+            if(!file.exists() || !file.canRead()) {
                 return;
             }
+
+            IArchiveManager archiveManager = (IArchiveManager)((IAdapter)getFirstSelectedObject()).getAdapter(IArchiveManager.class);
+            String path = archiveManager.addImageFromFile(file);
+            doImageCommand(path);
         }
         catch(IOException ex) {
             ex.printStackTrace();
             MessageDialog.openError(getPart().getSite().getShell(),
                     Messages.DiagramModelImageSection_5,
                     Messages.DiagramModelImageSection_6);
-            return;
         }
-        
+    }
+    
+    protected void doImageCommand(String path) {
         CompoundCommand result = new CompoundCommand();
 
         for(EObject dmo : getEObjects()) {

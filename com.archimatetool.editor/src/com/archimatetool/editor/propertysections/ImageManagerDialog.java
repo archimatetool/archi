@@ -44,7 +44,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
@@ -61,6 +60,8 @@ import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.INameable;
 
 
@@ -85,20 +86,20 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     protected Scale fScale;
     protected ModelsViewer fModelsViewer;
 
-    private Object fSelectedObject;
+    private IArchimateModel fUserSelectedModel;
+    private String fUserSelectedImagePath;
+    private File fUserSelectedFile;
     
-    private IArchimateModel fSelectedModel;
-    private String fSelectedImagePath;
+    private IDiagramModelImageProvider fFirstSelected;
     
     private Map<String, Image> fImageCache = new HashMap<String, Image>();
 
-    public ImageManagerDialog(Shell parentShell, IArchimateModel selectedModel, String selectedImagePath) {
+    public ImageManagerDialog(Shell parentShell, IDiagramModelImageProvider firstSelected) {
         super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fSelectedModel = selectedModel;
-        fSelectedImagePath = selectedImagePath;
+        fFirstSelected = firstSelected;
     }
 
     @Override
@@ -222,10 +223,12 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(e.item instanceof GalleryItem) {
-                    fSelectedObject = ((GalleryItem)e.item).getData();
+                    fUserSelectedImagePath = (String)((GalleryItem)e.item).getData("imagepath"); //$NON-NLS-1$
+                    fUserSelectedModel = (IArchimateModel)((GalleryItem)e.item).getData("model"); //$NON-NLS-1$
                 }
                 else {
-                    fSelectedObject = null;
+                    fUserSelectedImagePath = null;
+                    fUserSelectedModel = null;
                 }
              }
         });
@@ -253,44 +256,27 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         sash.setWeights(new int[] { 30, 70 });
         
         /*
-         * Select the given model and image
-         * Better to put this on a thread as selection sometimes doesn't happen
+         * Select the initial model and image if there is one
          */
-        Display.getCurrent().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                // Make selection of model in table if it has images
-                if(fSelectedModel != null) {
-                    IArchiveManager archiveManager = (IArchiveManager)fSelectedModel.getAdapter(IArchiveManager.class);
-                    if(archiveManager.hasImages()) {
-                        // Select model
-                        fModelsViewer.setSelection(new StructuredSelection(fSelectedModel));
-                        
-                        // Make selection of image if set
-                        if(fSelectedImagePath != null) {
-                            for(GalleryItem item : fGalleryRoot.getItems()) {
-                                String imagePath = (String)item.getData();
-                                if(imagePath != null && fSelectedImagePath.equals(imagePath)) {
-                                    fGallery.setSelection(new GalleryItem[] { item });
-                                    fSelectedObject = imagePath; // we need to do this here because this is on a thread
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    // Else select the first valid model that's open
-                    else {
-                        for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-                            archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-                            if(archiveManager.hasImages()) {
-                                fModelsViewer.setSelection(new StructuredSelection(model));
-                                break;
-                            }
-                        }
+        if(fFirstSelected != null) {
+            // Select model
+            fUserSelectedModel = ((IArchimateModelObject)fFirstSelected).getArchimateModel();
+            fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
+
+            // Image path
+            fUserSelectedImagePath = fFirstSelected.getImagePath();
+            
+            // Make selection of image if path is set
+            if(fUserSelectedImagePath != null) {
+                for(GalleryItem item : fGalleryRoot.getItems()) {
+                    String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
+                    if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
+                        fGallery.setSelection(new GalleryItem[] { item });
+                        break;
                     }
                 }
             }
-        });
+        }
         
         return composite;
     }
@@ -332,7 +318,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                     
                     GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
                     item.setImage(thumbnail);
-                    item.setData(path);
+                    item.setData("imagepath", path); //$NON-NLS-1$
+                    item.setData("model", model); //$NON-NLS-1$
                 }
                 
                 fGallery.redraw(); // at some scale settings this is needed
@@ -350,7 +337,9 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         dialog.setFilterExtensions(new String[] { "*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
-            fSelectedObject = new File(path);
+            fUserSelectedFile = new File(path);
+            fUserSelectedImagePath = null;
+            fUserSelectedModel = null;
             okPressed();
         }
         else {
@@ -359,12 +348,26 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     }
     
     /**
-     * @return The selected object which is either a File to an image or a String path to a loaded image
+     * @return The user selected file
      */
-    public Object getSelectedObject() {
-        return fSelectedObject;
+    public File getUserSelectedFile() {
+        return fUserSelectedFile;
     }
     
+    /**
+     * @return The user selected image path
+     */
+    public String getUserSelectedImagePath() {
+        return fUserSelectedImagePath;
+    }
+    
+    /**
+     * @return The user selected model
+     */
+    public IArchimateModel getUserSelectedModel() {
+        return fUserSelectedModel;
+    }
+
     protected void disposeImages() {
         for(Entry<String, Image> entry : fImageCache.entrySet()) {
             Image image = entry.getValue();
