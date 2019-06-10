@@ -365,17 +365,18 @@ implements IEditorModelManager {
         
         getModels().remove(model);
 
+        // Fire this event *before* disposing of the model in case listeners need to access it or any of its members
+        firePropertyChange(this, PROPERTY_MODEL_REMOVED, null, model);
+
         // Delete the CommandStack *LAST* because GEF Editor(s) will still reference it!
         deleteCommandStack(model);
         
         // Delete Archive Manager
         deleteArchiveManager(model);
 
-        // Dispose of this model so it can be garbage collected
-        // Some Eclipse components such as the Properties View may still reference it
+        // *at the very last* dispose of this model so its contents can be garbage collected
+        // Some Eclipse components such as the Properties View may still reference the model or some of its contents
         model.dispose();
-        
-        firePropertyChange(this, PROPERTY_MODEL_REMOVED, null, model);
         
         return true;
     }

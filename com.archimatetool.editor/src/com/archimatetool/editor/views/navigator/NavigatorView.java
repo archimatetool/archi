@@ -338,6 +338,9 @@ implements INavigatorView, ISelectionListener {
         
         // Unregister selection listener
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+        
+        fCurrentArchimateConcept = null;
+        fTreeViewer = null;
     }
     
     // =================================================================================
