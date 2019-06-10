@@ -8,6 +8,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -37,6 +38,9 @@ import com.archimatetool.editor.ui.IArchiImages;
  */
 public class HeapStatusWidget extends Composite {
     
+    /**
+     * ContributionItem for a Toolbar
+     */
     public static class HeapStatusWidgetToolBarContributionItem extends ContributionItem {
         ToolItem toolitem;
         
@@ -55,6 +59,24 @@ public class HeapStatusWidget extends Composite {
             });
         }
     };
+    
+    /**
+     * ContributionItem for a Status Line
+     */
+    public static class HeapStatusWidgetStatusLineContributionItem extends StatusLineContributionItem {
+        public HeapStatusWidgetStatusLineContributionItem() {
+            super("heapStatus"); //$NON-NLS-1$
+            // Bug - have to set text to something for the widget to show
+            setText(" "); //$NON-NLS-1$
+        }
+
+        @Override
+        public void fill(Composite parent) {
+            super.fill(parent);
+            new HeapStatusWidget(parent);
+        }
+    };
+
     
 	private boolean armed;
 	private Image gcImage;
