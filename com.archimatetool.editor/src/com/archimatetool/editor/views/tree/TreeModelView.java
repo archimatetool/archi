@@ -200,7 +200,7 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     public void saveState(IMemento memento) {
         // Save expanded tree state
-        TreeStateHelper.INSTANCE.saveStateOnApplicationClose(memento);
+        TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
     }
     
     /**

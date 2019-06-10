@@ -43,8 +43,6 @@ public class TreeStateHelper {
     // Expanded tree elements or element ids for the session
     private List<Object> fExpandedElements = new ArrayList<Object>();
     
-    private TreeViewer fTreeViewer;
-    
     /**
      * Flag to show we have restored from Memento first time open
      */
@@ -60,6 +58,7 @@ public class TreeStateHelper {
      * @param memento
      */
     void setMemento(IMemento memento) {
+        // This is also called when the TreeView is opened, but we only want to do this once
         if(memento == null || fRestoredFromMemento) {
             return;
         }
@@ -85,13 +84,21 @@ public class TreeStateHelper {
      * Restore expanded elements on TreeView creation
      */
     void restoreExpandedTreeElements(TreeViewer viewer) {
-        fTreeViewer = viewer;
-        addDisposeListener();
+        // Store expanded tree elements if View is closed
+        viewer.getTree().addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent e) {
+                fExpandedElements.clear();
+                for(Object element : viewer.getVisibleExpandedElements()) {
+                    fExpandedElements.add(element);
+                }
+            }
+        });
         
         for(Object o : fExpandedElements) {
             // Actual object
             if(o instanceof IArchimateModelObject) {
-                fTreeViewer.expandToLevel(o, 1);
+                viewer.expandToLevel(o, 1);
             }
             
             // String ids
@@ -104,7 +111,7 @@ public class TreeStateHelper {
                             for(String id : elements) {
                                 EObject element = ArchimateModelUtils.getObjectByID(model, id);
                                 if(element != null) {
-                                    fTreeViewer.expandToLevel(element, 1);
+                                    viewer.expandToLevel(element, 1);
                                 }
                             }
                             break; // found model
@@ -123,30 +130,15 @@ public class TreeStateHelper {
     }
     
     /**
-     * Store expanded tree elements if View is closed
-     */
-    private void addDisposeListener() {
-        fTreeViewer.getTree().addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                fExpandedElements.clear();
-                for(Object element : fTreeViewer.getVisibleExpandedElements()) {
-                    fExpandedElements.add(element);
-                }
-            }
-        });
-    }
-    
-    /**
      * Save expanded state of tree elements on Application close
      * @param memento
      */
-    void saveStateOnApplicationClose(IMemento memento) {
+    void saveStateOnApplicationClose(TreeViewer viewer, IMemento memento) {
         Hashtable<File, String> map = new Hashtable<File, String>();
         
         IMemento expandedMem = memento.createChild(MEMENTO_EXPANDED);
 
-        for(Object element : fTreeViewer.getVisibleExpandedElements()) {
+        for(Object element : viewer.getVisibleExpandedElements()) {
             if(element instanceof IIdentifier && element instanceof IArchimateModelObject) {
                 // Only store if saved in a file
                 File file = ((IArchimateModelObject)element).getArchimateModel().getFile();
