@@ -88,10 +88,6 @@ public class TreeStateHelper {
         fTreeViewer = viewer;
         addDisposeListener();
         
-        if(fExpandedElements.isEmpty()) {
-            return;
-        }
-        
         for(Object o : fExpandedElements) {
             // Actual object
             if(o instanceof IArchimateModelObject) {
@@ -121,6 +117,9 @@ public class TreeStateHelper {
                 }
             }
         }
+        
+        // Allow the elements to be garbage collected
+        fExpandedElements.clear();
     }
     
     /**
