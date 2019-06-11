@@ -23,6 +23,7 @@ import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 /**
@@ -88,10 +89,11 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     protected DiagramModelComponent() {
         super();
+        id = UUIDFactory.createID(this);
     }
 
     /**
@@ -208,7 +210,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     @Override
     public EObject getCopy() {
         IDiagramModelComponent newObject = EcoreUtil.copy(this);
-        newObject.setId(null); // need a new ID
+        newObject.setId(UUIDFactory.createID(newObject)); // need a new ID
         return newObject;
     }
 

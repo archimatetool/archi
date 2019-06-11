@@ -34,6 +34,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.UUIDFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -135,10 +136,11 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     protected ArchimateConcept() {
         super();
+        id = UUIDFactory.createID(this);
     }
 
     /**
@@ -257,7 +259,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public EObject getCopy() {
         IArchimateConcept newObject = EcoreUtil.copy(this);
-        newObject.setId(null); // need a new ID
+        newObject.setId(UUIDFactory.createID(newObject)); // need a new ID
         return newObject;
     }
 

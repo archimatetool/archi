@@ -43,7 +43,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.IIdentifier;
 
 
 
@@ -504,7 +503,6 @@ public final class CopySnapshot {
         }
 
         IDiagramModelObject pasteObject = (IDiagramModelObject)snapshotObject.getCopy();
-        createID(pasteObject);
 
         // Offset top level objects if container is diagram
         if(container instanceof IDiagramModel) {
@@ -562,7 +560,6 @@ public final class CopySnapshot {
             if(connectable instanceof IDiagramModelConnection) {
                 IDiagramModelConnection snapshotConnection = (IDiagramModelConnection)connectable;
                 IDiagramModelConnection newConnection = (IDiagramModelConnection)snapshotConnection.getCopy();
-                createID(newConnection);
                 connections.add(newConnection);
                 
                 // Mapping
@@ -595,19 +592,6 @@ public final class CopySnapshot {
         return connections;
     }
     
-    /**
-     * Components in the copy instance will not have IDs.
-     * Normally, IDs are generated when an object is added to a parent object which has an ArchimateModel as root container.
-     * But our snapshot copy does not have an ArchimateModel root container. So we need to add new ones.
-     * @see com.archimatetool.model.util.IDAdapter
-     */
-    private void createID(IIdentifier object) {
-        String id = object.getId();
-        if(id == null) {
-            object.setId(fTargetDiagramModel.getArchimateModel().getIDAdapter().getNewID());
-        }
-    }
-
     
     // ================================================================================================================
     // Utils

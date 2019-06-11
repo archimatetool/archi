@@ -59,9 +59,9 @@ public class ArchiveManagerTests {
     public void testCreateArchiveManager() throws Exception {
         assertNotNull(archiveManager);
         
-        // Should have an ID Adapter and an extra EContentAdapter adapter
-        assertEquals(2, model.eAdapters().size());
-        assertEquals(TestUtils.getPrivateField(archiveManager, "fModelAdapter"), model.eAdapters().get(1));
+        // Should have one EContentAdapter adapter
+        assertEquals(1, model.eAdapters().size());
+        assertEquals(TestUtils.getPrivateField(archiveManager, "fModelAdapter"), model.eAdapters().get(0));
         
         assertTrue(archiveManager.getImagePaths().isEmpty());
         assertFalse(archiveManager.hasImages());
@@ -246,12 +246,12 @@ public class ArchiveManagerTests {
         archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
         dmImage.setImagePath(archiveManager.getLoadedImagePaths().get(0));
         
-        assertEquals(2, model.eAdapters().size());
+        assertEquals(1, model.eAdapters().size());
         assertFalse(archiveManager.getLoadedImagePaths().isEmpty());
         
         archiveManager.dispose();
         
-        assertEquals(1, model.eAdapters().size());
+        assertEquals(0, model.eAdapters().size());
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
     }
 }

@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
@@ -225,13 +224,7 @@ public class ArchimateModelTests {
 
     @Test
     public void testGetID() {
-        String id = model.getId();
-        assertNull(id);
-        
-        model.setDefaults();
-        id = model.getId();
-        assertNotNull(id);
-        assertEquals(36, id.length());
+        assertNotNull(model.getId());
     }
         
     @Test
@@ -284,25 +277,4 @@ public class ArchimateModelTests {
         assertNotNull(model.getId());
         assertEquals(9, model.getFolders().size());
     }
-    
-    // ---------------------------------------------------------------------------------------------
-    // ID Adapter
-    // ---------------------------------------------------------------------------------------------
-   
-    @Test
-    public void testIDAdapterAddedToArchimateModel() {
-        assertNotNull(model.getIDAdapter());
-    }
-    
-    @Test
-    public void testIDAddedToElement() {
-        IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
-        assertNull(element.getId());
-        
-        model.getDefaultFolderForObject(element).getElements().add(element);
-        String id = element.getId();
-        assertNotNull(id);
-        assertEquals(36, id.length());
-    }
-
 }

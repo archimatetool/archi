@@ -43,9 +43,6 @@ public class FolderTests {
 
     @Test
     public void testGetID() {
-        assertNull(folder.getId());
-        
-        model.getFolders().add(folder);
         assertNotNull(folder.getId());
     }
 

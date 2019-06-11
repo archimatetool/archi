@@ -10,8 +10,6 @@ import java.io.File;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.model.util.IDAdapter;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Model</b></em>'.
@@ -184,8 +182,4 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      */
     void dispose();
 
-    /**
-     * @return The ID adapter for registering new child object IDs
-     */
-    IDAdapter getIDAdapter();
 } // IArchimateModel

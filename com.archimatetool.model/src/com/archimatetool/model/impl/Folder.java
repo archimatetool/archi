@@ -32,6 +32,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 /**
@@ -163,10 +164,11 @@ public class Folder extends EObjectImpl implements IFolder {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     protected Folder() {
         super();
+        id = UUIDFactory.createID(this);
     }
 
     /**

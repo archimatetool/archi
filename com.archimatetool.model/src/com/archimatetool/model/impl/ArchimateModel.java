@@ -47,7 +47,7 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ITechnologyElement;
-import com.archimatetool.model.util.IDAdapter;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 /**
@@ -196,24 +196,13 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
     
     /**
-     * ID Adapter
-     */
-    private IDAdapter fIDAdapter = new IDAdapter();
-
-
-    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated NOT
      */
     protected ArchimateModel() {
         super();
-        eAdapters().add(fIDAdapter);
-    }
-    
-    @Override
-    public IDAdapter getIDAdapter() {
-        return fIDAdapter;
+        id = UUIDFactory.createID(this);
     }
     
     /**
@@ -223,14 +212,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     @Override
     public void setDefaults() {
-        // Element has no ID so allocate one
-        if(getId() == null) {
-            setId(fIDAdapter.getNewID());
-        }
-        else {
-            fIDAdapter.registerID(getId());
-        }
-
         addDefaultFolders();
     }
     

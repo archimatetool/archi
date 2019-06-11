@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -55,9 +56,6 @@ public abstract class DiagramModelTests {
 
     @Test
     public void testGetID() {
-        assertNull(dm.getId());
-        
-        model.getFolder(FolderType.DIAGRAMS).getElements().add(dm);
         assertNotNull(dm.getId());
     }
 
@@ -93,7 +91,8 @@ public abstract class DiagramModelTests {
         IDiagramModel copy = (IDiagramModel)dm.getCopy();
         
         assertNotSame(dm, copy);
-        assertNull(copy.getId());
+        assertNotNull(copy.getId());
+        assertNotEquals(dm.getId(), copy.getId());
         assertEquals(dm.getName(), copy.getName());
         assertEquals(dm.getDocumentation(), copy.getDocumentation());
         assertNotSame(dm.getProperties(), copy.getProperties());

@@ -22,6 +22,7 @@ import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
@@ -85,11 +86,11 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                                 model.setFile(null);
                                 
                                 // New IDs
-                                model.setId(model.getIDAdapter().getNewID());
+                                model.setId(UUIDFactory.createID(model));
                                 for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
                                     EObject eObject = iter.next();
                                     if(eObject instanceof IIdentifier) {
-                                        ((IIdentifier)eObject).setId(model.getIDAdapter().getNewID());
+                                        ((IIdentifier)eObject).setId(UUIDFactory.createID((IIdentifier)eObject));
                                     }
                                 }
                                 

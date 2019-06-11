@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -58,7 +59,8 @@ public abstract class ArchimateConceptTests {
         IArchimateConcept copy = (IArchimateConcept)concept.getCopy();
         
         assertNotSame(concept, copy);
-        assertNull(copy.getId());
+        assertNotNull(copy.getId());
+        assertNotEquals(concept.getId(), copy.getId());
         assertEquals(concept.getName(), copy.getName());
         assertEquals(concept.getDocumentation(), copy.getDocumentation());
         assertNotSame(concept.getProperties(), copy.getProperties());
@@ -74,9 +76,6 @@ public abstract class ArchimateConceptTests {
 
     @Test
     public void testGetID() {
-        assertNull(concept.getId());
-        
-        model.getDefaultFolderForObject(concept).getElements().add(concept);
         assertNotNull(concept.getId());
     }
         

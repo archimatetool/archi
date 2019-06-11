@@ -204,8 +204,6 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         // Create a new container Archimate model
         IArchimateModel tempModel = IArchimateFactory.eINSTANCE.createArchimateModel();
         tempModel.setDefaults();
-        tempModel.eAdapters().clear(); // Remove this after default folders have been added, as we'll generate our own IDs
-        tempModel.setId(EcoreUtil.generateUUID());
         tempModel.setFile(tmpFile);
         tempModel.setVersion(ModelVersion.VERSION);
         tempModel.setName(Messages.SaveCanvasAsTemplateWizard_4);

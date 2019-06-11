@@ -36,6 +36,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 /**
@@ -165,10 +166,11 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     protected DiagramModel() {
         super();
+        id = UUIDFactory.createID(this);
     }
 
     /**
@@ -355,7 +357,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     @Override
     public EObject getCopy() {
         IDiagramModel newDiagramModel = EcoreUtil.copy(this);
-        newDiagramModel.setId(null); // need a new ID
+        newDiagramModel.setId(UUIDFactory.createID(newDiagramModel)); // need a new ID
         newDiagramModel.getChildren().clear(); // need to do this!
         return newDiagramModel;
     }
