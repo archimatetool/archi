@@ -21,6 +21,7 @@ import com.archimatetool.editor.diagram.commands.CreateDiagramObjectCommand;
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.diagram.editparts.IConstrainedSizeEditPart;
 import com.archimatetool.editor.diagram.editparts.INonResizableEditPart;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
@@ -111,13 +112,17 @@ extends XYLayoutEditPolicy {
         IDiagramModelContainer parent = (IDiagramModelContainer)getHost().getModel();
         IDiagramModelObject child = (IDiagramModelObject)childEditPart.getModel();
         
-        // Keep within box
         Rectangle bounds = (Rectangle)constraint;
-        if(bounds.x < 0) {
-            bounds.x = 0;
-        }
-        if(bounds.y < 0) {
-            bounds.y = 0;
+
+        // Keep within the parent box
+        // Fixed 2019-06-11 to check that the parent is not a diagram model (which can have negative space)
+        if(!(parent instanceof IDiagramModel)) {
+            if(bounds.x < 0) {
+                bounds.x = 0;
+            }
+            if(bounds.y < 0) {
+                bounds.y = 0;
+            }
         }
         
         return new AddObjectCommand(parent, child, bounds);
