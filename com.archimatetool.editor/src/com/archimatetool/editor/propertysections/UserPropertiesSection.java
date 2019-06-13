@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -148,6 +149,15 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             super.notifyChanged(msg);
             UserPropertiesSection.this.notifyChanged(msg);
         }
+        
+        @Override
+        protected void addAdapter(Notifier notifier) {
+            // Only interested in IProperty types
+            // This ensures that we aren't adding an adapter to hundreds of child objects
+            if(notifier instanceof IProperty) {
+                super.addAdapter(notifier);
+            }
+        };
     };
 
     @Override
