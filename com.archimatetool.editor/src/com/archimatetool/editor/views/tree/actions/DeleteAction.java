@@ -7,10 +7,12 @@ package com.archimatetool.editor.views.tree.actions;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
 import com.archimatetool.editor.views.tree.commands.DeleteCommandHandler;
 
@@ -58,7 +60,18 @@ public class DeleteAction extends ViewerAction {
             }
         }
         
-        cmdHandler.delete();
+        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
+        if(PlatformUtils.isMac()) {
+            while(Display.getCurrent().readAndDispatch());
+        }
+        
+        BusyIndicator.showWhile(null, new Runnable() {
+            @Override
+            public void run() {
+                cmdHandler.delete();
+            }
+        });
     }
 
     @Override

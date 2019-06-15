@@ -116,7 +116,7 @@ public class DeleteCommandHandlerTests {
                 ArchimateModelUtils.getObjectByID(model, "d856464a")
         };
         
-        commandHandler.setObjectsToBeDeleted(elements);
+        commandHandler = new DeleteCommandHandler(treeModelViewer, elements);
         assertFalse(commandHandler.hasDiagramReferences());
     }
     

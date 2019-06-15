@@ -5,31 +5,30 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
-import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.commands.DeleteArchimateElementCommand;
 import com.archimatetool.editor.model.commands.DeleteArchimateRelationshipCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -74,57 +73,40 @@ public class DeleteFromModelAction extends SelectionAction {
     @Override
     public void run() {
         List<?> selection = getSelectedObjects();
-        List<IArchimateConcept> archimateConcepts = new ArrayList<IArchimateConcept>();
-        List<IDiagramModelComponent> diagramObjects = new ArrayList<IDiagramModelComponent>();
+        Set<IArchimateConcept> archimateConcepts = new HashSet<IArchimateConcept>();
         
-        // Gather Model elements, relations
+        // Gather referenced model concepts
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
+                
                 if(model instanceof IDiagramModelArchimateObject) {
                     IArchimateElement element = ((IDiagramModelArchimateObject)model).getArchimateElement();
-                    if(!archimateConcepts.contains(element)) {
-                        archimateConcepts.add(element);
-                    }
+                    archimateConcepts.add(element);
+                    
                     // Element's relationships
-                    for(IArchimateRelationship relation :  ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
-                        if(!archimateConcepts.contains(relation)) {
-                            archimateConcepts.add(relation);
-                        }
+                    for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
+                        archimateConcepts.add(relation);
                         // Relation's relationships
-                        for(IArchimateRelationship r :  ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
-                            if(!archimateConcepts.contains(r)) {
-                                archimateConcepts.add(r);
-                            }
+                        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
+                            archimateConcepts.add(r);
                         }
                     }
                 }
                 else if(model instanceof IDiagramModelArchimateConnection) {
                     IArchimateRelationship relation = ((IDiagramModelArchimateConnection)model).getArchimateRelationship();
-                    if(!archimateConcepts.contains(relation)) {
-                        archimateConcepts.add(relation);
-                    }
+                    archimateConcepts.add(relation);
+                    
                     // Relation's relationships
-                    for(IArchimateRelationship r :  ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
-                        if(!archimateConcepts.contains(r)) {
-                            archimateConcepts.add(r);
-                        }
+                    for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
+                        archimateConcepts.add(r);
                     }
                 }
             }
         }
         
-        // Gather referenced diagram objects
-        for(IArchimateConcept archimateConcept : archimateConcepts) {
-            for(IDiagramModel diagramModel : archimateConcept.getArchimateModel().getDiagramModels()) {
-                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, archimateConcept)) {
-                    diagramObjects.add(dc);
-                }
-            }
-        }
-
         // Check whether any of these concepts are referenced in other diagrams
-        if(hasMoreThanOneReference(archimateConcepts, diagramObjects)) {
+        if(hasMoreThanOneReference(archimateConcepts)) {
             if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(),
                     Messages.DeleteFromModelAction_0,
                     Messages.DeleteFromModelAction_1 +
@@ -134,48 +116,52 @@ public class DeleteFromModelAction extends SelectionAction {
             }
         }
         
+        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
+        if(PlatformUtils.isMac()) {
+            while(Display.getCurrent().readAndDispatch());
+        }
+
         // Create commands
-        
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(TEXT);
         
         for(IArchimateConcept archimateConcept : archimateConcepts) {
             if(archimateConcept instanceof IArchimateElement) {
+                // Element
                 Command cmd = new DeleteArchimateElementCommand((IArchimateElement)archimateConcept);
                 compoundCommand.add(cmd);
+                
+                // Diagram Model Objects
+                for(IDiagramModelObject dmo : ((IArchimateElement)archimateConcept).getReferencingDiagramObjects()) {
+                    cmd = DiagramCommandFactory.createDeleteDiagramObjectCommand(dmo);
+                    compoundCommand.add(cmd);
+                }
             }
             else if(archimateConcept instanceof IArchimateRelationship) {
+                // Relationship
                 Command cmd = new DeleteArchimateRelationshipCommand((IArchimateRelationship)archimateConcept);
                 compoundCommand.add(cmd);
+                
+                // Diagram Model Connections
+                for(IDiagramModelArchimateConnection dmc : ((IArchimateRelationship)archimateConcept).getReferencingDiagramConnections()) {
+                    cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(dmc);
+                    compoundCommand.add(cmd);
+                }
             }
         }
         
-        for(IDiagramModelComponent dc : diagramObjects) {
-            if(dc instanceof IDiagramModelObject) {
-                Command cmd = DiagramCommandFactory.createDeleteDiagramObjectCommand((IDiagramModelObject)dc);
-                compoundCommand.add(cmd);
+        BusyIndicator.showWhile(null, new Runnable() {
+            @Override
+            public void run() {
+                execute(compoundCommand);
             }
-            else if(dc instanceof IDiagramModelConnection) {
-                Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand((IDiagramModelConnection)dc);
-                compoundCommand.add(cmd);
-            }
-        }
-        
-        execute(compoundCommand);
+        });
     }
 
-    private boolean hasMoreThanOneReference(List<IArchimateConcept> archimateConcepts, List<IDiagramModelComponent> diagramObjects) {
+    private boolean hasMoreThanOneReference(Set<IArchimateConcept> archimateConcepts) {
         for(IArchimateConcept archimateConcept : archimateConcepts) {
-            int count = 0;
-
-            for(IDiagramModelComponent dmc : diagramObjects) {
-                if(dmc instanceof IDiagramModelArchimateComponent) {
-                    if(((IDiagramModelArchimateComponent)dmc).getArchimateConcept() == archimateConcept) {
-                        count++;
-                        if(count > 1) {
-                            return true;
-                        }
-                    }
-                }
+            if(archimateConcept.getReferencingDiagramComponents().size() > 1) {
+                return true;
             }
         }
         
