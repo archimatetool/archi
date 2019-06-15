@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: CSV Command Line
 Bundle-SymbolicName: com.archimatetool.csv.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 4.4.0.qualifier
+Bundle-Version: 4.5.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: com.archimatetool.csv,
  com.archimatetool.commandline
