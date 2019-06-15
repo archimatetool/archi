@@ -28,7 +28,6 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
-import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -107,8 +106,8 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     protected Command getReconnectCommand(ReconnectRequest request, boolean isSourceCommand) {
         IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
         
-        // The re-connected object
-        IConnectable newObject = (IConnectable)getHost().getModel();
+        // The re-connected end component
+        IConnectable newComponent = (IConnectable)getHost().getModel();
 
         // Get the type of connection (plain) or relationship (if archimate connection) and check if it is valid
         EClass type = connection.eClass();
@@ -117,78 +116,95 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
 
         if(isSourceCommand) {
-            if(!isValidConnection(newObject, connection.getTarget(), type)) {
+            if(!isValidConnection(newComponent, connection.getTarget(), type)) {
                 return null;
             }
         }
         else {
-            if(!isValidConnection(connection.getSource(), newObject, type)) {
+            if(!isValidConnection(connection.getSource(), newComponent, type)) {
                 return null;
             }
         }
         
-        /*
-         * Re-connect ArchiMate Connection to Archimate Component
-         * In this case we have to check for matching occurences on all diagrams
-         */
-        if(connection instanceof IDiagramModelArchimateConnection && newObject instanceof IDiagramModelArchimateComponent) {
-            IArchimateRelationship relationship = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship();
-            IArchimateConcept newConcept = ((IDiagramModelArchimateComponent)newObject).getArchimateConcept();
+        // Archimate type reconnection
+        if(connection instanceof IDiagramModelArchimateConnection && newComponent instanceof IDiagramModelArchimateComponent) {
+            return createArchimateReconnectCommand((IDiagramModelArchimateConnection)connection, (IDiagramModelArchimateComponent)newComponent, isSourceCommand);
+        }
+        
+        // Plain reconnection
+        return createReconnectCommand(connection, newComponent, isSourceCommand);
+    }
+    
+    private Command createArchimateReconnectCommand(IDiagramModelArchimateConnection connection, IDiagramModelArchimateComponent dmc, boolean isSourceCommand) {
+        IArchimateRelationship relationship = connection.getArchimateRelationship();
+        IArchimateConcept newConcept = dmc.getArchimateConcept();
+        
+        CompoundCommand cmd = new CompoundCommand();
+        
+        // Add commands for other instances of diagram connections
+        for(IDiagramModelArchimateConnection matchingConnection : relationship.getReferencingDiagramConnections()) {
             
-            // Compound Command
-            CompoundCommand result = new CompoundCommand();
-
-            // Check for matching connections in this and other diagrams
-            for(IDiagramModel diagramModel : newConcept.getArchimateModel().getDiagramModels()) {
-                for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
-                    IDiagramModelArchimateComponent matchingComponent = null;
-                    
-                    // Same Diagram so use the new target
-                    if(newObject.getDiagramModel() == diagramModel) {
-                        matchingComponent = (IDiagramModelArchimateComponent)newObject;
-                    }
-                    // Different Diagram so find a match
-                    else {
-                        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, newConcept);
-                        if(!list.isEmpty()) {
-                            matchingComponent = list.get(0);
-                        }                            
-                    }
-                    
-                    // Does the new object exist on the diagram? Yes, reconnect
-                    if(matchingComponent != null) {
-                        ReconnectDiagramConnectionCommand cmd = new ReconnectDiagramConnectionCommand(matchingConnection);
-                        if(isSourceCommand) {
-                            cmd.setNewSource(matchingComponent);
-                        }
-                        else {
-                            cmd.setNewTarget(matchingComponent);
-                        }
-                        result.add(cmd);
-                    }
-                    // No, so delete the matching connection
-                    else {
-                        result.add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
-                    }
+            // The same diagram
+            if(matchingConnection.getDiagramModel() == connection.getDiagramModel()) {
+                // If we are reconnecting to a dmc with a different concept then reconnect all instances on this diagram
+                if(isNewConnection(matchingConnection, dmc, isSourceCommand)) {
+                    cmd.add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
+                }
+                // Else if we are reconnecting to a dmc with the same concept then reconnect only this one instance of the connection
+                else if(connection == matchingConnection) {
+                    cmd.add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
                 }
             }
             
-            return result.unwrap();
+            // A different diagram
+            else {
+                // Does the new target concept exist on the diagram?
+                List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(matchingConnection.getDiagramModel(), newConcept);
+                
+                // Yes, so reconnect to it *if* it is different than the existing concept
+                if(!list.isEmpty()) {
+                    // Get the first instance of the new component
+                    IDiagramModelArchimateComponent newComponent = list.get(0);
+                    
+                    // If the instance's concept is different than the original concept then reconnect
+                    if(isNewConnection(matchingConnection, newComponent, isSourceCommand)) {
+                        cmd.add(createReconnectCommand(matchingConnection, newComponent, isSourceCommand));
+                    }
+                }
+                
+                // No, so delete the matching connection
+                else {
+                    cmd.add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
+                }
+            }
         }
         
-        // Re-connect other cases
-        else {
-            ReconnectDiagramConnectionCommand cmd = new ReconnectDiagramConnectionCommand(connection);
-            
-            if(isSourceCommand) {
-                cmd.setNewSource(newObject);
-            }
-            else {
-                cmd.setNewTarget(newObject);
-            }
-            
-            return cmd;
+        return cmd.unwrap();
+    }
+    
+    /**
+     * Return true if the concept in dmc is not already connected to the concept in connection
+     */
+    private boolean isNewConnection(IDiagramModelArchimateConnection connection, IDiagramModelArchimateComponent dmc, boolean isSourceCommand) {
+        if(isSourceCommand) {
+            return !dmc.getArchimateConcept().getSourceRelationships().contains(connection.getArchimateConcept());
         }
+        else {
+            return !dmc.getArchimateConcept().getTargetRelationships().contains(connection.getArchimateConcept());
+        }
+    }
+
+    private Command createReconnectCommand(IDiagramModelConnection connection, IConnectable connectable, boolean isSourceCommand) {
+        ReconnectDiagramConnectionCommand cmd = new ReconnectDiagramConnectionCommand(connection);
+        
+        if(isSourceCommand) {
+            cmd.setNewSource(connectable);
+        }
+        else {
+            cmd.setNewTarget(connectable);
+        }
+        
+        return cmd;
     }
 
     @Override
