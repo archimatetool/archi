@@ -131,10 +131,15 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         if(relationship == null) {
             Logger.logError("setArchimateRelationship() setting null", new Throwable()); //$NON-NLS-1$
         }
+
+        // If we already have a concept we *must* remove it from the referenced list first
+        if(fRelationship != null) {
+            ((ArchimateRelationship)fRelationship).diagramConnections.remove(this);
+        }
         
         fRelationship = relationship;
         
-        fRelationship.getReferencingDiagramConnections().add(this);
+        ((ArchimateRelationship)fRelationship).diagramConnections.add(this);
     }
 
     /**
@@ -213,7 +218,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
         // Add a reference to this in the Archimate Relationship
         if(fRelationship != null) { // this will be null when a copy of this object is made
-            fRelationship.getReferencingDiagramConnections().add(this);
+            ((ArchimateRelationship)fRelationship).diagramConnections.add(this);
         }
         return super.eInverseAdd(otherEnd, featureID, baseClass, msgs);
     }
@@ -222,7 +227,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
         // Remove the reference to this in the Archimate Relationship
         if(fRelationship != null) { // this may be null...possibly?
-            fRelationship.getReferencingDiagramConnections().remove(this);
+            ((ArchimateRelationship)fRelationship).diagramConnections.remove(this);
         }
         return super.eInverseRemove(otherEnd, featureID, baseClass, msgs);
     }

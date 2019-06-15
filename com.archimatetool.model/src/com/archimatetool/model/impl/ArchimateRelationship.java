@@ -5,17 +5,20 @@
  */
 package com.archimatetool.model.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,8 +57,9 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
 
     /**
      * Stored references to Diagram Connections
+     * Some of these may be orphaned so this is not an accurate list of live diagram connections
      */
-    private EList<IDiagramModelArchimateConnection> diagramConnections;
+    Set<IDiagramModelArchimateConnection> diagramConnections = new HashSet<>();
 
     /**
      * <!-- begin-user-doc -->
@@ -190,12 +194,29 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
         return copy;
     }
 
+    /*
+     * It's not simply a case of returning the list of references.
+     * If an *ancestor* of a dmc is deleted, or the diagram model itself, but not the direct parent,
+     * the dmc will not be removed from the relation's dmc reference list,
+     * so we check if there is a top model ancestor on the referenced dmc.
+     * If there is a top model ancestor, it's used in a diagram model.
+     */
     @Override
-    public EList<IDiagramModelArchimateConnection> getReferencingDiagramConnections() {
-        if(diagramConnections == null) {
-            diagramConnections = new UniqueEList<IDiagramModelArchimateConnection>();
+    public List<IDiagramModelArchimateConnection> getReferencingDiagramConnections() {
+        List<IDiagramModelArchimateConnection> list = new ArrayList<>();
+        
+        for(IDiagramModelArchimateConnection dmc : diagramConnections) {
+            if(dmc.getArchimateModel() != null) {
+                list.add(dmc);
+            }
         }
-        return diagramConnections;
+        
+        return list;
+    }
+
+    @Override
+    public List<IDiagramModelArchimateConnection> getReferencingDiagramComponents() {
+        return getReferencingDiagramConnections();
     }
 
     /**

@@ -5,6 +5,8 @@
  */
 package com.archimatetool.model;
 
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -28,5 +30,10 @@ public interface IArchimateConcept extends IArchimateModelObject, ICloneable, ID
      * @return A list of target relationships connected to this concept - this is a live list so don't change it!
      */
     EList<IArchimateRelationship> getTargetRelationships();
+    
+    /**
+     * @return A list of diagram components that reference this concept
+     */
+    List<? extends IDiagramModelArchimateComponent> getReferencingDiagramComponents();
 
 } // IArchimateConcept

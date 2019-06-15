@@ -12,12 +12,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -69,16 +69,11 @@ public class DiagramModelUtilsTests {
     // =================================================================================================
     
     // Test Data
+    String elementID_1 = "521";
+    List<String> expectedDiagramIDs_1 = Arrays.asList("4025", "3761", "3722", "3999", "4165", "4224");
     
-    String[][] data1 = {
-            { "521" } ,                                         // element id
-            { "4025", "3761", "3722", "3999", "4165", "4224" }  // expected ids of diagrams
-    };
-    
-    String[][] data2 = {
-            { "1399" } ,                // element id
-            { "4056", "4279", "4318" }  // expected ids of diagrams
-    };
+    String elementID_2 = "1399";
+    List<String> expectedDiagramIDs_2 = Arrays.asList("4056", "4279", "4318");
 
     @Test
     public void findReferencedDiagramsForArchimateConcept() {
@@ -89,32 +84,31 @@ public class DiagramModelUtilsTests {
         assertNotNull(list);
         assertEquals(0, list.size());
         
-        findReferencedDiagramsForArchimateConcept(data1);
-        findReferencedDiagramsForArchimateConcept(data2);
+        findReferencedDiagramsForArchimateConcept(elementID_1, expectedDiagramIDs_1);
+        findReferencedDiagramsForArchimateConcept(elementID_2, expectedDiagramIDs_2);
     }
     
-    private void findReferencedDiagramsForArchimateConcept(String[][] data) {
-        IArchimateElement element = (IArchimateElement)tm.getObjectByID(data[0][0]);
+    private void findReferencedDiagramsForArchimateConcept(String elementID, List<String> diagramIDs) {
+        IArchimateElement element = (IArchimateElement)tm.getObjectByID(elementID);
         assertNotNull(element);
         
-        List<IDiagramModel> list = DiagramModelUtils.findReferencedDiagramsForArchimateConcept(element);
-        assertEquals(data[1].length, list.size());
+        List<IDiagramModel> diagramModels = DiagramModelUtils.findReferencedDiagramsForArchimateConcept(element);
+        assertEquals(diagramIDs.size(), diagramModels.size());
         
-        for(int i = 0; i < data[1].length; i++) {
-            String id = data[1][i];
-            assertEquals(id, list.get(i).getId());
+        for(IDiagramModel dm : diagramModels) {
+            assertTrue(diagramIDs.contains(dm.getId()));
         }
     }
-    
+
     @Test
     public void isArchimateConceptReferencedInDiagrams() {
         // This should be in a diagram
-        IArchimateElement element = (IArchimateElement)tm.getObjectByID(data1[0][0]);
+        IArchimateElement element = (IArchimateElement)tm.getObjectByID(elementID_1);
         assertNotNull(element);
         assertTrue(DiagramModelUtils.isArchimateConceptReferencedInDiagrams(element));
         
         // This should be in a diagram
-        element = (IArchimateElement)tm.getObjectByID(data2[0][0]);
+        element = (IArchimateElement)tm.getObjectByID(elementID_2);
         assertNotNull(element);
         assertTrue(DiagramModelUtils.isArchimateConceptReferencedInDiagrams(element));
         
@@ -245,51 +239,6 @@ public class DiagramModelUtilsTests {
         // Should be found in a dm
         list = DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship);
         assertEquals(3, list.size());
-    }
-
-    // =================================================================================================
-    
-    @Test
-    public void findDiagramModelObjectsAndConnections_AfterDuplicateDiagram() {
-        ArchimateTestModel tm = new ArchimateTestModel();
-        IArchimateModel model = tm.createNewModel();
-        IDiagramModel dm = model.getDefaultDiagramModel();
-        
-        IArchimateElement actor = IArchimateFactory.eINSTANCE.createBusinessActor();
-        IDiagramModelArchimateObject dmo1 = tm.createDiagramModelArchimateObjectAndAddToModel(actor);
-        dm.getChildren().add(dmo1);
-        
-        IArchimateElement role = IArchimateFactory.eINSTANCE.createBusinessRole();
-        IDiagramModelArchimateObject dmo2 = tm.createDiagramModelArchimateObjectAndAddToModel(role);
-        dm.getChildren().add(dmo2);
-        
-        IAssignmentRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        relation.setSource(actor);
-        relation.setTarget(role);
-        IDiagramModelArchimateConnection dmc1 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation);
-        dmc1.connect(dmo1, dmo2);
-        
-        List<?> list = DiagramModelUtils.findDiagramModelObjectsForElement(actor);
-        assertEquals(1, list.size());
-        
-        list = DiagramModelUtils.findDiagramModelObjectsForElement(role);
-        assertEquals(1, list.size());
-        
-        list = DiagramModelUtils.findDiagramModelConnectionsForRelation(relation);
-        assertEquals(1, list.size());
-
-        // Duplicate
-        DuplicateCommandHandler handler = new DuplicateCommandHandler(new Object[] { dm });
-        handler.duplicate();
-        
-        list = DiagramModelUtils.findDiagramModelObjectsForElement(actor);
-        assertEquals(2, list.size());
-        
-        list = DiagramModelUtils.findDiagramModelObjectsForElement(role);
-        assertEquals(2, list.size());
-        
-        list = DiagramModelUtils.findDiagramModelConnectionsForRelation(relation);
-        assertEquals(2, list.size());
     }
 
     // =================================================================================================

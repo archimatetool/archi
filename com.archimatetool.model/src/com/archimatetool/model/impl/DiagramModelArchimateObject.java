@@ -194,16 +194,21 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
             Logger.logError("setArchimateElement() setting null", new Throwable()); //$NON-NLS-1$
         }
         
+        // If we already have a concept we *must* remove it from the referenced list first
+        if(fArchimateElement != null) {
+            ((ArchimateElement)fArchimateElement).diagramObjects.remove(this);
+        }
+        
         fArchimateElement = archimateElement;
         
-        fArchimateElement.getReferencingDiagramObjects().add(this);
+        ((ArchimateElement)fArchimateElement).diagramObjects.add(this);
     }
     
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
         // Re-Add a reference to this in the Archimate Element
         if(fArchimateElement != null) { // this will be null when a copy of this object is made
-            fArchimateElement.getReferencingDiagramObjects().add(this);
+            ((ArchimateElement)fArchimateElement).diagramObjects.add(this);
         }
         return super.eInverseAdd(otherEnd, featureID, baseClass, msgs);
     }
@@ -212,7 +217,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
         // Remove the reference to this in the Archimate Element
         if(fArchimateElement != null) { // this could be null...possibly?
-            fArchimateElement.getReferencingDiagramObjects().remove(this);
+            ((ArchimateElement)fArchimateElement).diagramObjects.remove(this);
         }
         return super.eInverseRemove(otherEnd, featureID, baseClass, msgs);
     }

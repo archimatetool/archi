@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -244,4 +245,38 @@ public class DuplicateCommandHandlerTests {
         // Connection to Connection
         assertSame(dmc1Copy, dmo3Copy.getSourceConnections().get(0).getTarget());
     }
+    
+    @Test
+    public void testCorrectDiagramReferencesAfterDuplicateDiagram() {
+        ArchimateTestModel tm = new ArchimateTestModel();
+        IArchimateModel model = tm.createNewModel();
+        IDiagramModel dm = model.getDefaultDiagramModel();
+        
+        IArchimateElement actor = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IDiagramModelArchimateObject dmo1 = tm.createDiagramModelArchimateObjectAndAddToModel(actor);
+        dm.getChildren().add(dmo1);
+        
+        IArchimateElement role = IArchimateFactory.eINSTANCE.createBusinessRole();
+        IDiagramModelArchimateObject dmo2 = tm.createDiagramModelArchimateObjectAndAddToModel(role);
+        dm.getChildren().add(dmo2);
+        
+        IAssignmentRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        relation.setSource(actor);
+        relation.setTarget(role);
+        IDiagramModelArchimateConnection dmc1 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation);
+        dmc1.connect(dmo1, dmo2);
+        
+        assertEquals(1, actor.getReferencingDiagramObjects().size());
+        assertEquals(1, role.getReferencingDiagramObjects().size());
+        assertEquals(1, relation.getReferencingDiagramConnections().size());
+
+        // Duplicate
+        DuplicateCommandHandler handler = new DuplicateCommandHandler(new Object[] { dm });
+        handler.duplicate();
+        
+        assertEquals(2, actor.getReferencingDiagramObjects().size());
+        assertEquals(2, role.getReferencingDiagramObjects().size());
+        assertEquals(2, relation.getReferencingDiagramConnections().size());
+    }
+
 }

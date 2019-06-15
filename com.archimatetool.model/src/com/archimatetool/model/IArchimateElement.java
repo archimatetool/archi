@@ -5,7 +5,7 @@
  */
 package com.archimatetool.model;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.List;
 
 
 /**
@@ -23,6 +23,6 @@ public interface IArchimateElement extends IArchimateConcept {
     /**
      * @return A list of diagram objects that reference this Archimate element
      */
-    EList<IDiagramModelArchimateObject> getReferencingDiagramObjects();
+    List<IDiagramModelArchimateObject> getReferencingDiagramObjects();
     
 } // IArchimateElement

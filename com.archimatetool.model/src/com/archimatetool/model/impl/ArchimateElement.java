@@ -5,8 +5,11 @@
  */
 package com.archimatetool.model.impl;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.UniqueEList;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EClass;
 
 import com.archimatetool.model.IArchimateElement;
@@ -25,8 +28,9 @@ public abstract class ArchimateElement extends ArchimateConcept implements IArch
     
     /**
      * Stored references to Diagram Objects
+     * Some of these may be orphaned so this is not an accurate list of live diagram objects
      */
-    private EList<IDiagramModelArchimateObject> diagramObjects;
+    Set<IDiagramModelArchimateObject> diagramObjects = new HashSet<>();
 
     /**
      * <!-- begin-user-doc -->
@@ -47,15 +51,29 @@ public abstract class ArchimateElement extends ArchimateConcept implements IArch
         return IArchimatePackage.Literals.ARCHIMATE_ELEMENT;
     }
     
-    /* (non-Javadoc)
-     * @see com.archimatetool.model.IArchimateElement#getReferencingDiagramObjects()
+    /*
+     * It's not simply a case of returning the list of references.
+     * If an *ancestor* of a dmo is deleted, or the diagram model itself, but not the direct parent,
+     * the dmo will not be removed from the element's dmo reference list,
+     * so we check if there is a top model ancestor on the referenced dmo.
+     * If there is a top model ancestor, it's used in a diagram model.
      */
     @Override
-    public EList<IDiagramModelArchimateObject> getReferencingDiagramObjects() {
-        if(diagramObjects == null) {
-            diagramObjects = new UniqueEList<IDiagramModelArchimateObject>();
+    public List<IDiagramModelArchimateObject> getReferencingDiagramObjects() {
+        List<IDiagramModelArchimateObject> list = new ArrayList<>();
+        
+        for(IDiagramModelArchimateObject dmo : diagramObjects) {
+            if(dmo.getArchimateModel() != null) {
+                list.add(dmo);
+            }
         }
-        return diagramObjects;
+        
+        return list;
+    }
+    
+    @Override
+    public List<IDiagramModelArchimateObject> getReferencingDiagramComponents() {
+        return getReferencingDiagramObjects();
     }
     
 } //ArchimateElement

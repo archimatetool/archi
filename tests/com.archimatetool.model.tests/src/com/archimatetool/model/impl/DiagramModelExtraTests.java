@@ -6,19 +6,19 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 /**
@@ -43,11 +43,15 @@ public class DiagramModelExtraTests {
         IDiagramModelArchimateObject dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         IDiagramModelArchimateObject dmo3a = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         
-        dmo1.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
-        dmo2.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
-        dmo3.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        ArchimateElement e1 = (ArchimateElement)IArchimateFactory.eINSTANCE.createBusinessActor();
+        ArchimateElement e2 = (ArchimateElement)IArchimateFactory.eINSTANCE.createBusinessActor();
+        ArchimateElement e3 = (ArchimateElement)IArchimateFactory.eINSTANCE.createBusinessActor();
+        
+        dmo1.setArchimateElement(e1);
+        dmo2.setArchimateElement(e2);
+        dmo3.setArchimateElement(e3);
         // dmo3a shares an archimate element with dmo3
-        dmo3a.setArchimateElement(dmo3.getArchimateElement());
+        dmo3a.setArchimateElement(e3);
         
         // Set up model and diagram model
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -62,61 +66,99 @@ public class DiagramModelExtraTests {
         IDiagramModelArchimateObject parent2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         parent1.getChildren().add(parent2);
 
-        // Starts at sizes
-        assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        // public method returns zero objects
+        assertEquals(0, e1.getReferencingDiagramObjects().size());
+        assertEquals(0, e2.getReferencingDiagramObjects().size());
+        assertEquals(0, e3.getReferencingDiagramObjects().size());
+        assertEquals(0, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
-        // Add to dm
+        // But internally is more
+        assertEquals(1, e1.diagramObjects.size());
+        assertEquals(1, e2.diagramObjects.size());
+        assertEquals(2, e3.diagramObjects.size()); // beacause e3 is in dmo3 and dmo3a
+        assertEquals(2, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
+        
+        // Add dmo1 to dm, should be same
         dm.getChildren().add(dmo1);
-        assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(1, e1.getReferencingDiagramObjects().size());
+        assertEquals(1, e1.diagramObjects.size());
         
-        // Add to parent 1
+        // Add dmo2 to parent 1, should be same
         parent1.getChildren().add(dmo2);
         assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(1, e2.diagramObjects.size());
         
-        // Add to parent 2
+        // Add dmo3 to parent 2, dmo3 and dmo3a should be same
         parent2.getChildren().add(dmo3);
-        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(1, e3.getReferencingDiagramObjects().size());
+        assertEquals(1, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, e3.diagramObjects.size());
+        assertEquals(2, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
         
-        // Add dmo3a - dmo3.getArchimateElement() should be same
+        // Add dmo3a to dm, dmo3.getArchimateElement() should be more in public method
         dm.getChildren().add(dmo3a);
-        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, e3.getReferencingDiagramObjects().size());
         assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        // But internally the same
+        assertEquals(2, e3.diagramObjects.size());
+        assertEquals(2, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
         
-        // Remove diagram model, should be the same
+        // Remove diagram model
         ((IFolder)dm.eContainer()).getElements().remove(dm);
         
-        assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        // Public methods should return zero
+        assertEquals(0, e1.getReferencingDiagramObjects().size());
+        assertEquals(0, e2.getReferencingDiagramObjects().size());
+        assertEquals(0, e3.getReferencingDiagramObjects().size());
+        assertEquals(0, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
-        // Add diagram model back again, should be the same
+        // But internally, referenced
+        assertEquals(1, e1.diagramObjects.size());
+        assertEquals(1, e2.diagramObjects.size());
+        assertEquals(2, e3.diagramObjects.size()); // beacause e3 is in dmo3 and dmo3a
+        assertEquals(2, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
+        
+        // Add diagram model back again, should be the same as before
         model.getDefaultFolderForObject(dm).getElements().add(dm);
         
-        assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(1, e1.getReferencingDiagramObjects().size());
+        assertEquals(1, e2.getReferencingDiagramObjects().size());
+        assertEquals(2, e3.getReferencingDiagramObjects().size());
         assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        
+        // And internally the same
+        assertEquals(1, e1.diagramObjects.size());
+        assertEquals(1, e2.diagramObjects.size());
+        assertEquals(2, e3.diagramObjects.size()); // beacause e3 is in dmo3 and dmo3a
+        assertEquals(2, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
         
         // Simple remove from direct parent
         dm.getChildren().remove(dmo1);
         parent1.getChildren().remove(dmo2);
         parent2.getChildren().remove(dmo3);
         
-        assertEquals(0, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(0, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(1, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        // Public
+        assertEquals(0, e1.getReferencingDiagramObjects().size());
+        assertEquals(0, e2.getReferencingDiagramObjects().size());
+        assertEquals(1, e3.getReferencingDiagramObjects().size());
         assertEquals(1, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
-        // Remove Again
+        // And internally the same
+        assertEquals(0, e1.diagramObjects.size());
+        assertEquals(0, e2.diagramObjects.size());
+        assertEquals(1, e3.diagramObjects.size()); // beacause e3 is in dmo3 and dmo3a
+        assertEquals(1, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
+
+        // Remove dmo3a
         dm.getChildren().remove(dmo3a);
 
-        assertEquals(0, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        // Public
+        assertEquals(0, e3.getReferencingDiagramObjects().size());
         assertEquals(0, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        
+        // Internal
+        assertEquals(0, e3.diagramObjects.size()); // beacause e3 is in dmo3 and dmo3a
+        assertEquals(0, ((ArchimateElement)dmo3a.getArchimateElement()).diagramObjects.size());
     }
     
     /**
@@ -125,45 +167,44 @@ public class DiagramModelExtraTests {
      */
     @Test
     public void testDiagramModelArchimateConnection_eInverseAdd_Relationship_getReferencingDiagramObjects() {
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        IArchimateElement element3 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        IArchimateElement element4 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateElement e1 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateElement e2 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateElement e3 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateElement e4 = IArchimateFactory.eINSTANCE.createBusinessActor();
         
-        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        
-        relation1.setSource(element1);
-        relation1.setTarget(element2);
-        
-        relation2.setSource(element2);
-        relation2.setTarget(element3);
-        
-        relation3.setSource(element3);
-        relation3.setTarget(element4);
-
         IDiagramModelArchimateObject dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         IDiagramModelArchimateObject dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         IDiagramModelArchimateObject dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         IDiagramModelArchimateObject dmo4 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         
-        dmo1.setArchimateElement(element1);
-        dmo2.setArchimateElement(element2);
-        dmo3.setArchimateElement(element3);
-        dmo4.setArchimateElement(element4);
+        dmo1.setArchimateElement(e1);
+        dmo2.setArchimateElement(e2);
+        dmo3.setArchimateElement(e3);
+        dmo4.setArchimateElement(e4);
         
+        ArchimateRelationship r1 = (ArchimateRelationship)IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        ArchimateRelationship r2 = (ArchimateRelationship)IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        ArchimateRelationship r3 = (ArchimateRelationship)IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        
+        r1.setSource(e1);
+        r1.setTarget(e2);
+        
+        r2.setSource(e2);
+        r2.setTarget(e3);
+        
+        r3.setSource(e3);
+        r3.setTarget(e4);
+
         IDiagramModelArchimateConnection conn1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         IDiagramModelArchimateConnection conn2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         IDiagramModelArchimateConnection conn3 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         // conn3a shares a relationship with conn3
         IDiagramModelArchimateConnection conn3a = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         
-        conn1.setArchimateRelationship(relation1);
-        conn2.setArchimateRelationship(relation2);
-        conn3.setArchimateRelationship(relation3);
-        conn3a.setArchimateRelationship(relation3); // same
-        
+        conn1.setArchimateRelationship(r1);
+        conn2.setArchimateRelationship(r2);
+        conn3.setArchimateRelationship(r3);
+        conn3a.setArchimateRelationship(r3); // same
         
         // Set up model and diagram model
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -184,41 +225,66 @@ public class DiagramModelExtraTests {
         parent2.getChildren().add(dmo3);
         dm.getChildren().add(dmo4);
 
-        // Starts at sizes
-        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        // Public methods should return zero
+        assertEquals(0, r1.getReferencingDiagramConnections().size());
+        assertEquals(0, r2.getReferencingDiagramConnections().size());
+        assertEquals(0, r3.getReferencingDiagramConnections().size());
+        assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
         
-        // Connect
+        // But internally, referenced
+        assertEquals(1, r1.diagramConnections.size());
+        assertEquals(1, r2.diagramConnections.size());
+        assertEquals(2, r3.diagramConnections.size()); // beacause r3 is in conn3 and conn3a
+        assertEquals(2, ((ArchimateRelationship)conn3a.getArchimateRelationship()).diagramConnections.size());
+
+        
+        // Connect, should be the same
         conn1.connect(dmo1, dmo2);
-        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, r1.getReferencingDiagramConnections().size());
+        assertEquals(1, r1.diagramConnections.size());
 
         conn2.connect(dmo2, dmo3);
-        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, r2.getReferencingDiagramConnections().size());
+        assertEquals(1, r2.diagramConnections.size());
         
         conn3.connect(dmo3, dmo4);
-        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
-
-        conn3a.connect(dmo3, dmo4);
-        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, r3.getReferencingDiagramConnections().size());
+        assertEquals(2, r3.diagramConnections.size()); // beacause r3 is in conn3 and conn3a
         
-        // Remove diagram model, should be the same
+        conn3a.connect(dmo3, dmo4);
+        assertEquals(2, r3.getReferencingDiagramConnections().size());
+        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, ((ArchimateRelationship)conn3a.getArchimateRelationship()).diagramConnections.size());
+        
+        // Remove diagram model
         ((IFolder)dm.eContainer()).getElements().remove(dm);
         
-        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        // Public methods should return zero
+        assertEquals(0, r1.getReferencingDiagramConnections().size());
+        assertEquals(0, r2.getReferencingDiagramConnections().size());
+        assertEquals(0, r3.getReferencingDiagramConnections().size());
+        assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        
+        // But internally still referenced
+        assertEquals(1, r1.diagramConnections.size());
+        assertEquals(1, r2.diagramConnections.size());
+        assertEquals(2, r3.diagramConnections.size()); // beacause r3 is in conn3 and conn3a
+        assertEquals(2, ((ArchimateRelationship)conn3a.getArchimateRelationship()).diagramConnections.size());
        
         // Add diagram model back again
         model.getDefaultFolderForObject(dm).getElements().add(dm);
         
-        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        // Public methods should be as before
+        assertEquals(1, r1.getReferencingDiagramConnections().size());
+        assertEquals(1, r2.getReferencingDiagramConnections().size());
+        assertEquals(2, r3.getReferencingDiagramConnections().size());
         assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        
+        // And internally still referenced
+        assertEquals(1, r1.diagramConnections.size());
+        assertEquals(1, r2.diagramConnections.size());
+        assertEquals(2, r3.diagramConnections.size()); // beacause r3 is in conn3 and conn3a
+        assertEquals(2, ((ArchimateRelationship)conn3a.getArchimateRelationship()).diagramConnections.size());
         
         // Disconnect
         conn1.disconnect();
@@ -226,10 +292,17 @@ public class DiagramModelExtraTests {
         conn3.disconnect();
         conn3a.disconnect();
 
+        // Public methods should return zero again
         assertEquals(0, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
         assertEquals(0, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
         assertEquals(0, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
         assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        
+        // And internally zero
+        assertEquals(0, r1.diagramConnections.size());
+        assertEquals(0, r2.diagramConnections.size());
+        assertEquals(0, r3.diagramConnections.size()); // beacause r3 is in conn3 and conn3a
+        assertEquals(0, ((ArchimateRelationship)conn3a.getArchimateRelationship()).diagramConnections.size());
     }
     
 }
