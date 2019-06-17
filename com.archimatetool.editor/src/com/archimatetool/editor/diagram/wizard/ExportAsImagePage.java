@@ -93,7 +93,7 @@ public class ExportAsImagePage extends WizardPage {
     };
     
     private static final String PREFS_LAST_PROVIDER = "ExportImageLastProvider"; //$NON-NLS-1$
-    private static final String PREFS_LAST_FILE = "ExportImageLastFile"; //$NON-NLS-1$
+    private static final String PREFS_LAST_FOLDER = "ExportImageLastFolder"; //$NON-NLS-1$
     
     public ExportAsImagePage(IFigure figure, String name) {
         super("ExportAsImagePage"); //$NON-NLS-1$
@@ -130,20 +130,14 @@ public class ExportAsImagePage extends WizardPage {
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Get last file name used so we can re-use the path
-        String lastFileName = Preferences.STORE.getString(PREFS_LAST_FILE);
-        if(StringUtils.isSet(lastFileName)) {
-            // Use our name
-            File file = new File(lastFileName);
-            File path = file.getParentFile();
-            if(path != null) {
-                lastFileName = new File(path, fName).getPath();
-            }
-            
-            fFileTextField.setText(lastFileName);
+        // Get last folder
+        String lastFolder = Preferences.STORE.getString(PREFS_LAST_FOLDER);
+        if(StringUtils.isSet(lastFolder)) {
+            File file = new File(lastFolder);
+            fFileTextField.setText(new File(file, fName).getAbsolutePath());
         }
         else {
-            fFileTextField.setText(new File(System.getProperty("user.home"), fName).getPath()); //$NON-NLS-1$
+            fFileTextField.setText(new File(System.getProperty("user.home"), fName).getAbsolutePath()); //$NON-NLS-1$
         }
         
         // Single text control so strip CRLFs
@@ -353,7 +347,12 @@ public class ExportAsImagePage extends WizardPage {
     }
 
     void storePreferences() {
-        Preferences.STORE.setValue(PREFS_LAST_FILE, getFileName());
+        // Store current folder
+        File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
+        if(parentFile != null) {
+            Preferences.STORE.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+        }
+        
         if(fSelectedProvider != null) {
             Preferences.STORE.setValue(PREFS_LAST_PROVIDER, fSelectedProvider.getID());
         }

@@ -65,10 +65,16 @@ public class ExportAsImageWizard extends Wizard {
         if(file.exists()) {
             boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                     Messages.ExportAsImageWizard_3,
-                    NLS.bind(Messages.ExportAsImageWizard_4, file));
+                    NLS.bind(Messages.ExportAsImageWizard_4, file.getAbsolutePath()));
             if(!result) {
                 return false;
             }
+        }
+        
+        // Make sure parent folder exists
+        File parent = file.getParentFile();
+        if(parent != null) {
+            parent.mkdirs();
         }
         
         BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
