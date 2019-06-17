@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.diagram.wizard.ExportAsImageWizard;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
-import com.archimatetool.model.INameable;
 
 
 /**
@@ -33,11 +33,8 @@ public class ExportAsImageAction extends Action {
     
     @Override
     public void run() {
-        String name = null;
         Object model = fGraphViewer.getInput();
-        if(model instanceof INameable) {
-            name = ((INameable)model).getName();
-        }
+        String name = ArchiLabelProvider.INSTANCE.getLabel(model);
         
         WizardDialog dialog = new ExtendedWizardDialog(fGraphViewer.getControl().getShell(),
                 new ExportAsImageWizard(fGraphViewer.getGraphControl().getContents(), name),

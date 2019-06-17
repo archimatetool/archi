@@ -101,6 +101,11 @@ public class ExportAsImagePage extends WizardPage {
         fFigure = figure;
         fName = name;
         
+        // Safe name so never null or blank
+        if(!StringUtils.isSet(fName)) {
+            fName = "Image"; //$NON-NLS-1$
+        }
+        
         setTitle(Messages.ExportAsImagePage_0);
         setDescription(Messages.ExportAsImagePage_1);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
@@ -125,23 +130,20 @@ public class ExportAsImagePage extends WizardPage {
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Get last file name used
+        // Get last file name used so we can re-use the path
         String lastFileName = Preferences.STORE.getString(PREFS_LAST_FILE);
         if(StringUtils.isSet(lastFileName)) {
-            // If we have a given name use that
-            if(fName != null) {
-                File file = new File(lastFileName);
-                File path = file.getParentFile();
-                if(path != null) {
-                    lastFileName = new File(path, fName).getPath();
-                }
+            // Use our name
+            File file = new File(lastFileName);
+            File path = file.getParentFile();
+            if(path != null) {
+                lastFileName = new File(path, fName).getPath();
             }
             
             fFileTextField.setText(lastFileName);
         }
         else {
-            String name = (fName == null) ? "exported" : fName; //$NON-NLS-1$
-            fFileTextField.setText(new File(System.getProperty("user.home"), name).getPath()); //$NON-NLS-1$
+            fFileTextField.setText(new File(System.getProperty("user.home"), fName).getPath()); //$NON-NLS-1$
         }
         
         // Single text control so strip CRLFs
@@ -243,10 +245,20 @@ public class ExportAsImagePage extends WizardPage {
             // Be nice and add a default extension to the file name
             String filename = fFileTextField.getText();
             if(filename.length() > 0) {
-                int dot = filename.lastIndexOf('.');
-                if(dot != -1) {
-                    filename = filename.substring(0, dot);
+                // Remove any known extensions so we can add a new one
+                // But we don't want to remove any dots or extension strings that might be in the file name itself
+                for(ImageExportProviderInfo info : fImageProviders) {
+                    for(String ext : info.getExtensions()) {
+                        if(filename.toLowerCase().endsWith("." + ext) ) { // ensure this is at the end //$NON-NLS-1$
+                            int index = filename.toLowerCase().lastIndexOf("." + ext); //$NON-NLS-1$
+                            if(index != -1) {
+                                filename = filename.substring(0, index);
+                                break;
+                            }
+                        }
+                    }
                 }
+                
                 fFileTextField.setText(filename + "." + fSelectedProvider.getExtensions().get(0)); //$NON-NLS-1$
             }
             
