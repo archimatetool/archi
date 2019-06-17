@@ -128,6 +128,12 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         ZipOutputStream zOut = null;
         
         try {
+            // Make sure parent folder exists
+            File parent = zipFile.getParentFile();
+            if(parent != null) {
+                parent.mkdirs();
+            }
+            
             // Delete any existing zip first
             zipFile.delete();
             
