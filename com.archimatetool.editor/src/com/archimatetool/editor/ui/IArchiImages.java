@@ -140,6 +140,7 @@ public interface IArchiImages {
 
     
     String ICON_ASPECT_RATIO = IMGPATH + "aspect-ratio.png"; //$NON-NLS-1$
+    String ICON_BROWSER = IMGPATH + "browser.png"; //$NON-NLS-1$
     String ICON_CANCEL_SEARCH = IMGPATH + "cancelsearch.png"; //$NON-NLS-1$
     String ICON_COG = IMGPATH + "cog.png"; //$NON-NLS-1$
     String ICON_COLLAPSEALL = IMGPATH + "collapseall.png"; //$NON-NLS-1$

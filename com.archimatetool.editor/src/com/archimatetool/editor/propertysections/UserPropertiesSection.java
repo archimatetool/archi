@@ -39,20 +39,19 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableColorProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
@@ -60,6 +59,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -262,7 +262,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         // Columns
         TableViewerColumn columnBlank = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        tableLayout.setColumnData(columnBlank.getColumn(), new ColumnPixelData(24, false));
+        tableLayout.setColumnData(columnBlank.getColumn(), new ColumnWeightData(3, false));
 
         TableViewerColumn columnKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
         columnKey.getColumn().setText(Messages.UserPropertiesSection_0);
@@ -279,7 +279,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         TableViewerColumn columnValue = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
         columnValue.getColumn().setText(Messages.UserPropertiesSection_1);
-        tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(80, true));
+        tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(77, true));
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
 
         // Content Provider
@@ -300,6 +300,9 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         // Label Provider
         fTableViewer.setLabelProvider(new LabelCellProvider());
+        
+        // Enable tooltips
+        ColumnViewerToolTipSupport.enableFor(fTableViewer);
 
         // Toolbar
         ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.VERTICAL);
@@ -737,13 +740,23 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     /**
      * Label Provider
      */
-    private static class LabelCellProvider extends LabelProvider implements ITableLabelProvider, ITableColorProvider {
+    private static class LabelCellProvider extends CellLabelProvider {
+
         @Override
+        public void update(ViewerCell cell) {
+            cell.setText(getColumnText(cell.getElement(), cell.getColumnIndex()));
+            cell.setForeground(getForeground(cell.getElement(), cell.getColumnIndex()));
+            cell.setImage(getColumnImage(cell.getElement(), cell.getColumnIndex()));
+        }
+        
         public Image getColumnImage(Object element, int columnIndex) {
+            if(columnIndex == 0) {
+                return isLink(element) ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BROWSER) : null;
+            }
+            
             return null;
         }
 
-        @Override
         public String getColumnText(Object element, int columnIndex) {
             switch(columnIndex) {
                 case 1:
@@ -761,18 +774,21 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
         }
 
-        @Override
         public Color getForeground(Object element, int columnIndex) {
             if(columnIndex == 2) {
-                Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(((IProperty)element).getValue());
-                return matcher.find() ? ColorConstants.blue : null;
+                return isLink(element) ? ColorConstants.blue : null;
             }
             return null;
         }
 
         @Override
-        public Color getBackground(Object element, int columnIndex) {
-            return null;
+        public String getToolTipText(Object element) {
+            return isLink(element) ? Messages.UserPropertiesSection_21 : null;
+        }
+        
+        private boolean isLink(Object element) {
+            Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(((IProperty)element).getValue());
+            return matcher.find();
         }
     }
 
