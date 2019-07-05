@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -115,12 +114,14 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                 if(!isAlive(fArchimateConcept)) {
                     return;
                 }
-                Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(o instanceof IDiagramModel) {
-                    IDiagramModel diagramModel = (IDiagramModel)o;
+                IDiagramModel diagramModel = (IDiagramModel)((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(diagramModel != null) {
                     IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel, false);
-                    if(editor instanceof IArchimateDiagramEditor) {
-                        ((IArchimateDiagramEditor)editor).selectObjects(new Object[] { fArchimateConcept });
+                    if(editor != null) {
+                        // Needs to be asyncExec to allow EditorPart to open if it is currently closed
+                        getPart().getSite().getShell().getDisplay().asyncExec(()-> { 
+                            editor.selectObjects(new Object[] { fArchimateConcept });
+                        });
                     }
                 }
             }

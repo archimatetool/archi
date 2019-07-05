@@ -906,6 +906,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     
     @Override
     public void selectObjects(Object[] objects) {
+        // Safety check in case this is called via Display#asyncExec()
+        if(getGraphicalViewer().getControl() == null) {
+            return;
+        }
+        
         Set<Object> selection = new HashSet<>();
         
         for(Object object : objects) {

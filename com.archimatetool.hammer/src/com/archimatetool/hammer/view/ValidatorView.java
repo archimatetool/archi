@@ -49,7 +49,6 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -335,8 +334,11 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             if(!viewList.isEmpty()) {
                 for(IDiagramModel dm : viewList) {
                     IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm, false);
-                    if(editor instanceof IArchimateDiagramEditor) {
-                        ((IArchimateDiagramEditor)editor).selectObjects(viewComponentList.toArray());
+                    if(editor != null) {
+                        // Needs to be asyncExec to allow EditorPart to open if it is currently closed
+                        getSite().getShell().getDisplay().asyncExec(()-> { 
+                            editor.selectObjects(viewComponentList.toArray());
+                        });
                     }
                 }
             }
