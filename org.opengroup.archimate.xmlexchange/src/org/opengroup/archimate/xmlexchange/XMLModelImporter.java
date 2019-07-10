@@ -755,7 +755,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
      * Add bendpoints
      */
     private void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
-        // TODO: Doesn't work for connection->connection
+        // Doesn't work for connection->connection
         if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
             return;
         }
@@ -770,21 +770,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             int x = Integer.valueOf(xString);
             int y = Integer.valueOf(yString);
             
-            IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
-            connection.getBendpoints().add(bendpoint);
-
-            IBounds srcBounds = DiagramModelUtils.getAbsoluteBounds(connection.getSource());
-            IBounds tgtBounds = DiagramModelUtils.getAbsoluteBounds(connection.getTarget());
-            
-            int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
-            int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));
-            bendpoint.setStartX(startX);
-            bendpoint.setStartY(startY);
-
-            int endX = x - (tgtBounds.getX() + (tgtBounds.getWidth() / 2));
-            int endY = y - (tgtBounds.getY() + (tgtBounds.getHeight() / 2));
-            bendpoint.setEndX(endX);
-            bendpoint.setEndY(endY);
+            IDiagramModelBendpoint bendpoint = DiagramModelUtils.createBendPointFromAbsolutePosition(connection, x, y);
+            if(bendpoint != null) {
+                connection.getBendpoints().add(bendpoint);
+            }
         }
     }
     

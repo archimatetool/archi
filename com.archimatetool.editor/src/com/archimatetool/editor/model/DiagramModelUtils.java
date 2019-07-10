@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
@@ -430,15 +431,15 @@ public class DiagramModelUtils {
     }
     
     /**
-     * Get the absolute bendpoint positions
-     * @param connection
-     * @return
+     * Get the absolute bendpoint positions from a connection
+     * @param connection This has to be already connected to source and target objects
+     * @return A list of points. Never null but might be empty if connection's source or target is not a IDiagramModelObject
      */
     public static List<Point> getAbsoluteBendpointPositions(IDiagramModelConnection connection) {
         List<Point> points = new ArrayList<Point>();
         
-        // TODO: Doesn't work for connection->connection
-        if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
+        // Has to be connected to objects
+        if(!(connection.getSource() instanceof IDiagramModelObject) || !(connection.getTarget() instanceof IDiagramModelObject)) {
             return points;
         }
         
@@ -473,6 +474,38 @@ public class DiagramModelUtils {
         }
         
         return points;
+    }
+    
+    /**
+     * Create a bendpoint given absolute x,y positions for a connection
+     * @param connection This has to be already connected to source and target objects
+     * @param x The absolute x position of the bendpoint
+     * @param y The absolute y position of the bendpoint
+     * @return The bendpoint or null if connection's source or target is not a IDiagramModelObject
+     *         The bendpoint is not added to the connection
+     */
+    public static IDiagramModelBendpoint createBendPointFromAbsolutePosition(IDiagramModelConnection connection, int x, int y) {
+        // Has to be connected to objects
+        if(!(connection.getSource() instanceof IDiagramModelObject) || !(connection.getTarget() instanceof IDiagramModelObject)) {
+            return null;
+        }
+        
+        IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
+        
+        IBounds srcBounds = getAbsoluteBounds(connection.getSource());
+        IBounds tgtBounds = getAbsoluteBounds(connection.getTarget());
+        
+        int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
+        int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));
+        bendpoint.setStartX(startX);
+        bendpoint.setStartY(startY);
+
+        int endX = x - (tgtBounds.getX() + (tgtBounds.getWidth() / 2));
+        int endY = y - (tgtBounds.getY() + (tgtBounds.getHeight() / 2));
+        bendpoint.setEndX(endX);
+        bendpoint.setEndY(endY);
+        
+        return bendpoint;
     }
     
     /**
