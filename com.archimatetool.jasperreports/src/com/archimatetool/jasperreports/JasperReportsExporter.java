@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -58,11 +60,6 @@ public class JasperReportsExporter {
             super(message);
         }
     }
-    
-    /*
-     * Export options
-     */
-    public static final int NUM_OPTIONS = 6;
     
     public static final int EXPORT_HTML = 1;
     public static final int EXPORT_PDF = 1 << 1;
@@ -118,7 +115,7 @@ public class JasperReportsExporter {
         progressMonitor = monitor;
         
         if(progressMonitor != null) {
-            progressMonitor.beginTask(Messages.JasperReportsExporter_0, getProgressTotalCount());
+            progressMonitor.beginTask(Messages.JasperReportsExporter_0, -1);
         }
         
         // Temp Folder to store assets
@@ -133,37 +130,31 @@ public class JasperReportsExporter {
             if((fExportOptions & EXPORT_HTML) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_3);
                 exportHTML(jasperPrint, new File(fExportFolder, fExportFileName + ".html")); //$NON-NLS-1$
-                updateProgress();
             }
 
             if((fExportOptions & EXPORT_PDF) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_4);
                 exportPDF(jasperPrint, new File(fExportFolder, fExportFileName + ".pdf")); //$NON-NLS-1$
-                updateProgress();
             }
 
             if((fExportOptions & EXPORT_DOCX) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_5);
                 exportDOCX(jasperPrint, new File(fExportFolder, fExportFileName + ".docx")); //$NON-NLS-1$
-                updateProgress();
             }
             
             if((fExportOptions & EXPORT_PPT) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_6);
                 exportPPT(jasperPrint, new File(fExportFolder, fExportFileName + ".pptx")); //$NON-NLS-1$
-                updateProgress();
             }
             
             if((fExportOptions & EXPORT_RTF) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_7);
                 exportRTF(jasperPrint, new File(fExportFolder, fExportFileName + ".rtf")); //$NON-NLS-1$
-                updateProgress();
             }
             
             if((fExportOptions & EXPORT_ODT) != 0) {
                 setProgressSubTask(Messages.JasperReportsExporter_8);
                 exportODT(jasperPrint, new File(fExportFolder, fExportFileName + ".odt")); //$NON-NLS-1$
-                updateProgress();
             }
         }
         finally {
@@ -178,9 +169,13 @@ public class JasperReportsExporter {
      * Write the diagrams to temp files
      */
     void writeDiagrams(File tmpFolder) throws IOException {
-        setProgressSubTask(Messages.JasperReportsExporter_1);
-        
-        for(IDiagramModel dm : fModel.getDiagramModels()) {
+        List<IDiagramModel> diagramModels = fModel.getDiagramModels();
+        int total = diagramModels.size();
+        int i = 1;
+
+        for(IDiagramModel dm : diagramModels) {
+            setProgressSubTask(NLS.bind(Messages.JasperReportsExporter_1, i++, total));
+            
             Image image = DiagramUtils.createImage(dm, 1, 10);
             String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
             try {
@@ -192,8 +187,6 @@ public class JasperReportsExporter {
             finally {
                 image.dispose();
             }
-            
-            updateProgress();
         }
     }
     
@@ -232,7 +225,6 @@ public class JasperReportsExporter {
         
         // Compile Main Report
         setProgressSubTask(Messages.JasperReportsExporter_10);
-        updateProgress();
         
         JasperReport mainReport = JasperCompileManager.compileReport(fMainTemplateFile.getPath());
         
@@ -247,7 +239,6 @@ public class JasperReportsExporter {
         
         // Fill Report
         setProgressSubTask(Messages.JasperReportsExporter_11);
-        updateProgress();
         
         return JasperFillManager.fillReport(mainReport, params, new ArchimateModelDataSource(fModel));
     }
@@ -288,17 +279,11 @@ public class JasperReportsExporter {
         exporter.exportReport();
     }
 
-    private int getProgressTotalCount() {
-        int count = 5; // 5 core progress tasks
-        
-        // plus options
-        for(int i = 0; i < NUM_OPTIONS; i++) {
-            if((fExportOptions & (1 << i)) != 0) {
-                count++;
-            }
+    private void setProgressSubTask(String task) throws IOException {
+        if(progressMonitor != null) {
+            progressMonitor.subTask(task);
+            updateProgress();
         }
-        
-        return count;
     }
     
     private void updateProgress() throws IOException {
@@ -308,13 +293,6 @@ public class JasperReportsExporter {
             if(progressMonitor.isCanceled()) {
                 throw new CancelledException(Messages.JasperReportsExporter_12);
             }
-        }
-    }
-    
-    private void setProgressSubTask(String task) {
-        if(progressMonitor != null) {
-            progressMonitor.subTask(task);
-            progressMonitor.worked(1);
         }
     }
 }
