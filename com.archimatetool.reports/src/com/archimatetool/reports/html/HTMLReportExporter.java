@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -263,18 +262,14 @@ public class HTMLReportExporter {
         // Write model purpose and properties html
         writeElement(new File(elementsFolder, "model.html"), stFrame, fModel); //$NON-NLS-1$
         
-        // Write all folders
+        // Write all folders and concepts
         writeFolders(elementsFolder, stFrame, fModel.getFolders());
-        
-        setProgressSubTask(Messages.HTMLReportExporter_12);
-        
-        // Write Diagrams and images
-        writeDiagrams(imagesFolder, viewsFolder, stFrame);
-        
-        setProgressSubTask(Messages.HTMLReportExporter_11);
         
         // Write other graphical objects
         writeGraphicalObjects(objectsFolder, stFrame);
+        
+        // Write Diagrams and images
+        writeDiagrams(imagesFolder, viewsFolder, stFrame);
         
         setProgressSubTask(Messages.HTMLReportExporter_13);
         
@@ -329,7 +324,7 @@ public class HTMLReportExporter {
     /**
      * Write all folders
      */
-    private void writeFolders(File elementsFolder, ST stFrame, EList<IFolder> folders) throws IOException {
+    private void writeFolders(File elementsFolder, ST stFrame, List<IFolder> folders) throws IOException {
     	for(IFolder folder : folders) {
     		writeFolder(elementsFolder, stFrame, folder);
     	}
@@ -339,19 +334,23 @@ public class HTMLReportExporter {
      * Write a single folder
      */
     private void writeFolder(File elementsFolder, ST stFrame, IFolder folder) throws IOException {
-    	writeElements(elementsFolder, stFrame, folder.getElements());
+    	writeElements(elementsFolder, stFrame, folder);
     	writeFolders(elementsFolder, stFrame, folder.getFolders());
     }
     
     /**
      * Write all elements
      */
-    private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
-        if(!list.isEmpty()) {
-            for(EObject object : list) {
-                if(object instanceof IArchimateConcept) {
-                	writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
-                }
+    private void writeElements(File elementsFolder, ST stFrame, IFolder folder) throws IOException {
+        List<EObject> elements = folder.getElements();
+        int total = elements.size();
+        int i = 1;
+        
+        for(EObject object : elements) {
+            if(object instanceof IArchimateConcept) {
+                setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_12, new Object[] { folder.getName(), i++, total } ));
+                updateProgress();
+                writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
             }
         }
     }
@@ -367,19 +366,27 @@ public class HTMLReportExporter {
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8")) { //$NON-NLS-1$
             writer.write(stFrame.render());
         }
-
-        updateProgress();
     }
     
     /**
-     * Write grpahical objects
+     * Write graphical objects
      */
     private void writeGraphicalObjects(File objectsFolder, ST stFrame) throws IOException {
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 
-                    && !(eObject instanceof IDiagramModelReference)) {
-                writeElement(new File(objectsFolder, ((IIdentifier) eObject).getId() + ".html"), stFrame, eObject); //$NON-NLS-1$
+        List<IDiagramModel> diagramModels = fModel.getDiagramModels();
+        int total = diagramModels.size();
+        int i = 1;
+        
+        for(IDiagramModel dm : diagramModels) {
+            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_15, i++, total));
+            updateProgress();
+
+            for(Iterator<EObject> iter =  dm.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 
+                        && !(eObject instanceof IDiagramModelReference)) {
+
+                    writeElement(new File(objectsFolder, ((IIdentifier) eObject).getId() + ".html"), stFrame, eObject); //$NON-NLS-1$
+                }
             }
         }
     }
@@ -388,14 +395,22 @@ public class HTMLReportExporter {
      * Write diagrams
      */
     private void writeDiagrams(File imagesFolder, File viewsFolder, ST stFrame) throws IOException {
-        if(fModel.getDiagramModels().isEmpty()) {
+        List<IDiagramModel> diagramModels = fModel.getDiagramModels();
+        
+        if(diagramModels.isEmpty()) {
             return;
         }
 
         // Save images
         saveImages(imagesFolder);
+        
+        int total = diagramModels.size();
+        int i = 1;
 
-        for(IDiagramModel dm : fModel.getDiagramModels()) {
+        for(IDiagramModel dm : diagramModels) {
+            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, i++, total));
+            updateProgress();
+
             // Add the necessary bounds in order to get correct absolute coordinates for the elements in the generated image
             Rectangle bounds = diagramBoundsMap.get(dm);
             
@@ -427,7 +442,14 @@ public class HTMLReportExporter {
         
         int nameCount = 1;
         
-        for(IDiagramModel dm : fModel.getDiagramModels()) {
+        List<IDiagramModel> diagramModels = fModel.getDiagramModels();
+        int total = diagramModels.size();
+        int i = 1;
+        
+        for(IDiagramModel dm : diagramModels) {
+            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_8, i++, total));
+            updateProgress();
+            
             ModelReferencedImage geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
             Image image = geoImage.getImage();
             
@@ -465,8 +487,6 @@ public class HTMLReportExporter {
             finally {
                 image.dispose();
             }
-            
-            updateProgress();
         }
     }
     
