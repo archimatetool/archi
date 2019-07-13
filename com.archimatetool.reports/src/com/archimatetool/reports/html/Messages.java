@@ -21,13 +21,9 @@ public class Messages extends NLS {
 
     public static String HTMLReportExporter_11;
 
-    public static String HTMLReportExporter_12;
-
     public static String HTMLReportExporter_13;
 
     public static String HTMLReportExporter_14;
-
-    public static String HTMLReportExporter_15;
 
     public static String HTMLReportExporter_2;
 
@@ -38,10 +34,6 @@ public class Messages extends NLS {
     public static String HTMLReportExporter_5;
 
     public static String HTMLReportExporter_6;
-
-    public static String HTMLReportExporter_7;
-
-    public static String HTMLReportExporter_8;
 
     public static String HTMLReportExporter_9;
 
