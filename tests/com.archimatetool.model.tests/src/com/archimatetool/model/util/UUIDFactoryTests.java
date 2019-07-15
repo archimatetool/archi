@@ -22,8 +22,20 @@ public class UUIDFactoryTests {
     
     
     @Test
-    public void createID() {
+    public void createID_Concept() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createBusinessActor());
-        assertEquals(39, id.length());
+        assertEquals(36, id.length());
+    }
+    
+    @Test
+    public void createID_Folder() {
+        String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createFolder());
+        assertEquals(36, id.length());
+    }
+
+    @Test
+    public void createID_Model() {
+        String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createArchimateModel());
+        assertEquals(36, id.length());
     }
 } 

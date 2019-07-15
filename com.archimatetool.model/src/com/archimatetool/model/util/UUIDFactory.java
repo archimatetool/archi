@@ -18,7 +18,8 @@ import com.archimatetool.model.IIdentifier;
 public class UUIDFactory {
     
     public static String createID(IIdentifier object) {
-        return "id-" + UUID.randomUUID().toString(); //$NON-NLS-1$
+        // Note - in future we could create an id based in the object
+        return UUID.randomUUID().toString();
     }
 
 }
