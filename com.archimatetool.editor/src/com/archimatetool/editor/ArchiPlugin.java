@@ -72,7 +72,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
         try {
             Class<?> clazz = bundle.loadClass("com.archimatetool.editor.PlatformLauncher"); //$NON-NLS-1$
             if(IPlatformLauncher.class.isAssignableFrom(clazz)) {
-                return ((IPlatformLauncher) clazz.newInstance());
+                return ((IPlatformLauncher) clazz.getDeclaredConstructor().newInstance());
             }
         } catch(Exception e) {
         }

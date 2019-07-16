@@ -75,10 +75,10 @@ public class PlatformLauncher implements IPlatformLauncher {
         if(value != null && !"".equals(value)) { //$NON-NLS-1$
             try {
                 if(is64bitOS()) {
-                    return new Long(value);
+                    return Long.valueOf(value);
                 }
                 else {
-                    return new Integer(value);
+                    return Integer.valueOf(value);
                 }
             }
             catch(NumberFormatException e) {

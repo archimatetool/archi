@@ -26,32 +26,32 @@ public class AbstractPaletteRoot extends PaletteRoot {
         
         MarqueeToolEntry marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_2);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS));
         stack.add(marquee);
         
         marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_3);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_TOUCHED_AND_RELATED_CONNECTIONS));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_NODES_TOUCHED_AND_RELATED_CONNECTIONS));
         stack.add(marquee);
         
         marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_4);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_CONTAINED));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_CONTAINED));
         stack.add(marquee);
         
         marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_5);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_TOUCHED));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_TOUCHED));
         stack.add(marquee);
         
         marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_6);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED));
         stack.add(marquee);
         
         marquee = new MarqueeToolEntry(Messages.AbstractPaletteRoot_7);
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_TOUCHED));
+                Integer.valueOf(MarqueeSelectionTool.BEHAVIOR_NODES_TOUCHED));
         stack.add(marquee);
         
         return stack;

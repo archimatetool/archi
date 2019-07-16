@@ -532,7 +532,7 @@ public class HeapStatusWidget extends Composite {
      * Converts the given number of bytes to a printable number of megabytes (rounded up).
      */
     private String convertToMegString(long numBytes) {
-        return new Long(convertToMeg(numBytes)) + "M"; //$NON-NLS-1$
+        return Long.valueOf(convertToMeg(numBytes)) + "M"; //$NON-NLS-1$
     }
 
     /**

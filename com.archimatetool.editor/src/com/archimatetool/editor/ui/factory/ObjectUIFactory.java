@@ -87,10 +87,10 @@ public class ObjectUIFactory {
         // This is a much safer approach than allowing the instance to be set on the singleton Eclass provider
         if(provider != null) {
             try {
-                provider = provider.getClass().newInstance();
+                provider = provider.getClass().getDeclaredConstructor().newInstance();
                 ((AbstractObjectUIProvider)provider).setInstance(eObject);
             }
-            catch(InstantiationException | IllegalAccessException ex) {
+            catch(Exception ex) {
                 ex.printStackTrace();
             }
         }

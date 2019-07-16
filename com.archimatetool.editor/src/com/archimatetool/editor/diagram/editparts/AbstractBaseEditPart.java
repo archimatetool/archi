@@ -49,7 +49,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         
         if(figureClass != null) {
             try {
-                figure = (IDiagramModelObjectFigure)figureClass.newInstance();
+                figure = (IDiagramModelObjectFigure)figureClass.getDeclaredConstructor().newInstance();
                 figure.setDiagramModelObject(getModel());
             }
             catch(Exception ex) {

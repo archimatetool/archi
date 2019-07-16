@@ -131,7 +131,7 @@ public class MacOSReflect {
         else {
             newArgs = new Object[args.length];
             for(int i = 0; i < args.length; i++) {
-                newArgs[i] = new Integer(((Number)args[i]).intValue());
+                newArgs[i] = Integer.valueOf(((Number)args[i]).intValue());
             }
         }
         Method m = clazz.getMethod(method, types);

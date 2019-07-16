@@ -122,7 +122,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         
         if(figureClass != null) {
             try {
-                figure = (IDiagramConnectionFigure)figureClass.newInstance();
+                figure = (IDiagramConnectionFigure)figureClass.getDeclaredConstructor().newInstance();
                 figure.setModelConnection(getModel());
             }
             catch(Exception ex) {
