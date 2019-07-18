@@ -11,10 +11,12 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -363,6 +365,7 @@ implements IEditorModelManager {
         // Close the corresponding GEF editor(s) for this model *FIRST* before removing from model
         EditorManager.closeDiagramEditors(model);
         
+        // Remove the model from the local list of open models
         getModels().remove(model);
 
         // Fire this event *before* disposing of the model in case listeners need to access it or any of its members
@@ -371,6 +374,13 @@ implements IEditorModelManager {
         // Delete the CommandStack *LAST* because GEF Editor(s) will still reference it!
         deleteCommandStack(model);
         
+        // Don't send notifications from this point on
+        // This makes disposing the Archive Manager and model much faster
+        model.eSetDeliver(false);
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            iter.next().eSetDeliver(false);
+        }
+
         // Delete Archive Manager
         deleteArchiveManager(model);
 

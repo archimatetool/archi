@@ -814,12 +814,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
 
     @Override
     public void dispose() {
-        // Don't send notifications when we do this as it's slow
-        eSetDeliver(false);
-        for(Iterator<EObject> iter = eAllContents(); iter.hasNext();) {
-            iter.next().eSetDeliver(false);
-        }
-        
         id = null;
         name = null;
         purpose = null;
