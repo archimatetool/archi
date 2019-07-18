@@ -6,7 +6,7 @@
     modelName="Canvas" editPluginClass="com.archimatetool.canvas.provider.CanvasEditPlugin"
     editorPluginClass="com.archimatetool.canvas.model.presentation.CanvasEditorPlugin"
     nonNLSMarkers="true" testSuiteClass="com.archimatetool.canvas.model.tests.CanvasAllTests"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     editPluginID="com.archimatetool.canvas.edit" editorPluginID="com.archimatetool.canvas.editor"
     usedGenPackages="../../com.archimatetool.model/model/archimate.genmodel#//model"
     interfaceNamePattern="I{0}" classNamePattern="{0}" runtimePlatform="RCP">

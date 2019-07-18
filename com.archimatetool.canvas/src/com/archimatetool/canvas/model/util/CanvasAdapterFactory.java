@@ -145,6 +145,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createNameableAdapter();
             }
             @Override
+            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
+                return createArchimateModelObjectAdapter();
+            }
+            @Override
             public Adapter caseDiagramModelComponent(IDiagramModelComponent object) {
                 return createDiagramModelComponentAdapter();
             }
@@ -171,10 +175,6 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDiagramModelImageProvider(IDiagramModelImageProvider object) {
                 return createDiagramModelImageProviderAdapter();
-            }
-            @Override
-            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
-                return createArchimateModelObjectAdapter();
             }
             @Override
             public Adapter caseDiagramModelContainer(IDiagramModelContainer object) {

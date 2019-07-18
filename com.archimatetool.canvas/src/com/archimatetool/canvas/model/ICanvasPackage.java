@@ -170,6 +170,15 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__FILL_COLOR = IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__ALPHA = IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -512,6 +521,15 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__FILL_COLOR = ICONIC__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__ALPHA = ICONIC__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -690,6 +708,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__FILL_COLOR = ICONIC__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__ALPHA = ICONIC__ALPHA;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -900,6 +927,15 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_IMAGE__FILL_COLOR = IArchimatePackage.DIAGRAM_MODEL_IMAGE__FILL_COLOR;
 
     /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__ALPHA = IArchimatePackage.DIAGRAM_MODEL_IMAGE__ALPHA;
+
+    /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -916,6 +952,24 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_IMAGE__IMAGE_PATH = IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__PROPERTIES = IArchimatePackage.DIAGRAM_MODEL_IMAGE__PROPERTIES;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__DOCUMENTATION = IArchimatePackage.DIAGRAM_MODEL_IMAGE__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
