@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.views.properties;
 
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
@@ -61,5 +62,19 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
     @Override
     public boolean isPinned() {
         return false;
+    }
+    
+    @Override
+    public void dispose() {
+        // HACK: If the Properties View is open and no other View is providing a Tabbed Property View
+        // then we see the default table in the Properties View and an enabled "copy" action.
+        // If the Properties View is then closed the global "copy" action is still enabled and
+        // will cause a "Widget is disposed" exception if selected. So we disable it.
+        IAction copyAction = getViewSite().getActionBars().getGlobalActionHandler("copy"); //$NON-NLS-1$
+        if(copyAction != null) {
+            copyAction.setEnabled(false);
+        }
+        
+        super.dispose();
     }
 }
