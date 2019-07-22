@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -904,6 +905,18 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
     }
     
+    /**
+     * Disable all actions
+     * We need to do this when closing the Editor
+     */
+    protected void disableActions() {
+        Iterator<?> actions = getActionRegistry().getActions();
+        while(actions.hasNext()) {
+            IAction action = (IAction)actions.next();
+            action.setEnabled(false);
+        }
+    }
+    
     @Override
     public void selectObjects(Object[] objects) {
         // Safety check in case this is called via Display#asyncExec()
@@ -1021,6 +1034,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Update shell text
         getSite().getShell().setText(Platform.getProduct().getName());
         
+        // Disable Actions
+        disableActions();
         
         // Can be garbage collected
         fDiagramModel = null;
