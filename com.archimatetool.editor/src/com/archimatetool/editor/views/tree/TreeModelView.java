@@ -263,7 +263,9 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     protected void selectAll() {
-        fTreeViewer.getTree().selectAll();
+        if(fTreeViewer != null) {
+            fTreeViewer.getTree().selectAll();
+        }
     }
     
     /**
@@ -371,6 +373,19 @@ implements ITreeModelView, IUIRequestListener {
         actionBars.setGlobalActionHandler(ArchiActionFactory.DUPLICATE.getId(), fActionDuplicate);
         actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), fActionFindReplace);
         actionBars.setGlobalActionHandler(ArchiActionFactory.GENERATE_VIEW.getId(), fActionGenerateView);
+    }
+    
+    /**
+     * Disable Global Actions
+     * We need to do this when closing the View
+     */
+    private void disableGlobalActions() {
+        // These two have to be manually done
+        fActionFindReplace.setEnabled(false);
+        fActionSelectAll.setEnabled(false);
+        
+        // This should setEnabled = false
+        updateActions();
     }
     
     /**
@@ -551,6 +566,9 @@ implements ITreeModelView, IUIRequestListener {
         catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        // Disable Global actions
+        disableGlobalActions();
         
         // Garbage collection
         fTreeViewer = null;

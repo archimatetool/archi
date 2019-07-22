@@ -18,6 +18,7 @@ import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -64,6 +65,13 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     protected UndoAction fActionUndo = new UndoAction(this);
     protected RedoAction fActionRedo = new RedoAction(this);
     
+    protected IAction fActionSelectAll = new Action() {
+        @Override
+        public void run() {
+            selectAll();
+        }
+    };
+    
     @Override
     public void createPartControl(Composite parent) {
         doCreatePartControl(parent);
@@ -75,12 +83,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Global Handle Select All
         // We need to enforce this at a global level in order to enable/disable the main menu item
-        actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new Action() {
-            @Override
-            public void run() {
-                selectAll();
-            }
-        });
+        actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), fActionSelectAll);
 
         // Register us as a Model Listener - this has to be done last, *after* the tree/selection listener is created
         IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
