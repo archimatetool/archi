@@ -51,7 +51,6 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         super.setInput(part, selection);
     }
     
-    @SuppressWarnings("restriction")
     @Override
     public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
         super.createControls(parent, tabbedPropertySheetPage);
@@ -59,14 +58,12 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         setLayout(parent);
         createControls(parent);
         
-        // TODO: Workaround for Eclipse bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=545239
+        // Workaround for Eclipse bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=545239
+        // If the CSS element "TabbedPropertyList" is set in a theme's css file then
         // Tabs don't always show skinned color until the focus is gained.
-        // This fix forces a reskin
-        // At the moment we only have this CSS property set for Mac
-        // This and the CSS addition can be removed when using Eclipse 4.10+
-        if(PlatformUtils.isMac()) {
-            ((org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite)fPage.getControl()).getList().reskin(SWT.ALL);
-        }
+        // This fix forces a reskin.
+        // At the moment we don't have this CSS property set in any CSS file (Eclipse itself does, though)
+        // ((org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite)fPage.getControl()).getList().reskin(SWT.ALL);
     }
     
     /**

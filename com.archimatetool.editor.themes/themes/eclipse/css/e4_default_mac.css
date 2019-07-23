@@ -125,10 +125,3 @@ CTabFolder {
 CTabFolder CTabItem:selected {
   background-color: #E9E8E9;
 }
-
-TabbedPropertyList {
-	swt-tabAreaBackground-color : #e9e9e9;
-	swt-tabBackground-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START';
-	swt-tabNormalShadow-color   : '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR';             /* color of shadow lines around the tabs */
-	swt-tabDarkShadow-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR'; /* line color of the tiny scroll triangle (at top / at bottom) */
-}
