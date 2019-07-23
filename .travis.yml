@@ -4,7 +4,7 @@ dist: xenial
 language: java
 
 jdk:
-  - openjdk8
+  - openjdk11
 
 # Creates a display for SWT
 services:
