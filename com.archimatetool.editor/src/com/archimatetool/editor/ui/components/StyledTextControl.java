@@ -372,7 +372,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
         if(isModKeyPressed(e)) {
             int offset;
             try {
-                offset = fStyledText.getOffsetAtLocation(new Point(e.x, e.y));
+                offset = fStyledText.getOffsetAtPoint(new Point(e.x, e.y));
             }
             catch(IllegalArgumentException ex) {
                 return;
@@ -397,7 +397,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
         if(isModKeyPressed(e)) {
             int offset;
             try {
-                offset = fStyledText.getOffsetAtLocation(new Point(e.x, e.y));
+                offset = fStyledText.getOffsetAtPoint(new Point(e.x, e.y));
             }
             catch(IllegalArgumentException ex) {
                 setCursor(null); // need this
@@ -441,7 +441,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
             pt = fStyledText.toControl(pt);
             int offset;
             try {
-                offset = fStyledText.getOffsetAtLocation(pt);
+                offset = fStyledText.getOffsetAtPoint(pt);
             }
             catch(IllegalArgumentException ex) {
                 return;
