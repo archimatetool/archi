@@ -5,15 +5,16 @@
  */
 package com.archimatetool.editor;
 
-import junit.framework.TestSuite;
-
 import com.archimatetool.editor.actions.AllActionsTests;
 import com.archimatetool.editor.diagram.AllDiagramTests;
 import com.archimatetool.editor.model.AllModelTests;
+import com.archimatetool.editor.p2.AllP2Tests;
 import com.archimatetool.editor.propertysections.AllPropertySectionsTests;
 import com.archimatetool.editor.ui.AllUITests;
 import com.archimatetool.editor.utils.AllUtilsTests;
 import com.archimatetool.editor.views.AllViewsTests;
+
+import junit.framework.TestSuite;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -42,8 +43,8 @@ public class AllTests {
         // views
         suite.addTest(AllViewsTests.suite());
         
-        
-        suite.addTest(PluginInstallerTests.suite());
+        // p2
+        suite.addTest(AllP2Tests.suite());
 
         return suite;
 	}

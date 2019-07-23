@@ -41,15 +41,15 @@
      </property>
      <property
            name="startupProgressRect"
-           value="0,290,470,10">
-     </property>
-     <property
-           name="startupMessageRect"
-           value="5,180,0,0">
+           value="0,290,470,0">
      </property>
      <property
            name="startupForegroundColor"
            value="C0C0C0">
+     </property>
+     <property
+           name="startupMessageRect"
+           value="5,180,0,0">
      </property>
      <property
            name="preferenceCustomization"
@@ -641,6 +641,12 @@
             id="com.archimatetool.com.paste_special"
             name="%command.name.14">
       </command>
+      <command
+            defaultHandler="com.archimatetool.editor.p2.ManagePluginsActionHandler"
+            description="%command.description"
+            id="com.archimatetool.editor.pluginManager"
+            name="%command.name.15">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -741,6 +747,15 @@
                   name="Splitter.isHorizontal"
                   value="false">
             </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:help?endof=support_start">
+         <command
+               commandId="com.archimatetool.editor.pluginManager"
+               label="%command.label.3"
+               style="push">
          </command>
       </menuContribution>
    </extension>

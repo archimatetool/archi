@@ -20,7 +20,14 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.widgets,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.core.contexts,
- org.eclipse.e4.ui.css.swt.theme
+ org.eclipse.e4.ui.css.swt.theme,
+ org.eclipse.equinox.p2.core,
+ org.eclipse.equinox.p2.engine,
+ org.eclipse.equinox.p2.metadata,
+ org.eclipse.equinox.p2.metadata.repository,
+ org.eclipse.equinox.p2.operations,
+ org.eclipse.equinox.p2.repository,
+ org.eclipse.equinox.p2.artifact.repository
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.editor.jar
 Export-Package: .,
@@ -50,6 +57,7 @@ Export-Package: .,
  com.archimatetool.editor.model,
  com.archimatetool.editor.model.commands,
  com.archimatetool.editor.model.compatibility,
+ com.archimatetool.editor.p2,
  com.archimatetool.editor.perspectives,
  com.archimatetool.editor.preferences,
  com.archimatetool.editor.propertysections,

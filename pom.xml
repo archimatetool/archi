@@ -19,7 +19,7 @@
         <repository>
             <id>Eclipse repository</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/oxygen/</url>
+            <url>http://download.eclipse.org/releases/2019-03/</url>
         </repository>
     </repositories>
 
@@ -71,16 +71,6 @@
                 <configuration>
                     <resolver>p2</resolver>
                     <environments>
-                        <environment>
-                            <os>linux</os>
-                            <ws>gtk</ws>
-                            <arch>x86</arch>
-                        </environment>
-                        <environment>
-                            <os>win32</os>
-                            <ws>win32</ws>
-                            <arch>x86</arch>
-                        </environment>
                         <environment>
                             <os>win32</os>
                             <ws>win32</ws>

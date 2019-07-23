@@ -102,8 +102,6 @@ extends ActionBarAdvisor {
 
     private IAction fActionResetApplication;
     
-    private IAction fInstallPlugin;
-    
     /**
      * Constructor
      * @param configurer
@@ -268,12 +266,9 @@ extends ActionBarAdvisor {
         fActionResetApplication = new Action(Messages.ArchimateEditorActionBarAdvisor_20) {
             @Override
             public void run() {
-                WorkbenchCleaner.reset();
+                WorkbenchCleaner.askResetWorkbench();
             }
         };
-        
-        // Install Plugin
-        fInstallPlugin = new InstallPluginAction();
         
         // Generate View For Element
         fActionGenerateView = ArchiActionFactory.GENERATE_VIEW.create(window);
@@ -516,15 +511,17 @@ extends ActionBarAdvisor {
         menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         
+        menu.add(new GroupMarker("support_start")); //$NON-NLS-1$
+
         menu.add(fDonateAction);
         menu.add(fActionCheckForNewVersion);
         
-        menu.add(fInstallPlugin);
+        menu.add(new Separator("support_end")); //$NON-NLS-1$
         
-        menu.add(new Separator());
         menu.add(fActionResetApplication);
         
         menu.add(new Separator());
+        
         menu.add(fActionShowRelationsMatrix);
 
         /*
