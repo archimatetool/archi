@@ -64,7 +64,7 @@ public class DropinsPluginHandler {
         List<Bundle> list = new ArrayList<Bundle>();
         
         for(Bundle bundle : ArchiPlugin.INSTANCE.getBundle().getBundleContext().getBundles()) {
-            File file = getBundleLocation(bundle);
+            File file = getDropinsBundleFile(bundle);
             if(file != null) {
                 list.add(bundle);
             }
@@ -150,7 +150,8 @@ public class DropinsPluginHandler {
         try {
             ZipUtils.unpackZip(zipFile, tmpFolder);
             
-            File pluginsFolder = getDropinsFolder(true);
+            File pluginsFolder = getDropinsFolder();
+            pluginsFolder.mkdirs();
 
             for(File file : tmpFolder.listFiles()) {
                 // Ignore the magic entry file
@@ -195,7 +196,7 @@ public class DropinsPluginHandler {
         }
         
         for(Bundle bundle : selected) {
-            File file = getBundleLocation(bundle);
+            File file = getDropinsBundleFile(bundle);
             if(file != null) {
                 deleteOnExit(file);
             }
@@ -263,7 +264,8 @@ public class DropinsPluginHandler {
     }
 
     private boolean checkCanWrite() throws IOException {
-        File folder = getDropinsFolder(true);
+        File folder = getDropinsFolder();
+        folder.mkdirs();
         
         if(!Files.isWritable(folder.toPath())) {
             String message = Messages.DropinsPluginHandler_9 + " "; //$NON-NLS-1$
@@ -287,12 +289,12 @@ public class DropinsPluginHandler {
         return ZipUtils.isZipFile(file) && ZipUtils.hasZipEntry(file, MAGIC_ENTRY);
     }
     
-    private File getDropinsFolder(boolean doCreate) throws IOException {
-        File userDropinsFolder = getUserDropinsFolder(doCreate);
-        return userDropinsFolder == null ? getSystemDropinsFolder(doCreate) : userDropinsFolder;
+    private File getDropinsFolder() throws IOException {
+        File userDropinsFolder = getUserDropinsFolder();
+        return userDropinsFolder == null ? getSystemDropinsFolder() : userDropinsFolder;
     }
     
-    private File getUserDropinsFolder(boolean doCreate) {
+    private File getUserDropinsFolder() {
         if(userDropinsFolder == null) {
             // If the dropins dir is set in Archi.ini
             String dropinsDirProperty = ArchiPlugin.INSTANCE.getBundle().getBundleContext().getProperty(DROPINS_DIRECTORY);
@@ -300,25 +302,17 @@ public class DropinsPluginHandler {
                 // Perform a variable substitution if necessary of %% tokens
                 dropinsDirProperty = substituteVariables(dropinsDirProperty);
                 userDropinsFolder = new File(dropinsDirProperty);
-
-                if(doCreate) {
-                    userDropinsFolder.mkdirs();
-                }
             }
         }
         
         return userDropinsFolder;
     }
     
-    private File getSystemDropinsFolder(boolean doCreate) throws IOException {
+    private File getSystemDropinsFolder() throws IOException {
         if(systemDropinsFolder == null) {
             URL url = Platform.getInstallLocation().getURL();
             url = FileLocator.resolve(url);
             systemDropinsFolder = new File(url.getPath(), "dropins"); //$NON-NLS-1$
-            
-            if(doCreate) {
-                systemDropinsFolder.mkdirs();
-            }
         }
         
         return systemDropinsFolder;
@@ -363,22 +357,13 @@ public class DropinsPluginHandler {
         return path.substring(0, beginIndex - 1) + var + path.substring(endIndex + 1);
     }
     
-    File getBundleLocation(Bundle bundle) throws IOException {
-        String location = bundle.getLocation().replace("reference:", "") //$NON-NLS-1$ //$NON-NLS-2$
-                .replace("file:", "") //$NON-NLS-1$ //$NON-NLS-2$
-                .replace("file:/", ""); //$NON-NLS-1$ //$NON-NLS-2$
-
-        File bundleFile = new File(location);
-        
-        // Try User folder first
-        File file = new File(getUserDropinsFolder(false), bundleFile.getName());
-
-        // Try System folder
-        if(!file.exists()) {
-            file = new File(getSystemDropinsFolder(false), bundleFile.getName());
-        }
-        
-        return file.exists() ? file : null;
+    /**
+     * If the bundle is in one of the "dropins" folders return its file (jar or folder), else return null
+     */
+    File getDropinsBundleFile(Bundle bundle) throws IOException {
+        File bundleFile = FileLocator.getBundleFile(bundle);
+        File parentFolder = bundleFile.getParentFile();
+        return (parentFolder.equals(getUserDropinsFolder()) || parentFolder.equals(getSystemDropinsFolder())) ? bundleFile : null;
     }
 
     private List<File> askOpenFiles() {

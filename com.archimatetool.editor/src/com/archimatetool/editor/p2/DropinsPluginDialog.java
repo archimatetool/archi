@@ -150,7 +150,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
 
                         case 4:
                             try {
-                                File file = handler.getBundleLocation(bundle);
+                                File file = handler.getDropinsBundleFile(bundle);
                                 return file == null ? Messages.DropinsPluginDialog_13 : file.getParentFile().getPath();
                             }
                             catch(IOException ex) {
