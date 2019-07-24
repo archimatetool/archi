@@ -44,7 +44,7 @@ public class DropinsPluginHandler {
     
     private Shell shell;
     
-    private File dropinsFolder;
+    private File userDropinsFolder, systemDropinsFolder;
 
     private boolean success;
     private boolean needsClose;
@@ -54,6 +54,8 @@ public class DropinsPluginHandler {
     static final int CLOSE = 2;
     
     static final String MAGIC_ENTRY = "archi-plugin"; //$NON-NLS-1$
+    
+    static final String DROPINS_DIRECTORY = "org.eclipse.equinox.p2.reconciler.dropins.directory"; //$NON-NLS-1$
     
     public DropinsPluginHandler() { 
     }
@@ -261,7 +263,9 @@ public class DropinsPluginHandler {
     }
 
     private boolean checkCanWrite() throws IOException {
-        if(!canWriteToDropinsFolder()) {
+        File folder = getDropinsFolder(true);
+        
+        if(!Files.isWritable(folder.toPath())) {
             String message = Messages.DropinsPluginHandler_9 + " "; //$NON-NLS-1$
             
             if(PlatformUtils.isWindows()) {
@@ -279,37 +283,102 @@ public class DropinsPluginHandler {
         return true;
     }
 
-    private boolean canWriteToDropinsFolder() throws IOException {
-        File folder = getDropinsFolder(true);
-        return Files.isWritable(folder.toPath());
-    }
-    
     boolean isPluginZipFile(File file) throws IOException {
         return ZipUtils.isZipFile(file) && ZipUtils.hasZipEntry(file, MAGIC_ENTRY);
     }
     
     private File getDropinsFolder(boolean doCreate) throws IOException {
-        if(dropinsFolder == null) {
-            URL url = Platform.getInstallLocation().getURL();
-            url = FileLocator.resolve(url);
-            dropinsFolder = new File(url.getPath(), "dropins"); //$NON-NLS-1$
-            if(doCreate) {
-                dropinsFolder.mkdirs();
+        File userDropinsFolder = getUserDropinsFolder(doCreate);
+        return userDropinsFolder == null ? getSystemDropinsFolder(doCreate) : userDropinsFolder;
+    }
+    
+    private File getUserDropinsFolder(boolean doCreate) {
+        if(userDropinsFolder == null) {
+            // If the dropins dir is set in Archi.ini
+            String dropinsDirProperty = ArchiPlugin.INSTANCE.getBundle().getBundleContext().getProperty(DROPINS_DIRECTORY);
+            if(dropinsDirProperty != null) {
+                // Perform a variable substitution if necessary of %% tokens
+                dropinsDirProperty = substituteVariables(dropinsDirProperty);
+                userDropinsFolder = new File(dropinsDirProperty);
+
+                if(doCreate) {
+                    userDropinsFolder.mkdirs();
+                }
             }
         }
         
-        return dropinsFolder;
+        return userDropinsFolder;
     }
     
-    private File getBundleLocation(Bundle bundle) throws IOException {
+    private File getSystemDropinsFolder(boolean doCreate) throws IOException {
+        if(systemDropinsFolder == null) {
+            URL url = Platform.getInstallLocation().getURL();
+            url = FileLocator.resolve(url);
+            systemDropinsFolder = new File(url.getPath(), "dropins"); //$NON-NLS-1$
+            
+            if(doCreate) {
+                systemDropinsFolder.mkdirs();
+            }
+        }
+        
+        return systemDropinsFolder;
+    }
+    
+    /**
+     * This is taken From org.eclipse.equinox.internal.p2.reconciler.dropins.Activator
+     * When the dropins folder contains %% tokens, treat this as a system property.
+     * Example - %user.home%
+     */
+    private String substituteVariables(String path) {
+        if(path == null) {
+            return path;
+        }
+        
+        int beginIndex = path.indexOf('%');
+        
+        // no variable
+        if(beginIndex == -1) {
+            return path;
+        }
+        
+        beginIndex++;
+        
+        int endIndex = path.indexOf('%', beginIndex);
+        // no matching end % to indicate variable
+        if(endIndex == -1) {
+            return path;
+        }
+        
+        // get the variable name and do a lookup
+        String var = path.substring(beginIndex, endIndex);
+        if(var.length() == 0 || var.indexOf(File.pathSeparatorChar) != -1) {
+            return path;
+        }
+        
+        var = ArchiPlugin.INSTANCE.getBundle().getBundleContext().getProperty(var);
+        if(var == null) {
+            return path;
+        }
+        
+        return path.substring(0, beginIndex - 1) + var + path.substring(endIndex + 1);
+    }
+    
+    File getBundleLocation(Bundle bundle) throws IOException {
         String location = bundle.getLocation().replace("reference:", "") //$NON-NLS-1$ //$NON-NLS-2$
                 .replace("file:", "") //$NON-NLS-1$ //$NON-NLS-2$
                 .replace("file:/", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
         File bundleFile = new File(location);
-        File fullFile = new File(getDropinsFolder(false), bundleFile.getName());
+        
+        // Try User folder first
+        File file = new File(getUserDropinsFolder(false), bundleFile.getName());
 
-        return fullFile.exists() ? fullFile : null;
+        // Try System folder
+        if(!file.exists()) {
+            file = new File(getSystemDropinsFolder(false), bundleFile.getName());
+        }
+        
+        return file.exists() ? file : null;
     }
 
     private List<File> askOpenFiles() {

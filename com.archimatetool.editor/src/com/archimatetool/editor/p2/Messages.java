@@ -16,6 +16,10 @@ public class Messages extends NLS {
 
     public static String DropinsPluginDialog_12;
 
+    public static String DropinsPluginDialog_13;
+
+    public static String DropinsPluginDialog_14;
+
     public static String DropinsPluginDialog_2;
 
     public static String DropinsPluginDialog_3;

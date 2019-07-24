@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.p2;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -88,26 +89,31 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
         viewer.getTable().setHeaderVisible(true);
         
         TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
-        layout.setColumnData(column.getColumn(), new ColumnWeightData(25, false));
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(10, false));
         column.getColumn().setText(Messages.DropinsPluginDialog_3);
         
         column = new TableViewerColumn(viewer, SWT.NONE);
-        layout.setColumnData(column.getColumn(), new ColumnWeightData(25, false));
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(8, false));
         column.getColumn().setText(Messages.DropinsPluginDialog_4);
 
         column = new TableViewerColumn(viewer, SWT.NONE);
-        layout.setColumnData(column.getColumn(), new ColumnWeightData(25, false));
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(10, false));
         column.getColumn().setText(Messages.DropinsPluginDialog_5);
         
         column = new TableViewerColumn(viewer, SWT.NONE);
-        layout.setColumnData(column.getColumn(), new ColumnWeightData(25, false));
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(10, false));
         column.getColumn().setText(Messages.DropinsPluginDialog_6);
+        
+        column = new TableViewerColumn(viewer, SWT.NONE);
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(10, false));
+        column.getColumn().setText(Messages.DropinsPluginDialog_14);
+
+        DropinsPluginHandler handler = new DropinsPluginHandler();
 
         viewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {
                 try {
-                    DropinsPluginHandler handler = new DropinsPluginHandler();
                     return handler.getInstalledPlugins().toArray();
                 }
                 catch(IOException ex) {
@@ -141,6 +147,15 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
 
                         case 3:
                             return bundle.getHeaders().get("Bundle-Vendor"); //$NON-NLS-1$
+
+                        case 4:
+                            try {
+                                File file = handler.getBundleLocation(bundle);
+                                return file == null ? Messages.DropinsPluginDialog_13 : file.getParentFile().getPath();
+                            }
+                            catch(IOException ex) {
+                                return Messages.DropinsPluginDialog_13;
+                            }
 
                         default:
                             break;
