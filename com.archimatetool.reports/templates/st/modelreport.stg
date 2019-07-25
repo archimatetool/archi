@@ -1,6 +1,6 @@
 expandFolder(folder, target) ::= <<
 <ul>
-	^folder.Folders:{f | <li class="tree-folder"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name^ </span>
+	^folder.Folders:{f | <li class="tree-folder"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name;format="xml-encode"^ </span>
 	^expandFolder(f, target)^
 	</li>}^
 	^folder.Elements:{e |
