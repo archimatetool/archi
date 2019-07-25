@@ -443,7 +443,6 @@ implements ITreeModelView, IUIRequestListener {
         if(!isEmpty) {
             manager.add(new Separator());
             manager.add(fActionDelete);
-            manager.add(fActionRename);
 
             manager.add(new Separator("start_collapse")); //$NON-NLS-1$
             
@@ -469,6 +468,8 @@ implements ITreeModelView, IUIRequestListener {
                 manager.add(fActionDuplicate);
             }
             
+            manager.add(fActionRename);
+
             manager.add(new Separator("start_extensions")); //$NON-NLS-1$
             manager.add(fActionGenerateView);
             manager.add(new GroupMarker("append_extensions")); //$NON-NLS-1$
