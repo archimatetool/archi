@@ -5,12 +5,16 @@
  */
 package com.archimatetool.editor.views.properties;
 
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
+import com.archimatetool.editor.ArchiPlugin;
 
 
 
@@ -19,7 +23,7 @@ import org.eclipse.ui.views.properties.PropertySheet;
  * 
  * @author Phillip Beauvoir
  */
-public class CustomPropertiesView extends PropertySheet implements ICustomPropertiesView {
+public class CustomPropertiesView extends PropertySheet implements ICustomPropertiesView, ITabbedPropertySheetPageContributor {
 
     @Override
     public void createPartControl(Composite parent) {
@@ -65,16 +69,20 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
     }
     
     @Override
-    public void dispose() {
-        // HACK: If the Properties View is open and no other View is providing a Tabbed Property View
-        // then we see the default table in the Properties View and an enabled "copy" action.
-        // If the Properties View is then closed the global "copy" action is still enabled and
-        // will cause a "Widget is disposed" exception if selected. So we disable it.
-        IAction copyAction = getViewSite().getActionBars().getGlobalActionHandler("copy"); //$NON-NLS-1$
-        if(copyAction != null) {
-            copyAction.setEnabled(false);
+    public <T> T getAdapter(Class<T> adapter) {
+        /*
+         * If this View returns a TabbedPropertySheetPage then we don't get the nasty default table view
+         */
+        if(adapter == IPropertySheetPage.class) {
+            return adapter.cast(new TabbedPropertySheetPage(this));
         }
         
-        super.dispose();
+        return super.getAdapter(adapter);
     }
+
+    @Override
+    public String getContributorId() {
+        return ArchiPlugin.PLUGIN_ID;
+    }
+
 }
