@@ -331,7 +331,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (startX: "); //$NON-NLS-1$
         result.append(startX);
         result.append(", startY: "); //$NON-NLS-1$

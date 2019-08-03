@@ -452,7 +452,7 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (documentation: "); //$NON-NLS-1$
         result.append(documentation);
         result.append(", textPosition: "); //$NON-NLS-1$

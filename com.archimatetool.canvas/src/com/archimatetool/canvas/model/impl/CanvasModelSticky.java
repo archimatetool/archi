@@ -651,7 +651,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (imagePath: "); //$NON-NLS-1$
         result.append(imagePath);
         result.append(", imagePosition: "); //$NON-NLS-1$

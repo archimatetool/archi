@@ -387,7 +387,7 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (content: "); //$NON-NLS-1$
         result.append(content);
         result.append(", textPosition: "); //$NON-NLS-1$

@@ -155,7 +155,7 @@ public class SketchModel extends DiagramModel implements ISketchModel {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (background: "); //$NON-NLS-1$
         result.append(background);
         result.append(')');

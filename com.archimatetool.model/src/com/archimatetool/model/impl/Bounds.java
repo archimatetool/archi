@@ -357,7 +357,7 @@ public class Bounds extends EObjectImpl implements IBounds {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (x: "); //$NON-NLS-1$
         result.append(x);
         result.append(", y: "); //$NON-NLS-1$

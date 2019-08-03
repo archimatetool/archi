@@ -155,7 +155,7 @@ public class InfluenceRelationship extends ArchimateRelationship implements IInf
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (strength: "); //$NON-NLS-1$
         result.append(strength);
         result.append(')');

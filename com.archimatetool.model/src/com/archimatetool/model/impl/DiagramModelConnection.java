@@ -862,7 +862,7 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (font: "); //$NON-NLS-1$
         result.append(font);
         result.append(", fontColor: "); //$NON-NLS-1$

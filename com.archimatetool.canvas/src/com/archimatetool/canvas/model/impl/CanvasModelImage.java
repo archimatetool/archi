@@ -198,7 +198,7 @@ public class CanvasModelImage extends DiagramModelImage implements ICanvasModelI
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (locked: "); //$NON-NLS-1$
         result.append(locked);
         result.append(')');

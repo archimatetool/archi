@@ -1117,7 +1117,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
     /**
      * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-     * 
+     *
      * <p>This method is used to initialize {@link IArchimatePackage#eINSTANCE} when that field is accessed.
      * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
      * <!-- begin-user-doc -->
@@ -1131,7 +1131,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         if (isInited) return (IArchimatePackage)EPackage.Registry.INSTANCE.getEPackage(IArchimatePackage.eNS_URI);
 
         // Obtain or create and register package
-        ArchimatePackage theArchimatePackage = (ArchimatePackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ArchimatePackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ArchimatePackage());
+        Object registeredArchimatePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+        ArchimatePackage theArchimatePackage = registeredArchimatePackage instanceof ArchimatePackage ? (ArchimatePackage)registeredArchimatePackage : new ArchimatePackage();
 
         isInited = true;
 
@@ -1144,7 +1145,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         // Mark meta-data to indicate it can't be changed
         theArchimatePackage.freeze();
 
-  
         // Update the registry and return the package
         EPackage.Registry.INSTANCE.put(IArchimatePackage.eNS_URI, theArchimatePackage);
         return theArchimatePackage;
@@ -4064,110 +4064,110 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     protected void createExtendedMetaDataAnnotations() {
-        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
         addAnnotation
-          (getProperties_Properties(), 
-           source, 
+          (getProperties_Properties(),
+           source,
            new String[] {
-             "name", "property", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "property", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getMetadata_Entries(), 
-           source, 
+          (getMetadata_Entries(),
+           source,
            new String[] {
-             "name", "entry", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "entry", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getTextContent_Content(), 
-           source, 
+          (getTextContent_Content(),
+           source,
            new String[] {
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getDocumentable_Documentation(), 
-           source, 
+          (getDocumentable_Documentation(),
+           source,
            new String[] {
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getFolderContainer_Folders(), 
-           source, 
+          (getFolderContainer_Folders(),
+           source,
            new String[] {
-             "name", "folder", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "folder", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getFolder_Elements(), 
-           source, 
+          (getFolder_Elements(),
+           source,
            new String[] {
-             "name", "element", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "element", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (archimateModelEClass, 
-           source, 
+          (archimateModelEClass,
+           source,
            new String[] {
-             "name", "model" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "model" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getArchimateModel_Purpose(), 
-           source, 
+          (getArchimateModel_Purpose(),
+           source,
            new String[] {
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getConnectable_SourceConnections(), 
-           source, 
+          (getConnectable_SourceConnections(),
+           source,
            new String[] {
-             "name", "sourceConnection", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "sourceConnection", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getDiagramModelContainer_Children(), 
-           source, 
+          (getDiagramModelContainer_Children(),
+           source,
            new String[] {
-             "name", "child", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "child", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getDiagramModelReference_ReferencedModel(), 
-           source, 
+          (getDiagramModelReference_ReferencedModel(),
+           source,
            new String[] {
-             "name", "model", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "attribute" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "model", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "attribute" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (diagramModelGroupEClass, 
-           source, 
+          (diagramModelGroupEClass,
+           source,
            new String[] {
-             "name", "Group" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "Group" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (diagramModelNoteEClass, 
-           source, 
+          (diagramModelNoteEClass,
+           source,
            new String[] {
-             "name", "Note" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "Note" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (getDiagramModelConnection_Bendpoints(), 
-           source, 
+          (getDiagramModelConnection_Bendpoints(),
+           source,
            new String[] {
-             "name", "bendpoint", //$NON-NLS-1$ //$NON-NLS-2$
-             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "bendpoint", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (diagramModelArchimateObjectEClass, 
-           source, 
+          (diagramModelArchimateObjectEClass,
+           source,
            new String[] {
-             "name", "DiagramObject" //$NON-NLS-1$ //$NON-NLS-2$
-           });	
+               "name", "DiagramObject" //$NON-NLS-1$ //$NON-NLS-2$
+           });
         addAnnotation
-          (diagramModelArchimateConnectionEClass, 
-           source, 
+          (diagramModelArchimateConnectionEClass,
+           source,
            new String[] {
-             "name", "Connection" //$NON-NLS-1$ //$NON-NLS-2$
+               "name", "Connection" //$NON-NLS-1$ //$NON-NLS-2$
            });
     }
 

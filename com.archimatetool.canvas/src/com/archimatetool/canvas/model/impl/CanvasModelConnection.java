@@ -195,7 +195,7 @@ public class CanvasModelConnection extends DiagramModelConnection implements ICa
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (locked: "); //$NON-NLS-1$
         result.append(locked);
         result.append(')');

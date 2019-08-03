@@ -157,7 +157,7 @@ public class Junction extends ArchimateElement implements IJunction {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (type: "); //$NON-NLS-1$
         result.append(type);
         result.append(')');

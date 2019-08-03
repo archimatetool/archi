@@ -158,7 +158,7 @@ public class ArchimateDiagramModel extends DiagramModel implements IArchimateDia
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (viewpoint: "); //$NON-NLS-1$
         result.append(viewpoint);
         result.append(')');

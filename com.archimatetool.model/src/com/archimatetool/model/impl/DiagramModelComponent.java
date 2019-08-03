@@ -353,7 +353,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (id: "); //$NON-NLS-1$
         result.append(id);
         result.append(", name: "); //$NON-NLS-1$

@@ -248,7 +248,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
         result.append(')');

@@ -263,7 +263,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
+        StringBuilder result = new StringBuilder(super.toString());
         result.append(" (hintTitle: "); //$NON-NLS-1$
         result.append(hintTitle);
         result.append(", hintContent: "); //$NON-NLS-1$
