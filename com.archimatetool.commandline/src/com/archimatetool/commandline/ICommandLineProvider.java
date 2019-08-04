@@ -31,12 +31,6 @@ public interface ICommandLineProvider {
     default void run(CommandLine commandLine) throws Exception {}
     
     /**
-     * @deprecated use run(CommandLine commandLine) instead
-     */
-    @Deprecated
-    default void run(String[] args) throws Exception {}
-
-    /**
      * @return A list of options that this provider supports or null if none
      */
     default Options getOptions() {
