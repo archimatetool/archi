@@ -169,5 +169,10 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getConcepts(f, type);
         }
     }
-
+    public void setConcepts(List<IArchimateConcept> concepts ) {
+    	this.fConcepts = concepts;
+    }
+    public List<IArchimateConcept> getConceptList() {
+    	return this.fConcepts;
+    }
 }

@@ -40,6 +40,9 @@
 	<variable name="VIEW_TAGS" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
+	<variable name="VIEW_RELATIONS" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
 	<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer" calculation="System">
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
@@ -59,6 +62,9 @@
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_4">
 					<subreportParameterExpression><![CDATA["Report:View:Tag"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PROPERTY_5">
+					<subreportParameterExpression><![CDATA["Report:View:Relations"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_1">
 					<subreportParameterExpression><![CDATA["Report:View:Hide"]]></subreportParameterExpression>
@@ -143,6 +149,14 @@
 				<textElement verticalAlignment="Bottom" markup="none"/>
 				<textFieldExpression><![CDATA[$R{text.properties}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true" uuid="e1cfc567-add8-447b-ae81-06e0ce9a8676">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1 && $V{VIEW_RELATIONS}.equals("true")]]></printWhenExpression>
+				</reportElement>
+				<box bottomPadding="0"/>
+				<textElement verticalAlignment="Bottom" markup="none"/>
+				<textFieldExpression><![CDATA[$R{text.relations}]]></textFieldExpression>
+			</textField>
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
@@ -201,13 +215,41 @@
 				<subreportParameter name="REPORT_PATH">
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
-                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
-                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-                </subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="TITLE">
 					<subreportParameterExpression><![CDATA["Elements"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getChildElementsDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="120">
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
+    		<textField>
+				<reportElement style="Title 3" positionType="Float" x="1" y="0" width="514" height="35" uuid="e96bc9bc-5816-445c-9742-af6f4d1b36a6"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["View Relations"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="50" width="515" height="50" isRemoveLineWhenBlank="true" uuid="ef4123a0-ecb6-44f9-a8f5-576d008166d0"/>
+				<subreportParameter name="properties_report">
+					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_PATH">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+				</subreportParameter>
+                <subreportParameter name="REPORT_RESOURCE_BUNDLE">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+                </subreportParameter>
+				<subreportParameter name="TITLE">
+					<subreportParameterExpression><![CDATA["Relations"]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getRelationsOfCurrentView()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
 		</band>

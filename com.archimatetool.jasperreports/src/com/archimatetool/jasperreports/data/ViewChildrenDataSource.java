@@ -8,11 +8,17 @@ package com.archimatetool.jasperreports.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IProperty;
+import com.archimatetool.model.impl.Property;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -75,6 +81,18 @@ public class ViewChildrenDataSource implements JRRewindableDataSource, IProperti
     @Override
     public void moveFirst() throws JRException {
         currentIndex = -1;
+    }
+    
+    public EList<IProperty> getPropertiesDataSourceWithRelations() {
+    	EList<IProperty> propList = new BasicEList<>();
+    	for (int i = 0; i < fChildren.size(); i++) {
+    		IArchimateElement elem = (IArchimateElement)fChildren.get(i);
+    		EList<IArchimateRelationship> relations = elem.getSourceRelationships();
+    		for (int x = 0; x < relations.size(); x++) {
+    			propList.add(new Property(relations.get(x).getSource().getName(),relations.get(x).getTarget().getName()));
+    		}
+		}
+    	return propList;
     }
 
     @Override
