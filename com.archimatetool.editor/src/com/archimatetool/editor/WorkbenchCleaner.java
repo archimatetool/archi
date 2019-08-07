@@ -71,35 +71,23 @@ public class WorkbenchCleaner {
      * Clean the crap out of the instance location folder, config area and workbench.xmi
      */
     public static void clean() throws IOException {
-        Location instanceLoc = Platform.getInstanceLocation();
-        if(instanceLoc != null) {
-            File instanceLocationFolder = new File(instanceLoc.getURL().getPath());
-            
-            // Workspace files if using dropins
-            cleanInstanceLocation(instanceLocationFolder);
-            
-            // If reset file exists clean workbench.xmi file
-            cleanWorkbench(instanceLocationFolder);
-        }
+        // If reset file exists clean workbench.xmi file
+        cleanWorkbench();
         
+        // Config and P2 files
         cleanConfig();
     }
     
-    private static void cleanInstanceLocation(File instanceLocationFolder) throws IOException {
-        // P2 files if using dropins
-        if(P2.USE_DROPINS) {
-            for(String path : P2_FILES_TO_DELETE) {
-                delete(new File(instanceLocationFolder, path));
+    private static void cleanWorkbench() throws IOException {
+        Location instanceLoc = Platform.getInstanceLocation();
+        if(instanceLoc != null) {
+            File instanceLocationFolder = new File(instanceLoc.getURL().getPath());
+            // If reset file exists clean workbench.xmi file
+            File resetFile = new File(instanceLocationFolder, RESET_FILE);
+            if(resetFile.exists()) {
+                delete(resetFile);
+                delete(new File(instanceLocationFolder, WORKBENCH_FILE));
             }
-        }
-    }
-    
-    private static void cleanWorkbench(File instanceLocationFolder) throws IOException {
-        // If reset file exists clean workbench.xmi file
-        File resetFile = new File(instanceLocationFolder, RESET_FILE);
-        if(resetFile.exists()) {
-            delete(resetFile);
-            delete(new File(instanceLocationFolder, WORKBENCH_FILE));
         }
     }
     
@@ -109,11 +97,12 @@ public class WorkbenchCleaner {
             Location configLoc = Platform.getConfigurationLocation();
             if(configLoc != null) {
                 File configLocationFolder = new File(configLoc.getURL().getPath());
+                File configLocationParentFolder = configLocationFolder.getParentFile();
                 
-                // Don't delete these files if the config location is a sub-folder of the app installation
+                // Don't delete these files if the config location parent folder is the app installation
                 // As these are the root configuration files that ship with the app
                 File installationFolder = new File(Platform.getInstallLocation().getURL().getPath());
-                if(configLocationFolder.getParentFile().equals(installationFolder)) {
+                if(configLocationParentFolder.equals(installationFolder)) {
                     return;
                 }
                 
@@ -123,6 +112,12 @@ public class WorkbenchCleaner {
                     if(!whiteList.contains(f.getName())) {
                         delete(f);
                     }
+                }
+                
+                // Clean P2 files
+                // These are in the config location parent folder
+                for(String path : P2_FILES_TO_DELETE) {
+                    delete(new File(configLocationParentFolder, path));
                 }
             }
         }
