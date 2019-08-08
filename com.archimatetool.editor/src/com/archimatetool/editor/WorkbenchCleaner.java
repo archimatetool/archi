@@ -30,6 +30,9 @@ public class WorkbenchCleaner {
     
     static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi"; //$NON-NLS-1$
     
+    // If this is set in VM arguments as -DcleanConfig=false then don't clean these
+    static final String CLEAN_CONFIG = "cleanConfig"; //$NON-NLS-1$
+    
     static final String[] P2_FILES_TO_DELETE = {
             "p2", //$NON-NLS-1$
             "artifacts.xml" //$NON-NLS-1$
@@ -92,6 +95,11 @@ public class WorkbenchCleaner {
     }
     
     private static void cleanConfig() throws IOException {
+        // If System Property set to false then don't clean these files
+        if("false".equals(System.getProperty(CLEAN_CONFIG))) { //$NON-NLS-1$
+            return;
+        }
+        
         // Clean config area if using dropins
         if(P2.USE_DROPINS) {
             Location configLoc = Platform.getConfigurationLocation();
