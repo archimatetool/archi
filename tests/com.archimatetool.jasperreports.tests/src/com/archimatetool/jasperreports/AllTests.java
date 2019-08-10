@@ -14,6 +14,7 @@ import com.archimatetool.jasperreports.data.FieldDataFactoryTests;
 import com.archimatetool.jasperreports.data.PropertiesModelDataSourceTests;
 import com.archimatetool.jasperreports.data.ViewChildrenDataSourceTests;
 import com.archimatetool.jasperreports.data.ViewModelDataSourceTests;
+import com.archimatetool.jasperreports.data.ViewRelationsDataSourceTests;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -27,6 +28,7 @@ public class AllTests {
         suite.addTest(FieldDataFactoryTests.suite());
         suite.addTest(PropertiesModelDataSourceTests.suite());
         suite.addTest(ViewChildrenDataSourceTests.suite());
+        suite.addTest(ViewRelationsDataSourceTests.suite());
         suite.addTest(ViewModelDataSourceTests.suite());
 		
         return suite;

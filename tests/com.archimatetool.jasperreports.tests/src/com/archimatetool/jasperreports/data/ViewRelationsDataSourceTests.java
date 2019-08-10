@@ -20,6 +20,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -29,59 +31,34 @@ import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
-public class ViewModelDataSourceTests {
+public class ViewRelationsDataSourceTests {
     
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewModelDataSourceTests.class);
+        return new JUnit4TestAdapter(ViewRelationsDataSourceTests.class);
     }
 
     private static IArchimateModel model;
+    private static IDiagramModel dm;
     
-    private ViewModelDataSource ds;
+    private ViewRelationsDataSource ds;
     
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
         ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
+        dm = model.getDiagramModels().get(1);
     }
     
     @Before
     public void runOnceBeforeEachTest() {
-        ds = new ViewModelDataSource(model);
-    }
-    
-    @Test
-    public void testGetViewpointName() throws JRException {
-        String name = ds.getViewpointName();
-        assertNull(name);
-        
-        ds.next();
-        assertEquals("No viewpoint", ds.getViewpointName());
-        
-        ds.next();
-        assertEquals("Application Usage viewpoint", ds.getViewpointName());
-
-        ds.next();
-        assertEquals("Application Cooperation viewpoint", ds.getViewpointName());
+        ds = new ViewRelationsDataSource(dm);
     }
     
     @Test
     public void testGetPropertiesDataSource() throws JRException {
         ds.next();
         assertNotNull(ds.getPropertiesDataSource());
-    }
-    
-    @Test
-    public void testGetChildElementsDataSource() throws JRException {
-        ds.next();
-        assertNotNull(ds.getChildElementsDataSource());
-    }
-
-    @Test
-    public void testGetChildRelationsDataSource() throws JRException {
-        ds.next();
-        assertNotNull(ds.getChildRelationsDataSource());
     }
 
     @Test
@@ -91,7 +68,7 @@ public class ViewModelDataSourceTests {
 
     @Test
     public void testNext() throws JRException {
-        for(int i = 0; i < 17; i++) {
+        for(int i = 0; i < 28; i++) {
             assertTrue(ds.next());
         }
         assertFalse(ds.next());
@@ -103,12 +80,18 @@ public class ViewModelDataSourceTests {
         
         JRField field = mock(JRField.class);
         
-        System.setProperty("JASPER_IMAGE_PATH", "/img");
-        when(field.getName()).thenReturn("imagePath");
-        assertEquals("/img/4165.png", ds.getFieldValue(field));
+        when(field.getName()).thenReturn("this");
+        Object object = ds.getFieldValue(field);
+        assertEquals("1446", ((IArchimateRelationship)object).getId());
         
-        when(field.getName()).thenReturn("viewpoint");
-        assertEquals("No viewpoint", ds.getFieldValue(field));
+        when(field.getName()).thenReturn("relation_source");
+        assertEquals(((IArchimateRelationship)object).getSource().getName(), ds.getFieldValue(field));
+
+        when(field.getName()).thenReturn("relation_target");
+        assertEquals(((IArchimateRelationship)object).getTarget().getName(), ds.getFieldValue(field));
+    
+        when(field.getName()).thenReturn("type");
+        assertEquals("Serving relation", ds.getFieldValue(field));
     }
 
     @Test
