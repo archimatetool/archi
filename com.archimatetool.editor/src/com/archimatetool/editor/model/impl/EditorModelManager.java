@@ -704,7 +704,9 @@ implements IEditorModelManager {
         public void notifyChanged(Notification msg) {
             super.notifyChanged(msg);
             // Forward on to listeners...
-            firePropertyChange(this, PROPERTY_ECORE_EVENT, null, msg);
+            if(msg.getEventType() != Notification.REMOVING_ADAPTER) { // Not interested in this type
+                firePropertyChange(this, PROPERTY_ECORE_EVENT, null, msg);
+            }
         }
     }
 }

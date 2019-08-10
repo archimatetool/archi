@@ -243,8 +243,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         int type = msg.getEventType();
         
         // Not interested in these types
-        if(type == Notification.REMOVING_ADAPTER || type == Notification.ADD_MANY
-                                || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
+        if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
             return;
         }
         
