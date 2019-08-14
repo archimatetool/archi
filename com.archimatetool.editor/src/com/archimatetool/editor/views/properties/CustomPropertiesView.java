@@ -7,6 +7,8 @@ package com.archimatetool.editor.views.properties;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -62,7 +64,32 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
          */
         return null;
     }
-        
+    
+    @Override
+    public void setFocus() {
+        /*
+         * Trap SWT Widget disposed exception so it doesn't clog up the error log.
+         * 
+         * This can happen under certain conditions (and it may be only on Windows):
+         * 
+         * 1. The Properties View is open
+         * 3. An object is selected in a Diagram Editor that creates an additional Property Section (such as InfluenceRelationshipSection)
+         * 3. Another View is opened which is stacked in the same stack just to the right of the Properties View
+         * 4. Another object is selected in the Diagram editor that does not have the additional Property Section
+         * 5. The other view is closed (with the close x button) putting the focus on the Properties View
+         * 
+         * setFocus() will then try to put the focus on this section which by now has been disposed
+         */
+        try {
+            super.setFocus();
+        }
+        catch(SWTException ex) {
+            if(ex.code != SWT.ERROR_WIDGET_DISPOSED) {
+                throw ex;
+            }
+        }
+    }
+    
     @Override
     public boolean isPinned() {
         return false;
