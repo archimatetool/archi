@@ -8,7 +8,9 @@ package com.archimatetool.editor.views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
@@ -251,7 +253,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             getViewer().getControl().setRedraw(false);
 
             // Update affected element node(s)
-            List<Object> elements = getElementsToUpdateFromNotification(msg);
+            Set<Object> elements = getElementsToUpdateFromNotification(msg);
             getViewer().update(elements.toArray(), null);
 
             // Refresh parent node
@@ -307,7 +309,14 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * @return All the tree element nodes that may need updating when a change occurs
      */
-    protected List<Object> getElementsToUpdateFromNotification(Notification msg) {
+    protected Set<Object> getElementsToUpdateFromNotification(Notification msg) {
+        Set<Object> list = new HashSet<Object>();
+        
+        // If notifier is a folder ignore
+        if(msg.getNotifier() instanceof IFolder) {
+            return list;
+        }
+        
         int type = msg.getEventType();
         
         Object element = null;
@@ -322,8 +331,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             element = msg.getNotifier();
         }
         
-        List<Object> list = new ArrayList<Object>();
-        
         // If it's a diagram object or a diagram dig in and treat it separately
         if(element instanceof IDiagramModelContainer) {
             getDiagramElementsToUpdate(list, (IDiagramModelContainer)element);
@@ -337,9 +344,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Got either a folder, a relationship or an element
         if(element != null) {
-            if(!list.contains(element)) {
-                list.add(element);
-            }
+            list.add(element);
             
             // If an element, also add any attached relationships
             if(element instanceof IArchimateElement) {
@@ -353,14 +358,12 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * Find all elements contained in Diagram or Diagram objects including any child objects
      */
-    private void getDiagramElementsToUpdate(List<Object> list, IDiagramModelContainer container) {
+    private void getDiagramElementsToUpdate(Set<Object> list, IDiagramModelContainer container) {
         // ArchiMate element
         if(container instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)container).getArchimateElement();
-            if(!list.contains(element)) {
-                list.add(element);
-                getRelationshipsToUpdate(list, element);
-            }
+            list.add(element);
+            getRelationshipsToUpdate(list, element);
         }
         
         // Children
@@ -375,11 +378,9 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Find all relationships to update from given element
      * TODO: A3 Does this need to be for all concepts?
      */
-    private void getRelationshipsToUpdate(List<Object> list, IArchimateElement element) {
+    private void getRelationshipsToUpdate(Set<Object> list, IArchimateElement element) {
         for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
-            if(!list.contains(relation)) {
-                list.add(relation);
-            }
+            list.add(relation);
         }
     }
     

@@ -7,8 +7,9 @@ package com.archimatetool.editor.views.tree;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.help.HelpSystem;
@@ -699,22 +700,20 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        List<Object> refreshElements = new ArrayList<Object>();
-        List<Object> updateElements = new ArrayList<Object>();
-            
+        Set<Object> refreshElements = new HashSet<Object>();
+        Set<Object> updateElements = new HashSet<Object>();
+        
         for(Notification msg : notifications) {
             // Get parent nodes to refresh
             Object parent = getParentToRefreshFromNotification(msg);
-            if(parent != null && !refreshElements.contains(parent)) {
+            if(parent != null) {
                 refreshElements.add(parent);
             }
             
             // Get elements to update
-            List<Object> elements = getElementsToUpdateFromNotification(msg);
+            Set<Object> elements = getElementsToUpdateFromNotification(msg);
             for(Object object : elements) {
-                if(!updateElements.contains(object)) {
-                    updateElements.add(object);
-                }
+                updateElements.add(object);
             }
         }
         
