@@ -194,6 +194,21 @@ public class TreeModelViewer extends TreeViewer {
         editElement(element, 0);
     }
     
+    @Override
+    public void editElement(Object element, int column) {
+        /*
+         * Important to set focus first!
+         * 
+         * 1. If the focus is on either the Hints, Help, Welcome, or Cheat Sheet Views (all Views with a Browser control)
+         * 2. "New Empty Model" or "New Model With Canvas" is selected from the main "File" menu
+         * 3. Or "Create a new ArchiMate Model" button pressed in the "Welcome" View
+         * 4. Then a focus lost event will occur
+         * 5. And cause a NPE in ColumnViewerEditor#activateCellEditor
+         */
+        getControl().setFocus();
+        super.editElement(element, column);
+    }
+    
     /**
      * Refresh the tree in the background
      * @param element The root element or null for the whole tree
