@@ -43,7 +43,7 @@ implements IWorkbenchAction
         EditorManager.openDiagramEditor(model.getDefaultDiagramModel(), false);
         
         // Edit in-place in Tree
-        UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
+        UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));
     }
 
     @Override

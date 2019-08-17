@@ -32,21 +32,21 @@ public final class UIRequestManager {
     public void removeListener(IUIRequestListener listener) {
         listeners.remove(listener);
     }
-
-    public void fireRequest(final UIRequest request) {
-        if(request == null) {
-            return;
-        }
-        
+    
+    public void fireRequestAsync(UIRequest request) {
         Display.getCurrent().asyncExec(new Runnable() {
             @Override
             public void run() {
-                Object[] listenersArray = listeners.toArray();
-                for(int i = 0; i < listenersArray.length; i++) {
-                    IUIRequestListener listener = (IUIRequestListener)listenersArray[i];
-                    listener.requestAction(request);
-                }
+                fireRequest(request);
             }
         });
+    }
+
+    public void fireRequest(UIRequest request) {
+        if(request != null) {
+            for(IUIRequestListener listener : new ArrayList<IUIRequestListener>(listeners)) {
+                listener.requestAction(request);
+            }
+        }
     }
 }

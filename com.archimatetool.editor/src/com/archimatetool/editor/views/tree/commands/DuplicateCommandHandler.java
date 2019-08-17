@@ -98,8 +98,8 @@ public class DuplicateCommandHandler {
             entry.getKey().execute(entry.getValue());
         }
         
-        // Select new objects in Tree
-        UIRequestManager.INSTANCE.fireRequest(new TreeSelectionRequest(this, new StructuredSelection(fNewObjects), true));
+        // Select new objects in Tree asyncronously
+        UIRequestManager.INSTANCE.fireRequestAsync(new TreeSelectionRequest(this, new StructuredSelection(fNewObjects), true));
         
         dispose();
     }
