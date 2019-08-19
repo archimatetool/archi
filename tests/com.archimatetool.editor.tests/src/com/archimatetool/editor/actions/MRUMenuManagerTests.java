@@ -171,7 +171,7 @@ public class MRUMenuManagerTests {
     
     
     @Test
-    public void testModelPropertChange() {
+    public void testModelPropertyChange() {
         List<File> list = menuManager.getMRUList();
         assertTrue(list.isEmpty());
         
@@ -196,11 +196,24 @@ public class MRUMenuManagerTests {
     }
     
     @Test
-    public void testIsTempFile() {
+    public void testIsTempFileWithTilde() {
+        // File with "~" as first character
         File file = new File("~newfile.archimate");
         assertTrue(menuManager.isTempFile(file));
-        
-        file = new File("newfile.archimate");
+    }
+    
+    @Test
+    public void testIsTempFileInTempFolder() throws IOException {
+        // File in temp dir
+        File file = File.createTempFile("archimodel", null);
+        assertTrue(menuManager.isTempFile(file));
+        file.delete();
+    }
+    
+    @Test
+    public void testIsNotTempFile() {
+        // Normal file
+        File file = new File("newfile.archimate");
         assertFalse(menuManager.isTempFile(file));
     }
     
