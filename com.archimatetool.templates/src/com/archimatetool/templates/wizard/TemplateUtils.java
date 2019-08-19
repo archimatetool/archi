@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
@@ -20,6 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.model.TemplateManager;
 
 
@@ -86,12 +86,12 @@ public class TemplateUtils {
      */
     public static void generateNewUUIDs(EObject object) {
         if(object instanceof IIdentifier) {
-            ((IIdentifier)object).setId(EcoreUtil.generateUUID());
+            ((IIdentifier)object).setId(UUIDFactory.createID((IIdentifier)object));
         }
         for(Iterator<EObject> iter = object.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             if(eObject instanceof IIdentifier) {
-                ((IIdentifier)eObject).setId(EcoreUtil.generateUUID());
+                ((IIdentifier)eObject).setId(UUIDFactory.createID((IIdentifier)object));
             }
         }
     }
