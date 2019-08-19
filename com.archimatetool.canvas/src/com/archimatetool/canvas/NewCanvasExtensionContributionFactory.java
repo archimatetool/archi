@@ -17,6 +17,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.ExtensionContributionFactory;
@@ -125,10 +126,19 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
         @Override
         public void run() {
             if(fCurrentFolder != null) {
+                NewCanvasFromTemplateWizard wizard = new NewCanvasFromTemplateWizard(fCurrentFolder.getArchimateModel());
                 WizardDialog dialog = new ExtendedWizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                      new NewCanvasFromTemplateWizard(fCurrentFolder),
+                                      wizard,
                                       "NewCanvasFromTemplateWizard"); //$NON-NLS-1$
-                dialog.open();
+                
+                if(dialog.open() == Window.OK) {
+                    ICanvasModel canvasModel = wizard.getCanvasModel();
+                    if(canvasModel != null) {
+                        Command cmd = new NewDiagramCommand(fCurrentFolder, canvasModel, Messages.NewCanvasExtensionContributionFactory_3);
+                        CommandStack commandStack = (CommandStack)fCurrentFolder.getAdapter(CommandStack.class);
+                        commandStack.execute(cmd);
+                    }
+                }
             }
             else {
                 System.err.println("Folder was null in " + getClass()); //$NON-NLS-1$

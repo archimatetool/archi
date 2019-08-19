@@ -21,8 +21,6 @@ public class Messages extends NLS {
 
     public static String NewCanvasFromTemplateWizard_4;
 
-    public static String NewCanvasFromTemplateWizard_5;
-
     public static String NewCanvasFromTemplateWizardPage_0;
 
     public static String NewCanvasFromTemplateWizardPage_1;

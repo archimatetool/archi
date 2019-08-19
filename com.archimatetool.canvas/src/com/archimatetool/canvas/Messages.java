@@ -41,6 +41,8 @@ public class Messages extends NLS {
 
     public static String NewCanvasExtensionContributionFactory_2;
 
+    public static String NewCanvasExtensionContributionFactory_3;
+
     public static String NewModelWithCanvasExtensionContributionFactory_0;
 
     public static String NewModelWithCanvasExtensionContributionFactory_1;

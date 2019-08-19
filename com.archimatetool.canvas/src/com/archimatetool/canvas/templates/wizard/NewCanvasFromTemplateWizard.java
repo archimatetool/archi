@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
@@ -25,7 +23,6 @@ import com.archimatetool.editor.model.compatibility.CompatibilityHandlerExceptio
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.utils.ZipUtils;
-import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
@@ -43,7 +40,7 @@ import com.archimatetool.templates.wizard.TemplateUtils;
  */
 public class NewCanvasFromTemplateWizard extends Wizard {
     
-    private IFolder fFolder;
+    private IArchimateModel fModel;
     
     private String fErrorMessage;
     
@@ -51,9 +48,11 @@ public class NewCanvasFromTemplateWizard extends Wizard {
     
     private TemplateManager fTemplateManager;
     
-    public NewCanvasFromTemplateWizard(IFolder folder) {
+    private ICanvasModel fCanvasModel;
+    
+    public NewCanvasFromTemplateWizard(IArchimateModel model) {
         setWindowTitle(Messages.NewCanvasFromTemplateWizard_0);
-        fFolder = folder;
+        fModel = model;
         fTemplateManager = new CanvasTemplateManager();
     }
     
@@ -61,6 +60,13 @@ public class NewCanvasFromTemplateWizard extends Wizard {
     public void addPages() {
         fMainPage = new NewCanvasFromTemplateWizardPage(fTemplateManager);
         addPage(fMainPage);
+    }
+    
+    /**
+     * @return The newly created Canvas Model or null
+     */
+    public ICanvasModel getCanvasModel() {
+        return fCanvasModel;
     }
 
     @Override
@@ -147,25 +153,22 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         // Pull out the Canvas model
         IArchimateModel templateModel = (IArchimateModel)resource.getContents().get(0);
         IFolder folderViews = templateModel.getFolder(FolderType.DIAGRAMS);
-        ICanvasModel canvasModel = (ICanvasModel)folderViews.getElements().get(0);
+        fCanvasModel = (ICanvasModel)folderViews.getElements().get(0);
 
         // Create New UUIDs for elements...
-        TemplateUtils.generateNewUUIDs(canvasModel);
+        TemplateUtils.generateNewUUIDs(fCanvasModel);
         
         // Load the images from the template model's file now
         if(isArchiveFormat) {
-            IArchiveManager archiveManager = (IArchiveManager)fFolder.getAdapter(IArchiveManager.class);
+            IArchiveManager archiveManager = (IArchiveManager)fModel.getAdapter(IArchiveManager.class);
             archiveManager.loadImagesFromModelFile(file); 
         }
-        
-        Command cmd = new NewDiagramCommand(fFolder, canvasModel, Messages.NewCanvasFromTemplateWizard_5);
-        CommandStack commandStack = (CommandStack)fFolder.getAdapter(CommandStack.class);
-        commandStack.execute(cmd);
     }
     
     @Override
     public void dispose() {
         super.dispose();
         fTemplateManager.dispose();
+        fModel = null;
     }
 }
