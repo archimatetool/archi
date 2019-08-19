@@ -61,6 +61,7 @@ import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.CloseModelAction;
+import com.archimatetool.editor.views.tree.actions.CutAction;
 import com.archimatetool.editor.views.tree.actions.DeleteAction;
 import com.archimatetool.editor.views.tree.actions.DuplicateAction;
 import com.archimatetool.editor.views.tree.actions.FindReplaceAction;
@@ -68,6 +69,7 @@ import com.archimatetool.editor.views.tree.actions.GenerateViewAction;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.LinkToEditorAction;
 import com.archimatetool.editor.views.tree.actions.OpenDiagramAction;
+import com.archimatetool.editor.views.tree.actions.PasteAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.editor.views.tree.actions.RenameAction;
 import com.archimatetool.editor.views.tree.actions.SaveModelAction;
@@ -116,6 +118,9 @@ implements ITreeModelView, IUIRequestListener {
     private IViewerAction fActionRename;
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionDuplicate;
+    
+    private IViewerAction fActionCut;
+    private IViewerAction fActionPaste;
     
     private IViewerAction fActionGenerateView;
     
@@ -308,6 +313,9 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
+        fActionCut = new CutAction(getViewer());
+        fActionPaste = new PasteAction(getViewer());
+        
         fActionGenerateView = new GenerateViewAction(getSelectionProvider());
         
         fActionToggleSearchField = new Action("", IAction.AS_CHECK_BOX) { //$NON-NLS-1$
@@ -372,6 +380,8 @@ implements ITreeModelView, IUIRequestListener {
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
         actionBars.setGlobalActionHandler(ArchiActionFactory.DUPLICATE.getId(), fActionDuplicate);
+        actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(), fActionCut);
+        actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), fActionPaste);
         actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), fActionFindReplace);
         actionBars.setGlobalActionHandler(ArchiActionFactory.GENERATE_VIEW.getId(), fActionGenerateView);
     }
@@ -443,8 +453,11 @@ implements ITreeModelView, IUIRequestListener {
         
         if(!isEmpty) {
             manager.add(new Separator());
-            manager.add(fActionDelete);
 
+            manager.add(fActionCut);
+            manager.add(fActionPaste);
+            manager.add(fActionDelete);
+            
             manager.add(new Separator("start_collapse")); //$NON-NLS-1$
             
             // Expand selected
@@ -495,6 +508,8 @@ implements ITreeModelView, IUIRequestListener {
         fActionCloseModel.update();
         fActionDelete.update();
         fActionDuplicate.update();
+        fActionCut.update();
+        fActionPaste.update();
         fActionRename.update();
         fActionProperties.update();
         fActionGenerateView.update();
@@ -577,6 +592,9 @@ implements ITreeModelView, IUIRequestListener {
         fFindReplaceProvider = null;
         fSearchFilter = null;
         fSynchroniser = null;
+        
+        // Clear Cut/Paste clipboard
+        TreeModelCutAndPaste.INSTANCE.clear();
     }
     
     // ======================================================================
@@ -603,7 +621,10 @@ implements ITreeModelView, IUIRequestListener {
         
         // Model removed
         else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+            // Refresh Tree
             getViewer().refresh();
+            // Clear Cut/Paste clipboard
+            TreeModelCutAndPaste.INSTANCE.clear();
         }
         
         // Model dirty state, so update Actions and modified state of source (asterisk on model node)
