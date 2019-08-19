@@ -89,4 +89,6 @@ public interface IPreferenceConstants {
     String SCALE_IMAGE_EXPORT = "scaleImageExport"; //$NON-NLS-1$
     
     String DIAGRAM_OBJECT_RESIZE_BEHAVIOUR = "resizeBehaviour";  //$NON-NLS-1$
+    
+    String TREE_SEARCH_AUTO = "treeSearchAuto"; //$NON-NLS-1$
 }

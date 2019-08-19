@@ -8,8 +8,12 @@ package com.archimatetool.editor.views.tree.search;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -25,12 +29,15 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.actions.AbstractDropDownAction;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
@@ -59,6 +66,9 @@ public class SearchWidget extends Composite {
     private MenuManager fPropertiesMenu;
     
     private List<IAction> fObjectActions = new ArrayList<IAction>();
+    
+    private Timer fKeyDelayTimer;
+    private int fTimerDelay = 600;
     
     // Hook into the global edit Action Handlers and null them when the text control has the focus
     private Listener textControlListener = new Listener() {
@@ -121,13 +131,42 @@ public class SearchWidget extends Composite {
             fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
         
-        fSearchText.addModifyListener(new ModifyListener() {
-            @Override
-            public void modifyText(ModifyEvent e) {
-                fSearchFilter.setSearchText(fSearchText.getText());
-            }
-        });
+        // Use auto search
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
+            fSearchText.addModifyListener(new ModifyListener() {
+                @Override
+                public void modifyText(ModifyEvent e) {
+                    // If we have a timer cancel it
+                    if(fKeyDelayTimer != null) {
+                        fKeyDelayTimer.cancel();
+                    }
 
+                    // Set this to run with a short delay to allow for key presses
+                    fKeyDelayTimer = new Timer();
+                    fKeyDelayTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Display.getDefault().asyncExec(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fSearchFilter.setSearchText(fSearchText.getText());
+                                }
+                            });
+                        }
+                    }, fTimerDelay);
+                }
+            });
+        }
+        // Search on Return key press
+        else {
+            fSearchText.addListener(SWT.DefaultSelection, new Listener() {
+                @Override
+                public void handleEvent(Event e) {
+                    fSearchFilter.setSearchText(fSearchText.getText());
+                }
+            });
+        }
+        
         // Hook into the global edit Action Handlers and null them when the text control has the focus
         fSearchText.addListener(SWT.Activate, textControlListener);
         fSearchText.addListener(SWT.Deactivate, textControlListener);
@@ -304,11 +343,13 @@ public class SearchWidget extends Composite {
 
 	private void populatePropertiesMenu(MenuManager propertiesMenu) {
 	    // Models that are loaded are the ones in the Models Tree
-	    List<String> list = new ArrayList<String>();
+	    Set<String> set = new HashSet<String>();
 
 	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-	        getAllUniquePropertyKeysForModel(model, list);
+	        getAllUniquePropertyKeysForModel(model, set);
 	    }
+	    
+	    List<String> list = new ArrayList<String>(set);
 	    
 	    // Sort alphapetically
 	    Collections.sort(list, new Comparator<String>() {
@@ -337,13 +378,13 @@ public class SearchWidget extends Composite {
 	    propertiesMenu.update(true);
 	}
 
-    private void getAllUniquePropertyKeysForModel(IArchimateModel model, List<String> list) {
+    private void getAllUniquePropertyKeysForModel(IArchimateModel model, Set<String> set) {
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty) {
             	String key = ((IProperty)element).getKey();
-            	if(StringUtils.isSetAfterTrim(key) && !list.contains(key)) {
-            		list.add(key);
+            	if(StringUtils.isSetAfterTrim(key)) {
+            	    set.add(key);
             	}
             }
         }

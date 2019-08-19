@@ -63,6 +63,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowStatusLineButton;
     
     private Button fShowUnusedElementsInModelTreeButton;
+    private Button fAutoSearchButton;
     
     private Button fScaleImagesButton;
 
@@ -78,26 +79,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
         
-        GridData gd;
-        
         Group fileGroup = new Group(client, SWT.NULL);
         fileGroup.setText(Messages.GeneralPreferencePage_0);
         fileGroup.setLayout(new GridLayout(2, false));
-        fileGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        fileGroup.setLayoutData(createHorizontalGridData(1));
         
         // Automatically open views when opening a model file
         fOpenDiagramsOnLoadButton = new Button(fileGroup, SWT.CHECK);
         fOpenDiagramsOnLoadButton.setText(Messages.GeneralPreferencePage_1);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fOpenDiagramsOnLoadButton.setLayoutData(gd);
+        fOpenDiagramsOnLoadButton.setLayoutData(createHorizontalGridData(2));
 
         // Backup file on save
         fBackupOnSaveButton = new Button(fileGroup, SWT.CHECK);
         fBackupOnSaveButton.setText(Messages.GeneralPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fBackupOnSaveButton.setLayoutData(gd);
+        fBackupOnSaveButton.setLayoutData(createHorizontalGridData(2));
         
         // Size of recently opened file list
         Label label = new Label(fileGroup, SWT.NULL);
@@ -111,14 +106,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Group appearanceGroup = new Group(client, SWT.NULL);
         appearanceGroup.setText(Messages.GeneralPreferencePage_3);
         appearanceGroup.setLayout(new GridLayout(2, false));
-        appearanceGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        appearanceGroup.setLayoutData(createHorizontalGridData(1));
         
         // Themes
         label = new Label(appearanceGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_4);
         fThemeComboViewer = new ComboViewer(appearanceGroup, SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fThemeComboViewer.getCombo().setLayoutData(gd);
+        fThemeComboViewer.getCombo().setLayoutData(createHorizontalGridData(1));
         
         fThemeComboViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
@@ -147,42 +141,42 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Show Status Line
         fShowStatusLineButton = new Button(appearanceGroup, SWT.CHECK);
         fShowStatusLineButton.setText(Messages.GeneralPreferencePage_9);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fShowStatusLineButton.setLayoutData(gd);
+        fShowStatusLineButton.setLayoutData(createHorizontalGridData(2));
         
         label = new Label(appearanceGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_8);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        label.setLayoutData(gd);
+        label.setLayoutData(createHorizontalGridData(2));
         
         // Model Tree
         Group modelTreeGroup = new Group(client, SWT.NULL);
         modelTreeGroup.setText(Messages.GeneralPreferencePage_10);
         modelTreeGroup.setLayout(new GridLayout(2, false));
-        modelTreeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        modelTreeGroup.setLayoutData(createHorizontalGridData(1));
         
         fShowUnusedElementsInModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
         fShowUnusedElementsInModelTreeButton.setText(Messages.GeneralPreferencePage_11);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fShowUnusedElementsInModelTreeButton.setLayoutData(gd);
+        fShowUnusedElementsInModelTreeButton.setLayoutData(createHorizontalGridData(2));
+        
+        fAutoSearchButton = new Button(modelTreeGroup, SWT.CHECK);
+        fAutoSearchButton.setText(Messages.GeneralPreferencePage_6);
+        fAutoSearchButton.setLayoutData(createHorizontalGridData(2));
+        
+        label = new Label(modelTreeGroup, SWT.NULL);
+        label.setText(Messages.GeneralPreferencePage_7);
+        label.setLayoutData(createHorizontalGridData(2));
         
         // Other
         Group otherGroup = new Group(client, SWT.NULL);
         otherGroup.setText(Messages.GeneralPreferencePage_12);
         otherGroup.setLayout(new GridLayout(2, false));
-        otherGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        otherGroup.setLayoutData(createHorizontalGridData(1));
         
         fScaleImagesButton = new Button(otherGroup, SWT.CHECK);
         fScaleImagesButton.setText(Messages.GeneralPreferencePage_13);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fScaleImagesButton.setLayoutData(gd);
+        fScaleImagesButton.setLayoutData(createHorizontalGridData(2));
         label = new Label(otherGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_14);
-        label.setLayoutData(gd);
+        label.setLayoutData(createHorizontalGridData(2));
         
         setValues();
         
@@ -205,7 +199,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
+        
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
+        fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
 
         // Themes
         List<ITheme> themes = fThemeEngine.getThemes();
@@ -229,7 +225,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
+        
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
+        getPreferenceStore().setValue(TREE_SEARCH_AUTO, fAutoSearchButton.getSelection());
         
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
@@ -249,7 +247,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
+        
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
+        fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         
         setTheme(fDefaultTheme, false);
         
@@ -270,6 +270,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         return super.performCancel();
+    }
+    
+    private GridData createHorizontalGridData(int span) {
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = span;
+        return gd;
     }
     
     @Override

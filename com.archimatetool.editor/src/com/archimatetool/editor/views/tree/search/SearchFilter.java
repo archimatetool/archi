@@ -65,14 +65,20 @@ public class SearchFilter extends ViewerFilter {
                 fViewer.getTree().setRedraw(false);
 
                 try {
-                    fViewer.refresh(); // This has to be first
+                    // If we do this first fViewer.refresh() is then faster
+                    if(!isFiltering()) {
+                        restoreState();
+                    }
                     
-                    // Something to show
+                    // This has to be called before expandAll
+                    fViewer.refresh();
+                    
+                    // If we have something to show expand all nodes
                     if(isFiltering()) {
                         fViewer.expandAll();
                     }
                     else {
-                        restoreState();
+                        restoreState(); // Yes, do call this again.
                     }
                 }
                 finally {
@@ -88,6 +94,7 @@ public class SearchFilter extends ViewerFilter {
         }
         fSearchText = ""; //$NON-NLS-1$
         resetFilters();
+        fExpanded = null;
     }
 
     public void resetFilters() {
