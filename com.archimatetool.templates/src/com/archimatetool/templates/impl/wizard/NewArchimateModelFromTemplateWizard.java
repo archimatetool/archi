@@ -86,7 +86,7 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                                 TemplateUtils.generateNewUUIDs(model);
                                 
                                 // Edit in-place in Tree
-                                UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
+                                UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));
                             }
                             else {
                                 fErrorMessage = Messages.NewArchimateModelFromTemplateWizard_2;
