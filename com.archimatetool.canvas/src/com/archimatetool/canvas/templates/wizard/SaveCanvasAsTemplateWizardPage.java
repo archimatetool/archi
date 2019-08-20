@@ -7,6 +7,7 @@ package com.archimatetool.canvas.templates.wizard;
 
 import java.io.File;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
@@ -28,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -57,7 +59,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
 
     private TemplateManager fTemplateManager;
     
-    static File CURRENT_FOLDER = new File(System.getProperty("user.home")); //$NON-NLS-1$
+    private static final String PREFS_LAST_FOLDER = "SaveCanvasAsTemplateLastFolder"; //$NON-NLS-1$
     
     public SaveCanvasAsTemplateWizardPage(ICanvasModel canvasModel, TemplateManager templateManager) {
         super("SaveCanvasAsTemplateWizardPage"); //$NON-NLS-1$
@@ -89,8 +91,19 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         
         fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        File newFile = new File(CURRENT_FOLDER, Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION);
-        fFileTextField.setText(newFile.getPath());
+        
+        String defaultFileName = Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION;
+        
+        // Get last folder used
+        String lastFolderName = CanvasEditorPlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FOLDER);
+        File lastFolder = new File(lastFolderName);
+        if(lastFolder.exists() && lastFolder.isDirectory()) {
+            fFileTextField.setText(new File(lastFolder, defaultFileName).getPath());
+        }
+        else {
+            fFileTextField.setText(new File(System.getProperty("user.home"), defaultFileName).getPath()); //$NON-NLS-1$
+        }
+        
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
@@ -108,7 +121,6 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
                 File file = chooseFile();
                 if(file != null) {
                     fFileTextField.setText(file.getPath());
-                    CURRENT_FOLDER = file.getParentFile();
                 }
             }
         });
@@ -282,4 +294,14 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
             fPreviewLabel.getImage().dispose();
         }
     }
+    
+    void storePreferences() {
+        // Store current folder
+        File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
+        if(parentFile != null) {
+            IPreferenceStore store = CanvasEditorPlugin.INSTANCE.getPreferenceStore();
+            store.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+        }
+    }
+
 }

@@ -76,6 +76,9 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
 
     @Override
     public boolean performFinish() {
+        // Store Preferences
+        fPage1.storePreferences();
+
         // This before the thread starts
         fZipFile = new File(fPage1.getFileName());
         

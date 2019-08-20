@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -64,7 +65,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
     private TemplateManager fTemplateManager;
     
-    static File CURRENT_FOLDER = new File(System.getProperty("user.home")); //$NON-NLS-1$
+    private static final String PREFS_LAST_FOLDER = "SaveArchimateModelAsTemplateLastFolder"; //$NON-NLS-1$
     
     public SaveArchimateModelAsTemplateWizardPage(IArchimateModel model, TemplateManager templateManager) {
         super("SaveModelAsTemplateWizardPage"); //$NON-NLS-1$
@@ -96,8 +97,19 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         
         fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        File newFile = new File(CURRENT_FOLDER, Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
-        fFileTextField.setText(newFile.getPath());
+        
+        String defaultFileName = Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
+        
+        // Get last folder used
+        String lastFolderName = Preferences.STORE.getString(PREFS_LAST_FOLDER);
+        File lastFolder = new File(lastFolderName);
+        if(lastFolder.exists() && lastFolder.isDirectory()) {
+            fFileTextField.setText(new File(lastFolder, defaultFileName).getPath());
+        }
+        else {
+            fFileTextField.setText(new File(System.getProperty("user.home"), defaultFileName).getPath()); //$NON-NLS-1$
+        }
+
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
@@ -115,7 +127,6 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
                 File file = chooseFile();
                 if(file != null) {
                     fFileTextField.setText(file.getPath());
-                    CURRENT_FOLDER = file.getParentFile();
                 }
             }
         });
@@ -322,4 +333,13 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
             fPreviewLabel.getImage().dispose();
         }
     }
+    
+    void storePreferences() {
+        // Store current folder
+        File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
+        if(parentFile != null) {
+            Preferences.STORE.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+        }
+    }
+
 }
