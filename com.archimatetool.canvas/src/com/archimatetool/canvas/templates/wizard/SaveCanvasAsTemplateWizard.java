@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 import org.eclipse.emf.ecore.EObject;
@@ -217,12 +219,18 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         // Get the Canvas copy
         ICanvasModel copyCanvas = EcoreUtil.copy(fCanvasModel);
         
-        // Remove any unsupported elements
+        // Remove any unsupported elements such as Diagram model references
+        List<EObject> toRemove = new ArrayList<EObject>();
+        
         for(Iterator<EObject> iter = copyCanvas.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             if(eObject instanceof IDiagramModelReference) {
-                EcoreUtil.delete(eObject);
+                toRemove.add(eObject);
             }
+        }
+        
+        for(EObject eObject : toRemove) {
+            EcoreUtil.delete(eObject);
         }
         
         // Generate new IDs
