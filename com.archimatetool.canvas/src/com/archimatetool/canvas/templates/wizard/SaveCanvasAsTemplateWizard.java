@@ -30,6 +30,7 @@ import org.jdom2.Element;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasModelTemplate;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -68,7 +69,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     
     public SaveCanvasAsTemplateWizard(ICanvasModel canvasModel) {
         setWindowTitle(Messages.SaveCanvasAsTemplateWizard_0);
-        fCanvasModel = canvasModel;
+        fCanvasModel = createCanvasCopy(canvasModel);
         fTemplateManager = new CanvasTemplateManager();
     }
     
@@ -219,29 +220,9 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         tempModel.setVersion(ModelVersion.VERSION);
         tempModel.setName(Messages.SaveCanvasAsTemplateWizard_4);
 
-        // Get the Canvas copy
-        ICanvasModel copyCanvas = EcoreUtil.copy(fCanvasModel);
-        
-        // Remove any unsupported elements such as Diagram model references
-        List<EObject> toRemove = new ArrayList<EObject>();
-        
-        for(Iterator<EObject> iter = copyCanvas.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelReference) {
-                toRemove.add(eObject);
-            }
-        }
-        
-        for(EObject eObject : toRemove) {
-            EcoreUtil.delete(eObject);
-        }
-        
-        // Generate new IDs
-        TemplateUtils.generateNewUUIDs(copyCanvas);
-        
         // Add the canvas copy to a new Views folder
-        IFolder folder = tempModel.getDefaultFolderForObject(copyCanvas);
-        folder.getElements().add(copyCanvas);
+        IFolder folder = tempModel.getDefaultFolderForObject(fCanvasModel);
+        folder.getElements().add(fCanvasModel);
         
         // Use an Archive Manager to save it
         IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(tempModel);
@@ -251,9 +232,34 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         return tmpFile;
     }
     
+    private ICanvasModel createCanvasCopy(ICanvasModel canvasModel) {
+        ICanvasModel copyCanvas = EcoreUtil.copy(canvasModel);
+        
+        // Remove any unsupported elements
+        List<IDiagramModelReference> toRemove = new ArrayList<IDiagramModelReference>();
+        
+        for(Iterator<EObject> iter = copyCanvas.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            // Diagram model references and their connections will be orphaned
+            if(eObject instanceof IDiagramModelReference) {
+                toRemove.add((IDiagramModelReference)eObject);
+            }
+        }
+        
+        for(IDiagramModelReference eObject : toRemove) {
+            DiagramCommandFactory.createDeleteDiagramObjectCommand(eObject).execute();
+        }
+        
+        // Generate new IDs
+        TemplateUtils.generateNewUUIDs(copyCanvas);
+        
+        return copyCanvas;
+    }
+    
     @Override
     public void dispose() {
         super.dispose();
         fTemplateManager.dispose();
+        fCanvasModel = null;
     }
 }
