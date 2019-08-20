@@ -199,11 +199,15 @@ implements IEditorModelManager {
         }
         
         model = loadModel(file);
+        
         if(model != null) {
-            // Open Views of newly opened model if set in Preferences
+            // Open Views of newly opened model if set in Preferences up to a maximum for safety
             if(Preferences.doOpenDiagramsOnLoad()) {
+                int max = 0;
                 for(IDiagramModel dm : model.getDiagramModels()) {
-                    EditorManager.openDiagramEditor(dm);
+                    if(max++ < 30) {
+                        EditorManager.openDiagramEditor(dm);
+                    }
                 }
             }
             
