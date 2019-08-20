@@ -10,11 +10,8 @@ import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
@@ -40,19 +37,14 @@ import com.archimatetool.templates.wizard.TemplateUtils;
  */
 public class NewCanvasFromTemplateWizard extends Wizard {
     
-    private IArchimateModel fModel;
-    
-    private String fErrorMessage;
-    
     private NewCanvasFromTemplateWizardPage fMainPage;
     
     private TemplateManager fTemplateManager;
     
-    private ICanvasModel fCanvasModel;
+    private ITemplate fSelectedTemplate;
     
-    public NewCanvasFromTemplateWizard(IArchimateModel model) {
+    public NewCanvasFromTemplateWizard() {
         setWindowTitle(Messages.NewCanvasFromTemplateWizard_0);
-        fModel = model;
         fTemplateManager = new CanvasTemplateManager();
     }
     
@@ -62,59 +54,25 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         addPage(fMainPage);
     }
     
-    /**
-     * @return The newly created Canvas Model or null
-     */
-    public ICanvasModel getCanvasModel() {
-        return fCanvasModel;
-    }
-
     @Override
     public boolean performFinish() {
         // Get template
-        ITemplate template = fMainPage.getSelectedTemplate();
-        if(template == null) {
-            return false;
-        }
-
-        getContainer().getShell().setVisible(false);
-        fErrorMessage = null;
-        
-        final File zipFile = template.getFile();
-        if(zipFile != null && zipFile.exists()) {
-            BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        fErrorMessage = null;
-                        File tmp = File.createTempFile("~architemplate", null); //$NON-NLS-1$
-                        tmp.deleteOnExit();
-                        File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
-                        if(file != null && file.exists()) {
-                            createNewCanvasFromTemplate(file);
-                        }
-                        else {
-                            fErrorMessage = Messages.NewCanvasFromTemplateWizard_1;
-                        }
-                        tmp.delete();
-                    }
-                    catch(Exception ex) {
-                        ex.printStackTrace();
-                        fErrorMessage = Messages.NewCanvasFromTemplateWizard_2 + " " + ex.getMessage(); //$NON-NLS-1$
-                    }
-                }
-            });
-        }
-        
-        if(fErrorMessage != null) {
-            MessageDialog.openError(getShell(), Messages.NewCanvasFromTemplateWizard_3, fErrorMessage);
-            getContainer().getShell().setVisible(true);
-        }
-        
-        return fErrorMessage == null;
+        fSelectedTemplate = fMainPage.getSelectedTemplate();
+        return fSelectedTemplate != null;
     }
 
-    private void createNewCanvasFromTemplate(File file) throws IncompatibleModelException, IOException {
+    /**
+     * Create a new canvas model from the template
+     * @param model The model in which the new canvas view should be created
+     * @return the new canvas model or null
+     * @throws IOException
+     */
+    public ICanvasModel getNewCanvasModel(IArchimateModel model) throws IOException {
+        File file = getTempModelFile();
+        if(file == null || !file.exists()) {
+            return null;
+        }
+        
         // Ascertain if this is a zip file
         boolean isArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
@@ -137,9 +95,8 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             }
             // Incompatible
             catch(IncompatibleModelException ex1) {
-                fErrorMessage = NLS.bind(Messages.NewCanvasFromTemplateWizard_4, file)
-                                + "\n" + ex1.getMessage(); //$NON-NLS-1$
-                throw ex1;
+                throw new IOException(NLS.bind(Messages.NewCanvasFromTemplateWizard_1, file)
+                        + "\n" + ex1.getMessage()); //$NON-NLS-1$
             }
         }
         
@@ -153,22 +110,42 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         // Pull out the Canvas model
         IArchimateModel templateModel = (IArchimateModel)resource.getContents().get(0);
         IFolder folderViews = templateModel.getFolder(FolderType.DIAGRAMS);
-        fCanvasModel = (ICanvasModel)folderViews.getElements().get(0);
+        ICanvasModel canvasModel = (ICanvasModel)folderViews.getElements().get(0);
 
         // Create New UUIDs for elements...
-        TemplateUtils.generateNewUUIDs(fCanvasModel);
+        TemplateUtils.generateNewUUIDs(canvasModel);
         
         // Load the images from the template model's file now
         if(isArchiveFormat) {
-            IArchiveManager archiveManager = (IArchiveManager)fModel.getAdapter(IArchiveManager.class);
+            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
             archiveManager.loadImagesFromModelFile(file); 
         }
+        
+        file.delete();
+        
+        return canvasModel;
+    }
+    
+    /**
+     * @return The extracted model from the canvas template as a temporary file or null
+     * @throws IOException
+     */
+    public File getTempModelFile() throws IOException {
+        if(fSelectedTemplate == null) {
+            return null;
+        }
+        
+        File zipFile = fSelectedTemplate.getFile();
+        
+        File tmpFile = File.createTempFile("~architemplate", null); //$NON-NLS-1$
+        tmpFile.deleteOnExit();
+        
+        return ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmpFile);
     }
     
     @Override
     public void dispose() {
         super.dispose();
         fTemplateManager.dispose();
-        fModel = null;
     }
 }

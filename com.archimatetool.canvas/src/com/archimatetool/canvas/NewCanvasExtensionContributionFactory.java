@@ -5,6 +5,7 @@
  */
 package com.archimatetool.canvas;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.expressions.EvaluationResult;
@@ -16,9 +17,11 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.ExtensionContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
@@ -115,7 +118,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
     };
     
     /**
-     * Action to create Canvas based on Template
+     * Action to create new Canvas based on Template
      */
     private class NewCanvasFromTemplateAction extends Action {
         @Override
@@ -126,17 +129,24 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
         @Override
         public void run() {
             if(fCurrentFolder != null) {
-                NewCanvasFromTemplateWizard wizard = new NewCanvasFromTemplateWizard(fCurrentFolder.getArchimateModel());
+                NewCanvasFromTemplateWizard wizard = new NewCanvasFromTemplateWizard();
                 WizardDialog dialog = new ExtendedWizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                       wizard,
                                       "NewCanvasFromTemplateWizard"); //$NON-NLS-1$
                 
                 if(dialog.open() == Window.OK) {
-                    ICanvasModel canvasModel = wizard.getCanvasModel();
-                    if(canvasModel != null) {
-                        Command cmd = new NewDiagramCommand(fCurrentFolder, canvasModel, Messages.NewCanvasExtensionContributionFactory_3);
-                        CommandStack commandStack = (CommandStack)fCurrentFolder.getAdapter(CommandStack.class);
-                        commandStack.execute(cmd);
+                    try {
+                        ICanvasModel canvasModel = wizard.getNewCanvasModel(fCurrentFolder.getArchimateModel());
+                        if(canvasModel != null) {
+                            Command cmd = new NewDiagramCommand(fCurrentFolder, canvasModel, Messages.NewCanvasExtensionContributionFactory_3);
+                            CommandStack commandStack = (CommandStack)fCurrentFolder.getAdapter(CommandStack.class);
+                            commandStack.execute(cmd);
+                        }
+                    }
+                    catch(IOException ex) {
+                        ex.printStackTrace();
+                        MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                                Messages.NewCanvasExtensionContributionFactory_1, ex.getMessage());
                     }
                 }
             }

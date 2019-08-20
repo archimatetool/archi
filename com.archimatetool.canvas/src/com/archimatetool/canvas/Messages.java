@@ -47,6 +47,8 @@ public class Messages extends NLS {
 
     public static String NewModelWithCanvasExtensionContributionFactory_1;
 
+    public static String NewModelWithCanvasExtensionContributionFactory_2;
+
     public static String SaveAsCanvasExtensionContributionFactory_0;
     static {
         // initialize resource bundle

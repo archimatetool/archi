@@ -8,10 +8,7 @@ package com.archimatetool.templates.impl.wizard;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.services.UIRequestManager;
@@ -35,9 +32,9 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
     
     private NewArchimateModelFromTemplateWizardPage fMainPage;
     
-    private String fErrorMessage;
-
     private TemplateManager fTemplateManager;
+    
+    private ITemplate fSelectedTemplate;
     
     public NewArchimateModelFromTemplateWizard() {
         setWindowTitle(Messages.NewArchimateModelFromTemplateWizard_0);
@@ -53,64 +50,58 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
     @Override
     public boolean performFinish() {
         // Get template
-        ITemplate template = fMainPage.getSelectedTemplate();
-        if(template == null) {
-            return false;
-        }
-
-        getContainer().getShell().setVisible(false);
-        
-        fErrorMessage = null;
-        final File zipFile = template.getFile();
-        if(zipFile != null && zipFile.exists()) {
-            BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        File tmp = File.createTempFile("~architemplate", null); //$NON-NLS-1$
-                        tmp.deleteOnExit();
-                        File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
-                        if(file != null && file.exists()) {
-                            IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
-                            if(model != null) {
-                                // New name
-                                model.setName(Messages.NewArchimateModelFromTemplateWizard_1 + " " + model.getName()); //$NON-NLS-1$
-                                
-                                // Set latest model version (need to do this in case we immediately save as Template)
-                                model.setVersion(ModelVersion.VERSION);
-                                
-                                // Set file to null
-                                model.setFile(null);
-                                
-                                // New IDs
-                                TemplateUtils.generateNewUUIDs(model);
-                                
-                                // Edit in-place in Tree
-                                UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));
-                            }
-                            else {
-                                fErrorMessage = Messages.NewArchimateModelFromTemplateWizard_2;
-                            }
-                        }
-                        else {
-                            fErrorMessage = Messages.NewArchimateModelFromTemplateWizard_2;
-                        }
-                        tmp.delete();
-                    }
-                    catch(IOException ex) {
-                        ex.printStackTrace();
-                        fErrorMessage = ex.getMessage();
-                    }
-                }
-            });
+        fSelectedTemplate = fMainPage.getSelectedTemplate();
+        return fSelectedTemplate != null;
+    }
+    
+    /**
+     * Create and open a new model based on the selected template
+     * @return The model or null
+     * @throws IOException
+     */
+    public IArchimateModel createNewModel() throws IOException {
+        File file = getTempModelFile();
+        if(file == null || !file.exists()) {
+            return null;
         }
         
-        if(fErrorMessage != null) {
-            MessageDialog.openError(getShell(), Messages.NewArchimateModelFromTemplateWizard_3, fErrorMessage);
-            getContainer().getShell().setVisible(true);
+        IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
+        
+        if(model != null) {
+            // New name
+            model.setName(Messages.NewArchimateModelFromTemplateWizard_1 + " " + model.getName()); //$NON-NLS-1$
+            
+            // Set latest model version (need to do this in case we immediately save as Template)
+            model.setVersion(ModelVersion.VERSION);
+            
+            // Set file to null
+            model.setFile(null);
+            
+            // New IDs
+            TemplateUtils.generateNewUUIDs(model);
+            
+            // Edit in-place in Tree
+            UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));
         }
         
-        return fErrorMessage == null;
+        return model;
+    }
+    
+    /**
+     * @return The extracted model from the canvas template as a temporary file or null
+     * @throws IOException
+     */
+    private File getTempModelFile() throws IOException {
+        if(fSelectedTemplate == null) {
+            return null;
+        }
+        
+        File zipFile = fSelectedTemplate.getFile();
+        
+        File tmpFile = File.createTempFile("~architemplate", null); //$NON-NLS-1$
+        tmpFile.deleteOnExit();
+        
+        return ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmpFile);
     }
 
     @Override
