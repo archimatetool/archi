@@ -20,7 +20,7 @@ import com.archimatetool.editor.ui.UIUtils;
  */
 public class TreeTextCellEditor extends TextCellEditor {
     int minHeight = 0;
-    CellEditorGlobalActionHandler fGlobalActionHandler;
+    GlobalActionDisablementHandler fGlobalActionHandler;
 
     public TreeTextCellEditor(Tree tree) {
         super(tree, SWT.BORDER);
@@ -50,7 +50,7 @@ public class TreeTextCellEditor extends TextCellEditor {
     @Override
     public void activate() {
         // Clear global key binds
-        fGlobalActionHandler = new CellEditorGlobalActionHandler();
+        fGlobalActionHandler = new GlobalActionDisablementHandler();
         fGlobalActionHandler.clearGlobalActions();
     }
     

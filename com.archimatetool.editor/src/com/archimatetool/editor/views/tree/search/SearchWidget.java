@@ -40,7 +40,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
+import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -72,13 +72,13 @@ public class SearchWidget extends Composite {
     
     // Hook into the global edit Action Handlers and null them when the text control has the focus
     private Listener textControlListener = new Listener() {
-        private CellEditorGlobalActionHandler globalActionHandler;
+        private GlobalActionDisablementHandler globalActionHandler;
         
         @Override
         public void handleEvent(Event event) {
             switch(event.type) {
                 case SWT.Activate:
-                    globalActionHandler = new CellEditorGlobalActionHandler();
+                    globalActionHandler = new GlobalActionDisablementHandler();
                     globalActionHandler.clearGlobalActions();
                     break;
 

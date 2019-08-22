@@ -93,8 +93,8 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
 import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.utils.HTMLUtils;
@@ -881,13 +881,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      */
     private void hookCellEditorGlobalActionHandler(CellEditor cellEditor) {
         Listener listener = new Listener() {
-            CellEditorGlobalActionHandler globalActionHandler;
+            GlobalActionDisablementHandler globalActionHandler;
             
             @Override
             public void handleEvent(Event event) {
                 switch(event.type) {
                     case SWT.Activate:
-                        globalActionHandler = new CellEditorGlobalActionHandler();
+                        globalActionHandler = new GlobalActionDisablementHandler();
                         globalActionHandler.clearGlobalActions();
                         break;
 

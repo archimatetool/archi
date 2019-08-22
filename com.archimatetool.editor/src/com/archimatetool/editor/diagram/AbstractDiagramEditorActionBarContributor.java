@@ -38,7 +38,6 @@ import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
-import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -47,6 +46,7 @@ import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
@@ -54,7 +54,7 @@ import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
+import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -314,7 +314,7 @@ extends ActionBarContributor {
         // Add the Zoom Manager Combo
         fZoomCombo = new ZoomComboContributionItem(getPage()) {
             // Hook into the Combo so we can disable global edit action handlers when it gets the focus
-            private CellEditorGlobalActionHandler globalActionHandler;
+            private GlobalActionDisablementHandler globalActionHandler;
             
             @Override
             protected Control createControl(Composite parent) {
@@ -323,7 +323,7 @@ extends ActionBarContributor {
                 combo.addFocusListener(new FocusListener() {
                     @Override
                     public void focusGained(FocusEvent e) {
-                        globalActionHandler = new CellEditorGlobalActionHandler(getActionBars());
+                        globalActionHandler = new GlobalActionDisablementHandler(getActionBars());
                         globalActionHandler.clearGlobalActions();
                     }
 

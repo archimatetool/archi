@@ -20,10 +20,13 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 /**
  * Manages de-activating and restoring of editing type global Action Handlers setting them to null
  * so that they cannot be invoked by the user when editing text in a text cell editor.<p>
- * This ensures that edit key shortcuts are bound to the cell editor, not the application. 
+ * This ensures that edit key shortcuts are bound to the cell editor, not the application.
+ * 
+ * This class is Deprecated. Use GlobalActionDisablementHandler instead
  * 
  * @author Phillip Beauvoir
  */
+@Deprecated
 public class CellEditorGlobalActionHandler {
 
     private IActionBars fActionBars;

@@ -12,7 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 
-import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
+import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -24,7 +24,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
  */
 public abstract class AbstractDirectEditManager extends DirectEditManager {
     
-    private CellEditorGlobalActionHandler fGlobalActionHandler;
+    private GlobalActionDisablementHandler fGlobalActionHandler;
 
     public AbstractDirectEditManager(GraphicalEditPart source, @SuppressWarnings("rawtypes") Class editorType, CellEditorLocator locator) {
         super(source, editorType, locator);
@@ -33,7 +33,7 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
     @Override
     protected void initCellEditor() {
         // Hook into the global Action Handlers and null them
-        fGlobalActionHandler = new CellEditorGlobalActionHandler();
+        fGlobalActionHandler = new GlobalActionDisablementHandler();
         fGlobalActionHandler.clearGlobalActions();
         
         // Stop OS X closing Mac Full Screen when Escape pressed
