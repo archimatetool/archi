@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor.ui.components;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IActionBars;
@@ -43,7 +44,7 @@ public class GlobalActionDisablementHandler {
             ActionFactory.REDO.getId()
     };
     
-    private Set<IAction> savedActions = new HashSet<IAction>();
+    private Map<String, IAction> savedActions = new HashMap<String, IAction>();
     private IActionBars actionBars;
     
     
@@ -89,7 +90,7 @@ public class GlobalActionDisablementHandler {
             for(String id : actionIds) {
                 IAction action = actionBars.getGlobalActionHandler(id);
                 if(action != null) {
-                    savedActions.add(action); // save action to restore it
+                    savedActions.put(id, action); // save action to restore it
                     actionBars.setGlobalActionHandler(id, null); // null it
                 }
             }
@@ -105,8 +106,8 @@ public class GlobalActionDisablementHandler {
     public void restoreGlobalActions() {
         if(actionBars != null) {
             // Restore Actions
-            for(IAction action : savedActions) {
-                actionBars.setGlobalActionHandler(action.getId(), action);
+            for(Entry<String, IAction> entry : savedActions.entrySet()) {
+                actionBars.setGlobalActionHandler(entry.getKey(), entry.getValue());
             }
             
             savedActions.clear();
