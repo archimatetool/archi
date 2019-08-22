@@ -87,6 +87,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -881,19 +882,27 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      */
     private void hookCellEditorGlobalActionHandler(CellEditor cellEditor) {
         Listener listener = new Listener() {
-            GlobalActionDisablementHandler globalActionHandler;
+            // We have to disable the action handlers of the the active Editor/View site *and* the Properties View Site
+            GlobalActionDisablementHandler propertiesViewGlobalActionHandler, globalActionHandler;
             
             @Override
             public void handleEvent(Event event) {
                 switch(event.type) {
                     case SWT.Activate:
+                        // The Properties View site action bars
+                        IActionBars actionBars = fPage.getSite().getActionBars();
+                        propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
+                        propertiesViewGlobalActionHandler.clearGlobalActions();
+                        
+                        // The active View or Editor site's action bars also have to be updated
                         globalActionHandler = new GlobalActionDisablementHandler();
-                        globalActionHandler.clearGlobalActions();
+                        globalActionHandler.update();
                         break;
 
                     case SWT.Deactivate:
-                        if(globalActionHandler != null) {
-                            globalActionHandler.restoreGlobalActions();
+                        if(propertiesViewGlobalActionHandler != null) {
+                            propertiesViewGlobalActionHandler.restoreGlobalActions();
+                            globalActionHandler.update();
                         }
                         break;
 
