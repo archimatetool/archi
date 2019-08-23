@@ -151,7 +151,7 @@
     </context>
     <context id="ImageManagerDialog" title="Select an Image">
        <description>Select an Image</description>
-       <topic href="help/Text/image_chooser.html" label="Adding Images to Elements"/>
+       <topic href="help/Text/image_chooser.html" label="Adding Images to Objects"/>
     </context>
     <context id="NewCanvasFromTemplateWizardPage" title="Creating a New Canvas from a Template">
        <description>Create a new Canvas based on an existing template.</description>
