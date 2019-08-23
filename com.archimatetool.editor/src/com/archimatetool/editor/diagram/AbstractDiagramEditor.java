@@ -132,6 +132,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
+import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -1037,13 +1038,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Disable Actions
         disableActions();
         
-        // Can be garbage collected
-        fDiagramModel = null;
-        
-        // Very important to release the reference to the IDiagramModel in the DiagramEditorInput
-        // because it is not released by the system
+        // Release the reference to the IDiagramModel in the DiagramEditorInput because it is not released by the system
+        // And can't be garbage collected
         if(getEditorInput() instanceof DiagramEditorInput) {
-            ((DiagramEditorInput)getEditorInput()).dispose();
+            int openEditors = EditorManager.getDiagramEditorReferences(fDiagramModel).length;
+            if(openEditors == 0) { // There may be more than one instance open (split editor) sharing the same DiagramEditorInput
+                ((DiagramEditorInput)getEditorInput()).dispose();
+            }
         }
+
+        // Can now be garbage collected
+        fDiagramModel = null;
     }
 }

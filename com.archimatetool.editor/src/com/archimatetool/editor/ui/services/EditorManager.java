@@ -127,17 +127,7 @@ public class EditorManager {
         }
         
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        for(IEditorReference ref : page.getEditorReferences()) {
-            try {
-                IEditorInput input = ref.getEditorInput();
-                if(input instanceof DiagramEditorInput && ((DiagramEditorInput)input).getDiagramModel() == diagramModel) {
-                    page.closeEditors(new IEditorReference[] {ref}, false);
-                }
-            }
-            catch(PartInitException ex) {
-                ex.printStackTrace();
-            }
-        }
+        page.closeEditors(getDiagramEditorReferences(diagramModel), false);
     }
     
     /**
@@ -168,5 +158,30 @@ public class EditorManager {
             IEditorReference[] refs = list.toArray(new IEditorReference[list.size()]);
             page.closeEditors(refs, false);
         }
+    }
+    
+    /**
+     * @param diagramModel
+     * @return All editor references that have diagramModel in their editor input
+     */
+    public static IEditorReference[] getDiagramEditorReferences(IDiagramModel diagramModel) {
+        List<IEditorReference> list = new ArrayList<IEditorReference>();
+        
+        if(diagramModel != null && PlatformUI.isWorkbenchRunning()) {
+            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            for(IEditorReference ref : page.getEditorReferences()) {
+                try {
+                    IEditorInput input = ref.getEditorInput();
+                    if(input instanceof DiagramEditorInput && ((DiagramEditorInput)input).getDiagramModel() == diagramModel) {
+                        list.add(ref);
+                    }
+                }
+                catch(PartInitException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        
+        return list.toArray(new IEditorReference[list.size()]);
     }
 }
