@@ -39,7 +39,7 @@ implements IEditorInput, IPersistableElement {
     
     @Override
     public boolean exists() {
-        return fModel.getArchimateModel() != null;
+        return false;
     }
 
     @Override
