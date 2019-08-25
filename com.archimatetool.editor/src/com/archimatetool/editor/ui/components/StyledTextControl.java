@@ -27,8 +27,6 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -64,6 +62,8 @@ public class StyledTextControl implements Listener, LineStyleListener {
     
     private List<int[]> fLinkRanges;
     private List<String> fLinks;
+    
+    private String originalText = "", editedText = ""; //$NON-NLS-1$ //$NON-NLS-2$
         
     private IAction fActionSelectAll = new Action(Messages.StyledTextControl_0) {
         @Override
@@ -111,39 +111,35 @@ public class StyledTextControl implements Listener, LineStyleListener {
         
         fHandCursor = new Cursor(styledText.getDisplay(), SWT.CURSOR_HAND);
         
-        fStyledText.addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                if(fHandCursor != null && !fHandCursor.isDisposed()) {
-                    fHandCursor.dispose();
-                    fHandCursor = null;
-                }
-                
-                fStyledText.removeListener(SWT.MouseUp, StyledTextControl.this);
-                fStyledText.removeListener(SWT.MouseMove, StyledTextControl.this);
-                fStyledText.removeListener(SWT.MouseVerticalWheel, StyledTextControl.this);
-                fStyledText.removeListener(SWT.KeyDown, StyledTextControl.this);
-                fStyledText.removeListener(SWT.KeyUp, StyledTextControl.this);
-                
-                fStyledText.removeLineStyleListener(StyledTextControl.this);
-                
-                fCurrentCursor = null;
-                fLinks = null;
-                
-                if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
-                    fCurrentFont.dispose();
-                    fCurrentFont = null;
-                }
-            }
-        });
+        final int[] eventTypes = {SWT.MouseUp, SWT.MouseMove, SWT.MouseVerticalWheel, SWT.KeyDown, SWT.KeyUp, SWT.FocusIn};
         
-        fStyledText.addListener(SWT.MouseUp, this);
-        fStyledText.addListener(SWT.MouseMove, this);
-        fStyledText.addListener(SWT.MouseVerticalWheel, this);
-        fStyledText.addListener(SWT.KeyDown, this);
-        fStyledText.addListener(SWT.KeyUp, this);
+        for(int type : eventTypes) {
+            fStyledText.addListener(type, this);
+        }
         
         fStyledText.addLineStyleListener(this);
+        
+        fStyledText.addDisposeListener((event)-> {
+            if(fHandCursor != null && !fHandCursor.isDisposed()) {
+                fHandCursor.dispose();
+                fHandCursor = null;
+            }
+
+            if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
+                fCurrentFont.dispose();
+                fCurrentFont = null;
+            }
+
+            for(int type : eventTypes) {
+                fStyledText.removeListener(type, this);
+            }
+
+            fStyledText.removeLineStyleListener(this);
+
+            fCurrentCursor = null;
+            fLinks = null;
+            fStyledText = null;
+        });
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(fStyledText);
@@ -254,10 +250,6 @@ public class StyledTextControl implements Listener, LineStyleListener {
         return fStyledText;
     }
     
-    public String setText() {
-        return fStyledText.getText();
-    }
-    
     /**
      * Scan links using method 1
      */
@@ -362,6 +354,12 @@ public class StyledTextControl implements Listener, LineStyleListener {
             case SWT.KeyUp:
                 doKeyUp(event);
                 break;
+            case SWT.FocusIn:
+                // Store original text in case of local Undo
+                // If we are showing hint text then the actual text is the empty string
+                originalText = fStyledText.getData("hintSet") != null ? "" : fStyledText.getText(); //$NON-NLS-1$ //$NON-NLS-2$
+                editedText = originalText;
+                break;
         }
     }
 
@@ -421,10 +419,10 @@ public class StyledTextControl implements Listener, LineStyleListener {
         if(isModKeyPressed(e)) {
             // Frig it...
             if(e.count < 0) {
-                e.character = '-';
+                e.keyCode = '-';
             }
             else {
-                e.character = '+';
+                e.keyCode = '+';
             }
             
             checkZoomKeys(e);
@@ -451,20 +449,44 @@ public class StyledTextControl implements Listener, LineStyleListener {
             }
         }
         
-        // Zoom keys when Ctrl/Command key pressed and +, =, - , 0
         if(isModKeyPressed(e)) {
+            checkUndoPressed(e);
             checkZoomKeys(e);
         }
     }
     
     /**
+     * Undo pressed
+     */
+    private void checkUndoPressed(Event e) {
+        if(e.keyCode == 'z') {
+            String text = fStyledText.getText();
+            
+            // Toggle between original text and edited text
+            if(text.equals(originalText)) {
+                if(!originalText.equals(editedText)) {
+                    fStyledText.setText(editedText);
+                    fStyledText.setTopIndex(fStyledText.getLineCount() - 1); 
+                    fStyledText.setCaretOffset(fStyledText.getText().length());
+                }
+            }
+            else {
+                fStyledText.setText(originalText);
+                fStyledText.setTopIndex(fStyledText.getLineCount() - 1);
+                fStyledText.setCaretOffset(fStyledText.getText().length());
+            }
+            
+            editedText = text;
+        }
+    }
+
+    /**
      * Check for zoom keys
-     * @param e
      */
     private void checkZoomKeys(Event e) {
         int factor = 0;
         
-        switch(e.character) {
+        switch(e.keyCode) {
             case '=':
             case '+':
                 factor = 2;
