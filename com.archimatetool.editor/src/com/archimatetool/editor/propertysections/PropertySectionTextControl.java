@@ -9,8 +9,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -26,7 +24,7 @@ import com.archimatetool.editor.utils.StringUtils;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class PropertySectionTextControl implements FocusListener {
+public abstract class PropertySectionTextControl implements Listener {
     
     private Control fTextControl;
     private String fHint;
@@ -44,17 +42,19 @@ public abstract class PropertySectionTextControl implements FocusListener {
         fTextForegroundColor = fTextControl.getForeground();
         fFeature = feature;
         
-        textControl.addFocusListener(this);
+        textControl.addListener(SWT.FocusIn, this);
+        textControl.addListener(SWT.FocusOut, this);
         
-        // Listen for Return keypress on SINGLE text controls
-        if((textControl.getStyle() & SWT.SINGLE) != 0) {
-            textControl.addListener(SWT.DefaultSelection, new Listener() {
-                @Override
-                public void handleEvent(Event e) {
-                    updateText();
-                }
-            });
+        // Listen for Return keypress on Single text control
+        if(isSingleTextControl()) {
+            textControl.addListener(SWT.DefaultSelection, this);
         }
+        
+        textControl.addDisposeListener((event)-> {
+            textControl.removeListener(SWT.FocusIn, this);
+            textControl.removeListener(SWT.FocusOut, this);
+            textControl.removeListener(SWT.DefaultSelection, this);
+        });
     }
     
     public void setHint(String hint) {
@@ -92,14 +92,28 @@ public abstract class PropertySectionTextControl implements FocusListener {
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
+    public void handleEvent(Event event) {
+        switch(event.type) {
+            case SWT.FocusIn:
+                focusGained();
+                break;
+            case SWT.FocusOut:
+                focusLost();
+                break;
+            case SWT.DefaultSelection:
+                updateText();
+                break;
+        }
+    }
+    
+    public void focusGained() {
         if(fHintShowing) {
-            showNormalText(""); // clear hint text //$NON-NLS-1$
+            // clear hint text 
+            showNormalText(""); //$NON-NLS-1$
         }
     }
 
-    @Override
-    public void focusLost(FocusEvent e) {
+    public void focusLost() {
         updateText();
         
         String newText = getText();
@@ -124,6 +138,9 @@ public abstract class PropertySectionTextControl implements FocusListener {
     private void showHintText() {
         if(fHint != null) {
             fTextControl.setForeground(greyColor);
+            // do this before setting text
+            fTextControl.setData("hintSet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+            // then set text
             setText(fHint);
             fHintShowing = true;
         }
@@ -135,6 +152,8 @@ public abstract class PropertySectionTextControl implements FocusListener {
     private void showNormalText(String text) {
         fTextControl.setForeground(fTextForegroundColor);
         setText(StringUtils.safeString(text));
+        // do this after setting text
+        fTextControl.setData("hintSet", null); //$NON-NLS-1$
         fHintShowing = false;
     }
     
@@ -155,6 +174,10 @@ public abstract class PropertySectionTextControl implements FocusListener {
         if(fTextControl instanceof StyledText) {
             ((StyledText)fTextControl).setText(s);
         }
+    }
+    
+    private boolean isSingleTextControl() {
+        return (fTextControl.getStyle() & SWT.SINGLE) != 0;
     }
 
     /**

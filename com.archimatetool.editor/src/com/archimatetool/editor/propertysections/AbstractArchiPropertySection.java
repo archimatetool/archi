@@ -17,14 +17,18 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -109,6 +113,9 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         
         // Add Focus Listener for Mac Kludge
         addFocusListener(textControl);
+        
+        // Add listener to disable global actions when it gets the focus
+        addGlobalActionDisablementListener(textControl);
 
         GridData gd = new GridData(SWT.FILL, SWT.NULL, true, false);
         // This stops excess size if the control contains a lot of text
@@ -123,6 +130,10 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      */
     protected StyledTextControl createStyledTextControl(Composite parent, int style) {
         StyledTextControl styledTextControl = new StyledTextControl(parent, style | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        
+        // Add listener to disable global actions when it gets the focus
+        addGlobalActionDisablementListener(styledTextControl.getControl());
+        
         //Text textControl = getWidgetFactory().createText(parent, null, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
         GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         // This stops excess size if the control contains a lot of text
@@ -192,6 +203,75 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         return tableComp;
     }
     
+    // =========================== Global Action Disablement ==================================
+    // When a text control gets the focus we don't want global action handlers like Undo/Redo
+    // to be enabled otherwise the user thinks they are Undoing local text edits and actually
+    // they are undoing the last thing on the global Command stack
+    
+    private class TextControlGlobalActionDisablementListener implements Listener {
+        // We have to disable the action handlers of the the active Editor/View site *and* the Properties View Site
+        private GlobalActionDisablementHandler propertiesViewGlobalActionHandler, globalActionHandler;
+        
+        @Override
+        public void handleEvent(Event event) {
+            switch(event.type) {
+                case SWT.FocusIn:
+                    event.widget.addListener(SWT.Modify, this);
+                    break;
+                
+                case SWT.Modify:
+                    if(propertiesViewGlobalActionHandler != null // We already got one...
+                                || event.widget.getData("hintSet") != null) { // Hint is being set so don't disable //$NON-NLS-1$
+                        return;
+                    }
+                    
+                    // The Properties View site action bars
+                    IActionBars actionBars = fPage.getSite().getActionBars();
+                    propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
+                    propertiesViewGlobalActionHandler.clearGlobalActions();
+                    
+                    // The active View or Editor site's action bars also have to be updated
+                    globalActionHandler = new GlobalActionDisablementHandler();
+                    globalActionHandler.update();
+                    
+                    break;
+
+                case SWT.FocusOut:
+                    event.widget.removeListener(SWT.Modify, this);
+                    // fall through
+                case SWT.DefaultSelection:
+                    if(propertiesViewGlobalActionHandler != null && globalActionHandler != null) {
+                        propertiesViewGlobalActionHandler.restoreGlobalActions();
+                        globalActionHandler.update();
+                    }
+                    
+                    propertiesViewGlobalActionHandler = null;
+                    globalActionHandler = null;
+                    
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+    };
+    
+    protected void addGlobalActionDisablementListener(Control control) {
+        final int[] eventTypes = {SWT.FocusIn, SWT.FocusOut, SWT.DefaultSelection};
+        
+        TextControlGlobalActionDisablementListener listener = new TextControlGlobalActionDisablementListener();
+        
+        for(int type : eventTypes) {
+            control.addListener(type, listener);
+        }
+        
+        control.addDisposeListener((event)-> {
+            for(int type : eventTypes) {
+                control.removeListener(type, listener);
+            }
+        });
+    }
+
     // ========================== Mac workaround ==========================
     // Used for Mac bug - see https://bugs.eclipse.org/bugs/show_bug.cgi?id=383750
     
