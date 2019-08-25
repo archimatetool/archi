@@ -61,8 +61,6 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         
         BrowserEditorInput input = (BrowserEditorInput)getEditorInput();
         
-        input.browser = fBrowser;
-        
         // Set URL
         if(input.getURL() != null) {
             fBrowser.setUrl(input.getURL());

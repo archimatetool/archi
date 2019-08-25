@@ -34,7 +34,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -171,19 +170,8 @@ public class HTMLReportExporter {
             try {
                 File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html", monitor);  //$NON-NLS-1$//$NON-NLS-2$
                 
-                // Open it in Internal Browser
-                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), fModel.getName()) {
-                    @Override
-                    public IPersistableElement getPersistable() {
-                        return null; // Don't save state
-                    }
-                    
-                    @Override
-                    public String getName() {
-                        return Messages.HTMLReportExporter_0 + super.getName();
-                    }
-                };
-                
+                // Open it in internal Browser
+                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
                 if(editor != null && editor.getBrowser() != null) {
                     editor.getBrowser().refresh();

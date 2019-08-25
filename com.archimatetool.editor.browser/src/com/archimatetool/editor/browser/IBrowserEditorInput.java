@@ -22,9 +22,19 @@ public interface IBrowserEditorInput extends IEditorInput, IPersistableElement {
     String getURL();
     
     /**
-     * @param value If true the Browser's current URL will be persisted when the app closes
-     *              otherwise the inital URL provided will be persisted.
+     * Set the URL
+     */
+    void setURL(String url);
+    
+    /**
+     * @param value If true the Browser will be persisted when the app closes
      *              The default is set to false.
      */
-    void setPersistBrowserURL(boolean value);
+    void setPersistBrowser(boolean value);
+    
+    /**
+     * This is deprecated use setPersistBrowser API instead
+     */
+    @Deprecated
+    default void setPersistBrowserURL(boolean value) {}
 }

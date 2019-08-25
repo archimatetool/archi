@@ -21,22 +21,22 @@ public class BrowserEditorInputFactory implements IElementFactory {
      * Factory id. The workbench plug-in registers a factory by this name
      * with the "org.eclipse.ui.elementFactories" extension point.
      */
-    public static final String ID_FACTORY = "com.archimatetool.editor.browser.BrowserEditorInputFactory"; //$NON-NLS-1$
+    static final String ID_FACTORY = "com.archimatetool.editor.browser.BrowserEditorInputFactory"; //$NON-NLS-1$
     
     /**
      * Tag for URL
      */
-    public static final String TAG_URL = "url"; //$NON-NLS-1$
+    static final String TAG_URL = "url"; //$NON-NLS-1$
     
     /**
      * Tag for Name
      */
-    public static final String TAG_TITLE = "title"; //$NON-NLS-1$
+    static final String TAG_TITLE = "title"; //$NON-NLS-1$
 
     /**
-     * Tag for whether to persist the Browser's current URL
+     * Tag for whether to persist the Browser
      */
-    public static final String TAG_PERSIST_BROWSER_URL = "persist_browser_url"; //$NON-NLS-1$
+    static final String TAG_PERSIST_BROWSER = "persistBrowser"; //$NON-NLS-1$
 
     @Override
     public IAdaptable createElement(IMemento memento) {
@@ -45,9 +45,9 @@ public class BrowserEditorInputFactory implements IElementFactory {
         
         IBrowserEditorInput input = new BrowserEditorInput(url, title);
 
-        Boolean persistBrowserURL = memento.getBoolean(TAG_PERSIST_BROWSER_URL);
-        if(persistBrowserURL != null) {
-            input.setPersistBrowserURL(persistBrowserURL);
+        Boolean persistBrowser = memento.getBoolean(TAG_PERSIST_BROWSER);
+        if(persistBrowser != null) {
+            input.setPersistBrowser(persistBrowser);
         }
         
         return input;

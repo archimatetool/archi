@@ -6,7 +6,6 @@
 package com.archimatetool.editor.browser;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.browser.Browser;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistableElement;
 
@@ -17,16 +16,13 @@ import org.eclipse.ui.IPersistableElement;
  */
 public class BrowserEditorInput implements IBrowserEditorInput {
 
-    Browser browser;
-    
     private String url;
-    
     private String title;
 
     /**
-     * Whether to save the Browser's current URL or the initial one provided
+     * Whether to persist and restore the Browser when closing the app
      */
-    private boolean fPersistBrowserURL;
+    private boolean fPersistBrowser;
     
     /**
      * @param url The Url to display
@@ -45,13 +41,13 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     }
     
     @Override
-    public void setPersistBrowserURL(boolean value) {
-        fPersistBrowserURL = value;
+    public void setPersistBrowser(boolean value) {
+        fPersistBrowser = value;
     }
     
     @Override
     public boolean exists() {
-    	return getURL() != null;
+    	return false;
     }
 
     @Override
@@ -62,6 +58,11 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     @Override
     public String getURL() {
         return url;
+    }
+    
+    @Override
+    public void setURL(String url) {
+        this.url = url;
     }
 
     @Override
@@ -79,14 +80,13 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         return null;
     }
     
     @Override
     public IPersistableElement getPersistable() {
-        if(getURL() == null) {
+        if(!fPersistBrowser || getURL() == null) {
             return null;
         }
 
@@ -96,19 +96,10 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     
     @Override
     public void saveState(IMemento memento) {
-        String url;
-        if(fPersistBrowserURL && browser != null && !browser.isDisposed()) {
-            url = browser.getUrl();
-        }
-        else {
-            url = getURL();
-        }
         if(url != null) {
             memento.putString(BrowserEditorInputFactory.TAG_URL, url);
             memento.putString(BrowserEditorInputFactory.TAG_TITLE, title);
-            if(fPersistBrowserURL) { // don't save if not set
-                memento.putBoolean(BrowserEditorInputFactory.TAG_PERSIST_BROWSER_URL, fPersistBrowserURL);
-            }
+            memento.putBoolean(BrowserEditorInputFactory.TAG_PERSIST_BROWSER, fPersistBrowser);
         }
     }
 
