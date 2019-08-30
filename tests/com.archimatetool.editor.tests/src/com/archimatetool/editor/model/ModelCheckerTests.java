@@ -13,10 +13,12 @@ import java.io.File;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -25,8 +27,10 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
+import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -41,6 +45,12 @@ public class ModelCheckerTests {
         return new JUnit4TestAdapter(ModelCheckerTests.class);
     }
     
+    @BeforeClass
+    public static void runOnceBeforeAllTests() {
+        // ModelChecker uses ArchiLabelProvider
+        TestUtils.ensureDefaultDisplay();
+    }
+
     @Before
     public void runBeforeEachTest() {
         tm = new ArchimateTestModel();
@@ -74,32 +84,34 @@ public class ModelCheckerTests {
     }
     
     @Test
-    public void checkHasIdentifiers() {
-        List<String> messages = modelChecker.checkHasIdentifiers();
+    public void checkHasIdentifier() {
+        IArchimateConcept concept = IArchimateFactory.eINSTANCE.createBusinessObject();
+        concept.setName("Test");
+        
+        List<String> messages = modelChecker.checkHasIdentifier(concept);
         assertEquals(0, messages.size());
         
-        model.getFolder(FolderType.BUSINESS).setId(null);
-        
-        messages = modelChecker.checkHasIdentifiers();
+        concept.setId(null);
+        messages = modelChecker.checkHasIdentifier(concept);
         assertEquals(1, messages.size());
-        assertEquals("No identifier set on Business", messages.get(0));
+        assertEquals("No identifier set on Test", messages.get(0));
     }
 
     @Test
-    public void checkRelationsHaveElements() {
+    public void checkRelation() {
         IArchimateElement src = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateElement tgt = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateRelationship relation = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
         relation.setSource(src);
         relation.setTarget(tgt);
 
-        List<String> messages = modelChecker.checkRelationsHaveElements();
+        List<String> messages = modelChecker.checkRelationship(relation);
         assertEquals(0, messages.size());
         
         relation.setSource(null);
         relation.setTarget(null);
         
-        messages = modelChecker.checkRelationsHaveElements();
+        messages = modelChecker.checkRelationship(relation);
         assertEquals(2, messages.size());
         assertTrue(messages.get(0).startsWith("Relationship has missing referenced source element"));
         assertTrue(messages.get(1).startsWith("Relationship has missing referenced target element"));
@@ -109,14 +121,14 @@ public class ModelCheckerTests {
         model.getFolder(FolderType.BUSINESS).getElements().remove(src);
         model.getFolder(FolderType.BUSINESS).getElements().remove(tgt);
         
-        messages = modelChecker.checkRelationsHaveElements();
+        messages = modelChecker.checkRelationship(relation);
         assertEquals(2, messages.size());
         assertTrue(messages.get(0).startsWith("Relationship has orphaned source element"));
         assertTrue(messages.get(1).startsWith("Relationship has orphaned target element"));
     }
 
     @Test
-    public void checkDiagramObjectsReferences_Object() {
+    public void checkDiagramModelArchimateObject() {
         model.getDefaultDiagramModel().setName("dm");
         
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
@@ -125,18 +137,18 @@ public class ModelCheckerTests {
         dmo.setArchimateElement(element);
         model.getDefaultDiagramModel().getChildren().add(dmo);
         
-        List<String> messages = modelChecker.checkDiagramObjectsReferences();
+        List<String> messages = modelChecker.checkDiagramModelArchimateObject(dmo);
         assertEquals(0, messages.size());
         
         model.getFolder(FolderType.BUSINESS).getElements().remove(element);
         
-        messages = modelChecker.checkDiagramObjectsReferences();
+        messages = modelChecker.checkDiagramModelArchimateObject(dmo);
         assertEquals(1, messages.size());
         assertTrue(messages.get(0).startsWith("Diagram Element has orphaned ArchiMate element in 'dm'"));
     }
     
     @Test
-    public void checkDiagramObjectsReferences_Connection() {
+    public void checkDiagramModelArchimateConnection() {
         model.getDefaultDiagramModel().setName("dm");
         
         IArchimateElement actor = IArchimateFactory.eINSTANCE.createBusinessActor();
@@ -153,20 +165,35 @@ public class ModelCheckerTests {
         IDiagramModelArchimateConnection dmc1 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation);
         dmc1.connect(dmo1, dmo2);
         
-        List<String> messages = modelChecker.checkDiagramObjectsReferences();
+        List<String> messages = modelChecker.checkDiagramModelArchimateConnection(dmc1);
         assertEquals(0, messages.size());
         
         model.getFolder(FolderType.RELATIONS).getElements().remove(relation);
         model.getFolder(FolderType.BUSINESS).getElements().remove(actor);
         model.getFolder(FolderType.BUSINESS).getElements().remove(role);
         
-        messages = modelChecker.checkDiagramObjectsReferences();
-        assertEquals(5, messages.size());
-        assertTrue(messages.get(0).startsWith("Diagram Element has orphaned ArchiMate element in 'dm'"));
-        assertTrue(messages.get(1).startsWith("Diagram Connection has orphaned ArchiMate relation in 'dm'"));
-        assertTrue(messages.get(2).startsWith("Diagram Connection has orphaned ArchiMate source element in 'dm'"));
-        assertTrue(messages.get(3).startsWith("Diagram Connection has orphaned ArchiMate target element in 'dm'"));
-        assertTrue(messages.get(4).startsWith("Diagram Element has orphaned ArchiMate element in 'dm'"));
+        messages = modelChecker.checkDiagramModelArchimateConnection(dmc1);
+        assertEquals(3, messages.size());
+        assertTrue(messages.get(0).startsWith("Diagram Connection has orphaned ArchiMate relation in 'dm'"));
+        assertTrue(messages.get(1).startsWith("Diagram Connection has orphaned ArchiMate source element in 'dm'"));
+        assertTrue(messages.get(2).startsWith("Diagram Connection has orphaned ArchiMate target element in 'dm'"));
     }
-
+    
+    @Test
+    public void checkFolder() {
+        IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+        folder.getElements().add(IArchimateFactory.eINSTANCE.createBusinessObject());
+        folder.getElements().add(IArchimateFactory.eINSTANCE.createAccessRelationship());
+        folder.getElements().add(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
+        
+        List<String> messages = modelChecker.checkFolder(folder);
+        assertEquals(0, messages.size());
+        
+        IFolder object = IArchimateFactory.eINSTANCE.createFolder();
+        folder.getElements().add(object);
+        
+        messages = modelChecker.checkFolder(folder);
+        assertEquals(1, messages.size());
+        assertEquals("Folder contains wrong child object (Folder: " + folder.getId() + " Object: " + object.getId() + ")", messages.get(0));
+    }
 }
