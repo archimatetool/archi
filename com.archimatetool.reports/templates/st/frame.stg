@@ -108,7 +108,7 @@ expandViewRelsForQuery(view, children) ::= <<
 >>
 
 expandAreasForChildren(children) ::= <<
-^children:{c |
+^reverse(children):{c |
 	^if(c.Children)^
 		^expandAreasForChildren(c.Children)^
 	^endif^
