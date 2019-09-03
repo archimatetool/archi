@@ -58,6 +58,10 @@ public class ConverterExtendedMetadata extends BasicExtendedMetaData {
                     
                 case "InfrastructureService" : //$NON-NLS-1$
                     return IArchimatePackage.Literals.TECHNOLOGY_SERVICE;
+                
+                // Bogus concept removed in Archi 4.0
+                case "BusinessActivity" : //$NON-NLS-1$
+                    return IArchimatePackage.Literals.BUSINESS_PROCESS;
                     
                 default:
                     break;
