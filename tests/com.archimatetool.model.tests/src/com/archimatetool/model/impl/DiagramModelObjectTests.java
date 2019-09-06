@@ -112,6 +112,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
+    public void testGetLineAlpha() {
+        assertEquals(255, object.getLineAlpha());
+        object.setLineAlpha(100);
+        assertEquals(100, object.getLineAlpha());
+    }
+    
+    @Test
     public void testGetDefaultTextAlignment() {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getTextAlignment());
     }
