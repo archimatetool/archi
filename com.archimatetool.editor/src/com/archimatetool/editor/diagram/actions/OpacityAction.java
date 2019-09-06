@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -32,7 +33,7 @@ import com.archimatetool.model.ILockable;
 
 
 /**
- * Opacity Action
+ * Fill Opacity Action
  * 
  * @author Phillip Beauvoir
  */
@@ -52,7 +53,7 @@ public class OpacityAction extends SelectionAction {
         return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
 
-    private Object getFirstValidSelectedModelObject(List<?> selection) {
+    protected Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
@@ -74,7 +75,7 @@ public class OpacityAction extends SelectionAction {
             return;
         }
         
-        // Set default alpha on first selected connection
+        // Set default alpha on first selected
         int alpha = dmo.getAlpha();
 
         OpacityDialog dialog = new OpacityDialog(getWorkbenchPart().getSite().getShell(), alpha);
@@ -83,14 +84,14 @@ public class OpacityAction extends SelectionAction {
         }
     }
     
-    private Command createCommand(List<?> selection, int alpha) {
+    protected Command createCommand(List<?> selection, int alpha) {
         CompoundCommand result = new CompoundCommand(Messages.OpacityAction_0);
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
                 if(shouldEnable(model)) {
-                    Command cmd = new DiagramModelObjectAlphaCommand((IDiagramModelObject)model, alpha);
+                    Command cmd = getCommand((IDiagramModelObject)model, alpha);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -108,14 +109,21 @@ public class OpacityAction extends SelectionAction {
         
         if(model instanceof IDiagramModelObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelObject)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA);
+            return provider != null && provider.shouldExposeFeature(getFeature());
         }
         
         return false;
     }
 
+    protected EAttribute getFeature() {
+        return IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA;
+    }
     
-    private static class OpacityDialog extends Dialog {
+    protected Command getCommand(IDiagramModelObject dmo, int newValue) {
+        return new DiagramModelObjectAlphaCommand(dmo, newValue);
+    }
+    
+    protected static class OpacityDialog extends Dialog {
         private Spinner fSpinner;
         private int fAlpha;
 

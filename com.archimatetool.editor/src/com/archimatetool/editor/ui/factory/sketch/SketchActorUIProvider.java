@@ -66,7 +66,8 @@ public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
     @Override
     public boolean shouldExposeFeature(EAttribute feature) {
         if(feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT ||
-                feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
+                feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR||
+                feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA) {
             return false;
         }
         

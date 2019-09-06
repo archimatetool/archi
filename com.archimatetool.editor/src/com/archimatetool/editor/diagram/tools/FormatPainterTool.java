@@ -14,6 +14,7 @@ import org.eclipse.gef.tools.AbstractTool;
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectAlphaCommand;
+import com.archimatetool.editor.diagram.commands.DiagramModelObjectOutlineAlphaCommand;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.diagram.commands.FontStyleCommand;
@@ -177,8 +178,14 @@ public class FormatPainterTool extends AbstractTool {
                 result.add(cmd);
             }
             
-            // Alpha opacity
+            // Alpha fill opacity
             cmd = new DiagramModelObjectAlphaCommand(target, source.getAlpha());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+
+            // Alpha line opacity
+            cmd = new DiagramModelObjectOutlineAlphaCommand(target, source.getLineAlpha());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

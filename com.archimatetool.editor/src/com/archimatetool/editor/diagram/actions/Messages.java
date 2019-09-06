@@ -91,6 +91,8 @@ public class Messages extends NLS {
 
     public static String OpacityAction_0;
 
+    public static String OutlineOpacityAction_0;
+
     public static String PasteAction_0;
 
     public static String PasteSpecialAction_0;
