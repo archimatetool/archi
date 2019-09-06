@@ -177,6 +177,8 @@ public class Messages extends NLS {
 
     public static String OpacitySection_0;
 
+    public static String OutlineOpacitySection_0;
+
     public static String SketchElementSection_0;
 
     public static String SketchElementSection_1;

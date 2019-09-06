@@ -63,6 +63,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
 
             // Outline
             graphics.setForegroundColor(getLineColor());
+            graphics.setAlpha(getLineAlpha());
 
             bounds.width--;
             bounds.height--;

@@ -63,6 +63,7 @@ implements IRoundedRectangleFigure {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1),
                 arc.width, arc.height);

@@ -76,6 +76,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         graphics.fillPolygon(points2);
         
         // Line
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points1);
         graphics.drawLine(points1.getPoint(1), points1.getPoint(3));

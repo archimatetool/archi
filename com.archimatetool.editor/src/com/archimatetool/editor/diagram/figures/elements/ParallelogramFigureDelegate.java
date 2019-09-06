@@ -71,6 +71,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
         

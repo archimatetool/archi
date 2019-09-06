@@ -65,7 +65,9 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public boolean shouldExposeFeature(EAttribute feature) {
-        return feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA;
+        return feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR
+                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA
+                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
     }
 
 }

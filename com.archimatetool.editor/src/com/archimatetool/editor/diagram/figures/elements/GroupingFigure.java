@@ -92,6 +92,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             
             graphics.fillPolygon(fillShape);
             
+            graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + TOPBAR_HEIGHT);
             graphics.drawLine(bounds.x, bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y);
             graphics.drawLine((int)(bounds.x + (bounds.width / INSET)), bounds.y, (int)(bounds.x + (bounds.width / INSET)), bounds.y + TOPBAR_HEIGHT);
@@ -102,6 +103,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         }
 
         // Outlines
+        graphics.setAlpha(getLineAlpha());
         graphics.drawPolygon(mainRectangle);
         
         graphics.popState();

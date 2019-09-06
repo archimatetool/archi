@@ -1005,7 +1005,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(rgb != null) {
             lineColorElement = new Element(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE);
             parentElement.addContent(lineColorElement);
-            writeRGBAttributes(rgb, -1, lineColorElement);
+            // Use outline alpha if a diagram model object
+            if(lineObject instanceof IDiagramModelObject) {
+                writeRGBAttributes(rgb, ((IDiagramModelObject)lineObject).getLineAlpha(), lineColorElement);
+            }
+            else {
+                writeRGBAttributes(rgb, -1, lineColorElement);
+            }
         }
         
         return lineColorElement;

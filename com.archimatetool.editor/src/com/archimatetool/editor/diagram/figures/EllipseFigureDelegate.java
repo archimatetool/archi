@@ -54,6 +54,7 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds);
         

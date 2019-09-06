@@ -106,6 +106,7 @@ import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
+import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
@@ -821,8 +822,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
-        // Opacity
+        // Fill Opacity
         action = new OpacityAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
+
+        // Outline Opacity
+        action = new OutlineOpacityAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);

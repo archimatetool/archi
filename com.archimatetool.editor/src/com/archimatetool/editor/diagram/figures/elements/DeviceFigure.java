@@ -68,6 +68,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         graphics.fillPolygon(points1);
         
         graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1,
                 bounds.x + bounds.width, bounds.y + bounds.height - 1);
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1,
@@ -79,6 +80,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
 
         graphics.setBackgroundColor(getFillColor());
+        graphics.setAlpha(getAlpha());
 
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
@@ -93,6 +95,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         }
 
         graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
         rect = new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - height_indent - 1);
         graphics.drawRoundRectangle(rect, 30, 30);
         

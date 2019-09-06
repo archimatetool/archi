@@ -337,6 +337,13 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
+               afterSection="opacitySection"
+               class="com.archimatetool.editor.propertysections.OutlineOpacitySection"
+               filter="com.archimatetool.editor.propertysections.OutlineOpacitySection$Filter"
+               id="outlineOpacitySection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                class="com.archimatetool.editor.propertysections.FolderSection"
                filter="com.archimatetool.editor.propertysections.FolderSection$Filter"
                id="folderSection"
@@ -772,6 +779,10 @@
       <compatibilityHandler
             class="com.archimatetool.editor.model.compatibility.handlers.DefaultTextAlignmentHandler"
             id="com.archimatetool.editor.compatibility.groupingTextPosition">
+      </compatibilityHandler>
+      <compatibilityHandler
+            class="com.archimatetool.editor.model.compatibility.handlers.OutlineOpacityHandler"
+            id="com.archimatetool.editor.compatibility.lineOpacity">
       </compatibilityHandler>
    </extension>
    <extension

@@ -76,6 +76,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(shape);
         graphics.drawLine(bounds.x, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);

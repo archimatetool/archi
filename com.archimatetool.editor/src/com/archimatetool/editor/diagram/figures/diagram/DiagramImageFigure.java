@@ -113,6 +113,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         // Border
         if(getBorderColor() != null) {
+            graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
         }

@@ -58,6 +58,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
 
         // Line
         graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
         for(int i = 0; i < points.size() - 1; i++) {
             graphics.drawLine(points.getPoint(i), points.getPoint(i + 1));
         }

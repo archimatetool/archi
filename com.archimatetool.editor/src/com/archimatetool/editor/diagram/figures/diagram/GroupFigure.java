@@ -101,6 +101,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
 
         // Line
         graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
         if(topRectangle != null) {
             graphics.drawPolygon(topRectangle);
         }

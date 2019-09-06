@@ -2086,6 +2086,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EAttribute getDiagramModelObject_LineAlpha() {
+        return (EAttribute)diagramModelObjectEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getDiagramModelArchimateObject() {
         return diagramModelArchimateObjectEClass;
     }
@@ -3326,6 +3336,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__BOUNDS);
         createEAttribute(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__FILL_COLOR);
         createEAttribute(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__ALPHA);
+        createEAttribute(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__LINE_ALPHA);
 
         diagramModelGroupEClass = createEClass(DIAGRAM_MODEL_GROUP);
 
@@ -3927,6 +3938,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEReference(getDiagramModelObject_Bounds(), this.getBounds(), null, "bounds", null, 0, 1, IDiagramModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelObject_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, IDiagramModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelObject_Alpha(), ecorePackage.getEInt(), "alpha", "255", 0, 1, IDiagramModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getDiagramModelObject_LineAlpha(), ecorePackage.getEInt(), "lineAlpha", "255", 0, 1, IDiagramModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         op = addEOperation(diagramModelObjectEClass, null, "setBounds", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
         addEParameter(op, ecorePackage.getEInt(), "x", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$

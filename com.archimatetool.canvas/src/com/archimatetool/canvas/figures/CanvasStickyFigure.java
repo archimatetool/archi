@@ -138,6 +138,8 @@ extends AbstractDiagramModelObjectFigure {
         
         // Border
         if(getBorderColor() != null) {
+            graphics.setAlpha(getLineAlpha());
+            
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             graphics.drawLine(bounds.x, bounds.y, bounds.x + bounds.width - 1, bounds.y);
             graphics.drawLine(bounds.x + bounds.width - 1, bounds.y, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);

@@ -57,6 +57,7 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
         

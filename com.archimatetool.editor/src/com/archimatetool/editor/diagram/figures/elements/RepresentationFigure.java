@@ -75,6 +75,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);

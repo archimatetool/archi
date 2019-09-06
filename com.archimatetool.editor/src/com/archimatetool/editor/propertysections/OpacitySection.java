@@ -30,7 +30,7 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class OpacitySection extends AbstractECorePropertySection {
     
-    private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+    protected static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
     private static EAttribute FEATURE = IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA;
     
@@ -52,7 +52,7 @@ public class OpacitySection extends AbstractECorePropertySection {
     /**
      * Spinner listener
      */
-    private Listener spinnerListener = new Listener() {
+    protected Listener spinnerListener = new Listener() {
         @Override
         public void handleEvent(Event event) {
             int newValue = fSpinner.getSelection();
@@ -61,7 +61,7 @@ public class OpacitySection extends AbstractECorePropertySection {
 
             for(EObject dmo : getEObjects()) {
                 if(isAlive(dmo)) {
-                    Command cmd = new DiagramModelObjectAlphaCommand((IDiagramModelObject)dmo, newValue);
+                    Command cmd = getCommand((IDiagramModelObject)dmo, newValue);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -72,7 +72,7 @@ public class OpacitySection extends AbstractECorePropertySection {
         }
     };
     
-    private Spinner fSpinner;
+    protected Spinner fSpinner;
     
     @Override
     protected void createControls(Composite parent) {
@@ -82,8 +82,8 @@ public class OpacitySection extends AbstractECorePropertySection {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
-    private void createSpinnerControl(Composite parent) {
-        createLabel(parent, Messages.OpacitySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+    protected void createSpinnerControl(Composite parent) {
+        createLabel(parent, getLabelString(), ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fSpinner = new Spinner(parent, SWT.BORDER);
         
@@ -98,12 +98,24 @@ public class OpacitySection extends AbstractECorePropertySection {
         fSpinner.addListener(SWT.DefaultSelection, spinnerListener);
     }
     
+    protected String getLabelString() {
+        return Messages.OpacitySection_0;
+    }
+    
+    protected EAttribute getFeature() {
+        return FEATURE;
+    }
+    
+    protected Command getCommand(IDiagramModelObject dmo, int newValue) {
+        return new DiagramModelObjectAlphaCommand(dmo, newValue);
+    }
+    
     @Override
     protected void notifyChanged(Notification msg) {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == getFeature() || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
             }
         }

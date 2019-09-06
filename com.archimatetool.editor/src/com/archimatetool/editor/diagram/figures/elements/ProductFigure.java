@@ -62,6 +62,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 // Outline
                 graphics.setForegroundColor(getLineColor());
+                graphics.setAlpha(getLineAlpha());
 
                 graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y + TOP_MARGIN);
                 graphics.drawLine(bounds.getCenter().x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y);

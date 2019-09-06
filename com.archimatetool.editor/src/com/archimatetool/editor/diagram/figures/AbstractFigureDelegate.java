@@ -75,10 +75,17 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
 
     /**
-     * @return The owner's alpha transparency
+     * @return The owner's alpha fill transparency
      */
     protected int getAlpha() {
         return getOwner().getDiagramModelObject().getAlpha();
+    }
+
+    /**
+     * @return The owner's alpha line transparency
+     */
+    protected int getLineAlpha() {
+        return getOwner().getDiagramModelObject().getLineAlpha();
     }
 
     /**

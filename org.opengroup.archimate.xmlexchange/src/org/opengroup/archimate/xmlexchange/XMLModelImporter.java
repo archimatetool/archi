@@ -604,6 +604,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Line Color
         dmo.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE)));
 
+        // Line Alpha
+        dmo.setLineAlpha(getRGBAlphaValue(styleElement.getChild(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE)));
+
         // Font
         addFont(dmo, styleElement.getChild(ELEMENT_FONT, ARCHIMATE3_NAMESPACE));
     }
