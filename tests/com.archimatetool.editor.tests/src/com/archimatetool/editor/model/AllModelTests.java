@@ -9,6 +9,7 @@ import com.archimatetool.editor.model.commands.CommandsTests;
 import com.archimatetool.editor.model.compatibility.ModelCompatibilityTests;
 import com.archimatetool.editor.model.compatibility.handlers.ArchiMate2To3HandlerTests;
 import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandlerTests;
+import com.archimatetool.editor.model.compatibility.handlers.OutlineOpacityHandlerTests;
 import com.archimatetool.editor.model.impl.ArchiveManagerTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
@@ -36,6 +37,7 @@ public class AllModelTests {
         // model.compatibility.handlers
         suite.addTest(ArchiMate2To3HandlerTests.suite());
         suite.addTest(FixDefaultSizesHandlerTests.suite());
+        suite.addTest(OutlineOpacityHandlerTests.suite());
 
         // model.impl
         suite.addTest(ArchiveManagerTests.suite());
