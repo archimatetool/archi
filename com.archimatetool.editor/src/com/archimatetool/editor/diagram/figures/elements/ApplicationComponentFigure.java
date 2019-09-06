@@ -72,6 +72,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
             gradient.dispose();
         }
         
+        graphics.setAlpha(getLineAlpha());
+        
         // Outline
         graphics.setForegroundColor(getLineColor());
         PointList points = new PointList();
@@ -90,10 +92,14 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.drawPolyline(points);
         graphics.drawLine(bounds.x + INDENT, bounds.y + 22, bounds.x + INDENT, bounds.y + 30);
         
+        graphics.setAlpha(getAlpha());
+        
         // Nubs Fill
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         graphics.fillRectangle(bounds.x, bounds.y + 10, INDENT * 2 + 1, 13);
         graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2 + 1, 13);
+        
+        graphics.setAlpha(getLineAlpha());
         
         // Nubs Outline
         graphics.setForegroundColor(getLineColor());

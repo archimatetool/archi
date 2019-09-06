@@ -78,6 +78,7 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         }
 
         // Line
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
         

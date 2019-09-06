@@ -58,6 +58,7 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         }
 
         // Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
         

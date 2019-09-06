@@ -139,6 +139,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
         }
 
         if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
+            graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);
         }

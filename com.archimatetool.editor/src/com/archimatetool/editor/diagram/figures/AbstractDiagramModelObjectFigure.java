@@ -185,6 +185,10 @@ implements IDiagramModelObjectFigure {
         return fDiagramModelObject.getAlpha();
     }
 
+    protected int getLineAlpha() {
+        return fDiagramModelObject.getLineAlpha();
+    }
+
     @Override
     public IFigure getToolTip() {
         if(!Preferences.doShowViewTooltips()) {
