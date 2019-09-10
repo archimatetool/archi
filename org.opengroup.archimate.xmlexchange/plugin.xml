@@ -17,5 +17,11 @@
             label="Model From Open Exchange File...">
       </importHandler>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.opengroup.archimate.xmlexchange.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

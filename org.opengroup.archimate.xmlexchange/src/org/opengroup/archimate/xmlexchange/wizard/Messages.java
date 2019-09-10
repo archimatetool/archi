@@ -12,6 +12,8 @@ public class Messages extends NLS {
 
     public static String ExportToXMLPage_10;
 
+    public static String ExportToXMLPage_11;
+
     public static String ExportToXMLPage_2;
 
     public static String ExportToXMLPage_3;

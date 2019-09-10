@@ -29,6 +29,7 @@ public class ExportToXMLWizard extends Wizard {
     private boolean doSaveOrganisation;
     private boolean doIncludeXSD;
     private String languageCode;
+    private boolean doValidateAfterExport;
     
     public ExportToXMLWizard(String modelName) {
         fModelName = modelName;
@@ -60,6 +61,10 @@ public class ExportToXMLWizard extends Wizard {
         return doIncludeXSD;
     }
 
+    public boolean doValidateAfterExport() {
+        return doValidateAfterExport;
+    }
+    
     public String getLanguageCode() {
         return languageCode;
     }
@@ -70,6 +75,7 @@ public class ExportToXMLWizard extends Wizard {
         metadata = fPageMetadata.getMetadata();
         doSaveOrganisation = fPage.doSaveOrganisation();
         doIncludeXSD = fPage.doIncludeXSD();
+        doValidateAfterExport = fPage.doValidateAfterExport();
         languageCode = fPage.getLanguageCode();
         
         fPage.storePreferences();

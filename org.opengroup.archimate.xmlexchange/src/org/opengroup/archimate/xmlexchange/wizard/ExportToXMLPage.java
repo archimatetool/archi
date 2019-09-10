@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.opengroup.archimate.xmlexchange.IPreferenceConstants;
 import org.opengroup.archimate.xmlexchange.IXMLExchangeGlobals;
 import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
@@ -40,18 +41,14 @@ import com.archimatetool.editor.utils.StringUtils;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportToXMLPage extends WizardPage {
+public class ExportToXMLPage extends WizardPage implements IPreferenceConstants {
 
     private static String HELP_ID = "com.archimatetool.help.ExportToXMLPage"; //$NON-NLS-1$
-    
-    private static final String PREFS_LAST_FILE_LOCATION = "ExportXMLExchangeLastFileLocation"; //$NON-NLS-1$
-    private static final String PREFS_ORGANISATION = "ExportXMLExchangeOrganisation"; //$NON-NLS-1$
-    private static final String PREFS_INCLUDE_XSD = "ExportXMLExchangeIncludeXSD"; //$NON-NLS-1$
-    private static final String PREFS_LANGUAGE = "ExportXMLExchangeLanguage"; //$NON-NLS-1$
     
     private Text fFileTextField;
     private Button fOrganiseButton;
     private Button fIncludeXSDButton;
+    private Button fValidateAfterExportButton;
     private Combo fLanguageCombo;
     
     private String fModelName;
@@ -88,7 +85,7 @@ public class ExportToXMLPage extends WizardPage {
         String fileName = StringUtils.isSet(fModelName) ? fModelName + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
         
         // Get last folder used
-        String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FILE_LOCATION);
+        String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(XMLEXCHANGE_PREFS_LAST_FILE_LOCATION);
         File lastFolder = new File(lastFolderName);
         
         if(lastFolder.exists() && lastFolder.isDirectory()) {
@@ -125,31 +122,34 @@ public class ExportToXMLPage extends WizardPage {
         optionsGroup.setLayout(new GridLayout(2, false));
         optionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        label = new Label(optionsGroup, SWT.NULL);
-        label.setText(Messages.ExportToXMLPage_5);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        
         fOrganiseButton = new Button(optionsGroup, SWT.CHECK);
+        fOrganiseButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_ORGANISATION));
+        fOrganiseButton.setText(Messages.ExportToXMLPage_5);
+        fOrganiseButton.setLayoutData(gd);
         
-        boolean doOrganisation = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_ORGANISATION);
-        if(doOrganisation) {
-            fOrganiseButton.setSelection(true);
-        }
+        fValidateAfterExportButton = new Button(optionsGroup, SWT.CHECK);
+        fValidateAfterExportButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_VALIDATE_AFTER_EXPORT));
+        fValidateAfterExportButton.setText(Messages.ExportToXMLPage_11);
+        fValidateAfterExportButton.setLayoutData(gd);
         
-        label = new Label(optionsGroup, SWT.NULL);
-        label.setText(Messages.ExportToXMLPage_6);
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
-        
-        boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
-        if(doIncludeXSD) {
-            fIncludeXSDButton.setSelection(true);
-        }
+        fIncludeXSDButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_INCLUDE_XSD));
+        fIncludeXSDButton.setText(Messages.ExportToXMLPage_6);
+        fIncludeXSDButton.setLayoutData(gd);
         
         label = new Label(optionsGroup, SWT.NULL);
         label.setText(Messages.ExportToXMLPage_7);
         
         fLanguageCombo = new Combo(optionsGroup, SWT.READ_ONLY);
         fLanguageCombo.setItems(Locale.getISOLanguages());
+        gd = new GridData();
+        gd.widthHint = 70;
+        fLanguageCombo.setLayoutData(gd);
         
-        String lastLanguage = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LANGUAGE);
+        String lastLanguage = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(XMLEXCHANGE_PREFS_LANGUAGE);
         if(StringUtils.isSet(lastLanguage)) {
             fLanguageCombo.setText(lastLanguage);
         }
@@ -172,6 +172,10 @@ public class ExportToXMLPage extends WizardPage {
 
     boolean doIncludeXSD() {
         return fIncludeXSDButton.getSelection();
+    }
+    
+    boolean doValidateAfterExport() {
+        return fValidateAfterExportButton.getSelection();
     }
     
     String getLanguageCode() {
@@ -223,14 +227,15 @@ public class ExportToXMLPage extends WizardPage {
         
         File file = new File(getFileName());
         if(file.getParentFile().exists()) {
-            store.setValue(PREFS_LAST_FILE_LOCATION, file.getParentFile().getPath());
+            store.setValue(XMLEXCHANGE_PREFS_LAST_FILE_LOCATION, file.getParentFile().getPath());
         }
         else {
-            store.setValue(PREFS_LAST_FILE_LOCATION, ""); //$NON-NLS-1$
+            store.setValue(XMLEXCHANGE_PREFS_LAST_FILE_LOCATION, ""); //$NON-NLS-1$
         }
         
-        store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
-        store.setValue(PREFS_INCLUDE_XSD, doIncludeXSD());
-        store.setValue(PREFS_LANGUAGE, getLanguageCode());
+        store.setValue(XMLEXCHANGE_PREFS_ORGANISATION, doSaveOrganisation());
+        store.setValue(XMLEXCHANGE_PREFS_INCLUDE_XSD, doIncludeXSD());
+        store.setValue(XMLEXCHANGE_PREFS_VALIDATE_AFTER_EXPORT, doValidateAfterExport());
+        store.setValue(XMLEXCHANGE_PREFS_LANGUAGE, getLanguageCode());
     }
 }

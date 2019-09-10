@@ -84,8 +84,10 @@ public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGl
                             xmlModelExporter.exportModel(model, file);
                             
                             // Validate file
-                            XMLValidator validator = new XMLValidator();
-                            validator.validateXML(file);
+                            if(wizard.doValidateAfterExport()) {
+                                XMLValidator validator = new XMLValidator();
+                                validator.validateXML(file);
+                            }
                         }
                         catch(Throwable ex) {
                             ex.printStackTrace();
