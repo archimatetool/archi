@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -40,6 +39,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
@@ -76,16 +76,26 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // Properties
     private Map<String, String> fPropertyDefinitionsList;
     
-    // Concept lookup
+    // Concepts lookup
     private Map<String, IArchimateConcept> fConceptsLookup;
     
     // Connection/Node lookup
     private Map<String, IConnectable> fConnectionsNodesLookup;
     
+    // Diagrams lookup
+    private Map<String, IArchimateDiagramModel> fDiagramsLookup;
+    
     // Diagram Model references lookup
     private Map<IDiagramModelReference, String> fDiagramRefsLookup;
     
     public IArchimateModel createArchiMateModel(File instanceFile) throws IOException, JDOMException, XMLModelParserException {
+        // New lookup tables
+        fPropertyDefinitionsList = new HashMap<>();
+        fConceptsLookup = new HashMap<>();
+        fConnectionsNodesLookup = new HashMap<>();
+        fDiagramsLookup = new HashMap<>();
+        fDiagramRefsLookup = new HashMap<>();
+        
         // Create a new Archimate Model and set its defaults
         fModel = IArchimateFactory.eINSTANCE.createArchimateModel();
         fModel.setDefaults();
@@ -101,11 +111,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Parse Root Element
         parseRootElement(rootElement);
         
-        // New lookup tables
-        fConceptsLookup = new HashMap<>();
-        fConnectionsNodesLookup = new HashMap<>();
-        fDiagramRefsLookup = new HashMap<>();
-        
         // Parse ArchiMate Elements
         parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, ARCHIMATE3_NAMESPACE));
         
@@ -118,8 +123,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             parseViews(viewsElement.getChild(ELEMENT_DIAGRAMS, ARCHIMATE3_NAMESPACE));
         }
         
-        // TODO Parse Organization - not implemented as yet.
-        // parseOrganization(rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE));
+        // Parse Organizations
+        for(Element orgsElement : rootElement.getChildren(ELEMENT_ORGANIZATIONS, ARCHIMATE3_NAMESPACE)) {
+            parseOrganizations(orgsElement);
+        }
         
         return fModel;
     }
@@ -131,9 +138,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
 
-        fPropertyDefinitionsList = null;
-        fPropertyDefinitionsList = new HashMap<String, String>();
-        
         // Archi only supports String types so we can ignore the data type
         for(Element propertyDefElement : propertydefsElement.getChildren(ELEMENT_PROPERTYDEFINITION, ARCHIMATE3_NAMESPACE)) {
             String identifier = propertyDefElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
@@ -173,6 +177,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
 
     private void addProperties(IProperties propertiesModel, Element parentElement) {
         Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
+        
         if(propertiesElement != null) {
             for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE)) {
                 String idref = propertyElement.getAttributeValue(ATTRIBUTE_PROPERTY_IDENTIFIERREF);
@@ -357,39 +362,174 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
-    // ========================================= Organization ======================================
+    // ========================================= Organizations ======================================
 
-    @SuppressWarnings("unused")
-    private void parseOrganization(Element organizationElement) {
-        if(organizationElement == null) { // Optional
-            return;
-        }
-
-        for(Element childElement : organizationElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE)) {
+    private void parseOrganizations(Element organizationsElement) {
+        for(Element childElement : organizationsElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE)) {
             parseItem(childElement);
         }
     }
     
     private void parseItem(Element itemElement) {
-        // The idea is to see if we can match any referenced elements/relations into a suitable folder
-        // and then move them to that folder. At this stage, it's not worth it.
+        // Is it a Concept or View added to a folder?
+        boolean result = addObjectItemToFolder(itemElement);
         
-        String idref = itemElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
-        
-        if(idref != null) {
-            IArchimateConcept concept = fConceptsLookup.get(idref);
-            if(concept != null) {
-                
-            }
-        }
-        // Folder?
-        else {
-            
+        // No, then a sub-folder?
+        if(!result) {
+            getSubFolder(itemElement, getTopLevelArchiFolderInHierarchy(itemElement));
         }
 
+        // Child Items
         for(Element childElement : itemElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE)) {
             parseItem(childElement);
         }
+    }
+    
+    /**
+     * Add the object referenced by itemElement (if any) to a folder or sub-folder
+     * @return true if successful
+     */
+    private boolean addObjectItemToFolder(Element itemElement) {
+        IArchimateModelObject object = getItemObject(itemElement);
+        
+        if(object == null) {
+            return false;
+        }
+        
+        // Create/get a sub-folder
+        IFolder folder = getSubFolder(itemElement.getParentElement(), fModel.getDefaultFolderForObject(object));
+        
+        // Add it
+        if(folder != null) {
+            folder.getElements().add(object);
+        }
+        
+        return folder != null;
+    }
+    
+    /**
+     * @return a matching concept or View that itemElement references
+     *         or null if it doesn't reference one or has child items (which makes it a folder)
+     */
+    private IArchimateModelObject getItemObject(Element itemElement) {
+        String idref = itemElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
+        
+        // Must have idref
+        if(!hasValue(idref)) {
+            return null;
+        }
+        
+        // Must not have child items
+        if(!itemElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE).isEmpty()) {
+            return null;
+        }
+        
+        IArchimateModelObject concept = fConceptsLookup.get(idref);
+        return concept != null ? concept : fDiagramsLookup.get(idref);
+    }
+    
+    /**
+     * Get a sub-folder for itemElement. If it does not exist, it is created.
+     */
+    private IFolder getSubFolder(Element itemElement, IFolder folder) {
+        if(folder == null) {
+            return null;
+        }
+        
+        // Work through the item hierarchy from top to bottom
+        for(Element element : getItemHierarchy(itemElement)) {
+            String name = StringUtils.safeString(getChildElementText(element, ELEMENT_LABEL, true));
+            String documentation = StringUtils.safeString(getChildElementText(element, ELEMENT_DOCUMENTATION, true));
+
+            // Is this a top-level Archi folder?
+            IFolder toplevelFolder = getTopLevelArchiFolder(element);
+            
+            // Yes it is, so just update the documentation
+            if(toplevelFolder != null) { 
+                toplevelFolder.setDocumentation(documentation);
+            }
+            // Not a top-level Archi folder so get/create the next sub-folder
+            else { 
+                folder = createSubFolder(folder, name, documentation);
+            }
+        }
+
+        return folder;
+    }
+    
+    /**
+     * Get or create a sub-folder. If it does not exist, it is created and its name and documentation set.
+     */
+    private IFolder createSubFolder(IFolder parent, String name, String documentation) {
+        for(IFolder f : parent.getFolders()) {
+            if(f.getName().equals(name)) {
+                return f;
+            }
+        }
+        
+        IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+        folder.setName(name);
+        folder.setDocumentation(documentation);
+        parent.getFolders().add(folder);
+        
+        return folder;
+    }
+    
+    /**
+     * @return a hierarchy of sub-folder items (reverses the elements from bottom-top to top-bottom)
+     */
+    private List<Element> getItemHierarchy(Element itemElement) {
+        List<Element> elements = new ArrayList<Element>();
+        
+        // While element is an item and not the organizations folder
+        while(itemElement != null && !ELEMENT_ORGANIZATIONS.equals(itemElement.getName())) {
+            elements.add(0, itemElement); // reverse order
+            itemElement = itemElement.getParentElement();
+        }
+        
+        return elements;
+    }
+    
+    /**
+     * @return the topmost Archi folder that corresponds to itemElement's hierarchy
+     *         otherwise return null
+     */
+    private IFolder getTopLevelArchiFolderInHierarchy(Element itemElement) {
+        while(itemElement != null && !ELEMENT_ORGANIZATIONS.equals(itemElement.getName())) {
+            IFolder folder = getTopLevelArchiFolder(itemElement);
+            if(folder != null) {
+                return folder;
+            }
+            itemElement = itemElement.getParentElement();
+        }
+        
+        return null;
+    }
+    
+    /**
+     * @return an Archi top level folder if itemElement is a top level item and its name matches one of Archi's top-level folder names
+     *         otherwise return null
+     */
+    private IFolder getTopLevelArchiFolder(Element itemElement) {
+        if(isTopLevelItem(itemElement)) {
+            String name = getChildElementText(itemElement, ELEMENT_LABEL, true);
+            for(IFolder folder : fModel.getFolders()) {
+                if(folder.getName().equals(name)) {
+                    return folder;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * @return true if itemElement is a direct child of the "organizations" element
+     */
+    private boolean isTopLevelItem(Element itemElement) {
+        return itemElement != null &&
+                itemElement.getParentElement() != null &&
+                ELEMENT_ORGANIZATIONS.equals(itemElement.getParentElement().getName());
     }
     
     // ========================================= Views ======================================
@@ -398,8 +538,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         if(viewsElement == null) { // Optional
             return;
         }
-        
-        Map<String, IArchimateDiagramModel> diagramModels = new Hashtable<String, IArchimateDiagramModel>();
         
         // Add the views first because there may be child node view references
         for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, ARCHIMATE3_NAMESPACE)) {
@@ -412,7 +550,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 dm.setId(id);
 
                 // Store it
-                diagramModels.put(id, dm);
+                fDiagramsLookup.put(id, dm);
             }
             
             // Viewpoint
@@ -448,7 +586,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         for(Entry<IDiagramModelReference, String> element : fDiagramRefsLookup.entrySet()) {
             IDiagramModelReference dmRef = element.getKey();
             String refID = element.getValue();
-            IArchimateDiagramModel dm = diagramModels.get(refID);
+            IArchimateDiagramModel dm = fDiagramsLookup.get(refID);
             if(dm != null) {
                 dmRef.setReferencedModel(dm);
             }
