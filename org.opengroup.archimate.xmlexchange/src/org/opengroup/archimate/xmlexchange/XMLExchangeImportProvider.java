@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.jdom2.JDOMException;
 import org.xml.sax.SAXException;
 
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -34,31 +36,32 @@ public class XMLExchangeImportProvider implements IModelImporter, IXMLExchangeGl
             return;
         }
         
-        // Validate file
-        try {
-            XMLValidator validator = new XMLValidator();
-            validator.validateXML(file);
-        }
-        catch(SAXException ex) {
-            ex.printStackTrace();
-            throw new IOException(ex);
-        }
+        Exception[] ex1 = new Exception[1];
         
-        // Create a model
-        IArchimateModel model = null;
+        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
+            public void run() {
+                // Validate file
+                try {
+                    XMLValidator validator = new XMLValidator();
+                    validator.validateXML(file);
+                    
+                    XMLModelImporter xmlModelImporter = new XMLModelImporter();
+                    IArchimateModel model = xmlModelImporter.createArchiMateModel(file);
+                    
+                    if(model != null) {
+                        IEditorModelManager.INSTANCE.openModel(model);
+                    }
+                }
+                catch(SAXException | IOException | JDOMException | XMLModelParserException ex) {
+                    ex1[0] = ex;
+                    ex.printStackTrace();
+                }
+            }
+        });
         
-        try {
-            XMLModelImporter xmlModelImporter = new XMLModelImporter();
-            model = xmlModelImporter.createArchiMateModel(file);
-        }
-        catch(Exception ex) {
-            ex.printStackTrace();
-            throw new IOException(ex);
-        }
-
-        // And open the Model in the Editor
-        if(model != null) {
-            IEditorModelManager.INSTANCE.openModel(model);
+        if(ex1[0] != null) {
+            throw new IOException(ex1[0]);
         }
     }
     

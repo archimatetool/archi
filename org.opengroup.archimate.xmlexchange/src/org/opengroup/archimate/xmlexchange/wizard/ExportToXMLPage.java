@@ -32,7 +32,6 @@ import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateModel;
 
 
 
@@ -55,15 +54,12 @@ public class ExportToXMLPage extends WizardPage {
     private Button fIncludeXSDButton;
     private Combo fLanguageCombo;
     
-    /**
-     * The model to export
-     */
-    private IArchimateModel fModel;
+    private String fModelName;
     
-    public ExportToXMLPage(IArchimateModel model) {
+    public ExportToXMLPage(String modelName) {
         super("ExportToXMLPage"); //$NON-NLS-1$
         
-        fModel = model;
+        fModelName = modelName;
         
         setTitle(Messages.ExportToXMLPage_0);
         setDescription(Messages.ExportToXMLPage_1);
@@ -89,7 +85,7 @@ public class ExportToXMLPage extends WizardPage {
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        String fileName = StringUtils.isSet(fModel.getName()) ? fModel.getName() + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+        String fileName = StringUtils.isSet(fModelName) ? fModelName + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
         
         // Get last folder used
         String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FILE_LOCATION);

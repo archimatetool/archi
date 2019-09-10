@@ -70,13 +70,6 @@ public class Messages extends NLS {
 
     public static String ExportToXMLWizard_0;
 
-    public static String ExportToXMLWizard_1;
-
-    public static String ExportToXMLWizard_2;
-
-    public static String ExportToXMLWizard_3;
-
-    public static String ExportToXMLWizard_4;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
