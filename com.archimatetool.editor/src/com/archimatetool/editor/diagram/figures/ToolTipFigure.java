@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
+import org.eclipse.draw2d.geometry.Dimension;
 
 import com.archimatetool.editor.ui.FontFactory;
 
@@ -39,6 +40,12 @@ public class ToolTipFigure extends Figure {
         l1.setText(text);
     }
 
+    @Override
+    public Dimension getPreferredSize(int wHint, int hHint) {
+        // Not too wide
+        return super.getPreferredSize(300, hHint);
+    }
+    
     public void setType(String type) {
         if(l2 == null) {
             l1.setFont(FontFactory.SystemFontBold); // this becomes bold if we are a two-liner
