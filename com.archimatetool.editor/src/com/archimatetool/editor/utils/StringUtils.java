@@ -31,11 +31,7 @@ public final class StringUtils {
      * @return input if not null, or the empty string if input is null
      */
     public static String safeString(String input) {
-        if(input != null) {
-            return input;
-        }
-
-        return ZERO_LENGTH_STRING;
+        return input != null ? input : ZERO_LENGTH_STRING;
     }
     
     /**
@@ -45,7 +41,7 @@ public final class StringUtils {
      * @return
      */
     public static boolean isSet(String input) {
-        return input != null && !ZERO_LENGTH_STRING.equals(input);
+        return input != null && input.length() > 0;
     }
     
     /**
