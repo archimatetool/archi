@@ -127,6 +127,18 @@ public final class StringUtils {
     }
     
     /**
+     * Remove all newline and cr characters from a String and replace all instances with a single space
+     * @param text
+     * @return The new text
+     */
+    public static String normaliseNewLineCharacters(String text) {
+        if(isSet(text)) {
+            return text.replaceAll("(\r\n|\r|\n)+", " ");  //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        return text;
+    }
+
+    /**
      * Compare two version numbers with the format 1, 1.1, or 1.1.1
      * 
      * From http://stackoverflow.com/questions/6701948/efficient-way-to-compare-version-strings-in-java

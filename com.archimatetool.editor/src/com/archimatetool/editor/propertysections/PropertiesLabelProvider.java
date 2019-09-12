@@ -60,15 +60,12 @@ public class PropertiesLabelProvider implements ILabelProvider {
 
         // Check the main label provider
         String text = ArchiLabelProvider.INSTANCE.getLabel(object);
-        if(StringUtils.isSet(text)) {
-            return StringUtils.escapeAmpersandsInText(text);
-        }
         
-        return " "; // Ensure the title bar is displayed //$NON-NLS-1$
+        return normalise(text);
     }
     
     String getArchimateConceptText(IArchimateConcept archimateConcept) {
-        String name = StringUtils.escapeAmpersandsInText(archimateConcept.getName());
+        String name = normalise(archimateConcept.getName());
         
         String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
         
@@ -77,6 +74,15 @@ public class PropertiesLabelProvider implements ILabelProvider {
         }
         
         return typeName;
+    }
+    
+    private String normalise(String text) {
+        if(StringUtils.isSet(text)) {
+            // Remove Ampersands as well as newlines
+            return StringUtils.normaliseNewLineCharacters(StringUtils.escapeAmpersandsInText(text));
+        }
+        
+        return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
     
     @Override

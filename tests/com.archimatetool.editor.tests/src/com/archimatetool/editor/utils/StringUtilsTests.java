@@ -159,6 +159,11 @@ public class StringUtilsTests {
     }
 
     @Test
+    public void testNormaliseNewLineCharacters() {
+        assertEquals("Hello World", StringUtils.normaliseNewLineCharacters("Hello\r\n\r\n\r\nWorld"));
+    }
+
+    @Test
     public void testCompareVersionNumbers() {
         assertEquals(-1, StringUtils.compareVersionNumbers("1", "2"));
         assertEquals(0, StringUtils.compareVersionNumbers("1", "1"));

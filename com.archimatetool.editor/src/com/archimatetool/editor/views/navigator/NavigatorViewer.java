@@ -130,7 +130,7 @@ public class NavigatorViewer extends TreeViewer {
         
         @Override
         public String getText(Object element) {
-            return ArchiLabelProvider.INSTANCE.getLabel(element);
+            return ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
         }
         
         @Override

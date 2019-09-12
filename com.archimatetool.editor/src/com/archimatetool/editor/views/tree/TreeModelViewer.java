@@ -105,8 +105,8 @@ public class TreeModelViewer extends TreeViewer {
                     return 0;
                 }
                 
-                String name1 = ArchiLabelProvider.INSTANCE.getLabel(e1);
-                String name2 = ArchiLabelProvider.INSTANCE.getLabel(e2);
+                String name1 = ArchiLabelProvider.INSTANCE.getLabelNormalised(e1);
+                String name2 = ArchiLabelProvider.INSTANCE.getLabelNormalised(e2);
                 
                 if(name1 == null) {
                     name1 = "";//$NON-NLS-1$
@@ -343,7 +343,7 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         String getText(Object element) {
-            String name = ArchiLabelProvider.INSTANCE.getLabel(element);
+            String name = ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
             
             // If a dirty model show asterisk
             if(element instanceof IArchimateModel) {
@@ -356,9 +356,9 @@ public class TreeModelViewer extends TreeViewer {
             if(element instanceof IArchimateRelationship) {
                 IArchimateRelationship relationship = (IArchimateRelationship)element;
                 name += " ("; //$NON-NLS-1$
-                name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource());
+                name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
                 name += " - "; //$NON-NLS-1$
-                name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
+                name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
                 name += ")"; //$NON-NLS-1$
             }
             

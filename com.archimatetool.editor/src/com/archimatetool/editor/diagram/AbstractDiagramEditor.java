@@ -435,7 +435,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         if(selected instanceof EditPart) {
             selected = ((EditPart)selected).getModel();
             Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
-            String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
+            String text = ArchiLabelProvider.INSTANCE.getLabelNormalised(selected);
             status.setMessage(image, text);
         }
         else {

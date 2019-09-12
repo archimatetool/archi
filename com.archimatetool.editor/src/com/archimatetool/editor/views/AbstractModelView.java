@@ -117,7 +117,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         if(selected != null) {
             Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
-            String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
+            String text = ArchiLabelProvider.INSTANCE.getLabelNormalised(selected);
             status.setMessage(image, text);
         }
         else {

@@ -62,6 +62,15 @@ public class ArchiLabelProvider {
     }
 
     /**
+     * @return A name for an object.<br>
+     *         This will be the element's name if of type INameable or a default name as specified in its ElementUIProvider.
+     *         All newline instances will be replaced by a single space
+     */
+    public String getLabelNormalised(Object object) {
+        return StringUtils.normaliseNewLineCharacters(getLabel(object));
+    }
+    
+    /**
      * Get a default human-readable name for an EClass
      * @param eClass The Class
      * @return A name or null
