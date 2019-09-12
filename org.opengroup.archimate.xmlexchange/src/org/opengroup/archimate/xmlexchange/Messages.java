@@ -8,6 +8,14 @@ public class Messages extends NLS {
 
     public static String XMLExchangeExportProvider_0;
 
+    public static String XMLExchangeExportProvider_1;
+
+    public static String XMLExchangeExportProvider_2;
+
+    public static String XMLExchangeExportProvider_3;
+
+    public static String XMLExchangeExportProvider_4;
+
     public static String XMLModelImporter_0;
 
     public static String XMLModelImporter_1;

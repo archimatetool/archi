@@ -468,7 +468,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element organizationsElement = new Element(ELEMENT_ORGANIZATIONS, ARCHIMATE3_NAMESPACE);
         
         for(IFolder folder : fModel.getFolders()) {
-            writeFolder(folder, organizationsElement);
+            // If the top level folder is not empty
+            if(!(folder.getElements().isEmpty() && folder.getFolders().isEmpty())) {
+                writeFolder(folder, organizationsElement);
+            }
         }
         
         // If there are children
@@ -482,10 +485,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     Element writeFolder(IFolder folder, Element parentElement) {
-        if(folder.getFolders().isEmpty() && folder.getElements().isEmpty()) {
-            return null;
-        }
-        
         Element itemElement = new Element(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE);
         parentElement.addContent(itemElement);
         
@@ -495,10 +494,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Documentation
         writeTextToElement(folder.getDocumentation(), itemElement, ELEMENT_DOCUMENTATION, false);
 
+        // Sub-folders
         for(IFolder subFolder : folder.getFolders()) {
             writeFolder(subFolder, itemElement);
         }
         
+        // Sub-elements
         for(EObject eObject : folder.getElements()) {
             if(eObject instanceof IIdentifier) {
                 // Don't write Sketch or Canvas Views
