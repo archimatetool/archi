@@ -31,16 +31,8 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
     /**
      * Application Preferences Listener
      */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            applicationPreferencesChanged(event);
-        }
-    };
+    private IPropertyChangeListener prefsListener;
 
-    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-    }
-    
     @Override
     public void activate() {
         if(!isActive()) {
@@ -49,7 +41,8 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
             // Listen to Model
             addECoreAdapter();
             
-            // Listen to Prefs changes
+            // Listen to Application Prefs changes
+            prefsListener = this::applicationPreferencesChanged;
             Preferences.STORE.addPropertyChangeListener(prefsListener);
         }
     }
@@ -90,6 +83,12 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
      */
     protected abstract Adapter getECoreAdapter();
 
+    /**
+     * An Application Preference Property change event occurred
+     * @param event
+     */
+    protected abstract void applicationPreferencesChanged(PropertyChangeEvent event);
+    
     @Override
     public EObject getModel() {
         return (EObject)super.getModel();
