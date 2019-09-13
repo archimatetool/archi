@@ -76,11 +76,8 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         Label label = new Label(exportGroup, SWT.NULL);
         label.setText(Messages.ExportAsCSVPage_3);
         
-        fFolderTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
+        fFolderTextField = UIUtils.createSingleTextControl(exportGroup, SWT.BORDER, false);
         fFolderTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFolderTextField);
         
         fFolderTextField.addModifyListener(new ModifyListener() {
             @Override
@@ -114,7 +111,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         label = new Label(exportGroup, SWT.NULL);
         label.setText(Messages.ExportAsCSVPage_6);
         
-        fFilePrefixTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
+        fFilePrefixTextField = UIUtils.createSingleTextControl(exportGroup, SWT.BORDER, false);
         fFilePrefixTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         gd = new GridData();
         gd.widthHint = 100;
@@ -128,9 +125,6 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
                 updateFileLabels();
             }
         });
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFilePrefixTextField);
         
         // Encoding
         label = new Label(exportGroup, SWT.NULL);

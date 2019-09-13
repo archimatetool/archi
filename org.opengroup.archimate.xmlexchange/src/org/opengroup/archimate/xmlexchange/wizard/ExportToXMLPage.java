@@ -79,7 +79,7 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         Label label = new Label(exportGroup, SWT.NULL);
         label.setText(Messages.ExportToXMLPage_3);
         
-        fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
+        fFileTextField = UIUtils.createSingleTextControl(exportGroup, SWT.BORDER, false);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         String fileName = StringUtils.isSet(fModelName) ? fModelName + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -94,9 +94,6 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         else {
             fFileTextField.setText(new File(System.getProperty("user.home"), fileName).getPath()); //$NON-NLS-1$
         }
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFileTextField);
         
         fFileTextField.addModifyListener(new ModifyListener() {
             @Override

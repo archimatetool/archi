@@ -64,11 +64,8 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
         Label label = new Label(settingsGroup, SWT.NULL);
         label.setText(Messages.JasperReportsPreferencesPage_1);
         
-        fUserReportsFolderTextField = new Text(settingsGroup, SWT.BORDER | SWT.SINGLE);
+        fUserReportsFolderTextField = UIUtils.createSingleTextControl(settingsGroup, SWT.BORDER, false);
         fUserReportsFolderTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fUserReportsFolderTextField);
         
         Button folderButton = new Button(settingsGroup, SWT.PUSH);
         folderButton.setText(Messages.JasperReportsPreferencesPage_2);

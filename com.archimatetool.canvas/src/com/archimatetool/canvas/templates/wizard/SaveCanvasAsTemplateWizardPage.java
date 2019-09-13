@@ -89,7 +89,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         label = new Label(fileComposite, SWT.NULL);
         label.setText(Messages.SaveCanvasAsTemplateWizardPage_2);
         
-        fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
+        fFileTextField = UIUtils.createSingleTextControl(fileComposite, SWT.BORDER, false);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         String defaultFileName = Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION;
@@ -104,8 +104,6 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
             fFileTextField.setText(new File(System.getProperty("user.home"), defaultFileName).getPath()); //$NON-NLS-1$
         }
         
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
@@ -133,13 +131,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         label = new Label(fieldGroup, SWT.NULL);
         label.setText(Messages.SaveCanvasAsTemplateWizardPage_5);
 
-        fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
+        fNameTextField = UIUtils.createSingleTextControl(fieldGroup, SWT.BORDER, false);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
         if(StringUtils.isSet(fCanvasModel.getName())) {
             fNameTextField.setText(fCanvasModel.getName());
         }
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fNameTextField);
+        
         fNameTextField.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {

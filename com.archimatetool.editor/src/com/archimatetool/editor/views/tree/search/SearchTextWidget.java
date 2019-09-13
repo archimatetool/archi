@@ -78,13 +78,10 @@ public class SearchTextWidget extends Composite {
         GridData gd = new GridData(SWT.NONE, SWT.FILL, false, true);
         label.setLayoutData(gd);
         
-        fTextControl = new Text(this, SWT.NULL);
+        fTextControl = UIUtils.createSingleTextControl(this, SWT.NONE, false);
         gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         fTextControl.setLayoutData(gd);
         fTextControl.addModifyListener(fModifyListener);
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fTextControl);
         
         label.setBackground(fTextControl.getBackground());
         setBackground(fTextControl.getBackground());

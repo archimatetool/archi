@@ -127,7 +127,7 @@ public class ExportAsImagePage extends WizardPage {
         Label label = new Label(exportGroup, SWT.NULL);
         label.setText(Messages.ExportAsImagePage_3);
         
-        fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
+        fFileTextField = UIUtils.createSingleTextControl(exportGroup, SWT.BORDER, false);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Get last folder
@@ -139,9 +139,6 @@ public class ExportAsImagePage extends WizardPage {
         else {
             fFileTextField.setText(new File(System.getProperty("user.home"), fName).getAbsolutePath()); //$NON-NLS-1$
         }
-        
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFileTextField);
         
         fFileTextField.addModifyListener(new ModifyListener() {
             @Override

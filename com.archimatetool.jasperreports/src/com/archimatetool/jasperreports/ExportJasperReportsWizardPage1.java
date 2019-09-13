@@ -87,7 +87,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         Label label = new Label(fieldContainer, SWT.NONE);
         label.setText(Messages.ExportJasperReportsWizardPage1_2);
         
-        fTextOutputFolder = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
+        fTextOutputFolder = UIUtils.createSingleTextControl(fieldContainer, SWT.BORDER, false);
         fTextOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         String lastFolder = store.getString(PREFS_LAST_FOLDER);
         if(StringUtils.isSet(lastFolder)) {
@@ -97,8 +97,6 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
             fTextOutputFolder.setText(new File(System.getProperty("user.home"), "exported").getPath()); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fTextOutputFolder);
         fTextOutputFolder.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
@@ -117,7 +115,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         
         label = new Label(fieldContainer, SWT.NONE);
         label.setText(Messages.ExportJasperReportsWizardPage1_4);
-        fTextFilename = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
+        fTextFilename = UIUtils.createSingleTextControl(fieldContainer, SWT.BORDER, false);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fTextFilename.setLayoutData(gd);
@@ -129,8 +127,6 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
             fTextFilename.setText("report-filename"); //$NON-NLS-1$
         }
 
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fTextFilename);
         fTextFilename.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
@@ -140,14 +136,12 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
 
         label = new Label(fieldContainer, SWT.NONE);
         label.setText(Messages.ExportJasperReportsWizardPage1_5);
-        fTextReportTitle = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
+        fTextReportTitle = UIUtils.createSingleTextControl(fieldContainer, SWT.BORDER, false);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fTextReportTitle.setLayoutData(gd);
         fTextReportTitle.setText(fModel.getName());
         
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fTextReportTitle);
         fTextReportTitle.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {

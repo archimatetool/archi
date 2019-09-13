@@ -28,9 +28,7 @@ public class TreeTextCellEditor extends TextCellEditor {
         
         // Filter out nasties
         UIUtils.applyInvalidCharacterFilter(txt);
-        
-        // Not sure if we need this
-        //UIUtils.conformSingleTextControl(txt);
+        UIUtils.conformSingleTextControl(txt);
 
         FontData[] fontData = txt.getFont().getFontData();
         if(fontData != null && fontData.length > 0) {

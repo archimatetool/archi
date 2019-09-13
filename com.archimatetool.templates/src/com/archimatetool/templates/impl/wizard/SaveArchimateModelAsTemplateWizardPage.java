@@ -95,7 +95,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         label = new Label(fileComposite, SWT.NULL);
         label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_4);
         
-        fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
+        fFileTextField = UIUtils.createSingleTextControl(fileComposite, SWT.BORDER, false);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         String defaultFileName = Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
@@ -110,8 +110,6 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
             fFileTextField.setText(new File(System.getProperty("user.home"), defaultFileName).getPath()); //$NON-NLS-1$
         }
 
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
@@ -139,13 +137,12 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         label = new Label(fieldGroup, SWT.NULL);
         label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_7);
 
-        fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
+        fNameTextField = UIUtils.createSingleTextControl(fieldGroup, SWT.BORDER, false);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         if(StringUtils.isSet(fModel.getName())) {
             fNameTextField.setText(fModel.getName());
         }
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fNameTextField);
+
         fNameTextField.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {

@@ -222,11 +222,9 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         fNameLabel.setText(Messages.TemplateManagerDialog_9);
         fNameLabel.setEnabled(false);
         
-        fNameTextField = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
+        fNameTextField = UIUtils.createSingleTextControl(fieldContainer, SWT.BORDER, false);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fNameTextField.setEnabled(false);
-        // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(fNameTextField);
 
         fNameTextField.addModifyListener(new ModifyListener() {
             @Override
