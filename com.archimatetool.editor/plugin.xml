@@ -579,6 +579,12 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+M2+V">
       </key>
+      <key
+            commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M4+F">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -653,6 +659,11 @@
             description="%command.description"
             id="com.archimatetool.editor.pluginManager"
             name="%command.name.15">
+      </command>
+      <command
+            defaultHandler="com.archimatetool.editor.actions.MacFullScreenCommandHandler"
+            id="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
+            name="%command.name.16">
       </command>
    </extension>
    <extension
@@ -763,6 +774,18 @@
                commandId="com.archimatetool.editor.pluginManager"
                label="%command.label.3"
                style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?before=nav_start">
+         <command
+               commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
+               label="%command.label.4"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>

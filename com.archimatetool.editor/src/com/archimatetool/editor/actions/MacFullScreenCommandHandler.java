@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.editor;
+package com.archimatetool.editor.actions;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -14,11 +14,11 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Handles Enter and Exit of Mac OS X Lion Full Screen
+ * Handles Mac Full Screen
  * 
  * @author Phillip Beauvoir
  */
-public class FullScreenCommandHandler extends AbstractHandler {
+public class MacFullScreenCommandHandler extends AbstractHandler {
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {

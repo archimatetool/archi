@@ -31,7 +31,6 @@
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
         <module>com.archimatetool.editor.feature</module>
-        <module>com.archimatetool.editor.fullscreen.macos</module>
         <module>com.archimatetool.editor.launch.win32</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>

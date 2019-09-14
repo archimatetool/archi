@@ -8,12 +8,8 @@ package com.archimatetool.editor.diagram.directedit;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -35,18 +31,6 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
         // Hook into the global Action Handlers and null them
         fGlobalActionHandler = new GlobalActionDisablementHandler();
         fGlobalActionHandler.clearGlobalActions();
-        
-        // Stop OS X closing Mac Full Screen when Escape pressed
-        if(PlatformUtils.isMac()) {
-            getCellEditor().getControl().addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if(e.keyCode == SWT.ESC) {
-                        e.doit = false;
-                    }
-                }
-            });
-        }
     }
     
     @Override
