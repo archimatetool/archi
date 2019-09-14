@@ -439,13 +439,10 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
+     * @generated
      */
     @Override
     public IMetadata getMetadata() {
-        if(metadata == null) {
-            metadata = IArchimateFactory.eINSTANCE.createMetadata();
-        }
         return metadata;
     }
 
