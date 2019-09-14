@@ -239,8 +239,6 @@ public class ArchimateModelTests {
     
     @Test
     public void testGetMetadata() {
-        assertEquals(null, model.getMetadata());
-        model.setMetadata(IArchimateFactory.eINSTANCE.createMetadata());
         assertNotNull(model.getMetadata());
     }
 
