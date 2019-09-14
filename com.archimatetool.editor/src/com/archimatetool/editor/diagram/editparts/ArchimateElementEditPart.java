@@ -14,7 +14,7 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 
-import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
+import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateContainerLayoutPolicy;
@@ -91,7 +91,8 @@ public class ArchimateElementEditPart extends AbstractArchimateElementEditPart {
     }
     
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
+        //return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
+        return new MultiLineTextDirectEditManager(this, true);
     }
     
     @SuppressWarnings("rawtypes")

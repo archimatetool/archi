@@ -19,8 +19,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 
-import com.archimatetool.editor.ui.UIUtils;
-
 
 
 /**
@@ -31,17 +29,14 @@ import com.archimatetool.editor.ui.UIUtils;
  */
 public class LabelDirectEditManager extends AbstractDirectEditManager {
 
-    // If true use original font
-    private boolean USE_ORIGINAL_FONT = false;
-    
-    private VerifyListener fVerifyListener;
-    private IFigure fTextFigure;
-    private String fInitialText;
+    private VerifyListener verifyListener;
+    private IFigure textFigure;
+    private String initialText;
 
-    public LabelDirectEditManager(GraphicalEditPart source, IFigure textFigure, String text) {
+    public LabelDirectEditManager(GraphicalEditPart source, IFigure textFigure, String initialText) {
         super(source, TextCellEditor.class, null);
-        fTextFigure = textFigure;
-        fInitialText = text;
+        this.textFigure = textFigure;
+        this.initialText = initialText;
         setLocator(new TextCellEditorLocator());
     }
 
@@ -52,30 +47,25 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
     protected void initCellEditor() {
         super.initCellEditor();
         
-        final Text text = (Text)getCellEditor().getControl();
-        
         // Single text control strips CRLFs
-        UIUtils.conformSingleTextControl(text);
+        setNormalised();
         
-        // Filter out any illegal xml characters
-        UIUtils.applyInvalidCharacterFilter(text);
-
         /**
          * Changes the size of the editor control to reflect the changed text
          */
-        fVerifyListener = new VerifyListener() {
+        verifyListener = new VerifyListener() {
             @Override
             public void verifyText(VerifyEvent event) {
-                String oldText = text.getText();
+                String oldText = getTextControl().getText();
                 String leftText = oldText.substring(0, event.start);
                 String rightText = oldText.substring(event.end, oldText.length());
                 
-                GC gc = new GC(text);
+                GC gc = new GC(getTextControl());
                 Point size = gc.textExtent(leftText + event.text + rightText);
                 gc.dispose();
                 
                 if(size.x != 0) {
-                    size = text.computeSize(size.x, SWT.DEFAULT);
+                    size = getTextControl().computeSize(size.x, SWT.DEFAULT);
                 }
                 else {
                     // just make it square
@@ -87,15 +77,13 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
 
         };
         
-        text.addVerifyListener(fVerifyListener);
+        getTextControl().addVerifyListener(verifyListener);
 
         // set the initial value of the text
-        getCellEditor().setValue(fInitialText);
+        getCellEditor().setValue(initialText);
 
-        if(USE_ORIGINAL_FONT) {
-            IFigure figure = (getEditPart()).getFigure();
-            text.setFont(figure.getFont());
-        }
+        IFigure figure = (getEditPart()).getFigure();
+        getTextControl().setFont(figure.getFont());
     }
 
     /**
@@ -104,29 +92,29 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
     @Override
     protected void unhookListeners() {
         super.unhookListeners();
-        Text text = (Text)getCellEditor().getControl();
-        text.removeVerifyListener(fVerifyListener);
-        fVerifyListener = null;
+        
+        getTextControl().removeVerifyListener(verifyListener);
+        verifyListener = null;
     }
     
     
     class TextCellEditorLocator implements CellEditorLocator {
         @Override
         public void relocate(CellEditor celleditor) {
-            Text text = (Text)celleditor.getControl();
+            Text text = getTextControl();
             
             Point preferredSize = text.computeSize(SWT.DEFAULT, SWT.DEFAULT);
             
             Rectangle rect;
             
-            if(fTextFigure instanceof Label) {
-                rect = ((Label)fTextFigure).getTextBounds().getCopy();
+            if(textFigure instanceof Label) {
+                rect = ((Label)textFigure).getTextBounds().getCopy();
             }
             else {
-                rect = fTextFigure.getBounds().getCopy();
+                rect = textFigure.getBounds().getCopy();
             }
             
-            fTextFigure.translateToAbsolute(rect);
+            textFigure.translateToAbsolute(rect);
             
             if(text.getCharCount() > 1) {
                 text.setBounds(rect.x - 1, rect.y - 1, preferredSize.x + 1, preferredSize.y + 1);

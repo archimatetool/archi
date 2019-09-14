@@ -39,7 +39,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
-import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
+import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.policies.ManualBendpointEditPolicy;
@@ -280,7 +280,8 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     }
     
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getConnectionLabel(), getModel().getName());
+        //return new LabelDirectEditManager(this, getFigure().getConnectionLabel(), getModel().getName());
+        return new MultiLineTextDirectEditManager(this, true, getFigure().getConnectionLabel());
     }
     
     @Override

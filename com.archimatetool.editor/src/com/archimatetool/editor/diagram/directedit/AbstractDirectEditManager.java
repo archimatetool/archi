@@ -8,7 +8,11 @@ package com.archimatetool.editor.diagram.directedit;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 
 
@@ -21,8 +25,9 @@ import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 public abstract class AbstractDirectEditManager extends DirectEditManager {
     
     private GlobalActionDisablementHandler fGlobalActionHandler;
+    private VerifyListener verifyListener;
 
-    public AbstractDirectEditManager(GraphicalEditPart source, @SuppressWarnings("rawtypes") Class editorType, CellEditorLocator locator) {
+    public AbstractDirectEditManager(GraphicalEditPart source, Class<?> editorType, CellEditorLocator locator) {
         super(source, editorType, locator);
     }
 
@@ -31,6 +36,35 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
         // Hook into the global Action Handlers and null them
         fGlobalActionHandler = new GlobalActionDisablementHandler();
         fGlobalActionHandler.clearGlobalActions();
+        
+        // Filter out any illegal xml characters
+        UIUtils.applyInvalidCharacterFilter(getTextControl());
+    }
+    
+    protected void setNormalised() {
+        if(verifyListener == null) {
+            verifyListener = new VerifyListener() {
+                @Override
+                public void verifyText(VerifyEvent event) {
+                    event.text = event.text.replaceAll("(\r\n|\r|\n)", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                }
+            };
+            
+            getTextControl().addVerifyListener(verifyListener);
+        }
+    }
+    
+    protected Text getTextControl() {
+        return (Text)getCellEditor().getControl();
+    }
+    
+    @Override
+    protected void unhookListeners() {
+        super.unhookListeners();
+        
+        if(verifyListener != null) {
+            getTextControl().removeVerifyListener(verifyListener);
+        }
     }
     
     @Override

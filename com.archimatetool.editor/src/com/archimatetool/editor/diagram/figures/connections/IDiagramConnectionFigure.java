@@ -6,7 +6,7 @@
 package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Point;
 
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
@@ -43,7 +43,7 @@ public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFig
     boolean didClickConnectionLabel(Point requestLoc);
     
     /**
-     * @return
+     * @return The label figure
      */
-    Label getConnectionLabel();
+    Figure getConnectionLabel();
 }
