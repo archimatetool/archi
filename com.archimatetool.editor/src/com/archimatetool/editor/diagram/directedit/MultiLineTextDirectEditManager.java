@@ -1,6 +1,7 @@
 package com.archimatetool.editor.diagram.directedit;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
@@ -148,7 +149,11 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
 
                 if(isSingleText) {
                     int height = text.computeSize(rect.width - text.computeTrim(0, 0, 0, 0).width, SWT.DEFAULT).y;
-                    text.setBounds(rect.x, rect.y, rect.width, Math.min(height, rect.height));
+                    // If reference is not a label it's a figure box so use height of the figure box or text control, whichever is the smallest
+                    if(!(referenceFigure instanceof Label)) {
+                        height = Math.min(height, rect.height);
+                    }
+                    text.setBounds(rect.x, rect.y, rect.width, height);
                 }
                 else {
                     text.setBounds(rect.x, rect.y, rect.width, rect.height);
