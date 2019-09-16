@@ -834,10 +834,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         }
         
         if(folders != null) {
-            for(IFolder f : folders) {
-                f.getFolders().clear();
-                f.getElements().clear();
-            }
             folders.clear();
             folders = null;
         }
