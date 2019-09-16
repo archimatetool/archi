@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -22,6 +23,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.util.IModelContentListener;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -49,7 +51,49 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
     
     @Test
-    public void testAddDefaultFolders() {
+    public void addModelContentListener() {
+        model.setDefaults();
+        
+        assertTrue(model.eAdapters().isEmpty());
+
+        assertFalse(model.addModelContentListener(null));
+        
+        IModelContentListener listener = (notification) ->  {
+            assertEquals(model.getFolder(FolderType.DIAGRAMS), notification.getNotifier());
+        };
+        
+        assertTrue(model.addModelContentListener(listener));
+        assertFalse(model.addModelContentListener(listener)); // do it twice
+        
+        assertEquals(1, model.eAdapters().size()); // should be only one
+        
+        model.getFolder(FolderType.DIAGRAMS).getElements().add(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
+        
+        // Disposed
+        model.dispose();
+        assertFalse(model.addModelContentListener(listener));
+    }
+    
+    @Test
+    public void removeModelContentListener() {
+        assertFalse(model.removeModelContentListener(null));
+        
+        IModelContentListener listener = (notification) ->  {};
+        
+        assertFalse(model.removeModelContentListener(listener));
+        
+        model.addModelContentListener(listener);
+        
+        assertTrue(model.removeModelContentListener(listener));
+        assertFalse(model.removeModelContentListener(listener));
+
+        // Disposed
+        model.dispose();
+        assertFalse(model.removeModelContentListener(listener));
+    }
+
+    @Test
+    public void addDefaultFolders() {
         // No folders by default
         EList<IFolder> list = model.getFolders();
         assertEquals(0, list.size());
@@ -78,7 +122,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetDefaultFolderForObject() {
+    public void getDefaultFolderForObject() {
         EObject element = IArchimateFactory.eINSTANCE.createResource();
         IFolder folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
@@ -126,7 +170,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetDefaultFolderForWrongElement() {
+    public void getDefaultFolderForWrongElement() {
         // Null
         IFolder folder = model.getDefaultFolderForObject(null);
         assertNull(folder);
@@ -146,7 +190,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetFolder() {
+    public void getFolder() {
         assertNull(model.getFolder(FolderType.STRATEGY));
         assertNull(model.getFolder(FolderType.BUSINESS));
         assertNull(model.getFolder(FolderType.APPLICATION));
@@ -167,12 +211,12 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetAdapter() {
+    public void getAdapter() {
         CommonTests.testGetAdapter(model);
     }
 
     @Test
-    public void testGetDefaultDiagramModel() {
+    public void getDefaultDiagramModel() {
         assertNull(model.getDefaultDiagramModel());
         
         IDiagramModel dm1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
@@ -184,7 +228,7 @@ public class ArchimateModelTests {
     }
 
     @Test
-    public void testGetDiagramModels() {
+    public void getDiagramModels() {
         model.addDefaultFolders();
         
         EList<IDiagramModel> list = model.getDiagramModels();
@@ -218,46 +262,46 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetName() {
+    public void getName() {
         CommonTests.testGetName(model);
     }
 
     @Test
-    public void testGetID() {
+    public void getIDNotNull() {
         assertNotNull(model.getId());
     }
         
     @Test
-    public void testGetArchimateModel() {
+    public void getArchimateModelSame() {
         assertSame(model, model.getArchimateModel());
     }
 
     @Test
-    public void testGetProperties() {
+    public void getProperties() {
         CommonTests.testProperties(model);
     }
     
     @Test
-    public void testGetMetadata() {
+    public void getMetadata() {
         assertEquals(null, model.getMetadata());
         model.setMetadata(IArchimateFactory.eINSTANCE.createMetadata());
         assertNotNull(model.getMetadata());
     }
 
     @Test
-    public void testGetPurpose() {
+    public void getPurpose() {
         assertEquals("", model.getPurpose());
         model.setPurpose("name");
         assertEquals("name", model.getPurpose());
     }
 
     @Test
-    public void testGetFolders() {
+    public void getFoldersIsEmpty() {
         assertTrue(model.getFolders().isEmpty());
     }
 
     @Test
-    public void testGetFile() {
+    public void getFile() {
         assertNull(model.getFile());
         File file = new File("");
         model.setFile(file);
@@ -265,14 +309,14 @@ public class ArchimateModelTests {
     }
 
     @Test
-    public void testGetVersion() {
+    public void getVersion() {
         assertEquals("", model.getVersion());
-        model.setVersion("name");
-        assertEquals("name", model.getVersion());
+        model.setVersion("1.2");
+        assertEquals("1.2", model.getVersion());
     }
     
     @Test
-    public void testSetDefaults() {
+    public void setDefaults() {
         model.setDefaults();
         assertNotNull(model.getId());
         assertEquals(9, model.getFolders().size());

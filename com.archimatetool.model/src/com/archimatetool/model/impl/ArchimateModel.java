@@ -6,9 +6,11 @@
 package com.archimatetool.model.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -47,6 +50,7 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ITechnologyElement;
+import com.archimatetool.model.util.IModelContentListener;
 import com.archimatetool.model.util.UUIDFactory;
 
 
@@ -190,11 +194,39 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @ordered
      */
     protected IMetadata metadata;
+
     /**
      * Adapter Map for arbitrary objects
      */
     private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
     
+    /**
+     * Ecore listeners
+     */
+    private List<IModelContentListener> fContentListeners = new ArrayList<IModelContentListener>();
+    
+    /**
+     * One central EContentAdapter to listen to all model changes and forward on to listeners
+     */
+    private EContentAdapter eContentAdapter = new EContentAdapter() {
+        @Override
+        public void notifyChanged(Notification notification) {
+            super.notifyChanged(notification);
+            
+            // Not interested in this type
+            if(notification.getEventType() == Notification.REMOVING_ADAPTER) {
+                return;
+            }
+            
+            // Notify model listeners
+            if(fContentListeners != null) {
+                for(IModelContentListener listener : new ArrayList<>(fContentListeners)) {
+                    listener.notifyChanged(notification);
+                }
+            }
+        }
+    };
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -203,6 +235,29 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     protected ArchimateModel() {
         super();
         id = UUIDFactory.createID(this);
+    }
+    
+    
+    @Override
+    public boolean addModelContentListener(IModelContentListener listener) {
+        if(listener == null || fContentListeners == null) { // we might be disposed
+            return false;
+        }
+        
+        if(!eAdapters().contains(eContentAdapter)) {
+            eAdapters().add(eContentAdapter);
+        }
+        
+        return fContentListeners.contains(listener) ? false: fContentListeners.add(listener);
+    }
+    
+    @Override
+    public boolean removeModelContentListener(IModelContentListener listener) {
+        if(listener == null || fContentListeners == null) { // we might be disposed
+            return false;
+        }
+        
+        return fContentListeners.remove(listener);
     }
     
     /**
@@ -826,6 +881,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         
         fAdapterMap.clear();
         fAdapterMap = null;
+        
+        fContentListeners.clear();
+        fContentListeners = null;
         
         // Dispose of these in case they are referenced in an editor or similar
         for(IDiagramModel dm : getDiagramModels()) {

@@ -11,15 +11,12 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.commands.CommandStackEventListener;
@@ -56,6 +53,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.ArchimateResourceFactory;
+import com.archimatetool.model.util.IModelContentListener;
 
 
 
@@ -77,6 +75,11 @@ implements IEditorModelManager {
      * Listener list
      */
     private PropertyChangeSupport fListeners = new PropertyChangeSupport(this);
+    
+    /**
+     * Listener
+     */
+    private IModelContentListener fEContentListener = this::notifyChanged;
     
     /**
      * Models Open
@@ -182,8 +185,8 @@ implements IEditorModelManager {
         
         firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
         
-        // New Ecore Adapter
-        createNewECoreAdapter(model);
+        // Register Ecore listener
+        model.addModelContentListener(fEContentListener);
     }
     
     @Override
@@ -232,8 +235,8 @@ implements IEditorModelManager {
         // New Archive Manager
         createNewArchiveManager(model);
         
-        // New Ecore Adapter
-        createNewECoreAdapter(model);
+        // Register Ecore listener
+        model.addModelContentListener(fEContentListener);
 
         firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
     }
@@ -334,9 +337,9 @@ implements IEditorModelManager {
         
         getModels().add(model);
         
-        // New Ecore Adapter
-        createNewECoreAdapter(model);
-
+        // Register Ecore listener
+        model.addModelContentListener(fEContentListener);
+        
         // New Command Stack
         createNewCommandStack(model);
         
@@ -377,19 +380,12 @@ implements IEditorModelManager {
 
         // Delete the CommandStack *LAST* because GEF Editor(s) will still reference it!
         deleteCommandStack(model);
-        
-        // Don't send notifications from this point on
-        // This makes disposing the Archive Manager and model much faster
-        model.eSetDeliver(false);
-        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
-            iter.next().eSetDeliver(false);
-        }
-
+  
         // Delete Archive Manager
         deleteArchiveManager(model);
 
         // *at the very last* dispose of this model so its contents can be garbage collected
-        // Some Eclipse components such as the Properties View may still reference the model or some of its contents
+        // Some Eclipse components such as the Properties View might still reference the model or some of its contents
         model.dispose();
         
         return true;
@@ -567,12 +563,6 @@ implements IEditorModelManager {
         return file;
     }
     
-    private void createNewECoreAdapter(IArchimateModel model) {
-        if(model.getAdapter(ECoreAdapter.class) == null) {
-            model.eAdapters().add(new ECoreAdapter());
-        }
-    }
-    
     /**
      * Create a new ComandStack for the Model
      * @param model
@@ -697,20 +687,7 @@ implements IEditorModelManager {
         fListeners.firePropertyChange(new PropertyChangeEvent(source, prop, oldValue, newValue));
     }
     
-    // ======================= ECore Adapter =========================================
-    
-    /**
-     * Adapter listener class.
-     * Forwards on messages so that listeners don't have to adapt to ECore objects
-     */
-    private class ECoreAdapter extends EContentAdapter {
-        @Override
-        public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
-            // Forward on to listeners...
-            if(msg.getEventType() != Notification.REMOVING_ADAPTER) { // Not interested in this type
-                firePropertyChange(this, PROPERTY_ECORE_EVENT, null, msg);
-            }
-        }
+    private void notifyChanged(Notification notification) {
+        firePropertyChange(this, PROPERTY_ECORE_EVENT, null, notification);
     }
 }

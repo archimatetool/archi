@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -24,7 +26,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -38,6 +39,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.util.ArchimateResourceFactory;
+import com.archimatetool.model.util.IModelContentListener;
 
 
 
@@ -46,7 +48,7 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchiveManager implements IArchiveManager {
+public class ArchiveManager implements IArchiveManager, IModelContentListener {
     
     /**
      * Raw image bytes loaded for all images in use globally in the app
@@ -66,45 +68,14 @@ public class ArchiveManager implements IArchiveManager {
     /**
      * Paths of images loaded
      */
-    private List<String> fLoadedImagePaths = new ArrayList<String>();
-    
-    /**
-     * Adapter monitors added image components added by user (copy & paste, DND, image set, etc)
-     * since images were loaded from archive file.
-     */
-    private EContentAdapter fModelAdapter = new EContentAdapter() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
-
-            // IDiagramModelImageProvider added
-            if(msg.getEventType() == Notification.ADD) {
-                if(msg.getNewValue() instanceof IDiagramModelImageProvider) {
-                    IDiagramModelImageProvider imageProvider = (IDiagramModelImageProvider)msg.getNewValue();
-                    String imagePath = imageProvider.getImagePath();
-                    if(imagePath != null && !fLoadedImagePaths.contains(imagePath)) {
-                        fLoadedImagePaths.add(imagePath);
-                    }
-                }
-            }
-            // Image path set
-            else if(msg.getEventType() == Notification.SET) {
-                if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
-                    String imagePath = (String)msg.getNewValue();
-                    if(imagePath != null && !fLoadedImagePaths.contains(imagePath)) {
-                        fLoadedImagePaths.add(imagePath);
-                    }
-                }
-            }
-        }
-    };
+    private Set<String> fLoadedImagePaths = new HashSet<>();
     
     /**
      * @param model The owning model
      */
     public ArchiveManager(IArchimateModel model) {
         fModel = model;
-        fModel.eAdapters().add(fModelAdapter);
+        fModel.addModelContentListener(this);
     }
 
     @Override
@@ -203,9 +174,7 @@ public class ArchiveManager implements IArchiveManager {
                 }
                 
                 // Add to list
-                if(!fLoadedImagePaths.contains(entryName)) {
-                    fLoadedImagePaths.add(entryName);
-                }
+                fLoadedImagePaths.add(entryName);
             }
         }
         
@@ -372,7 +341,7 @@ public class ArchiveManager implements IArchiveManager {
     
     @Override
     public void dispose() {
-        fModel.eAdapters().remove(fModelAdapter);
+        fModel.removeModelContentListener(this);
         
         if(!fLoadedImagePaths.isEmpty()) {
             unloadUnusedImages();
@@ -387,15 +356,13 @@ public class ArchiveManager implements IArchiveManager {
      */
     private void unloadUnusedImages() {
         // Gather all image paths that are in use in other models
-        List<String> allPathsInUse = new ArrayList<String>();
+        Set<String> allPathsInUse = new HashSet<>();
         
         for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
             if(model != fModel) { // don't bother with this model as we no longer use any images
                 ArchiveManager archiveManager = (ArchiveManager)model.getAdapter(IArchiveManager.class);
                 for(String imagePath : archiveManager.fLoadedImagePaths) {
-                    if(!allPathsInUse.contains(imagePath)) {
-                        allPathsInUse.add(imagePath);
-                    }
+                    allPathsInUse.add(imagePath);
                 }
             }
         }
@@ -404,6 +371,33 @@ public class ArchiveManager implements IArchiveManager {
         for(String imagePath : fLoadedImagePaths) {
             if(!allPathsInUse.contains(imagePath)) {
                 BYTE_ARRAY_STORAGE.removeEntry(imagePath);
+            }
+        }
+    }
+    
+    /**
+     * This monitors added image components added by user (copy & paste, DND, image set, etc)
+     * since images were loaded from archive file.
+     */
+    @Override
+    public void notifyChanged(Notification msg) {
+        // IDiagramModelImageProvider added
+        if(msg.getEventType() == Notification.ADD) {
+            if(msg.getNewValue() instanceof IDiagramModelImageProvider) {
+                IDiagramModelImageProvider imageProvider = (IDiagramModelImageProvider)msg.getNewValue();
+                String imagePath = imageProvider.getImagePath();
+                if(imagePath != null) {
+                    fLoadedImagePaths.add(imagePath);
+                }
+            }
+        }
+        // Image path set
+        else if(msg.getEventType() == Notification.SET) {
+            if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
+                String imagePath = (String)msg.getNewValue();
+                if(imagePath != null) {
+                    fLoadedImagePaths.add(imagePath);
+                }
             }
         }
     }

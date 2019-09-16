@@ -22,9 +22,7 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -106,9 +104,9 @@ import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
-import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
+import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
 import com.archimatetool.editor.diagram.actions.PasteSpecialAction;
 import com.archimatetool.editor.diagram.actions.PrintDiagramAction;
@@ -139,6 +137,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.util.IModelContentListener;
 
 
 
@@ -173,12 +172,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Listen to User Preferences Changes
      */
-    protected IPropertyChangeListener appPreferencesListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            applicationPreferencesChanged(event);
-        }
-    };
+    protected IPropertyChangeListener appPreferencesListener = this::applicationPreferencesChanged;
+    
+    /**
+     * Listen to ecore changes
+     */
+    protected IModelContentListener fEContentListener = this::notifyChanged;
     
     /**
      * Application Preference changed
@@ -198,16 +197,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             applyUserGridPreferences();
         }
     }
-    
-    /**
-     * Adapter class to respond to Archimate Model notifications.
-     */
-    protected Adapter eCoreAdapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            eCoreModelChanged(msg);
-        }
-    };
     
     @Override
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -230,8 +219,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         fDiagramModel = ((DiagramEditorInput)input).getDiagramModel();
         
         // Listen to notifications for name changes
-        fDiagramModel.eAdapters().add(eCoreAdapter);
-        fDiagramModel.getArchimateModel().eAdapters().add(eCoreAdapter);
+        fDiagramModel.getArchimateModel().addModelContentListener(fEContentListener);
         
         // Edit Domain before init
         // Use CommandStack from Model
@@ -1016,7 +1004,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * The eCore Model changed
      * @param msg
      */
-    protected void eCoreModelChanged(Notification msg) {
+    protected void notifyChanged(Notification msg) {
         if(msg.getEventType() == Notification.SET) {
             // Archimate Model or Diagram Model name changed
             if(msg.getNotifier() == getModel() || msg.getNotifier() == getModel().getArchimateModel()) {
@@ -1035,8 +1023,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
         
         if(getModel() != null && getModel().getArchimateModel() != null) {
-            getModel().eAdapters().remove(eCoreAdapter);
-            getModel().getArchimateModel().eAdapters().remove(eCoreAdapter);
+            getModel().getArchimateModel().removeModelContentListener(fEContentListener);
         }
         
         // Update shell text

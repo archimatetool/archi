@@ -219,14 +219,13 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    protected void eCoreModelChanged(Notification msg) {
-        super.eCoreModelChanged(msg);
-        
-        if(msg.getEventType() == Notification.SET) {
-            // Diagram Model Viewpoint changed
-            if(msg.getNotifier() == getModel() && msg.getFeature() == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
-                setViewpoint();
-            }
+    protected void notifyChanged(Notification msg) {
+        // Diagram Model Viewpoint changed
+        if(msg.getNotifier() == getModel() && msg.getFeature() == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
+            setViewpoint();
+        }
+        else {
+            super.notifyChanged(msg);
         }
     }
     

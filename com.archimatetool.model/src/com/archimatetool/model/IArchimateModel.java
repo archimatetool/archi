@@ -10,6 +10,9 @@ import java.io.File;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.archimatetool.model.util.IModelContentListener;
+
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Model</b></em>'.
@@ -176,6 +179,18 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      * @generated
      */
     IFolder getFolder(FolderType type);
+    
+    /**
+     * Add ecore listener for notifications in the whole model
+     * @param listener
+     */
+    boolean addModelContentListener(IModelContentListener listener);
+    
+    /**
+     * Remove ecore listener for whole model
+     * @param listener
+     */
+    boolean removeModelContentListener(IModelContentListener listener);
     
     /**
      * Dispose of this model to free memory
