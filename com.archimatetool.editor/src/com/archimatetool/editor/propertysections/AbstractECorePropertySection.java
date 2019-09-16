@@ -210,6 +210,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     @Override
     public void dispose() {
         removeEObjectAdapter();
+        fObjects = null;
     }
     
     // ===========================================================================================================================
