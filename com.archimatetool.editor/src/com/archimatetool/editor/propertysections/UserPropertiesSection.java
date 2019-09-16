@@ -18,12 +18,10 @@ import java.util.regex.Matcher;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
@@ -107,6 +105,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 
@@ -142,23 +141,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     private boolean ignoreMessages;
     
     /**
-     * We need an EContentAdapter to listen to all child IProperty objects
+     * We need a LightweightEContentAdapter to listen to all child IProperty objects
      */
-    private Adapter eAdapter = new EContentAdapter()  {
+    private Adapter eAdapter = new LightweightEContentAdapter(IProperty.class)  {
         @Override
         public void notifyChanged(Notification msg) {
             super.notifyChanged(msg);
             UserPropertiesSection.this.notifyChanged(msg);
         }
-        
-        @Override
-        protected void addAdapter(Notifier notifier) {
-            // Only interested in IProperty types
-            // This ensures that we aren't adding an adapter to hundreds of child objects
-            if(notifier instanceof IProperty) {
-                super.addAdapter(notifier);
-            }
-        };
     };
 
     @Override
