@@ -271,15 +271,35 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         final int labelMargin = 1;
         
         // Save dimensions of original clipping area and label
-        Rectangle l = fConnectionLabel.getTextBounds();
         Rectangle g = graphics.getClip(new Rectangle());
+        Rectangle l = fConnectionLabel.getTextBounds();
         
-        l.expand(labelMargin, labelMargin).getIntersection(g);
+        // Label margin
+        l.expand(labelMargin, labelMargin);
         
         // Create a Path that fills the clipping area minus the label
         Path path = new Path(null);
-        path.addRectangle(g.x, g.y, g.width, g.height);
-        path.addRectangle(l.x, l.y, l.width, l.height);
+        
+        // Bug in Mac using rectangles as Path
+        // Fixes https://github.com/archimatetool/archi/issues/529
+        if(PlatformUtils.isMac()) {
+            path.moveTo(g.x, g.y);
+            path.lineTo(l.x, l.y);
+            path.lineTo(l.x + l.width, l.y);
+            path.lineTo(l.x + l.width, l.y + l.height);
+            path.lineTo(l.x, l.y + l.height);
+            path.lineTo(l.x, l.y);
+            path.lineTo(g.x, g.y);
+            path.lineTo(g.x, g.y + g.height);
+            path.lineTo(g.x + g.width, g.y + g.height);
+            path.lineTo(g.x + g.width, g.y);
+            path.lineTo(g.x, g.y);
+        }
+        else {
+            path.addRectangle(l.x, l.y, l.width, l.height);
+            path.addRectangle(g.x, g.y, g.width, g.height);
+        }
+        
         graphics.setClip(path);
         
         // Monkey patch to fix NPE when connection is disabled when Viewpoint set
