@@ -20,7 +20,6 @@ import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -30,6 +29,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.util.LightweightAdapter;
 
 
 
@@ -47,12 +47,8 @@ implements IEditPartFilterProvider {
      */
     private List<IEditPartFilter> fEditPartFilters;
     
-    private Adapter adapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            eCoreChanged(msg);
-        }
-    };
+    private Adapter adapter = new LightweightAdapter(this::eCoreChanged);
+    
     
     /**
      * Message from the ECore Adapter

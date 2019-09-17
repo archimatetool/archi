@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -29,6 +28,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 
@@ -50,15 +50,9 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     private List<EObject> fObjects;
     
     /**
-     * Default Adapter to listen to model element changes
-     * Sub-classes can return a different one if required via getECoreAdapter()
+     * Default Adapter to listen to model object changes
      */
-    private Adapter eAdapter = new AdapterImpl()  {
-        @Override
-        public void notifyChanged(Notification msg) {
-            AbstractECorePropertySection.this.notifyChanged(msg);
-        }
-    };
+    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged);
     
     @Override
     protected void handleSelection(IStructuredSelection selection) {
@@ -193,7 +187,6 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     
     /**
      * Return the Adapter to listen to model element changes
-     * Sub-classes can over-ride
      */
     protected Adapter getECoreAdapter() {
         return eAdapter;

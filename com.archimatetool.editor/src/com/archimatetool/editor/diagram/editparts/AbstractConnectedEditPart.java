@@ -11,7 +11,6 @@ import java.util.List;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.NodeEditPart;
@@ -22,6 +21,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.util.LightweightAdapter;
 
 
 /**
@@ -40,12 +40,7 @@ implements NodeEditPart {
         super(figureClass);
     }
 
-    private Adapter adapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            eCoreChanged(msg);
-        }
-    };
+    private Adapter adapter = new LightweightAdapter(this::eCoreChanged);
     
     /**
      * Message from the ECore Adapter

@@ -18,7 +18,6 @@ import org.eclipse.draw2d.RelativeBendpoint;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -51,6 +50,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.util.LightweightAdapter;
 
 
 
@@ -61,12 +61,7 @@ import com.archimatetool.model.ILockable;
  */
 public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
 
-    private Adapter adapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            eCoreChanged(msg);
-        }
-    };
+    private Adapter adapter = new LightweightAdapter(this::eCoreChanged);
     
     /**
      * Listen to default font change in Prefs

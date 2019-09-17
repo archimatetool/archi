@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
@@ -140,20 +139,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
     private boolean ignoreMessages;
     
-    /**
-     * We need a LightweightEContentAdapter to listen to all child IProperty objects
-     */
-    private Adapter eAdapter = new LightweightEContentAdapter(IProperty.class)  {
-        @Override
-        public void notifyChanged(Notification msg) {
-            super.notifyChanged(msg);
-            UserPropertiesSection.this.notifyChanged(msg);
-        }
-    };
-
     @Override
     protected void createControls(Composite parent) {
         createTableControl(parent);
+        
+        // We are interested in listening to notifications from child IProperty objects
+        ((LightweightEContentAdapter)getECoreAdapter()).addClass(IProperty.class);
     }
 
     @Override
@@ -194,11 +185,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     @Override
     protected IObjectFilter getFilter() {
         return new Filter();
-    }
-    
-    @Override
-    protected Adapter getECoreAdapter() {
-        return eAdapter;
     }
     
     /**
