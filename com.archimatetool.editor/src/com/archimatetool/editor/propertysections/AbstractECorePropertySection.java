@@ -19,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
@@ -28,6 +29,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.util.IModelContentListener;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -45,9 +47,9 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     protected boolean fIsExecutingCommand;
     
     /**
-     * EObjects that are the subject of this Property Section
+     * ArchimateModelObjects that are the subject of this Property Section
      */
-    private List<EObject> fObjects;
+    private List<IArchimateModelObject> fObjects;
     
     /**
      * Default Adapter to listen to model object changes
@@ -59,7 +61,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         // stop double-firing
         if(selection != getSelection()) { 
             // Remove previous listener adapter
-            removeEObjectAdapter();
+            removeAdapter();
             
             // Get the correct EObjects
             fObjects = getFilteredObjects(selection.toList());
@@ -67,8 +69,8 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
             // Update section
             update();
             
-            // Add ECore listener adapter
-            addEObjectAdapter();
+            // Add listener adapter
+            addAdapter();
         }
     }
     
@@ -87,14 +89,14 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     /**
      * @return The EObjects for this Property Section
      */
-    protected List<EObject> getEObjects() {
+    protected List<IArchimateModelObject> getEObjects() {
         return fObjects;
     }
     
     /**
      * @return The first selected object
      */
-    protected EObject getFirstSelectedObject() {
+    protected IArchimateModelObject getFirstSelectedObject() {
         return (fObjects == null || fObjects.isEmpty()) ? null : fObjects.get(0);
     }
     
@@ -105,8 +107,8 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * 
      * @return A list of filtered adaptable objects according to type
      */
-    private List<EObject> getFilteredObjects(List<?> objects) {
-        ArrayList<EObject> list = new ArrayList<EObject>();
+    private List<IArchimateModelObject> getFilteredObjects(List<?> objects) {
+        ArrayList<IArchimateModelObject> list = new ArrayList<>();
         
         IObjectFilter filter = getFilter();
         
@@ -116,18 +118,18 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
                 object = filter.adaptObject(object);
             }
             
-            if(object instanceof EObject) {
-                list.add((EObject)object);
+            if(object instanceof IArchimateModelObject) {
+                list.add((IArchimateModelObject)object);
             }
         }
         
         // Only use the objects that are in *one* model - the model in the first selected object
         if(!list.isEmpty()) {
-            IArchimateModel firstModel = ((IArchimateModelObject)list.get(0)).getArchimateModel();
+            IArchimateModel firstModel = list.get(0).getArchimateModel();
             
             // Remove objects with different parent models
             for(int i = list.size() - 1; i >= 1; i--) {
-                IArchimateModelObject eObject = (IArchimateModelObject)list.get(i);
+                IArchimateModelObject eObject = list.get(i);
                 if(eObject.getArchimateModel() != firstModel) {
                     list.remove(eObject);
                 }
@@ -172,16 +174,22 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         return (eObject != null) && (eObject instanceof IArchimateModel || eObject.eContainer() != null);
     }
 
-    private void addEObjectAdapter() {
-        if(getFirstSelectedObject() != null && getECoreAdapter() != null && 
-                !getFirstSelectedObject().eAdapters().contains(getECoreAdapter())) {
-            getFirstSelectedObject().eAdapters().add(getECoreAdapter());
+    private void addAdapter() {
+        IArchimateModelObject selected = getFirstSelectedObject();
+        Adapter adapter = getECoreAdapter();
+        
+        if(selected != null && adapter != null && !selected.eAdapters().contains(adapter)) {
+            selected.eAdapters().add(adapter);
+            labelListener.register(selected, fPage);
         }
     }
     
-    private void removeEObjectAdapter() {
-        if(getECoreAdapter() != null && getFirstSelectedObject() != null) {
-            getFirstSelectedObject().eAdapters().remove(getECoreAdapter());
+    private void removeAdapter() {
+        IArchimateModelObject selected = getFirstSelectedObject();
+        Adapter adapter = getECoreAdapter();
+        
+        if(selected != null && adapter != null ) {
+            selected.eAdapters().remove(adapter);
         }
     }
     
@@ -202,9 +210,46 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     
     @Override
     public void dispose() {
-        removeEObjectAdapter();
+        removeAdapter();
+        labelListener.unregister();
         fObjects = null;
     }
+    
+    // ===========================================================================================================================
+    // Name Listener to update the Properties Section Label when a rename event occurs
+    // ===========================================================================================================================
+
+    private static NameListener labelListener = new NameListener();
+    
+    private static class NameListener implements IModelContentListener {
+        private IArchimateModel model;
+        private TabbedPropertySheetPage page;
+        
+        void register(IArchimateModelObject object, TabbedPropertySheetPage page) {
+            unregister();
+
+            model = object.getArchimateModel();
+            if(model != null) {
+                model.addModelContentListener(this);
+                this.page = page;
+            }
+        }
+        
+        void unregister() {
+            if(model != null) {
+                model.removeModelContentListener(this);
+                model = null;
+            }
+            page = null;
+        }
+
+        @Override
+        public void notifyChanged(Notification notification) {
+            if(page != null && notification.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+                page.labelProviderChanged(null); // Update Main label
+            }
+        }
+    };
     
     // ===========================================================================================================================
     // WIDGET FACTORY METHODS
