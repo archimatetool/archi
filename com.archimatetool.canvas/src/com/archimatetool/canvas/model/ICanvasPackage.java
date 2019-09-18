@@ -179,6 +179,15 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__ALPHA = IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
+     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__LINE_ALPHA = IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
+
+    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -530,6 +539,15 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__ALPHA = ICONIC__ALPHA;
 
     /**
+     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__LINE_ALPHA = ICONIC__LINE_ALPHA;
+
+    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -717,6 +735,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__ALPHA = ICONIC__ALPHA;
+
+    /**
+     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__LINE_ALPHA = ICONIC__LINE_ALPHA;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -934,6 +961,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_IMAGE__ALPHA = IArchimatePackage.DIAGRAM_MODEL_IMAGE__ALPHA;
+
+    /**
+     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__LINE_ALPHA = IArchimatePackage.DIAGRAM_MODEL_IMAGE__LINE_ALPHA;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
