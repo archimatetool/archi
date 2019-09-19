@@ -192,8 +192,5 @@ public interface IArchiImages {
     String ARROW_SOURCE_LINE = IMGPATH + "arrow-source-line.png"; //$NON-NLS-1$
     String ARROW_TARGET_LINE = IMGPATH + "arrow-target-line.png"; //$NON-NLS-1$
 
-    String CURSOR_IMG_FORMAT_PAINTER = IMGPATH + "formatpainter-cursor.gif"; //$NON-NLS-1$
-    String CURSOR_IMG_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.gif"; //$NON-NLS-1$
-    
     String CURSOR_IMG_MAGIC_CONNECTOR = IMGPATH + "magic-connector-cursor.png"; //$NON-NLS-1$
 }

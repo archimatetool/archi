@@ -10,6 +10,7 @@ import java.beans.PropertyChangeSupport;
 
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 
 import com.archimatetool.editor.ui.ColorFactory;
@@ -28,50 +29,41 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class FormatPainterInfo {
     
-    protected static ImageData cursorImageData = 
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER).getImageData(ImageFactory.getLogicalDeviceZoom());
-    
-    protected static Cursor defaultCursor = new Cursor(
-            null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getLogicalDeviceZoom()),
-            0,
-            cursorImageData.height - 1);
-    
-    protected static Cursor coloredCursor;
+    public static FormatPainterInfo INSTANCE = new FormatPainterInfo();
     
     /**
      * Paint format information containing cursor color and source component
      */
     public static class PaintFormat {
-        private IDiagramModelComponent sourceComponent;
+        private IDiagramModelComponent component;
         private RGB cursorColor;
         
         public PaintFormat(IDiagramModelComponent component) {
-            sourceComponent = component;
+            this.component = component;
             
-            if(sourceComponent instanceof IDiagramModelConnection) {
+            // Default
+            cursorColor = new RGB(255, 255, 255);
+            
+            if(component instanceof IDiagramModelConnection) {
                 // Line color
-                String colorValue = ((IDiagramModelConnection)sourceComponent).getLineColor();
+                String colorValue = ((IDiagramModelConnection)component).getLineColor();
                 cursorColor = ColorFactory.convertStringToRGB(colorValue);
                 if(cursorColor == null) {
-                    cursorColor = ColorFactory.getDefaultLineColor(sourceComponent).getRGB();
+                    cursorColor = ColorFactory.getDefaultLineColor(component).getRGB();
                 }
             }
-            else if(sourceComponent instanceof IDiagramModelObject) {
+            else if(component instanceof IDiagramModelObject) {
                 // Fill color
-                String colorValue = ((IDiagramModelObject)sourceComponent).getFillColor();
+                String colorValue = ((IDiagramModelObject)component).getFillColor();
                 cursorColor = ColorFactory.convertStringToRGB(colorValue);
                 if(cursorColor == null) {
-                    cursorColor = ColorFactory.getDefaultFillColor(sourceComponent).getRGB();
+                    cursorColor = ColorFactory.getDefaultFillColor(component).getRGB();
                 }
-            }
-            else {
-                cursorColor = new RGB(255, 255, 255);
             }
         }
                 
         public IDiagramModelComponent getSourceComponent() {
-            return sourceComponent;
+            return component;
         }
         
         public RGB getCursorColor() {
@@ -79,20 +71,17 @@ public class FormatPainterInfo {
         }
     }
     
-    public static FormatPainterInfo INSTANCE = new FormatPainterInfo();
+    FormatPainterInfo() {}
     
-    /**
-     * PropertyChangeSupport
-     */
-    private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-
     private PaintFormat pf;
+    private Cursor coloredCursor, defaultCursor;
+    private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
-    public PaintFormat getPaintFormat() {
+    PaintFormat getPaintFormat() {
         return pf;
     }
     
-    public void updatePaintFormat(IDiagramModelComponent component) {
+    void updatePaintFormat(IDiagramModelComponent component) {
         if(component != null) {
             pf = new PaintFormat(component);
         }
@@ -111,39 +100,56 @@ public class FormatPainterInfo {
         fireUpdated();
     }
     
-    public Cursor getCursor() {
-        return pf == null ? defaultCursor : coloredCursor;
+    Cursor getCursor() {
+        return pf == null ? getDefaultCursor() : coloredCursor;
     }
     
-    public boolean isFat() {
+    private Cursor getDefaultCursor() {
+        if(defaultCursor == null) {
+            ImageData id = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getLogicalDeviceZoom());
+            defaultCursor = new Cursor(null, id, 0, id.height - 1);
+        }
+        
+        return defaultCursor;
+    }
+    
+    boolean isFat() {
         return pf != null;
     }
     
     /**
-     * Update colored cursor to selected fill color
+     * Update colored cursor to the selected fill color
      */
-    protected void updateColoredCursor() {
+    private void updateColoredCursor() {
         if(coloredCursor != null && !coloredCursor.isDisposed()) {
             coloredCursor.dispose();
         }
         
+        ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER).getImageData(ImageFactory.getLogicalDeviceZoom());
+
         if(pf.getCursorColor() != null) {
-            cursorImageData.palette.colors[1] = pf.getCursorColor();
+            PaletteData pData = cursorImageData.palette;
+            int whitePixel = pData.getPixel(new RGB(255, 255, 255));
+            int fillColor = pData.getPixel(pf.getCursorColor());
+
+            for(int i = 0; i < cursorImageData.width; i++) {
+                for(int j = 0; j < cursorImageData.height; j++) {
+                    if(cursorImageData.getPixel(i, j) == whitePixel) {
+                        cursorImageData.setPixel(i, j, fillColor);
+                    }
+                }
+            }
         }
         
-        coloredCursor = new Cursor(
-                null,
-                cursorImageData,
-                0,
-                cursorImageData.height - 1);
+        coloredCursor = new Cursor(null, cursorImageData, 0, cursorImageData.height - 1);
     }
     
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    void addPropertyChangeListener(PropertyChangeListener listener) {
         listeners.removePropertyChangeListener(listener);
         listeners.addPropertyChangeListener(listener);
     }
     
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
+    void removePropertyChangeListener(PropertyChangeListener listener) {
         listeners.removePropertyChangeListener(listener);
     }
     
