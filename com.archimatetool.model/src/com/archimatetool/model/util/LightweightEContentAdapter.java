@@ -54,7 +54,7 @@ public class LightweightEContentAdapter extends EContentAdapter {
             super.notifyChanged(notification);
         }
         
-        if(listener != null) {
+        if(listener != null && notification.getEventType() != Notification.REMOVING_ADAPTER) {
             listener.notifyChanged(notification);
         }
     }
