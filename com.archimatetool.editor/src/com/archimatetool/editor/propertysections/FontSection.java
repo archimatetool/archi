@@ -47,7 +47,7 @@ public class FontSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE1);
+            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE1.getName());
         }
 
         @Override

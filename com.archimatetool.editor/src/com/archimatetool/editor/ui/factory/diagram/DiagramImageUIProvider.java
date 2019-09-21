@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory.diagram;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -64,10 +63,10 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
     }
     
     @Override
-    public boolean shouldExposeFeature(EAttribute feature) {
-        return feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR
-                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA
-                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
+    public boolean shouldExposeFeature(String featureName) {
+        return featureName == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()
+                || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()
+                || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA.getName();
     }
 
 }

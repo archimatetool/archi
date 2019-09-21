@@ -41,7 +41,7 @@ public class TextPositionSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return (object instanceof ITextPosition) && shouldExposeFeature((EObject)object, FEATURE);
+            return (object instanceof ITextPosition) && shouldExposeFeature((EObject)object, FEATURE.getName());
         }
 
         @Override

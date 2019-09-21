@@ -38,11 +38,18 @@ public abstract class ObjectFilter implements IFilter, IObjectFilter {
     }
     
     @Override
+    @Deprecated
     public boolean shouldExposeFeature(EObject eObject, EAttribute feature) {
+        return shouldExposeFeature(eObject, feature.getName());
+    }
+    
+    
+    @Override
+    public boolean shouldExposeFeature(EObject eObject, String featureName) {
         IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eObject);
         
         if(provider != null) {
-            return provider.shouldExposeFeature(feature);
+            return provider.shouldExposeFeature(featureName);
         }
         
         return true;

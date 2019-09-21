@@ -109,7 +109,7 @@ public class OpacityAction extends SelectionAction {
         
         if(model instanceof IDiagramModelObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelObject)model));
-            return provider != null && provider.shouldExposeFeature(getFeature());
+            return provider != null && provider.shouldExposeFeature(getFeature().getName());
         }
         
         return false;

@@ -71,7 +71,7 @@ public abstract class AbstractObjectUIProviderTests {
 
     @Test
     public void testShouldExposeFeature() {
-        assertTrue(provider.shouldExposeFeature(null));
+        assertTrue(provider.shouldExposeFeature((String)null));
     }
     
     

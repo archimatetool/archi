@@ -30,7 +30,7 @@ public class OutlineOpacitySection extends OpacitySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE);
+            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE.getName());
         }
 
         @Override

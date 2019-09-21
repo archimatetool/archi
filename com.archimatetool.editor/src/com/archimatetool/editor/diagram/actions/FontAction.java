@@ -121,7 +121,7 @@ public class FontAction extends SelectionAction {
         
         if(model instanceof IFontAttribute) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT.getName());
         }
         
         return false;

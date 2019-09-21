@@ -109,7 +109,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
         
         if(model instanceof IDiagramModelConnection) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelConnection)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
         }
         
         return false;

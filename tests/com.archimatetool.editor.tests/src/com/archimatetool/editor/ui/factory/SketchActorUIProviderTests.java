@@ -55,8 +55,8 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
     }
 
 }

@@ -236,7 +236,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     public void testShouldExposeFeature() {
         // Junctions
         if(getProvider() instanceof JunctionUIProvider) {
-            assertFalse(getProvider().shouldExposeFeature(null));
+            assertFalse(getProvider().shouldExposeFeature((String)null));
         }
         else {
             super.testShouldExposeFeature();

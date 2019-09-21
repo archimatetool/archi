@@ -151,7 +151,7 @@ public class TextAlignmentAction extends SelectionAction {
         
         if(model instanceof ITextAlignment) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName());
         }
         
         return false;

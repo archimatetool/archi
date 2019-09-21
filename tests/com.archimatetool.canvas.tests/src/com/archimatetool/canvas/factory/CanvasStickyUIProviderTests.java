@@ -56,8 +56,8 @@ public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
     
     @Override
     public void testShouldExposeFeature() {
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
-        assertTrue(provider.shouldExposeFeature(null));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
+        assertTrue(provider.shouldExposeFeature((String)null));
     }
     
     @Override

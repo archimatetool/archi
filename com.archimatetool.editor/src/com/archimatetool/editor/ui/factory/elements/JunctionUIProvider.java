@@ -7,7 +7,6 @@ package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -69,10 +68,10 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public boolean shouldExposeFeature(EAttribute feature) {
+    public boolean shouldExposeFeature(String featureName) {
         // Junctions don't expose all UI features
-        return feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR ||
-                feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR ||
-                feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA; 
+        return featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
+                featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName() ||
+                        featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName(); 
     }
 }

@@ -54,7 +54,7 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
     }
 
     @Override

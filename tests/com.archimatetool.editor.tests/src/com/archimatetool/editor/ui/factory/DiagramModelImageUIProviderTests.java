@@ -46,7 +46,7 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
 
     @Override
     public void testShouldExposeFeature() {
-        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
-        assertFalse(provider.shouldExposeFeature(null));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()));
+        assertFalse(provider.shouldExposeFeature((String)null));
     }
 }

@@ -25,8 +25,14 @@ public interface IObjectFilter {
 
     /**
      * @return True if the feature should be exposed on the object
+     * @deprecated Use shouldExposeFeature(EObject eObject, String featureName)
      */
     boolean shouldExposeFeature(EObject eObject, EAttribute feature);
+
+    /**
+     * @return True if the feature should be exposed on the object
+     */
+    boolean shouldExposeFeature(EObject eObject, String featureName);
 
     /**
      * @param object

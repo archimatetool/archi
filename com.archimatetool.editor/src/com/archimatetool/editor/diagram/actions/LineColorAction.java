@@ -126,7 +126,7 @@ public class LineColorAction extends SelectionAction {
         
         if(model instanceof ILineObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ILineObject)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
         }
         
         return false;

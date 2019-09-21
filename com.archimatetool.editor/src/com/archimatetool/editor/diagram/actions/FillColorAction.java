@@ -117,7 +117,7 @@ public class FillColorAction extends SelectionAction {
         
         if(model instanceof IDiagramModelObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelObject)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName());
         }
         
         return false;

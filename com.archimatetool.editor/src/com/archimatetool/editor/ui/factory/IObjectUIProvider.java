@@ -49,6 +49,13 @@ public interface IObjectUIProvider {
     /**
      * @param feature The feature in question
      * @return True if this object should expose a feature in the UI
+     * @deprecated Use shouldExposeFeature(String featureName)
      */
     boolean shouldExposeFeature(EAttribute feature);
+
+    /**
+     * @param feature The feature in question
+     * @return True if this object should expose a feature in the UI
+     */
+    boolean shouldExposeFeature(String featureName);
 }

@@ -57,7 +57,13 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
     }
     
     @Override
+    @Deprecated
     public boolean shouldExposeFeature(EAttribute feature) {
+        return shouldExposeFeature(feature.getName());
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(String featureName) {
         return true;
     }
 }

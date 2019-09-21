@@ -144,7 +144,7 @@ public class TextPositionAction extends SelectionAction {
         
         if(model instanceof ITextPosition) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextPosition)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName());
         }
         
         return false;
