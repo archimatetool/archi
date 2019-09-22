@@ -3010,6 +3010,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EAttribute getAssociationRelationship_Directed() {
+        return (EAttribute)associationRelationshipEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getCompositionRelationship() {
         return compositionRelationshipEClass;
     }
@@ -3384,6 +3394,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         assignmentRelationshipEClass = createEClass(ASSIGNMENT_RELATIONSHIP);
 
         associationRelationshipEClass = createEClass(ASSOCIATION_RELATIONSHIP);
+        createEAttribute(associationRelationshipEClass, ASSOCIATION_RELATIONSHIP__DIRECTED);
 
         compositionRelationshipEClass = createEClass(COMPOSITION_RELATIONSHIP);
 
@@ -3989,6 +4000,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(assignmentRelationshipEClass, IAssignmentRelationship.class, "AssignmentRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(associationRelationshipEClass, IAssociationRelationship.class, "AssociationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getAssociationRelationship_Directed(), ecorePackage.getEBoolean(), "directed", null, 0, 1, IAssociationRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(compositionRelationshipEClass, ICompositionRelationship.class, "CompositionRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

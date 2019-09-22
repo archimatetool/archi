@@ -6285,13 +6285,22 @@ public interface IArchimatePackage extends EPackage {
     int ASSOCIATION_RELATIONSHIP__TARGET = OTHER_RELATIONSHIP__TARGET;
 
     /**
+     * The feature id for the '<em><b>Directed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSOCIATION_RELATIONSHIP__DIRECTED = OTHER_RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Association Relationship</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP_FEATURE_COUNT = OTHER_RELATIONSHIP_FEATURE_COUNT + 0;
+    int ASSOCIATION_RELATIONSHIP_FEATURE_COUNT = OTHER_RELATIONSHIP_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9869,6 +9878,17 @@ public interface IArchimatePackage extends EPackage {
     EClass getAssociationRelationship();
 
     /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IAssociationRelationship#isDirected <em>Directed</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Directed</em>'.
+     * @see com.archimatetool.model.IAssociationRelationship#isDirected()
+     * @see #getAssociationRelationship()
+     * @generated
+     */
+    EAttribute getAssociationRelationship_Directed();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.ICompositionRelationship <em>Composition Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -11850,6 +11870,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass ASSOCIATION_RELATIONSHIP = eINSTANCE.getAssociationRelationship();
+
+        /**
+         * The meta object literal for the '<em><b>Directed</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute ASSOCIATION_RELATIONSHIP__DIRECTED = eINSTANCE.getAssociationRelationship_Directed();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.CompositionRelationship <em>Composition Relationship</em>}' class.

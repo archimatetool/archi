@@ -258,7 +258,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//StructuralRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//OtherRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//OtherRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="directed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//DynamicRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//DependendencyRelationship">

@@ -187,7 +187,9 @@
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//AggregationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//AssignmentRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//AssociationRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//AssociationRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AssociationRelationship/directed"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//CompositionRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//FlowRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//InfluenceRelationship">
