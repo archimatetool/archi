@@ -108,6 +108,7 @@ public interface IArchiImages {
     String ICON_TECHNOLOGY_PROCESS = ARCHIMATE_IMGPATH + "technology-process.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_SERVICE = ARCHIMATE_IMGPATH + "technology-service.png"; //$NON-NLS-1$
     String ICON_VALUE = ARCHIMATE_IMGPATH + "value.png"; //$NON-NLS-1$
+    String ICON_VALUE_STREAM = ARCHIMATE_IMGPATH + "value-stream.png"; //$NON-NLS-1$
     String ICON_WORKPACKAGE = ARCHIMATE_IMGPATH + "workpackage.png"; //$NON-NLS-1$
     
     // Relations

@@ -1097,6 +1097,10 @@
             id="com.archimatetool.editor.ValueUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ValueStreamUIProvider"
+            id="com.archimatetool.editor.ValueStreamUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider"
             id="com.archimatetool.editor.WorkPackageUIProvider">
       </uiProvider>

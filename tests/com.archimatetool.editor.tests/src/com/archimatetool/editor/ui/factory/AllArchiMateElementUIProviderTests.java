@@ -79,6 +79,7 @@ import com.archimatetool.editor.ui.factory.elements.TechnologyInteractionUIProvi
 import com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ValueStreamUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
 import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -161,6 +162,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
                 { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
+                { new ValueStreamUIProvider(), IArchimatePackage.eINSTANCE.getValueStream() },
                 { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() }
                 
         });
