@@ -17,6 +17,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -66,7 +67,7 @@ public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
     public boolean shouldExposeFeature(String featureName) {
         if(featureName == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName() ||
                 featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
-                        featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA.getName()) {
+                        featureName == IDiagramModelObject.FEATURE_LINE_ALPHA) {
             return false;
         }
         

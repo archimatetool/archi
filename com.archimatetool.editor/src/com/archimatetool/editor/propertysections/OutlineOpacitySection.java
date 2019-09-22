@@ -5,12 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectOutlineAlphaCommand;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -22,15 +21,13 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class OutlineOpacitySection extends OpacitySection {
     
-    private static EAttribute FEATURE = IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
-    
     /**
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE.getName());
+            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, IDiagramModelObject.FEATURE_LINE_ALPHA);
         }
 
         @Override
@@ -50,8 +47,13 @@ public class OutlineOpacitySection extends OpacitySection {
     }
     
     @Override
-    protected EAttribute getFeature() {
-        return FEATURE;
+    protected void notifyChanged(Notification msg) {
+        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_LINE_ALPHA)) {
+            update();
+        }
+        else {
+            super.notifyChanged(msg);
+        }
     }
     
     @Override

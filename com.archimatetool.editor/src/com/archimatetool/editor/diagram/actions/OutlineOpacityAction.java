@@ -7,13 +7,11 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectOutlineAlphaCommand;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -53,8 +51,8 @@ public class OutlineOpacityAction extends OpacityAction {
     }
     
     @Override
-    protected EAttribute getFeature() {
-        return IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
+    protected String getFeatureName() {
+        return IDiagramModelObject.FEATURE_LINE_ALPHA;
     }
     
     @Override

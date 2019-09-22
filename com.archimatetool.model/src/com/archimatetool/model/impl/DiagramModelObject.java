@@ -37,7 +37,6 @@ import com.archimatetool.model.ITextAlignment;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getAlpha <em>Alpha</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getLineAlpha <em>Line Alpha</em>}</li>
  * </ul>
  *
  * @generated
@@ -194,26 +193,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     protected int alpha = ALPHA_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getLineAlpha() <em>Line Alpha</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineAlpha()
-     * @generated
-     * @ordered
-     */
-    protected static final int LINE_ALPHA_EDEFAULT = 255;
-
-    /**
-     * The cached value of the '{@link #getLineAlpha() <em>Line Alpha</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineAlpha()
-     * @generated
-     * @ordered
-     */
-    protected int lineAlpha = LINE_ALPHA_EDEFAULT;
-
-    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -230,6 +209,16 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     @Override
     protected EClass eStaticClass() {
         return IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT;
+    }
+
+    @Override
+    public int getLineAlpha() {
+        return getFeatures().getInt(FEATURE_LINE_ALPHA, FEATURE_LINE_ALPHA_DEFAULT);
+    }
+    
+    @Override
+    public void setLineAlpha(int value) {
+        getFeatures().putInt(FEATURE_LINE_ALPHA, value, FEATURE_LINE_ALPHA_DEFAULT);
     }
 
     /**
@@ -332,29 +321,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         alpha = newAlpha;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA, oldAlpha, alpha));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public int getLineAlpha() {
-        return lineAlpha;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public void setLineAlpha(int newLineAlpha) {
-        int oldLineAlpha = lineAlpha;
-        lineAlpha = newLineAlpha;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA, oldLineAlpha, lineAlpha));
     }
 
     /**
@@ -520,8 +486,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return getFillColor();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
                 return getAlpha();
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA:
-                return getLineAlpha();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -557,9 +521,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
                 setAlpha((Integer)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA:
-                setLineAlpha((Integer)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -597,9 +558,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
                 setAlpha(ALPHA_EDEFAULT);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA:
-                setLineAlpha(LINE_ALPHA_EDEFAULT);
-                return;
         }
         super.eUnset(featureID);
     }
@@ -628,8 +586,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
                 return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA:
                 return alpha != ALPHA_EDEFAULT;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA:
-                return lineAlpha != LINE_ALPHA_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -718,8 +674,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         result.append(fillColor);
         result.append(", alpha: "); //$NON-NLS-1$
         result.append(alpha);
-        result.append(", lineAlpha: "); //$NON-NLS-1$
-        result.append(lineAlpha);
         result.append(')');
         return result.toString();
     }

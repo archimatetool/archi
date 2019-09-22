@@ -18,7 +18,6 @@ package com.archimatetool.model;
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getAlpha <em>Alpha</em>}</li>
- *   <li>{@link com.archimatetool.model.IDiagramModelObject#getLineAlpha <em>Line Alpha</em>}</li>
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject()
@@ -26,6 +25,21 @@ package com.archimatetool.model;
  * @generated
  */
 public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILineObject, ITextAlignment {
+    
+    String FEATURE_LINE_ALPHA = "lineAlpha"; //$NON-NLS-1$
+    int FEATURE_LINE_ALPHA_DEFAULT = 255;
+    
+    /**
+     * @return the value of feature LINE_ALPHA
+     */
+    int getLineAlpha();
+    
+    /**
+     * Set the value of feature LINE_ALPHA
+     * @param value
+     */
+    void setLineAlpha(int value);
+    
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->
@@ -104,29 +118,6 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @generated
      */
     void setAlpha(int value);
-
-    /**
-     * Returns the value of the '<em><b>Line Alpha</b></em>' attribute.
-     * The default value is <code>"255"</code>.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Line Alpha</em>' attribute.
-     * @see #setLineAlpha(int)
-     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject_LineAlpha()
-     * @model default="255"
-     * @generated
-     */
-    int getLineAlpha();
-
-    /**
-     * Sets the value of the '{@link com.archimatetool.model.IDiagramModelObject#getLineAlpha <em>Line Alpha</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Line Alpha</em>' attribute.
-     * @see #getLineAlpha()
-     * @generated
-     */
-    void setLineAlpha(int value);
 
     /**
      * <!-- begin-user-doc -->

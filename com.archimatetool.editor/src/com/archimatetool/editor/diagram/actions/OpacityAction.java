@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -109,14 +108,14 @@ public class OpacityAction extends SelectionAction {
         
         if(model instanceof IDiagramModelObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelObject)model));
-            return provider != null && provider.shouldExposeFeature(getFeature().getName());
+            return provider != null && provider.shouldExposeFeature(getFeatureName());
         }
         
         return false;
     }
 
-    protected EAttribute getFeature() {
-        return IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA;
+    protected String getFeatureName() {
+        return IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName();
     }
     
     protected Command getCommand(IDiagramModelObject dmo, int newValue) {

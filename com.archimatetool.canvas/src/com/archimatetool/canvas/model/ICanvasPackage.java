@@ -5,12 +5,11 @@
  */
 package com.archimatetool.canvas.model;
 
+import com.archimatetool.model.IArchimatePackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
-import com.archimatetool.model.IArchimatePackage;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -188,15 +187,6 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__ALPHA = IArchimatePackage.DIAGRAM_MODEL_OBJECT__ALPHA;
 
     /**
-     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__LINE_ALPHA = IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_ALPHA;
-
-    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -222,67 +212,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int ICONIC_FEATURE_COUNT = IArchimatePackage.DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModel <em>Model</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.canvas.model.impl.CanvasModel
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModel()
-     * @generated
-     */
-    int CANVAS_MODEL = 4;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModelSticky <em>Model Sticky</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.canvas.model.impl.CanvasModelSticky
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelSticky()
-     * @generated
-     */
-    int CANVAS_MODEL_STICKY = 5;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModelBlock <em>Model Block</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.canvas.model.impl.CanvasModelBlock
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelBlock()
-     * @generated
-     */
-    int CANVAS_MODEL_BLOCK = 6;
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.IIconic <em>Iconic</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Iconic</em>'.
-     * @see com.archimatetool.canvas.model.IIconic
-     * @generated
-     */
-    EClass getIconic();
-
-    /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.canvas.model.IIconic#getImagePosition <em>Image Position</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Image Position</em>'.
-     * @see com.archimatetool.canvas.model.IIconic#getImagePosition()
-     * @see #getIconic()
-     * @generated
-     */
-    EAttribute getIconic_ImagePosition();
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.canvas.model.INotesContent <em>Notes Content</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.canvas.model.INotesContent
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getNotesContent()
-     * @generated
-     */
-    int NOTES_CONTENT = 3;
 
     /**
      * The meta object id for the '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}' class.
@@ -341,6 +270,16 @@ public interface ICanvasPackage extends EPackage {
     int HELP_HINT_PROVIDER_FEATURE_COUNT = 0;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.canvas.model.INotesContent <em>Notes Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.canvas.model.INotesContent
+     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getNotesContent()
+     * @generated
+     */
+    int NOTES_CONTENT = 3;
+
+    /**
      * The feature id for the '<em><b>Notes</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -357,6 +296,16 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int NOTES_CONTENT_FEATURE_COUNT = 1;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModel <em>Model</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.canvas.model.impl.CanvasModel
+     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModel()
+     * @generated
+     */
+    int CANVAS_MODEL = 4;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -447,6 +396,16 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_FEATURE_COUNT = IArchimatePackage.DIAGRAM_MODEL_FEATURE_COUNT + 2;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModelSticky <em>Model Sticky</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.canvas.model.impl.CanvasModelSticky
+     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelSticky()
+     * @generated
+     */
+    int CANVAS_MODEL_STICKY = 5;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -566,15 +525,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__ALPHA = ICONIC__ALPHA;
 
     /**
-     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__LINE_ALPHA = ICONIC__LINE_ALPHA;
-
-    /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -654,6 +604,16 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_STICKY_FEATURE_COUNT = ICONIC_FEATURE_COUNT + 6;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModelBlock <em>Model Block</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.canvas.model.impl.CanvasModelBlock
+     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelBlock()
+     * @generated
+     */
+    int CANVAS_MODEL_BLOCK = 6;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -771,15 +731,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__ALPHA = ICONIC__ALPHA;
-
-    /**
-     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__LINE_ALPHA = ICONIC__LINE_ALPHA;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -1006,15 +957,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_IMAGE__ALPHA = IArchimatePackage.DIAGRAM_MODEL_IMAGE__ALPHA;
-
-    /**
-     * The feature id for the '<em><b>Line Alpha</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__LINE_ALPHA = IArchimatePackage.DIAGRAM_MODEL_IMAGE__LINE_ALPHA;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -1251,55 +1193,27 @@ public interface ICanvasPackage extends EPackage {
      */
     int CANVAS_MODEL_CONNECTION_FEATURE_COUNT = IArchimatePackage.DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT + 1;
 
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModel <em>Model</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Model</em>'.
-     * @see com.archimatetool.canvas.model.ICanvasModel
-     * @generated
-     */
-    EClass getCanvasModel();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelSticky <em>Model Sticky</em>}'.
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.IIconic <em>Iconic</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Model Sticky</em>'.
-     * @see com.archimatetool.canvas.model.ICanvasModelSticky
+     * @return the meta object for class '<em>Iconic</em>'.
+     * @see com.archimatetool.canvas.model.IIconic
      * @generated
      */
-    EClass getCanvasModelSticky();
+    EClass getIconic();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelBlock <em>Model Block</em>}'.
+     * Returns the meta object for the attribute '{@link com.archimatetool.canvas.model.IIconic#getImagePosition <em>Image Position</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Model Block</em>'.
-     * @see com.archimatetool.canvas.model.ICanvasModelBlock
+     * @return the meta object for the attribute '<em>Image Position</em>'.
+     * @see com.archimatetool.canvas.model.IIconic#getImagePosition()
+     * @see #getIconic()
      * @generated
      */
-    EClass getCanvasModelBlock();
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelImage <em>Model Image</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Model Image</em>'.
-     * @see com.archimatetool.canvas.model.ICanvasModelImage
-     * @generated
-     */
-    EClass getCanvasModelImage();
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelConnection <em>Model Connection</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Model Connection</em>'.
-     * @see com.archimatetool.canvas.model.ICanvasModelConnection
-     * @generated
-     */
-    EClass getCanvasModelConnection();
+    EAttribute getIconic_ImagePosition();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}'.
@@ -1366,6 +1280,56 @@ public interface ICanvasPackage extends EPackage {
     EAttribute getNotesContent_Notes();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModel <em>Model</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Model</em>'.
+     * @see com.archimatetool.canvas.model.ICanvasModel
+     * @generated
+     */
+    EClass getCanvasModel();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelSticky <em>Model Sticky</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Model Sticky</em>'.
+     * @see com.archimatetool.canvas.model.ICanvasModelSticky
+     * @generated
+     */
+    EClass getCanvasModelSticky();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelBlock <em>Model Block</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Model Block</em>'.
+     * @see com.archimatetool.canvas.model.ICanvasModelBlock
+     * @generated
+     */
+    EClass getCanvasModelBlock();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelImage <em>Model Image</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Model Image</em>'.
+     * @see com.archimatetool.canvas.model.ICanvasModelImage
+     * @generated
+     */
+    EClass getCanvasModelImage();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.canvas.model.ICanvasModelConnection <em>Model Connection</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Model Connection</em>'.
+     * @see com.archimatetool.canvas.model.ICanvasModelConnection
+     * @generated
+     */
+    EClass getCanvasModelConnection();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1404,56 +1368,6 @@ public interface ICanvasPackage extends EPackage {
          * @generated
          */
         EAttribute ICONIC__IMAGE_POSITION = eINSTANCE.getIconic_ImagePosition();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModel <em>Model</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.impl.CanvasModel
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModel()
-         * @generated
-         */
-        EClass CANVAS_MODEL = eINSTANCE.getCanvasModel();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelSticky <em>Model Sticky</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.impl.CanvasModelSticky
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelSticky()
-         * @generated
-         */
-        EClass CANVAS_MODEL_STICKY = eINSTANCE.getCanvasModelSticky();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelBlock <em>Model Block</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.impl.CanvasModelBlock
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelBlock()
-         * @generated
-         */
-        EClass CANVAS_MODEL_BLOCK = eINSTANCE.getCanvasModelBlock();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelImage <em>Model Image</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.impl.CanvasModelImage
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelImage()
-         * @generated
-         */
-        EClass CANVAS_MODEL_IMAGE = eINSTANCE.getCanvasModelImage();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelConnection <em>Model Connection</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.impl.CanvasModelConnection
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelConnection()
-         * @generated
-         */
-        EClass CANVAS_MODEL_CONNECTION = eINSTANCE.getCanvasModelConnection();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}' class.
@@ -1508,6 +1422,56 @@ public interface ICanvasPackage extends EPackage {
          * @generated
          */
         EAttribute NOTES_CONTENT__NOTES = eINSTANCE.getNotesContent_Notes();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModel <em>Model</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.canvas.model.impl.CanvasModel
+         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModel()
+         * @generated
+         */
+        EClass CANVAS_MODEL = eINSTANCE.getCanvasModel();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelSticky <em>Model Sticky</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.canvas.model.impl.CanvasModelSticky
+         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelSticky()
+         * @generated
+         */
+        EClass CANVAS_MODEL_STICKY = eINSTANCE.getCanvasModelSticky();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelBlock <em>Model Block</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.canvas.model.impl.CanvasModelBlock
+         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelBlock()
+         * @generated
+         */
+        EClass CANVAS_MODEL_BLOCK = eINSTANCE.getCanvasModelBlock();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelImage <em>Model Image</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.canvas.model.impl.CanvasModelImage
+         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelImage()
+         * @generated
+         */
+        EClass CANVAS_MODEL_IMAGE = eINSTANCE.getCanvasModelImage();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.canvas.model.impl.CanvasModelConnection <em>Model Connection</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.canvas.model.impl.CanvasModelConnection
+         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelConnection()
+         * @generated
+         */
+        EClass CANVAS_MODEL_CONNECTION = eINSTANCE.getCanvasModelConnection();
 
     }
 

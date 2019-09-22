@@ -102,10 +102,6 @@ public class OpacitySection extends AbstractECorePropertySection {
         return Messages.OpacitySection_0;
     }
     
-    protected EAttribute getFeature() {
-        return FEATURE;
-    }
-    
     protected Command getCommand(IDiagramModelObject dmo, int newValue) {
         return new DiagramModelObjectAlphaCommand(dmo, newValue);
     }
@@ -115,7 +111,7 @@ public class OpacitySection extends AbstractECorePropertySection {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == getFeature() || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
             }
         }

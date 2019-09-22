@@ -17,6 +17,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -66,7 +67,7 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
     public boolean shouldExposeFeature(String featureName) {
         return featureName == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()
                 || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()
-                || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__LINE_ALPHA.getName();
+                || featureName == IDiagramModelObject.FEATURE_LINE_ALPHA;
     }
 
 }

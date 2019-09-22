@@ -222,7 +222,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelObject/bounds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelObject/fillColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelObject/alpha"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelObject/lineAlpha"/>
       <genOperations ecoreOperation="archimate.ecore#//DiagramModelObject/setBounds">
         <genParameters ecoreParameter="archimate.ecore#//DiagramModelObject/setBounds/x"/>
         <genParameters ecoreParameter="archimate.ecore#//DiagramModelObject/setBounds/y"/>
