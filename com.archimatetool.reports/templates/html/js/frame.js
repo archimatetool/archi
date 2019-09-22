@@ -36,7 +36,8 @@ var hints = {
     viewpoint_stakeholder: "vp_stakeholder.html",
     viewpoint_strategy: "vp_strategy.html",
     viewpoint_technology: "vp_technology.html",
-    viewpoint_technology_usage: "vp_technology_usage.html",
+	viewpoint_technology_usage: "vp_technology_usage.html",
+	viewpoint_value_stream: "vp_value_stream.html",
 // Hints for concepts
     ArchimateModel: "model.html",
 	AccessRelationship: "access.html",
@@ -109,6 +110,7 @@ var hints = {
     TechnologyService: "technology_service.html",
 	TriggeringRelationship: "triggering.html",
 	Value: "value.html",
+	ValueStream: "value_stream.html",
 	WorkPackage: "workpackage.html",
 // Hints for graphical objects
 	DiagramModelNote: "note.html",
