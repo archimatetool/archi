@@ -342,6 +342,11 @@ extends ActionBarContributor {
                 
                 return combo;
             }
+            
+            @Override
+            protected int computeWidth(Control control) {
+                return Math.min(super.computeWidth(control), 100); // On Linux GTK this can get too wide
+            }
         };
         
         toolBarManager.add(fZoomCombo);
