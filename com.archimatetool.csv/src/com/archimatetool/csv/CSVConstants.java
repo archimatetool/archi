@@ -48,6 +48,8 @@ public interface CSVConstants {
     String ACCESS_TYPE = "Access_Type";
     List<String> ACCESS_TYPES = new ArrayList<String>(Arrays.asList(new String[] { "Write", "Read", "Access", "ReadWrite" }));
     
+    String ASSOCIATION_DIRECTED = "Directed";
+    
     String JUNCTION_TYPE = "Junction_Type";
     String JUNCTION_OR = "Or";
     String JUNCTION_AND = "And";
