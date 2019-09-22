@@ -29,7 +29,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.util.LightweightAdapter;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 
@@ -47,14 +48,21 @@ implements IEditPartFilterProvider {
      */
     private List<IEditPartFilter> fEditPartFilters;
     
-    private Adapter adapter = new LightweightAdapter(this::eCoreChanged);
-    
+    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
     
     /**
      * Message from the ECore Adapter
      * @param msg
      */
     protected void eCoreChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
+        // Archi Features
+        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+            refreshVisuals();
+            return;
+        }
+
         switch(msg.getEventType()) {
             // Children added or removed
             case Notification.ADD:
@@ -67,7 +75,6 @@ implements IEditPartFilterProvider {
                 break;
                 
             case Notification.SET:
-                Object feature = msg.getFeature();
                 // Connection Router Type
                 if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
                     refreshVisuals();

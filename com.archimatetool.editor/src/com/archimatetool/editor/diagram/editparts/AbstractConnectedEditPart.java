@@ -21,7 +21,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.util.LightweightAdapter;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 /**
@@ -40,7 +41,7 @@ implements NodeEditPart {
         super(figureClass);
     }
 
-    private Adapter adapter = new LightweightAdapter(this::eCoreChanged);
+    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
     
     /**
      * Message from the ECore Adapter
@@ -48,6 +49,12 @@ implements NodeEditPart {
      */
     protected void eCoreChanged(Notification msg) {
         Object feature = msg.getFeature();
+        
+        // Archi Features
+        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+            refreshFigure();
+            return;
+        }
 
         switch(msg.getEventType()) {
             // Children added or removed or moved

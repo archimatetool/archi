@@ -14,6 +14,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
@@ -52,9 +53,16 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     
     @Override
     protected void eCoreChanged(Notification msg) {
+        Object feature = msg.getFeature();
+
+        // Archi Features
+        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+            refreshFigure();
+            return;
+        }
+
         // Update Connection Anchors if Figure Type changes
-        if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE
-                && msg.getNotifier() == getModel()) {
+        if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE && msg.getNotifier() == getModel()) {
             refreshConnectionAnchors();
         }
 
