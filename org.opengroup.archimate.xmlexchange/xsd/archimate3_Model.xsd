@@ -5,7 +5,7 @@
            xmlns:xml="http://www.w3.org/XML/1998/namespace"
            xmlns:archimate="http://www.opengroup.org/xsd/archimate/3.0/"
            elementFormDefault="qualified"
-           version="3.0"
+           version="3.1"
            attributeFormDefault="unqualified">
 
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
@@ -16,16 +16,16 @@
             -------------------------
             Author: The Open Group ArchiMate Exchange Team
             Start date: 04 Oct 2016
-            Revision date: 18 May 2017
-            XSD Version: 3.0
-            Status: Final
-            Description: The Open Group ArchiMate 3.0 Open Exchange Format
+            Revision date: 15 July 2019
+            XSD Version: 3.1
+            Status: Preliminary
+            Description: The Open Group ArchiMate 3.1 Open Exchange Format
         </xs:documentation>
 
         <xs:documentation>
             Notes and rationale
             -------------------
-            This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
+            This is the XSD for the ArchiMate 3.1 Model Exchange File Format.
 
             A number of example models in the exchange file format are available
             for interoperability testing. For details of how to obtain those
@@ -1018,6 +1018,12 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="ValueStream">
+        <xs:complexContent>
+            <xs:extension base="RealElementType" />
+        </xs:complexContent>
+    </xs:complexType>
+
     <!-- =========================== ArchiMate Implementation & Migration ElementTypes ========================== -->
 
     <xs:complexType name="WorkPackage">
@@ -1201,9 +1207,12 @@
 
     <xs:complexType name="Association">
         <xs:complexContent>
-            <xs:extension base="RelationshipType" />
+            <xs:extension base="RelationshipType">
+                 <xs:attribute name="isDirected" type="xs:boolean" default="false" use="optional" />
+           </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
 
     <!-- =========================== Enums =============================== -->
 
@@ -1266,6 +1275,7 @@
             <xs:enumeration value="Resource" />
             <xs:enumeration value="Capability" />
             <xs:enumeration value="CourseOfAction" />
+            <xs:enumeration value="ValueStream" />
             <xs:enumeration value="WorkPackage" />
             <xs:enumeration value="Deliverable" />
             <xs:enumeration value="ImplementationEvent" />

@@ -24,13 +24,14 @@ public interface IXMLExchangeGlobals {
     Namespace ARCHIMATE3_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate/3.0/");
     Namespace ARCHIMATE3_NAMESPACE_EMBEDDED = Namespace.getNamespace(ARCHIMATE_NAMESPACE_PREFIX, ARCHIMATE3_NAMESPACE.getURI());
     
-    String ARCHIMATE3_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/3.0/archimate3_Diagram.xsd";
+    String ARCHIMATE3_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd";
     //String ARCHIMATE3_SCHEMA_LOCATION = "archimate3_Diagram.xsd"; // For local testing
     
     Namespace XSI_NAMESPACE = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     
     Namespace DC_NAMESPACE = Namespace.getNamespace("dc", "http://purl.org/dc/elements/1.1/");
-    String DC_SCHEMA_LOCATION = "http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd";
+    // The actual location is https://www.dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd but we use this one in case it changes
+    String DC_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/3.1/dc.xsd";
     
     
     String ELEMENT_MODEL = "model";
