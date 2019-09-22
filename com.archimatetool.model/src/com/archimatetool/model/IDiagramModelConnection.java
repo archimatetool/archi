@@ -62,6 +62,11 @@ public interface IDiagramModelConnection extends IConnectable, IFontAttribute, I
     int ARROW_HOLLOW_SOURCE = 32;     // 1 << 5
     int ARROW_LINE_TARGET = 64;       // 1 << 6
     int ARROW_LINE_SOURCE = 128;      // 1 << 7
+    
+    /**
+     * Feature of name visible
+     */
+    String FEATURE_NAME_VISIBLE = "nameVisible"; //$NON-NLS-1$
 
     
     /**
