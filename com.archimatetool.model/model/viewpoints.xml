@@ -200,6 +200,15 @@
         <concept>Resource</concept>
     </viewpoint>
 
+    <viewpoint id="value_stream">
+        <name xml:lang="en">Value Stream</name>
+        
+        <concept>Capability</concept>
+        <concept>Outcome</concept>
+        <concept>Stakeholder</concept>
+        <concept>ValueStream</concept>
+    </viewpoint>
+
     <viewpoint id="outcome_realization">
         <name xml:lang="en">Outcome Realization</name>
         

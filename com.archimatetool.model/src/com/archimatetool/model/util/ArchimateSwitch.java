@@ -138,6 +138,7 @@ import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
+import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -1701,6 +1702,24 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseNameable(value);
                 if (result == null) result = caseIdentifier(value);
                 if (result == null) result = caseFeatures(value);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.VALUE_STREAM: {
+                IValueStream valueStream = (IValueStream)theEObject;
+                T result = caseValueStream(valueStream);
+                if (result == null) result = caseStrategyElement(valueStream);
+                if (result == null) result = caseBehaviorElement(valueStream);
+                if (result == null) result = caseArchimateElement(valueStream);
+                if (result == null) result = caseArchimateConcept(valueStream);
+                if (result == null) result = caseArchimateModelObject(valueStream);
+                if (result == null) result = caseCloneable(valueStream);
+                if (result == null) result = caseDocumentable(valueStream);
+                if (result == null) result = caseProperties(valueStream);
+                if (result == null) result = caseAdapter(valueStream);
+                if (result == null) result = caseNameable(valueStream);
+                if (result == null) result = caseIdentifier(valueStream);
+                if (result == null) result = caseFeatures(valueStream);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -3867,6 +3886,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseValue(IValue object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Value Stream</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Value Stream</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseValueStream(IValueStream object) {
         return null;
     }
 

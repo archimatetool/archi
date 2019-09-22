@@ -62,6 +62,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -126,6 +127,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -190,6 +192,7 @@
         <target concept="TechnologyProcess" relations="fot" derived="ft" />
         <target concept="TechnologyService" relations="fot" derived="ft" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -254,6 +257,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -318,6 +322,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -382,6 +387,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -446,6 +452,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -510,6 +517,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -574,6 +582,7 @@
         <target concept="TechnologyProcess" relations="forv" derived="frv" />
         <target concept="TechnologyService" relations="forv" derived="frv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -638,6 +647,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -702,6 +712,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -766,6 +777,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -830,6 +842,7 @@
         <target concept="TechnologyProcess" relations="fot" derived="ft" />
         <target concept="TechnologyService" relations="fot" derived="ft" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -894,6 +907,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -958,6 +972,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1022,6 +1037,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1086,6 +1102,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1150,6 +1167,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1214,6 +1232,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="io" derived="i" />
     </source>
 
@@ -1278,6 +1297,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fotv" derived="ftv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1342,6 +1362,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1406,6 +1427,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1470,6 +1492,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1534,6 +1557,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1598,6 +1622,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1662,6 +1687,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1726,6 +1752,7 @@
         <target concept="TechnologyProcess" relations="or" derived="r" />
         <target concept="TechnologyService" relations="or" derived="r" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1790,6 +1817,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1854,6 +1882,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1918,6 +1947,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -1982,6 +2012,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2046,6 +2077,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2110,6 +2142,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="o" derived="" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2174,6 +2207,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2238,6 +2272,7 @@
         <target concept="TechnologyProcess" relations="cfgiorstv" derived="" />
         <target concept="TechnologyService" relations="cfgiorstv" derived="" />
         <target concept="Value" relations="cgnos" derived="" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="cfgiost" derived="" />
     </source>
 
@@ -2302,6 +2337,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="fot" derived="ft" />
     </source>
 
@@ -2366,6 +2402,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="" />
         <target concept="TechnologyService" relations="fiortv" derived="" />
         <target concept="Value" relations="no" derived="" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="fiot" derived="" />
     </source>
 
@@ -2430,6 +2467,7 @@
         <target concept="TechnologyProcess" relations="cfgiortv" derived="cfgirtv" />
         <target concept="TechnologyService" relations="cfgiortv" derived="cfgirtv" />
         <target concept="Value" relations="cgno" derived="cgn" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="cgo" derived="cg" />
     </source>
 
@@ -2494,6 +2532,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2558,6 +2597,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2622,6 +2662,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2686,6 +2727,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2750,6 +2792,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2814,6 +2857,7 @@
         <target concept="TechnologyProcess" relations="cgor" derived="cgr" />
         <target concept="TechnologyService" relations="cgor" derived="cgr" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="ot" derived="t" />
     </source>
 
@@ -2878,6 +2922,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -2942,6 +2987,7 @@
         <target concept="TechnologyProcess" relations="forv" derived="frv" />
         <target concept="TechnologyService" relations="cfgorv" derived="cfgrv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3006,6 +3052,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="o" derived="" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3070,6 +3117,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3134,6 +3182,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3198,6 +3247,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3262,6 +3312,7 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="o" derived="" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3326,6 +3377,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3390,6 +3442,7 @@
         <target concept="TechnologyProcess" relations="fiortv" derived="firtv" />
         <target concept="TechnologyService" relations="fiortv" derived="firtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3454,6 +3507,7 @@
         <target concept="TechnologyProcess" relations="fot" derived="ft" />
         <target concept="TechnologyService" relations="fot" derived="ft" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3518,6 +3572,7 @@
         <target concept="TechnologyProcess" relations="cfgotv" derived="cfgtv" />
         <target concept="TechnologyService" relations="fortv" derived="frtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3582,6 +3637,7 @@
         <target concept="TechnologyProcess" relations="cfgotv" derived="cfgtv" />
         <target concept="TechnologyService" relations="fortv" derived="frtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3646,6 +3702,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="fiotv" derived="fitv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3710,6 +3767,7 @@
         <target concept="TechnologyProcess" relations="cfgostv" derived="cfgtv" />
         <target concept="TechnologyService" relations="fortv" derived="frtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3774,6 +3832,7 @@
         <target concept="TechnologyProcess" relations="fotv" derived="ftv" />
         <target concept="TechnologyService" relations="cfgostv" derived="cfgtv" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3838,6 +3897,72 @@
         <target concept="TechnologyProcess" relations="o" derived="" />
         <target concept="TechnologyService" relations="o" derived="" />
         <target concept="Value" relations="cgnos" derived="cgn" />
+        <target concept="ValueStream" relations="o" derived="" />
+        <target concept="WorkPackage" relations="o" derived="" />
+    </source>
+
+    <source concept="ValueStream">
+        <target concept="ApplicationCollaboration" relations="o" derived="" />
+        <target concept="ApplicationComponent" relations="o" derived="" />
+        <target concept="ApplicationEvent" relations="o" derived="" />
+        <target concept="ApplicationFunction" relations="o" derived="" />
+        <target concept="ApplicationInteraction" relations="o" derived="" />
+        <target concept="ApplicationInterface" relations="o" derived="" />
+        <target concept="ApplicationProcess" relations="o" derived="" />
+        <target concept="ApplicationService" relations="o" derived="" />
+        <target concept="Artifact" relations="o" derived="" />
+        <target concept="Assessment" relations="no" derived="n" />
+        <target concept="BusinessActor" relations="o" derived="" />
+        <target concept="BusinessCollaboration" relations="o" derived="" />
+        <target concept="BusinessEvent" relations="o" derived="" />
+        <target concept="BusinessFunction" relations="o" derived="" />
+        <target concept="BusinessInteraction" relations="o" derived="" />
+        <target concept="BusinessInterface" relations="o" derived="" />
+        <target concept="BusinessObject" relations="o" derived="" />
+        <target concept="BusinessProcess" relations="o" derived="" />
+        <target concept="BusinessRole" relations="o" derived="" />
+        <target concept="BusinessService" relations="o" derived="" />
+        <target concept="Capability" relations="o" derived="" />
+        <target concept="CommunicationNetwork" relations="o" derived="" />
+        <target concept="Constraint" relations="no" derived="n" />
+        <target concept="Contract" relations="o" derived="" />
+        <target concept="CourseOfAction" relations="o" derived="" />
+        <target concept="DataObject" relations="o" derived="" />
+        <target concept="Deliverable" relations="o" derived="" />
+        <target concept="Device" relations="o" derived="" />
+        <target concept="DistributionNetwork" relations="o" derived="" />
+        <target concept="Driver" relations="no" derived="n" />
+        <target concept="Equipment" relations="o" derived="" />
+        <target concept="Facility" relations="o" derived="" />
+        <target concept="Gap" relations="o" derived="" />
+        <target concept="Goal" relations="no" derived="n" />
+        <target concept="Grouping" relations="cgnos" derived="" />
+        <target concept="ImplementationEvent" relations="o" derived="" />
+        <target concept="Junction" relations="no" derived="" />
+        <target concept="Location" relations="o" derived="" />
+        <target concept="Material" relations="o" derived="" />
+        <target concept="Meaning" relations="no" derived="n" />
+        <target concept="Node" relations="o" derived="" />
+        <target concept="Outcome" relations="no" derived="n" />
+        <target concept="Path" relations="o" derived="" />
+        <target concept="Plateau" relations="o" derived="" />
+        <target concept="Principle" relations="no" derived="n" />
+        <target concept="Product" relations="o" derived="" />
+        <target concept="Relationship" relations="o" />
+        <target concept="Representation" relations="o" derived="" />
+        <target concept="Requirement" relations="no" derived="n" />
+        <target concept="Resource" relations="o" derived="" />
+        <target concept="Stakeholder" relations="o" derived="" />
+        <target concept="SystemSoftware" relations="o" derived="" />
+        <target concept="TechnologyCollaboration" relations="o" derived="" />
+        <target concept="TechnologyEvent" relations="o" derived="" />
+        <target concept="TechnologyFunction" relations="o" derived="" />
+        <target concept="TechnologyInteraction" relations="o" derived="" />
+        <target concept="TechnologyInterface" relations="o" derived="" />
+        <target concept="TechnologyProcess" relations="o" derived="" />
+        <target concept="TechnologyService" relations="o" derived="" />
+        <target concept="Value" relations="cgnos" derived="cgn" />
+        <target concept="ValueStream" relations="cfgostv" derived="" />
         <target concept="WorkPackage" relations="o" derived="" />
     </source>
 
@@ -3902,6 +4027,7 @@
         <target concept="TechnologyProcess" relations="or" derived="r" />
         <target concept="TechnologyService" relations="or" derived="r" />
         <target concept="Value" relations="no" derived="n" />
+        <target concept="ValueStream" relations="o" derived="" />
         <target concept="WorkPackage" relations="cfgost" derived="cfgt" />
     </source>
 </relationships>

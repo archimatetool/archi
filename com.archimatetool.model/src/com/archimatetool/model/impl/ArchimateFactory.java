@@ -103,6 +103,7 @@ import com.archimatetool.model.ITechnologyProcess;
 import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
+import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
 
 
@@ -214,6 +215,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.TECHNOLOGY_PROCESS: return createTechnologyProcess();
             case IArchimatePackage.TECHNOLOGY_SERVICE: return createTechnologyService();
             case IArchimatePackage.VALUE: return createValue();
+            case IArchimatePackage.VALUE_STREAM: return createValueStream();
             case IArchimatePackage.WORK_PACKAGE: return createWorkPackage();
             case IArchimatePackage.ACCESS_RELATIONSHIP: return createAccessRelationship();
             case IArchimatePackage.AGGREGATION_RELATIONSHIP: return createAggregationRelationship();
@@ -547,6 +549,17 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IValue createValue() {
         Value value = new Value();
         return value;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public IValueStream createValueStream() {
+        ValueStream valueStream = new ValueStream();
+        return valueStream;
     }
 
     /**

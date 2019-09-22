@@ -180,6 +180,7 @@
     <genClasses ecoreClass="archimate.ecore#//TechnologyProcess"/>
     <genClasses ecoreClass="archimate.ecore#//TechnologyService"/>
     <genClasses ecoreClass="archimate.ecore#//Value"/>
+    <genClasses ecoreClass="archimate.ecore#//ValueStream"/>
     <genClasses ecoreClass="archimate.ecore#//WorkPackage"/>
     <genClasses ecoreClass="archimate.ecore#//AccessRelationship">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AccessRelationship/accessType"/>

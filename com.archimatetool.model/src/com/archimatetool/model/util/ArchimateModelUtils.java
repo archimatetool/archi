@@ -171,6 +171,7 @@ public class ArchimateModelUtils {
         return new EClass[] {
                 IArchimatePackage.eINSTANCE.getResource(),
                 IArchimatePackage.eINSTANCE.getCapability(),
+                IArchimatePackage.eINSTANCE.getValueStream(),
                 IArchimatePackage.eINSTANCE.getCourseOfAction()
         };
     }

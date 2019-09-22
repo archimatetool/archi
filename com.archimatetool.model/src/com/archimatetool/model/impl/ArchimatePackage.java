@@ -140,6 +140,7 @@ import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
+import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
 import java.io.File;
 
@@ -915,6 +916,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass valueEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass valueStreamEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2832,6 +2840,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EClass getValueStream() {
+        return valueStreamEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getLocation() {
         return locationEClass;
     }
@@ -3354,6 +3372,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         valueEClass = createEClass(VALUE);
 
+        valueStreamEClass = createEClass(VALUE_STREAM);
+
         workPackageEClass = createEClass(WORK_PACKAGE);
 
         accessRelationshipEClass = createEClass(ACCESS_RELATIONSHIP);
@@ -3644,6 +3664,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         technologyServiceEClass.getESuperTypes().add(this.getTechnologyElement());
         technologyServiceEClass.getESuperTypes().add(this.getBehaviorElement());
         valueEClass.getESuperTypes().add(this.getMotivationElement());
+        valueStreamEClass.getESuperTypes().add(this.getStrategyElement());
+        valueStreamEClass.getESuperTypes().add(this.getBehaviorElement());
         workPackageEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         workPackageEClass.getESuperTypes().add(this.getBehaviorElement());
         accessRelationshipEClass.getESuperTypes().add(this.getDependendencyRelationship());
@@ -3954,6 +3976,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(technologyServiceEClass, ITechnologyService.class, "TechnologyService", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(valueEClass, IValue.class, "Value", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(valueStreamEClass, IValueStream.class, "ValueStream", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(workPackageEClass, IWorkPackage.class, "WorkPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
