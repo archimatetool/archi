@@ -5,15 +5,20 @@
  */
 package com.archimatetool.model.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
@@ -22,6 +27,9 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -36,6 +44,7 @@ import com.archimatetool.model.util.UUIDFactory;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getName <em>Name</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getFeatures <em>Features</em>}</li>
  * </ul>
  *
  * @generated
@@ -80,6 +89,16 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @ordered
      */
     protected String name = NAME_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFeatures()
+     * @generated
+     * @ordered
+     */
+    protected EList<IFeature> features;
 
     /**
      * Adapter Map for arbitrary objects
@@ -158,6 +177,19 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated NOT
      */
     @Override
+    public IFeaturesEList getFeatures() {
+        if (features == null) {
+            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES);
+        }
+        return (IFeaturesEList)features;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
     public IDiagramModel getDiagramModel() {
         if(eContainer() == null) {
             return null;
@@ -220,12 +252,28 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated
      */
     @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
+                return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__ID:
                 return getId();
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 return getName();
+            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
+                return getFeatures();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -235,6 +283,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -243,6 +292,10 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 setName((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
+                getFeatures().clear();
+                getFeatures().addAll((Collection<? extends IFeature>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -262,6 +315,9 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 setName(NAME_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
+                getFeatures().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -278,6 +334,8 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
+                return features != null && !features.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -302,6 +360,12 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
         if (baseClass == INameable.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME: return IArchimatePackage.NAMEABLE__NAME;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
                 default: return -1;
             }
         }
@@ -333,6 +397,12 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
         if (baseClass == INameable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES;
                 default: return -1;
             }
         }

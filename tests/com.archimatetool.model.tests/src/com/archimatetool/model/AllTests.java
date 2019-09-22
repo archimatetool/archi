@@ -24,6 +24,7 @@ import com.archimatetool.model.impl.DiagramModelNoteTests;
 import com.archimatetool.model.impl.DiagramModelReferenceTests;
 import com.archimatetool.model.impl.FolderTests;
 import com.archimatetool.model.impl.MetadataTests;
+import com.archimatetool.model.impl.FeaturesEListTests;
 import com.archimatetool.model.impl.PropertyTests;
 import com.archimatetool.model.impl.SketchModelActorTests;
 import com.archimatetool.model.impl.SketchModelStickyTests;
@@ -59,6 +60,7 @@ public class AllTests {
         suite.addTest(BoundsTests.suite());
         suite.addTest(FolderTests.suite());
         suite.addTest(MetadataTests.suite());
+        suite.addTest(FeaturesEListTests.suite());
         suite.addTest(PropertyTests.suite());
         
         suite.addTest(SketchModelTests.suite());

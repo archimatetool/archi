@@ -36,6 +36,9 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
@@ -65,6 +68,7 @@ import com.archimatetool.model.util.UUIDFactory;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getId <em>Id</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFeatures <em>Features</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFile <em>File</em>}</li>
@@ -120,6 +124,15 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @ordered
      */
     protected String id = ID_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFeatures()
+     * @generated
+     * @ordered
+     */
+    protected EList<IFeature> features;
     /**
      * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -474,6 +487,19 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     @Override
+    public IFeaturesEList getFeatures() {
+        if (features == null) {
+            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_MODEL__FEATURES);
+        }
+        return (IFeaturesEList)features;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
     public IArchimateModel getArchimateModel() {
         return this;
     }
@@ -628,6 +654,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         switch (featureID) {
             case IArchimatePackage.ARCHIMATE_MODEL__FOLDERS:
                 return ((InternalEList<?>)getFolders()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
+                return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
@@ -650,6 +678,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return getName();
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 return getId();
+            case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
+                return getFeatures();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -682,6 +712,10 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return;
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 setId((String)newValue);
+                return;
+            case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
+                getFeatures().clear();
+                getFeatures().addAll((Collection<? extends IFeature>)newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 getProperties().clear();
@@ -720,6 +754,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 setId(ID_EDEFAULT);
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
+                getFeatures().clear();
+                return;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 getProperties().clear();
                 return;
@@ -753,6 +790,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
+                return features != null && !features.isEmpty();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -791,6 +830,12 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 default: return -1;
             }
         }
+        if (baseClass == IFeatures.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.ARCHIMATE_MODEL__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
+                default: return -1;
+            }
+        }
         if (baseClass == IArchimateModelObject.class) {
             switch (derivedFeatureID) {
                 default: return -1;
@@ -826,6 +871,12 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if (baseClass == IIdentifier.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.ARCHIMATE_MODEL__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.ARCHIMATE_MODEL__FEATURES;
                 default: return -1;
             }
         }

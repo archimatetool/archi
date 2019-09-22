@@ -45,10 +45,16 @@ public abstract class DiagramModelComponentTests {
     @Test
     public void testGetCopy() {
         component.setName("name");
+        component.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
+        
         IDiagramModelComponent copy = (IDiagramModelComponent)component.getCopy();
+        
         assertNotSame(component, copy);
         assertNotNull(copy.getId());
         assertNotEquals(component.getId(), copy.getId());
         assertEquals(component.getName(), copy.getName());
+        
+        assertNotSame(component.getFeatures(), copy.getFeatures());
+        assertEquals(component.getFeatures().size(), copy.getFeatures().size());
     }
 }

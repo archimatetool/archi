@@ -24,6 +24,7 @@ import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
@@ -107,6 +108,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseIdentifier(iconic);
                 if (result == null) result = caseAdapter(iconic);
                 if (result == null) result = caseNameable(iconic);
+                if (result == null) result = caseFeatures(iconic);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -137,6 +139,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(canvasModel);
                 if (result == null) result = caseDocumentable(canvasModel);
                 if (result == null) result = caseProperties(canvasModel);
+                if (result == null) result = caseFeatures(canvasModel);
                 if (result == null) result = caseDiagramModelComponent(canvasModel);
                 if (result == null) result = caseArchimateModelObject(canvasModel);
                 if (result == null) result = caseAdapter(canvasModel);
@@ -168,6 +171,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseIdentifier(canvasModelSticky);
                 if (result == null) result = caseAdapter(canvasModelSticky);
                 if (result == null) result = caseNameable(canvasModelSticky);
+                if (result == null) result = caseFeatures(canvasModelSticky);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -195,6 +199,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseIdentifier(canvasModelBlock);
                 if (result == null) result = caseAdapter(canvasModelBlock);
                 if (result == null) result = caseNameable(canvasModelBlock);
+                if (result == null) result = caseFeatures(canvasModelBlock);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -218,6 +223,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseIdentifier(canvasModelImage);
                 if (result == null) result = caseAdapter(canvasModelImage);
                 if (result == null) result = caseNameable(canvasModelImage);
+                if (result == null) result = caseFeatures(canvasModelImage);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -237,6 +243,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseIdentifier(canvasModelConnection);
                 if (result == null) result = caseAdapter(canvasModelConnection);
                 if (result == null) result = caseNameable(canvasModelConnection);
+                if (result == null) result = caseFeatures(canvasModelConnection);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -451,6 +458,21 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseNameable(INameable object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Features</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Features</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseFeatures(IFeatures object) {
         return null;
     }
 

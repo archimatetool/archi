@@ -45,7 +45,7 @@ package com.archimatetool.model;
  *       - Added IBorderType to Ecore
  *       - Group can have Rectangle Border Type
  *       - Group implements ITextPosition
- * 4.6.0 - Add lineAlpha attribute to IDiagramModelObject
+ * 4.6.0 - Add Features API
  * 
  * @author Phillip Beauvoir
  */

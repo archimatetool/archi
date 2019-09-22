@@ -87,6 +87,7 @@ public abstract class DiagramModelTests {
         dm.setDocumentation("doc");
         
         dm.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
+        dm.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
         
         IDiagramModel copy = (IDiagramModel)dm.getCopy();
         
@@ -95,8 +96,13 @@ public abstract class DiagramModelTests {
         assertNotEquals(dm.getId(), copy.getId());
         assertEquals(dm.getName(), copy.getName());
         assertEquals(dm.getDocumentation(), copy.getDocumentation());
+        
         assertNotSame(dm.getProperties(), copy.getProperties());
         assertEquals(dm.getProperties().size(), copy.getProperties().size());
+        
+        assertNotSame(dm.getFeatures(), copy.getFeatures());
+        assertEquals(dm.getFeatures().size(), copy.getFeatures().size());
+
         assertNotSame(dm.getChildren(), copy.getChildren());
     }
 }

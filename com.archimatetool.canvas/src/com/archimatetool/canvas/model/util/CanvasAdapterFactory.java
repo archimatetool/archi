@@ -25,6 +25,7 @@ import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
@@ -143,6 +144,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseNameable(INameable object) {
                 return createNameableAdapter();
+            }
+            @Override
+            public Adapter caseFeatures(IFeatures object) {
+                return createFeaturesAdapter();
             }
             @Override
             public Adapter caseArchimateModelObject(IArchimateModelObject object) {
@@ -429,6 +434,20 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createNameableAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFeatures <em>Features</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IFeatures
+     * @generated
+     */
+    public Adapter createFeaturesAdapter() {
         return null;
     }
 

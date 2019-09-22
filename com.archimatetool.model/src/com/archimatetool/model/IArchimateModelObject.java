@@ -16,7 +16,7 @@ package com.archimatetool.model;
  * @model interface="true" abstract="true"
  * @generated
  */
-public interface IArchimateModelObject extends IAdapter, INameable, IIdentifier {
+public interface IArchimateModelObject extends IAdapter, INameable, IIdentifier, IFeatures {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

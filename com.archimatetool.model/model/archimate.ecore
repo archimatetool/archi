@@ -31,6 +31,21 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Feature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Features" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="feature"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Metadata">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
         eType="#//Property" containment="true" resolveProxies="false">
@@ -96,7 +111,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelObject" abstract="true"
-      interface="true" eSuperTypes="#//Adapter #//Nameable #//Identifier">
+      interface="true" eSuperTypes="#//Adapter #//Nameable #//Identifier #//Features">
     <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelObject #//Cloneable #//Documentable #//Properties"/>

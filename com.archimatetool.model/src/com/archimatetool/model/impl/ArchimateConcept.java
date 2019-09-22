@@ -30,9 +30,12 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -46,6 +49,7 @@ import com.archimatetool.model.util.UUIDFactory;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getId <em>Id</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getFeatures <em>Features</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getProperties <em>Properties</em>}</li>
  * </ul>
@@ -92,6 +96,16 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @ordered
      */
     protected String id = ID_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFeatures()
+     * @generated
+     * @ordered
+     */
+    protected EList<IFeature> features;
 
     /**
      * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
@@ -174,6 +188,19 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         id = newId;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_CONCEPT__ID, oldId, id));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
+    public IFeaturesEList getFeatures() {
+        if (features == null) {
+            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+        }
+        return (IFeaturesEList)features;
     }
 
     /**
@@ -308,6 +335,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
+            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+                return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
                 return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
         }
@@ -326,6 +355,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 return getName();
             case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
                 return getId();
+            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+                return getFeatures();
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 return getDocumentation();
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
@@ -348,6 +379,10 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 return;
             case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
                 setId((String)newValue);
+                return;
+            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+                getFeatures().clear();
+                getFeatures().addAll((Collection<? extends IFeature>)newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 setDocumentation((String)newValue);
@@ -374,6 +409,9 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
             case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
                 setId(ID_EDEFAULT);
                 return;
+            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+                getFeatures().clear();
+                return;
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
                 return;
@@ -396,6 +434,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+                return features != null && !features.isEmpty();
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
@@ -420,6 +460,12 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         if (baseClass == IIdentifier.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.ARCHIMATE_CONCEPT__ID: return IArchimatePackage.IDENTIFIER__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
                 default: return -1;
             }
         }
@@ -459,6 +505,12 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         if (baseClass == IIdentifier.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.ARCHIMATE_CONCEPT__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES;
                 default: return -1;
             }
         }

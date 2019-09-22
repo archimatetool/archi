@@ -55,6 +55,7 @@ public abstract class ArchimateConceptTests {
         concept.setName("name");
         concept.setDocumentation("doc");
         concept.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
+        concept.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
         
         IArchimateConcept copy = (IArchimateConcept)concept.getCopy();
         
@@ -63,8 +64,13 @@ public abstract class ArchimateConceptTests {
         assertNotEquals(concept.getId(), copy.getId());
         assertEquals(concept.getName(), copy.getName());
         assertEquals(concept.getDocumentation(), copy.getDocumentation());
+        
         assertNotSame(concept.getProperties(), copy.getProperties());
         assertEquals(concept.getProperties().size(), copy.getProperties().size());
+        
+        assertNotSame(concept.getFeatures(), copy.getFeatures());
+        assertEquals(concept.getFeatures().size(), copy.getFeatures().size());
+
         assertNotSame(concept.getSourceRelationships(), copy.getSourceRelationships());
         assertNotSame(concept.getTargetRelationships(), copy.getTargetRelationships());
     }

@@ -77,6 +77,8 @@ import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
@@ -214,6 +216,14 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseProperties(IProperties object) {
                 return createPropertiesAdapter();
+            }
+            @Override
+            public Adapter caseFeature(IFeature object) {
+                return createFeatureAdapter();
+            }
+            @Override
+            public Adapter caseFeatures(IFeatures object) {
+                return createFeaturesAdapter();
             }
             @Override
             public Adapter caseMetadata(IMetadata object) {
@@ -782,6 +792,34 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createPropertiesAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFeature <em>Feature</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IFeature
+     * @generated
+     */
+    public Adapter createFeatureAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFeatures <em>Features</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IFeatures
+     * @generated
+     */
+    public Adapter createFeaturesAdapter() {
         return null;
     }
 

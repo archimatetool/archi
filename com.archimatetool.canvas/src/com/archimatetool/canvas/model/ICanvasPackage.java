@@ -89,6 +89,15 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__NAME = IArchimatePackage.DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__FEATURES = IArchimatePackage.DIAGRAM_MODEL_OBJECT__FEATURES;
+
+    /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -368,6 +377,15 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL__ID = IArchimatePackage.DIAGRAM_MODEL__ID;
 
     /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL__FEATURES = IArchimatePackage.DIAGRAM_MODEL__FEATURES;
+
+    /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -447,6 +465,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_STICKY__NAME = ICONIC__NAME;
+
+    /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__FEATURES = ICONIC__FEATURES;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
@@ -645,6 +672,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__NAME = ICONIC__NAME;
+
+    /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__FEATURES = ICONIC__FEATURES;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
@@ -873,6 +909,15 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_IMAGE__NAME = IArchimatePackage.DIAGRAM_MODEL_IMAGE__NAME;
 
     /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__FEATURES = IArchimatePackage.DIAGRAM_MODEL_IMAGE__FEATURES;
+
+    /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1052,6 +1097,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_CONNECTION__NAME = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__NAME;
+
+    /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_CONNECTION__FEATURES = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FEATURES;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.

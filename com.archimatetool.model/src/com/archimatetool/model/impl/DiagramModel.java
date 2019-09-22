@@ -32,9 +32,12 @@ import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -49,6 +52,7 @@ import com.archimatetool.model.util.UUIDFactory;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getId <em>Id</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModel#getFeatures <em>Features</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getProperties <em>Properties</em>}</li>
@@ -97,6 +101,16 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * @ordered
      */
     protected String id = ID_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFeatures()
+     * @generated
+     * @ordered
+     */
+    protected EList<IFeature> features;
 
     /**
      * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
@@ -255,6 +269,19 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
+    public IFeaturesEList getFeatures() {
+        if (features == null) {
+            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.DIAGRAM_MODEL__FEATURES);
+        }
+        return (IFeaturesEList)features;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -370,6 +397,8 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
+            case IArchimatePackage.DIAGRAM_MODEL__FEATURES:
+                return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
@@ -390,6 +419,8 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
                 return getName();
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 return getId();
+            case IArchimatePackage.DIAGRAM_MODEL__FEATURES:
+                return getFeatures();
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return getChildren();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
@@ -416,6 +447,10 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
                 return;
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 setId((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL__FEATURES:
+                getFeatures().clear();
+                getFeatures().addAll((Collection<? extends IFeature>)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 getChildren().clear();
@@ -449,6 +484,9 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 setId(ID_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL__FEATURES:
+                getFeatures().clear();
+                return;
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 getChildren().clear();
                 return;
@@ -477,6 +515,8 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case IArchimatePackage.DIAGRAM_MODEL__FEATURES:
+                return features != null && !features.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return children != null && !children.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
@@ -505,6 +545,12 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
         if (baseClass == IIdentifier.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL__ID: return IArchimatePackage.IDENTIFIER__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
                 default: return -1;
             }
         }
@@ -555,6 +601,12 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
         if (baseClass == IIdentifier.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.DIAGRAM_MODEL__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFeatures.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.DIAGRAM_MODEL__FEATURES;
                 default: return -1;
             }
         }
