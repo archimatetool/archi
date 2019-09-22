@@ -37,6 +37,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -426,9 +427,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                 relationshipElement.setAttribute(ATTRIBUTE_INFLUENCE_MODIFIER, strength);
             }
         }
-        
         // Access direction
-        if(relationship.eClass() == IArchimatePackage.eINSTANCE.getAccessRelationship()) {
+        else if(relationship.eClass() == IArchimatePackage.eINSTANCE.getAccessRelationship()) {
             int accessType = ((IAccessRelationship)relationship).getAccessType();
             switch(accessType) {
                 case IAccessRelationship.READ_ACCESS:
@@ -448,7 +448,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                     break;
             }
         }
-        
+        // Association Directed
+        else if(relationship.eClass() == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
+            if(((IAssociationRelationship)relationship).isDirected()) {
+                relationshipElement.setAttribute(ATTRIBUTE_ASSOCIATION_DIRECTED, "true"); //$NON-NLS-1$
+            }
+        }
 
         // Name - optional
         writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_NAME, false);

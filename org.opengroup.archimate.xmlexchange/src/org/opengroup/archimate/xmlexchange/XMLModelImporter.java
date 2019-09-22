@@ -42,6 +42,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
@@ -325,12 +326,18 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     }
                 }
             }
-            
             // Influence type
-            if(relation instanceof IInfluenceRelationship) {
+            else if(relation instanceof IInfluenceRelationship) {
                 String influenceStrength = childElement.getAttributeValue(ATTRIBUTE_INFLUENCE_MODIFIER);
                 if(influenceStrength != null) {
                     ((IInfluenceRelationship)relation).setStrength(influenceStrength);
+                }
+            }
+            // Association type
+            else if(relation instanceof IAssociationRelationship) {
+                String isDirected = childElement.getAttributeValue(ATTRIBUTE_ASSOCIATION_DIRECTED);
+                if("true".equalsIgnoreCase(isDirected)) { //$NON-NLS-1$
+                    ((IAssociationRelationship)relation).setDirected(true);
                 }
             }
             
