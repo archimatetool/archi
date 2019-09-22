@@ -580,6 +580,12 @@
       </hint>
       <hint
             className="ArchimateDiagramModel"
+            file="hints/vp_application_structure.html"
+            key="application_structure"
+            title="%hint.title.108">
+      </hint>
+      <hint
+            className="ArchimateDiagramModel"
             file="hints/vp_application_usage.html"
             key="application_usage"
             title="%hint.title.71">

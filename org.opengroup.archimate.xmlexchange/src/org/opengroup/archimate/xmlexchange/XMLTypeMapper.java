@@ -169,6 +169,7 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ViewPointsMapping.put("layered", "Layered");
         ViewPointsMapping.put("physical", "Physical");
         ViewPointsMapping.put("product", "Product");
+        ViewPointsMapping.put("application_structure", "Application Structure");
         ViewPointsMapping.put("application_usage", "Application Usage");
         ViewPointsMapping.put("technology_usage", "Technology Usage");
         ViewPointsMapping.put("business_process_cooperation", "Business Process Cooperation");

@@ -15,7 +15,7 @@
             -------------------------
             Author: The Open Group ArchiMate Exchange Team
             Start date: 04 Oct 2016
-            Revision date: 15 July 2019
+            Revision date: 8 September 2019
             XSD Version: 3.1
             Status: Preliminary
             Description: The Open Group ArchiMate 3.1 Open Exchange Format
@@ -272,6 +272,7 @@
             <!-- Category:Composition Viewpoints that defines internal compositions and aggregations of elements. -->
             <xs:enumeration value="Organization" />
             <xs:enumeration value="Application Platform" />
+            <xs:enumeration value="Application Structure" />
             <xs:enumeration value="Information Structure" />
             <xs:enumeration value="Technology" />
             <xs:enumeration value="Layered" />
