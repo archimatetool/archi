@@ -221,6 +221,12 @@
                tab="main.tab">
          </propertySection>
          <propertySection
+               class="com.archimatetool.editor.propertysections.AssociationRelationshipSection"
+               filter="com.archimatetool.editor.propertysections.AssociationRelationshipSection$Filter"
+               id="associationRelationshipSection"
+               tab="main.tab">
+         </propertySection>
+         <propertySection
                class="com.archimatetool.editor.propertysections.InfluenceRelationshipSection"
                filter="com.archimatetool.editor.propertysections.InfluenceRelationshipSection$Filter"
                id="influenceRelationshipSection"
