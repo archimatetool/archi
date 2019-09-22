@@ -97,6 +97,7 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//ImplementationMigrationElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//CompositeElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//BehaviorElement"/>
+    <genClasses ecoreClass="archimate.ecore#//StrategyBehaviorElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//StructureElement"/>
     <genClasses ecoreClass="archimate.ecore#//ActiveStructureElement"/>
     <genClasses ecoreClass="archimate.ecore#//PassiveStructureElement"/>

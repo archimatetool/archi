@@ -22,7 +22,7 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IAssociationRelationship extends IOtherRelationship {
+public interface IAssociationRelationship extends IDependendencyRelationship {
 
     /**
      * Returns the value of the '<em><b>Directed</b></em>' attribute.

@@ -120,6 +120,7 @@ import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
+import com.archimatetool.model.IStrategyBehaviorElement;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.IStructuralRelationship;
 import com.archimatetool.model.IStructureElement;
@@ -502,6 +503,24 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseNameable(behaviorElement);
                 if (result == null) result = caseIdentifier(behaviorElement);
                 if (result == null) result = caseFeatures(behaviorElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.STRATEGY_BEHAVIOR_ELEMENT: {
+                IStrategyBehaviorElement strategyBehaviorElement = (IStrategyBehaviorElement)theEObject;
+                T result = caseStrategyBehaviorElement(strategyBehaviorElement);
+                if (result == null) result = caseBehaviorElement(strategyBehaviorElement);
+                if (result == null) result = caseStrategyElement(strategyBehaviorElement);
+                if (result == null) result = caseArchimateElement(strategyBehaviorElement);
+                if (result == null) result = caseArchimateConcept(strategyBehaviorElement);
+                if (result == null) result = caseArchimateModelObject(strategyBehaviorElement);
+                if (result == null) result = caseCloneable(strategyBehaviorElement);
+                if (result == null) result = caseDocumentable(strategyBehaviorElement);
+                if (result == null) result = caseProperties(strategyBehaviorElement);
+                if (result == null) result = caseAdapter(strategyBehaviorElement);
+                if (result == null) result = caseNameable(strategyBehaviorElement);
+                if (result == null) result = caseIdentifier(strategyBehaviorElement);
+                if (result == null) result = caseFeatures(strategyBehaviorElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1020,8 +1039,9 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.CAPABILITY: {
                 ICapability capability = (ICapability)theEObject;
                 T result = caseCapability(capability);
-                if (result == null) result = caseStrategyElement(capability);
+                if (result == null) result = caseStrategyBehaviorElement(capability);
                 if (result == null) result = caseBehaviorElement(capability);
+                if (result == null) result = caseStrategyElement(capability);
                 if (result == null) result = caseArchimateElement(capability);
                 if (result == null) result = caseArchimateConcept(capability);
                 if (result == null) result = caseArchimateModelObject(capability);
@@ -1057,6 +1077,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.CONTRACT: {
                 IContract contract = (IContract)theEObject;
                 T result = caseContract(contract);
+                if (result == null) result = caseBusinessObject(contract);
                 if (result == null) result = caseBusinessElement(contract);
                 if (result == null) result = casePassiveStructureElement(contract);
                 if (result == null) result = caseStructureElement(contract);
@@ -1330,10 +1351,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IMaterial material = (IMaterial)theEObject;
                 T result = caseMaterial(material);
                 if (result == null) result = casePhysicalElement(material);
+                if (result == null) result = caseTechnologyObject(material);
+                if (result == null) result = caseTechnologyElement(material);
                 if (result == null) result = casePassiveStructureElement(material);
+                if (result == null) result = caseArchimateConcept(material);
                 if (result == null) result = caseStructureElement(material);
                 if (result == null) result = caseArchimateElement(material);
-                if (result == null) result = caseArchimateConcept(material);
                 if (result == null) result = caseArchimateModelObject(material);
                 if (result == null) result = caseCloneable(material);
                 if (result == null) result = caseDocumentable(material);
@@ -1402,6 +1425,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IPath path = (IPath)theEObject;
                 T result = casePath(path);
                 if (result == null) result = caseTechnologyElement(path);
+                if (result == null) result = caseActiveStructureElement(path);
+                if (result == null) result = caseStructureElement(path);
                 if (result == null) result = caseArchimateElement(path);
                 if (result == null) result = caseArchimateConcept(path);
                 if (result == null) result = caseArchimateModelObject(path);
@@ -1708,8 +1733,9 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.VALUE_STREAM: {
                 IValueStream valueStream = (IValueStream)theEObject;
                 T result = caseValueStream(valueStream);
-                if (result == null) result = caseStrategyElement(valueStream);
+                if (result == null) result = caseStrategyBehaviorElement(valueStream);
                 if (result == null) result = caseBehaviorElement(valueStream);
+                if (result == null) result = caseStrategyElement(valueStream);
                 if (result == null) result = caseArchimateElement(valueStream);
                 if (result == null) result = caseArchimateConcept(valueStream);
                 if (result == null) result = caseArchimateModelObject(valueStream);
@@ -1795,7 +1821,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP: {
                 IAssociationRelationship associationRelationship = (IAssociationRelationship)theEObject;
                 T result = caseAssociationRelationship(associationRelationship);
-                if (result == null) result = caseOtherRelationship(associationRelationship);
+                if (result == null) result = caseDependendencyRelationship(associationRelationship);
                 if (result == null) result = caseArchimateRelationship(associationRelationship);
                 if (result == null) result = caseArchimateConcept(associationRelationship);
                 if (result == null) result = caseArchimateModelObject(associationRelationship);
@@ -3031,6 +3057,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseBehaviorElement(IBehaviorElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Strategy Behavior Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Strategy Behavior Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStrategyBehaviorElement(IStrategyBehaviorElement object) {
         return null;
     }
 

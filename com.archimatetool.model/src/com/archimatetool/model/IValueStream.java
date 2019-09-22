@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IValueStream extends IStrategyElement, IBehaviorElement {
+public interface IValueStream extends IStrategyBehaviorElement {
 } // IValueStream

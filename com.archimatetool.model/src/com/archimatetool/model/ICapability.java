@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ICapability extends IStrategyElement, IBehaviorElement {
+public interface ICapability extends IStrategyBehaviorElement {
 } // ICapability

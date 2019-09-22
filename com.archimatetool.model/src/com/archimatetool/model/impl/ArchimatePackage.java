@@ -122,6 +122,7 @@ import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
+import com.archimatetool.model.IStrategyBehaviorElement;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.IStructuralRelationship;
 import com.archimatetool.model.IStructureElement;
@@ -503,6 +504,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass behaviorElementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass strategyBehaviorElementEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1852,6 +1860,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EClass getBehaviorElement() {
         return behaviorElementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EClass getStrategyBehaviorElement() {
+        return strategyBehaviorElementEClass;
     }
 
     /**
@@ -3243,6 +3261,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         behaviorElementEClass = createEClass(BEHAVIOR_ELEMENT);
 
+        strategyBehaviorElementEClass = createEClass(STRATEGY_BEHAVIOR_ELEMENT);
+
         structureElementEClass = createEClass(STRUCTURE_ELEMENT);
 
         activeStructureElementEClass = createEClass(ACTIVE_STRUCTURE_ELEMENT);
@@ -3562,6 +3582,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         implementationMigrationElementEClass.getESuperTypes().add(this.getArchimateElement());
         compositeElementEClass.getESuperTypes().add(this.getArchimateElement());
         behaviorElementEClass.getESuperTypes().add(this.getArchimateElement());
+        strategyBehaviorElementEClass.getESuperTypes().add(this.getBehaviorElement());
+        strategyBehaviorElementEClass.getESuperTypes().add(this.getStrategyElement());
         structureElementEClass.getESuperTypes().add(this.getArchimateElement());
         activeStructureElementEClass.getESuperTypes().add(this.getStructureElement());
         passiveStructureElementEClass.getESuperTypes().add(this.getStructureElement());
@@ -3611,12 +3633,10 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         businessRoleEClass.getESuperTypes().add(this.getActiveStructureElement());
         businessServiceEClass.getESuperTypes().add(this.getBusinessElement());
         businessServiceEClass.getESuperTypes().add(this.getBehaviorElement());
-        capabilityEClass.getESuperTypes().add(this.getStrategyElement());
-        capabilityEClass.getESuperTypes().add(this.getBehaviorElement());
+        capabilityEClass.getESuperTypes().add(this.getStrategyBehaviorElement());
         communicationNetworkEClass.getESuperTypes().add(this.getTechnologyElement());
         communicationNetworkEClass.getESuperTypes().add(this.getActiveStructureElement());
-        contractEClass.getESuperTypes().add(this.getBusinessElement());
-        contractEClass.getESuperTypes().add(this.getPassiveStructureElement());
+        contractEClass.getESuperTypes().add(this.getBusinessObject());
         constraintEClass.getESuperTypes().add(this.getMotivationElement());
         courseOfActionEClass.getESuperTypes().add(this.getStrategyElement());
         courseOfActionEClass.getESuperTypes().add(this.getBehaviorElement());
@@ -3640,12 +3660,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         implementationEventEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         locationEClass.getESuperTypes().add(this.getCompositeElement());
         materialEClass.getESuperTypes().add(this.getPhysicalElement());
-        materialEClass.getESuperTypes().add(this.getPassiveStructureElement());
+        materialEClass.getESuperTypes().add(this.getTechnologyObject());
         meaningEClass.getESuperTypes().add(this.getMotivationElement());
         nodeEClass.getESuperTypes().add(this.getTechnologyElement());
         nodeEClass.getESuperTypes().add(this.getActiveStructureElement());
         outcomeEClass.getESuperTypes().add(this.getMotivationElement());
         pathEClass.getESuperTypes().add(this.getTechnologyElement());
+        pathEClass.getESuperTypes().add(this.getActiveStructureElement());
         plateauEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         plateauEClass.getESuperTypes().add(this.getCompositeElement());
         principleEClass.getESuperTypes().add(this.getMotivationElement());
@@ -3675,14 +3696,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         technologyServiceEClass.getESuperTypes().add(this.getTechnologyElement());
         technologyServiceEClass.getESuperTypes().add(this.getBehaviorElement());
         valueEClass.getESuperTypes().add(this.getMotivationElement());
-        valueStreamEClass.getESuperTypes().add(this.getStrategyElement());
-        valueStreamEClass.getESuperTypes().add(this.getBehaviorElement());
+        valueStreamEClass.getESuperTypes().add(this.getStrategyBehaviorElement());
         workPackageEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         workPackageEClass.getESuperTypes().add(this.getBehaviorElement());
         accessRelationshipEClass.getESuperTypes().add(this.getDependendencyRelationship());
         aggregationRelationshipEClass.getESuperTypes().add(this.getStructuralRelationship());
         assignmentRelationshipEClass.getESuperTypes().add(this.getStructuralRelationship());
-        associationRelationshipEClass.getESuperTypes().add(this.getOtherRelationship());
+        associationRelationshipEClass.getESuperTypes().add(this.getDependendencyRelationship());
         compositionRelationshipEClass.getESuperTypes().add(this.getStructuralRelationship());
         flowRelationshipEClass.getESuperTypes().add(this.getDynamicRelationship());
         influenceRelationshipEClass.getESuperTypes().add(this.getDependendencyRelationship());
@@ -3836,6 +3856,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(compositeElementEClass, ICompositeElement.class, "CompositeElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(behaviorElementEClass, IBehaviorElement.class, "BehaviorElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(strategyBehaviorElementEClass, IStrategyBehaviorElement.class, "StrategyBehaviorElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(structureElementEClass, IStructureElement.class, "StructureElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
