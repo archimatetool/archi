@@ -150,7 +150,9 @@ public class ZipUtilsTests {
         ZipUtils.unpackZip(tmpZipFile, tmpOutFolder);
         File outFile = new File(tmpOutFolder, "img.png");
         assertTrue(outFile.exists());
-        assertEquals(77, outFile.length());
+
+        // Linux has a different size than Windows or Mac because GTK image loading is different
+        assertEquals(PlatformUtils.isGTK() ? 102 : 77, outFile.length());
     }
     
     @Test
