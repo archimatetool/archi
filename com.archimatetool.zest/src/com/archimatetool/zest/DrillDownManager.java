@@ -14,10 +14,10 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.core.widgets.GraphNode;
 
 import com.archimatetool.model.IArchimateConcept;
@@ -192,7 +192,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/home_nav.png"); //$NON-NLS-1$
+                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/home_nav.png").orElse(null); //$NON-NLS-1$
             }
         };
         
@@ -211,7 +211,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/backward_nav.png"); //$NON-NLS-1$
+                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/backward_nav.png").orElse(null); //$NON-NLS-1$
             }
         };
         
@@ -230,7 +230,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/forward_nav.png"); //$NON-NLS-1$
+                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/forward_nav.png").orElse(null); //$NON-NLS-1$
             }
         };
 

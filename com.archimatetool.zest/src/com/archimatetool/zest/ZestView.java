@@ -23,6 +23,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -42,7 +43,6 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
@@ -340,7 +340,7 @@ implements IZestView, ISelectionListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/layout.gif"); //$NON-NLS-1$
+                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/layout.gif").orElse(null); //$NON-NLS-1$
             }
         };
 
