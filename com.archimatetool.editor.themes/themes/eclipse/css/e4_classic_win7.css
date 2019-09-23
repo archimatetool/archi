@@ -60,6 +60,8 @@ CTabItem:selected {
 .MToolControl.TrimStack {
 	frame-image:  url(./winClassicTSFrame.png);
 	handle-image:  url(./winClassicHandle.png);
+	frame-image-rotated:  url(./winClassicTSFrame-rotated.png);
+	handle-image-rotated:  url(./winClassicHandle-rotated.png);
 	frame-cuts: 5px 1px 5px 16px;
 }
 
