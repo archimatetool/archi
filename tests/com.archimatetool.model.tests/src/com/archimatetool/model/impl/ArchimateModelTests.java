@@ -281,6 +281,7 @@ public class ArchimateModelTests {
         CommonTests.testProperties(model);
     }
     
+    @SuppressWarnings("deprecation")
     @Test
     public void getMetadata() {
         assertEquals(null, model.getMetadata());

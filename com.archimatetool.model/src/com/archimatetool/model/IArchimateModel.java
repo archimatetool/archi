@@ -121,6 +121,7 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      * If the meaning of the '<em>Metadata</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
+     * @deprecated Use getFeatures() instead
      * <!-- end-user-doc -->
      * @return the value of the '<em>Metadata</em>' containment reference.
      * @see #setMetadata(IMetadata)
@@ -133,6 +134,7 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
     /**
      * Sets the value of the '{@link com.archimatetool.model.IArchimateModel#getMetadata <em>Metadata</em>}' containment reference.
      * <!-- begin-user-doc -->
+     * @deprecated Use getFeatures().setFeature() instead
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Metadata</em>' containment reference.
      * @see #getMetadata()

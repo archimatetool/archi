@@ -54,6 +54,7 @@ public interface IArchimateFactory extends EFactory {
     /**
      * Returns a new object of class '<em>Metadata</em>'.
      * <!-- begin-user-doc -->
+     * @deprecated Use createFeature() instead
      * <!-- end-user-doc -->
      * @return a new object of class '<em>Metadata</em>'.
      * @generated

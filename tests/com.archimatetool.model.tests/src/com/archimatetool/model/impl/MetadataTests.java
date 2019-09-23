@@ -40,6 +40,7 @@ public class MetadataTests {
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------
     
+    @SuppressWarnings("deprecation")
     @Before
     public void runBeforeEachTest() {
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -83,6 +84,7 @@ public class MetadataTests {
         IArchimateModel testModel = TestSupport.loadModel(file);
         
         // Check it persisted
+        @SuppressWarnings("deprecation")
         EList<IProperty> testEntries = testModel.getMetadata().getEntries();
         assertEquals(1, testEntries.size());
         testProperty = testEntries.get(0);
