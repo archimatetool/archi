@@ -40,6 +40,8 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 .MToolControl.TrimStack {
 	frame-image:  url(./win7TSFrame.png);
 	handle-image:  url(./win7Handle.png);
+	frame-image-rotated:  url(./win7TSFrame-rotated.png);
+	handle-image-rotated:  url(./win7Handle-rotated.png);
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar {

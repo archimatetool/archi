@@ -1,21 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="Archi" sequenceNumber="50">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="Archi" sequenceNumber="50">
 <locations>
     <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-        <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.3.v20181012-2020"/>
-        <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.1.100.v20180301-0201"/>
-        <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.14.4.v20181013-2146"/>
-        <unit id="org.eclipse.ecf.filetransfer.httpclient4.feature.feature.group" version="3.14.4.v20181013-2146"/>
-        <unit id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature.feature.group" version="1.1.100.v20180301-0132"/>
-        <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="1.1.100.v20180301-0132"/>
-        <repository location="http://download.eclipse.org/releases/2019-03"/>
-        <unit id="org.eclipse.emf.sdk.feature.group" version="2.17.0.v20190301-1325"/>
-        <unit id="org.eclipse.equinox.core.feature.feature.group" version="1.8.0.v20190218-2100"/>
-        <unit id="org.eclipse.equinox.p2.core.feature.feature.group" version="1.6.100.v20190218-2100"/>
-        <unit id="org.eclipse.equinox.p2.extras.feature.feature.group" version="1.4.300.v20190218-2100"/>
-        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.17.0.v20190305-2225"/>
-        <unit id="org.eclipse.gef.feature.group" version="3.11.0.201606061308"/>
-        <unit id="org.eclipse.sdk.ide" version="4.11.0.I20190307-0500"/>
+        <repository location="http://download.eclipse.org/releases/2019-09"/>
+        <unit id="org.eclipse.sdk.ide" version="4.13.0.I20190916-1045"/>
+        <unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
         <unit id="org.eclipse.zest.sdk.feature.group" version="1.7.0.201606061308"/>
+        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.19.0.v20190907-0428"/>
+        <unit id="org.eclipse.equinox.p2.core.feature.feature.group" version="1.6.300.v20190903-0934"/>
+        <unit id="org.eclipse.equinox.p2.extras.feature.feature.group" version="1.4.500.v20190903-0934"/>
+        <unit id="org.eclipse.emf.sdk.feature.group" version="2.19.0.v20190824-1315"/>
+        <unit id="org.eclipse.equinox.core.feature.feature.group" version="1.10.0.v20190830-1434"/>
+        <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.3.v20190423-0625"/>
+        <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.1.200.v20190502-0212"/>
+        <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.14.5.v20190423-0614"/>
+        <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="1.1.100.v20180301-0132"/>
+        <unit id="org.eclipse.ecf.filetransfer.httpclient45.feature.feature.group" version="1.0.0.v20190530-1947"/>
     </location>
 </locations>
 </target>

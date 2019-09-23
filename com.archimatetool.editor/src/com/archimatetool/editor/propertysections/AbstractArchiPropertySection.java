@@ -5,14 +5,9 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -110,9 +105,6 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(textControl);
-        
-        // Add Focus Listener for Mac Kludge
-        addFocusListener(textControl);
         
         // Add listener to disable global actions when it gets the focus
         addGlobalActionDisablementListener(textControl);
@@ -271,40 +263,11 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
             }
         });
     }
-
-    // ========================== Mac workaround ==========================
-    // Used for Mac bug - see https://bugs.eclipse.org/bugs/show_bug.cgi?id=383750
-    
-    // The trick here is to set the content of the text control again when it gains the focus
-    
-    protected void addFocusListener(Control control) {
-        // This fix applies only on Mac OS systems
-        if(!Platform.getOS().equals(Platform.OS_MACOSX)) {
-            return;
-        }
-
-        if(!control.isDisposed()) {
-            FocusAdapter listener = new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    AbstractArchiPropertySection.this.focusGained(control);
-                }
-            };
-            
-            control.addFocusListener(listener);
-            
-            control.addDisposeListener(new DisposeListener() {
-                @Override
-                public void widgetDisposed(DisposeEvent e) {
-                    control.removeFocusListener(listener);
-                }
-            });
-        }
-    }
     
     // Add Mac kludge.
     // Sub-classes that have text controls should implement this
     // and update the text controls that might be affected by the Mac bug
+    @Deprecated
     protected void focusGained(Control control) {
     }
 

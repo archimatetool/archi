@@ -70,6 +70,8 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
 .MToolControl.TrimStack {
 	frame-image:  url(./win7TSFrame.png);
 	handle-image:  url(./win7Handle.png);
+	frame-image-rotated:  url(./win7TSFrame-rotated.png);
+	handle-image-rotated:  url(./win7Handle-rotated.png);
 }
 
 #PerspectiveSwitcher  {

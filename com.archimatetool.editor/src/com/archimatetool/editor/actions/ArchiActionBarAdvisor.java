@@ -21,6 +21,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -31,7 +32,6 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.archimatetool.editor.WorkbenchCleaner;
 import com.archimatetool.editor.model.IModelExporter;
@@ -238,8 +238,8 @@ extends ActionBarAdvisor {
 
         fShowPaletteView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_6, PaletteView.ID,
                                     "com.archimatetool.editor.action.showPaletteView", //$NON-NLS-1$
-                                    AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.gef", //$NON-NLS-1$
-                                    "$nl$/icons/palette_view.gif")) { //$NON-NLS-1$
+                                    ResourceLocator.imageDescriptorFromBundle("org.eclipse.gef", //$NON-NLS-1$
+                                    "$nl$/icons/palette_view.gif").orElse(null)) { //$NON-NLS-1$
             @Override
             public String getToolTipText() {
                 return Messages.ArchimateEditorActionBarAdvisor_7;

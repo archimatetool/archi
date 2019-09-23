@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.swt.SWT;
@@ -207,7 +208,7 @@ public class ImageFactory {
         ImageRegistry registry = fPlugin.getImageRegistry();
         ImageDescriptor id = registry.getDescriptor(imageName);
         if(id == null) {
-            id = AbstractUIPlugin.imageDescriptorFromPlugin(fPlugin.getBundle().getSymbolicName(), imageName);
+            id = ResourceLocator.imageDescriptorFromBundle(fPlugin.getBundle().getSymbolicName(), imageName).orElse(null);
             if(id != null) {
                 registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
             }
