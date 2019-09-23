@@ -7,7 +7,6 @@ package com.archimatetool.editor.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
@@ -82,13 +81,5 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
     @Override
     public boolean shouldUseExtraSpace() {
         return true;
-    }
-    
-    @Override
-    protected void focusGained(Control control) {
-        // Only need to refresh name field
-        if(control == fTextName.getTextControl()) {
-            refreshNameField();
-        }
     }
 }

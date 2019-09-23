@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
@@ -154,13 +153,4 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
     public boolean shouldUseExtraSpace() {
         return true;
     }
-    
-    @Override
-    protected void focusGained(Control control) {
-        // Only need to refresh file field
-        if(control == fTextFile) {
-            refreshFileField();
-        }
-    }
-
 }
