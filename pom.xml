@@ -19,7 +19,7 @@
         <repository>
             <id>Eclipse repository</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/2019-03/</url>
+            <url>http://download.eclipse.org/releases/2019-09/</url>
         </repository>
     </repositories>
 
@@ -117,7 +117,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                     <configuration>
                         <encoding>ISO-8859-1</encoding>
                     </configuration>
