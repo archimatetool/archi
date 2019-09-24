@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
@@ -33,7 +32,6 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -123,7 +121,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         
         fTitleLabel = new CLabel(parent, SWT.NULL);
         fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont")); //$NON-NLS-1$
-        fTitleLabel.setBackground(ColorConstants.white);
+        fTitleLabel.setBackground(ColorFactory.get(220, 235, 235));
         
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fTitleLabel.setLayoutData(gd);
@@ -192,7 +190,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         	error.printStackTrace();
             // Create a message and show that instead
             fTitleLabel.setText(Messages.HintsView_2);
-            fTitleLabel.setBackground(new Color[]{ColorConstants.lightGray, ColorConstants.white}, new int[]{80}, false);
             Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
             text.setLayoutData(new GridData(GridData.FILL_BOTH));
             text.setText(Messages.HintsView_3);
@@ -292,9 +289,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
 
         if(hint != null) {
             if(fLastPath != hint.path) {
-                // Title and Color
-                Color color = getTitleColor(object);
-                fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
+                // Title
                 fTitleLabel.setText(hint.title);
 
                 // Load page
@@ -319,8 +314,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         
         if(StringUtils.isSet(title) || StringUtils.isSet(text)) {
             fTitleLabel.setText(title);
-            Color color = getTitleColor(provider);
-            fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
             text = makeHTMLEntry(text);
             fBrowser.setText(text);
             fLastPath = ""; //$NON-NLS-1$
@@ -334,7 +327,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         fBrowser.setText(""); //$NON-NLS-1$
         fLastPath = ""; //$NON-NLS-1$
         fTitleLabel.setText(""); //$NON-NLS-1$
-        fTitleLabel.setBackground(ColorConstants.white);
     }
     
     /**
@@ -414,11 +406,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             fLookupTable.put(className, hint);
         }
     }
-    
-    private Color getTitleColor(Object object) {
-        return ColorFactory.get(220, 235, 235);
-    }
-
     
     @Override
     public void dispose() {
