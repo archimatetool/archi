@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -147,6 +148,9 @@ implements IDiagramModelObjectFigure {
     protected void setFontColor() {
         String val = fDiagramModelObject.getFontColor();
         Color c = ColorFactory.get(val);
+        if(c == null) {
+            c = ColorConstants.black; // Set to black in case of dark theme
+        }
         if(c != fFontColor) {
             fFontColor = c;
             if(getTextControl() != null) {
