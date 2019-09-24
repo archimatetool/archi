@@ -14,7 +14,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -25,11 +24,11 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,6 +41,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -72,9 +72,6 @@ public class ColorChooser extends EventManager {
     private Button fMenuButton;
     
     private Color fColor;
-    
-    private Point fExtent;
-    
     private RGB fColorValue;
     
     private boolean fIsDefaultColor;
@@ -97,18 +94,11 @@ public class ColorChooser extends EventManager {
         
         fColorButton = new Button(fComposite, SWT.FLAT);
         
-        fExtent = computeImageSize(parent);
-        
         GridData gd = new GridData();
-        gd.widthHint = fExtent.x + 20;
+        gd.widthHint = 60;
         fColorButton.setLayoutData(gd);
         
-        fImage = new Image(parent.getDisplay(), fExtent.x, fExtent.y);
-        GC gc = new GC(fImage);
-        gc.setBackground(fColorButton.getBackground());
-        gc.fillRectangle(0, 0, fExtent.x, fExtent.y);
-        gc.dispose();
-        
+        fImage = new Image(parent.getDisplay(), 40, 15);
         fColorButton.setImage(fImage);
         
         fColorButton.addSelectionListener(new SelectionAdapter() {
@@ -142,7 +132,14 @@ public class ColorChooser extends EventManager {
         fMenuButton = new Button(fComposite, SWT.FLAT);
         fMenuButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));        
         fMenuButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.MENU_ARROW));
-
+        
+        if(PlatformUtils.isMac()) {
+            gd.heightHint = 25;
+        }
+        else {
+            gd.heightHint = fMenuButton.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+        }
+        
         fMenuButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -289,28 +286,31 @@ public class ColorChooser extends EventManager {
     protected void updateColorImage() {
         Display display = fColorButton.getDisplay();
         GC gc = new GC(fImage);
-        gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-        gc.drawRectangle(0, 2, fExtent.x - 1, fExtent.y - 4);
         
         if(fColor != null) {
             fColor.dispose();
         }
         fColor = new Color(display, fColorValue);
         
+        Rectangle r = fImage.getBounds();
+        
         if(fDoShowColorImage) {
             gc.setBackground(fColor);
-            gc.fillRectangle(1, 3, fExtent.x - 2, fExtent.y - 5);            
+            gc.fillRectangle(0, 0, r.width, r.height);            
         }
         else {
             gc.setAntialias(SWT.ON);
             gc.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
-            gc.fillRectangle(1, 3, fExtent.x - 2, fExtent.y - 5);            
-            gc.drawLine(0, 2, fExtent.x - 1, fExtent.y - 4);
+            gc.fillRectangle(0, 0, r.width, r.height);            
+            gc.drawLine(0, 1, r.width - 1, r.height - 2);
         }
         
+        gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+        gc.drawRectangle(0, 0, r.width - 1, r.height - 1);
+
         gc.dispose();
         
-        fColorButton.setImage(fImage);
+        fColorButton.setImage(fImage); // have to explicitly set this on Mac
     }
 
     /**
@@ -353,22 +353,4 @@ public class ColorChooser extends EventManager {
             }
         }
     }
-     
-    /**
-     * Compute the size of the image to be displayed.
-     * 
-     * @param window -
-     *            the window used to calculate
-     * @return <code>Point</code>
-     */
-    protected Point computeImageSize(Control window) {
-        GC gc = new GC(window);
-        Font f = JFaceResources.getFontRegistry().get(JFaceResources.DIALOG_FONT);
-        gc.setFont(f);
-        int height = gc.getFontMetrics().getHeight();
-        gc.dispose();
-        Point p = new Point(height * 3 - 6, height);
-        return p;
-    }
-
 }
