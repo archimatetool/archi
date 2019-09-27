@@ -111,23 +111,19 @@ public class SearchWidget extends Composite {
     
     @Override
     public boolean setFocus() {
-        return fSearchText.setFocus();
+        // On Linux the text control can be disposed at this point
+        return fSearchText.isDisposed() ? false : fSearchText.setFocus();
     }
 
     protected void setupSearchTextWidget() {
-        if(PlatformUtils.isWindows()) {
+        // The native search test controls look like shit on Windows and Mac
+        if(!PlatformUtils.isLinux()) {
             SearchTextWidget widget = new SearchTextWidget(this);
             widget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fSearchText = widget.getTextControl();
         }
         else {
-            // Bug on Mac 10.10 https://bugs.eclipse.org/bugs/show_bug.cgi?id=447981
-            // Workaround is to use SWT.CENTER
-            int flags = SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH;
-            if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) { //$NON-NLS-1$ //$NON-NLS-2$
-                flags |= SWT.CENTER;
-            }
-            fSearchText = new Text(this, flags);
+            fSearchText = new Text(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
             fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
         
