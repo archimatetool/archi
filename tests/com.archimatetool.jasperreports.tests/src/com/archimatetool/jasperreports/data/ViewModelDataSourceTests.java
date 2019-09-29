@@ -79,12 +79,6 @@ public class ViewModelDataSourceTests {
     }
 
     @Test
-    public void testGetChildRelationsDataSource() throws JRException {
-        ds.next();
-        assertNotNull(ds.getChildRelationsDataSource());
-    }
-
-    @Test
     public void testGetElement() {
         assertNull(ds.getElement());
     }

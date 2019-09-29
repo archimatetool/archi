@@ -64,10 +64,6 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
         return new ViewChildrenDataSource(fCurrentView);
     }
     
-    public ViewRelationsDataSource getChildRelationsDataSource() {
-        return new ViewRelationsDataSource(fCurrentView);
-    }
-    
     @Override
     public boolean next() throws JRException {
         if(currentIndex < fViews.size() - 1) {
