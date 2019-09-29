@@ -1,0 +1,335 @@
+/*******************************************************************************
+ * Copyright (c) 2010, 2015 Andrea Guarinoni and others.
+ *
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     Andrea Guarinoni <andrea.guarinoni.dev@outlook.com> - initial API and implementation
+ *     Lars Vogel <Lars.Vogel@vogella.com> - initial API and implementation
+ *     Stefan Winkler <stefan@winklerweb.net> - Bug 431845
+ *     Fabio Zadrozny <fabiofz@gmail.com> - Bug 434201, 434309, 430278
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The following bugs are referred to in this style sheet
+ * 1.) Bug 430052 - Imported rules cannot be overridden
+ *******************************************************************************/
+
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_basestyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_globalstyle.css"); /* Remove this to have ONLY the main IDE shell dark */
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_partstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_tabstyle.css");
+
+Tree {
+	/**
+	 * See Bug 434201: Dark theme: tree must respect the foreground color for items arrows
+	 */
+	swt-tree-arrows-color:#cccccc;
+	swt-tree-arrows-mode: triangle;  /* triangle or square */
+
+	/* See Bug 434309: Customize the tree/table selection to work properly
+	 * with the dark theme.
+	 *
+	 * Note that the selection foreground is a bit lighter than the regular
+	 * foreground because our background is also a bit lighter in this case.
+	 */
+	swt-selection-foreground-color: #fcfcf9;
+	swt-selection-background-color: #494949;
+	swt-hot-background-color: #2F2F2F;
+	swt-selection-border-color: #7F7D68;
+	swt-hot-border-color: #545454;
+}
+
+
+Table {
+	/* See Bug 434309: Customize the tree/table selection to work properly
+	 * with the dark theme.
+	 *
+	 * Note that the selection foreground is a bit lighter than the regular
+	 * foreground because our background is also a bit lighter in this case.
+	 */
+	swt-selection-foreground-color: #fcfcf9;
+
+	swt-selection-background-color: #494949;
+	swt-hot-background-color: #2F2F2F;
+	swt-selection-border-color: #7F7D68;
+	swt-hot-border-color: #545454;
+}
+
+
+.MTrimmedWindow.topLevel {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.MPartStack, .MPart {
+    font-family: '#org-eclipse-ui-workbench-TAB_TEXT_FONT';
+}
+
+
+.MPart.busy {
+    font-style: italic;
+}
+
+.MPart.highlighted {
+    font-weight: bold;
+}
+
+CTabItem,
+CTabItem CLabel {
+    background-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END'; /* HACK for background of CTabFolder inner Toolbars */
+    color: '#org-eclipse-ui-workbench-INACTIVE_TAB_UNSELECTED_TEXT_COLOR';
+}
+CTabItem:selected,
+CTabItem:selected CLabel {
+    color: '#org-eclipse-ui-workbench-INACTIVE_TAB_SELECTED_TEXT_COLOR';
+}
+
+.MPartStack.active > CTabItem,
+.MPartStack.active > CTabItem CLabel {
+    background-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END'; /* HACK for background of CTabFolder inner Toolbars */
+    color: '#org-eclipse-ui-workbench-ACTIVE_TAB_UNSELECTED_TEXT_COLOR';
+}
+.MPartStack.active > CTabItem:selected,
+.MPartStack.active > CTabItem:selected CLabel {
+    color: '#org-eclipse-ui-workbench-ACTIVE_TAB_SELECTED_TEXT_COLOR';
+}
+
+.MPartStack.active.noFocus > CTabItem:selected {
+    color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR';
+}
+
+CTabItem.busy {
+    color: #888888;
+}
+
+#PerspectiveSwitcher {
+    eclipse-perspective-keyline-color: #AAB0BF #AAB0BF;
+}
+
+.MToolControl.TrimStack {
+    /*frame-image:  url(./gtkTSFrame.png);*/
+    handle-image:  url(./dragHandle.png);
+    /*frame-image-rotated:  url(./gtkTSFrame-rotated.png);*/
+    handle-image-rotated:  url(./dragHandle-rotated.png);
+    frame-cuts: 5px 1px 5px 16px;
+}
+
+.MToolBar.Draggable {
+    handle-image:  url(./dragHandle.png);
+}
+
+.MToolControl.Draggable {
+    handle-image:  url(./dragHandle.png);
+}
+
+.DragFeedback {
+    background-color: COLOR-WIDGET-NORMAL-SHADOW;
+}
+
+.ModifiedDragFeedback {
+    background-color: #4176AF;
+}
+
+.MTrimmedWindow {
+    background-color: #515658;
+}
+
+.MTrimBar {
+    background-color: #515658;
+}
+
+CTabFolder.MArea .MPartStack,CTabFolder.MArea .MPartStack.active {
+    swt-shadow-visible: false;
+}
+
+
+CTabFolder Tree, CTabFolder Canvas {
+    background-color: #2F2F2F;
+    color: #CCC;
+}
+
+CTabFolder Scale {
+    background-color: inherit;
+}
+
+.MPartStack.active CTabFolder Canvas {
+    background-color: #262626;
+    color: #CCC;
+}
+
+.MPartStack.active Table {
+    background-color: #2F2F2F;
+    color: #CCC;
+}
+
+.View {
+    background-color: #313538;
+    color: #F5F5F5;
+}
+
+
+/* ####################### Top Toolbar ########################## */
+
+#org-eclipse-ui-main-toolbar, #PerspectiveSwitcher {
+    eclipse-perspective-keyline-color: #585858;
+    background-color: #515658 #515658 100%;
+    handle-image: none;
+    color: #EBE8E4;
+}
+
+
+/* ##################### Bottom Status Bar ####################### */
+
+#org-eclipse-ui-StatusLine,
+#org-eclipse-ui-ProgressBar,
+#org-eclipse-ui-ProgressBar Canvas {
+    color: #CCCCCC;
+}
+#org-eclipse-ui-StatusLine CLabel {
+    color: #BDBAB7;
+}
+
+StatusLine, ImageBasedFrame{
+    color: #BDBAB7;
+}
+
+
+
+/* ####################### CSS for .MParts ####################### */
+
+.MPart Form Section,
+.MPart Form Label,
+.MPart Form FormText,
+.MPartStack .MPart Form MasterDetailsBlock-MDSashForm,
+.MPartStack .MPart Form SashForm,
+.MPartStack .MPart Form Sash,
+.MPart Form Button[style~='SWT.CHECK'],
+.MPart Form Button[style~='SWT.RADIO'],
+.MPartStack.active .MPart Form Section,
+.MPartStack.active .MPart Form Label,
+.MPartStack.active .MPart Form FormText,
+.MPartStack.active .MPart Form MasterDetailsBlock-MDSashForm,
+.MPartStack.active .MPart Form SashForm,
+.MPartStack.active .MPart Form Sash,
+.MPartStack.active .MPart Form Button[style~='SWT.CHECK'],
+.MPartStack.active .MPart Form Button[style~='SWT.RADIO']
+{
+	background-color: inherit;
+	color: #f4f7f7;
+}
+
+/* Make the content of the Form brighter because the color of
+   the font of some widgets is hard-coded to be black on Window */
+
+.MPart Form,
+.MPart Form Link,
+.MPart Form Button,
+.MPart Form Group,
+.MPart Form LayoutComposite,
+.MPart Form ScrolledPageBook,
+.MPart Form DependenciesComposite,
+.MPart Form ListEditorComposite,
+.MPart Form Text[style~='SWT.READ_ONLY'],
+.MPart Form > LayoutComposite > LayoutComposite > ToolBar,
+.MPart Form DependenciesComposite > SashForm > Section > *, /* Section > DependenciesComposite$... */
+.MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > *, /*LayoutComposite > MasterDetailBlock$... > LayoutComposite > Section > LayoutComposite > ExtensionsSection$...*/
+.MPartStack.active .MPart Form,
+.MPartStack.active .MPart Form Link,
+.MPartStack.active .MPart Form Button,
+.MPartStack.active .MPart Form Group,
+.MPartStack.active .MPart Form LayoutComposite,
+.MPartStack.active .MPart Form ScrolledPageBook,
+.MPartStack.active .MPart Form DependenciesComposite,
+.MPartStack.active .MPart Form ListEditorComposite,
+.MPartStack.active .MPart Form Text[style~='SWT.READ_ONLY'],
+.MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
+.MPartStack.active .MPart Form DependenciesComposite > SashForm > Section > *, /* Section > DependenciesComposite$... */
+.MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * /*LayoutComposite > MasterDetailBlock$... > LayoutComposite > Section > LayoutComposite > ExtensionsSection$...*/ {
+    background-color: #4f5355;
+    color: #f4f7f7;
+}
+#org-eclipse-help-ui-HelpView Form,
+#org-eclipse-help-ui-HelpView Form Sash,
+#org-eclipse-help-ui-HelpView Form Label,
+#org-eclipse-help-ui-HelpView Form Section,
+#org-eclipse-help-ui-HelpView Form FormText,
+#org-eclipse-help-ui-HelpView Form Hyperlink,
+#org-eclipse-help-ui-HelpView Form Button,
+#org-eclipse-help-ui-HelpView Form Group,
+#org-eclipse-help-ui-HelpView Form LayoutComposite,
+#org-eclipse-help-ui-HelpView Form ScrolledPageBook,
+#org-eclipse-help-ui-HelpView Form Text[style~='SWT.READ_ONLY'] {
+    background-color: #2F2F2F;
+    color: #CCCCCC;
+}
+.MPartStack.active #org-eclipse-help-ui-HelpView Form,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Sash,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Label,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Section,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form FormText,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Hyperlink,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Button,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Group,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form LayoutComposite,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form ScrolledPageBook,
+.MPartStack.active #org-eclipse-help-ui-HelpView Form Text[style~='SWT.READ_ONLY'] {
+    background-color: #262626;
+    color: #BBBBBB;
+}
+.MPart Form Section Tree,
+.MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > Tree,
+.MPartStack.active .MPart Form Section Tree,
+.MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > Tree {
+    background-color: #313538;
+    color: #DDDDDD;
+}
+.MPart Form DatePicker > ImageHyperlink,
+.MPart Form ScheduleDatePicker > ImageHyperlink {
+    background-color: #3f4447;
+    color: #BBBBBB;
+}
+.MPartStack.active .MPart Form DatePicker > ImageHyperlink,
+.MPartStack.active .MPart Form ScheduleDatePicker > ImageHyperlink {
+    background-color: #313538;
+    color: #AAAAAA;
+}
+.MPart PageBook > Form > LayoutComposite {
+    background-color: #2F2F2F;
+    color: #CCC;
+}
+.MPartStack.active .MPart PageBook > Form > LayoutComposite {
+    background-color: #262626;
+    color: #BBBBBB;
+}
+.MPart Form FormHeading LayoutComposite,
+.MPart Form FormHeading ImageHyperlink {
+    background-color: #505f70;
+    color: #9ac9d8;
+}
+.MPartStack.active .MPart Form FormHeading LayoutComposite,
+.MPartStack.active .MPart Form FormHeading ImageHyperlink {
+    background-color: #415062;
+    color: #9ac9d8;
+}
+
+/* On the windows dark theme, the default is having the scrollbar themed
+ * Note that the user may also set -Dswt.enable.themedScrollBar=false to force
+ * it to false regardless of the CSS value.
+ */
+StyledText {
+	swt-scrollbar-themed: true;
+
+	swt-scrollbar-background-color: #383838;
+	swt-scrollbar-foreground-color: #494949;
+	swt-scrollbar-width: 4px;
+	swt-scrollbar-border-radius: 4px;
+	swt-scrollbar-mouse-near-scroll-width: 15px;
+}

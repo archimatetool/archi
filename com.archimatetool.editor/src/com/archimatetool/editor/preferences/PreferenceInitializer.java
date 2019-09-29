@@ -19,6 +19,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class PreferenceInitializer extends AbstractPreferenceInitializer
 implements IPreferenceConstants {
 
@@ -93,13 +94,15 @@ implements IPreferenceConstants {
         
         store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);
         
-        store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download"); //$NON-NLS-1$
-        store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
+        store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download");
+        store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt");
         
         store.setDefault(SCALE_IMAGE_EXPORT, (PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100) ? true : false);
         
         store.setDefault(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, 0);
         
         store.setDefault(TREE_SEARCH_AUTO, true);
+        
+        store.setDefault(THEME_AUTO, false);
     }
 }

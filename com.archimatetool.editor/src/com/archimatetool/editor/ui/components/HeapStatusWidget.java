@@ -26,8 +26,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.internal.TrimUtil;
 
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ThemeUtils;
 
 
 /**
@@ -36,6 +39,7 @@ import com.archimatetool.editor.ui.IArchiImages;
  * 
  * To show this set System Property to VM arguments as "-Dshowheap=true"
  */
+@SuppressWarnings("restriction")
 public class HeapStatusWidget extends Composite {
     
     /**
@@ -82,7 +86,7 @@ public class HeapStatusWidget extends Composite {
 	private Image gcImage;
 	private Image disabledGcImage;
 	private Color bgCol, usedMemCol, lowMemCol, freeMemCol, topLeftCol, bottomRightCol, sepCol, textCol, markCol, armCol;  
-    private Canvas button;
+    private Canvas canvas;
 	private int updateInterval = 500;
 	private boolean showMax = true;
     private long totalMem;
@@ -131,8 +135,8 @@ public class HeapStatusWidget extends Composite {
 		maxMem = getMaxMem();
 		maxMemKnown = maxMem != Long.MAX_VALUE;
 
-        button = new Canvas(this, SWT.NONE);
-        button.setToolTipText("Run Garbage Collector"); //$NON-NLS-1$
+		canvas = new Canvas(this, SWT.NONE);
+		canvas.setToolTipText("Run Garbage Collector"); //$NON-NLS-1$
         
 		ImageDescriptor imageDesc = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRASH);
 		Display display = getDisplay();
@@ -141,13 +145,14 @@ public class HeapStatusWidget extends Composite {
 			imgBounds = gcImage.getBounds();
 			disabledGcImage = new Image(display, gcImage, SWT.IMAGE_DISABLE);
 		}
-		usedMemCol = display.getSystemColor(SWT.COLOR_INFO_BACKGROUND);
+		usedMemCol = new Color(display, 160, 160, 160); // gray
 		lowMemCol = new Color(display, 255, 70, 70);  // medium red 
 		freeMemCol = new Color(display, 255, 190, 125);  // light orange
+		sepCol = topLeftCol = armCol = usedMemCol;
 		bgCol = display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-		sepCol = topLeftCol = armCol = display.getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
 		bottomRightCol = display.getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW);
-		markCol = textCol = display.getSystemColor(SWT.COLOR_INFO_FOREGROUND);
+        markCol = display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
+        textCol = ThemeUtils.isDarkTheme() ? ColorFactory.get(255, 255, 255) : markCol;
 		
 		createContextMenu();
 		
@@ -161,13 +166,13 @@ public class HeapStatusWidget extends Composite {
                     break;
                 case SWT.Resize:
                     Rectangle rect = getClientArea();
-                    button.setBounds(rect.width - imgBounds.width - 1, 1, imgBounds.width, rect.height - 2);
+                    canvas.setBounds(rect.width - imgBounds.width - 1, 1, imgBounds.width, rect.height - 2);
                     break;
                 case SWT.Paint:
                     if (event.widget == HeapStatusWidget.this) {
                     	paintComposite(event.gc);
                     }
-                    else if (event.widget == button) {
+                    else if (event.widget == canvas) {
                         paintButton(event.gc);
                     }
                     break;
@@ -183,7 +188,7 @@ public class HeapStatusWidget extends Composite {
                     if (event.button == 1) {
 	                    if (event.widget == HeapStatusWidget.this) {
 							setMark();
-						} else if (event.widget == button) {
+						} else if (event.widget == canvas) {
 							if (!isInGC)
 								arm(true);
 						}
@@ -196,7 +201,7 @@ public class HeapStatusWidget extends Composite {
                 case SWT.MouseExit:
                     if (event.widget == HeapStatusWidget.this) {
                     	HeapStatusWidget.this.updateTooltip = false;
-					} else if (event.widget == button) {
+					} else if (event.widget == canvas) {
 						arm(false);
 					}
                     break;
@@ -210,10 +215,10 @@ public class HeapStatusWidget extends Composite {
         addListener(SWT.Resize, listener);
         addListener(SWT.MouseEnter, listener);
         addListener(SWT.MouseExit, listener);
-        button.addListener(SWT.MouseDown, listener);
-        button.addListener(SWT.MouseExit, listener);
-        button.addListener(SWT.MouseUp, listener);
-        button.addListener(SWT.Paint, listener);
+        canvas.addListener(SWT.MouseDown, listener);
+        canvas.addListener(SWT.MouseExit, listener);
+        canvas.addListener(SWT.MouseUp, listener);
+        canvas.addListener(SWT.Paint, listener);
 
 		// make sure stats are updated before first paint
 		updateStats();
@@ -228,7 +233,34 @@ public class HeapStatusWidget extends Composite {
 		});
    	}
 
-	/**
+    @Override
+    public void setBackground(Color color) {
+        bgCol = color;
+        canvas.redraw();
+    }
+
+    @Override
+    public void setForeground(Color color) {
+        if (color == null) {
+            markCol = getDisplay().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
+        } else {
+            markCol = color;
+        }
+        
+        textCol = ThemeUtils.isDarkTheme() ? ColorFactory.get(255, 255, 255) : markCol;
+
+        canvas.redraw();
+    }
+
+    @Override
+    public Color getForeground() {
+        if (usedMemCol != null) {
+            return usedMemCol;
+        }
+        return getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
+    }
+
+    /**
 	 * Returns the maximum memory limit, or Long.MAX_VALUE if the max is not known.
 	 */
 	private long getMaxMem() {
@@ -263,7 +295,7 @@ public class HeapStatusWidget extends Composite {
 		}
 	}
 
-	@Override
+    @Override
     public Point computeSize(int wHint, int hHint, boolean changed) {
         GC gc = new GC(this);
         Point p = gc.textExtent("MMMMMMMMMMMM"); //$NON-NLS-1$
@@ -273,9 +305,9 @@ public class HeapStatusWidget extends Composite {
         //	- Image height + margins
         //	- Default Trim heightin 
         height = Math.max(height, p.y) + 4;
-        height = Math.max(24, height);
+        height = Math.max(TrimUtil.TRIM_DEFAULT_HEIGHT, height);
         gc.dispose();
-		return new Point(p.x + 15, height);
+        return new Point(p.x + 15, height);
 	}
 	
     private void arm(boolean armed) {
@@ -283,8 +315,8 @@ public class HeapStatusWidget extends Composite {
 			return;
 		}
         this.armed = armed;
-        button.redraw();
-        button.update();
+        canvas.redraw();
+        canvas.update();
     }
 
 	private void gcRunning(boolean isInGC) {
@@ -292,8 +324,8 @@ public class HeapStatusWidget extends Composite {
 			return;
 		}
 		this.isInGC = isInGC;
-		 button.redraw();
-		 button.update();
+		canvas.redraw();
+		canvas.update();
 	}
 
     /**
@@ -368,7 +400,7 @@ public class HeapStatusWidget extends Composite {
     }
     
     private void paintButton(GC gc) {
-        Rectangle rect = button.getClientArea();
+        Rectangle rect = canvas.getClientArea();
 		if (isInGC) {
 			if (disabledGcImage != null) {
 				int buttonY = (rect.height - imgBounds.height) / 2 + rect.y;
@@ -406,7 +438,9 @@ public class HeapStatusWidget extends Composite {
         int uw = (int) (sw * usedMem / totalMem); // used mem width
         int ux = x + 1 + uw; // used mem right edge
         
-        gc.setBackground(bgCol);
+        if (bgCol != null) {
+            //gc.setBackground(bgCol);
+        }
         gc.fillRectangle(rect);
         gc.setForeground(sepCol);
 		gc.drawLine(dx, y, dx, y + h);
@@ -449,7 +483,9 @@ public class HeapStatusWidget extends Composite {
         int tw = (int) (sw * totalMem / maxMem); // current total mem width
         int tx = x + 1 + tw; // current total mem right edge
         
-        gc.setBackground(bgCol);
+        if(bgCol != null) {
+            //gc.setBackground(bgCol);
+        }
         gc.fillRectangle(rect);
         gc.setForeground(sepCol);
 		gc.drawLine(dx, y, dx, y + h);

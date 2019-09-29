@@ -5,12 +5,10 @@
  */
 package com.archimatetool.editor.preferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
-import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
-import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -36,7 +34,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
+
 
 /**
  * General Preferences Page
@@ -56,16 +56,29 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private ComboViewer fThemeComboViewer;
     
-    private IThemeEngine fThemeEngine;
-    private ITheme fCurrentTheme;
-    private String fDefaultTheme;
-    
     private Button fShowStatusLineButton;
     
     private Button fShowUnusedElementsInModelTreeButton;
     private Button fAutoSearchButton;
     
     private Button fScaleImagesButton;
+
+    private ITheme fCurrentTheme;
+    
+    /**
+     * Pseudo theme to set automatic light/dark on startup
+     */
+    private static ITheme AUTOMATIC_THEME = new ITheme() {
+        @Override
+        public String getId() {
+            return "autoTheme"; //$NON-NLS-1$
+        }
+
+        @Override
+        public String getLabel() {
+            return Messages.GeneralPreferencePage_15;
+        }
+    };
 
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -184,9 +197,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-                if(theme != null && theme != fThemeEngine.getActiveTheme()) {
-                    setTheme(theme, false);
-                }
+                setTheme(theme, false);
             }
         });
         
@@ -203,12 +214,29 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
 
-        // Themes
-        List<ITheme> themes = fThemeEngine.getThemes();
+        // Themes list
+        List<ITheme> themes = new ArrayList<ITheme>();
+        
+        // Add our pseudo theme
+        themes.add(AUTOMATIC_THEME);
+        
+        // Get Themes for this OS
+        for(ITheme theme : ThemeUtils.getThemeEngine().getThemes()) {
+            if(!theme.getId().contains("linux") && !theme.getId().contains("macosx") && !theme.getId().contains("win32")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                themes.add(theme);
+            }
+        }
+
         fThemeComboViewer.setInput(themes.toArray());
-        ITheme activeTheme = fThemeEngine.getActiveTheme();
-        if(activeTheme != null) {
-            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+        
+        if(getPreferenceStore().getBoolean(THEME_AUTO)) {
+            fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
+        }
+        else {
+            ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+            if(activeTheme != null) {
+                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+            }
         }
         
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
@@ -232,7 +260,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
             setTheme(theme, true);
-            fCurrentTheme = theme;
         }
 
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
@@ -251,11 +278,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         
-        setTheme(fDefaultTheme, false);
         
-        ITheme activeTheme = fThemeEngine.getActiveTheme();
-        if(activeTheme != null) {
-            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+        if(getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
+            setTheme(AUTOMATIC_THEME, false);
+            fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
+        }
+        else {
+            ThemeUtils.getThemeEngine().setTheme(ThemeUtils.getDefaultThemeName(), false);
+            ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+            if(activeTheme != null) {
+                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+            }
         }
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
@@ -265,8 +298,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performCancel() {
-        if(fCurrentTheme != fThemeEngine.getActiveTheme()) {
-            setTheme(fCurrentTheme, false);
+        if(fCurrentTheme != ThemeUtils.getThemeEngine().getActiveTheme()) {
+            ThemeUtils.getThemeEngine().setTheme(fCurrentTheme, false);
         }
         
         return super.performCancel();
@@ -280,56 +313,40 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void init(IWorkbench workbench) {
-        // e4 method (taken from org.eclipse.ui.internal.dialogs.ViewsPreferencePage init(IWorkbench))
-        MApplication application = workbench.getService(MApplication.class);
-        IEclipseContext context = application.getContext();
-        fDefaultTheme = (String)context.get("cssTheme"); // This is "org.eclipse.e4.ui.css.theme.e4_default" //$NON-NLS-1$
-        fThemeEngine = context.get(IThemeEngine.class);
-        fCurrentTheme = fThemeEngine.getActiveTheme();
-/*
-        // e3 method
-        Bundle bundle = FrameworkUtil.getBundle(ArchiPlugin.class);
-        BundleContext context = bundle.getBundleContext();
-        ServiceReference<IThemeManager> ref = context.getServiceReference(IThemeManager.class);
-        IThemeManager themeManager = context.getService(ref);
-        fThemeEngine = themeManager.getEngineForDisplay(Display.getCurrent());
-        fDefaultTheme = "org.eclipse.e4.ui.css.theme.e4_default"; //$NON-NLS-1$
-*/
+        fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
     }
     
-    
-    /// Hacks for e4 bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=435915
-    /// Changing the Appearance Theme causes any hidden Shell to momentarily appear
-    /// So find an empty Shell (the one created by FigureUtilities.getGC()) and set its Alpha to 0
-    /// before setting the theme. This hides the Shell and unhides it.
-    //////////////////////////////////////////////
-    
-    private void setTheme(ITheme theme, boolean restore) {
-        if(PlatformUtils.isWindows()) {
-            dissolveEmptyShells(0);
-            fThemeEngine.setTheme(theme, restore); // must be true to persist
-            dissolveEmptyShells(255);
+    private void setTheme(ITheme theme, boolean persist) {
+        hideEmptyShells(true);
+        
+        if(theme == AUTOMATIC_THEME) {
+            ThemeUtils.getThemeEngine().setTheme(Display.isSystemDarkTheme() ? ThemeUtils.E4_DARK_THEME_ID : ThemeUtils.E4_DEFAULT_THEME_ID, persist);
         }
         else {
-            fThemeEngine.setTheme(theme, restore); // must be true to persist
+            ThemeUtils.getThemeEngine().setTheme(theme, persist);
+        }
+        
+        hideEmptyShells(false);
+        
+        if(persist) {
+            getPreferenceStore().setValue(THEME_AUTO, theme == AUTOMATIC_THEME);
+            fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
         }
     }
     
-    private void setTheme(String themeId, boolean restore) {
+    /**
+     * Hack for e4 bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=435915
+     * Changing the Appearance Theme causes any hidden Shell to momentarily appear
+     * such as the one created by FigureUtilities.getGC().
+     * So find each empty Shell and set its Alpha to 0 before setting the theme and set it back to 255
+     * This hides the Shell and unhides it.
+     */
+    private void hideEmptyShells(boolean set) {
         if(PlatformUtils.isWindows()) {
-            dissolveEmptyShells(0);
-            fThemeEngine.setTheme(themeId, restore); // must be true to persist
-            dissolveEmptyShells(255);
-        }
-        else {
-            fThemeEngine.setTheme(themeId, restore); // must be true to persist
-        }
-    }
-
-    private void dissolveEmptyShells(int value) {
-        for(Shell shell : Display.getCurrent().getShells()) {
-            if(shell.getChildren().length == 0) {
-                shell.setAlpha(value);
+            for(Shell shell : Display.getCurrent().getShells()) {
+                if(shell.getChildren().length == 0) {
+                    shell.setAlpha(set ? 0 : 255);
+                }
             }
         }
     }

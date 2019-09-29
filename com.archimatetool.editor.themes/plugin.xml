@@ -61,6 +61,32 @@
 			os="win32"
 			os_version="6.0,6.1,6.2,6.3">
 		</theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4-dark_win.css"
+            id="org.eclipse.e4.ui.css.theme.e4_dark"
+            label="Dark"
+            os="win32">
+        </theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4-dark.css"
+            id="org.eclipse.e4.ui.css.theme.e4_dark"
+            label="Dark"
+            os="linux">
+        </theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4-dark_mac1013.css"
+            id="org.eclipse.e4.ui.css.theme.e4_dark"
+            label="Dark"
+            os="macosx"
+            os_version="10.11,10.12,10.13">
+        </theme>
+        <theme
+            basestylesheeturi="themes/eclipse/css/e4-dark_mac.css"
+            id="org.eclipse.e4.ui.css.theme.e4_dark"
+            label="Dark"
+            os="macosx"
+            os_version="10.14">
+        </theme>
 	</extension>
    
 </plugin>

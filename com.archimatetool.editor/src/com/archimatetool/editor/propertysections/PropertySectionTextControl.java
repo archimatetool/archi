@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -31,15 +33,15 @@ public abstract class PropertySectionTextControl implements Listener {
     private EObject fDataElement;
     private EStructuralFeature fFeature;
     
-    private Color fTextForegroundColor;
+    private Color fOriginalForeGroundColor;
     
     private boolean fHintShowing;
     
-    private static final Color greyColor = new Color(null, 188, 188, 188);
+    private static final Color lightGrey = ColorFactory.get(188, 188, 188);
+    private static final Color darkGrey = ColorFactory.get(112, 112, 112);
 
     public PropertySectionTextControl(Control textControl, EStructuralFeature feature) {
         fTextControl = textControl;
-        fTextForegroundColor = fTextControl.getForeground();
         fFeature = feature;
         
         textControl.addListener(SWT.FocusIn, this);
@@ -54,6 +56,8 @@ public abstract class PropertySectionTextControl implements Listener {
             textControl.removeListener(SWT.FocusIn, this);
             textControl.removeListener(SWT.FocusOut, this);
             textControl.removeListener(SWT.DefaultSelection, this);
+            fDataElement = null;
+            fHint = null;
         });
     }
     
@@ -77,6 +81,21 @@ public abstract class PropertySectionTextControl implements Listener {
     public void refresh(EObject dataElement) {
         fDataElement = dataElement;
         
+        // The foreground of the text control is set later if we are using a theme
+        if(fOriginalForeGroundColor == null) {
+            fTextControl.getDisplay().asyncExec(() -> {
+                if(!fTextControl.isDisposed()) {
+                    fOriginalForeGroundColor = fTextControl.getForeground();
+                    refresh();
+                }
+            });
+        }
+        else {
+            refresh();
+        }
+    }
+    
+    private void refresh() {
         String text = null;
         
         if(fDataElement != null) {
@@ -137,20 +156,20 @@ public abstract class PropertySectionTextControl implements Listener {
     
     private void showHintText() {
         if(fHint != null) {
-            fTextControl.setForeground(greyColor);
+            fTextControl.setForeground(ThemeUtils.isDarkTheme() ? darkGrey : lightGrey);
             // do this before setting text
             fTextControl.setData("hintSet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             // then set text
             setText(fHint);
             fHintShowing = true;
-        }
+       }
         else {
             setText(""); // clears previous text if no hint text //$NON-NLS-1$
         }
     }
     
     private void showNormalText(String text) {
-        fTextControl.setForeground(fTextForegroundColor);
+        fTextControl.setForeground(fOriginalForeGroundColor);
         setText(StringUtils.safeString(text));
         // do this after setting text
         fTextControl.setData("hintSet", null); //$NON-NLS-1$

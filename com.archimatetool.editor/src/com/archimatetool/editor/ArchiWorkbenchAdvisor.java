@@ -15,6 +15,7 @@ import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.perspectives.MainPerspective;
+import com.archimatetool.editor.ui.ThemeUtils;
 
 
 /**
@@ -48,6 +49,9 @@ extends WorkbenchAdvisor
 
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);
+        
+        // Ensure we have a default theme or light/dark theme as per OS
+        ThemeUtils.setDefaultTheme();
     }
     
     @Override

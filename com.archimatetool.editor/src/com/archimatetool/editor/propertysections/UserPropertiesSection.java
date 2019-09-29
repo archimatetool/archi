@@ -101,7 +101,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.LightweightEContentAdapter;
@@ -195,9 +194,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         if(fPropertiesElement instanceof IArchimateModelObject) {
             return ((IArchimateModelObject)fPropertiesElement).getArchimateModel();
         }
-        if(fPropertiesElement instanceof IDiagramModelComponent) {
-            return ((IDiagramModelComponent)fPropertiesElement).getDiagramModel().getArchimateModel();
-        }
         return null;
     }
 
@@ -210,6 +206,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Table Composite
         Composite tableComp = createTableComposite(parent, SWT.NULL);
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
+        
+        parent.setBackgroundMode(SWT.INHERIT_DEFAULT);
         
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);

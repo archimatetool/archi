@@ -38,6 +38,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PartInitException;
 
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -167,7 +169,9 @@ public class StyledTextControl implements Listener, LineStyleListener {
             int start = linkRange[0];
             int length = linkRange[1];
             if(start >= lineOffset && (start + length) <= (lineOffset + lineLength)) {
-                StyleRange sr = new StyleRange(start, length, ColorConstants.blue, null);
+                StyleRange sr = new StyleRange(start, length,
+                        ThemeUtils.isDarkTheme() ? ColorFactory.get(144, 255, 255) : ColorConstants.blue,
+                        null);
                 sr.underline = true;
                 list.add(sr);
             }

@@ -197,6 +197,8 @@ public class Messages extends NLS {
 
     public static String GeneralPreferencePage_14;
 
+    public static String GeneralPreferencePage_15;
+
     public static String GeneralPreferencePage_2;
 
     public static String GeneralPreferencePage_3;
