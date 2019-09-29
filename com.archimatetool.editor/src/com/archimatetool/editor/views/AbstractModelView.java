@@ -39,6 +39,7 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -100,6 +101,9 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             public void selectionChanged(SelectionChangedEvent event) {
                 // Update status bar on selection
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(selected == null) {
+                    selected = getViewer().getInput();
+                }
                 updateStatusBarWithSelection(selected);
                 
                 // Update shell text
@@ -115,9 +119,25 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     protected void updateStatusBarWithSelection(Object selected) {
         IStatusLineManager status = getViewSite().getActionBars().getStatusLineManager();
         
-        if(selected != null) {
-            Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
-            String text = ArchiLabelProvider.INSTANCE.getLabelNormalised(selected);
+        if(selected instanceof IArchimateModelObject) {
+            IArchimateModelObject object = (IArchimateModelObject)selected;
+            Image image = ArchiLabelProvider.INSTANCE.getImage(object);
+            
+            String text = ""; //$NON-NLS-1$
+            List<String> list = new ArrayList<String>();
+            
+            do {
+                list.add(ArchiLabelProvider.INSTANCE.getLabelNormalised(object));
+                object = (IArchimateModelObject)object.eContainer();
+            } while((object != null));
+            
+            for(int i = list.size() - 1; i >= 0; i--) {
+                text += list.get(i);
+                if(i != 0) {
+                    text += " > "; //$NON-NLS-1$
+                }
+            }
+            
             status.setMessage(image, text);
         }
         else {

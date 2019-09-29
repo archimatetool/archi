@@ -23,6 +23,7 @@ import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.editor.views.tree.commands.NewElementCommand;
 import com.archimatetool.editor.views.tree.commands.NewFolderCommand;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
@@ -54,23 +55,20 @@ public class TreeModelViewActionFactory {
     public List<IAction> getNewObjectActions(Object selected) {
         List<IAction> list = new ArrayList<IAction>();
         
-        // Selected a Folder so add new Folder action
-        if(selected instanceof IFolder) {
-            IAction action = createNewFolderAction((IFolder)selected);
-            list.add(action);
-            list.add(null);
-        }
-        // Else, if we have selected a leaf object, go up to its parent
-        else if(selected instanceof IArchimateElement || selected instanceof IDiagramModel) {
+        // If we have selected a leaf object, go up to its parent
+        if(selected instanceof IArchimateConcept || selected instanceof IDiagramModel) {
             selected = ((EObject)selected).eContainer();
         }
         
-        // We haven't selected a folder
+        // We haven't got a parent folder
         if(!(selected instanceof IFolder)) {
             return list;
         }
         
         IFolder selectedFolder = (IFolder)selected;
+        
+        list.add(createNewFolderAction((IFolder)selected));
+        list.add(null);
         
         // Find the topmost folder type
         IFolder topMostFolder = selectedFolder;

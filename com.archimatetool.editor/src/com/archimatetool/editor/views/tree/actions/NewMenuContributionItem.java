@@ -14,6 +14,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IPartService;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.services.IServiceLocator;
@@ -35,6 +36,7 @@ public class NewMenuContributionItem extends ContributionItem implements IWorkbe
     private MenuManager menuManager;
     
     private ISelectionService selectionService;
+    private IPartService partService;
     
     @Override
     public void fill(Menu menu, int index) {
@@ -42,12 +44,22 @@ public class NewMenuContributionItem extends ContributionItem implements IWorkbe
             menuManager.dispose();
         }
         
+        Object selected = null;
+        
+        // If we have a tree selection...
         IStructuredSelection selection = getCurrentSelection();
-        if(selection == null) {
+        if(selection != null) {
+            selected = selection.getFirstElement();
+        }
+        // No, look for current tree input
+        if(selected == null) {
+            selected = getTreeInput();
+        }
+        if(selected == null) {
             return;
         }
 
-        List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selection.getFirstElement());
+        List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selected);
         
         menuManager = new MenuManager();
         
@@ -74,6 +86,13 @@ public class NewMenuContributionItem extends ContributionItem implements IWorkbe
         return true;
     }
 
+    private Object getTreeInput() {
+        if(partService.getActivePart() instanceof ITreeModelView) {
+            return ((ITreeModelView)partService.getActivePart()).getViewer().getInput();
+        }
+        return null;
+    }
+    
     private IStructuredSelection getCurrentSelection() {
         return (IStructuredSelection)selectionService.getSelection(ITreeModelView.ID);
     }
@@ -81,6 +100,7 @@ public class NewMenuContributionItem extends ContributionItem implements IWorkbe
     @Override
     public void initialize(IServiceLocator serviceLocator) {
         this.selectionService = serviceLocator.getService(ISelectionService.class);
+        this.partService = serviceLocator.getService(IPartService.class);
     }    
 }
 

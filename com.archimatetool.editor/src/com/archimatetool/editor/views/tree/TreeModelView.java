@@ -45,6 +45,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.part.DrillDownAdapter;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.actions.NewArchimateModelAction;
@@ -128,6 +129,8 @@ implements ITreeModelView, IUIRequestListener {
     
     private TreeSelectionSynchroniser fSynchroniser;
     
+    private DrillDownAdapter fDrillDownAdapter;
+    
     public TreeModelView() {
     }
     
@@ -145,6 +148,8 @@ implements ITreeModelView, IUIRequestListener {
         fTreeViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         
         fTreeViewer.setInput(IEditorModelManager.INSTANCE);
+        
+        fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
         /*
          * Listen to Double-click and press Return Action
@@ -205,6 +210,17 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void saveState(IMemento memento) {
+        // Reset drill-down
+        if(fDrillDownAdapter.canGoHome()) {
+            try {
+                getViewer().getControl().setRedraw(false);
+                fDrillDownAdapter.goHome();
+            }
+            finally {
+                getViewer().getControl().setRedraw(true);
+            }
+        }
+        
         // Save expanded tree state
         TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
     }
@@ -428,7 +444,7 @@ implements ITreeModelView, IUIRequestListener {
         Object selected = selection.getFirstElement();
         boolean isEmpty = selected == null;
         
-        if(isEmpty) {
+        if(isEmpty && fTreeViewer.getInput() instanceof IEditorModelManager) {
             manager.add(fActionNewModel);
             manager.add(fActionOpenModel);
             return;
@@ -477,7 +493,15 @@ implements ITreeModelView, IUIRequestListener {
             }
 
             manager.add(new Separator("end_collapse")); //$NON-NLS-1$
-            
+        }
+        
+        // Drill-down adapter
+        if(fDrillDownAdapter.canGoInto() || fDrillDownAdapter.canGoBack() || fDrillDownAdapter.canGoHome()) {
+            fDrillDownAdapter.addNavigationActions(manager);
+            manager.add(new Separator("drill")); //$NON-NLS-1$
+        }
+        
+        if(!isEmpty) {
             if(DuplicateCommandHandler.canDuplicate(selection)) {
                 manager.add(fActionDuplicate);
             }
@@ -523,6 +547,10 @@ implements ITreeModelView, IUIRequestListener {
     private void makeLocalToolBar() {
         IActionBars bars = getViewSite().getActionBars();
         IToolBarManager manager = bars.getToolBarManager();
+
+        fDrillDownAdapter.addNavigationActions(manager);
+        manager.add(new Separator());
+        
         manager.add(fActionToggleSearchField);
         manager.add(fActionLinkToEditor);
     }
@@ -544,12 +572,29 @@ implements ITreeModelView, IUIRequestListener {
         return false;
     }
     
+    /**
+     * Reset drilldown if it is showing a deleted object
+     */
+    private void checkDrillDown() {
+        if(fTreeViewer.getInput() instanceof IArchimateModelObject && ((IArchimateModelObject)fTreeViewer.getInput()).getArchimateModel() == null) {
+            if(fDrillDownAdapter.canGoHome()) {
+                fDrillDownAdapter.goHome();
+            }
+        }
+    }
+
     @Override
     protected IArchimateModel getActiveArchimateModel() {
         Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
+        
         if(selected instanceof IArchimateModelObject) {
             return ((IArchimateModelObject)selected).getArchimateModel();
         }
+        
+        if(getViewer().getInput() instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)getViewer().getInput()).getArchimateModel();
+        }
+        
         return null;
     }
     
@@ -625,6 +670,8 @@ implements ITreeModelView, IUIRequestListener {
             getViewer().refresh();
             // Clear Cut/Paste clipboard
             TreeModelCutAndPaste.INSTANCE.clear();
+            // Drilldown
+            checkDrillDown();
         }
         
         // Model dirty state, so update Actions and modified state of source (asterisk on model node)
@@ -698,6 +745,7 @@ implements ITreeModelView, IUIRequestListener {
         }
         else {
             super.eCoreChanged(msg);
+            checkDrillDown();
         }
     }
     
@@ -752,6 +800,8 @@ implements ITreeModelView, IUIRequestListener {
         finally {
             getViewer().getControl().setRedraw(true);
         }
+        
+        checkDrillDown();
     }
 
     // =================================================================================
