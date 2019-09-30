@@ -60,15 +60,16 @@ public class PlatformUtils {
     }
 
     /**
-     * Compare two OS version numbers with the format 1, 1.1, or 1.1.1
-     * and see if the current OS version is greater than the given version
+     * Compare given version to current OS version and see if the current OS version is greater than the given version
      * 
      * @param version The version string to compare to system OS version
-     * @return true if current OS version is newer than version
+     * @return -1 if newer < older <br/>
+     *          0 if newer == older <br/>
+     *          1 if newer > older
      */
-    public static boolean isOSVersionGreaterThan(String version) {
+    public static int compareOSVersion(String version) {
         String current = System.getProperty("os.version"); //$NON-NLS-1$
-        return StringUtils.compareVersionNumbers(current, version) > 0;
+        return StringUtils.compareVersionNumbers(current, version);
     }
 
     /**

@@ -40,7 +40,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
 public class Thumbnail extends Figure implements UpdateListener {
     
     // Added to fix patch below
-    static boolean needsMacPatch = PlatformUtils.isMac() && PlatformUtils.isOSVersionGreaterThan("10.13.10"); //$NON-NLS-1$
+    static boolean needsMacPatch = PlatformUtils.isMac() && PlatformUtils.compareOSVersion("10.14") >= 0; //$NON-NLS-1$
 
     /**
      * This updates the Thumbnail by breaking the thumbnail {@link Image} into

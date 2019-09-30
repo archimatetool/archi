@@ -13,12 +13,13 @@ package com.archimatetool.editor.utils;
  *
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public final class StringUtils {
     
     /**
      * Empty String
      */
-    public final static String ZERO_LENGTH_STRING = ""; //$NON-NLS-1$
+    public final static String ZERO_LENGTH_STRING = "";
 
     /**
      * Ensures that a string is not null. Converts null strings into empty
@@ -82,7 +83,7 @@ public final class StringUtils {
             return false;
         }
         
-        return id.matches("[a-zA-Z_][\\w-_.]*"); //$NON-NLS-1$
+        return id.matches("[a-zA-Z_][\\w-_.]*");
     }
     
     /**
@@ -94,7 +95,7 @@ public final class StringUtils {
         if(!StringUtils.isSet(id)) {
             return id;
         }
-        return id.replaceAll("[^a-zA-Z0-9-]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+        return id.replaceAll("[^a-zA-Z0-9-]", "_");
     }
     
     /**
@@ -104,7 +105,7 @@ public final class StringUtils {
      */
     public static String escapeAmpersandsInText(String text) {
         if(isSet(text)) {
-            return text.replace("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
+            return text.replace("&", "&&");
         }
         return text;
     }
@@ -117,7 +118,7 @@ public final class StringUtils {
      */
     public static String replaceNewLineCharacters(String text, String replace) {
         if(isSet(text)) {
-            return text.replaceAll("(\r\n|\r|\n)", replace);  //$NON-NLS-1$
+            return text.replaceAll("(\r\n|\r|\n)", replace);
         }
         return text;
     }
@@ -129,7 +130,7 @@ public final class StringUtils {
      */
     public static String normaliseNewLineCharacters(String text) {
         if(isSet(text)) {
-            return text.replaceAll("(\r\n|\r|\n)+", " ");  //$NON-NLS-1$ //$NON-NLS-2$
+            return text.replaceAll("(\r\n|\r|\n)+", " ");
         }
         return text;
     }
@@ -141,31 +142,32 @@ public final class StringUtils {
      * 
      * @param newer The version string considered to be newer
      * @param older The version string considered to be older
-     * @return -1 if newer is less than older <br/>
-     *         0 if newer is equal to older <br/>
-     *         1 if newer is greater than older
+     * @return -1 if newer < older <br/>
+     *          0 if newer == older <br/>
+     *          1 if newer > older
      */
     public static int compareVersionNumbers(String newer, String older) {
-        if(!isSetAfterTrim(newer)) {
-            newer = "0"; //$NON-NLS-1$
+        return Integer.compare(versionNumberAsInt(newer), versionNumberAsInt(older));
+    }
+    
+    /**
+     * Convert a version number to an integer
+     * @param version
+     * @return integer
+     */
+    public static int versionNumberAsInt(String version) {
+        String[] vals = version.split("\\.");
+        
+        if(vals.length == 1) {
+            return Integer.parseInt(vals[0]);
         }
-        if(!isSetAfterTrim(older)) {
-            older = "0"; //$NON-NLS-1$
+        if(vals.length == 2) {
+            return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8);
+        }
+        if(vals.length == 3) {
+            return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8) + Integer.parseInt(vals[2]);
         }
         
-        String[] vals1 = newer.split("\\."); //$NON-NLS-1$
-        String[] vals2 = older.split("\\."); //$NON-NLS-1$
-        
-        int i = 0;
-        while(i < vals1.length && i < vals2.length && vals1[i].equals(vals2[i])) {
-            i++;
-        }
-
-        if(i < vals1.length && i < vals2.length) {
-            int diff = Integer.valueOf(vals1[i]).compareTo(Integer.valueOf(vals2[i]));
-            return Integer.signum(diff);
-        }
-
-        return Integer.signum(vals1.length - vals2.length);
+        return 0;
     }
 }
