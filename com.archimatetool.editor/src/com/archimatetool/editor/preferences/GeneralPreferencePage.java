@@ -217,8 +217,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Themes list
         List<ITheme> themes = new ArrayList<ITheme>();
         
-        // Add our pseudo theme
-        themes.add(AUTOMATIC_THEME);
+        // Add our pseudo theme if supported
+        if(ThemeUtils.isAutoThemeSupported()) {
+            themes.add(AUTOMATIC_THEME);
+        }
         
         // Get Themes for this OS
         for(ITheme theme : ThemeUtils.getThemeEngine().getThemes()) {
@@ -229,7 +231,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fThemeComboViewer.setInput(themes.toArray());
         
-        if(getPreferenceStore().getBoolean(THEME_AUTO)) {
+        if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getBoolean(THEME_AUTO)) {
             fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
         }
         else {
@@ -279,7 +281,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         
         
-        if(getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
+        if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
             setTheme(AUTOMATIC_THEME, false);
             fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
         }
@@ -329,7 +331,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         hideEmptyShells(false);
         
         if(persist) {
-            getPreferenceStore().setValue(THEME_AUTO, theme == AUTOMATIC_THEME);
+            if(ThemeUtils.isAutoThemeSupported()) {
+                getPreferenceStore().setValue(THEME_AUTO, theme == AUTOMATIC_THEME);
+            }
             fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
         }
     }
