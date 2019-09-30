@@ -39,16 +39,22 @@ import com.archimatetool.editor.utils.PlatformUtils;
  */
 public class Thumbnail extends Figure implements UpdateListener {
     
-    // Added to fix patch below
-    static boolean needsMacPatch = PlatformUtils.isMac() && PlatformUtils.compareOSVersion("10.14") >= 0; //$NON-NLS-1$
+    // Bug on Mac - images are cached
+    private static final boolean useMacFix = PlatformUtils.isMac() && PlatformUtils.compareOSVersion("10.14") >= 0; //$NON-NLS-1$
+    
+    // Hack for Mac Mojave drawing issue
+    // See https://github.com/archimatetool/archi/issues/401
+    // This doesn't work in Eclipse 4.13
+    private static final boolean useImageCopy = false;
 
     /**
      * This updates the Thumbnail by breaking the thumbnail {@link Image} into
      * several tiles and updating each tile individually.
      */
     class ThumbnailUpdater implements Runnable {
-        private static final int MIN_TILE_SIZE = 256;
-        private static final int MAX_NUMBER_OF_TILES = 16;
+        private final int TILE_FACTOR = useMacFix ? 6 : 1; // Use this for the Mac fix
+        private final int MIN_TILE_SIZE = 256 * TILE_FACTOR;
+        private final int MAX_NUMBER_OF_TILES = 16 * TILE_FACTOR;
         private int currentHTile, currentVTile;
         private int hTiles, vTiles;
         private Dimension tileSize;
@@ -199,10 +205,9 @@ public class Thumbnail extends Figure implements UpdateListener {
             tileGraphics.scale(getScaleX());
             sourceFigure.paint(tileGraphics);
             tileGraphics.popState();
-
-            // Hack for Mac Mojave drawing issue
-            // See https://github.com/archimatetool/archi/issues/401
-            if(needsMacPatch) {
+            
+            // This doesn't work on Eclipse 4.13
+            if(useImageCopy) {
                 // Don't re-use the same tileImage
                 Image tmp = new Image(tileImage.getDevice(), tileImage.getImageData());
                 
