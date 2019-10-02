@@ -84,6 +84,8 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
             UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));
         }
         
+        file.delete();
+        
         return model;
     }
     
