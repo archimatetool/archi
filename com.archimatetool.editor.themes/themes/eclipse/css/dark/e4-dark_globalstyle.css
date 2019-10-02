@@ -37,6 +37,7 @@ FigureCanvas, Graph {
 /* ############################## Global Styles ############################## */
 
 Composite, ScrolledComposite, ExpandableComposite, Canvas, TabFolder, CLabel, Label,
+Gallery, /* Nebula widget */
 CoolBar, Sash, Group, Hyperlink, RefactoringLocationControl, ChangeParametersControl, Link, FilteredTree,
 ProxyEntriesComposite, NonProxyHostsComposite, DelayedFilterCheckboxTree,
 Splitter, ScrolledPageContent, ViewForm, LaunchConfigurationFilteredTree,

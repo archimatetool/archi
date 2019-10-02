@@ -59,6 +59,7 @@
 .MPart Text[style~='SWT.READ_ONLY'],
 /* .MPart FigureCanvas, */ /* Diagram background */
 /* .MPart Graph, */ /* Zest background */
+.MPart Gallery, /* Nebula widget */
 .MPart ListEditorComposite,
 .MPart ScrolledComposite,
 .Mpart ScrolledComposite ProgressInfoItem,
@@ -94,6 +95,7 @@
 .MPartStack.active .MPart Text[style~='SWT.READ_ONLY'],
 /* .MPartStack.active .MPart FigureCanvas, */ /* Diagram background */
 /* .MPartStack.active .MPart Graph, */ /* Zest background */
+.MPartStack .active Gallery, /* Nebula widget */
 .MPartStack.active .MPart ListEditorComposite,
 .MPartStack.active .MPart ScrolledComposite,
 .MPartStack.active .Mpart ScrolledComposite ProgressInfoItem,
