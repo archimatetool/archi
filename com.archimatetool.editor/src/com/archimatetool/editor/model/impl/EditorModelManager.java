@@ -575,8 +575,10 @@ implements IEditorModelManager {
             cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
                 @Override
                 public void stackChanged(CommandStackEvent event) {
-                    // Send notification to Tree
-                    firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
+                    // Send notification to listeners after the change event
+                    if(event.isPostChangeEvent()) {
+                        firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
+                    }
                 }
             });
         }
