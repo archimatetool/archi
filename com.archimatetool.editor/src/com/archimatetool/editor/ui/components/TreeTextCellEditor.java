@@ -7,11 +7,11 @@ package com.archimatetool.editor.ui.components;
 
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 /**
  * Tree Text CellEditor
@@ -19,8 +19,8 @@ import com.archimatetool.editor.ui.UIUtils;
  * @author Phillip Beauvoir
  */
 public class TreeTextCellEditor extends TextCellEditor {
-    int minHeight = 0;
-    GlobalActionDisablementHandler fGlobalActionHandler;
+    
+    private GlobalActionDisablementHandler globalActionHandler;
 
     public TreeTextCellEditor(Tree tree) {
         super(tree, SWT.BORDER);
@@ -29,27 +29,22 @@ public class TreeTextCellEditor extends TextCellEditor {
         // Filter out nasties
         UIUtils.applyInvalidCharacterFilter(txt);
         UIUtils.conformSingleTextControl(txt);
-
-        FontData[] fontData = txt.getFont().getFontData();
-        if(fontData != null && fontData.length > 0) {
-            minHeight = fontData[0].getHeight() + 10;
-        }
     }
 
     @Override
     public LayoutData getLayoutData() {
+        Text txt = (Text)getControl();
         LayoutData data = super.getLayoutData();
-        if(minHeight > 0) {
-            data.minimumHeight = minHeight;
-        }
+        // Because we use SWT.BORDER this creates insets in the text control that varies according to OS
+        data.minimumHeight = txt.getLineHeight() + (PlatformUtils.isLinux() ? 12 :  4);
         return data;
     }
     
     @Override
     public void activate() {
         // Clear global key binds
-        fGlobalActionHandler = new GlobalActionDisablementHandler();
-        fGlobalActionHandler.clearGlobalActions();
+        globalActionHandler = new GlobalActionDisablementHandler();
+        globalActionHandler.clearGlobalActions();
     }
     
     @Override
@@ -57,9 +52,9 @@ public class TreeTextCellEditor extends TextCellEditor {
         super.deactivate();
         
         // Restore global key binds
-        if(fGlobalActionHandler != null) {
-            fGlobalActionHandler.restoreGlobalActions();
-            fGlobalActionHandler = null;
+        if(globalActionHandler != null) {
+            globalActionHandler.restoreGlobalActions();
+            globalActionHandler = null;
         }
     }
 }
