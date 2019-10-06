@@ -36,7 +36,7 @@ public class TreeTextCellEditor extends TextCellEditor {
         Text txt = (Text)getControl();
         LayoutData data = super.getLayoutData();
         // Because we use SWT.BORDER this creates insets in the text control that varies according to OS
-        data.minimumHeight = txt.getLineHeight() + (PlatformUtils.isLinux() ? 12 :  4);
+        data.minimumHeight = txt.getLineHeight() + (PlatformUtils.isLinux() ? 10 :  4);
         return data;
     }
     
