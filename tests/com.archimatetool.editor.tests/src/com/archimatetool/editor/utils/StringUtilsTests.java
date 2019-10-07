@@ -188,6 +188,8 @@ public class StringUtilsTests {
 
     @Test
     public void testVersionNumberAsInt() {
+        assertEquals(0, StringUtils.versionNumberAsInt(null));
+        assertEquals(0, StringUtils.versionNumberAsInt(""));
         assertEquals(1, StringUtils.versionNumberAsInt("1"));
         assertEquals(1 << 16, StringUtils.versionNumberAsInt("1.0"));
         assertEquals((1 << 16) + (1 << 8), StringUtils.versionNumberAsInt("1.1"));

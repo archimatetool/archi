@@ -156,16 +156,24 @@ public final class StringUtils {
      * @return integer
      */
     public static int versionNumberAsInt(String version) {
+        if(!isSet(version)) {
+            return 0;
+        }
+        
         String[] vals = version.split("\\.");
         
-        if(vals.length == 1) {
-            return Integer.parseInt(vals[0]);
+        try {
+            if(vals.length == 1) {
+                return Integer.parseInt(vals[0]);
+            }
+            if(vals.length == 2) {
+                return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8);
+            }
+            if(vals.length == 3) {
+                return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8) + Integer.parseInt(vals[2]);
+            }
         }
-        if(vals.length == 2) {
-            return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8);
-        }
-        if(vals.length == 3) {
-            return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8) + Integer.parseInt(vals[2]);
+        catch(NumberFormatException ex) {
         }
         
         return 0;
