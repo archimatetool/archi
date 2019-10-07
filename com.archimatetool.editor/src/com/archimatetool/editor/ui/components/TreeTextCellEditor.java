@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 
 import com.archimatetool.editor.ui.UIUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 /**
  * Tree Text CellEditor
@@ -36,7 +35,7 @@ public class TreeTextCellEditor extends TextCellEditor {
         Text txt = (Text)getControl();
         LayoutData data = super.getLayoutData();
         // Because we use SWT.BORDER this creates insets in the text control that varies according to OS
-        data.minimumHeight = txt.getLineHeight() + (PlatformUtils.isLinux() ? 10 :  4);
+        data.minimumHeight = txt.computeSize(-1, -1).y;
         return data;
     }
     
