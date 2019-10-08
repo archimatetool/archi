@@ -85,7 +85,7 @@
             id="org.eclipse.e4.ui.css.theme.e4_dark"
             label="Dark"
             os="macosx"
-            os_version="10.14">
+            os_version="10.14,10.15">
         </theme>
 	</extension>
    
