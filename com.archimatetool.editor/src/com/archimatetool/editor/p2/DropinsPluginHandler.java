@@ -368,7 +368,7 @@ public class DropinsPluginHandler {
 
     private List<File> askOpenFiles() {
         FileDialog dialog = new FileDialog(shell, SWT.OPEN | SWT.MULTI);
-        dialog.setFilterExtensions(new String[] { "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*.archiplugin", "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         
         // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
