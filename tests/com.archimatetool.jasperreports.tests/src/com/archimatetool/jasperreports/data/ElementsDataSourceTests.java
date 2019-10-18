@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,24 +46,29 @@ public class ElementsDataSourceTests {
         model = tm.loadModel();
     }
     
-    @Before
-    public void runOnceBeforeEachTest() {
-        ds = new ElementsDataSource(model, "BusinessActor");
+    @Test
+    public void constructor_DiagramModel() {
+        ds = new ElementsDataSource(model.getDiagramModels().get(1));
+        assertEquals(30, ds.size());
     }
     
     @Test
-    public void testGetPropertiesDataSource() throws JRException {
+    public void getPropertiesDataSourceNotNull() throws JRException {
+        ds = new ElementsDataSource(model, "BusinessActor");
         ds.next();
         assertNotNull(ds.getPropertiesDataSource());
     }
 
     @Test
-    public void testGetElement() {
+    public void getElementFirstNull() {
+        ds = new ElementsDataSource(model, "BusinessActor");
         assertNull(ds.getElement());
     }
 
     @Test
-    public void testNext() throws JRException {
+    public void next() throws JRException {
+        ds = new ElementsDataSource(model, "BusinessActor");
+        
         for(int i = 0; i < 17; i++) {
             assertTrue(ds.next());
         }
@@ -72,7 +76,9 @@ public class ElementsDataSourceTests {
     }
     
     @Test
-    public void testGetFieldValue() throws JRException {
+    public void getFieldValue() throws JRException {
+        ds = new ElementsDataSource(model, "BusinessActor");
+        
         ds.next();
         
         JRField field = mock(JRField.class);
@@ -87,7 +93,18 @@ public class ElementsDataSourceTests {
     }
 
     @Test
-    public void testMoveFirst() throws JRException {
+    public void size() {
+        ds = new ElementsDataSource(model, "elements");
+        assertEquals(120, ds.size());
+
+        ds = new ElementsDataSource(model, "relations");
+        assertEquals(178, ds.size());
+    }
+    
+    @Test
+    public void moveFirst() throws JRException {
+        ds = new ElementsDataSource(model, "BusinessActor");
+        
         assertNull(ds.getElement());
         
         ds.next();
@@ -102,4 +119,26 @@ public class ElementsDataSourceTests {
         ds.next();
         assertEquals(first, ds.getElement());
     }
+    
+    @Test
+    public void getReferencedViews() throws JRException {
+        ds = new ElementsDataSource(model, "BusinessActor");
+        
+        assertNull(ds.getReferencedViews());
+        
+        ds.next();
+
+        ViewModelDataSource vmds = ds.getReferencedViews();
+        assertNull(vmds.getElement());
+
+        vmds.next();
+        assertEquals("4165", vmds.getElement().getId());
+
+        vmds.next();
+        assertEquals("4056", vmds.getElement().getId());
+
+        vmds.next();
+        assertEquals("3698", vmds.getElement().getId());
+    }
+
 }

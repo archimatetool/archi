@@ -53,12 +53,12 @@ public class PropertiesModelDataSourceTests {
     }
     
     @Test
-    public void testGetElement() {
+    public void getElementNull() {
         assertNull(ds.getElement());
     }
 
     @Test
-    public void testNext() throws JRException {
+    public void next() throws JRException {
         for(int i = 0; i < 2; i++) {
             assertTrue(ds.next());
         }
@@ -66,7 +66,12 @@ public class PropertiesModelDataSourceTests {
     }
     
     @Test
-    public void testGetFieldValue() throws JRException {
+    public void size() {
+        assertEquals(2, ds.size());
+    }
+    
+    @Test
+    public void getFieldValue() throws JRException {
         ds.next();
         
         JRField field = mock(JRField.class);
@@ -81,7 +86,7 @@ public class PropertiesModelDataSourceTests {
     }
 
     @Test
-    public void testMoveFirst() throws JRException {
+    public void moveFirst() throws JRException {
         assertNull(ds.getElement());
         
         ds.next();

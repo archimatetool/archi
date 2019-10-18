@@ -8,11 +8,8 @@ package com.archimatetool.jasperreports.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelObject;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -26,27 +23,70 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  */
 public class ViewChildrenDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
-    private List<IArchimateElement> fChildren = new ArrayList<IArchimateElement>();
-    private IArchimateElement fCurrentElement;
+    private List<IArchimateConcept> fChildren = new ArrayList<IArchimateConcept>();
+    private IArchimateConcept fCurrentElement;
     private int currentIndex = -1;
-
+    
+    /**
+     * Default constructor with old behaviour, which is all elements and sorting by name only
+     * @param dm - the Diagram model
+     * 
+     **/
     public ViewChildrenDataSource(IDiagramModel dm) {
-        getAllChildObjects(dm);
-        ArchimateModelDataSource.sort(fChildren);
+        this(dm, false);
     }
     
-    private void getAllChildObjects(IDiagramModelContainer container) {
-        for(IDiagramModelObject child : container.getChildren()) {
-            if(child instanceof IDiagramModelArchimateObject) {
-                IArchimateElement element = ((IDiagramModelArchimateObject)child).getArchimateElement();
-                if(element != null && !fChildren.contains(element)) {
-                    fChildren.add(element);
-                }
-            }
-            
-            if(child instanceof IDiagramModelContainer) {
-                getAllChildObjects((IDiagramModelContainer)child);
-            }
+    /**
+     * Constructor that allows for some alternative sorting of the retrieved elements (not relations)
+     * @param dm - the Diagram model
+     * @param sortFirstByType - Boolean that indicates if the results should be sorted by
+     *                          type first, and secondly by name. If set to false, the results
+     *                          will be sorted by name only 
+     **/
+    public ViewChildrenDataSource(IDiagramModel dm, boolean sortFirstByType) {
+        fChildren.addAll(ArchimateModelDataSource.getConceptsInDiagram(dm, ELEMENTS));
+        
+        if(sortFirstByType) {
+            ArchimateModelDataSource.sortByTypeThenName(fChildren);
+        }
+        else {
+            ArchimateModelDataSource.sort(fChildren);
+        }
+    }
+
+    /**
+     * Constructor that allows for some tweaking in the types of classes that are retrieved
+     * @param dm - the Diagram model
+     * @param types - String that indicates the types of elements to be retrieved. This can be
+     *                from the set of string indicating either all elements ('elements') or 
+     *                all relations ('relations'), a specific layer (e.g. 'business') or even a
+     *                specific type (e.g. 'businessrole'). You can specify more
+     *                than one type, using the '|' as separator
+     **/
+    public ViewChildrenDataSource(IDiagramModel dm, String types) {
+        this(dm, types, false);
+    }
+
+    /**
+     * Constructor that allows for some tweaking in the types of classes and their sorting that are retrieved
+     * @param dm - the Diagram model
+     * @param types - String that indicates the types of elements to be retrieved. This can be
+     *                from the set of string indicating either all elements ('elements') or 
+     *                all relations ('relations'), a specific layer (e.g. 'business') or even a
+     *                specific type (e.g. 'businessrole'). You can specify more
+     *                than one type, using the '|' as separator
+     * @param sortFirstByType - Boolean that indicates if the results should be sorted by
+     *                          type first, and secondly by name. If set to false, the results
+     *                          will be sorted by name only 
+     **/
+    public ViewChildrenDataSource(IDiagramModel dm, String types, boolean sortFirstByType) {
+        fChildren.addAll(ArchimateModelDataSource.getConceptsInDiagram(dm, types));
+        
+        if(sortFirstByType) {
+            ArchimateModelDataSource.sortByTypeThenName(fChildren);
+        }
+        else {
+            ArchimateModelDataSource.sort(fChildren);
         }
     }
 
@@ -78,8 +118,12 @@ public class ViewChildrenDataSource implements JRRewindableDataSource, IProperti
     }
 
     @Override
-    public Object getElement() {
+    public IArchimateConcept getElement() {
         return fCurrentElement;
+    }
+    
+    public int size() {
+        return fChildren.size();
     }
 
 }

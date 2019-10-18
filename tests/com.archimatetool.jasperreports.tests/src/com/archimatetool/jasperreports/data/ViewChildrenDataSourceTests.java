@@ -56,18 +56,18 @@ public class ViewChildrenDataSourceTests {
     }
     
     @Test
-    public void testGetPropertiesDataSource() throws JRException {
+    public void getPropertiesDataSourceNotNull() throws JRException {
         ds.next();
         assertNotNull(ds.getPropertiesDataSource());
     }
 
     @Test
-    public void testGetElement() {
+    public void getElementNull() {
         assertNull(ds.getElement());
     }
 
     @Test
-    public void testNext() throws JRException {
+    public void next() throws JRException {
         for(int i = 0; i < 30; i++) {
             assertTrue(ds.next());
         }
@@ -75,7 +75,7 @@ public class ViewChildrenDataSourceTests {
     }
     
     @Test
-    public void testGetFieldValue() throws JRException {
+    public void getFieldValue() throws JRException {
         ds.next();
         
         JRField field = mock(JRField.class);
@@ -89,7 +89,7 @@ public class ViewChildrenDataSourceTests {
     }
 
     @Test
-    public void testMoveFirst() throws JRException {
+    public void moveFirst() throws JRException {
         assertNull(ds.getElement());
         
         ds.next();
@@ -103,5 +103,55 @@ public class ViewChildrenDataSourceTests {
         ds.moveFirst();
         ds.next();
         assertEquals(first, ds.getElement());
+    }
+    
+    @Test
+    public void size() {
+        ds = new ViewChildrenDataSource(dm, "elements");
+        assertEquals(30, ds.size());
+
+        ds = new ViewChildrenDataSource(dm, "relations");
+        assertEquals(28, ds.size());
+
+        ds = new ViewChildrenDataSource(dm, "elements|relations");
+        assertEquals(58, ds.size());
+    }
+    
+    @Test
+    public void typesAreCorrect() throws JRException {
+        ds = new ViewChildrenDataSource(dm, "elements");
+        for(int i = 0; i < 30; i++) {
+            assertTrue(ds.next());
+        }
+
+        ds = new ViewChildrenDataSource(dm, "relations");
+        for(int i = 0; i < 28; i++) {
+            assertTrue(ds.next());
+        }
+
+        ds = new ViewChildrenDataSource(dm, "relations|elements");
+        for(int i = 0; i < 58; i++) {
+            assertTrue(ds.next());
+        }
+
+        ds = new ViewChildrenDataSource(dm, "business");
+        for(int i = 0; i < 15; i++) {
+            assertTrue(ds.next());
+        }
+        
+        ds = new ViewChildrenDataSource(dm, "BusinessActor");
+        for(int i = 0; i < 2; i++) {
+            assertTrue(ds.next());
+        }
+        
+        ds = new ViewChildrenDataSource(dm, "BusinessService");
+        for(int i = 0; i < 6; i++) {
+            assertTrue(ds.next());
+        }
+
+        ds = new ViewChildrenDataSource(dm, "BusinessActor|BusinessService");
+        for(int i = 0; i < 8; i++) {
+            assertTrue(ds.next());
+        }
     }
 }

@@ -47,10 +47,10 @@ public class PropertiesModelDataSource implements JRRewindableDataSource, IDataS
     public Object getFieldValue(JRField jrField) throws JRException {
         String fieldName = jrField.getName();
         
-        if("key".equals(fieldName)) { //$NON-NLS-1$
+        if(FieldDataFactory.KEY.equals(fieldName)) {
             return fCurrentProperty.getKey();
         }
-        if("value".equals(fieldName)) { //$NON-NLS-1$
+        if(FieldDataFactory.VALUE.equals(fieldName)) {
             return fCurrentProperty.getValue();
         }
         return null;
@@ -62,7 +62,12 @@ public class PropertiesModelDataSource implements JRRewindableDataSource, IDataS
     }
 
     @Override
-    public Object getElement() {
+    public IProperty getElement() {
         return fCurrentProperty;
     }
+    
+    public int size() {
+        return fProperties.size();
+    }
+
 }

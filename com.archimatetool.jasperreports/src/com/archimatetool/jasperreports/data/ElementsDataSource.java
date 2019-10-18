@@ -7,17 +7,16 @@ package com.archimatetool.jasperreports.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.model.FolderType;
+import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -32,99 +31,95 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  */
 public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
-    public static final String ELEMENTS_STRATEGY = "strategy"; //$NON-NLS-1$
-    public static final String ELEMENTS_BUSINESS = "business"; //$NON-NLS-1$
-    public static final String ELEMENTS_APPLICATION = "application"; //$NON-NLS-1$
-    public static final String ELEMENTS_TECHNOLOGY = "technology"; //$NON-NLS-1$
-    public static final String ELEMENTS_MOTIVATION = "motivation"; //$NON-NLS-1$
-    public static final String ELEMENTS_IMPLEMENTATION_MIGRATION = "impl_migration"; //$NON-NLS-1$
-    public static final String ELEMENTS_OTHER = "other"; //$NON-NLS-1$
-    public static final String ELEMENTS_RELATIONS = "relations"; //$NON-NLS-1$
-    
     List<IArchimateConcept> fConcepts = new ArrayList<IArchimateConcept>();
     private IArchimateConcept fCurrentConcept;
     private int currentIndex = -1;
 
-    public ElementsDataSource(IArchimateModel model, String type) {
-        IFolder strategyFolder = model.getFolder(FolderType.STRATEGY);
-        IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
-        IFolder applicationFolder = model.getFolder(FolderType.APPLICATION);
-        IFolder technologyFolder = model.getFolder(FolderType.TECHNOLOGY);
-        IFolder motivationFolder = model.getFolder(FolderType.MOTIVATION);
-        IFolder implmigrationFolder = model.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
-        IFolder otherFolder = model.getFolder(FolderType.OTHER);
-        IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
-        
-        if(ELEMENTS_STRATEGY.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
-                getConcepts(strategyFolder, eClass);
-            }
-        }
-
-        else if(ELEMENTS_BUSINESS.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-                getConcepts(businessFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_APPLICATION.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-                getConcepts(applicationFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_TECHNOLOGY.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-                getConcepts(technologyFolder, eClass);
-            }
-            for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
-                getConcepts(technologyFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_MOTIVATION.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-                getConcepts(motivationFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_IMPLEMENTATION_MIGRATION.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
-                getConcepts(implmigrationFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_OTHER.equals(type)) {
-            for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
-                getConcepts(otherFolder, eClass);
-            }
-            for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-                getConcepts(otherFolder, eClass);
-            }
-        }
-        
-        else if(ELEMENTS_RELATIONS.equals(type)) {
-            getConcepts(relationsFolder, null);
-        }
-        
-        // A particular Element type in any folder
-        else if(type != null) {
-            EClassifier classifier =  IArchimatePackage.eINSTANCE.getEClassifier(type);
-            if(classifier instanceof EClass) {
-                getConcepts(model, (EClass)classifier);
-            }
-        }
-        
-        ArchimateModelDataSource.sort(fConcepts);
+    
+    /**
+     * Default constructor with old behaviour, which is all elements and sorting by name only
+     **/
+    public ElementsDataSource(IArchimateModel model, String types) {
+        this(model, types, false);
     }
 
+    public ElementsDataSource(IArchimateModel model, String types, boolean sortFirstByType) {
+        Set<EClass> desiredEClasses = ArchimateModelDataSource.getClasses(types);
+        getConcepts(model, desiredEClasses);
+
+        if(sortFirstByType) {
+            ArchimateModelDataSource.sortByTypeThenName(fConcepts);
+        }
+        else {
+            ArchimateModelDataSource.sort(fConcepts);
+        }
+    }
+
+    /**
+     * @param dm - the Diagram model
+     **/
+    public ElementsDataSource(IDiagramModel dm) {
+        this(dm, false);
+    }
+    
+    /**
+     * Constructor that allows for some alternative sorting of the retrieved elements (not relations)
+     * @param dm - the Diagram model
+     * @param sortFirstByType - Boolean that indicates if the results should be sorted by
+     *                          type first, and secondly by name. If set to false, the results
+     *                          will be sorted by name only 
+     **/
+    public ElementsDataSource(IDiagramModel dm, boolean sortFirstByType) {
+    	this(dm, ELEMENTS, sortFirstByType);
+    }
+
+    /**
+     * Constructor that allows for some tweaking in the types of classes that are retrieved
+     * @param dm - the Diagram model
+     * @param types - String that indicates the types of elements to be retrieved. This can be
+     *                from the set of string indicating either all elements ('elements') or 
+     *                all relations ('relations'), a specific layer (e.g. 'business') or even a
+     *                specific type (e.g. 'businessrole'). You can specify more
+     *                than one type, using the '|' as separator
+     **/
+    public ElementsDataSource(IDiagramModel dm, String types) {
+        this(dm, types, false);
+    }
+
+    /**
+     * Constructor that allows for some tweaking in the types of classes and their sorting that are retrieved
+     * @param dm - the Diagram model
+     * @param types - String that indicates the types of elements to be retrieved. This can be
+     *                from the set of string indicating either all elements ('elements') or 
+     *                all relations ('relations'), a specific layer (e.g. 'business') or even a
+     *                specific type (e.g. 'businessrole'). You can specify more
+     *                than one type, using the '|' as separator
+     * @param sortFirstByType - Boolean that indicates if the results should be sorted by
+     *                          type first, and secondly by name. If set to false, the results
+     *                          will be sorted by name only 
+     **/
+    public ElementsDataSource(IDiagramModel dm, String types, boolean sortFirstByType) {
+        fConcepts.addAll(ArchimateModelDataSource.getConceptsInDiagram(dm, types));
+        
+        if(sortFirstByType) {
+            ArchimateModelDataSource.sortByTypeThenName(fConcepts);
+        }
+        else {
+            ArchimateModelDataSource.sort(fConcepts);
+        }
+    }
+
+    public int size() {
+    	return fConcepts.size();
+    }
+    
     @Override
     public PropertiesModelDataSource getPropertiesDataSource() {
         return new PropertiesModelDataSource(fCurrentConcept);
     }
     
     @Override
-    public Object getElement() {
+    public IArchimateConcept getElement() {
         return fCurrentConcept;
     }
 
@@ -150,24 +145,35 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         currentIndex = -1;
     }
     
-    private void getConcepts(IArchimateModel model, EClass type) {
+    /**
+     * @return all diagram views that this concept appears in
+     */
+    public ViewModelDataSource getReferencedViews() {
+        if(fCurrentConcept == null) {
+            return null;
+        }
+        
+        List<IDiagramModel> views = DiagramModelUtils.findReferencedDiagramsForArchimateConcept(fCurrentConcept);
+        return new ViewModelDataSource(views);
+    }
+
+    private void getConcepts(IArchimateModel model, Set<EClass> desiredEClasses) {
         for(IFolder folder : model.getFolders()) {
-            getConcepts(folder, type);
+            getConcepts(folder, desiredEClasses);
         }
     }
 
-    private void getConcepts(IFolder folder, EClass type) {
+    private void getConcepts(IFolder folder, Set<EClass> desiredEClasses) {
         for(EObject object : folder.getElements()) {
             if(object instanceof IArchimateConcept) {
-                if(type == null || object.eClass() == type) {
-                    fConcepts.add((IArchimateConcept)object);
+                if(desiredEClasses.contains(object.eClass()) && !fConcepts.contains(object)) {
+                	fConcepts.add((IArchimateConcept)object);
                 }
             }
         }
         
         for(IFolder f : folder.getFolders()) {
-            getConcepts(f, type);
+            getConcepts(f, desiredEClasses);
         }
     }
-
 }

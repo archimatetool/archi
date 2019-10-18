@@ -9,11 +9,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IBusinessActor;
+import com.archimatetool.model.IInfluenceRelationship;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -28,7 +30,7 @@ public class FieldDataFactoryTests {
     @Test
     public void testGetFieldValue_This() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        Object o = FieldDataFactory.getFieldValue(model, "this");
+        Object o = FieldDataFactory.getFieldValue(model, FieldDataFactory.THIS);
         assertEquals(model, o);
     }
 
@@ -36,7 +38,7 @@ public class FieldDataFactoryTests {
     public void testGetFieldValue_ID() {
         IBusinessActor element = IArchimateFactory.eINSTANCE.createBusinessActor();
         element.setId("1234");
-        Object o = FieldDataFactory.getFieldValue(element, "id");
+        Object o = FieldDataFactory.getFieldValue(element, FieldDataFactory.ID);
         assertEquals("1234", o);
     }
 
@@ -44,7 +46,7 @@ public class FieldDataFactoryTests {
     public void testGetFieldValue_Name() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setName("Pogo");
-        Object o = FieldDataFactory.getFieldValue(model, "name");
+        Object o = FieldDataFactory.getFieldValue(model, FieldDataFactory.NAME);
         assertEquals("Pogo", o);
     }
 
@@ -52,7 +54,7 @@ public class FieldDataFactoryTests {
     public void testGetFieldValue_Documentation() {
         IArtifact element = IArchimateFactory.eINSTANCE.createArtifact();
         element.setDocumentation("Documentation");
-        Object o = FieldDataFactory.getFieldValue(element, "documentation");
+        Object o = FieldDataFactory.getFieldValue(element, FieldDataFactory.DOCUMENTATION);
         assertEquals("Documentation", o);
     }
     
@@ -60,7 +62,7 @@ public class FieldDataFactoryTests {
     public void testGetFieldValue_Purpose() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setPurpose("Purpose");
-        Object o = FieldDataFactory.getFieldValue(model, "purpose");
+        Object o = FieldDataFactory.getFieldValue(model, FieldDataFactory.PURPOSE);
         assertEquals("Purpose", o);
     }
 
@@ -70,7 +72,7 @@ public class FieldDataFactoryTests {
         IArtifact source = IArchimateFactory.eINSTANCE.createArtifact();
         source.setName("source");
         relation.setSource(source);
-        Object o = FieldDataFactory.getFieldValue(relation, "relation_source");
+        Object o = FieldDataFactory.getFieldValue(relation, FieldDataFactory.RELATION_SOURCE);
         assertEquals("source", o);
     }
 
@@ -80,8 +82,24 @@ public class FieldDataFactoryTests {
         IArtifact target = IArchimateFactory.eINSTANCE.createArtifact();
         target.setName("target");
         relation.setTarget(target);
-        Object o = FieldDataFactory.getFieldValue(relation, "relation_target");
+        Object o = FieldDataFactory.getFieldValue(relation, FieldDataFactory.RELATION_TARGET);
         assertEquals("target", o);
+    }
+
+    @Test
+    public void testGetFieldValue_InfluenceStrength() {
+        IInfluenceRelationship relation = IArchimateFactory.eINSTANCE.createInfluenceRelationship();
+        relation.setStrength("++");
+        Object o = FieldDataFactory.getFieldValue(relation, FieldDataFactory.INFLUENCE_STRENGTH);
+        assertEquals("++", o);
+    }
+    
+    @Test
+    public void testGetFieldValue_AccessType() {
+        IAccessRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        relation.setAccessType(1);
+        Object o = FieldDataFactory.getFieldValue(relation, FieldDataFactory.ACCESS_TYPE);
+        assertEquals(1, o);
     }
 
 }

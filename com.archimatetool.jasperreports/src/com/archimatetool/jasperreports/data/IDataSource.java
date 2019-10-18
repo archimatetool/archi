@@ -11,7 +11,7 @@ package com.archimatetool.jasperreports.data;
  * 
  * @author Phillip Beauvoir
  */
-public interface IDataSource {
+public interface IDataSource extends IDataConstants {
 
     /**
      * @return The current element

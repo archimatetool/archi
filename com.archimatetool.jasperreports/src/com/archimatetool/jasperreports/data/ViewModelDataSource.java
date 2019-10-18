@@ -26,6 +26,7 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
     private List<IDiagramModel> fViews;
@@ -33,8 +34,12 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     private int currentIndex = -1;
     
     public ViewModelDataSource(IArchimateModel model) {
-        // Sort a *copy* of the List
-        fViews = new ArrayList<IDiagramModel>(model.getDiagramModels());
+        this(model.getDiagramModels());
+    }
+    
+    public ViewModelDataSource(List<IDiagramModel> diagramModels) {
+        // Use a *copy* of the List
+        fViews = new ArrayList<IDiagramModel>(diagramModels);
         ArchimateModelDataSource.sort(fViews);
     }
     
@@ -49,7 +54,7 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
             }
             
             String name = vp.getName();
-            return name == null ? "" : NLS.bind(Messages.ViewModelDataSource_0, name); //$NON-NLS-1$
+            return name == null ? "" : NLS.bind(Messages.ViewModelDataSource_0, name);
         }
         
         return null;
@@ -62,6 +67,18 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     
     public ViewChildrenDataSource getChildElementsDataSource() {
         return new ViewChildrenDataSource(fCurrentView);
+    }
+    
+    public ViewChildrenDataSource getChildElementsDataSourceForTypes(String types) {
+        return new ViewChildrenDataSource(fCurrentView, types);
+    }
+
+    public ViewChildrenDataSource getChildElementsDataSourceSortedByType(boolean sortFirstByType) {
+        return new ViewChildrenDataSource(fCurrentView, sortFirstByType);
+    }
+
+    public ViewChildrenDataSource getChildElementsDataSourceForTypesSortedByType(String types, boolean sortFirstByType) {
+        return new ViewChildrenDataSource(fCurrentView, types, sortFirstByType);
     }
     
     @Override
@@ -80,10 +97,10 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     public Object getFieldValue(JRField jrField) throws JRException {
         String fieldName = jrField.getName();
         
-        if("imagePath".equals(fieldName)) { //$NON-NLS-1$
+        if(FieldDataFactory.IMAGE_PATH.equals(fieldName)) {
             return getImagePath();
         }
-        if("viewpoint".equals(fieldName) && fCurrentView instanceof IArchimateDiagramModel) { //$NON-NLS-1$
+        if(FieldDataFactory.VIEWPOINT.equals(fieldName) && fCurrentView instanceof IArchimateDiagramModel) {
             return getViewpointName();
         }
 
@@ -99,12 +116,17 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
      * Return the path to the diagram image
      */
     private String getImagePath() {
-        String diagramName = fCurrentView.getId() + ".png"; //$NON-NLS-1$
-        return System.getProperty("JASPER_IMAGE_PATH") + "/" + diagramName; //$NON-NLS-1$ //$NON-NLS-2$
+        String diagramName = fCurrentView.getId() + ".png";
+        return System.getProperty("JASPER_IMAGE_PATH") + "/" + diagramName;
     }
 
     @Override
-    public Object getElement() {
+    public IDiagramModel getElement() {
         return fCurrentView;
     }
+    
+    public int size() {
+        return fViews.size();
+    }
+
 }

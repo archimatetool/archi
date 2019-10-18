@@ -223,6 +223,14 @@ public class JasperReportsExporter {
         // Path to report
         params.put("REPORT_PATH", reportFolder.toString() + File.separator); //$NON-NLS-1$
         
+        // Path to Model
+        if(fModel.getFile() != null) {
+            // Model File path
+            params.put("MODEL_FILE", fModel.getFile().getAbsolutePath()); //$NON-NLS-1$
+            // Model Directory
+            params.put("MODEL_DIRECTORY", fModel.getFile().getParent() + File.separator); //$NON-NLS-1$
+        }
+
         // Compile Main Report
         setProgressSubTask(Messages.JasperReportsExporter_10);
         
