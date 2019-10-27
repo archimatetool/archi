@@ -21,100 +21,100 @@ public enum FolderType implements Enumerator {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #USER_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    USER(0, "user", "user"), //$NON-NLS-1$ //$NON-NLS-2$
+    USER(0, "user", "user", Messages.FolderType_0), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Strategy</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #STRATEGY_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    STRATEGY(1, "strategy", "strategy"), //$NON-NLS-1$ //$NON-NLS-2$
+    STRATEGY(1, "strategy", "strategy", Messages.FolderType_1), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Business</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #BUSINESS_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    BUSINESS(2, "business", "business"), //$NON-NLS-1$ //$NON-NLS-2$
+    BUSINESS(2, "business", "business", Messages.FolderType_2), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Application</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #APPLICATION_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    APPLICATION(3, "application", "application"), //$NON-NLS-1$ //$NON-NLS-2$
+    APPLICATION(3, "application", "application", Messages.FolderType_3), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Technology</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #TECHNOLOGY_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    TECHNOLOGY(4, "technology", "technology"), //$NON-NLS-1$ //$NON-NLS-2$
+    TECHNOLOGY(4, "technology", "technology", Messages.FolderType_4), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Relations</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #RELATIONS_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    RELATIONS(5, "relations", "relations"), //$NON-NLS-1$ //$NON-NLS-2$
+    RELATIONS(5, "relations", "relations", Messages.FolderType_5), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Other</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #OTHER_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    OTHER(6, "other", "other"), //$NON-NLS-1$ //$NON-NLS-2$
+    OTHER(6, "other", "other", Messages.FolderType_6), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Diagrams</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #DIAGRAMS_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    DIAGRAMS(7, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
+    DIAGRAMS(7, "diagrams", "diagrams", Messages.FolderType_7), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Motivation</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #MOTIVATION_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    MOTIVATION(8, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
+    MOTIVATION(8, "motivation", "motivation", Messages.FolderType_8), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Implementation migration</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #IMPLEMENTATION_MIGRATION_VALUE
-     * @generated
+     * @generated NOT
      * @ordered
      */
-    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration"); //$NON-NLS-1$ //$NON-NLS-2$
+    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration", Messages.FolderType_9); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>User</b></em>' literal value.
@@ -374,6 +374,8 @@ public enum FolderType implements Enumerator {
      * @generated
      */
     private final String literal;
+    
+    private String label;
 
     /**
      * Only this class can construct instances.
@@ -385,6 +387,13 @@ public enum FolderType implements Enumerator {
         this.value = value;
         this.name = name;
         this.literal = literal;
+    }
+
+    private FolderType(int value, String name, String literal, String label) {
+        this.value = value;
+        this.name = name;
+        this.literal = literal;
+        this.label = label;
     }
 
     /**
@@ -415,6 +424,10 @@ public enum FolderType implements Enumerator {
     @Override
     public String getLiteral() {
       return literal;
+    }
+    
+    public String getLabel() {
+        return label;
     }
 
     /**

@@ -289,22 +289,22 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     protected void addDefaultFolders() {
         int index = 0;
         
-        createDefaultFolder(FolderType.STRATEGY, Messages.ArchimateModel_9, index++);
-        createDefaultFolder(FolderType.BUSINESS, Messages.ArchimateModel_0, index++);
-        createDefaultFolder(FolderType.APPLICATION, Messages.ArchimateModel_1, index++);
-        createDefaultFolder(FolderType.TECHNOLOGY, Messages.ArchimateModel_2, index++);
-        createDefaultFolder(FolderType.MOTIVATION, Messages.ArchimateModel_3, index++);
-        createDefaultFolder(FolderType.IMPLEMENTATION_MIGRATION, Messages.ArchimateModel_4, index++);
-        createDefaultFolder(FolderType.OTHER, Messages.ArchimateModel_5, index++);
-        createDefaultFolder(FolderType.RELATIONS, Messages.ArchimateModel_6, index++);
-        createDefaultFolder(FolderType.DIAGRAMS, Messages.ArchimateModel_7, index++);
+        createDefaultFolder(FolderType.STRATEGY, index++);
+        createDefaultFolder(FolderType.BUSINESS, index++);
+        createDefaultFolder(FolderType.APPLICATION, index++);
+        createDefaultFolder(FolderType.TECHNOLOGY, index++);
+        createDefaultFolder(FolderType.MOTIVATION, index++);
+        createDefaultFolder(FolderType.IMPLEMENTATION_MIGRATION, index++);
+        createDefaultFolder(FolderType.OTHER, index++);
+        createDefaultFolder(FolderType.RELATIONS, index++);
+        createDefaultFolder(FolderType.DIAGRAMS, index++);
     }
     
-    private void createDefaultFolder(FolderType folderType, String folderName, int index) {
+    private void createDefaultFolder(FolderType folderType, int index) {
         if(getFolder(folderType) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setType(folderType);
-            folder.setName(folderName);
+            folder.setName(folderType.getLabel());
             getFolders().add(index, folder);
         }
     }
