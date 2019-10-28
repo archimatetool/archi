@@ -40,7 +40,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -59,6 +58,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
@@ -486,7 +486,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      * Open the color dialog to edit color for an object
      */
     private RGB openColorDialog(Object object) {
-        ColorDialog colorDialog = new ColorDialog(getShell());
+        CustomColorDialog colorDialog = new CustomColorDialog(getShell());
         colorDialog.setRGB(fColorsCache.get(object).getRGB());
         return colorDialog.open();
     }

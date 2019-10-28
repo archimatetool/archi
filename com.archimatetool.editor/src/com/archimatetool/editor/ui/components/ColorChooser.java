@@ -32,7 +32,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -268,8 +267,9 @@ public class ColorChooser extends EventManager {
      * dialog to appear and wait for user input.
      */
     public void chooseColor() {
-        ColorDialog colorDialog = new ColorDialog(fColorButton.getShell());
+        CustomColorDialog colorDialog = new CustomColorDialog(fColorButton.getShell());
         colorDialog.setRGB(fColorValue);
+        
         RGB newColor = colorDialog.open();
         if(newColor != null) {
             RGB oldValue = fColorValue;
