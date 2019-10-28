@@ -22,21 +22,10 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  */
 public class HTMLUtils {
     
-    // Previous versions
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?"             // Original
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%~&=]*)?"            // Added ~
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=]*)?"             // Removed space
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=\\(\\)]*)?"       // Added \\( and \\)
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?"     // Added # and !
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!:&=\\(\\)]*)?"     // Removed leading / and added :
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+:&=\\(\\)]*)?"    // Add +
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+@:&=\\(\\)]*)?"    // Add @
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+@:&=\\(\\)[\u00C0-\u017f]]*)?" // Add [\u00C0-\u017f]
-    
     /**
      * The reg expression for HTML links
      */
-    public static final String HTML_LINK_REGEX = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+@:&=\\(\\)[\u00C0-\u017f]]*)?";  //$NON-NLS-1$
+    public static final String HTML_LINK_REGEX = "(http|https|ftp)://\\S+";  //$NON-NLS-1$
     
     /**
      * The compiled pattern to match HTML links
