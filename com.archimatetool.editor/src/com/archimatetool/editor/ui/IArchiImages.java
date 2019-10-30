@@ -40,6 +40,8 @@ public interface IArchiImages {
     String ECLIPSE_IMAGE_FILE = IMGPATH + "file_obj.png"; //$NON-NLS-1$
     String ECLIPSE_IMAGE_FOLDER = IMGPATH + "fldr_obj.png"; //$NON-NLS-1$
     
+    String ICON_FOLDER_DEFAULT = IMGPATH + "folder-default.png"; //$NON-NLS-1$
+    
     String MENU_ARROW = IMGPATH + "menu-arrow.png"; //$NON-NLS-1$
     
     String ZOOM_IN = IMGPATH + "zoomin.png"; //$NON-NLS-1$

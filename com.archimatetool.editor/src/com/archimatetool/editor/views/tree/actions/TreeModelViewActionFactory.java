@@ -19,6 +19,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.editor.views.tree.commands.NewElementCommand;
 import com.archimatetool.editor.views.tree.commands.NewFolderCommand;
@@ -237,7 +239,8 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_FOLDER));
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(folder);
+        action.setImageDescriptor(provider.getImageDescriptor());
         return action;
     }
 }

@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -162,7 +163,25 @@ public class ImageFactory {
 
         return image;
     }
-    
+
+    /**
+     * Get an Image with the given RGB value instead of the original palette value
+     */
+    public Image getImageWithRGB(String imageName, RGB rgb) {
+        String rgbName = imageName + ColorFactory.convertRGBToString(rgb);
+        ImageRegistry registry = fPlugin.getImageRegistry();
+        
+        Image image = registry.get(rgbName);
+        
+        // Create local ImageDescriptor and try again
+        if(image == null) {
+            getImageDescriptorWithRGB(imageName, rgb);
+            image = registry.get(rgbName);
+        }
+
+        return image;
+    }
+
     /**
      * Return a composite image consisting of many images
      * 
@@ -219,6 +238,34 @@ public class ImageFactory {
         }
         
         return id;
+    }
+
+    /**
+     * Get an ImageDescriptor with the given RGB value instead of the original palette value
+     */
+    public ImageDescriptor getImageDescriptorWithRGB(String imageName, RGB rgb) {
+        String rgbName = imageName + ColorFactory.convertRGBToString(rgb);
+        ImageRegistry registry = fPlugin.getImageRegistry();
+        
+        ImageDescriptor newImageDescriptor = registry.getDescriptor(rgbName);
+        
+        // Create new ImageDescriptor
+        if(newImageDescriptor == null) {
+            ImageDescriptor originalImageDescriptor = IArchiImages.ImageFactory.getImageDescriptor(imageName);
+            ImageData imageData = originalImageDescriptor.getImageData(100); // This has to be 100 even on 2x displays
+            int pixel = imageData.palette.getPixel(rgb);
+            
+            for(int x = 0; x < imageData.width; x++) {
+                for(int y = 0; y < imageData.height; y++) {
+                    imageData.setPixel(x, y, pixel);
+                }
+            }
+
+            newImageDescriptor = ImageDescriptor.createFromImageDataProvider(zoom -> imageData);
+            registry.put(rgbName, newImageDescriptor);
+        }
+
+        return newImageDescriptor;
     }
 
     /**

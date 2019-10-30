@@ -59,8 +59,10 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
+import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -211,9 +213,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_10, ArchimateModelUtils.getMotivationClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_11, ArchimateModelUtils.getImplementationMigrationClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_17, ArchimateModelUtils.getOtherClasses() ),
+                            
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_34,
                                     new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
                                                    IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
+                            
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_6, new FolderType[] {
+                                    FolderType.STRATEGY,
+                                    FolderType.BUSINESS,
+                                    FolderType.APPLICATION,
+                                    FolderType.TECHNOLOGY,
+                                    FolderType.MOTIVATION,
+                                    FolderType.IMPLEMENTATION_MIGRATION,
+                                    FolderType.OTHER,
+                                    FolderType.RELATIONS,
+                                    FolderType.DIAGRAMS,
+                                }),
+                            
                             DEFAULT_ELEMENT_LINE_COLOR,
                             DEFAULT_CONNECTION_LINE_COLOR
                     };
@@ -261,6 +277,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     if(s.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
                         return Messages.ColoursFontsPreferencePage_18;
                     }
+                    return s;
+                }
+                if(element instanceof FolderType) {
+                    return ((FolderType)element).getLabel();
                 }
                 
                 return null;
@@ -269,7 +289,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             @Override
             public Image getImage(Object element) {
                 if(element instanceof TreeGrouping) {
-                    return IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_FOLDER);
+                    return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FOLDER_DEFAULT);
                 }
 
                 return getColorSwatch(element);
@@ -474,8 +494,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(object instanceof String) {
             return (String)object;
         }
-        if(object instanceof EClass) {
+        else if(object instanceof EClass) {
             return ((EClass)object).getName();
+        }
+        else if(object instanceof FolderType) {
+            return ((FolderType)object).getName();
         }
         return "x"; //$NON-NLS-1$
     }
@@ -527,6 +550,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         else if(object instanceof EClass) {
             EClass eClass = (EClass)object;
             defaultRGB = ColorFactory.getInbuiltDefaultFillColor(eClass).getRGB();
+        }
+        
+        // Folder
+        else if(object instanceof FolderType) {
+            defaultRGB = FolderUIProvider.DEFAULT_COLOR.getRGB();
         }
         
         setColor(object, defaultRGB);
@@ -588,6 +616,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         eClass = IArchimatePackage.eINSTANCE.getDiagramModelConnection();
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
         fColorsCache.put(DEFAULT_CONNECTION_LINE_COLOR, new Color(color.getDevice(), color.getRGB()));
+        
+        // Folder colours
+        for(FolderType folderType : FolderType.VALUES) {
+            if(folderType != FolderType.USER) { // This is not used
+                color = useInbuiltDefaults ? FolderUIProvider.DEFAULT_COLOR : FolderUIProvider.getFolderColor(folderType);
+                fColorsCache.put(folderType, new Color(color.getDevice(), color.getRGB()));
+            }
+        }
     }
     
     @Override
@@ -596,7 +632,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR_FACTOR, fElementLineColorContrastSpinner.getSelection());
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
         
-        saveColors(getPreferenceStore());        
+        saveColors(getPreferenceStore(), true);        
         
         FontFactory.setDefaultUserViewFont(fDefaultFontData);
         
@@ -669,10 +705,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PreferenceStore store = new PreferenceStore(path);
         store.load();
 
-        // Fill Colors
+        // Fill Colors / Folder Colors
         for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
             String key = DEFAULT_FILL_COLOR_PREFIX + getColorKey(entry.getKey());
             String value = store.getString(key);
+            
+            if(StringUtils.isSet(value)) {
+                setColor(entry.getKey(), ColorFactory.convertStringToRGB(value));
+            }
+            
+            key = FOLDER_COLOUR_PREFIX + getColorKey(entry.getKey());
+            value = store.getString(key);
             
             if(StringUtils.isSet(value)) {
                 setColor(entry.getKey(), ColorFactory.convertStringToRGB(value));
@@ -719,43 +762,49 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
 
         PreferenceStore store = new PreferenceStore(path);
-        saveColors(store);
+        saveColors(store, false);
         store.save();
     }
     
     /**
      * @param store
+     * @param useDefaults If true then a color is not saved if it matches the default color
      * Save colors to preference store
      */
-    private void saveColors(IPreferenceStore store) {
+    private void saveColors(IPreferenceStore store, boolean useDefaults) {
         for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
             Color colorNew = entry.getValue();
             Color colorDefault;
             String key;
             
-            // Element line color default
+            // Element line
             if(entry.getKey().equals(DEFAULT_ELEMENT_LINE_COLOR)) {
                 // Outline color - use any object eClass as there is only one
                 colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor());
                 key = DEFAULT_ELEMENT_LINE_COLOR;
             }
-            // Connection line color default
+            // Connection line
             else if(entry.getKey().equals(DEFAULT_CONNECTION_LINE_COLOR)) {
                 // Outline color - use any object eClass as there is only one
                 colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getAssociationRelationship());
                 key = DEFAULT_CONNECTION_LINE_COLOR;
             }
-            // Fill color default
+            // Folders
+            else if(entry.getKey() instanceof FolderType) {
+                colorDefault = FolderUIProvider.DEFAULT_COLOR;
+                key = FOLDER_COLOUR_PREFIX + getColorKey(entry.getKey());
+            }
+            // Element Fills
             else {
                 colorDefault = ColorFactory.getInbuiltDefaultFillColor(entry.getKey());
-                key = DEFAULT_FILL_COLOR_PREFIX + getColorKey(entry.getKey());               
+                key = DEFAULT_FILL_COLOR_PREFIX + getColorKey(entry.getKey());
             }
                      
-            // If default color
-            if(colorNew.equals(colorDefault)) {
+            // If the new color equals the default color set pref to default if useDefaults is true
+            if(useDefaults && colorNew.equals(colorDefault)) {
                 store.setToDefault(key);
             }
-            // Else user color
+            // Else store color anyway
             else {
                 store.setValue(key, ColorFactory.convertColorToString(colorNew));
             }

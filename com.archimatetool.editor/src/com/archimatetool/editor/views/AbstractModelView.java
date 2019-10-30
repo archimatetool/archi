@@ -22,6 +22,7 @@ import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -36,6 +37,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -68,6 +70,11 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     protected UndoAction fActionUndo = new UndoAction(this);
     protected RedoAction fActionRedo = new RedoAction(this);
     
+    /**
+     * Application Preferences Listener
+     */
+    private IPropertyChangeListener prefsListener;
+
     protected IAction fActionSelectAll = new Action() {
         @Override
         public void run() {
@@ -93,6 +100,10 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Listen to selections
         hookSelectionListener();
+        
+        // Prefs listener
+        prefsListener = this::applicationPreferencesChanged;
+        Preferences.STORE.addPropertyChangeListener(prefsListener);
     }
     
     private void hookSelectionListener() {
@@ -169,6 +180,13 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Do the "Select All" global action. The default is to do nothing. Clients can over-ride.
      */
     protected void selectAll() {
+    }
+    
+    /**
+     * An Application Preference Property change event occurred
+     * @param event
+     */
+    protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
     }
 
     /**
@@ -414,6 +432,9 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Unregister us as a Model Manager Listener
         IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
+        
+        // Remove Prefs listener
+        Preferences.STORE.removePropertyChangeListener(prefsListener);
         
         // Update shell text
         getSite().getShell().setText(Platform.getProduct().getName());

@@ -65,6 +65,8 @@ public interface IPreferenceConstants {
     String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor";
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor";
     
+    String FOLDER_COLOUR_PREFIX = "folderColour_";
+    
     String DEFAULT_FIGURE_PREFIX = "defaultFigure"; 
 
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor";

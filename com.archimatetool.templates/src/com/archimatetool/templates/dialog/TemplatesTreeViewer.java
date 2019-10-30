@@ -101,7 +101,7 @@ public class TemplatesTreeViewer extends TreeViewer {
         @Override
         public Image getImage(Object element) {
             if(element instanceof ITemplateGroup) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_FOLDER);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FOLDER_DEFAULT);
             }
             if(element instanceof ITemplate) {
                 return ((ITemplate)element).getImage();
