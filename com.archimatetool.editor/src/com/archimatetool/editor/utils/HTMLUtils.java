@@ -25,7 +25,7 @@ public class HTMLUtils {
     /**
      * The reg expression for HTML links
      */
-    public static final String HTML_LINK_REGEX = "(http|https|ftp)://\\S+";  //$NON-NLS-1$
+    public static final String HTML_LINK_REGEX = "(http|https|ftp|file)://\\S+";  //$NON-NLS-1$
     
     /**
      * The compiled pattern to match HTML links
