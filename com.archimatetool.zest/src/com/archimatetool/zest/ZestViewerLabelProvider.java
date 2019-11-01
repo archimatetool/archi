@@ -32,6 +32,7 @@ import com.archimatetool.editor.diagram.figures.connections.ServingConnectionFig
 import com.archimatetool.editor.diagram.figures.connections.SpecializationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateConcept;
@@ -73,6 +74,12 @@ implements IBaseLabelProvider, ISelfStyleProvider {
     }
 
     private String getText(Object element) {
+        if(element instanceof IInfluenceRelationship) {
+            IInfluenceRelationship rel = (IInfluenceRelationship)element;
+            if(StringUtils.isSet(rel.getStrength())) {
+                return ((INameable)element).getName() + " " + rel.getStrength(); //$NON-NLS-1$
+            }
+        }
         if(element instanceof INameable) {
             return ((INameable)element).getName();
         }
