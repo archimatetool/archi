@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.actions;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -21,8 +24,10 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -31,6 +36,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.WorkbenchCleaner;
@@ -210,6 +216,29 @@ extends ActionBarAdvisor {
         // Register our own About Handler for our own custom dialog
         IHandlerService srv = window.getService(IHandlerService.class);
         srv.activateHandler(IWorkbenchCommandConstants.HELP_ABOUT, new AboutHandler());
+        
+        // TODO: Mac 10.15 bug on Eclipse. Remove this hack when Eclipse fixed
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=552514
+        if(PlatformUtils.isMac() && PlatformUtils.compareOSVersion("10.15") >= 0) { //$NON-NLS-1$
+            // Hook our own action handler for Preferences
+            srv.activateHandler(IWorkbenchCommandConstants.WINDOW_PREFERENCES, new AbstractHandler() {
+                @Override
+                public Object execute(ExecutionEvent event) throws ExecutionException {
+                    PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, null, null, null);
+                    
+                    // Force a resize on the Tree's parent to force a layout
+                    Display.getCurrent().asyncExec(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.getTreeViewer().getControl().getParent().pack();
+                        }
+                    });
+                    
+                    dialog.open();
+                    return null;
+                }
+            });
+        }
         
         // Reset Perspective
         fActionResetPerspective = ActionFactory.RESET_PERSPECTIVE.create(window);
