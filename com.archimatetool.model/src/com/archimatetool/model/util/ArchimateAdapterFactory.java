@@ -120,6 +120,7 @@ import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
+import com.archimatetool.model.IStrategyBehaviorElement;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.IStructuralRelationship;
 import com.archimatetool.model.IStructureElement;
@@ -138,6 +139,7 @@ import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
+import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -308,6 +310,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseBehaviorElement(IBehaviorElement object) {
                 return createBehaviorElementAdapter();
+            }
+            @Override
+            public Adapter caseStrategyBehaviorElement(IStrategyBehaviorElement object) {
+                return createStrategyBehaviorElementAdapter();
             }
             @Override
             public Adapter caseStructureElement(IStructureElement object) {
@@ -576,6 +582,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseValue(IValue object) {
                 return createValueAdapter();
+            }
+            @Override
+            public Adapter caseValueStream(IValueStream object) {
+                return createValueStreamAdapter();
             }
             @Override
             public Adapter caseWorkPackage(IWorkPackage object) {
@@ -1440,6 +1450,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IStrategyBehaviorElement <em>Strategy Behavior Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IStrategyBehaviorElement
+     * @generated
+     */
+    public Adapter createStrategyBehaviorElementAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IStructureElement <em>Structure Element</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -2234,6 +2258,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createValueAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IValueStream <em>Value Stream</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IValueStream
+     * @generated
+     */
+    public Adapter createValueStreamAdapter() {
         return null;
     }
 

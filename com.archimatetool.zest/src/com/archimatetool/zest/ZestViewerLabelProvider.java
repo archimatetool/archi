@@ -24,6 +24,7 @@ import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AccessConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.AggregationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.AssignmentConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.AssociationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.CompositionConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.FlowConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure;
@@ -38,6 +39,7 @@ import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
+import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IInfluenceRelationship;
@@ -244,6 +246,14 @@ implements IBaseLabelProvider, ISelfStyleProvider {
             conn.setTargetDecoration(InfluenceConnectionFigure.createFigureTargetDecoration());
             connection.setLineStyle(SWT.LINE_CUSTOM);
             conn.setLineDash(new float[] { 6, 3 });
+        }
+        else if(element instanceof IAssociationRelationship) {
+            if(((IAssociationRelationship)element).isDirected()) {
+                conn.setTargetDecoration(AssociationConnectionFigure.createFigureTargetDecoration());
+            }
+            else {
+                conn.setTargetDecoration(null);
+            }
         }
         
         conn.setAntialias(SWT.ON);

@@ -251,6 +251,15 @@ public interface IArchimateFactory extends EFactory {
     IValue createValue();
 
     /**
+     * Returns a new object of class '<em>Value Stream</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Value Stream</em>'.
+     * @generated
+     */
+    IValueStream createValueStream();
+
+    /**
      * Returns a new object of class '<em>Location</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

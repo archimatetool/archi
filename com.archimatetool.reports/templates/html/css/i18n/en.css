@@ -43,6 +43,7 @@
 :lang(en) .i18n-viewpoint-strategy:after {content: "Strategy"}
 :lang(en) .i18n-viewpoint-technology:after {content: "Technology"}
 :lang(en) .i18n-viewpoint-technology_usage:after {content: "Technology Usage"}
+:lang(en) .i18n-viewpoint-value_stream:after {content: "Value Stream"}
 
 
 /* Elements (Class.SimpleName from com.archimatetool.model) */
@@ -118,6 +119,7 @@
 :lang(en) .i18n-elementtype-TechnologyService:after {content: "Technology Service"}
 :lang(en) .i18n-elementtype-TriggeringRelationship:after {content: "Triggering"}
 :lang(en) .i18n-elementtype-Value:after {content: "Value"}
+:lang(en) .i18n-elementtype-ValueStream:after {content: "Value Stream"}
 :lang(en) .i18n-elementtype-WorkPackage:after {content: "Work Package"}
 
 /* Other Graphical Objects */

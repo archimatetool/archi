@@ -58,6 +58,15 @@
         <concept>Location</concept>
     </viewpoint>
 
+    <viewpoint id="application_structure">
+        <name xml:lang="en">Application Structure</name>
+
+        <concept>ApplicationComponent</concept>
+        <concept>ApplicationCollaboration</concept>
+        <concept>ApplicationInterface</concept>
+        <concept>DataObject</concept>
+    </viewpoint>
+
     <viewpoint id="application_usage">
         <name xml:lang="en">Application Usage</name>
 
@@ -198,6 +207,15 @@
         <concept>Capability</concept>
         <concept>Outcome</concept>
         <concept>Resource</concept>
+    </viewpoint>
+
+    <viewpoint id="value_stream">
+        <name xml:lang="en">Value Stream</name>
+        
+        <concept>Capability</concept>
+        <concept>Outcome</concept>
+        <concept>Stakeholder</concept>
+        <concept>ValueStream</concept>
     </viewpoint>
 
     <viewpoint id="outcome_realization">

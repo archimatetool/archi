@@ -47,6 +47,10 @@ public class Messages extends NLS {
 
     public static String ArchimateModelSection_5;
 
+    public static String AssociationRelationshipSection_0;
+
+    public static String AssociationRelationshipSection_1;
+
     public static String BorderColorSection_0;
 
     public static String BorderColorSection_1;

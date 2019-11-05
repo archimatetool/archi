@@ -149,6 +149,8 @@
       eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BehaviorElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StrategyBehaviorElement" abstract="true"
+      interface="true" eSuperTypes="#//BehaviorElement #//StrategyElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="StructureElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ActiveStructureElement" abstract="true"
@@ -212,9 +214,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="BusinessProcess" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessElement #//BehaviorElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Capability" eSuperTypes="#//StrategyElement #//BehaviorElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Capability" eSuperTypes="#//StrategyBehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CommunicationNetwork" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CourseOfAction" eSuperTypes="#//StrategyElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//ApplicationElement #//PassiveStructureElement"/>
@@ -229,11 +231,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//CompositeElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ImplementationEvent" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//CompositeElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//PassiveStructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//TechnologyObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Outcome" eSuperTypes="#//MotivationElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Path" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Path" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement #//CompositeElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Principle" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//BusinessElement #//CompositeElement"/>
@@ -250,6 +252,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="TechnologyProcess" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="TechnologyService" eSuperTypes="#//TechnologyElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueStream" eSuperTypes="#//StrategyBehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="WorkPackage" eSuperTypes="#//ImplementationMigrationElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//DependendencyRelationship">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
@@ -257,7 +260,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//StructuralRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//OtherRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//DependendencyRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="directed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//DynamicRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//DependendencyRelationship">

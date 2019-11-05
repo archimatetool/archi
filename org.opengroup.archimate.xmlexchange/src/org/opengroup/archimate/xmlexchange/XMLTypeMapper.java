@@ -28,6 +28,7 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ElementsMapping.put("Capability", IArchimatePackage.eINSTANCE.getCapability());
         ElementsMapping.put("CourseOfAction", IArchimatePackage.eINSTANCE.getCourseOfAction());
         ElementsMapping.put("Resource", IArchimatePackage.eINSTANCE.getResource());
+        ElementsMapping.put("ValueStream", IArchimatePackage.eINSTANCE.getValueStream());
         
         // Business Elements
         ElementsMapping.put("BusinessActor", IArchimatePackage.eINSTANCE.getBusinessActor());
@@ -168,6 +169,7 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ViewPointsMapping.put("layered", "Layered");
         ViewPointsMapping.put("physical", "Physical");
         ViewPointsMapping.put("product", "Product");
+        ViewPointsMapping.put("application_structure", "Application Structure");
         ViewPointsMapping.put("application_usage", "Application Usage");
         ViewPointsMapping.put("technology_usage", "Technology Usage");
         ViewPointsMapping.put("business_process_cooperation", "Business Process Cooperation");
@@ -187,6 +189,7 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ViewPointsMapping.put("migration", "Migration");
         ViewPointsMapping.put("implementation_migration", "Implementation and Migration");
         ViewPointsMapping.put("stakeholder", "Stakeholder");
+        ViewPointsMapping.put("value_stream", "Value Stream");
     }
 
     public static String getViewpointName(String viewPointID) {

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IPath extends ITechnologyElement {
+public interface IPath extends ITechnologyElement, IActiveStructureElement {
 } // IPath

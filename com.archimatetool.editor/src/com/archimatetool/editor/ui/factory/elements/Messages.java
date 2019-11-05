@@ -122,6 +122,8 @@ public class Messages extends NLS {
 
     public static String TechnologyServiceUIProvider_0;
 
+    public static String ValueStreamUIProvider_0;
+
     public static String ValueUIProvider_0;
 
     public static String WorkPackageUIProvider_0;

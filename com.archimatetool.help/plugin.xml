@@ -418,6 +418,11 @@
             title="%hint.title.12">
       </hint>
       <hint
+            className="ValueStream"
+            file="hints/value_stream.html"
+            title="%hint.title.106">
+      </hint>
+      <hint
             className="WorkPackage"
             file="hints/workpackage.html"
             title="%hint.title.53">
@@ -575,6 +580,12 @@
       </hint>
       <hint
             className="ArchimateDiagramModel"
+            file="hints/vp_application_structure.html"
+            key="application_structure"
+            title="%hint.title.108">
+      </hint>
+      <hint
+            className="ArchimateDiagramModel"
             file="hints/vp_application_usage.html"
             key="application_usage"
             title="%hint.title.71">
@@ -650,6 +661,12 @@
             file="hints/vp_capability.html"
             key="capability"
             title="%hint.title.83">
+      </hint>
+      <hint
+            className="ArchimateDiagramModel"
+            file="hints/vp_value_stream.html"
+            key="value_stream"
+            title="%hint.title.107">
       </hint>
       <hint
             className="ArchimateDiagramModel"

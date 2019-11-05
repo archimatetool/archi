@@ -6,6 +6,8 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -56,8 +59,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
         return (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
     }
 
+    // Access Relationship Type
     @Test
-    public void testGetInterface_Type() {
+    public void testAccess_Interface_Type() {
         // Only IAccessRelationship type
         Assume.assumeTrue(relationship instanceof IAccessRelationship);
 
@@ -67,9 +71,10 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
         assertEquals(IAccessRelationship.READ_ACCESS, aRelationship.getAccessType());
     }
     
+    // Influence Relationship Strength
     @Test
-    public void testGetInfluence_Strength() {
-        // Only Influence type
+    public void testInfluence_Strength() {
+        // Only IInfluenceRelationship type
         Assume.assumeTrue(relationship instanceof IInfluenceRelationship);
 
         IInfluenceRelationship aRelationship = (IInfluenceRelationship)relationship;
@@ -78,4 +83,15 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
         assertEquals("++", aRelationship.getStrength());
     }
 
+    // Association Relationship Directed
+    @Test
+    public void testAssociation_Directed() {
+        // Only IAssociationRelationship type
+        Assume.assumeTrue(relationship instanceof IAssociationRelationship);
+
+        IAssociationRelationship aRelationship = (IAssociationRelationship)relationship;
+        assertFalse(aRelationship.isDirected());
+        aRelationship.setDirected(true);
+        assertTrue(aRelationship.isDirected());
+    }
 }

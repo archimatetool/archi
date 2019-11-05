@@ -46,6 +46,7 @@ package com.archimatetool.model;
  *       - Group can have Rectangle Border Type
  *       - Group implements ITextPosition
  * 4.6.0 - Add Features API
+ *       - ArchiMate 3.1 ValueStream concept and Association relationship directed attribute
  * 
  * @author Phillip Beauvoir
  */

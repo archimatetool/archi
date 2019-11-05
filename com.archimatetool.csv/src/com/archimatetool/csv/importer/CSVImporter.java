@@ -40,6 +40,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IJunction;
@@ -479,6 +480,12 @@ public class CSVImporter implements CSVConstants {
             int newvalue = ACCESS_TYPES.indexOf(value);
             storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
                     IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE, newvalue);
+            return;
+        }
+        else if(ASSOCIATION_DIRECTED.endsWith(key) && propertiesObject instanceof IAssociationRelationship) {
+            boolean newvalue = "true".equalsIgnoreCase(value); //$NON-NLS-1$
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
+                    IArchimatePackage.Literals.ASSOCIATION_RELATIONSHIP__DIRECTED, newvalue);
             return;
         }
         else if(JUNCTION_TYPE.equals(key) && propertiesObject instanceof IJunction) {

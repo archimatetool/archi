@@ -19,7 +19,7 @@ import com.archimatetool.model.IContract;
  *
  * @generated
  */
-public class Contract extends ArchimateElement implements IContract {
+public class Contract extends BusinessObject implements IContract {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

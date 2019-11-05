@@ -148,7 +148,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetStrategyClasses() {
         EClass[] classes = ArchimateModelUtils.getStrategyClasses();
-        assertEquals(3, classes.length);
+        assertEquals(4, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(eClass));
@@ -244,7 +244,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetAllArchimateClasses() {
         EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        assertEquals(59, classes.length);
+        assertEquals(60, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));

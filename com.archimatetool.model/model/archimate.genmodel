@@ -97,6 +97,7 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//ImplementationMigrationElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//CompositeElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//BehaviorElement"/>
+    <genClasses ecoreClass="archimate.ecore#//StrategyBehaviorElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//StructureElement"/>
     <genClasses ecoreClass="archimate.ecore#//ActiveStructureElement"/>
     <genClasses ecoreClass="archimate.ecore#//PassiveStructureElement"/>
@@ -180,13 +181,16 @@
     <genClasses ecoreClass="archimate.ecore#//TechnologyProcess"/>
     <genClasses ecoreClass="archimate.ecore#//TechnologyService"/>
     <genClasses ecoreClass="archimate.ecore#//Value"/>
+    <genClasses ecoreClass="archimate.ecore#//ValueStream"/>
     <genClasses ecoreClass="archimate.ecore#//WorkPackage"/>
     <genClasses ecoreClass="archimate.ecore#//AccessRelationship">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AccessRelationship/accessType"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//AggregationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//AssignmentRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//AssociationRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//AssociationRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AssociationRelationship/directed"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//CompositionRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//FlowRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//InfluenceRelationship">
