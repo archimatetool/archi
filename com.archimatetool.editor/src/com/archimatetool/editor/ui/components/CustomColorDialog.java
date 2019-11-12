@@ -81,7 +81,7 @@ public class CustomColorDialog {
     }
     
     /**
-     * @return The user custom colors from a Color Chooser dialog from Prefs. It may be null.
+     * @return The user's custom colors for a Color Chooser dialog from Prefs.
      */
     private RGB[] getColorChooserColorsFromPreferences() {
         List<RGB> rgbs = new ArrayList<RGB>();
@@ -92,8 +92,14 @@ public class CustomColorDialog {
             if(rgb != null) {
                 rgbs.add(rgb);
             }
+            // Fix from JB:
+            // If no custom colors have been saved in Prefs yet, return white
+            // (otherwise Windows color picker would use the one saved internally for the session, even before a "Cancel" action)
+            else {
+                rgbs.add(new RGB(255, 255, 255));
+            }
         }
         
-        return rgbs.isEmpty() ? null : rgbs.toArray(new RGB[rgbs.size()]);
+        return rgbs.toArray(new RGB[rgbs.size()]);
     }
 }
