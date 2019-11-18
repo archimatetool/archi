@@ -7,6 +7,8 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.InternalEObject;
@@ -153,4 +155,11 @@ public class FeaturesEListTests {
         assertTrue(list.has("name1"));
     }
     
+    @Test
+    public void getFeature() {
+        list.putString("name1", "value1");
+        assertNotNull(list.getFeature("name1"));
+        
+        assertNull(list.getFeature("bogus"));
+    }
 }

@@ -101,4 +101,10 @@ public interface IFeaturesEList extends EList<IFeature> {
      * @return true if there is an entry with name
      */
     boolean has(String name);
+    
+    /**
+     * @param name The name, non-null.
+     * @return the feature of the given name, or null if not found
+     */
+    IFeature getFeature(String name);
 }

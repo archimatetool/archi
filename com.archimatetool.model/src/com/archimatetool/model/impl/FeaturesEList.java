@@ -116,7 +116,8 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         return getFeature(name) != null;
     }
 
-    private IFeature getFeature(String name) {
+    @Override
+    public IFeature getFeature(String name) {
         checkNull(name);
         
         for(IFeature f : this) {
