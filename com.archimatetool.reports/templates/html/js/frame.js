@@ -136,15 +136,17 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	// Update documentation div and create links
-	$('#doctgt').text($('#docsrc').text());
+	// Update documentation div with markdown
+	var converter = new showdown.Converter();
+	$('#doctgt').html(converter.makeHtml($('#docsrc').text()));
 	
-	if(typeof $('#doctgt').html() !== "undefined") {
-	   $('#doctgt').html($('#doctgt').html()
-		  .replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
-		  .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
-	   );
-	}
+	// TODO: either remove, or update the regex to deal with trailing </p> tags
+	// if(typeof $('#doctgt').html() !== "undefined") {
+	//    $('#doctgt').html($('#doctgt').html()
+	// 	  .replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
+	// 	  .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
+	//    );
+	// }
 	
 	// Replace Hint URL
 	for (var id in hints) {
