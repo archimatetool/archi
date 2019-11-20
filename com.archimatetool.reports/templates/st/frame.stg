@@ -141,6 +141,7 @@ frame(element, map) ::= <<
 	<!-- REPORT SPECIFIC -->
 	<link type="text/css" rel="stylesheet" href="../../css/model.css">
 	<link type="text/css" rel="stylesheet" href="../../css/i18n.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
 	<script type="text/javascript" src="../../js/frame.js"></script>
 	<script type="text/javascript" src="../../js/imageMapResizer.min.js"></script>
 </head>
