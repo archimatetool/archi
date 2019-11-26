@@ -13,10 +13,12 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuCreator;
-import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * Drop Down Action
@@ -59,20 +61,15 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
     }
     
     /**
-     * Show the menu at the bottom of a Toolbar Manager
-     * @param manager
+     * Show the sub-menu when the main tool item is clicked
      */
-    public void showMenu(ToolBarManager manager) {
-    	showMenu(manager.getControl());
-    }
-
-    /**
-     * Show the menu at the bottom of a Control (for example a ToolBar)
-     * @param control
-     */
-    public void showMenu(Control control) {
+    @Override
+    public void runWithEvent(Event event) {
+        ToolItem ti = (ToolItem)event.widget;
+        Rectangle bounds = ti.getBounds();
+        Control control = ti.getParent();
         Menu menu = getMenu(control);
-        Point point = control.toDisplay(new Point(0, control.getBounds().height));
+        Point point = control.toDisplay(new Point(bounds.x, bounds.height));
         menu.setLocation(point);
         menu.setVisible(true);
     }

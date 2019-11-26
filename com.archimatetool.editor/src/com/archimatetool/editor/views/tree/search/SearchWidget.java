@@ -192,11 +192,6 @@ public class SearchWidget extends Composite {
 
         AbstractDropDownAction dropDownAction = new AbstractDropDownAction(Messages.SearchWidget_4) {
             @Override
-            public void run() {
-            	showMenu(toolBarmanager);
-            }
-            
-            @Override
             public ImageDescriptor getImageDescriptor() {
                 return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FILTER);
             }
