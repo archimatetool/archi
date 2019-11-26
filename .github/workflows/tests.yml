@@ -1,0 +1,24 @@
+name: Archi Tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11
+    - name: Download Maven 3.6.3
+      run: wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+    - name: Extact archive
+      run: tar xzvf apache-maven-3.6.3-bin.tar.gz
+    - run: echo "::set-env name=M2_HOME::`pwd`/apache-maven-3.6.3"
+    - run: echo "::add-path::$M2_HOME/bin"
+    - run: mvn -v
+    - name: Run Maven with virtual display
+      run: xvfb-run mvn clean verify
