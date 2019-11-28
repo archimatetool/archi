@@ -29,13 +29,5 @@ jobs:
         wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
         tar xzvf apache-maven-3.6.3-bin.tar.gz
     
-    - name: Set M2_HOME Env variable
-      run: echo "::set-env name=M2_HOME::`pwd`/apache-maven-3.6.3"
-    
-    - name: Add M2_HOME to Path
-      run: echo "::add-path::$M2_HOME/bin"
-    
     - name: Run Maven with a virtual display
-      run: |
-        mvn -v
-        xvfb-run mvn clean verify
+      run: xvfb-run apache-maven-3.6.3/bin/mvn clean verify
