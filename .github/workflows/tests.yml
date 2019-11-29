@@ -3,8 +3,8 @@ name: Archi Tests
 on: [push]
 
 jobs:
-  build:
-
+  build-and-test:
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,13 @@ jobs:
       run: |
         wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
         tar xzvf apache-maven-3.6.3-bin.tar.gz
+      
+    - name: Cache Maven Repository
+      id: cache-m2
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: maven-${{ hashFiles('**/pom.xml') }}
     
     - name: Run Maven with a virtual display
-      run: xvfb-run apache-maven-3.6.3/bin/mvn clean verify
+      run: xvfb-run apache-maven-3.6.3/bin/mvn verify
