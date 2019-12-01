@@ -7,24 +7,22 @@ package com.archimatetool.editor.actions;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.views.IModelSelectionView;
 import com.archimatetool.model.IArchimateModel;
 
 
 /**
- * Handler for tracking the current selection and model in either the Tree Model Views or Archimate Editors.
+ * Handler for tracking the current model in Workbench Parts.
  * This is a delegate class so that menu Actions and Handlers can set their enabled state and also
- * retrieve the currently selected model in the application<br>
+ * retrieve the currently selected model.
  * 
  * @author Phillip Beauvoir
  */
-public class ModelSelectionHandler implements IPartListener {
+public class ModelSelectionHandler implements IPartListener, ISelectionChangedListener {
     
     /**
      * Interface for clients to be updated when the enabled state needs to be queried
@@ -39,29 +37,14 @@ public class ModelSelectionHandler implements IPartListener {
     private IWorkbenchWindow fWorkbenchWindow;
     
     /**
-     * Active View
+     * Active Editor or Models Tree
      */
-    private IModelSelectionView fActiveModelView;
+    private IWorkbenchPart fActivePart;
     
     /**
-     * Active Editor
-     */
-    private IEditorPart fActiveEditor;
-    
-    /**
-     * ModelSelectionHandler Listener
+     * ModelSelectionHandler Listener that will be notified of updates
      */
     private IModelSelectionHandlerListener fListener;
-    
-    /*
-     * Listen to Tree Selections to update state
-     */
-    protected ISelectionChangedListener selectionListener = new ISelectionChangedListener() {
-        @Override
-        public void selectionChanged(SelectionChangedEvent event) {
-            fListener.updateState();
-        }
-    };
     
     public ModelSelectionHandler(IModelSelectionHandlerListener listener, IWorkbenchWindow workbenchWindow) {
         fListener = listener;
@@ -70,77 +53,68 @@ public class ModelSelectionHandler implements IPartListener {
     }
     
     /**
-     * Refresh the state based on the current selection in the workbench
+     * Refresh the state based on the current active part in the workbench
      */
     public void refresh() {
-        partActivated(fWorkbenchWindow.getPartService().getActivePart());
+        setActivePart(fWorkbenchWindow.getPartService().getActivePart());
     }
 
-    // ------------------ Part Listener --------------------------
+    /**
+     * @return The Active Archimate Model
+     */
+    public IArchimateModel getActiveArchimateModel() {
+        return fActivePart != null ? fActivePart.getAdapter(IArchimateModel.class) : null;
+    }
+
+    public void dispose() {
+        fWorkbenchWindow.getPartService().removePartListener(this);
+    }
+    
+    // ------------------ Part and Selection Listeners --------------------------
+
+    @Override
+    public void partActivated(IWorkbenchPart part) {
+        setActivePart(part);
+    }
+    
+    @Override
+    public void partDeactivated(IWorkbenchPart part) {
+        if(part instanceof IModelSelectionView) {
+            ((IModelSelectionView)part).getSelectionProvider().removeSelectionChangedListener(this);
+        }
+    }
+    
+    @Override
+    public void partClosed(IWorkbenchPart part) {
+        // If the active part is closed we need to refresh with the new active part
+        if(part == fActivePart) {
+            refresh();
+        }
+    }
 
     @Override
     public void partOpened(IWorkbenchPart part) {
     }
 
     @Override
-    public void partClosed(IWorkbenchPart part) {
-        if(part instanceof IModelSelectionView) {
-            fActiveModelView = null;
-            fListener.updateState();
-        }
-        else if(part instanceof IDiagramModelEditor) {
-            if(fWorkbenchWindow.getActivePage() != null) {
-                fActiveEditor = fWorkbenchWindow.getActivePage().getActiveEditor();
-                fListener.updateState();
-            }
-        }
-    }
-
-    @Override
-    public void partActivated(IWorkbenchPart part) {
-        if(part instanceof IModelSelectionView) {
-            fActiveModelView = (IModelSelectionView)part;
-            fActiveEditor = null;
-            ((IModelSelectionView)part).getSelectionProvider().addSelectionChangedListener(selectionListener);
-        }
-        else if(part instanceof IDiagramModelEditor) {
-            fActiveEditor = (IEditorPart)part;
-        }
-        fListener.updateState();
-    }
-    
-    @Override
-    public void partDeactivated(IWorkbenchPart part) {
-        if(part instanceof IModelSelectionView) {
-            ((IModelSelectionView)part).getSelectionProvider().removeSelectionChangedListener(selectionListener);
-        }
-    }
-    
-    @Override
     public void partBroughtToTop(IWorkbenchPart part) {
     }
     
-    // -----------------------------------------------------------
-
-    /**
-     * @return The Active Archimate Model
-     */
-    public IArchimateModel getActiveArchimateModel() {
-        IArchimateModel model = null;
-        
-        // Active Editor first
-        if(fActiveEditor != null) {
-            model = fActiveEditor.getAdapter(IArchimateModel.class);
-        }
-        // Then Active View
-        else if(fActiveModelView != null) {
-            model = fActiveModelView.getAdapter(IArchimateModel.class);
+    private void setActivePart(IWorkbenchPart part) {
+        // Listen to selections in IModelSelectionView because these can return different models
+        if(part instanceof IModelSelectionView) {
+            ((IModelSelectionView)part).getSelectionProvider().addSelectionChangedListener(this);
         }
         
-        return model;
+        fActivePart = part;
+        fListener.updateState();
     }
-
-    public void dispose() {
-        fWorkbenchWindow.getPartService().removePartListener(this);
+    
+    /*
+     * Listen to Tree Selections to update state
+     */
+    @Override
+    public void selectionChanged(SelectionChangedEvent event) {
+        fListener.updateState();
     }
 }

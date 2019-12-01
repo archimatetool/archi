@@ -13,10 +13,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
+import org.eclipse.ui.views.properties.PropertyShowInContext;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.model.IArchimateModel;
 
 
 
@@ -102,6 +104,14 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
          */
         if(adapter == IPropertySheetPage.class) {
             return adapter.cast(new TabbedPropertySheetPage(this));
+        }
+        
+        /*
+         * Return the IArchimateModel in context of the part in context
+         */
+        if(adapter == IArchimateModel.class) {
+            PropertyShowInContext context = (PropertyShowInContext)getShowInContext();
+            return context.getPart() == null ? null : adapter.cast(context.getPart().getAdapter(IArchimateModel.class));
         }
         
         return super.getAdapter(adapter);
