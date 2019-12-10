@@ -662,6 +662,11 @@ implements ITreeModelView, IUIRequestListener {
         
         // New Model created or opened
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED || propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
+            // Go Home
+            if(fDrillDownAdapter.canGoHome()) {
+                fDrillDownAdapter.goHome();
+            }
+            
             TreePath[] expanded = getViewer().getExpandedTreePaths(); // save these to restore expanded state
             getViewer().refresh();
             getViewer().setExpandedTreePaths(expanded);
@@ -682,7 +687,7 @@ implements ITreeModelView, IUIRequestListener {
             // Clear Cut/Paste clipboard
             TreeModelCutAndPaste.INSTANCE.clear();
             
-            // Drilldown
+            // Check Drilldown state
             checkDrillDown();
         }
         
