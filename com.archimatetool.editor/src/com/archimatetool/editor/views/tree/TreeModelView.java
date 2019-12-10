@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -660,9 +661,10 @@ implements ITreeModelView, IUIRequestListener {
         //Object newValue = evt.getNewValue();
         
         // New Model created or opened
-        if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED ||
-                propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
+        if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED || propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
+            TreePath[] expanded = getViewer().getExpandedTreePaths(); // save these to restore expanded state
             getViewer().refresh();
+            getViewer().setExpandedTreePaths(expanded);
             
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
             
@@ -673,10 +675,13 @@ implements ITreeModelView, IUIRequestListener {
         
         // Model removed
         else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
-            // Refresh Tree
+            TreePath[] expanded = getViewer().getExpandedTreePaths(); // save these to restore expanded state
             getViewer().refresh();
+            getViewer().setExpandedTreePaths(expanded);
+            
             // Clear Cut/Paste clipboard
             TreeModelCutAndPaste.INSTANCE.clear();
+            
             // Drilldown
             checkDrillDown();
         }
