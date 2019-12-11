@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * Archi -consoleLog -nosplash -application com.archimatetool.commandline.app
    --createEmptyModel
-   --importFromCSV "/elements.csv"
+   --csv.import "elements.csv"
  * 
  * @author Phillip Beauvoir
  */
@@ -46,13 +46,14 @@ public class ImportCSVProvider extends AbstractCommandLineProvider {
             return;
         }
         
+        // Get the current model that should be loaded
         IArchimateModel model = CommandLineState.getModel();
         
         if(model == null) {
             throw new IOException(Messages.ImportCSVProvider_1);
         }
         
-        // Folder
+        // CSV File
         String value = commandLine.getOptionValue(OPTION_IMPORT_CSV);
         if(!StringUtils.isSet(value)) {
             logError(Messages.ImportCSVProvider_2);

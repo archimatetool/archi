@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * Archi -consoleLog -nosplash -application com.archimatetool.commandline.app
    --loadModel "/pathToModel/model.archimate"
-   --exportToCSV "/pathToOutputFolder"
+   --csv.export "/pathToOutputFolder"
  * 
  * @author Phillip Beauvoir
  */
