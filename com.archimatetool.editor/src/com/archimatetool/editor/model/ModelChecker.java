@@ -219,12 +219,12 @@ public class ModelChecker {
         return messages;
     }
     
-    List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection dmc) {
+    List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection connection) {
         List<String> messages = new ArrayList<String>();
         
-        String name = dmc.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + dmc.getDiagramModel().getName() + "' (" + dmc.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String name = connection.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + connection.getDiagramModel().getName() + "' (" + connection.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-        IArchimateRelationship relation = dmc.getArchimateRelationship();
+        IArchimateRelationship relation = connection.getArchimateRelationship();
         
         // No referenced relation
         if(relation == null) {
@@ -242,6 +242,13 @@ public class ModelChecker {
             // Orphaned relation target
             if(relation.getTarget() != null && relation.getTarget().getArchimateModel() == null) {
                 messages.add(Messages.ModelChecker_18 + name);
+            }
+            // Relationship ends != connection ends
+            if(((IDiagramModelArchimateComponent)connection.getSource()).getArchimateConcept() != relation.getSource()) {
+                messages.add(Messages.ModelChecker_14 + name);
+            }
+            if(((IDiagramModelArchimateComponent)connection.getTarget()).getArchimateConcept() != relation.getTarget()) {
+                messages.add(Messages.ModelChecker_27 + name);
             }
         }
         
