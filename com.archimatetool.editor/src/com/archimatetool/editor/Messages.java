@@ -10,6 +10,8 @@ public class Messages extends NLS {
 
     public static String PluginInstaller_1;
 
+    public static String SplashHandler_0;
+
     public static String WorkbenchCleaner_0;
 
     public static String WorkbenchCleaner_1;

@@ -1211,5 +1211,16 @@
             id="com.archimatetool.editor.SketchStickyUIProvider">
       </uiProvider>
    </extension>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="com.archimatetool.editor.SplashHandler"
+            id="com.archimatetool.editor.splashHandler">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="com.archimatetool.editor.product"
+            splashId="com.archimatetool.editor.splashHandler">
+      </splashHandlerProductBinding>
+   </extension>
 
 </plugin>
