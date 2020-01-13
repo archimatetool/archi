@@ -109,7 +109,9 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         EditPart sourceEditPart = request.getSourceEditPart();
         EditPart targetEditPart = request.getTargetEditPart();
         
-        if(sourceEditPart == null || sourceEditPart == targetEditPart) {
+        // Allow circular connections
+        //if(sourceEditPart == null || sourceEditPart == targetEditPart) { 
+        if(sourceEditPart == null) {
             eraseSourceFeedback();
             return false;
         }
