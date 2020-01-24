@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Exporting and Importing the Model in CSV Format</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1 class="pagebreak">Exporting and Importing the Model in CSV Format</h1>
+    
+    <h2>Export Model To CSV</h2>
+    
+    <p>You can export a model's data to CSV format (Comma Separated Values). The data is exported in three different files - "elements.csv", "relations.csv" and "properties.csv". All data objects are identified by unique identifiers so that a property will reference an element or relation in the other files.</p>
+    <p>This option is available from the "Export Model To  CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled.</p>
+    
+    <img src="../Images/csv-export.png" alt="export-csv"/>
+    <p class="caption">Exporting the model to CSV</p>
+    
+    <br/>
+    <p>The CSV field format for elements is - "ID", "Type", "Name", "Documentation"</p>
+    <p>The CSV field format for relations is - "ID","Type", "Name", "Documentation", "Source", "Target"</p>
+    <p>The CSV field format for properties is - "ID", "Key", "Value"</p>
+    
+    <h3>Export Options</h3>
+    <p><strong>Output Folder</strong><br/>
+    Select the folder for the output files.</p>
+    
+    <p><strong>Delimiter</strong><br/>
+    Select the CSV field delimiter character - comma, semicolon, or tab.</p>
+
+    <p><strong>File prefix</strong><br/>
+    Provide an optional prefix to add to the file names. For example, "MyModel-" will change the file names to "MyModel-elements.csv", "MyModel-relations.csv", and "MyModel-properties.csv".</p>
+
+    <p><strong>File encoding</strong><br/>
+    Select the file encoding to use - ANSI, UTF-8 or UTF-8 BOM. Some programs prefer one or the other file encoding. For example, MS Excel prefers the "UTF-8 BOM" encoding if Unicode characters are present in the CSV file.</p>
+
+    <p><strong>Strip newline characters</strong><br/>
+    If selected will remove all newline characters from multi-line text such as documentation.</p>
+
+    <p><strong>Use Excel leading zeros/spaces workaround</strong><br/>
+    If selected will surround text starting with a zero or space with a quote marks so that the data imports correctly into Excel.</p>
+
+    <br/>
+    
+    <h2>Importing CSV Data into a Model</h2>
+    
+    <p>You can also import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
+    
+    <p>When importing CSV data into an existing model you can provide just one or all three files (elements, relations, properties). Usually you will provide all three files. The format of the files is as follows:</p>
+
+    <p>"xxx-elements.csv"<br/>
+    "xxx-relations.csv"<br/>
+    "xxx-properties.csv"</p>
+
+    <p>The prefix ("xxx") is optional but must be the same for all three files if used. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv". At the very least, the filenames need to contain the ".csv" extension and the names end with "elements", "relations" or "properties".</p>
+    
+    <p>The best way to understand the required format is to export an existing model to CSV format, and open the resulting files in a text editor, or spreadsheet application</p>
+    
+    <p>When importing the CSV file(s) into Archi you can select any of the three CSV files in the Import dialog box. If there are corresponding "*.csv" files then these file(s) will be automatically imported at the same time.</p>
+
+    <p>It is also possible to merge/update the imported CSV data into an existing model. If a model concept already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
+    
+    <p style="font-style:italic;">"ID","Type","Name","Documentation"<br/>
+       "9240f5bf","BusinessActor","New Name","Additional Documentation" 
+    </p>
+
+    <p>You can import just one or two CSV files into an existing model. If you import just an "elements.csv" file then only elements will be imported. If you then import a "relations.csv" file that uses the corresponding concept IDs you can import just the relations. The same is true for the "properties.csv" file.</p>
+
+    <p>If you are manually creating CSV files make sure you save them using UTF-8 format to preserve all special characters.</p>
+    
+    <p>Note - it is currently not possible to import and export View diagram information in CSV format.</p>
+    
+    <p>&nbsp;</p>
+
+</body>
+</html>

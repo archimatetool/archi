@@ -175,11 +175,11 @@
     </context>
     <context id="ExportAsImagePage">
        <description>Export the current View as an image</description>
-       <topic href="help/Text/exporting.html" label="Export As Image"/>
+       <topic href="help/Text/view_export.html" label="Export View As Image"/>
     </context>
     <context id="ExportAsCSVPage">
        <description>Export the current Model to CSV files</description>
-       <topic href="help/Text/exporting.html" label="Export As CSV"/>
+       <topic href="help/Text/csv.html" label="Export As CSV"/>
     </context>
     <context id="GenerateViewDialog">
        <description>Generate a View from Elements</description>

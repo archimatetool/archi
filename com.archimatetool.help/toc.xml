@@ -73,6 +73,8 @@
        </topic>
        <topic href="help/Text/view_fullscreen.html" label="Showing a View in Full Screen Mode">
        </topic>
+       <topic href="help/Text/view_export.html" label="Exporting the View as an Image">
+       </topic>
     </topic>
     <topic href="help/Text/viewpoints.html" label="Viewpoints">
     </topic>
@@ -118,7 +120,7 @@
     </topic>
     <topic href="help/Text/open_save_print.html" label="Opening, Saving and Printing">
     </topic>
-    <topic href="help/Text/exporting.html" label="Importing and Exporting the Model and its Views">
+    <topic href="help/Text/csv.html" label="Exporting and Importing the Model in CSV Format">
     </topic>
     <topic href="help/Text/exchange-intro.html" label="The Open Group&apos;s ArchiMate Exchange Format">
        <topic href="help/Text/exchange-export.html" label="Exporting and Settings">
