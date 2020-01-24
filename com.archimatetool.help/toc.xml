@@ -122,6 +122,8 @@
     </topic>
     <topic href="help/Text/csv.html" label="Exporting and Importing the Model in CSV Format">
     </topic>
+    <topic href="help/Text/import-model.html" label="Importing Another Model into the Current Model">
+    </topic>
     <topic href="help/Text/exchange-intro.html" label="The Open Group&apos;s ArchiMate Exchange Format">
        <topic href="help/Text/exchange-export.html" label="Exporting and Settings">
        </topic>

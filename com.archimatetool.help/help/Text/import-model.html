@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Importing Another Model into the Current Model</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <h1 class="pagebreak">Importing Another Model into the Current Model</h1>
+
+    <p>It is possible to import and merge another Archi model into the currently selected model. You can then maintain the imported model as a reference model that you can update separately and re-import as required.</p>
+
+    <p>Some things to consider when importing another model:</p>
+
+    <ul>
+        <li>Model objects are uniqely referenced by their type and identifier. When importing a model, these are used to match the imported objects to the target objects.</li>
+        <li>All User Properties for an object are replaced when importing, there is no merging at this level.</li>
+        <li>Some changes in the imported model might affect connections in Views if relationships are changed or deleted. These are reported in the status dialog after import.</li>
+        <li>Existing target objects and folders will not be deleted even if these are deleted from the imported model.</li>
+    </ul>
+
+    <h2>Importing another Archi model</h2>
+
+    <p>To import another Archi model into the currently selected model select "Import an Archi model into the currently selected model" from the main "File" menu. The following dialog will appear:</p>
+    
+    <img src="../Images/importmodel-wizard.png" alt="import-model"/>
+    <p class="caption">Importing another model</p>
+
+    <h3>Import Options</h3>
+
+    <p><strong>Update existing objects and folders</strong><br/>
+    If this is selected then any existing target objects and folders will be updated when importing.</p>
+    
+    <p><strong>Update model information and top-level folders</strong><br/>
+    If this is selected then if there are any changes to the model node (Name, Documentation, Properties) these will be udpated. If theres are changes to any top-level folders (Documentation, Properties) these will also be updated.</p>
+
+    <p><strong>Show Status Dialog after importing</strong><br/>
+    If this is selected then a status dialog is shown after importing a model. This will list what was updated or changed.</p>
+
+    <p>&nbsp;</p>
+
+</body>
+</html>

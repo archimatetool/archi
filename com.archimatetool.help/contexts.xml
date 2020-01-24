@@ -197,5 +197,9 @@
        <description>Manage Plug-ins</description>
        <topic href="help/Text/plugins.html" label="Managing Plug-ins"/>
     </context>
+    <context id="ImportModel">
+       <description>Import a Model into the Current Model</description>
+       <topic href="help/Text/import-model.html" label="Import a Model into the Current Model"/>
+    </context>
     
 </contexts>
