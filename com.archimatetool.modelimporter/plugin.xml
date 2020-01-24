@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.editor.importHandler">
+      <importHandler2
+            class="com.archimatetool.modelimporter.ImportProvider"
+            id="com.archimatetool.modelimporter.importHandler"
+            label="Another Model Into Selected Model...">
+      </importHandler2>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.modelimporter.PreferenceInitializer">
+      </initializer>
+   </extension>
+</plugin>

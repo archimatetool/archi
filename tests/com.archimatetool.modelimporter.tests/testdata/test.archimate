@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Test Model" id="90d446fc-1613-4df5-994e-9d89279e0114" version="4.6.0">
+  <folder name="Strategy" id="001f63ab-230d-426b-97f6-bc88955e625a" type="strategy"/>
+  <folder name="Business" id="4648fccc-c9ca-4755-88b1-9b771b007908" type="business">
+    <folder name="Folder1" id="d55217e1-83a0-4e69-8c06-51eddbd959a7">
+      <documentation>Folder1 Documentation</documentation>
+      <property key="p1" value="v1"/>
+      <element xsi:type="archimate:BusinessActor" name="BA1" id="5dde26f7-9d5e-4685-aada-5d66ad27bdb0">
+        <documentation>BA1 Documentation</documentation>
+        <property key="p1" value="v1"/>
+      </element>
+      <element xsi:type="archimate:BusinessRole" name="BR1" id="bfb40b14-442f-4ba2-a7e3-c2339093692c">
+        <documentation>BR1 Documentation</documentation>
+        <property key="p1" value="v1"/>
+      </element>
+    </folder>
+    <documentation>Business Documentation</documentation>
+    <property key="p1" value="v1"/>
+    <element xsi:type="archimate:BusinessRole" name="BR2" id="97b99ae7-8742-4c92-a984-b2e6ea82fb07">
+      <documentation>BR2 Documentation</documentation>
+      <property key="p1" value="v1"/>
+    </element>
+  </folder>
+  <folder name="Application" id="bd0f30a7-763b-43fd-b96c-9eafc082dd94" type="application"/>
+  <folder name="Technology &amp; Physical" id="9db74d1b-3db4-4ded-b5f1-86986fa4a466" type="technology"/>
+  <folder name="Motivation" id="f8912b27-afea-42e1-8bff-f9eb4f821329" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="bfd3dd14-7b5c-4f50-99be-7890b2e9a696" type="implementation_migration"/>
+  <folder name="Other" id="e4fa9bb9-3f78-4822-a3e0-44d6162503be" type="other"/>
+  <folder name="Relations" id="c8ad49bc-d247-4074-b1d6-be62ecf13e97" type="relations">
+    <element xsi:type="archimate:AssignmentRelationship" name="Rel1" id="e3ae7a88-0a0e-4431-82af-c89405bd3196" source="5dde26f7-9d5e-4685-aada-5d66ad27bdb0" target="bfb40b14-442f-4ba2-a7e3-c2339093692c">
+      <documentation>Rel1 Documentation</documentation>
+      <property key="p1" value="v1"/>
+    </element>
+  </folder>
+  <folder name="Views" id="82b11ece-5f33-4f98-b04a-d824d245352c" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" name="View 1" id="c1caef93-5f60-4532-afe7-f82bc1bdebb1">
+      <child xsi:type="archimate:DiagramObject" id="79aaea77-2617-49e1-811b-ac9f7a7b6087" archimateElement="5dde26f7-9d5e-4685-aada-5d66ad27bdb0">
+        <bounds x="83" y="68" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="90167055-d042-4a67-8868-d967c4984808" source="79aaea77-2617-49e1-811b-ac9f7a7b6087" target="b879af1c-25e7-4950-8b0c-e1491607be4f" archimateRelationship="e3ae7a88-0a0e-4431-82af-c89405bd3196"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="b879af1c-25e7-4950-8b0c-e1491607be4f" targetConnections="90167055-d042-4a67-8868-d967c4984808" archimateElement="bfb40b14-442f-4ba2-a7e3-c2339093692c">
+        <bounds x="360" y="72" width="120" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="191ff954-5491-41cd-abc2-a410af3527e0" archimateElement="97b99ae7-8742-4c92-a984-b2e6ea82fb07">
+        <bounds x="360" y="180" width="120" height="55"/>
+      </child>
+      <property key="p1" value="v1"/>
+    </element>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="View 2" id="c6443ba3-18a6-4695-94ec-0e6845d0f42f">
+      <child xsi:type="archimate:DiagramObject" id="6182a68e-5c80-48ac-9486-9fdf53f793c0" archimateElement="5dde26f7-9d5e-4685-aada-5d66ad27bdb0">
+        <bounds x="83" y="68" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="fc2c4d25-d783-4f2c-98f2-169cac427f23" source="6182a68e-5c80-48ac-9486-9fdf53f793c0" target="485e3618-62f5-41bd-ab86-f0a9d5addd51" archimateRelationship="e3ae7a88-0a0e-4431-82af-c89405bd3196">
+          <feature name="nameVisible" value="false"/>
+        </sourceConnection>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="485e3618-62f5-41bd-ab86-f0a9d5addd51" targetConnections="fc2c4d25-d783-4f2c-98f2-169cac427f23" archimateElement="bfb40b14-442f-4ba2-a7e3-c2339093692c">
+        <bounds x="360" y="72" width="120" height="55"/>
+      </child>
+      <property key="p1" value="v1"/>
+    </element>
+  </folder>
+  <property key="p1" value="v1"/>
+  <purpose>Test Purpose</purpose>
+</archimate:model>

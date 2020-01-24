@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.commandline.commandlineProvider">
+      <commandlineProvider
+            class="com.archimatetool.modelimporter.commandline.ImportModelProvider"
+            description="Import an Archi Model"
+            id="com.archimatetool.modelimporter.commandlineImportModel"
+            name="Import an Archi Model">
+      </commandlineProvider>
+   </extension>
+
+</plugin>

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi Model Importer Command Line
+Bundle-SymbolicName: com.archimatetool.modelimporter.commandline;singleton:=true
+Bundle-Localization: plugin
+Bundle-Version: 4.7.0.qualifier
+Bundle-Vendor: Phillip Beauvoir & Jean-Baptiste Sarrodie
+Require-Bundle: com.archimatetool.commandline,
+ com.archimatetool.modelimporter
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: com.archimatetool.modelimporter.commandline

@@ -40,6 +40,8 @@
         <module>com.archimatetool.jasperreports.commandline</module>
         <module>com.archimatetool.jdom</module>
         <module>com.archimatetool.model</module>
+        <module>com.archimatetool.modelimporter</module>
+        <module>com.archimatetool.modelimporter.commandline</module>
         <module>com.archimatetool.reports</module>
         <module>com.archimatetool.reports.commandline</module>
         <module>com.archimatetool.templates</module>
