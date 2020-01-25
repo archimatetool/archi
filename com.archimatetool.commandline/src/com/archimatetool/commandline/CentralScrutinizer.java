@@ -7,7 +7,9 @@ package com.archimatetool.commandline;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -125,9 +127,20 @@ public class CentralScrutinizer implements IApplication {
             }
         }
         
+        // Filter out any non-valid arguments
+        List<String> args = new ArrayList<String>();
+        boolean nextArgument = false;
+        
+        for(String arg : Platform.getApplicationArgs()) {
+            if(options.hasOption(arg) || nextArgument) {
+                args.add(arg);
+            }
+            nextArgument = options.hasOption(arg) && options.getOption(arg).hasArg();
+        }
+        
         // Parse options
         CommandLineParser parser = new DefaultParser();
-        return parser.parse(options, Platform.getApplicationArgs(), false);
+        return parser.parse(options, args.toArray(new String[args.size()]), false);
     }
     
     private Options getCoreOptions() {
