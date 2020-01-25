@@ -33,7 +33,6 @@ import com.archimatetool.editor.ui.factory.relationships.ServingRelationshipUIPr
 import com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -42,11 +41,6 @@ public class AllArchimateRelationshipUIProviderTests extends AbstractGraphicalOb
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AllArchimateRelationshipUIProviderTests.class);
-    }
-    
-    // Need to ensure current display for ImageRegistry
-    static {
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Parameters

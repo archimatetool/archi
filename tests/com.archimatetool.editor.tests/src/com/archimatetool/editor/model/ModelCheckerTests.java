@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.model.impl.EditorModelManager;
@@ -30,7 +29,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -45,12 +43,6 @@ public class ModelCheckerTests {
         return new JUnit4TestAdapter(ModelCheckerTests.class);
     }
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // ModelChecker uses ArchiLabelProvider
-        TestUtils.ensureDefaultDisplay();
-    }
-
     @Before
     public void runBeforeEachTest() {
         tm = new ArchimateTestModel();

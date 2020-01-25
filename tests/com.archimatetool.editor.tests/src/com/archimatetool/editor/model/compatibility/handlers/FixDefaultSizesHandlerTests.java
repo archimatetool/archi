@@ -19,7 +19,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -36,8 +35,6 @@ public class FixDefaultSizesHandlerTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() {
         handler = new FixDefaultSizesHandler();
-        
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Test

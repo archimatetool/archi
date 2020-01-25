@@ -5,10 +5,7 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -22,11 +19,6 @@ public class XMLValidatorTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(XMLValidatorTests.class);
-    }
-
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
     }
 
     @Test

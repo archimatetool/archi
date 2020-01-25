@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -19,6 +17,8 @@ import org.xml.sax.SAXException;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 /**
@@ -35,8 +35,6 @@ public class XMLModelExporterTests {
 
     @Test
     public void testExportModel() throws IOException, SAXException {
-        TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
-        
         Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.archiFile1);
         resource.load(null);
         

@@ -13,7 +13,6 @@ import static org.junit.Assert.assertSame;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -26,7 +25,6 @@ import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.ISketchModel;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -39,13 +37,6 @@ public class ArchiLabelProviderTests {
         return new JUnit4TestAdapter(ArchiLabelProviderTests.class);
     }
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // These tests indirectly reference AbstractObjectUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
-        // Calling Display.getDefault() will set Display.getCurrent() to non-null
-        TestUtils.ensureDefaultDisplay();
-    }
-
     @Test
     public void testGetLabel() {
         // Null object

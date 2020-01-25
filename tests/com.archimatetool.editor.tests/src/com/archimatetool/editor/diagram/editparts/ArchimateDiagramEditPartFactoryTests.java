@@ -11,7 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.Logger;
@@ -27,7 +26,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -38,12 +36,6 @@ public class ArchimateDiagramEditPartFactoryTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ArchimateDiagramEditPartFactoryTests.class);
-    }
-    
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // Need this
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Before

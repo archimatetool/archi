@@ -8,9 +8,7 @@ package com.archimatetool.canvas;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
@@ -22,7 +20,8 @@ import com.archimatetool.editor.diagram.ArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -30,11 +29,6 @@ public class CanvasModelFactoryTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasModelFactoryTests.class);
-    }
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // Need this
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Test

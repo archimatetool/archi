@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
@@ -29,7 +30,11 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class FigureImagePreviewFactory {
     
-    static ImageRegistry imageRegistry = new ImageRegistry();
+    /**
+     * Image Registry
+     * We need to check Display.getCurrent() because it can be null if running headless (tests, scripting, command line)
+     */
+    static ImageRegistry imageRegistry = new ImageRegistry(Display.getCurrent() != null ? Display.getCurrent() : Display.getDefault());
     
     /**
      * @param eClass

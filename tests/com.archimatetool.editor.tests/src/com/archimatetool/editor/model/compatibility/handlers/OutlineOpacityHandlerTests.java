@@ -16,7 +16,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -33,8 +32,6 @@ public class OutlineOpacityHandlerTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() {
         handler = new OutlineOpacityHandler();
-        
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Test

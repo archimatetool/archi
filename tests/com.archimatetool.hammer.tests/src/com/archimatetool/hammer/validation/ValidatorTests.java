@@ -21,7 +21,6 @@ import com.archimatetool.hammer.validation.issues.IIssueCategory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -38,8 +37,6 @@ public class ValidatorTests {
 
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
-        TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
-        
         ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
         validator = new Validator(model);

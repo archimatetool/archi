@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.FolderType;
@@ -34,7 +33,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -44,12 +42,6 @@ public class DuplicateCommandHandlerTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DuplicateCommandHandlerTests.class);
-    }
-
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // Calling Display.getDefault() will set Display.getCurrent() to non-null
-        TestUtils.ensureDefaultDisplay();
     }
 
     @Test

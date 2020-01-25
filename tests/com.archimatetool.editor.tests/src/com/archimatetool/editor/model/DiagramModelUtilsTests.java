@@ -36,7 +36,6 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -61,9 +60,6 @@ public class DiagramModelUtilsTests {
         tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         tm.loadModel();
         model = tm.getModel();
-        
-        // Needed because of UIRequestManager#fireRequest
-        TestUtils.ensureDefaultDisplay();
     }
     
     // =================================================================================================

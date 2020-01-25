@@ -10,7 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.FolderType;
@@ -19,7 +18,6 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -36,11 +34,6 @@ public class XMLModelImporterTests {
 
     private XMLModelImporter importer;
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
-    }
-
     @Before
     public void runOnceBeforeEachTest() {
         importer = new XMLModelImporter();

@@ -235,7 +235,6 @@ public class CentralScrutinizer implements IApplication {
     }
     
     /**
-     * Some classes like ColorFactory use the Display class to do their thing
      * This ensures that the default display is created
      */
     private void ensureDefaultDisplay() {
@@ -243,5 +242,4 @@ public class CentralScrutinizer implements IApplication {
             Display.getDefault();
         }
     }
-
 }

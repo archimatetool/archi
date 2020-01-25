@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -30,8 +29,6 @@ public class ArchiMate2To3HandlerTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() {
         handler = new Archimate2To3Handler();
-        
-        TestUtils.ensureDefaultDisplay();
     }
     
     

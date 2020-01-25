@@ -84,7 +84,6 @@ import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
 import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -93,11 +92,6 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AllArchiMateElementUIProviderTests.class);
-    }
-    
-    // Need to ensure current display for ImageRegistry
-    static {
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Parameters

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -35,8 +36,9 @@ public class ColorFactory {
     
     /**
      * Color Registry
+     * We need to check Display.getCurrent() because it can be null if running headless (tests, scripting, command line)
      */
-    private static ColorRegistry ColorRegistry = new ColorRegistry();
+    private static ColorRegistry ColorRegistry = new ColorRegistry(Display.getCurrent() != null ? Display.getCurrent() : Display.getDefault());
     
     public static Color get(int red, int green, int blue) {
         return get(new RGB(red, green, blue));

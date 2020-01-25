@@ -11,7 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.canvas.model.ICanvasFactory;
@@ -26,7 +25,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -37,12 +35,6 @@ public class CanvasModelEditPartFactoryTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasModelEditPartFactoryTests.class);
-    }
-    
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        // Need this
-        TestUtils.ensureDefaultDisplay();
     }
     
     @Before
