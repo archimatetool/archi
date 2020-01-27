@@ -290,6 +290,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             @Override
             public void run() {
                 if(isAlive(fPropertiesElement)) {
+                    fTableViewer.applyEditorValue(); // complete any current editing
                     int index = -1;
                     IProperty selected = (IProperty)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
                     if(selected != null) {
