@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.views.tree.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISharedImages;
@@ -37,45 +40,39 @@ public class CutAction extends ViewerAction {
     
     @Override
     public void run() {
-        if(!hasValidSelection()) {
+        List<IArchimateModelObject> validObjects = getValidSelection();
+        
+        if(validObjects.isEmpty()) {
             setEnabled(false);
-            return;
         }
-        
-        TreeModelCutAndPaste.INSTANCE.clear();
-        
-        for(Object object : getSelection().toList()) {
-            if(isAllowedToCut(object)) {
-                TreeModelCutAndPaste.INSTANCE.add((IArchimateModelObject)object);
-            }
+        else {
+            TreeModelCutAndPaste.INSTANCE.setContents(validObjects);
         }
-        
-        TreeModelCutAndPaste.INSTANCE.setContentsToClipboard();
     }
 
     @Override
     public void update() {
-        setEnabled(hasValidSelection());
+        setEnabled(!getValidSelection().isEmpty());
+    }
+    
+    private List<IArchimateModelObject> getValidSelection() {
+        List<IArchimateModelObject> validObjects = new ArrayList<IArchimateModelObject>();
+        
+        IStructuredSelection selection = getSelection();
+        
+        if(selection != null) {
+            for(Object object : selection.toList()) {
+                if(isAllowedToCut(object)) {
+                    validObjects.add((IArchimateModelObject)object);
+                }
+            }
+        }
+        
+        return validObjects;
     }
     
     private boolean isAllowedToCut(Object object) {
         return object instanceof IArchimateConcept || object instanceof IDiagramModel ||
                 (object instanceof IFolder && ((IFolder)object).getType() == FolderType.USER);
-    }
-    
-    private boolean hasValidSelection() {
-        IStructuredSelection selection = getSelection();
-        
-        if(selection == null || selection.isEmpty()) {
-            return false;
-        }
-        
-        for(Object object : selection.toList()) {
-            if(isAllowedToCut(object)) {
-                return true;
-            }
-        }
-        
-        return false;
     }
 }

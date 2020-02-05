@@ -14,6 +14,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
+import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.editor.views.tree.TreeModelCutAndPaste;
 import com.archimatetool.editor.views.tree.commands.MoveFolderCommand;
 import com.archimatetool.editor.views.tree.commands.MoveObjectCommand;
@@ -23,7 +24,7 @@ import com.archimatetool.model.IFolder;
 
 
 /**
- * Cut Action
+ * Paste Action
  * 
  * @author Phillip Beauvoir
  */
@@ -36,6 +37,13 @@ public class PasteAction extends ViewerAction {
         setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
         setDisabledImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
         setEnabled(false);
+        
+        /**
+         * Update Paste Action if clipboard contents has changed
+         */
+        LocalClipboard.getDefault().addListener((clipboardContents) -> {
+            update();
+        });
     }
     
     @Override
@@ -142,5 +150,4 @@ public class PasteAction extends ViewerAction {
         
         return (eObject1 == eObject2);
     }
-
 }

@@ -8,8 +8,7 @@ package com.archimatetool.editor.views.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.ui.actions.Clipboard;
-
+import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.model.IArchimateModelObject;
 
 /**
@@ -27,7 +26,7 @@ public class TreeModelCutAndPaste {
     }
     
     public boolean hasContents() {
-        return Clipboard.getDefault().getContents() == this && !getObjects().isEmpty();
+        return LocalClipboard.getDefault().getContents() == this && !getObjects().isEmpty();
     }
     
     public List<IArchimateModelObject> getObjects() {
@@ -35,18 +34,15 @@ public class TreeModelCutAndPaste {
     }
     
     public void clear() {
-        if(Clipboard.getDefault().getContents() == this) {
-            Clipboard.getDefault().setContents(""); //$NON-NLS-1$
+        if(LocalClipboard.getDefault().getContents() == this) {
+            LocalClipboard.getDefault().setContents(""); //$NON-NLS-1$
         }
         
         getObjects().clear();
     }
     
-    public void add(IArchimateModelObject object) {
-        getObjects().add(object);
-    }
-    
-    public void setContentsToClipboard() {
-        Clipboard.getDefault().setContents(this);
+    public void setContents(List<IArchimateModelObject> objects) {
+        this.objects = objects;
+        LocalClipboard.getDefault().setContents(this);
     }
 }

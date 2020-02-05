@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
@@ -88,7 +88,7 @@ public class CopyAction extends SelectionAction {
         }
         
         CopySnapshot clipBoardCopy = new CopySnapshot(selected);
-        Clipboard.getDefault().setContents(clipBoardCopy);
+        LocalClipboard.getDefault().setContents(clipBoardCopy);
         
         // Reset Paste Action
         fPasteAction.reset();

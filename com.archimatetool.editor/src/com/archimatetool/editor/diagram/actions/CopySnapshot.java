@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -118,12 +118,12 @@ public final class CopySnapshot {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
-                    Object contents = Clipboard.getDefault().getContents();
+                    Object contents = LocalClipboard.getDefault().getContents();
                     if(contents instanceof CopySnapshot) {
                         CopySnapshot copySnapshot = (CopySnapshot)contents;
                         IArchimateModel model = (IArchimateModel)evt.getNewValue();
                         if(copySnapshot.fSourceArchimateModel == model) {
-                            Clipboard.getDefault().setContents(""); //$NON-NLS-1$
+                            LocalClipboard.getDefault().setContents(""); //$NON-NLS-1$
                         }
                     }
                 }

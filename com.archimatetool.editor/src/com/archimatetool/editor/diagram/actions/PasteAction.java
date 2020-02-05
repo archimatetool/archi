@@ -11,15 +11,14 @@ import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.archimatetool.editor.ui.ILocalClipboardListener;
+import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -37,22 +36,10 @@ public class PasteAction extends SelectionAction {
     
     private Point fMousePosition = null;
     
-    private IWindowListener windowListener = new IWindowListener() {
+    private ILocalClipboardListener clipBoardListener = new ILocalClipboardListener() {
         @Override
-        public final void windowActivated(IWorkbenchWindow window) {
+        public void clipBoardChanged(Object clipboardContents) {
             refresh();
-        }
-
-        @Override
-        public final void windowClosed(IWorkbenchWindow window) {
-        }
-
-        @Override
-        public final void windowDeactivated(IWorkbenchWindow window) {
-        }
-
-        @Override
-        public final void windowOpened(IWorkbenchWindow window) {
         }
     };
     
@@ -86,9 +73,9 @@ public class PasteAction extends SelectionAction {
         setEnabled(false);
  
         /**
-         * Listen to window activation to udpate Paste Action if clipboard contents has changed
+         * Update Paste Action if clipboard contents has changed
          */
-        getWorkbenchPart().getSite().getWorkbenchWindow().getWorkbench().addWindowListener(windowListener);
+        LocalClipboard.getDefault().addListener(clipBoardListener);
         
         /**
          * Listen to mouse click position so that the Paste Action can paste objects at that point
@@ -98,7 +85,7 @@ public class PasteAction extends SelectionAction {
     
     @Override
     protected boolean calculateEnabled() {
-        Object obj = Clipboard.getDefault().getContents();
+        Object obj = LocalClipboard.getDefault().getContents();
         
         if(obj instanceof CopySnapshot) {
             CopySnapshot clipBoardCopy = (CopySnapshot)obj;
@@ -110,12 +97,14 @@ public class PasteAction extends SelectionAction {
 
     @Override
     public void run() {
-        Object obj = Clipboard.getDefault().getContents();
+        Object obj = LocalClipboard.getDefault().getContents();
         
         if(obj instanceof CopySnapshot) {
             CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition, fPasteSpecial));
-            fMousePosition = null;
+            if(clipBoardCopy.canPasteToDiagram(getTargetDiagramModel())) {
+                execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition, fPasteSpecial));
+                fMousePosition = null;
+            }
         }
     }
     
@@ -136,7 +125,7 @@ public class PasteAction extends SelectionAction {
     public void dispose() {
         super.dispose();
         
-        getWorkbenchPart().getSite().getWorkbenchWindow().getWorkbench().removeWindowListener(windowListener);
+        LocalClipboard.getDefault().removeListener(clipBoardListener);
         ((GraphicalEditPart)fGraphicalViewer.getRootEditPart()).getFigure().removeMouseListener(mouseListener);
         
         fGraphicalViewer = null;
