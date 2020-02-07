@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.INameable;
@@ -145,19 +146,31 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
             // IDiagramModelObjectFigure
             else {
                 rect.x += 5;
-                rect.y += 5;
 
+                // Single Text control
                 if(isSingleText) {
                     int height = text.computeSize(rect.width - text.computeTrim(0, 0, 0, 0).width, SWT.DEFAULT).y;
-                    // If reference is not a label it's a figure box so use height of the figure box or text control, whichever is the smallest
+                    
+                    // Reference figure is not a Label so it's a figure box 
                     if(!(referenceFigure instanceof Label)) {
+                        // Use height of the figure box or text edit control, whichever is the smallest
                         height = Math.min(height, rect.height);
+                        
+                        // Position the y at the same y position as the figure's text control
+                        Rectangle textControlBounds = ((IDiagramModelObjectFigure)referenceFigure).getTextControl().getBounds().getCopy();
+                        ((IDiagramModelObjectFigure)referenceFigure).getTextControl().translateToAbsolute(textControlBounds);
+                        
+                        rect.y = textControlBounds.y;
                     }
-                    text.setBounds(rect.x, rect.y, rect.width, height);
+                    
+                    rect.height = height;
                 }
+                // Multi Text control
                 else {
-                    text.setBounds(rect.x, rect.y, rect.width, rect.height);
+                    rect.y += 5;
                 }
+
+                text.setBounds(rect.x, rect.y, rect.width, rect.height);
             }
         }
     }
