@@ -7,8 +7,10 @@ package com.archimatetool.model.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -120,21 +122,10 @@ public class ArchimateModelUtils {
      * @return A list of all relationships that a concept has, both as target and as source
      */
     public static List<IArchimateRelationship> getAllRelationshipsForConcept(IArchimateConcept concept) {
-        List<IArchimateRelationship> list = new ArrayList<IArchimateRelationship>(); // make a copy
-        
-        for(IArchimateRelationship r : concept.getSourceRelationships()) {
-            if(!list.contains(r)) {
-                list.add(r);
-            }
-        }
-        
-        for(IArchimateRelationship r : concept.getTargetRelationships()) {
-            if(!list.contains(r)) {
-                list.add(r);
-            }
-        }
-        
-        return list;
+        Set<IArchimateRelationship> set = new HashSet<IArchimateRelationship>();
+        set.addAll(concept.getSourceRelationships());
+        set.addAll(concept.getTargetRelationships());
+        return new ArrayList<>(set);
     }
     
     /**
