@@ -212,8 +212,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
                     break;
                 
                 case SWT.Modify:
-                    if(propertiesViewGlobalActionHandler != null // We already got one...
-                                || event.widget.getData("hintSet") != null) { // Hint is being set so don't disable //$NON-NLS-1$
+                    if(propertiesViewGlobalActionHandler != null) { // We already got one...
                         return;
                     }
                     

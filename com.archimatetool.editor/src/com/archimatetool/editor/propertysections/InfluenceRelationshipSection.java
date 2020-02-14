@@ -62,6 +62,7 @@ public class InfluenceRelationshipSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.InfluenceRelationshipSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         Text text = createSingleTextControl(parent, SWT.NONE);
+        text.setMessage(Messages.InfluenceRelationshipSection_2);
         
         fTextStrength = new PropertySectionTextControl(text, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH) {
             @Override
@@ -82,8 +83,6 @@ public class InfluenceRelationshipSection extends AbstractECorePropertySection {
             }
         };
         
-        fTextStrength.setHint(Messages.InfluenceRelationshipSection_2);
-
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }

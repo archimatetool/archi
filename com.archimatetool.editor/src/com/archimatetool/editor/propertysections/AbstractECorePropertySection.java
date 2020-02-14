@@ -289,6 +289,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
 
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
+        textControl.setMessage(hint);
         
         // CSS
         textControl.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesNameText"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -313,7 +314,6 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
                 }
             }
         };
-        textName.setHint(hint);
 
         return textName;
     }
@@ -330,6 +330,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        styledTextControl.setMessage(hint);
         
         // CSS
         styledTextControl.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesDocumentationText"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -354,7 +355,6 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
                 }
             }
         };
-        textDoc.setHint(hint);
         
         return textDoc;
     }

@@ -5,64 +5,79 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IFeatures;
 
 
 
 /**
- * Wrapper Control for Text Control to show hints
+ * Wrapper Control for Text or StyledText Control to retrieve and update a text value
  * 
  * @author Phillip Beauvoir
  */
-public abstract class PropertySectionTextControl implements Listener {
+public abstract class PropertySectionTextControl {
     
     private Control fTextControl;
-    private String fHint;
-    private EObject fDataElement;
-    private EStructuralFeature fFeature;
-    
-    private Color fOriginalForeGroundColor;
-    
-    private boolean fHintShowing;
-    
-    private static final Color lightGrey = ColorFactory.get(188, 188, 188);
-    private static final Color darkGrey = ColorFactory.get(112, 112, 112);
 
-    public PropertySectionTextControl(Control textControl, EStructuralFeature feature) {
+    private EObject fDataElement;
+    private EAttribute fEAttribute;
+    private String fFeatureName;
+    
+    private Listener eventListener = this::handleEvent;
+    
+    /**
+     * @param textControl The Text Control
+     * @param feature The Eclipse Feature Attribute containing the text
+     */
+    public PropertySectionTextControl(Control textControl, EAttribute eAttribute) {
+        init(textControl);
+        fEAttribute = eAttribute;
+    }
+    
+    /**
+     * @param textControl The Text Control
+     * @param featureName The name of the Archi Feature containing the text
+     */
+    public PropertySectionTextControl(Control textControl, String featureName) {
+        init(textControl);
+        fFeatureName = featureName;
+    }
+    
+    private void init(Control textControl) {
         fTextControl = textControl;
-        fFeature = feature;
         
-        textControl.addListener(SWT.FocusIn, this);
-        textControl.addListener(SWT.FocusOut, this);
+        // Focus out updates text in data object
+        textControl.addListener(SWT.FocusOut, eventListener);
         
         // Listen for Return keypress on Single text control
         if(isSingleTextControl()) {
-            textControl.addListener(SWT.DefaultSelection, this);
+            textControl.addListener(SWT.DefaultSelection, eventListener);
         }
         
         textControl.addDisposeListener((event)-> {
-            textControl.removeListener(SWT.FocusIn, this);
-            textControl.removeListener(SWT.FocusOut, this);
-            textControl.removeListener(SWT.DefaultSelection, this);
+            textControl.removeListener(SWT.FocusOut, eventListener);
+            textControl.removeListener(SWT.DefaultSelection, eventListener);
             fDataElement = null;
-            fHint = null;
         });
     }
     
+    /**
+     * This no longer does anything.<br>
+     * Use Text.setMessage(String) or StyledTextControl.setMessage(String)
+     * @see org.eclipse.swt.widgets.Text
+     * @param hint
+     */
+    @Deprecated
     public void setHint(String hint) {
-        fHint = hint;
     }
     
     public Control getTextControl() {
@@ -70,139 +85,76 @@ public abstract class PropertySectionTextControl implements Listener {
     }
     
     public void setEditable(boolean editable) {
-        if(fTextControl instanceof Text) {
-            ((Text)fTextControl).setEditable(editable);
-        }
-        if(fTextControl instanceof StyledText) {
-            ((StyledText)fTextControl).setEditable(editable);
-        }
-    }
-    
-    public void refresh(EObject dataElement) {
-        fDataElement = dataElement;
-        
-        // The foreground of the text control is set later if we are using a theme
-        if(fOriginalForeGroundColor == null) {
-            fTextControl.getDisplay().asyncExec(() -> {
-                if(!fTextControl.isDisposed()) {
-                    fOriginalForeGroundColor = fTextControl.getForeground();
-                    refresh();
-                }
-            });
+        if(isStyledTextControl()) {
+            ((StyledText)getTextControl()).setEditable(editable);
         }
         else {
-            refresh();
+            ((Text)getTextControl()).setEditable(editable);
         }
     }
     
-    private void refresh() {
-        String text = null;
-        
-        if(fDataElement != null) {
-            text = (String)fDataElement.eGet(fFeature);
-        }
-        
-        if(!StringUtils.isSet(text) && !fTextControl.isFocusControl()) { // Don't do this if text control has focus
-            showHintText();
-        }
-        else if(!getText().equals(text)) {
-            showNormalText(text);
-        }
-    }
-
-    @Override
-    public void handleEvent(Event event) {
-        switch(event.type) {
-            case SWT.FocusIn:
-                focusGained();
-                break;
-            case SWT.FocusOut:
-                focusLost();
-                break;
-            case SWT.DefaultSelection:
-                updateText();
-                break;
-        }
+    /**
+     * Refresh text control with text from dataElement
+     * @param dataElement The data object owning the text
+     */
+    public void refresh(EObject dataElement) {
+        fDataElement = dataElement;
+        setText(getTextFromDataElement());
     }
     
-    public void focusGained() {
-        if(fHintShowing) {
-            // clear hint text 
-            showNormalText(""); //$NON-NLS-1$
-        }
-    }
-
-    public void focusLost() {
-        updateText();
-        
+    private void handleEvent(Event event) {
         String newText = getText();
-        if(!StringUtils.isSet(newText)) {
-            showHintText();
-        }
-    }
-    
-    private void updateText() {
-        String oldText = ""; // Text control has default of "" //$NON-NLS-1$
-        String newText = getText();
-        
-        if(fDataElement != null) {
-            oldText = StringUtils.safeString((String)fDataElement.eGet(fFeature)); // compare like for like
-        }
+        String oldText = getTextFromDataElement();
         
         if(!newText.equals(oldText)) {
             textChanged(oldText, newText);
         }
     }
     
-    private void showHintText() {
-        if(fHint != null) {
-            fTextControl.setForeground(ThemeUtils.isDarkTheme() ? darkGrey : lightGrey);
-            // do this before setting text
-            fTextControl.setData("hintSet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-            // then set text
-            setText(fHint);
-            fHintShowing = true;
-       }
-        else {
-            setText(""); // clears previous text if no hint text //$NON-NLS-1$
+    private String getTextFromDataElement() {
+        // Get text from Eclipse Feature attribute
+        if(fDataElement != null && fEAttribute != null) {
+            return StringUtils.safeString((String)fDataElement.eGet(fEAttribute));
         }
-    }
-    
-    private void showNormalText(String text) {
-        fTextControl.setForeground(fOriginalForeGroundColor);
-        setText(StringUtils.safeString(text));
-        // do this after setting text
-        fTextControl.setData("hintSet", null); //$NON-NLS-1$
-        fHintShowing = false;
+        
+        // Get text from Archi Feature
+        if(fDataElement instanceof IFeatures && fFeatureName != null) {
+            return StringUtils.safeString(((IFeatures)fDataElement).getFeatures().getString(fFeatureName, "")); //$NON-NLS-1$
+        }
+        
+        return ""; //$NON-NLS-1$
     }
     
     private String getText() {
-        if(fTextControl instanceof Text) {
-            return ((Text)fTextControl).getText();
+        if(isStyledTextControl()) {
+            return ((StyledText)getTextControl()).getText();
         }
-        if(fTextControl instanceof StyledText) {
-            return ((StyledText)fTextControl).getText();
+        else {
+            return ((Text)getTextControl()).getText();
         }
-        return null;
     }
     
     private void setText(String s) {
-        if(fTextControl instanceof Text) {
-            ((Text)fTextControl).setText(s);
+        if(isStyledTextControl()) {
+            ((StyledText)getTextControl()).setText(s);
         }
-        if(fTextControl instanceof StyledText) {
-            ((StyledText)fTextControl).setText(s);
+        else {
+            ((Text)getTextControl()).setText(s);
         }
     }
     
     private boolean isSingleTextControl() {
-        return (fTextControl.getStyle() & SWT.SINGLE) != 0;
+        return (getTextControl().getStyle() & SWT.SINGLE) != 0;
+    }
+    
+    private boolean isStyledTextControl() {
+        return getTextControl() instanceof StyledText;
     }
 
     /**
-     * Over-ride this to react to text changes
-     * @param oldText
-     * @param newText
+     * Clients should over-ride this to react to text changes
+     * @param oldText The old text
+     * @param newText The new changed text
      */
     protected void textChanged(String oldText, String newText) {
     }

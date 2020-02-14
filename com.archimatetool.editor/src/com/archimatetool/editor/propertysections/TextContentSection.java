@@ -52,6 +52,7 @@ public class TextContentSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.TextContentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        styledTextControl.setMessage(Messages.TextContentSection_2);
         
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {
             @Override
@@ -71,8 +72,6 @@ public class TextContentSection extends AbstractECorePropertySection {
                 executeCommand(result.unwrap());
             }
         };
-        
-        fTextContentControl.setHint(Messages.TextContentSection_2);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextContentControl.getTextControl(), HELP_ID);

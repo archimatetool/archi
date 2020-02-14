@@ -57,7 +57,10 @@ public class HintContentSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.HintContentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        
         Text text = createSingleTextControl(parent, SWT.NONE);
+        text.setMessage(Messages.HintContentSection_2);
+        
         fTextTitleControl = new PropertySectionTextControl(text, ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE) {
             @Override
             protected void textChanged(String oldText, String newText) {
@@ -76,10 +79,12 @@ public class HintContentSection extends AbstractECorePropertySection {
                 executeCommand(result.unwrap());
             }
         };
-        fTextTitleControl.setHint(Messages.HintContentSection_2);
         
         createLabel(parent, Messages.HintContentSection_3, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        styledTextControl.setMessage(Messages.HintContentSection_5);
+        
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT) {
             @Override
             protected void textChanged(String oldText, String newText) {
@@ -98,7 +103,6 @@ public class HintContentSection extends AbstractECorePropertySection {
                 executeCommand(result.unwrap());
             }
         };
-        fTextContentControl.setHint(Messages.HintContentSection_5);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextContentControl.getTextControl(), HELP_ID);

@@ -58,6 +58,7 @@ public class NotesSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.NotesSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        styledTextControl.setMessage(Messages.NotesSection_2);
         
         fTextNotesControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.NOTES_CONTENT__NOTES) {
             @Override
@@ -78,7 +79,6 @@ public class NotesSection extends AbstractECorePropertySection {
                 executeCommand(result.unwrap());
             }
         };
-        fTextNotesControl.setHint(Messages.NotesSection_2);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextNotesControl.getTextControl(), HELP_ID);
