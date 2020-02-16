@@ -180,13 +180,18 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
                             // If the instance's concept is different than the original concept then reconnect
                             if(isNewConnection(matchingConnection, newComponent, isSourceCommand)) {
-                                add(createReconnectCommand(matchingConnection, newComponent, isSourceCommand));
+                                Command cmd = createReconnectCommand(matchingConnection, newComponent, isSourceCommand);
+                                if(cmd.canExecute()) {
+                                    affectsOtherViews = true;
+                                    add(createReconnectCommand(matchingConnection, newComponent, isSourceCommand));
+                                }
                             }
                         }
 
                         // No, so delete the matching connection
                         else {
                             add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
+                            affectsOtherViews = true;
                         }
                     }
                 }
