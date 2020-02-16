@@ -138,48 +138,73 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     private Command createArchimateReconnectCommand(IDiagramModelArchimateConnection connection, IDiagramModelArchimateComponent dmc, boolean isSourceCommand) {
         IArchimateRelationship relationship = connection.getArchimateRelationship();
         IArchimateConcept newConcept = dmc.getArchimateConcept();
-        
-        CompoundCommand cmd = new CompoundCommand();
-        
-        // Add commands for other instances of diagram connections
-        for(IDiagramModelArchimateConnection matchingConnection : relationship.getReferencingDiagramConnections()) {
-            
-            // The same diagram
-            if(matchingConnection.getDiagramModel() == connection.getDiagramModel()) {
-                // If we are reconnecting to a dmc with a different concept then reconnect all instances on this diagram
-                if(isNewConnection(matchingConnection, dmc, isSourceCommand)) {
-                    cmd.add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
-                }
-                // Else if we are reconnecting to a dmc with the same concept then reconnect only this one instance of the connection
-                else if(connection == matchingConnection) {
-                    cmd.add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
-                }
+
+        CompoundCommand cmd = new CompoundCommand() {
+            @Override
+            public void execute() {
+                // Lazily create commands
+                createCommands();
+                
+                super.execute();
             }
             
-            // A different diagram
-            else {
-                // Does the new target concept exist on the diagram?
-                List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(matchingConnection.getDiagramModel(), newConcept);
-                
-                // Yes, so reconnect to it *if* it is different than the existing concept
-                if(!list.isEmpty()) {
-                    // Get the first instance of the new component
-                    IDiagramModelArchimateComponent newComponent = list.get(0);
-                    
-                    // If the instance's concept is different than the original concept then reconnect
-                    if(isNewConnection(matchingConnection, newComponent, isSourceCommand)) {
-                        cmd.add(createReconnectCommand(matchingConnection, newComponent, isSourceCommand));
+            // These should return true always because sub-commands are only created on execute()
+            
+            @Override
+            public boolean canExecute() {
+                return true;
+            }
+            
+            @Override
+            public boolean canUndo() {
+                return true;
+            }
+            
+            @Override
+            public boolean canRedo() {
+                return true;
+            }
+        
+            // Add commands for all instances of diagram connections
+            private void createCommands() {
+                for(IDiagramModelArchimateConnection matchingConnection : relationship.getReferencingDiagramConnections()) {
+                    // The same diagram
+                    if(matchingConnection.getDiagramModel() == connection.getDiagramModel()) {
+                        // If we are reconnecting to a dmc with a different concept then reconnect all instances on this diagram
+                        if(isNewConnection(matchingConnection, dmc, isSourceCommand)) {
+                            add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
+                        }
+                        // Else if we are reconnecting to a dmc with the same concept then reconnect only this one instance of the connection
+                        else if(connection == matchingConnection) {
+                            add(createReconnectCommand(matchingConnection, dmc, isSourceCommand));
+                        }
+                    }
+                    // A different diagram
+                    else {
+                        // Does the new target concept exist on the diagram?
+                        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(matchingConnection.getDiagramModel(), newConcept);
+
+                        // Yes, so reconnect to it *if* it is different than the existing concept
+                        if(!list.isEmpty()) {
+                            // Get the first instance of the new component
+                            IDiagramModelArchimateComponent newComponent = list.get(0);
+
+                            // If the instance's concept is different than the original concept then reconnect
+                            if(isNewConnection(matchingConnection, newComponent, isSourceCommand)) {
+                                add(createReconnectCommand(matchingConnection, newComponent, isSourceCommand));
+                            }
+                        }
+
+                        // No, so delete the matching connection
+                        else {
+                            add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
+                        }
                     }
                 }
-                
-                // No, so delete the matching connection
-                else {
-                    cmd.add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
-                }
             }
-        }
+        };
         
-        return cmd.unwrap();
+        return cmd;
     }
     
     /**
