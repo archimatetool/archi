@@ -148,23 +148,12 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                 super.execute();
             }
             
-            // These should return true always because sub-commands are only created on execute()
-            
             @Override
             public boolean canExecute() {
-                return true;
+                // Can't reconnect to the same dmc
+                return isSourceCommand ? connection.getSource() != dmc : connection.getTarget() != dmc;
             }
             
-            @Override
-            public boolean canUndo() {
-                return true;
-            }
-            
-            @Override
-            public boolean canRedo() {
-                return true;
-            }
-        
             // Add commands for all instances of diagram connections
             private void createCommands() {
                 for(IDiagramModelArchimateConnection matchingConnection : relationship.getReferencingDiagramConnections()) {
