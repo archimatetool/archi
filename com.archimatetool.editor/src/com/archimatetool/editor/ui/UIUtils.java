@@ -92,4 +92,29 @@ public final class UIUtils {
         });
     }
 
+    /**
+     * Apply a traverse listener to a Multi-line text control such that tabbing or pressing Ctrl + Enter
+     * will cause either a tab out or will complete the text edit in the case of Ctrl + Enter
+     * @param textControl Must be Multi-line text control
+     * @param flags Or'd flags of SWT.TRAVERSE_RETURN, SWT.TRAVERSE_*
+     */
+    public static void applyTraverseListener(Text textControl, int flags) {
+        // Only applies to multi-line text controls
+        if((textControl.getStyle() & SWT.MULTI) == 0) {
+            return;
+        }
+        
+        textControl.addTraverseListener((e) -> {
+            // Ctrl + Enter
+            if(e.detail == SWT.TRAVERSE_RETURN) {
+                if((e.stateMask & SWT.MOD1) != 0) {
+                    e.doit = true;
+                }
+            }
+            // Tabs and other SWT.TRAVERSE_* flags
+            else if((e.detail & flags) != 0) {
+                e.doit = true;
+            }
+        });
+    }
 }
