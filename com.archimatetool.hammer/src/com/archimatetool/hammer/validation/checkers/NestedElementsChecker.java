@@ -26,6 +26,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.ISpecializationRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 /**
@@ -84,7 +85,7 @@ public class NestedElementsChecker implements IChecker {
         return issues;
     }
 
-    boolean isNestedWithoutValidRelation(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
+    private boolean isNestedWithoutValidRelation(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
         IArchimateElement parentElement = parent.getArchimateElement();
         IArchimateElement childElement = child.getArchimateElement();
         
@@ -93,19 +94,47 @@ public class NestedElementsChecker implements IChecker {
             return false;
         }
         
-        // Other relationships
-        for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
-            if(relation.getTarget() == childElement) {
-                if(relation instanceof ICompositionRelationship || relation instanceof IAggregationRelationship 
-                        || relation instanceof ISpecializationRelationship
-                        || relation instanceof IAssignmentRelationship || relation instanceof IRealizationRelationship
-                        || relation instanceof IAccessRelationship) {
-                    return false;
-                }
-            }
-            
+        // No relationships between parent and child
+        if(!hasParentChildRelationships(parentElement, childElement)) {
+            return true;
         }
         
-        return true;
+        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(parentElement)) {
+            // Check for non-nested type relationships
+            if((r.getTarget() == childElement || r.getSource() == childElement) && !isNestedTypeRelationship(r)) {
+                return true;
+            }
+            
+            // Specialization relationship needs a special check as it goes the other way around
+            if(r instanceof ISpecializationRelationship) {
+                if(r.getTarget() == childElement) {
+                    return true;
+                }
+            }
+            else if(r.getSource() == childElement && isNestedTypeRelationship(r)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean hasParentChildRelationships(IArchimateElement parentElement, IArchimateElement childElement) {
+        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(parentElement)) {
+            if(r.getTarget() == childElement || r.getSource() == childElement) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean isNestedTypeRelationship(IArchimateRelationship r) {
+        return r instanceof ICompositionRelationship
+                || r instanceof ISpecializationRelationship
+                || r instanceof IAggregationRelationship
+                || r instanceof IAssignmentRelationship
+                || r instanceof IRealizationRelationship
+                || r instanceof IAccessRelationship;
     }
 }

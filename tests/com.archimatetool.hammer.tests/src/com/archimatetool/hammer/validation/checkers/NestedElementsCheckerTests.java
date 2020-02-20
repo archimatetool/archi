@@ -18,7 +18,7 @@ import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 import junit.framework.JUnit4TestAdapter;
@@ -35,40 +35,55 @@ public class NestedElementsCheckerTests {
     public void testGetIssues() {
         List<IArchimateDiagramModel> views = new ArrayList<IArchimateDiagramModel>();
         
+        // Create a View
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setName("view");
         views.add(dm);
         
+        // Create a parent object
         IDiagramModelArchimateObject dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo1.setArchimateElement(IArchimateFactory.eINSTANCE.createGrouping());
         dm.getChildren().add(dmo1);
         
+        // Add a child object with no connection
         IDiagramModelArchimateObject dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo2.setArchimateElement(IArchimateFactory.eINSTANCE.createLocation());
         dmo1.getChildren().add(dmo2);
         
         NestedElementsChecker checker = new NestedElementsChecker(views);
         
-        // Should not be ok
+        // Should not be ok as we have no relations
         List<IIssue> issues = checker.getIssues();
         assertEquals(1, issues.size());
         assertSame(dmo2, issues.get(0).getObject());
         
-        // With this relationship should also not be OK
-        IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation.connect(dmo1.getArchimateElement(), dmo2.getArchimateElement());
-        conn.setArchimateRelationship(relation);
-        conn.connect(dmo1, dmo2);
+        // Add an Association relationship
+        //IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        relation1.connect(dmo1.getArchimateElement(), dmo2.getArchimateElement());
+        //conn.setArchimateRelationship(relation1);
+        //conn.connect(dmo1, dmo2);
         
+        // Should not be ok
         issues = checker.getIssues();
         assertEquals(1, issues.size());
         assertSame(dmo2, issues.get(0).getObject());
         
-        // With a valid relationship should be OK
-        relation = IArchimateFactory.eINSTANCE.createCompositionRelationship();
-        relation.connect(dmo1.getArchimateElement(), dmo2.getArchimateElement());
-        conn.setArchimateRelationship(relation);
+        // Add a valid relationship
+        ICompositionRelationship relation2 = IArchimateFactory.eINSTANCE.createCompositionRelationship();
+        relation2.connect(dmo1.getArchimateElement(), dmo2.getArchimateElement());
+        //conn.setArchimateRelationship(relation2);
+        //conn.connect(dmo1, dmo2);
+        
+        // Also should not be OK because the first connection is there
+        issues = checker.getIssues();
+        assertEquals(1, issues.size());
+        assertSame(dmo2, issues.get(0).getObject());
+        
+        // Remove the invalid relationship
+        relation1.disconnect();
+        
+        // And now should be OK
         issues = checker.getIssues();
         assertEquals(0, issues.size());
     }
