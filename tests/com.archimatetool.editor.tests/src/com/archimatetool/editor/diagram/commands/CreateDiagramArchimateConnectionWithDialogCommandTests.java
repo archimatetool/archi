@@ -103,8 +103,8 @@ public class CreateDiagramArchimateConnectionWithDialogCommandTests {
         IArchimateRelationship relation1 = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
         IArchimateRelationship relation2 = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getFlowRelationship());
         
-        assertNull(cmd.getExistingRelationshipOfType(IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
-                source, target));
+        assertTrue(cmd.getExistingRelationshipsOfType(IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+                source, target).isEmpty());
         
         relation1.setSource(source);
         relation1.setTarget(target);
@@ -112,10 +112,10 @@ public class CreateDiagramArchimateConnectionWithDialogCommandTests {
         relation2.setSource(source);
         relation2.setTarget(target);
         
-        assertEquals(relation1, cmd.getExistingRelationshipOfType(IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
-                source, target));
+        assertEquals(relation1, cmd.getExistingRelationshipsOfType(IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+                source, target).get(0));
         
-        assertEquals(relation2, cmd.getExistingRelationshipOfType(IArchimatePackage.eINSTANCE.getFlowRelationship(),
-                source, target));
+        assertEquals(relation2, cmd.getExistingRelationshipsOfType(IArchimatePackage.eINSTANCE.getFlowRelationship(),
+                source, target).get(0));
     }
 }
