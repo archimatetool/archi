@@ -10,6 +10,11 @@ function strcmp(a, b){
     return 0;
 }
 
+function createLinks(text) {
+	return text.replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
+          .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>');
+}
+
 // Hints URLs
 var hints = {
 // Hints for viewpoints
@@ -140,12 +145,14 @@ $(document).ready(function() {
 	$('#doctgt').text($('#docsrc').text());
 	
 	if(typeof $('#doctgt').html() !== "undefined") {
-	   $('#doctgt').html($('#doctgt').html()
-		  .replace(/(\w+:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>')
-		  .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>')
-	   );
+	   $('#doctgt').html(createLinks($('#doctgt').html()));
 	}
 	
+	// Create links in this class
+    $('.convertlinks').each(function() {
+        $(this).html(createLinks($(this).text()));
+    });
+
 	// Replace Hint URL
 	for (var id in hints) {
 		if (document.getElementById('hint-'+id) != null)
