@@ -17,7 +17,8 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;
 import org.eclipse.swt.custom.LineStyleListener;
@@ -28,7 +29,6 @@ import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -36,8 +36,10 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PartInitException;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
@@ -59,9 +61,6 @@ public class StyledTextControl {
     private Cursor fHandCursor;
     private Cursor fCurrentCursor;
     
-    private int fNormalFontHeight;
-    private Font fCurrentFont;
-    
     private List<LinkInfo> fLinkInfos;
     
     private class LinkInfo {
@@ -82,8 +81,10 @@ public class StyledTextControl {
     private Listener eventListener = this::handleEvent;
     private LineStyleListener lineStyleListener = this::lineGetStyle;
     
+    private IPropertyChangeListener appPreferencesListener = this::applicationPreferencesChanged;
+    
     private final int[] eventTypes = {
-        SWT.MouseUp, SWT.MouseMove, SWT.MouseVerticalWheel,
+        SWT.MouseUp, SWT.MouseMove,
         SWT.KeyDown, SWT.KeyUp,
         SWT.FocusIn, SWT.FocusOut,
         SWT.Paint,
@@ -145,9 +146,13 @@ public class StyledTextControl {
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(fStyledText);
         
-        hookContextMenu();
+        // Font
+        setFontFromPreferences();
         
-        setInitialFontHeight();
+        // Preference listener for font change
+        Preferences.STORE.addPropertyChangeListener(appPreferencesListener);
+        
+        hookContextMenu();
     }
     
     /**
@@ -180,22 +185,6 @@ public class StyledTextControl {
         
         if(!list.isEmpty()) {
             event.styles = list.toArray(new StyleRange[list.size()]);
-        }
-    }
-    
-    private void setInitialFontHeight() {
-        FontData fd = fStyledText.getFont().getFontData()[0];
-        fNormalFontHeight = fd.getHeight();
-        
-        // Save in Prefs
-        IPreferenceStore store = Preferences.STORE;
-        int savedFontHeight = store.getInt("StyledTextFontHeight"); //$NON-NLS-1$
-        
-        if(savedFontHeight != 0 && savedFontHeight != fNormalFontHeight) {
-            fd.setHeight(savedFontHeight);
-            Font newFont = new Font(fStyledText.getDisplay(), fd);
-            fStyledText.setFont(newFont);
-            fCurrentFont = newFont;
         }
     }
     
@@ -289,9 +278,6 @@ public class StyledTextControl {
             case SWT.MouseMove:
                 doMouseMove(event);
                 break;
-            case SWT.MouseVerticalWheel:
-                doMouseWheel(event);
-                break;
             case SWT.KeyDown:
                 doKeyDown(event);
                 break;
@@ -355,21 +341,6 @@ public class StyledTextControl {
         }
     }
     
-    private void doMouseWheel(Event e) {
-        // Mod key pressed, check font zoom
-        if(isModKeyPressed(e)) {
-            // Frig it...
-            if(e.count < 0) {
-                e.keyCode = '-';
-            }
-            else {
-                e.keyCode = '+';
-            }
-            
-            checkZoomKeys(e);
-        }
-    }
-    
     /**
      * Key down
      */
@@ -386,7 +357,6 @@ public class StyledTextControl {
         
         if(isModKeyPressed(e)) {
             checkUndoPressed(e);
-            checkZoomKeys(e);
         }
     }
     
@@ -415,61 +385,6 @@ public class StyledTextControl {
         }
     }
 
-    /**
-     * Check for zoom keys
-     */
-    private void checkZoomKeys(Event e) {
-        int factor = 0;
-        
-        switch(e.keyCode) {
-            case '=':
-            case '+':
-                factor = 2;
-                break;
-
-            case '-':
-                factor = -2;
-                break;
-                
-            case '0':
-                factor = 0;
-                break;
-
-            default:
-                return;
-        }
-        
-        Font previousFont = fStyledText.getFont();
-        FontData fd = previousFont.getFontData()[0];
-        
-        if(factor == 0) {
-            if(fd.getHeight() == fNormalFontHeight) {
-                return;
-            }
-            fd.setHeight(fNormalFontHeight);
-        }
-        else {
-            fd.setHeight(fd.getHeight() + factor);
-            
-            if(fd.getHeight() < 8 || fd.getHeight() > 64) {
-                return;
-            }
-        }
-        
-        Font newFont = new Font(fStyledText.getDisplay(), fd);
-        fStyledText.setFont(newFont);
-        
-        if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
-            fCurrentFont.dispose();
-        }
-        
-        fCurrentFont = newFont;
-        
-        // Save in Prefs
-        IPreferenceStore store = Preferences.STORE;
-        store.setValue("StyledTextFontHeight", fd.getHeight()); //$NON-NLS-1$
-    }
-    
     /**
      * Key up
      */
@@ -505,15 +420,27 @@ public class StyledTextControl {
         return (e.stateMask & SWT.MOD1) != 0;
     }
     
+    private void setFontFromPreferences() {
+        String fontDetails = Preferences.STORE.getString(IPreferenceConstants.MULTI_LINE_TEXT_FONT);
+        if(StringUtils.isSet(fontDetails)) {
+            Font font = FontFactory.get(fontDetails);
+            fStyledText.setFont(font);
+        }
+        else {
+            fStyledText.setFont(null);
+        }
+    }
+    
+    private void applicationPreferencesChanged(PropertyChangeEvent event) {
+        if(IPreferenceConstants.MULTI_LINE_TEXT_FONT == event.getProperty()) {
+            setFontFromPreferences();
+        }
+    }
+    
     private void dispose() {
         if(fHandCursor != null && !fHandCursor.isDisposed()) {
             fHandCursor.dispose();
             fHandCursor = null;
-        }
-
-        if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
-            fCurrentFont.dispose();
-            fCurrentFont = null;
         }
 
         for(int type : eventTypes) {
@@ -521,6 +448,8 @@ public class StyledTextControl {
         }
 
         fStyledText.removeLineStyleListener(lineStyleListener);
+        
+        Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
 
         fCurrentCursor = null;
         fLinkInfos = null;

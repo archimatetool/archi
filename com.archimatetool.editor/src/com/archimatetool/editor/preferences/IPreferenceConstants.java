@@ -32,6 +32,7 @@ public interface IPreferenceConstants {
     String ANTI_ALIAS = "antiAlias";
     
     String DEFAULT_VIEW_FONT = "defaultViewFont";
+    String MULTI_LINE_TEXT_FONT = "multiLineTextFont";
     
     String LINK_VIEW = "linkView";
     

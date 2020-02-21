@@ -7,7 +7,9 @@ package com.archimatetool.editor.preferences;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.draw2d.SWTGraphics;
@@ -17,6 +19,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -100,14 +103,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private Label fContrastFactorLabel;
     
-
-    private Label fDefaultFontLabel;
-    private Button fDefaultFontButton;
-
-    private CLabel fFontPreviewLabel;
-    private FontData fDefaultFontData;
+    // View Font
+    private CLabel fDefaultViewFontLabel;
+    private FontData fDefaultViewFontData;
     
-    private Font fTempFont;
+    // Multi-line text control Font
+    private CLabel fMultiLineTextFontLabel;
+    private FontData fMultiLineTextFontData;
+    
+    private List<Font> fTempFonts = new ArrayList<>();
     
     private TabFolder fTabfolder;
     
@@ -439,43 +443,76 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void createFontsTab() {
         Composite client = new Composite(fTabfolder, SWT.NULL);
-        client.setLayout(new GridLayout(2, false));
+        client.setLayout(new GridLayout());
     
         TabItem item = new TabItem(fTabfolder, SWT.NONE);
         item.setText(Messages.ColoursFontsPreferencePage_24);
         item.setControl(client);
         
-        fDefaultFontLabel = new Label(client, SWT.NULL);
-        fDefaultFontLabel.setText(Messages.ColoursFontsPreferencePage_25);
+        Group fontPreviewGroup1 = new Group(client, SWT.NULL);
+        fontPreviewGroup1.setText(Messages.ColoursFontsPreferencePage_25);
+        fontPreviewGroup1.setLayout(new GridLayout(2, false));
+        fontPreviewGroup1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fDefaultFontButton = new Button(client, SWT.PUSH);
-        fDefaultFontButton.setText(Messages.ColoursFontsPreferencePage_26);
-        fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
+        fDefaultViewFontLabel = new CLabel(fontPreviewGroup1, SWT.NONE);
+        fDefaultViewFontLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        Button button1 = new Button(fontPreviewGroup1, SWT.PUSH);
+        button1.setLayoutData(new GridData(SWT.RIGHT));
+        button1.setText(Messages.ColoursFontsPreferencePage_26);
+        button1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 FontDialog dialog = new FontDialog(getShell());
                 dialog.setText(Messages.ColoursFontsPreferencePage_27);
-                dialog.setFontList(new FontData[] { fDefaultFontData });
+                dialog.setFontList(new FontData[] { fDefaultViewFontData });
                 
                 FontData fd = dialog.open();
                 if(fd != null) {
-                    fDefaultFontData = fd;
-                    setDefaultFontValues();
+                    fDefaultViewFontData = fd;
+                    showFontValues(fDefaultViewFontLabel, fd);
                 }
             }
         });
         
-        Group fontPreviewGroup = new Group(client, SWT.NULL);
-        fontPreviewGroup.setText(Messages.ColoursFontsPreferencePage_28);
-        fontPreviewGroup.setLayout(new GridLayout());
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fontPreviewGroup.setLayoutData(gd);
+        fDefaultViewFontData = FontFactory.getDefaultUserViewFontData();
+        showFontValues(fDefaultViewFontLabel, fDefaultViewFontData);
         
-        fFontPreviewLabel = new CLabel(fontPreviewGroup, SWT.NONE);
+        Group fontPreviewGroup2 = new Group(client, SWT.NULL);
+        fontPreviewGroup2.setText(Messages.ColoursFontsPreferencePage_28);
+        fontPreviewGroup2.setLayout(new GridLayout(2, false));
+        fontPreviewGroup2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fDefaultFontData = FontFactory.getDefaultUserViewFontData();
-        setDefaultFontValues();
+        fMultiLineTextFontLabel = new CLabel(fontPreviewGroup2, SWT.NONE);
+        fMultiLineTextFontLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        Button button2 = new Button(fontPreviewGroup2, SWT.PUSH);
+        button2.setLayoutData(new GridData(SWT.RIGHT));
+        button2.setText(Messages.ColoursFontsPreferencePage_26);
+        button2.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                FontDialog dialog = new FontDialog(getShell());
+                dialog.setText(Messages.ColoursFontsPreferencePage_27);
+                dialog.setFontList(new FontData[] { fMultiLineTextFontData });
+                
+                FontData fd = dialog.open();
+                if(fd != null) {
+                    fMultiLineTextFontData = fd;
+                    showFontValues(fMultiLineTextFontLabel, fd);
+                }
+            }
+        });
+        
+        String fontDetails = Preferences.STORE.getString(MULTI_LINE_TEXT_FONT);
+        if(StringUtils.isSet(fontDetails)) {
+            fMultiLineTextFontData = new FontData(fontDetails);
+        }
+        else {
+            fMultiLineTextFontData = JFaceResources.getDefaultFont().getFontData()[0];
+        }
+        
+        showFontValues(fMultiLineTextFontLabel, fMultiLineTextFontData);
     }
     
     public void selectColoursTab() {
@@ -634,7 +671,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         saveColors(getPreferenceStore(), true);        
         
-        FontFactory.setDefaultUserViewFont(fDefaultFontData);
+        FontFactory.setDefaultUserViewFont(fDefaultViewFontData);
+        
+        Preferences.STORE.setValue(MULTI_LINE_TEXT_FONT, fMultiLineTextFontData == null ? "" : fMultiLineTextFontData.toString()); //$NON-NLS-1$
         
         return true;
     }
@@ -677,8 +716,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void performFontsDefaults() {
-        fDefaultFontData = FontFactory.getDefaultViewOSFontData();
-        setDefaultFontValues();
+        fDefaultViewFontData = FontFactory.getDefaultViewOSFontData();
+        fMultiLineTextFontData = null;
+        
+        showFontValues(fDefaultViewFontLabel, fDefaultViewFontData);
+        showFontValues(fMultiLineTextFontLabel, JFaceResources.getDefaultFont().getFontData()[0]);
     }
 
     /**
@@ -811,26 +853,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
-    private void setDefaultFontValues() {
-        fFontPreviewLabel.setText(fDefaultFontData.getName() + " " + //$NON-NLS-1$
-                fDefaultFontData.getHeight() + " " + //$NON-NLS-1$
-                ((fDefaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.ColoursFontsPreferencePage_29 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
-                ((fDefaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.ColoursFontsPreferencePage_30 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
-                "\n" + Messages.ColoursFontsPreferencePage_31); //$NON-NLS-1$
+    private void showFontValues(CLabel label, FontData fd) {
+        label.setText(fd.getName() + " " + //$NON-NLS-1$
+                fd.getHeight() + " " + //$NON-NLS-1$
+                ((fd.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.ColoursFontsPreferencePage_29 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
+                ((fd.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.ColoursFontsPreferencePage_30 : ""));  //$NON-NLS-1$
         
-        disposeTempFont();
-        fTempFont = new Font(null, fDefaultFontData);
-        fFontPreviewLabel.setFont(fTempFont);
+        Font f = new Font(null, fd);
+        fTempFonts.add(f);
         
-        fFontPreviewLabel.getParent().getParent().layout();
-        fFontPreviewLabel.getParent().getParent().redraw();
-    }
-    
-    private void disposeTempFont() {
-        if(fTempFont != null && !fTempFont.isDisposed()) {
-            fTempFont.dispose();
-            fTempFont = null;
-        }
+        label.setFont(f);
+        label.getParent().getParent().layout();
+        label.getParent().getParent().redraw();
     }
     
     @Override
@@ -851,6 +885,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fImageRegistry.dispose();
         fImageRegistry = null;
         
-        disposeTempFont();
+        for(Font font : fTempFonts) {
+            font.dispose();
+        }
     }
 }
