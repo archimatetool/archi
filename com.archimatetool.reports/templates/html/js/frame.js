@@ -141,13 +141,6 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	// Update documentation div and create links
-	$('#doctgt').text($('#docsrc').text());
-	
-	if(typeof $('#doctgt').html() !== "undefined") {
-	   $('#doctgt').html(createLinks($('#doctgt').html()));
-	}
-	
 	// Create links in this class
     $('.convertlinks').each(function() {
         $(this).html(createLinks($(this).text()));

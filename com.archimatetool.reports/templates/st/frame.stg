@@ -215,8 +215,7 @@ frame(element, map) ::= <<
 								</a> <br>
 							<br>
 						^endif^
-						<textarea id="docsrc" style="display:none">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</textarea>
-						<div id="doctgt" style="white-space:pre-wrap"></div>
+						<div class="convertlinks documentation" style="white-space:pre-wrap">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">
 						<table class="table table-striped table-hover table-condensed">

@@ -50,9 +50,9 @@ li.tree-element, ul{
 .no-margin {
 	margin: 0px;
 }
-#doctgt {
-	margin-top: 15px;
-	margin-bottom: 15px;
+.documentation {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .navbar {
 	height: 100%;
