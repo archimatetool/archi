@@ -81,6 +81,8 @@ public class Messages extends NLS {
 
     public static String ConnectionsPreferencePage_0;
 
+    public static String ConnectionsPreferencePage_1;
+
     public static String ConnectionsPreferencePage_10;
 
     public static String ConnectionsPreferencePage_11;
@@ -104,6 +106,8 @@ public class Messages extends NLS {
     public static String ConnectionsPreferencePage_2;
 
     public static String ConnectionsPreferencePage_20;
+
+    public static String ConnectionsPreferencePage_21;
 
     public static String ConnectionsPreferencePage_3;
 

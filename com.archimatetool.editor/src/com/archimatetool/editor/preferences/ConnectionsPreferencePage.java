@@ -58,6 +58,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fCreateRelationWhenMovingElement;
     
     private CheckboxTableViewer fTableViewerNewRelations, fTableViewerReversedRelations, fTableViewerHiddenRelations;
+    
+    private Button fShowReconnectionWarningButton;
 
     private TabFolder fTabFolder;
     
@@ -124,6 +126,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLineJumpsButton.setText(Messages.ConnectionsPreferencePage_16);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseLineJumpsButton.setLayoutData(gd);
+        
+        // General
+        Group generalGroup = new Group(client, SWT.NULL);
+        generalGroup.setText(Messages.ConnectionsPreferencePage_1);
+        generalGroup.setLayout(new GridLayout());
+        generalGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fShowReconnectionWarningButton = new Button(generalGroup, SWT.CHECK);
+        fShowReconnectionWarningButton.setText(Messages.ConnectionsPreferencePage_21);
         
         // Rules
 //        Group rulesGroup = new Group(client, SWT.NULL);
@@ -281,6 +292,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_JUMPS));
         
+        fShowReconnectionWarningButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_RECONNECT));
+        
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
         fCreateRelationWhenAddingModelTreeElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER));
@@ -301,6 +314,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_JUMPS, fUseLineJumpsButton.getSelection());
+        
+        getPreferenceStore().setValue(SHOW_WARNING_ON_RECONNECT, fShowReconnectionWarningButton.getSelection());
                 
         getPreferenceStore().setValue(USE_NESTED_CONNECTIONS, fUseNestedConnectionsButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingNewElementButton.getSelection());
@@ -357,6 +372,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
+        
+        fShowReconnectionWarningButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_RECONNECT));
     }
     
     private void performARMDefaults() {

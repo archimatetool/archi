@@ -47,6 +47,8 @@ public interface IPreferenceConstants {
     String CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER = "createRelationWhenAddingModelTreeElementToContainer";
     String CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER = "createRelationWhenMovingElementToContainer";
     
+    String SHOW_WARNING_ON_RECONNECT = "showWarningonRecoonect";
+    
     String NEW_RELATIONS_TYPES = "newRelationsTypes";
     String NEW_REVERSE_RELATIONS_TYPES = "newReverseRelationsTypes";
     String HIDDEN_RELATIONS_TYPES = "hiddenRelationsTypes";
