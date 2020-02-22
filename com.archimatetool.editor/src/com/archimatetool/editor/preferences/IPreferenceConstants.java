@@ -84,6 +84,8 @@ public interface IPreferenceConstants {
     
     String DEFAULT_ARCHIMATE_FIGURE_WIDTH = "defaultArchiMateFigureWidth";
     String DEFAULT_ARCHIMATE_FIGURE_HEIGHT = "defaultArchiMateFigureHeight";
+    String DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT = "defaultArchiMateTextAlignment";
+    String DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION = "defaultArchiMateTextPosition";
     
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
     

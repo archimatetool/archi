@@ -11,6 +11,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -92,6 +94,10 @@ implements IPreferenceConstants {
         // Figure width and height
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_WIDTH, 120);
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 55);
+        
+        // Figure Text Alignment and Position
+        store.setDefault(DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT, ITextAlignment.TEXT_ALIGNMENT_CENTER);
+        store.setDefault(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION, ITextPosition.TEXT_POSITION_TOP);
         
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
         

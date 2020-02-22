@@ -42,4 +42,14 @@ implements IArchimateElementUIProvider {
         return false;
     }
     
+    @Override
+    public int getDefaultTextAlignment() {
+        return Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT);
+    }
+    
+    @Override
+    public int getDefaultTextPosition() {
+        return Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
+    }
+
 }

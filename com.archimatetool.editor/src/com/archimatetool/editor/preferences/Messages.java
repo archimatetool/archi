@@ -127,6 +127,18 @@ public class Messages extends NLS {
 
     public static String DiagramAppearancePreferenceTab_1;
 
+    public static String DiagramAppearancePreferenceTab_10;
+
+    public static String DiagramAppearancePreferenceTab_11;
+
+    public static String DiagramAppearancePreferenceTab_12;
+
+    public static String DiagramAppearancePreferenceTab_13;
+
+    public static String DiagramAppearancePreferenceTab_14;
+
+    public static String DiagramAppearancePreferenceTab_15;
+
     public static String DiagramAppearancePreferenceTab_2;
 
     public static String DiagramAppearancePreferenceTab_3;
@@ -138,6 +150,10 @@ public class Messages extends NLS {
     public static String DiagramAppearancePreferenceTab_6;
 
     public static String DiagramAppearancePreferenceTab_7;
+
+    public static String DiagramAppearancePreferenceTab_8;
+
+    public static String DiagramAppearancePreferenceTab_9;
 
     public static String DiagramFiguresPreferencePage_0;
 

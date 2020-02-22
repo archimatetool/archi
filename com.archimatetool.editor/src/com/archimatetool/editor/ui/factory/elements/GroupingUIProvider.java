@@ -18,6 +18,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -76,5 +77,10 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public int getDefaultTextAlignment() {
         return ITextAlignment.TEXT_ALIGNMENT_LEFT;
+    }
+    
+    @Override
+    public int getDefaultTextPosition() {
+        return ITextPosition.TEXT_POSITION_TOP;
     }
 }

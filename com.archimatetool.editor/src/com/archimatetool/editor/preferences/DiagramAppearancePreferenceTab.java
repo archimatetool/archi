@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
+import com.archimatetool.model.ITextAlignment;
 
 
 /**
@@ -30,7 +31,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
     
-    private Button[] fWordWrapStyleButtons;
+    private Combo fWordWrapStyleCombo;
     
     private String[] WORD_WRAP_STYLES = {
             Messages.DiagramAppearancePreferenceTab_4,
@@ -40,6 +41,25 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private Combo fDefaultSketchBackgroundCombo;
     
+    private Combo fDefaultTextAlignmentCombo, fDefaultTextPositionCombo;
+    
+    private String[] TEXT_ALIGNMENTS = {
+            Messages.DiagramAppearancePreferenceTab_8,
+            Messages.DiagramAppearancePreferenceTab_9,
+            Messages.DiagramAppearancePreferenceTab_10
+    };
+    
+    private int[] TEXT_ALIGNMENT_VALUES = {
+            ITextAlignment.TEXT_ALIGNMENT_LEFT,
+            ITextAlignment.TEXT_ALIGNMENT_CENTER,
+            ITextAlignment.TEXT_ALIGNMENT_RIGHT
+    };
+    
+    private String[] TEXT_POSITIONS = {
+            Messages.DiagramAppearancePreferenceTab_11,
+            Messages.DiagramAppearancePreferenceTab_12,
+            Messages.DiagramAppearancePreferenceTab_13
+    };
     
     public Composite createContents(Composite parent) {
         Composite client = new Composite(parent, SWT.NULL);
@@ -49,48 +69,56 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         
         Group figuresGroup = new Group(client, SWT.NULL);
         figuresGroup.setText(Messages.DiagramAppearancePreferenceTab_0);
-        figuresGroup.setLayout(new GridLayout());
+        figuresGroup.setLayout(new GridLayout(2, false));
         figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Gradient
         fShowGradientButton = new Button(figuresGroup, SWT.CHECK);
         fShowGradientButton.setText(Messages.DiagramFiguresPreferencePage_9);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fShowGradientButton.setLayoutData(gd);
         
-        // Default sizes
+        // Word wrap style
         Label label = new Label(figuresGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_1);
+        label.setText(Messages.DiagramAppearancePreferenceTab_7);
+        fWordWrapStyleCombo = new Combo(figuresGroup, SWT.READ_ONLY);
+        fWordWrapStyleCombo.setItems(WORD_WRAP_STYLES);
+        fWordWrapStyleCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        Composite sizeGroup = new Composite(figuresGroup, SWT.NULL);
-        sizeGroup.setLayout(new GridLayout(4, false));
-        sizeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        // -------------- Defaults ----------------------------
         
-        label = new Label(sizeGroup, SWT.NULL);
+        Group defaultsGroup = new Group(client, SWT.NULL);
+        defaultsGroup.setText(Messages.DiagramAppearancePreferenceTab_1);
+        defaultsGroup.setLayout(new GridLayout(2, false));
+        defaultsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        // Sizes
+        label = new Label(defaultsGroup, SWT.NULL);
         label.setText(Messages.DiagramAppearancePreferenceTab_2);
-        fDefaultArchimateFigureWidthSpinner = new Spinner(sizeGroup, SWT.BORDER);
+        fDefaultArchimateFigureWidthSpinner = new Spinner(defaultsGroup, SWT.BORDER);
         fDefaultArchimateFigureWidthSpinner.setMinimum(30);
         fDefaultArchimateFigureWidthSpinner.setMaximum(300);
         
-        label = new Label(sizeGroup, SWT.NULL);
+        label = new Label(defaultsGroup, SWT.NULL);
         label.setText(Messages.DiagramAppearancePreferenceTab_3);
-        fDefaultArchimateFigureHeightSpinner = new Spinner(sizeGroup, SWT.BORDER);
+        fDefaultArchimateFigureHeightSpinner = new Spinner(defaultsGroup, SWT.BORDER);
         fDefaultArchimateFigureHeightSpinner.setMinimum(30);
         fDefaultArchimateFigureHeightSpinner.setMaximum(300);
         
-        // Word wrap style
-        Group figuresWordWrapStyleGroup = new Group(figuresGroup, SWT.NULL);
-        figuresWordWrapStyleGroup.setText(Messages.DiagramAppearancePreferenceTab_7);
-        figuresWordWrapStyleGroup.setLayout(new GridLayout());
-        figuresWordWrapStyleGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        // Default Text Alignment
+        label = new Label(defaultsGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferenceTab_14);
+        fDefaultTextAlignmentCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
+        fDefaultTextAlignmentCombo.setItems(TEXT_ALIGNMENTS);
+        fDefaultTextAlignmentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fWordWrapStyleButtons = new Button[3];
-        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
-            fWordWrapStyleButtons[i] = new Button(figuresWordWrapStyleGroup, SWT.RADIO);
-            fWordWrapStyleButtons[i].setText(WORD_WRAP_STYLES[i]);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            fWordWrapStyleButtons[i].setLayoutData(gd);
-        }
+        // Default Text Position
+        label = new Label(defaultsGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferenceTab_15);
+        fDefaultTextPositionCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
+        fDefaultTextPositionCombo.setItems(TEXT_POSITIONS);
+        fDefaultTextPositionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // -------------- Sketch ----------------------------
 
@@ -104,8 +132,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         label.setText(Messages.DiagramPreferencePage_20);
         fDefaultSketchBackgroundCombo = new Combo(sketchGroup, SWT.READ_ONLY);
         fDefaultSketchBackgroundCombo.setItems(ISketchEditor.BACKGROUNDS);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fDefaultSketchBackgroundCombo.setLayoutData(gd);
+        fDefaultSketchBackgroundCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         setValues();
 
@@ -115,13 +142,16 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private void setValues() {
         fShowGradientButton.setSelection(getPreferenceStore().getBoolean(SHOW_GRADIENT));
+        fWordWrapStyleCombo.select(getPreferenceStore().getInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
         
-        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
-            fWordWrapStyleButtons[i].setSelection(getPreferenceStore().getInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE) == i);
-        }
+        // The values of these are 1, 2 and 4
+        fDefaultTextAlignmentCombo.select(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT) / 2);
+        
+        // The values of these are 0, 1 and 2
+        fDefaultTextPositionCombo.select(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));        
     }
@@ -132,15 +162,13 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
 
     public boolean performOk() {
         getPreferenceStore().setValue(SHOW_GRADIENT, fShowGradientButton.getSelection());
+        getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, fWordWrapStyleCombo.getSelectionIndex());
         
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
         
-        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
-            if(fWordWrapStyleButtons[i].getSelection()) {
-                getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, i);
-            }
-        }
+        getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT, TEXT_ALIGNMENT_VALUES[fDefaultTextAlignmentCombo.getSelectionIndex()]);
+        getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION, fDefaultTextPositionCombo.getSelectionIndex());
         
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
@@ -149,13 +177,13 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     protected void performDefaults() {
         fShowGradientButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_GRADIENT));
+        fWordWrapStyleCombo.select(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
         
-        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
-            fWordWrapStyleButtons[i].setSelection(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE) == i);
-        }
+        fDefaultTextAlignmentCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT) / 2); // Value = 2
+        fDefaultTextPositionCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
     }
