@@ -27,10 +27,12 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -124,6 +126,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         setLineWidth();
         
+        getConnectionLabel().setOpaque(Preferences.STORE.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
+        
         repaint(); // repaint when figure changes
     }
 
@@ -167,7 +171,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     protected void setConnectionText() {
         boolean displayName = fDiagramModelConnection.getFeatures().getBoolean(IDiagramModelConnection.FEATURE_NAME_VISIBLE, true);
-        getConnectionLabel().setText(displayName ? fDiagramModelConnection.getName() : ""); //$NON-NLS-1$
+        getConnectionLabel().setText(displayName ? fDiagramModelConnection.getName().trim() : ""); //$NON-NLS-1$
     }
 
     /**
@@ -256,11 +260,12 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             setForegroundColor(fLineColor);
         }
 
-        if(fConnectionLabel.getTextBounds().isEmpty()) {
-            super.paintFigure(graphics);
+        if(StringUtils.isSet(fConnectionLabel.getText()) && 
+                Preferences.STORE.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
+            clipTextLabel(graphics);
         }
         else {
-            clipTextLabel(graphics);
+            super.paintFigure(graphics);
         }
     }
     

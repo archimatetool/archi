@@ -19,6 +19,11 @@ import com.archimatetool.model.IDiagramModelConnection;
  * @author Phillip Beauvoir
  */
 public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFigure {
+    
+    // Strategies for drawing the connection label
+    int CONNECTION_LABEL_TRANSPARENT = 0;
+    int CONNECTION_LABEL_OPAQUE = 1;
+    int CONNECTION_LABEL_CLIPPED = 2;
 
     /**
      * Set the Model Connection

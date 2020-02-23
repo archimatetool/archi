@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -51,6 +52,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fUseOrthogonalAnchorButton;
     private Button fUseLineCurvesButton;
     private Button fUseLineJumpsButton;
+    
+    private Combo fConnectionLabelStrategyCombo;
+    
+    private String[] CONNECTION_LABEL_STRATEGIES = {
+            Messages.ConnectionsPreferencePage_23,
+            Messages.ConnectionsPreferencePage_24,
+            Messages.ConnectionsPreferencePage_25
+    };
 
     private Button fUseNestedConnectionsButton;
     private Button fCreateRelationWhenAddingNewElementButton;
@@ -104,28 +113,40 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Drawing
         Group connectorGroup = new Group(client, SWT.NULL);
         connectorGroup.setText(Messages.ConnectionsPreferencePage_17);
-        connectorGroup.setLayout(new GridLayout());
+        connectorGroup.setLayout(new GridLayout(2, false));
         connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
         fDoAntiAliasButton.setText(Messages.ConnectionsPreferencePage_13);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fDoAntiAliasButton.setLayoutData(gd);
         
         fUseOrthogonalAnchorButton = new Button(connectorGroup, SWT.CHECK);
         fUseOrthogonalAnchorButton.setText(Messages.ConnectionsPreferencePage_14);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fUseOrthogonalAnchorButton.setLayoutData(gd);
         
         fUseLineCurvesButton = new Button(connectorGroup, SWT.CHECK);
         fUseLineCurvesButton.setText(Messages.ConnectionsPreferencePage_15);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fUseLineCurvesButton.setLayoutData(gd);
 
         fUseLineJumpsButton = new Button(connectorGroup, SWT.CHECK);
         fUseLineJumpsButton.setText(Messages.ConnectionsPreferencePage_16);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fUseLineJumpsButton.setLayoutData(gd);
+        
+        Label label = new Label(connectorGroup, SWT.NONE);
+        label.setText(Messages.ConnectionsPreferencePage_22);
+        
+        fConnectionLabelStrategyCombo = new Combo(connectorGroup, SWT.READ_ONLY);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fConnectionLabelStrategyCombo.setLayoutData(gd);
+        fConnectionLabelStrategyCombo.setItems(CONNECTION_LABEL_STRATEGIES);
         
         // General
         Group generalGroup = new Group(client, SWT.NULL);
@@ -152,7 +173,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         item2.setControl(client2);
         
         // Nested Connections
-        Label label = new Label(client2, SWT.NONE);
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_6);
 
         fUseNestedConnectionsButton = new Button(client2, SWT.CHECK);
@@ -292,6 +313,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_JUMPS));
         
+        fConnectionLabelStrategyCombo.select(getPreferenceStore().getInt(CONNECTION_LABEL_STRATEGY));
+        
         fShowReconnectionWarningButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_RECONNECT));
         
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
@@ -314,6 +337,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_JUMPS, fUseLineJumpsButton.getSelection());
+        
+        getPreferenceStore().setValue(CONNECTION_LABEL_STRATEGY, fConnectionLabelStrategyCombo.getSelectionIndex());
         
         getPreferenceStore().setValue(SHOW_WARNING_ON_RECONNECT, fShowReconnectionWarningButton.getSelection());
                 
@@ -372,6 +397,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
+        
+        fConnectionLabelStrategyCombo.select(getPreferenceStore().getDefaultInt(CONNECTION_LABEL_STRATEGY));
         
         fShowReconnectionWarningButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_RECONNECT));
     }

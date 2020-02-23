@@ -193,7 +193,10 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         else if(IPreferenceConstants.USE_LINE_JUMPS.equals(property)) {
             getFigure().repaint();
         }
-        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
+        else if(IPreferenceConstants.CONNECTION_LABEL_STRATEGY.equals(property)) {
+            getFigure().refreshVisuals();
+        }
+        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(property)) {
             getFigure().refreshVisuals();
         }
     }

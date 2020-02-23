@@ -109,6 +109,14 @@ public class Messages extends NLS {
 
     public static String ConnectionsPreferencePage_21;
 
+    public static String ConnectionsPreferencePage_22;
+
+    public static String ConnectionsPreferencePage_23;
+
+    public static String ConnectionsPreferencePage_24;
+
+    public static String ConnectionsPreferencePage_25;
+
     public static String ConnectionsPreferencePage_3;
 
     public static String ConnectionsPreferencePage_4;

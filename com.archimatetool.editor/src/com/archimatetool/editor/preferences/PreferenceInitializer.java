@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.ITextAlignment;
@@ -113,5 +114,7 @@ implements IPreferenceConstants {
         store.setDefault(TREE_SEARCH_AUTO, true);
         
         store.setDefault(THEME_AUTO, false);
+        
+        store.setDefault(CONNECTION_LABEL_STRATEGY, IDiagramConnectionFigure.CONNECTION_LABEL_CLIPPED);
     }
 }

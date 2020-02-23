@@ -101,4 +101,6 @@ public interface IPreferenceConstants {
     String TREE_SEARCH_AUTO = "treeSearchAuto";
     
     String THEME_AUTO = "themeAuto";
+    
+    String CONNECTION_LABEL_STRATEGY = "connectionLabelStrategy";
 }
