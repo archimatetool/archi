@@ -106,14 +106,21 @@ public class GlobalActionDisablementHandler {
     public void restoreGlobalActions() {
         if(actionBars != null) {
             // Restore Actions
-            for(Entry<String, IAction> entry : savedActions.entrySet()) {
-                actionBars.setGlobalActionHandler(entry.getKey(), entry.getValue());
+            try {
+                for(Entry<String, IAction> entry : savedActions.entrySet()) {
+                    actionBars.setGlobalActionHandler(entry.getKey(), entry.getValue());
+                }
+                
+                savedActions.clear();
+                
+                // Update
+                actionBars.updateActionBars();
             }
-            
-            savedActions.clear();
-            
-            // Update
-            actionBars.updateActionBars();
+            catch(NullPointerException ex) {
+                // Catch this because in Archi 4.5 and later (Eclipse 4.11 and later) if we are editing
+                // in a DirectEditManager and close the app we get a NPE in Eclipse
+                // this just stops the NPE written to the log
+            }
         }
     }
 }
