@@ -129,6 +129,13 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     }
     
     @Test
+    public void testNameVisible() {
+        assertTrue(connection.isNameVisible());
+        connection.setNameVisible(false);
+        assertFalse(connection.isNameVisible());
+    }
+    
+    @Test
     public void testGetProperties() {
         CommonTests.testProperties(connection);
     }

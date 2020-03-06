@@ -133,7 +133,7 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     }
     
     private void createDisplayNameControl(Composite parent) {
-        createLabel(parent, Messages.DiagramConnectionSection_8, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.DiagramConnectionSection_8 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
         fButtonDisplayName = new Button(parent, SWT.CHECK);
         fButtonDisplayName.addSelectionListener(new SelectionAdapter() {
@@ -144,7 +144,7 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
                 for(EObject connection : getEObjects()) {
                     if(isAlive(connection)) {
                         Command cmd = new FeatureCommand(Messages.DiagramConnectionSection_8, (IFeatures)connection,
-                                IDiagramModelConnection.FEATURE_NAME_VISIBLE, fButtonDisplayName.getSelection(), true);
+                                IDiagramModelConnection.FEATURE_NAME_VISIBLE, fButtonDisplayName.getSelection(), IDiagramModelConnection.FEATURE_NAME_VISIBLE_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -218,8 +218,7 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
         
         IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
         
-        boolean enabled = lastSelectedConnection.getFeatures().getBoolean(IDiagramModelConnection.FEATURE_NAME_VISIBLE, true);
-        fButtonDisplayName.setSelection(enabled);
+        fButtonDisplayName.setSelection(lastSelectedConnection.isNameVisible());
         
         fButtonDisplayName.setEnabled(!isLocked(lastSelectedConnection));
     }

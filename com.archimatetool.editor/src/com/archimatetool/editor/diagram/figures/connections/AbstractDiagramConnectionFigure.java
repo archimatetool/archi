@@ -170,7 +170,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     }
     
     protected void setConnectionText() {
-        boolean displayName = fDiagramModelConnection.getFeatures().getBoolean(IDiagramModelConnection.FEATURE_NAME_VISIBLE, true);
+        boolean displayName = fDiagramModelConnection.isNameVisible();
         getConnectionLabel().setText(displayName ? fDiagramModelConnection.getName().trim() : ""); //$NON-NLS-1$
     }
 

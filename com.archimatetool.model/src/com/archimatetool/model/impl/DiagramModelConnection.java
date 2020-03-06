@@ -262,6 +262,16 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
         super();
     }
 
+    @Override
+    public boolean isNameVisible() {
+        return getFeatures().getBoolean(FEATURE_NAME_VISIBLE, FEATURE_NAME_VISIBLE_DEFAULT);
+    }
+    
+    @Override
+    public void setNameVisible(boolean value) {
+        getFeatures().putBoolean(FEATURE_NAME_VISIBLE, value, FEATURE_NAME_VISIBLE_DEFAULT);
+    }
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

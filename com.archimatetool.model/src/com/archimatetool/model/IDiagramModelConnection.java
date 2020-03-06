@@ -67,6 +67,18 @@ public interface IDiagramModelConnection extends IConnectable, IFontAttribute, I
      * Feature of name visible
      */
     String FEATURE_NAME_VISIBLE = "nameVisible"; //$NON-NLS-1$
+    boolean FEATURE_NAME_VISIBLE_DEFAULT = true;
+    
+    /**
+     * @return True if a name label should be visible
+     */
+    boolean isNameVisible();
+    
+    /**
+     * Set whether the name label should be visible
+     * @param value
+     */
+    void setNameVisible(boolean value);
 
     
     /**

@@ -10,7 +10,6 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IInfluenceRelationship;
 
 
@@ -47,8 +46,7 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
             text += " " + rel.getStrength(); //$NON-NLS-1$
         }
         
-        boolean displayName = getModelConnection().getFeatures().getBoolean(IDiagramModelConnection.FEATURE_NAME_VISIBLE, true);
-        getConnectionLabel().setText(displayName ? text : ""); //$NON-NLS-1$
+        getConnectionLabel().setText(getModelConnection().isNameVisible() ? text : ""); //$NON-NLS-1$
     }
     
     @Override
