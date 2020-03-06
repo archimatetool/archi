@@ -30,13 +30,23 @@ public class PropertiesLabelProvider implements ILabelProvider {
             return null;
         }
         
-        object = ((IStructuredSelection)object).getFirstElement();
+        IStructuredSelection selection = (IStructuredSelection)object;
         
-        if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(object.getClass());
+        // If we have selected more than one object check if they are all the same type
+        if(selection.size() > 1) {
+            Object[] objects = selection.toArray();
+            for(int i = 0; i < objects.length - 1; i++) {
+                Object object1 = getAdaptable(objects[i]);
+                Object object2 = getAdaptable(objects[i+1]);
+                // Different
+                if(ArchiLabelProvider.INSTANCE.getImage(object1) != ArchiLabelProvider.INSTANCE.getImage(object2)) {
+                    return null;
+                }
+            }
         }
         
-        return ArchiLabelProvider.INSTANCE.getImage(object);
+        Object firstSelected = getAdaptable(selection.getFirstElement());
+        return ArchiLabelProvider.INSTANCE.getImage(firstSelected);
     }
 
     @Override
@@ -45,21 +55,23 @@ public class PropertiesLabelProvider implements ILabelProvider {
             return " "; //$NON-NLS-1$
         }
         
-        object = ((IStructuredSelection)object).getFirstElement();
+        IStructuredSelection selection = (IStructuredSelection)object;
         
-        if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(object.getClass());
+        if(selection.size() > 1) {
+            return Messages.PropertiesLabelProvider_0;
         }
-
-        object = ArchiLabelProvider.INSTANCE.getWrappedElement(object);
+        
+        Object firstSelected = getAdaptable(selection.getFirstElement());
+        
+        firstSelected = ArchiLabelProvider.INSTANCE.getWrappedElement(firstSelected);
         
         // An Archimate Concept is a special text
-        if(object instanceof IArchimateConcept) {
-            return getArchimateConceptText((IArchimateConcept)object);
+        if(firstSelected instanceof IArchimateConcept) {
+            return getArchimateConceptText((IArchimateConcept)firstSelected);
         }
 
         // Check the main label provider
-        String text = ArchiLabelProvider.INSTANCE.getLabel(object);
+        String text = ArchiLabelProvider.INSTANCE.getLabel(firstSelected);
         if(StringUtils.isSet(text)) {
             return normalise(text);
         }
@@ -77,6 +89,17 @@ public class PropertiesLabelProvider implements ILabelProvider {
         }
         
         return typeName;
+    }
+    
+    /**
+     * Return the underlying adaptable type if there is one
+     * Some Eclipse Views like the Model Checker will use this to return the right type
+     */
+    private Object getAdaptable(Object object) {
+        if(object instanceof IAdaptable) {
+            object = ((IAdaptable)object).getAdapter(object.getClass());
+        }
+        return object;
     }
     
     /**
