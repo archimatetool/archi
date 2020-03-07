@@ -10,9 +10,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
-
 
 
 
@@ -50,7 +47,7 @@ implements IRoundedRectangleFigure {
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+        if(useGradient()) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }

@@ -13,8 +13,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -64,7 +62,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+        if(useGradient()) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }

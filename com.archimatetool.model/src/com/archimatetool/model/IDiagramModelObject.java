@@ -29,6 +29,9 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     String FEATURE_LINE_ALPHA = "lineAlpha"; //$NON-NLS-1$
     int FEATURE_LINE_ALPHA_DEFAULT = 255;
     
+    String FEATURE_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
+    boolean FEATURE_USE_GRADIENT_DEFAULT = false;
+    
     /**
      * @return the value of feature LINE_ALPHA
      */
@@ -39,6 +42,17 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @param value
      */
     void setLineAlpha(int value);
+    
+    /**
+     * @return True if a gradient should be used
+     */
+    boolean useGradient();
+    
+    /**
+     * Set whether a gradient should be used
+     * @param value
+     */
+    void setUseGradient(boolean value);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

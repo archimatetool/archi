@@ -295,6 +295,13 @@
                tab="analysis.tab">
          </propertySection>
          <propertySection
+               class="com.archimatetool.editor.propertysections.GradientSection"
+               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
+               id="gradientSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="gradientSection"
                class="com.archimatetool.editor.propertysections.FillColorSection"
                filter="com.archimatetool.editor.propertysections.FillColorSection$Filter"
                id="fillColorSection"

@@ -192,6 +192,10 @@ implements IDiagramModelObjectFigure {
     protected int getLineAlpha() {
         return fDiagramModelObject.getLineAlpha();
     }
+    
+    protected boolean useGradient() {
+        return fDiagramModelObject.useGradient();
+    }
 
     @Override
     public IFigure getToolTip() {

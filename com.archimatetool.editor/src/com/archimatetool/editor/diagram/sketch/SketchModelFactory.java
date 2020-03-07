@@ -10,6 +10,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.diagram.ICreationFactory;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -68,6 +70,9 @@ public class SketchModelFactory implements ICreationFactory {
             ISketchModelSticky sticky = (ISketchModelSticky)object;
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             
+            // Gradient
+            sticky.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);
                 sticky.setFillColor(color);
@@ -84,6 +89,8 @@ public class SketchModelFactory implements ICreationFactory {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
+            // Gradient
+            group.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
         }
         
         // Connection

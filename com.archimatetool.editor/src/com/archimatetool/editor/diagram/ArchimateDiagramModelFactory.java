@@ -57,6 +57,9 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
 
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);
+        
+        // Gradient
+        dmo.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
  
         return dmo;
     }
@@ -116,11 +119,16 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
+            // Gradient
+            group.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
         }
         
         // Note
         else if(object instanceof IDiagramModelNote) {
-            ColorFactory.setDefaultColors((IDiagramModelObject)object);
+            IDiagramModelNote note = (IDiagramModelNote)object;
+            ColorFactory.setDefaultColors(note);
+            // Gradient
+            note.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
         }
         
         // Connection

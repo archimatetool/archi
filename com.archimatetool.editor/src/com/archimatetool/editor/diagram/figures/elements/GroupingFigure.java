@@ -16,8 +16,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.ITextPosition;
 
@@ -54,7 +52,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         graphics.setForegroundColor(getLineColor());
         
         Pattern gradient = null;
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+        if(useGradient()) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
             graphics.setBackgroundPattern(gradient);
         }

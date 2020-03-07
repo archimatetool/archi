@@ -139,6 +139,10 @@ public class Messages extends NLS {
 
     public static String FontSection_0;
 
+    public static String GradientSection_0;
+
+    public static String GradientSection_1;
+
     public static String GroupBorderTypeSection_0;
 
     public static String GroupBorderTypeSection_1;

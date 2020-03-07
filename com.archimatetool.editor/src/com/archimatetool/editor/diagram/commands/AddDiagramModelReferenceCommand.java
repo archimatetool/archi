@@ -8,6 +8,8 @@ package com.archimatetool.editor.diagram.commands;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -39,6 +41,8 @@ public class AddDiagramModelReferenceCommand extends Command {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fReference);
         Dimension size = provider.getUserDefaultSize();
         fReference.setBounds(x, y, size.width, size.height);
+        
+        fReference.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
         
         ColorFactory.setDefaultColors(fReference);
     }

@@ -13,8 +13,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -50,7 +48,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.setBackgroundColor(getFillColor());
             
             Pattern gradient = null;
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            if(useGradient()) {
                 gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
                 graphics.setBackgroundPattern(gradient);
             }

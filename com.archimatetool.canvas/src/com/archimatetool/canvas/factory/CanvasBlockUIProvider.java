@@ -16,6 +16,7 @@ import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 
 
@@ -59,7 +60,8 @@ public class CanvasBlockUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public boolean shouldExposeFeature(String featureName) {
-        if(featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()) {
+        if(featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
+                featureName == IDiagramModelObject.FEATURE_USE_GRADIENT) {
             return false;
         }
         

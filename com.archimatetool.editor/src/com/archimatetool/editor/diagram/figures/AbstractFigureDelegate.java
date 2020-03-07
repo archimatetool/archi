@@ -87,6 +87,13 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     protected int getLineAlpha() {
         return getOwner().getDiagramModelObject().getLineAlpha();
     }
+    
+    /**
+     * @return The owner's gradient setting
+     */
+    protected boolean useGradient() {
+        return getOwner().getDiagramModelObject().useGradient();
+    }
 
     /**
      * Set the drawing state when disabled
