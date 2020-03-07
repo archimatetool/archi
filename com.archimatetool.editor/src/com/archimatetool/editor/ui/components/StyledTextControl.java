@@ -17,8 +17,6 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;
 import org.eclipse.swt.custom.LineStyleListener;
@@ -28,7 +26,6 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -37,9 +34,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PartInitException;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
@@ -80,8 +75,6 @@ public class StyledTextControl {
     
     private Listener eventListener = this::handleEvent;
     private LineStyleListener lineStyleListener = this::lineGetStyle;
-    
-    private IPropertyChangeListener appPreferencesListener = this::applicationPreferencesChanged;
     
     private final int[] eventTypes = {
         SWT.MouseUp, SWT.MouseMove,
@@ -147,10 +140,7 @@ public class StyledTextControl {
         UIUtils.applyInvalidCharacterFilter(fStyledText);
         
         // Font
-        setFontFromPreferences();
-        
-        // Preference listener for font change
-        Preferences.STORE.addPropertyChangeListener(appPreferencesListener);
+        UIUtils.setFontFromPreferences(fStyledText, IPreferenceConstants.MULTI_LINE_TEXT_FONT, true);
         
         hookContextMenu();
     }
@@ -420,23 +410,6 @@ public class StyledTextControl {
         return (e.stateMask & SWT.MOD1) != 0;
     }
     
-    private void setFontFromPreferences() {
-        String fontDetails = Preferences.STORE.getString(IPreferenceConstants.MULTI_LINE_TEXT_FONT);
-        if(StringUtils.isSet(fontDetails)) {
-            Font font = FontFactory.get(fontDetails);
-            fStyledText.setFont(font);
-        }
-        else {
-            fStyledText.setFont(null);
-        }
-    }
-    
-    private void applicationPreferencesChanged(PropertyChangeEvent event) {
-        if(IPreferenceConstants.MULTI_LINE_TEXT_FONT == event.getProperty()) {
-            setFontFromPreferences();
-        }
-    }
-    
     private void dispose() {
         if(fHandCursor != null && !fHandCursor.isDisposed()) {
             fHandCursor.dispose();
@@ -449,8 +422,6 @@ public class StyledTextControl {
 
         fStyledText.removeLineStyleListener(lineStyleListener);
         
-        Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
-
         fCurrentCursor = null;
         fLinkInfos = null;
         fStyledText = null;

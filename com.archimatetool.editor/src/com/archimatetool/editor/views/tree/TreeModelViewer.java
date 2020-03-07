@@ -40,8 +40,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
@@ -68,14 +68,25 @@ public class TreeModelViewer extends TreeViewer {
      */
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
+    private Font fontItalic = FontFactory.getItalic(getTree().getFont());
+    private Font fontBold = FontFactory.getBold(getTree().getFont());;
+    
+    
     /**
      * Application Preferences Listener
      */
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE.equals(event.getProperty())) {
-                refresh();
+            switch(event.getProperty()) {
+                case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
+                    refresh();
+                    break;
+
+                case IPreferenceConstants.MODEL_TREE_FONT:
+                    setTreeFonts();
+                    refresh();
+                    break;
             }
         }
     };
@@ -83,6 +94,9 @@ public class TreeModelViewer extends TreeViewer {
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
+        // Fonts
+        setTreeFonts();
+
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
         
@@ -259,6 +273,12 @@ public class TreeModelViewer extends TreeViewer {
         return super.getSortedChildren(parentElementOrTreePath);
     }
     
+    private void setTreeFonts() {
+        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, false);
+        fontItalic = FontFactory.getItalic(getTree().getFont());
+        fontBold = FontFactory.getBold(getTree().getFont());
+    }
+    
     // ========================= Model Providers =====================================
     
     /**
@@ -321,19 +341,6 @@ public class TreeModelViewer extends TreeViewer {
      * Label Provider
      */
     private class ModelTreeViewerLabelProvider extends CellLabelProvider {
-        Font fontNormal = null;
-        Font fontItalic = FontFactory.SystemFontItalic;
-        Font fontBold = FontFactory.SystemFontBold;
-        
-        ModelTreeViewerLabelProvider() {
-            // Mac font issues
-            if(PlatformUtils.isMac()) {
-                fontNormal = FontFactory.getMacAlternateFont(getTree().getFont());
-                fontItalic = FontFactory.getMacAlternateFont(fontItalic);
-                fontBold = FontFactory.getMacAlternateFont(fontBold);
-            }
-        }
-        
         @Override
         public void update(ViewerCell cell) {
             cell.setText(getText(cell.getElement()));
@@ -370,6 +377,7 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         Font getFont(Object element) {
+            // Show bold if using Search
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
                 return fontBold;
@@ -382,7 +390,7 @@ public class TreeModelViewer extends TreeViewer {
                 }
             }
             
-            return fontNormal;
+            return null;
         }
 
         Color getForeground(Object element) {

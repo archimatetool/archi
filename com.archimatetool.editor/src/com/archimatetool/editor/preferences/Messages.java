@@ -47,19 +47,7 @@ public class Messages extends NLS {
 
     public static String ColoursFontsPreferencePage_24;
 
-    public static String ColoursFontsPreferencePage_25;
-
-    public static String ColoursFontsPreferencePage_26;
-
-    public static String ColoursFontsPreferencePage_27;
-
-    public static String ColoursFontsPreferencePage_28;
-
-    public static String ColoursFontsPreferencePage_29;
-
     public static String ColoursFontsPreferencePage_3;
-
-    public static String ColoursFontsPreferencePage_30;
 
     public static String ColoursFontsPreferencePage_32;
 
@@ -210,6 +198,48 @@ public class Messages extends NLS {
     public static String DiagramPreferencePage_8;
 
     public static String DiagramPreferencePage_9;
+
+    public static String FontsPreferenceTab_0;
+
+    public static String FontsPreferenceTab_1;
+
+    public static String FontsPreferenceTab_10;
+
+    public static String FontsPreferenceTab_11;
+
+    public static String FontsPreferenceTab_12;
+
+    public static String FontsPreferenceTab_13;
+
+    public static String FontsPreferenceTab_14;
+
+    public static String FontsPreferenceTab_15;
+
+    public static String FontsPreferenceTab_16;
+
+    public static String FontsPreferenceTab_17;
+
+    public static String FontsPreferenceTab_18;
+
+    public static String FontsPreferenceTab_19;
+
+    public static String FontsPreferenceTab_2;
+
+    public static String FontsPreferenceTab_20;
+
+    public static String FontsPreferenceTab_3;
+
+    public static String FontsPreferenceTab_4;
+
+    public static String FontsPreferenceTab_5;
+    
+    public static String FontsPreferenceTab_6;
+
+    public static String FontsPreferenceTab_7;
+
+    public static String FontsPreferenceTab_8;
+
+    public static String FontsPreferenceTab_9;
 
     public static String GeneralPreferencePage_0;
 

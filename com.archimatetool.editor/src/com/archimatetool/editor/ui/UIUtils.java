@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.ui;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -12,6 +14,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -115,6 +118,44 @@ public final class UIUtils {
             else if((e.detail & flags) != 0) {
                 e.doit = true;
             }
+        });
+    }
+    
+    /**
+     * Set the font for the control from the preferences. If prefsKey is blank set font to null
+     * @param control
+     * @param prefsKey
+     * @param updateOnPreferencesChange if true then the font on the control is changed when prefences change
+     */
+    public static void setFontFromPreferences(Control control, String prefsKey, boolean updateOnPreferencesChange) {
+        String fontDetails = Preferences.STORE.getString(prefsKey);
+        control.setFont(StringUtils.isSet(fontDetails) ? FontFactory.get(fontDetails) : null);
+        
+        if(updateOnPreferencesChange) {
+            applyFontChangePreferenceListener(control, prefsKey);
+        }
+    }
+    
+    /**
+     * Apply a font change preference listener on a control. The control will update when preference changes.
+     * @param control
+     * @param prefsKey
+     */
+    public static void applyFontChangePreferenceListener(Control control, String prefsKey) {
+        IPropertyChangeListener listener = new IPropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                if(prefsKey == event.getProperty()) {
+                    setFontFromPreferences(control, prefsKey, false);
+                    control.getParent().layout();
+                }
+            }
+        };
+        
+        Preferences.STORE.addPropertyChangeListener(listener);
+        
+        control.addDisposeListener((e) -> {
+            Preferences.STORE.removePropertyChangeListener(listener);
         });
     }
 }

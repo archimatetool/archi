@@ -27,7 +27,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
@@ -35,8 +34,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.services.ViewManager;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
@@ -86,6 +85,9 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
         fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
         
+        // Font
+        UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT, true);
+
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
@@ -111,7 +113,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
             }
         });
         
-        fTableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider(fTableViewer.getTable()));
+        fTableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider());
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
@@ -173,16 +175,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     }
     
     private static class UsedInRelationshipsTableLabelProvider extends LabelProvider implements IFontProvider {
-        Font fontNormal = null;
         Font fontItalic = FontFactory.SystemFontItalic;
-        
-        UsedInRelationshipsTableLabelProvider(Table table) {
-            // Mac font issues
-            if(PlatformUtils.isMac()) {
-                fontNormal = FontFactory.getMacAlternateFont(table.getFont());
-                fontItalic = FontFactory.getMacAlternateFont(fontItalic);
-            }
-        }
         
         @Override
         public String getText(Object element) {
@@ -209,7 +202,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
                 }
             }
             
-            return fontNormal;
+            return null;
         }
     }
 }

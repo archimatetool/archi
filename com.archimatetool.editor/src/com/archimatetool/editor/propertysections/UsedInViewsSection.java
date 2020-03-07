@@ -23,7 +23,9 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
@@ -71,6 +73,9 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
         fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
         
+        // Font
+        UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT, true);
+
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));

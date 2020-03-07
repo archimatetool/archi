@@ -90,7 +90,9 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
@@ -108,7 +110,7 @@ import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 /**
- * User Properties Section for an Archimate Element, Archimate Model or Diagram Model
+ * User Properties Section
  * 
  * @author Phillip Beauvoir
  */
@@ -212,6 +214,9 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 
+        // Font
+        UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.PROPERTIES_TABLE_FONT, true);
+        
         // Edit cell on double-click and add Tab key traversal
         TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
             @Override
@@ -1131,7 +1136,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             Table table = new Table(tableComp, SWT.MULTI | SWT.FULL_SELECTION | SWT.CHECK);
             tableViewer = new CheckboxTableViewer(table);
             tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-
+            
             tableViewer.getTable().setLinesVisible(true);
 
             tableViewer.setComparator(new ViewerComparator());

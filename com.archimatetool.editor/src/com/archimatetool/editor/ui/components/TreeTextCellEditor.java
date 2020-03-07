@@ -23,11 +23,10 @@ public class TreeTextCellEditor extends TextCellEditor {
 
     public TreeTextCellEditor(Tree tree) {
         super(tree, SWT.BORDER);
-        Text txt = (Text)getControl();
         
         // Filter out nasties
-        UIUtils.applyInvalidCharacterFilter(txt);
-        UIUtils.conformSingleTextControl(txt);
+        UIUtils.applyInvalidCharacterFilter(text);
+        UIUtils.conformSingleTextControl(text);
     }
 
     @Override
@@ -44,6 +43,9 @@ public class TreeTextCellEditor extends TextCellEditor {
         // Clear global key binds
         globalActionHandler = new GlobalActionDisablementHandler();
         globalActionHandler.clearGlobalActions();
+        
+        // Set font from parent in case user changed it
+        text.setFont(text.getParent().getFont());
     }
     
     @Override

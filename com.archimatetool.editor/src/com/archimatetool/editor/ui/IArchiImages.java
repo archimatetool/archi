@@ -153,6 +153,7 @@ public interface IArchiImages {
     String ICON_DERIVED_SM = IMGPATH + "derived-sm.png"; //$NON-NLS-1$
     String ICON_EXPANDALL = IMGPATH + "expandall.png"; //$NON-NLS-1$
     String ICON_FILTER = IMGPATH + "filter.png"; //$NON-NLS-1$
+    String ICON_FONT = IMGPATH + "font.png"; //$NON-NLS-1$
     String ICON_FORMAT_PAINTER = IMGPATH + "formatpainter.png"; //$NON-NLS-1$
     String ICON_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey.png"; //$NON-NLS-1$
     String ICON_GROUP = IMGPATH + "group.png"; //$NON-NLS-1$

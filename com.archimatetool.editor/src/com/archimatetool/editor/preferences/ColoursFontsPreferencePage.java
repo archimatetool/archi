@@ -7,9 +7,7 @@ package com.archimatetool.editor.preferences;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.draw2d.SWTGraphics;
@@ -19,7 +17,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -31,12 +28,9 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
@@ -47,7 +41,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
@@ -59,7 +52,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
@@ -103,17 +95,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private Label fContrastFactorLabel;
     
-    // View Font
-    private CLabel fDefaultViewFontLabel;
-    private FontData fDefaultViewFontData;
-    
-    // Multi-line text control Font
-    private CLabel fMultiLineTextFontLabel;
-    private FontData fMultiLineTextFontData;
-    
-    private List<Font> fTempFonts = new ArrayList<>();
-    
     private TabFolder fTabfolder;
+
+    private FontsPreferenceTab fFontsPreferenceTab;
     
     
     // Convenience model class for Tree
@@ -442,77 +426,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void createFontsTab() {
-        Composite client = new Composite(fTabfolder, SWT.NULL);
-        client.setLayout(new GridLayout());
-    
+        fFontsPreferenceTab = new FontsPreferenceTab();
+        Composite client = fFontsPreferenceTab.createContents(fTabfolder);
+
         TabItem item = new TabItem(fTabfolder, SWT.NONE);
         item.setText(Messages.ColoursFontsPreferencePage_24);
         item.setControl(client);
-        
-        Group fontPreviewGroup1 = new Group(client, SWT.NULL);
-        fontPreviewGroup1.setText(Messages.ColoursFontsPreferencePage_25);
-        fontPreviewGroup1.setLayout(new GridLayout(2, false));
-        fontPreviewGroup1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fDefaultViewFontLabel = new CLabel(fontPreviewGroup1, SWT.NONE);
-        fDefaultViewFontLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        Button button1 = new Button(fontPreviewGroup1, SWT.PUSH);
-        button1.setLayoutData(new GridData(SWT.RIGHT));
-        button1.setText(Messages.ColoursFontsPreferencePage_26);
-        button1.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                FontDialog dialog = new FontDialog(getShell());
-                dialog.setText(Messages.ColoursFontsPreferencePage_27);
-                dialog.setFontList(new FontData[] { fDefaultViewFontData });
-                
-                FontData fd = dialog.open();
-                if(fd != null) {
-                    fDefaultViewFontData = fd;
-                    showFontValues(fDefaultViewFontLabel, fd);
-                }
-            }
-        });
-        
-        fDefaultViewFontData = FontFactory.getDefaultUserViewFontData();
-        showFontValues(fDefaultViewFontLabel, fDefaultViewFontData);
-        
-        Group fontPreviewGroup2 = new Group(client, SWT.NULL);
-        fontPreviewGroup2.setText(Messages.ColoursFontsPreferencePage_28);
-        fontPreviewGroup2.setLayout(new GridLayout(2, false));
-        fontPreviewGroup2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fMultiLineTextFontLabel = new CLabel(fontPreviewGroup2, SWT.NONE);
-        fMultiLineTextFontLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        Button button2 = new Button(fontPreviewGroup2, SWT.PUSH);
-        button2.setLayoutData(new GridData(SWT.RIGHT));
-        button2.setText(Messages.ColoursFontsPreferencePage_26);
-        button2.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                FontDialog dialog = new FontDialog(getShell());
-                dialog.setText(Messages.ColoursFontsPreferencePage_27);
-                dialog.setFontList(new FontData[] { fMultiLineTextFontData });
-                
-                FontData fd = dialog.open();
-                if(fd != null) {
-                    fMultiLineTextFontData = fd;
-                    showFontValues(fMultiLineTextFontLabel, fd);
-                }
-            }
-        });
-        
-        String fontDetails = Preferences.STORE.getString(MULTI_LINE_TEXT_FONT);
-        if(StringUtils.isSet(fontDetails)) {
-            fMultiLineTextFontData = new FontData(fontDetails);
-        }
-        else {
-            fMultiLineTextFontData = JFaceResources.getDefaultFont().getFontData()[0];
-        }
-        
-        showFontValues(fMultiLineTextFontLabel, fMultiLineTextFontData);
     }
     
     public void selectColoursTab() {
@@ -670,10 +589,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
         
         saveColors(getPreferenceStore(), true);        
-        
-        FontFactory.setDefaultUserViewFont(fDefaultViewFontData);
-        
-        Preferences.STORE.setValue(MULTI_LINE_TEXT_FONT, fMultiLineTextFontData == null ? "" : fMultiLineTextFontData.toString()); //$NON-NLS-1$
+
+        fFontsPreferenceTab.performOK();
         
         return true;
     }
@@ -688,7 +605,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 break;
 
             case 1:
-                performFontsDefaults();
+                fFontsPreferenceTab.performDefaults();
                 break;
                 
             default:
@@ -715,14 +632,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
-    private void performFontsDefaults() {
-        fDefaultViewFontData = FontFactory.getDefaultViewOSFontData();
-        fMultiLineTextFontData = null;
-        
-        showFontValues(fDefaultViewFontLabel, fDefaultViewFontData);
-        showFontValues(fMultiLineTextFontLabel, JFaceResources.getDefaultFont().getFontData()[0]);
-    }
-
     /**
      * @throws IOException
      * Import a User color scheme
@@ -853,20 +762,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
-    private void showFontValues(CLabel label, FontData fd) {
-        label.setText(fd.getName() + " " + //$NON-NLS-1$
-                fd.getHeight() + " " + //$NON-NLS-1$
-                ((fd.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.ColoursFontsPreferencePage_29 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
-                ((fd.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.ColoursFontsPreferencePage_30 : ""));  //$NON-NLS-1$
-        
-        Font f = new Font(null, fd);
-        fTempFonts.add(f);
-        
-        label.setFont(f);
-        label.getParent().getParent().layout();
-        label.getParent().getParent().redraw();
-    }
-    
     @Override
     public void init(IWorkbench workbench) {
     }
@@ -884,9 +779,5 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fImageRegistry.dispose();
         fImageRegistry = null;
-        
-        for(Font font : fTempFonts) {
-            font.dispose();
-        }
     }
 }
