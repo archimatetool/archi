@@ -111,9 +111,8 @@ public abstract class AbstractIssueType implements IIssue {
             return null;
         }
         
-        // Either the object itself
-        // Or this, in which case return the object so PropertiesLabelProvider updates title correctly
-        if(adapter.isInstance(object) || adapter.isInstance(this)) {
+        // Return the object
+        if(adapter.isInstance(object)) {
             return object;
         }
         

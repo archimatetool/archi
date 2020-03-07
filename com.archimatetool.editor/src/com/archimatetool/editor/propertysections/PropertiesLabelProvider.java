@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateModelObject;
 
 
 
@@ -93,11 +94,11 @@ public class PropertiesLabelProvider implements ILabelProvider {
     
     /**
      * Return the underlying adaptable type if there is one
-     * Some Eclipse Views like the Model Checker will use this to return the right type
+     * Some Classes like AbstractIssueType (in the Model Checker) will use this to return the right type
      */
     private Object getAdaptable(Object object) {
         if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(object.getClass());
+            object = ((IAdaptable)object).getAdapter(IArchimateModelObject.class);
         }
         return object;
     }

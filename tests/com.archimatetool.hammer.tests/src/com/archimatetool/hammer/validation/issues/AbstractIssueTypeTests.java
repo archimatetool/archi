@@ -17,6 +17,7 @@ import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -83,11 +84,19 @@ public abstract class AbstractIssueTypeTests {
     }
 
     @Test
-    public void testGetAdapter_ObjectIsInstance() {
+    public void testGetAdapter_ElementIsInstance() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         issueType.setObject(element);
-        assertSame(element, issueType.getAdapter(element.getClass()));
-        assertSame(element, issueType.getAdapter(issueType.getClass()));
+        assertSame(element, issueType.getAdapter(IArchimateModelObject.class));
+    }
+    
+    @Test
+    public void testGetAdapter_DiagramObjectIsInstance() {
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IDiagramModelArchimateObject dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmc.setArchimateConcept(element);
+        issueType.setObject(dmc);
+        assertSame(dmc, issueType.getAdapter(IArchimateModelObject.class));
     }
     
     @Test
