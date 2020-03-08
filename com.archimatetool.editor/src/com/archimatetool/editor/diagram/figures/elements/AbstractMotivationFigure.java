@@ -12,6 +12,8 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -64,8 +66,8 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
-        if(useGradient()) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
         

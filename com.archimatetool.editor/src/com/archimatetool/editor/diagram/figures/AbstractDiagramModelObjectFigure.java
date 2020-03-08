@@ -193,8 +193,8 @@ implements IDiagramModelObjectFigure {
         return fDiagramModelObject.getLineAlpha();
     }
     
-    protected boolean useGradient() {
-        return fDiagramModelObject.useGradient();
+    protected int getGradient() {
+        return fDiagramModelObject.getGradient();
     }
 
     @Override

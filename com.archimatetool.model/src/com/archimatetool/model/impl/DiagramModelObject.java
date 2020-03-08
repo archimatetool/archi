@@ -222,13 +222,13 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     }
 
     @Override
-    public boolean useGradient() {
-        return getFeatures().getBoolean(FEATURE_USE_GRADIENT, FEATURE_USE_GRADIENT_DEFAULT);
+    public int getGradient() {
+        return getFeatures().getInt(FEATURE_GRADIENT, FEATURE_GRADIENT_DEFAULT);
     }
     
     @Override
-    public void setUseGradient(boolean value) {
-        getFeatures().putBoolean(FEATURE_USE_GRADIENT, value, FEATURE_USE_GRADIENT_DEFAULT);
+    public void setGradient(int type) {
+        getFeatures().putInt(FEATURE_GRADIENT, type, FEATURE_GRADIENT_DEFAULT);
     }
 
     /**

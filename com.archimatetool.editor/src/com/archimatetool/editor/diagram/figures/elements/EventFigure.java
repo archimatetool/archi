@@ -16,7 +16,9 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -72,8 +74,8 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         graphics.setBackgroundColor(getFillColor());
 
         Pattern gradient = null;
-        if(useGradient()) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
 

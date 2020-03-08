@@ -15,8 +15,10 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -81,8 +83,8 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         graphics.setAlpha(getAlpha());
 
         Pattern gradient = null;
-        if(useGradient()) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha());
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
         

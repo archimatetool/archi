@@ -9,7 +9,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -27,7 +26,15 @@ import com.archimatetool.model.ITextAlignment;
  */
 public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
-    private Button fShowGradientButton;
+    private Combo fDefaultGradientCombo;
+    
+    private String[] GRADIENT_STYLES = {
+            Messages.DiagramAppearancePreferenceTab_16,
+            Messages.DiagramAppearancePreferenceTab_17,
+            Messages.DiagramAppearancePreferenceTab_18,
+            Messages.DiagramAppearancePreferenceTab_19,
+            Messages.DiagramAppearancePreferenceTab_20
+    };
     
     private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
     
@@ -72,15 +79,15 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         figuresGroup.setLayout(new GridLayout(2, false));
         figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Gradient
-        fShowGradientButton = new Button(figuresGroup, SWT.CHECK);
-        fShowGradientButton.setText(Messages.DiagramFiguresPreferencePage_9);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fShowGradientButton.setLayoutData(gd);
+        // Default Gradient
+        Label label = new Label(figuresGroup, SWT.NULL);
+        label.setText(Messages.DiagramFiguresPreferencePage_9);
+        fDefaultGradientCombo = new Combo(figuresGroup, SWT.READ_ONLY);
+        fDefaultGradientCombo.setItems(GRADIENT_STYLES);
+        fDefaultGradientCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Word wrap style
-        Label label = new Label(figuresGroup, SWT.NULL);
+        label = new Label(figuresGroup, SWT.NULL);
         label.setText(Messages.DiagramAppearancePreferenceTab_7);
         fWordWrapStyleCombo = new Combo(figuresGroup, SWT.READ_ONLY);
         fWordWrapStyleCombo.setItems(WORD_WRAP_STYLES);
@@ -141,7 +148,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     
     private void setValues() {
-        fShowGradientButton.setSelection(getPreferenceStore().getBoolean(SHOW_GRADIENT));
+        fDefaultGradientCombo.select(getPreferenceStore().getInt(DEFAULT_GRADIENT) + 1); // Starts at -1
         fWordWrapStyleCombo.select(getPreferenceStore().getInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
@@ -161,7 +168,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     }
 
     public boolean performOk() {
-        getPreferenceStore().setValue(SHOW_GRADIENT, fShowGradientButton.getSelection());
+        getPreferenceStore().setValue(DEFAULT_GRADIENT, fDefaultGradientCombo.getSelectionIndex() - 1); // Starts at -1
         getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, fWordWrapStyleCombo.getSelectionIndex());
         
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
@@ -176,7 +183,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     }
     
     protected void performDefaults() {
-        fShowGradientButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_GRADIENT));
+        fDefaultGradientCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_GRADIENT) + 1); // Starts at -1
         fWordWrapStyleCombo.select(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));

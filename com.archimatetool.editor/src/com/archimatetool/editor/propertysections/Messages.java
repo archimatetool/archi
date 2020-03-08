@@ -143,6 +143,16 @@ public class Messages extends NLS {
 
     public static String GradientSection_1;
 
+    public static String GradientSection_2;
+
+    public static String GradientSection_3;
+
+    public static String GradientSection_4;
+
+    public static String GradientSection_5;
+
+    public static String GradientSection_6;
+
     public static String GroupBorderTypeSection_0;
 
     public static String GroupBorderTypeSection_1;

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.model;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Diagram Model Object</b></em>'.
@@ -29,8 +28,10 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     String FEATURE_LINE_ALPHA = "lineAlpha"; //$NON-NLS-1$
     int FEATURE_LINE_ALPHA_DEFAULT = 255;
     
-    String FEATURE_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
-    boolean FEATURE_USE_GRADIENT_DEFAULT = false;
+    String FEATURE_GRADIENT = "gradient"; //$NON-NLS-1$
+    int GRADIENT_NONE = -1;
+    int FEATURE_GRADIENT_DEFAULT = GRADIENT_NONE;
+    
     
     /**
      * @return the value of feature LINE_ALPHA
@@ -44,15 +45,15 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     void setLineAlpha(int value);
     
     /**
-     * @return True if a gradient should be used
+     * @return the gradient type
      */
-    boolean useGradient();
+    int getGradient();
     
     /**
-     * Set whether a gradient should be used
-     * @param value
+     * Set the gradient type
+     * @param type
      */
-    void setUseGradient(boolean value);
+    void setGradient(int type);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

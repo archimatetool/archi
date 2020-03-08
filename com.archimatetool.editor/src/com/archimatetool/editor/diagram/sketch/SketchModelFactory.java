@@ -71,7 +71,7 @@ public class SketchModelFactory implements ICreationFactory {
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             
             // Gradient
-            sticky.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+            sticky.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
 
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);
@@ -90,7 +90,7 @@ public class SketchModelFactory implements ICreationFactory {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
             // Gradient
-            group.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+            group.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection

@@ -39,7 +39,17 @@ public class FigureUtils {
      * Gradient Direction
      */
     public static enum Direction {
-        TOP, LEFT, RIGHT, BOTTOM
+        TOP, LEFT, RIGHT, BOTTOM;
+        
+        public static Direction get(int value) {
+            switch(value) {
+                default:
+                case 0: return TOP;
+                case 1: return LEFT;
+                case 2: return RIGHT;
+                case 3: return BOTTOM;
+            }
+        }
     }
 
     /**
@@ -68,17 +78,21 @@ public class FigureUtils {
     }
     
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the default gradient direction and default gradient end color
+     * Create a Pattern class with consideration to the scale of the Graphics class using the given gradient direction and default gradient end color
      */
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color) {
-        return createGradient(graphics, r, color, 255);
+    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, Direction direction) {
+        return createGradient(graphics, r, color, 255, direction);
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the default gradient direction and default gradient end color and alpha transparency
+     * Create a Pattern class with consideration to the scale of the Graphics class using the
+     * given gradient direction and default gradient end color and alpha transparency
      */
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
-        Direction direction = Direction.TOP;
+    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha, Direction direction) {
+        if(direction == null) {
+            return null;
+        }
+        
         Color endColor = ColorConstants.white;
         
         // Gradienting all the way to pure white is too much, this extends the gradient area to cover that
@@ -102,5 +116,22 @@ public class FigureUtils {
                 delta = (int) (r.height * deltaFactor); 
                 return createGradient(graphics, Display.getDefault(), r.x, r.getBottom().y, r.x, r.y - delta, color, alpha, endColor, alpha);
         }
+    }
+
+    /**
+     * Create a Pattern class with consideration to the scale of the Graphics class using the LEFT gradient direction and default gradient end color
+     */
+    @Deprecated
+    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color) {
+        return createGradient(graphics, r, color, 255);
+    }
+
+    /**
+     * Create a Pattern class with consideration to the scale of the Graphics class
+     * using the LEFT direction and default gradient end color and alpha transparency
+     */
+    @Deprecated
+    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
+        return createGradient(graphics, r, color, alpha, Direction.LEFT);
     }
 }

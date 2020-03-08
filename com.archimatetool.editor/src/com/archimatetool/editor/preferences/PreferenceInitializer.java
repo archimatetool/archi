@@ -12,6 +12,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -88,8 +89,8 @@ implements IPreferenceConstants {
         store.setDefault(USE_LINE_CURVES, true);
         store.setDefault(USE_LINE_JUMPS, true);
         
-        // Show gradient
-        store.setDefault(SHOW_GRADIENT, false);
+        // Default gradient
+        store.setDefault(DEFAULT_GRADIENT, IDiagramModelObject.FEATURE_GRADIENT_DEFAULT);
         
         // Archimate Figure Word Wrap type
         store.setDefault(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, 1);

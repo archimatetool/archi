@@ -81,7 +81,7 @@ public interface IPreferenceConstants {
     String USE_LINE_CURVES = "lineCurves";
     String USE_LINE_JUMPS = "lineJumps";
     
-    String SHOW_GRADIENT = "showGradient";
+    String DEFAULT_GRADIENT = "defaultGradient";
     
     String ARCHIMATE_FIGURE_WORD_WRAP_STYLE = "archimateFigureWordWrapStyle";
     

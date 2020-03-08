@@ -12,7 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -38,7 +38,7 @@ public class GradientSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, IDiagramModelObject.FEATURE_USE_GRADIENT);
+            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, IDiagramModelObject.FEATURE_GRADIENT);
         }
 
         @Override
@@ -47,8 +47,15 @@ public class GradientSection extends AbstractECorePropertySection {
         }
     }
 
-    private Button fButtonGradient;
+    private Combo fGradientCombo;
     
+    private String[] GRADIENT_STYLES = {
+            Messages.GradientSection_2,
+            Messages.GradientSection_3,
+            Messages.GradientSection_4,
+            Messages.GradientSection_5,
+            Messages.GradientSection_6,
+    };
     @Override
     protected void createControls(Composite parent) {
         createGradientControl(parent);
@@ -60,8 +67,10 @@ public class GradientSection extends AbstractECorePropertySection {
     private void createGradientControl(Composite parent) {
         createLabel(parent, Messages.GradientSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fButtonGradient = new Button(parent, SWT.CHECK);
-        fButtonGradient.addSelectionListener(new SelectionAdapter() {
+        fGradientCombo = new Combo(parent, SWT.READ_ONLY);
+        fGradientCombo.setItems(GRADIENT_STYLES);
+        
+        fGradientCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 CompoundCommand result = new CompoundCommand();
@@ -69,7 +78,7 @@ public class GradientSection extends AbstractECorePropertySection {
                 for(EObject object : getEObjects()) {
                     if(isAlive(object)) {
                         Command cmd = new FeatureCommand(Messages.GradientSection_1, (IFeatures)object,
-                                IDiagramModelObject.FEATURE_USE_GRADIENT, fButtonGradient.getSelection(), IDiagramModelObject.FEATURE_USE_GRADIENT_DEFAULT);
+                                IDiagramModelObject.FEATURE_GRADIENT, fGradientCombo.getSelectionIndex() - 1, IDiagramModelObject.FEATURE_GRADIENT_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -91,7 +100,7 @@ public class GradientSection extends AbstractECorePropertySection {
         }
         
         // Notifier is the Feature
-        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_USE_GRADIENT)) {
+        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_GRADIENT)) {
             refreshGradientButton();
         }
     }
@@ -107,9 +116,9 @@ public class GradientSection extends AbstractECorePropertySection {
         }
         
         IDiagramModelObject lastSelected = (IDiagramModelObject)getFirstSelectedObject();
-        fButtonGradient.setSelection(lastSelected.useGradient());
+        fGradientCombo.select(lastSelected.getGradient() + 1);
         
-        fButtonGradient.setEnabled(!isLocked(lastSelected));
+        fGradientCombo.setEnabled(!isLocked(lastSelected));
     }
     
     @Override

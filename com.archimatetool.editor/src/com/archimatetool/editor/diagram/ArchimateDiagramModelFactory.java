@@ -59,7 +59,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         ColorFactory.setDefaultColors(dmo);
         
         // Gradient
-        dmo.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+        dmo.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
  
         return dmo;
     }
@@ -120,7 +120,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
             // Gradient
-            group.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+            group.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Note
@@ -128,7 +128,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             IDiagramModelNote note = (IDiagramModelNote)object;
             ColorFactory.setDefaultColors(note);
             // Gradient
-            note.setUseGradient(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT));
+            note.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection

@@ -91,8 +91,8 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     /**
      * @return The owner's gradient setting
      */
-    protected boolean useGradient() {
-        return getOwner().getDiagramModelObject().useGradient();
+    protected int getGradient() {
+        return getOwner().getDiagramModelObject().getGradient();
     }
 
     /**

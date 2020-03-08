@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -42,8 +44,8 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = null;
-        if(useGradient()) {
-            gradient = FigureUtils.createGradient(graphics, getBounds(), getFillColor(), getAlpha());
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            gradient = FigureUtils.createGradient(graphics, getBounds(), getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
         
