@@ -465,6 +465,10 @@
             sequence="M1+F8">
       </key>
       <key
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+E">
+      </key>
+      <key
             commandId="com.archimatetool.editor.action.newModel"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+N">

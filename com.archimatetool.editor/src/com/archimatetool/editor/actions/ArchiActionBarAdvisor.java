@@ -499,6 +499,10 @@ extends ActionBarAdvisor {
         register(a);
         navigationMenu.add(a);
 
+        a = ActionFactory.SHOW_WORKBOOK_EDITORS.create(window);
+        register(a);
+        navigationMenu.add(a);
+        
         navigationMenu.add(new Separator());
 
         a = ActionFactory.NEXT_PART.create(window);
