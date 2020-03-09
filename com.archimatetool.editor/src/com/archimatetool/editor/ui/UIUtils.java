@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -158,4 +159,52 @@ public final class UIUtils {
             Preferences.STORE.removePropertyChangeListener(listener);
         });
     }
+    
+    /**
+     * Add an ellipsis to text and shorten it to fit in the width of the given control
+     * From https://stackoverflow.com/questions/5993065/org-eclipse-swt-text-automatically-truncate-the-text
+     * 
+     * @param textValue 
+     * @param control The control
+     * @param margin The width margin. A value of 8 is about right
+     * @return
+     */
+    public String shortenText(String text, Control control, int margin) {
+        if(text == null) {
+            return null;
+        }
+        
+        GC gc = new GC(control);
+        int maxWidth = control.getBounds().width - margin;
+        int maxExtent = gc.textExtent(text).x;
+
+        if(maxExtent < maxWidth) {
+            gc.dispose();
+            return text;
+        }
+        
+        int length = text.length();
+        int charsToClip = Math.round(0.95f * length * (1 - ((float)maxWidth / maxExtent)));
+        int pivot = length / 2;
+        int start = pivot - (charsToClip / 2);
+        int end = pivot + (charsToClip / 2) + 1;
+        
+        while(start >= 0 && end < length) {
+            String s1 = text.substring(0, start);
+            String s2 = text.substring(end, length);
+            String s = s1 + "..." + s2; //$NON-NLS-1$
+            int l = gc.textExtent(s).x;
+            if(l < maxWidth) {
+                gc.dispose();
+                return s;
+            }
+            start--;
+            end++;
+        }
+        
+        gc.dispose();
+        
+        return text;
+    }
+
 }
