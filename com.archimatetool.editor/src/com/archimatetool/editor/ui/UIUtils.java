@@ -167,9 +167,9 @@ public final class UIUtils {
      * @param textValue 
      * @param control The control
      * @param margin The width margin. A value of 8 is about right
-     * @return
+     * @return The shortened text
      */
-    public String shortenText(String text, Control control, int margin) {
+    public static String shortenText(String text, Control control, int margin) {
         if(text == null) {
             return null;
         }
