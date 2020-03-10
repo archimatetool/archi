@@ -40,6 +40,7 @@ import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
@@ -48,6 +49,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
@@ -121,6 +123,9 @@ public class ModelImporter {
         // Run Commands
         CommandStack stack = (CommandStack)targetModel.getAdapter(CommandStack.class);
         stack.execute(compoundCommand);
+        
+        // Resolve Diagram Model References *after* the commands have run
+        resolveDiagramModelReferences();
         
         objectCache.clear();
     }
@@ -229,6 +234,29 @@ public class ModelImporter {
         }
         
         return map;
+    }
+    
+    /**
+     * Resolve Diagram Model References *after* the import has happened.
+     * New and Updated Diagram Model References will be pointing to the DM in the imported model.
+     */
+    private void resolveDiagramModelReferences() throws ImportException {
+        for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelReference) {
+                IDiagramModelReference ref = (IDiagramModelReference)eObject;
+                IDiagramModel dm = ref.getReferencedModel(); 
+                if(dm.getArchimateModel() == getImportedModel()) { // This could be the dm in the imported model
+                    EObject targetDM = ArchimateModelUtils.getObjectByID(targetModel, dm.getId()); // Use its id to find the target dm
+                    if(targetDM instanceof IDiagramModel) {
+                        ref.setReferencedModel((IDiagramModel)targetDM);
+                    }
+                    else {
+                        throw new ImportException("Could not get referenced diagram model"); //$NON-NLS-1$
+                    }
+                }
+            }
+        }
     }
 
     // ===================================================================================
