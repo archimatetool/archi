@@ -295,16 +295,16 @@
                tab="analysis.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.GradientSection"
-               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
-               id="gradientSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="gradientSection"
                class="com.archimatetool.editor.propertysections.FillColorSection"
                filter="com.archimatetool.editor.propertysections.FillColorSection$Filter"
                id="fillColorSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="connectionAppearanceSection"
+               class="com.archimatetool.editor.propertysections.LineColorSection"
+               filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
+               id="lineColorSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -315,31 +315,10 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="fontSection"
-               class="com.archimatetool.editor.propertysections.FontColorSection"
-               filter="com.archimatetool.editor.propertysections.FontColorSection$Filter"
-               id="fontColorSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="fontColorSection"
-               class="com.archimatetool.editor.propertysections.LineColorSection"
-               filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
-               id="lineColorSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
                afterSection="lineColorSection"
                class="com.archimatetool.editor.propertysections.TextAlignmentSection"
                filter="com.archimatetool.editor.propertysections.TextAlignmentSection$Filter"
                id="textAlignmentSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="textAlignmentSection"
-               class="com.archimatetool.editor.propertysections.TextPositionSection"
-               filter="com.archimatetool.editor.propertysections.TextPositionSection$Filter"
-               id="textPositionSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -350,10 +329,10 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="opacitySection"
-               class="com.archimatetool.editor.propertysections.OutlineOpacitySection"
-               filter="com.archimatetool.editor.propertysections.OutlineOpacitySection$Filter"
-               id="outlineOpacitySection"
+               afterSection="lineColorSection"
+               class="com.archimatetool.editor.propertysections.GradientSection"
+               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
+               id="gradientSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -406,7 +385,7 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="fontColorSection"
+               afterSection="fillColorSection"
                class="com.archimatetool.editor.propertysections.BorderColorSection"
                filter="com.archimatetool.editor.propertysections.BorderColorSection$Filter"
                id="borderColorSection"
@@ -426,14 +405,14 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="fontColorSection"
+               afterSection="gradientSection"
                class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
                id="noteBorderTypeSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="fontColorSection"
+               afterSection="gradientSection"
                class="com.archimatetool.editor.propertysections.GroupBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.GroupBorderTypeSection$Filter"
                id="groupBorderTypeSection"

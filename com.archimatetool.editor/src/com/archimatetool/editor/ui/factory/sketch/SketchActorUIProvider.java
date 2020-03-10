@@ -67,8 +67,9 @@ public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
     public boolean shouldExposeFeature(String featureName) {
         if(featureName == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName() ||
                 featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
-                        featureName == IDiagramModelObject.FEATURE_LINE_ALPHA || 
-                            featureName == IDiagramModelObject.FEATURE_GRADIENT) {
+                featureName == IDiagramModelObject.FEATURE_LINE_ALPHA ||
+                featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName() ||
+                featureName == IDiagramModelObject.FEATURE_GRADIENT) {
             return false;
         }
         

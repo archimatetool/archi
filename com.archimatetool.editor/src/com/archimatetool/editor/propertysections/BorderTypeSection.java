@@ -40,6 +40,7 @@ public abstract class BorderTypeSection extends AbstractECorePropertySection {
         
         // Combo
         fComboBorderType = new Combo(parent, SWT.READ_ONLY);
+        
         fComboBorderType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

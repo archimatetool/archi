@@ -144,10 +144,18 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      * @return A Composite
      */
     protected Composite createComposite(Composite parent, int numColumns) {
+        return createComposite(parent, numColumns, false);
+    }
+    
+    /**
+     * @param parent
+     * @return A Composite
+     */
+    protected Composite createComposite(Composite parent, int numColumns, boolean makeColumnsEqualWidth) {
         Composite c = new Composite(parent, SWT.NULL);
         getWidgetFactory().adapt(c);
         
-        GridLayout layout = new GridLayout(numColumns, false);
+        GridLayout layout = new GridLayout(numColumns, makeColumnsEqualWidth);
         layout.marginHeight = 0;
         layout.marginWidth = 0;
         layout.verticalSpacing = V_SPACING;
@@ -156,7 +164,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         
         return c;
     }
-    
+
     /**
      * Create Label control. Style is set to SWT.WRAP
      * @param parent Parent composite

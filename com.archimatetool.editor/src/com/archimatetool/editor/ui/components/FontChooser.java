@@ -13,6 +13,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -37,6 +38,7 @@ import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.model.IFontAttribute;
 
 
@@ -87,6 +89,8 @@ public class FontChooser extends EventManager {
                 chooseFont();
             }
         });
+        
+        GridDataFactory.create(SWT.NONE).hint(90, SWT.DEFAULT).applyTo(fTextButton);
         
         fComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
             @Override
@@ -248,14 +252,18 @@ public class FontChooser extends EventManager {
     }
     
     protected void updateButtonText() {
-        fTextButton.setText(fFontData.getName() + " " + //$NON-NLS-1$
+        String text = fFontData.getName() + " " + //$NON-NLS-1$
                 fFontData.getHeight() + " " + //$NON-NLS-1$
-                 ((fFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontChooser_4 : "") + " " + //$NON-NLS-1$ //$NON-NLS-2$
-                 ((fFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontChooser_7 : "")); //$NON-NLS-1$
-         
-        fComposite.getParent().layout();
+                ((fFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontChooser_4 : "") + " " + //$NON-NLS-1$ //$NON-NLS-2$
+                ((fFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontChooser_7 : "");  //$NON-NLS-1$
+        
+        fTextButton.getDisplay().asyncExec(() -> {
+            fTextButton.setText(UIUtils.shortenText(text, fTextButton, 6));
+        });
+        
+        fTextButton.setToolTipText(text);
     }
-
+    
     /**
      * Adds a property change listener to this <code>ColorSelector</code>.
      * Events are fired when the color in the control changes via the user
