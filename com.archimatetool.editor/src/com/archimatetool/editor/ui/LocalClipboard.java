@@ -27,7 +27,7 @@ public class LocalClipboard extends EventManager {
     private static LocalClipboard defaultClipboard = new LocalClipboard();
     
     private static final ByteArrayTransfer TRANSFER = new ByteArrayTransfer() {
-        private final String TYPE_NAME = "com.archimatetool.editor.clipboard.transfer"; //$NON-NLS-1$
+        private final String TYPE_NAME = "com.archimatetool.editor.clipboard.transfer" + System.currentTimeMillis(); //$NON-NLS-1$
         private final int TYPE_ID = registerType(TYPE_NAME);
 
         private Object object;
@@ -50,12 +50,19 @@ public class LocalClipboard extends EventManager {
 
         @Override
         public Object nativeToJava(TransferData transferData) {
-            Object result = super.nativeToJava(transferData);
-            if(!(result instanceof byte[]) && !TYPE_NAME.equals(new String((byte[])result))) {
-                return null;
+            byte bytes[] = (byte[]) super.nativeToJava(transferData);
+
+            if(bytes != null) {
+                try {
+                    return TYPE_NAME.equals(new String(bytes)) ? object : null;
+                }
+                catch(Exception ex) {
+                    // Something weird on Linux throwing NPE...
+                    // See https://github.com/archimatetool/archi/issues/592
+                }
             }
             
-            return object;
+            return null;
         }
     };
     
