@@ -23,6 +23,7 @@ import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
+import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IBorderObject;
@@ -186,6 +187,12 @@ public class FormatPainterTool extends AbstractTool {
 
             // Alpha line opacity
             cmd = new DiagramModelObjectOutlineAlphaCommand(target, source.getLineAlpha());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+            
+            // Gradient
+            cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

@@ -19,6 +19,7 @@ import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
@@ -67,9 +68,12 @@ public class FormatPainterToolTests {
         sourceComponent.setLineColor("#eeeeee");
         sourceComponent.setLineWidth(3);
         sourceComponent.setTextAlignment(1);
+        sourceComponent.setAlpha(100);
+        sourceComponent.setLineAlpha(100);
+        sourceComponent.setGradient(IDiagramModelObject.GRADIENT_NONE + 1);
         
         compoundCmd = tool.createCommand(pf, targetComponent);
-        assertEquals(6, compoundCmd.getCommands().size());
+        assertEquals(9, compoundCmd.getCommands().size());
     }
     
     @Test
