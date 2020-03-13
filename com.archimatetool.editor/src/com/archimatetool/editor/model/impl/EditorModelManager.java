@@ -460,9 +460,11 @@ implements IEditorModelManager {
         
         // Set CommandStack Save point
         CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-        stack.markSaveLocation();
-        // Send notification to Tree
-        firePropertyChange(model, COMMAND_STACK_CHANGED, true, false);
+        if(stack != null) {
+            stack.markSaveLocation();
+            // Send notification to Tree
+            firePropertyChange(model, COMMAND_STACK_CHANGED, true, false);
+        }
         
         // Set all diagram models to be marked as "saved" - this is for the editor view persistence
         markDiagramModelsAsSaved(model);
