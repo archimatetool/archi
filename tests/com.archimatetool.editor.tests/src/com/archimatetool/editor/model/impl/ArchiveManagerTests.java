@@ -122,10 +122,12 @@ public class ArchiveManagerTests {
         File imgFile = new File(TestSupport.getTestDataFolder(), "/img/img1.png");
         String pathName = archiveManager.addImageFromFile(imgFile);
         assertNotNull(pathName);
-        assertTrue(archiveManager.getLoadedImagePaths().isEmpty()); // should still be empty
+        assertEquals(1, archiveManager.getLoadedImagePaths().size()); // should be added
         
         dmImage.setImagePath(pathName);
-        assertEquals(pathName, archiveManager.getLoadedImagePaths().get(0)); // This should now be increased
+        
+        assertEquals(1, archiveManager.getLoadedImagePaths().size()); // This should be the same
+        assertEquals(pathName, archiveManager.getLoadedImagePaths().get(0)); // This should be the same
         assertEquals(pathName, archiveManager.getImagePaths().get(0)); // This should be set
     }
     

@@ -216,6 +216,9 @@ public class ArchiveManager implements IArchiveManager, IModelContentListener {
             entryName = path;
             BYTE_ARRAY_STORAGE.addByteContentEntry(path, bytes);
         }
+
+        // Add to list
+        fLoadedImagePaths.add(entryName);
         
         return entryName;
     }
