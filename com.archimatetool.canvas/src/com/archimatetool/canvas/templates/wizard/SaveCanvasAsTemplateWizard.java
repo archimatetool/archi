@@ -69,7 +69,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     
     public SaveCanvasAsTemplateWizard(ICanvasModel canvasModel) {
         setWindowTitle(Messages.SaveCanvasAsTemplateWizard_0);
-        fCanvasModel = createCanvasCopy(canvasModel);
+        fCanvasModel = createCanvasCopy(canvasModel); 
         fTemplateManager = new CanvasTemplateManager();
     }
     
@@ -253,6 +253,9 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         // Generate new IDs
         TemplateUtils.generateNewUUIDs(copyCanvas);
         
+        // Because the canvas copy will not have an eContainer parent we need the original archive manager to create thumbnail image
+        copyCanvas.setAdapter(IArchiveManager.class, canvasModel.getAdapter(IArchiveManager.class));
+        
         return copyCanvas;
     }
     
@@ -260,6 +263,8 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     public void dispose() {
         super.dispose();
         fTemplateManager.dispose();
+        
+        fCanvasModel.setAdapter(IArchiveManager.class, null); // Clear this
         fCanvasModel = null;
     }
 }
