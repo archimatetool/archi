@@ -53,6 +53,7 @@ import com.archimatetool.templates.wizard.TemplateUtils;
  */
 public class SaveCanvasAsTemplateWizard extends Wizard {
     
+    private IArchimateModel fModel;
     private ICanvasModel fCanvasModel;
     
     private SaveCanvasAsTemplateWizardPage fPage1;
@@ -69,7 +70,8 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     
     public SaveCanvasAsTemplateWizard(ICanvasModel canvasModel) {
         setWindowTitle(Messages.SaveCanvasAsTemplateWizard_0);
-        fCanvasModel = createCanvasCopy(canvasModel); 
+        
+        createTempModel(canvasModel); 
         fTemplateManager = new CanvasTemplateManager();
     }
     
@@ -208,34 +210,40 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         
         return JDOMUtils.write2XMLString(doc);
     }
-
+    
     private File saveModelToTempFile() throws IOException {
         File tmpFile = File.createTempFile("architemplate", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
         
-        // Create a new container Archimate model
-        IArchimateModel tempModel = IArchimateFactory.eINSTANCE.createArchimateModel();
-        tempModel.setDefaults();
-        tempModel.setFile(tmpFile);
-        tempModel.setVersion(ModelVersion.VERSION);
-        tempModel.setName(Messages.SaveCanvasAsTemplateWizard_4);
-
-        // Add the canvas copy to a new Views folder
-        IFolder folder = tempModel.getDefaultFolderForObject(fCanvasModel);
-        folder.getElements().add(fCanvasModel);
+        fModel.setFile(tmpFile);
         
-        // Use an Archive Manager to save it
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(tempModel);
+        // Use the Archive Manager to save it
+        IArchiveManager archiveManager = (IArchiveManager)fModel.getAdapter(IArchiveManager.class);
         archiveManager.saveModel();
-        archiveManager.dispose();
         
         return tmpFile;
+    }
+    
+    private void createTempModel(ICanvasModel canvasModel) {
+        fModel = IArchimateFactory.eINSTANCE.createArchimateModel();
+        fModel.setDefaults();
+        fModel.setVersion(ModelVersion.VERSION);
+        fModel.setName(Messages.SaveCanvasAsTemplateWizard_4);
+        
+        // Create a copy of the Canvas and add the copy to a new Views folder
+        fCanvasModel = createCanvasCopy(canvasModel);
+        IFolder folder = fModel.getDefaultFolderForObject(fCanvasModel);
+        folder.getElements().add(fCanvasModel);
+        
+        // Clone the ArchiveManager for thumbnail generation and saving
+        IArchiveManager archiveManager = ((IArchiveManager)canvasModel.getAdapter(IArchiveManager.class)).clone(fModel);
+        fModel.setAdapter(IArchiveManager.class, archiveManager);
     }
     
     private ICanvasModel createCanvasCopy(ICanvasModel canvasModel) {
         ICanvasModel copyCanvas = EcoreUtil.copy(canvasModel);
         
-        // Remove any unsupported elements
+        // Gather up diagram model references
         List<IDiagramModelReference> toRemove = new ArrayList<IDiagramModelReference>();
         
         for(Iterator<EObject> iter = copyCanvas.eAllContents(); iter.hasNext();) {
@@ -246,6 +254,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
             }
         }
         
+        // Remove them
         for(IDiagramModelReference eObject : toRemove) {
             DiagramCommandFactory.createDeleteDiagramObjectCommand(eObject).execute();
         }
@@ -253,18 +262,15 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         // Generate new IDs
         TemplateUtils.generateNewUUIDs(copyCanvas);
         
-        // Because the canvas copy will not have an eContainer parent we need the original archive manager to create thumbnail image
-        copyCanvas.setAdapter(IArchiveManager.class, canvasModel.getAdapter(IArchiveManager.class));
-        
         return copyCanvas;
     }
     
     @Override
     public void dispose() {
         super.dispose();
-        fTemplateManager.dispose();
         
-        fCanvasModel.setAdapter(IArchiveManager.class, null); // Clear this
+        fTemplateManager.dispose();
         fCanvasModel = null;
+        fModel = null;
     }
 }

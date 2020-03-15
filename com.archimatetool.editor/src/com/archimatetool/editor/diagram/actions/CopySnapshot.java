@@ -7,10 +7,12 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,12 +20,15 @@ import java.util.Set;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -41,6 +46,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 
@@ -701,7 +707,7 @@ public final class CopySnapshot {
     // Commands
     // ================================================================================================================
     
-    static class PasteCommand extends Command {
+    private class PasteCommand extends Command {
         private IDiagramModel targetDiagramModel;
         private List<IDiagramModelObject> topLevelObjects;
         private List<IDiagramModelConnection> connections;
@@ -743,6 +749,11 @@ public final class CopySnapshot {
                 }
             }
             
+            // Copy Image Bytes to target model if different model
+            if(!isSourceAndTargetArchiMateModelSame()) {
+                copyImageBytes();
+            }
+            
             selectNewObjects();
         }
         
@@ -764,6 +775,33 @@ public final class CopySnapshot {
                     // If it's an Archimate model type remove relationship from model
                     if(dmc instanceof IDiagramModelArchimateConnection) {
                         ((IDiagramModelArchimateConnection)dmc).removeArchimateConceptFromModel();
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Copy Image Bytes to target model for all canvas objects
+         */
+        private void copyImageBytes() {
+            IArchiveManager sourceArchiveManager = (IArchiveManager)fSourceArchimateModel.getAdapter(IArchiveManager.class);
+            IArchiveManager targetArchiveManager = (IArchiveManager)targetDiagramModel.getAdapter(IArchiveManager.class);
+
+            for(Iterator<EObject> iter = EcoreUtil.getAllContents(topLevelObjects); iter.hasNext();) {
+                EObject eObject = iter.next();
+                
+                if(eObject instanceof IDiagramModelImageProvider) {
+                    IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)eObject;;
+                    String imagePath = dmo.getImagePath();
+                    if(imagePath != null) {
+                        try {
+                            imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
+                            dmo.setImagePath(imagePath);
+                        }
+                        catch(IOException ex) {
+                            ex.printStackTrace();
+                            Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
+                        }
                     }
                 }
             }

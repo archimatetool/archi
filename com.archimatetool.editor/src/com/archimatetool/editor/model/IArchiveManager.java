@@ -28,6 +28,7 @@ public interface IArchiveManager {
         
         /**
          * Return a new IArchiveManager instance
+         * 
          * @param model The owning model
          * @return The IArchiveManager instance
          */
@@ -63,6 +64,7 @@ public interface IArchiveManager {
         
         /**
          * Create a URI for the model xml file in the archive file
+         * 
          * @param file The archimate archive file
          * @return The URI
          */
@@ -72,6 +74,7 @@ public interface IArchiveManager {
         
         /**
          * Get the Archive File Path for the archive file
+         * 
          * @param file The archimate archive file
          * @return The path
          */
@@ -86,40 +89,60 @@ public interface IArchiveManager {
     /**
      * Add an image from an image file to this Archive Manager's storage cache.
      * If the image already exists the existing image path is returned.
+     * 
+     * Once the imagepath has been returned, the caller should set the imagepath:<p>
+     * IDiagramModelImageProvider.setImagePath(imagepath)
+     * 
      * @param file The image file
-     * @return The newly created path name, or an existing path name if the image already exists
+     * @return The newly created imagePath, or an existing imagePath if the image already exists
      * @throws IOException
      */
     String addImageFromFile(File file) throws IOException;
 
     /**
-     * Add image bytes keyed by entryName. This has to follow the same pattern as in createArchiveImagePathname()
+     * Add image bytes keyed by entryName. This has to follow the same pattern as in createArchiveImagePathname()<p>
      * If the image already exists the existing image path is returned, otherwise path is returned
-     * @param entryName The key path entryname
+     * 
+     * @param imagePath The key path entryname
      * @param bytes The image bytes
-     * @return If the image already exists the existing image path is returned, otherwise path is returned
+     * @return If the image already exists the existing imagePath is returned, otherwise imagePath is returned
      * @throws IOException
      */
-    String addByteContentEntry(String entryName, byte[] bytes) throws IOException;
+    String addByteContentEntry(String imagePath, byte[] bytes) throws IOException;
+    
+    /**
+     * Copy image bytes from another ArchiveManager and add them to this ArchiveManager
+     * 
+     * Once the imagepath has been returned, the caller should set the imagepath:<p>
+     * IDiagramModelImageProvider.setImagePath(imagepath)
+     * 
+     * @param archiveManager The source ArchiveManager
+     * @param imagePath The image path in the source ArchiveManager
+     * @return The newly created imagePath name, or an existing imagePath if the image already exists
+     * @throws IOException
+     */
+    String copyImageBytes(IArchiveManager archiveManager, String imagePath) throws IOException;
     
     /**
      * Get image bytes by entryName
+     * 
      * @param entryName The key path entryname
      * @return The image bytes or null if not found
      */
-    byte[] getBytesFromEntry(String entryName);
+    byte[] getBytesFromEntry(String imagePath);
     
     /**
      * Create a new Image for this path entry
-     * @param path The image path
+     * @param imagePath The image imagePath
      * @return the Image object or null
      * @throws Exception
      */
-    Image createImage(String path) throws Exception;
+    Image createImage(String imagePath) throws Exception;
 
     /**
-     * Get a live list of Image entry paths as used in the current state of the model.<br>
+     * Get a live list of Image entry paths as used in the current state of the model.<p>
      * This will not include duplicates. The list is re-calculated each time.
+     * 
      * @return A list of image path entries as used in the current state of the model
      */
     List<String> getImagePaths();
@@ -136,6 +159,14 @@ public interface IArchiveManager {
     void saveModel() throws IOException;
     
     /**
+     * Clone this ArchiveManager with a copy of this one but with the given model
+     * 
+     * @param model
+     * @return The new ArchiveManager
+     */
+    IArchiveManager clone(IArchimateModel model);
+    
+    /**
      * Load all images for this model
      * @throws IOException
      */
@@ -143,6 +174,7 @@ public interface IArchiveManager {
 
     /**
      * Load all images from another Archimate Model archive file and add to this one
+     * 
      * @param file The model file
      * @return if the images could be loaded
      * @throws IOException
@@ -150,7 +182,7 @@ public interface IArchiveManager {
     boolean loadImagesFromModelFile(File file) throws IOException;
     
     /**
-     * @return True if the model has references to images in its current state
+     * @return True if the model currently has references to images
      */
     boolean hasImages();
     

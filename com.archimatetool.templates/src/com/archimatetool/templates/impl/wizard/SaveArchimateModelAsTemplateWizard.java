@@ -226,10 +226,10 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         tempModel.eAdapters().clear();
         tempModel.setFile(tmpFile);
         
-        // Create a temp Archive Manager to save the temp model
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(tempModel);
+        // Clone the Archive Manager for saving
+        IArchiveManager archiveManager = ((IArchiveManager)fModel.getAdapter(IArchiveManager.class)).clone(tempModel);
+        tempModel.setAdapter(IArchiveManager.class, archiveManager);
         archiveManager.saveModel();
-        archiveManager.dispose();
         
         return tmpFile;
     }
@@ -237,6 +237,11 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
     @Override
     public void dispose() {
         super.dispose();
+        
         fTemplateManager.dispose();
+        
+        fTemplateManager = null;
+        fModel = null;
+        fSelectedDiagramModel = null;
     }
 }

@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -38,7 +41,7 @@ public class ByteArrayStorage {
     String getKey(byte[] bytes) {
         for(Entry<String, byte[]> entry : fdataTable.entrySet()) {
             byte[] entryBytes = entry.getValue();
-            if(isEqual(bytes, entryBytes)) {
+            if(Arrays.equals(bytes, entryBytes)) {
                 return entry.getKey();
             }
         }
@@ -58,6 +61,10 @@ public class ByteArrayStorage {
     
     Set<Entry<String, byte[]>> getEntrySet() {
         return fdataTable.entrySet();
+    }
+    
+    List<String> getEntryNames() {
+        return new ArrayList<>(fdataTable.keySet());
     }
 
     boolean hasEntries() {
@@ -109,24 +116,9 @@ public class ByteArrayStorage {
         return null;
     }
     
-    private boolean isEqual(byte[] b1, byte[] b2) {
-        if(b1 == null || b2 == null) {
-            return false;
-        }
-        
-        if(b1.length == b2.length) {
-            int i = 0;
-            int j = 0;
-            int n = b1.length;
-            while(n-- != 0) {
-                if(b1[i++] != b2[j++]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        
-        return false;
+    void dispose() {
+        fdataTable.clear();
+        fdataTable = null;
     }
     
     /**

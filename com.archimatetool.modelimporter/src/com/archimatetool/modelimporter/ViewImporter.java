@@ -199,15 +199,11 @@ class ViewImporter extends AbstractImporter {
      */
     private void importImageBytes(IDiagramModelImageProvider importedObject, IDiagramModelImageProvider targetObject) throws IOException {
         String importedImagePath = importedObject.getImagePath();
-        
         if(importedImagePath != null) {
             IArchiveManager importedArchiveManager = (IArchiveManager)getImportedModel().getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)getTargetModel().getAdapter(IArchiveManager.class);
-            
-            byte[] bytes = importedArchiveManager.getBytesFromEntry(importedImagePath);
-            if(bytes != null) {
-                targetArchiveManager.addByteContentEntry(importedImagePath, bytes);
-            }
+            importedImagePath = targetArchiveManager.copyImageBytes(importedArchiveManager, importedImagePath);
+            targetObject.setImagePath(importedImagePath);
         }
     }
     

@@ -8,6 +8,7 @@ package com.archimatetool.editor.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -58,41 +59,9 @@ public class ArchiveManagerTests {
     @Test
     public void testCreateArchiveManager() throws Exception {
         assertNotNull(archiveManager);
-        
-        // Should have one EContentListener
-        assertEquals(1, model.eAdapters().size());
-        
-        assertTrue(archiveManager.getImagePaths().isEmpty());
-        assertFalse(archiveManager.hasImages());
-    }
-    
-    @Test
-    public void testEContentAdapter() throws Exception {
-        assertTrue(archiveManager.getImagePaths().isEmpty());
-        
-        IDiagramModelImage dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
-        
-        // Add IDiagramModelImageProvider without an image path set - should not register
-        dm.getChildren().add(dmImage);
         assertTrue(archiveManager.getImagePaths().isEmpty());
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
-        
-        dm.getChildren().remove(dmImage);
-
-        // Add IDiagramModelImageProvider with an image path set - should register
-        String imagePath = "/somePath/image.png";
-        dmImage.setImagePath(imagePath);
-        dm.getChildren().add(dmImage);
-        assertEquals(1, archiveManager.getImagePaths().size());
-        assertEquals(1, archiveManager.getLoadedImagePaths().size());
-        assertEquals(imagePath, archiveManager.getImagePaths().get(0));
-        
-        // Set image path, should still only be one
-        String imagePath2 = "/somePath/image2.png";
-        dmImage.setImagePath(imagePath2);
-        assertEquals(1, archiveManager.getImagePaths().size());
-        assertEquals(2, archiveManager.getLoadedImagePaths().size()); // This should be increased
-        assertEquals(imagePath2, archiveManager.getImagePaths().get(0));
+        assertFalse(archiveManager.hasImages());
     }
     
     @Rule
@@ -157,6 +126,7 @@ public class ArchiveManagerTests {
         String pathName = "/aPath.png";
         dmImage.setImagePath(pathName);
         
+        assertEquals(1, archiveManager.getImagePaths().size());
         assertEquals(pathName, archiveManager.getImagePaths().get(0));
     }
     
@@ -167,7 +137,7 @@ public class ArchiveManagerTests {
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
         
         archiveManager.loadImages();
-        assertFalse(archiveManager.getLoadedImagePaths().isEmpty());
+        assertEquals(2, archiveManager.getLoadedImagePaths().size());
     }
     
     @Test
@@ -182,7 +152,7 @@ public class ArchiveManagerTests {
         
         result = archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
         assertTrue(result);
-        assertFalse(archiveManager.getLoadedImagePaths().isEmpty());
+        assertEquals(2, archiveManager.getLoadedImagePaths().size());
     }
     
     @Test
@@ -241,17 +211,14 @@ public class ArchiveManagerTests {
     }
     
     @Test
-    public void testDispose() throws IOException {
-        IDiagramModelImage dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
-        dm.getChildren().add(dmImage);
+    public void testClone() throws IOException {
         archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        dmImage.setImagePath(archiveManager.getLoadedImagePaths().get(0));
         
-        assertEquals(1, model.eAdapters().size());
-        assertFalse(archiveManager.getLoadedImagePaths().isEmpty());
+        IArchiveManager clone = archiveManager.clone(model);
+        assertNotSame(clone, archiveManager);
         
-        archiveManager.dispose();
-        
-        assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
+        for(String entryName : archiveManager.getLoadedImagePaths()) {
+            assertSame(archiveManager.getBytesFromEntry(entryName), clone.getBytesFromEntry(entryName));
+        }
     }
 }

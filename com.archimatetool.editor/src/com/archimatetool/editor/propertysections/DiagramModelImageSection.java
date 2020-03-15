@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelImageProvider;
@@ -107,7 +108,7 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
                 IAction actionClear = new Action(Messages.DiagramModelImageSection_3) {
                     @Override
                     public void run() {
-                        clearImage();
+                        doImagePathCommand(null);
                     }
                 };
                 actionClear.setEnabled(((IDiagramModelImageProvider)getFirstSelectedObject()).getImagePath() != null);
@@ -143,24 +144,6 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
         fImageButton.setEnabled(!isLocked(getFirstSelectedObject()));
     }
     
-    protected void clearImage() {
-        CompoundCommand result = new CompoundCommand();
-
-        for(EObject dmo : getEObjects()) {
-            if(isAlive(dmo)) {
-                Command cmd = new EObjectFeatureCommand(Messages.DiagramModelImageSection_4,
-                        dmo, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH,
-                        null);
-
-                if(cmd.canExecute()) {
-                    result.add(cmd);
-                }
-            }
-        }
-
-        executeCommand(result.unwrap());
-    }
-    
     protected void chooseImage() {
         IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)getFirstSelectedObject();
         
@@ -173,36 +156,56 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
                 }
                 // Existing image which could be in this model or a different model
                 else if(dialog.getUserSelectedImagePath() != null) {
-                    doImageCommand(dialog.getUserSelectedImagePath());
+                    setImagePath(dialog.getUserSelectedModel(), dialog.getUserSelectedImagePath());
                 }
             }
         }
     }
     
-    protected void setImage(File file) {
-        try {
-            if(!file.exists() || !file.canRead()) {
-                return;
+    /**
+     * Set image path from selected image path from selected model
+     */
+    protected void setImagePath(IArchimateModel selectedModel, String imagePath) {
+        // Different models so copy the image bytes and set the image path
+        if(selectedModel != getFirstSelectedObject().getArchimateModel()) {
+            try {
+                IArchiveManager selectedArchiveManager = (IArchiveManager)selectedModel.getAdapter(IArchiveManager.class);
+                imagePath = getArchiveManager().copyImageBytes(selectedArchiveManager, imagePath);
+                doImagePathCommand(imagePath);
             }
-
-            IArchiveManager archiveManager = (IArchiveManager)((IAdapter)getFirstSelectedObject()).getAdapter(IArchiveManager.class);
-            String path = archiveManager.addImageFromFile(file);
-            doImageCommand(path);
+            catch(IOException ex) {
+                showError(ex);
+            }
         }
-        catch(IOException ex) {
-            ex.printStackTrace();
-            MessageDialog.openError(getPart().getSite().getShell(),
-                    Messages.DiagramModelImageSection_5,
-                    Messages.DiagramModelImageSection_6);
+        // Same model so just set the image path
+        else {
+            doImagePathCommand(imagePath);
         }
     }
     
-    protected void doImageCommand(String path) {
+    /**
+     * Add and set Image and path from a file
+     */
+    protected void setImage(File file) {
+        if(!file.exists() || !file.canRead()) {
+            return;
+        }
+
+        try {
+            String path = getArchiveManager().addImageFromFile(file);
+            doImagePathCommand(path);
+        }
+        catch(IOException ex) {
+            showError(ex);
+        }
+    }
+    
+    protected void doImagePathCommand(String path) {
         CompoundCommand result = new CompoundCommand();
 
         for(EObject dmo : getEObjects()) {
             if(isAlive(dmo)) {
-                Command cmd = new EObjectFeatureCommand(Messages.DiagramModelImageSection_7,
+                Command cmd = new EObjectFeatureCommand(path == null ? Messages.DiagramModelImageSection_4 : Messages.DiagramModelImageSection_7,
                         dmo, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH,
                         path);
                 
@@ -213,5 +216,16 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
         }
 
         executeCommand(result.unwrap());
+    }
+    
+    protected IArchiveManager getArchiveManager() {
+        return (IArchiveManager)((IAdapter)getFirstSelectedObject()).getAdapter(IArchiveManager.class);
+    }
+    
+    protected void showError(Throwable ex) {
+        ex.printStackTrace();
+        MessageDialog.openError(getPart().getSite().getShell(),
+                Messages.DiagramModelImageSection_5,
+                Messages.DiagramModelImageSection_6 + " " + ex.getMessage()); //$NON-NLS-1$
     }
 }
