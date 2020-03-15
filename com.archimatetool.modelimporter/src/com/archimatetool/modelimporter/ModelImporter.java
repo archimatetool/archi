@@ -128,13 +128,16 @@ public class ModelImporter {
         resolveDiagramModelReferences();
         
         objectCache.clear();
+        objectCache = null;
+        importedModel = null;
+        this.targetModel = null;
     }
     
-    public IArchimateModel getImportedModel() {
+    protected IArchimateModel getImportedModel() {
         return importedModel;
     }
     
-    public IArchimateModel getTargetModel() {
+    protected IArchimateModel getTargetModel() {
         return targetModel;
     }
     
