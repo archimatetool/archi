@@ -30,6 +30,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.templates.impl.model.ArchimateModelTemplate;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
+import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateManager;
@@ -145,13 +146,25 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
             String manifest = createManifest();
             ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut, Charset.forName("UTF-8")); //$NON-NLS-1$
             
-            // Add any thumbnails
+            // Add Thumbnails but no more than MAX_THUMBNAILS and the key thumb as well
             if(fIncludeThumbnails) {
-                int i = 1;
+                int count = 2;
+                
                 for(IDiagramModel dm : fModel.getDiagramModels()) {
-                    Image image = TemplateUtils.createThumbnailImage(dm);
-                    ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png", zOut, SWT.IMAGE_PNG, null); //$NON-NLS-1$
-                    image.dispose();
+                    int index = -1;
+                    
+                    if(fSelectedDiagramModel == dm) { // key thumbnail
+                        index = 1;
+                    }
+                    else if(count <= ITemplate.MAX_THUMBNAILS) { //others
+                        index = count++;
+                    }
+                    
+                    if(index != -1) {
+                        Image image = TemplateUtils.createThumbnailImage(dm);
+                        ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + index + ".png", zOut, SWT.IMAGE_PNG, null); //$NON-NLS-1$
+                        image.dispose();
+                    }
                 }
             }
 
@@ -197,21 +210,11 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         elementDescription.setText(fTemplateDescription);
         root.addContent(elementDescription);
         
-        // Thumbnails
+        // Key thumbnail
         if(fIncludeThumbnails) {
-            if(fSelectedDiagramModel != null) {
-                int i = 1;
-                for(IDiagramModel dm : fModel.getDiagramModels()) {
-                    if(dm == fSelectedDiagramModel) {
-                        String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + i + ".png"; //$NON-NLS-1$
-                        Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
-                        elementKeyThumb.setText(keyThumb);
-                        root.addContent(elementKeyThumb);
-                        break;
-                    }
-                    i++;
-                }
-            }
+            Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
+            elementKeyThumb.setText(TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png");  //$NON-NLS-1$
+            root.addContent(elementKeyThumb);
         }
         
         return JDOMUtils.write2XMLString(doc);

@@ -28,8 +28,6 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -229,15 +227,6 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
             }
         });
         
-        // Dispose of the images in TemplateManager here not in the main dispose() method because if the help system is showing then 
-        // the TrayDialog is resized and this control is asked to relayout.
-        fGallery.addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                fTemplateManager.dispose();
-            }
-        });
-        
         // Mouse move shows thumbnails
         registerMouseMoveHandler();
         
@@ -391,7 +380,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                 // Not enough thumbnails
                 if(item != null) {
                     ITemplate template = (ITemplate)item.getData();
-                    if(template.getThumbnails().length < 2) {
+                    if(template.getThumbnailCount() < 2) {
                         return;
                     }
                 }
@@ -413,12 +402,12 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                     if(event.x < last_x - mouse_movement_factor) {
                         index--;
                         if(index < 0) {
-                            index = template.getThumbnails().length - 1;
+                            index = template.getThumbnailCount() - 1;
                         }
                     }
                     else if(event.x > last_x + mouse_movement_factor) {
                         index++;
-                        if(index == template.getThumbnails().length) {
+                        if(index == template.getThumbnailCount()) {
                             index = 0;
                         }
                     }
@@ -428,7 +417,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                     
                     last_x = event.x;
 
-                    item.setImage(template.getThumbnails()[index]);
+                    item.setImage(template.getThumbnail(index));
                 }
             }
         });

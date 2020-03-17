@@ -18,6 +18,9 @@ import org.eclipse.swt.graphics.Image;
  */
 public interface ITemplate {
     
+    // Limit max amount of thumbnails as too many is slow to save and load
+    int MAX_THUMBNAILS = 50;
+    
     /**
      * @return The ID of this template
      */
@@ -61,9 +64,16 @@ public interface ITemplate {
     Image getKeyThumbnail();
     
     /**
-     * @return All Thumbnails
+     * Get a thumbnail by index
+     * @param index zero based index number
+     * @return The thumbnail image
      */
-    Image[] getThumbnails();
+    Image getThumbnail(int index);
+    
+    /**
+     * @return The amount of thumbnails in the template
+     */
+    int getThumbnailCount();
     
     /**
      * @return The File
