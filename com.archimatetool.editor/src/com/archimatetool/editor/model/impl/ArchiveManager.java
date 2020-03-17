@@ -226,7 +226,7 @@ public class ArchiveManager implements IArchiveManager {
             saveModelToArchiveFile(file);
         }
         else {
-            saveModelToXMLFile(file);
+            saveResource(file);
         }
     }
     
@@ -239,23 +239,6 @@ public class ArchiveManager implements IArchiveManager {
         }
         
         return archiveManager;
-    }
-    
-    /**
-     * Save the model to XML File format
-     */
-    private void saveModelToXMLFile(File file) throws IOException {
-        // For safety, save to temp file first and then copy across
-        File tmpFile = File.createTempFile("archi-", null); //$NON-NLS-1$
-        tmpFile.deleteOnExit();
-        
-        try {
-            saveResource(tmpFile);
-            FileUtils.copyFile(tmpFile, file, false);
-        }
-        finally {
-            tmpFile.delete();
-        }
     }
     
     /**
