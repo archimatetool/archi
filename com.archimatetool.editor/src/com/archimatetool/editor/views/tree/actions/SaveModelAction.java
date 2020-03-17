@@ -8,6 +8,8 @@ package com.archimatetool.editor.views.tree.actions;
 import java.io.IOException;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -40,13 +42,15 @@ public class SaveModelAction extends ViewerAction {
         // Get selected Model and save it and any Diagrams via EditorModel Manager
         IArchimateModel model = getModel();
         if(model != null) {
-            try {
-                IEditorModelManager.INSTANCE.saveModel(model);
-            }
-            catch(IOException ex) {
-                MessageDialog.openError(fView.getSite().getShell(), Messages.SaveModelAction_1, ex.getMessage());
-                ex.printStackTrace();
-            }
+            BusyIndicator.showWhile(Display.getDefault(), () -> {
+                try {
+                    IEditorModelManager.INSTANCE.saveModel(model);
+                }
+                catch(IOException ex) {
+                    MessageDialog.openError(fView.getSite().getShell(), Messages.SaveModelAction_1, ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
         }
     }
 

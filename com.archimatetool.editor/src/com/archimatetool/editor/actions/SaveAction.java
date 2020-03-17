@@ -10,6 +10,8 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -67,13 +69,15 @@ public class SaveAction extends AbstractModelSelectionAction {
     public void run() {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
-            try {
-                IEditorModelManager.INSTANCE.saveModel(model);
-            }
-            catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.SaveAction_1, ex.getMessage());
-                ex.printStackTrace();
-            }
+            BusyIndicator.showWhile(Display.getDefault(), () -> {
+                try {
+                    IEditorModelManager.INSTANCE.saveModel(model);
+                }
+                catch(IOException ex) {
+                    MessageDialog.openError(workbenchWindow.getShell(), Messages.SaveAction_1, ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
         }
     }
     
