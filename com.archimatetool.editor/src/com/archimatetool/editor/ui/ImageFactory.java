@@ -66,10 +66,10 @@ public class ImageFactory {
     
     /**
      * @return The zoom level for creating objects such as cursors.
-     * On Windows and Linux we need to use device zoom, but not on Mac
+     * Windows with double scale is the exception
      */
     public static int getLogicalDeviceZoom() {
-        return PlatformUtils.isMac() ? 100 : getDeviceZoom();
+        return PlatformUtils.isWindows() ? getDeviceZoom() : 100;
     }
     
     /**
@@ -249,20 +249,23 @@ public class ImageFactory {
         
         ImageDescriptor newImageDescriptor = registry.getDescriptor(rgbName);
         
-        // Create new ImageDescriptor
+        // Create new ImageDescriptor that sets the pixel to RGB
         if(newImageDescriptor == null) {
-            ImageDescriptor originalImageDescriptor = IArchiImages.ImageFactory.getImageDescriptor(imageName);
-            ImageData imageData = originalImageDescriptor.getImageData(100); // This has to be 100 even on 2x displays
-            int pixel = imageData.palette.getPixel(rgb);
-            
-            for(int x = 0; x < imageData.width; x++) {
-                for(int y = 0; y < imageData.height; y++) {
-                    imageData.setPixel(x, y, pixel);
+            registry.put(rgbName, new ImageDescriptor() {
+                @Override
+                public ImageData getImageData(int zoom) {
+                    ImageData id = getImageDescriptor(imageName).getImageData(zoom);
+                    int pixel = id.palette.getPixel(rgb);
+                    
+                    for(int x = 0; x < id.width; x++) {
+                        for(int y = 0; y < id.height; y++) {
+                            id.setPixel(x, y, pixel);
+                        }
+                    }
+                    
+                    return id;
                 }
-            }
-
-            newImageDescriptor = ImageDescriptor.createFromImageDataProvider(zoom -> imageData);
-            registry.put(rgbName, newImageDescriptor);
+            });
         }
 
         return newImageDescriptor;
@@ -298,7 +301,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData(ImageFactory.getImageDeviceZoom());
+        ImageData sourceImageData = source.getImageData(getDeviceZoom());
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;
