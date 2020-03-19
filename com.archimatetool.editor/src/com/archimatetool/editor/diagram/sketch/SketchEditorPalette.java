@@ -232,11 +232,5 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         public ImageData getImageData(int zoom) {
             return image.getImageData(zoom);
         }
-        
-        public void dispose() {
-            if(image != null && !image.isDisposed()) {
-                image.dispose();
-            }
-        }
     }
 }
