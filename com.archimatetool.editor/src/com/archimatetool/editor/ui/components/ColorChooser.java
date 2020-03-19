@@ -14,18 +14,18 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
@@ -64,8 +64,6 @@ public class ColorChooser extends EventManager {
      */
     public static final String PROP_COLORDEFAULT = "colorDefault"; //$NON-NLS-1$
 
-    private Image fImage;
-    
     private Composite fComposite;
     private Button fColorButton;
     private Button fMenuButton;
@@ -81,7 +79,6 @@ public class ColorChooser extends EventManager {
     
     private List<IAction> fExtraActionsList = new ArrayList<IAction>();
     
-
     public ColorChooser(Composite parent) {
         fComposite = new Composite(parent, SWT.NULL);
         fComposite.setBackgroundMode(SWT.INHERIT_FORCE);
@@ -97,8 +94,19 @@ public class ColorChooser extends EventManager {
         gd.widthHint = 60;
         fColorButton.setLayoutData(gd);
         
-        fImage = new Image(parent.getDisplay(), 40, 15);
-        fColorButton.setImage(fImage);
+        // Use an ImageDescriptor to create an image for a given display zoom
+        ImageDescriptor id = new ImageDescriptor() {
+            @Override
+            public ImageData getImageData(int zoom) {
+                Image image = new Image(Display.getCurrent(), 40, 15); // Template image
+                ImageData id = image.getImageData(zoom); // Get Image Data for given zoom
+                image.dispose(); // No longer needed
+                return id;
+            }
+        };
+        
+        // Create an image from the ImageDescriptor and set it in the button
+        fColorButton.setImage(id.createImage());
         
         fColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -107,17 +115,12 @@ public class ColorChooser extends EventManager {
             }
         });
         
-        fColorButton.addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent event) {
-                if(fImage != null) {
-                    fImage.dispose();
-                    fImage = null;
-                }
-                if(fColor != null) {
-                    fColor.dispose();
-                    fColor = null;
-                }
+        fColorButton.addDisposeListener((e) -> {
+            if(fColorButton.getImage() != null) {
+                fColorButton.getImage().dispose();
+            }
+            if(fColor != null) {
+                fColor.dispose();
             }
         });
         
@@ -285,14 +288,14 @@ public class ColorChooser extends EventManager {
      */
     protected void updateColorImage() {
         Display display = fColorButton.getDisplay();
-        GC gc = new GC(fImage);
+        GC gc = new GC(fColorButton.getImage());
         
         if(fColor != null) {
             fColor.dispose();
         }
         fColor = new Color(display, fColorValue);
         
-        Rectangle r = fImage.getBounds();
+        Rectangle r = fColorButton.getImage().getBounds();
         
         if(fDoShowColorImage) {
             gc.setBackground(fColor);
@@ -310,9 +313,9 @@ public class ColorChooser extends EventManager {
 
         gc.dispose();
         
-        fColorButton.setImage(fImage); // have to explicitly set this on Mac
+        fColorButton.setImage(fColorButton.getImage()); // have to explicitly set this on Mac
     }
-
+    
     /**
      * Adds a property change listener to this <code>ColorSelector</code>.
      * Events are fired when the color in the control changes via the user
