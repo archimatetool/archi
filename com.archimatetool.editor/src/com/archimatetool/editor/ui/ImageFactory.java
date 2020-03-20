@@ -245,13 +245,13 @@ public class ImageFactory {
      */
     public ImageDescriptor getImageDescriptorWithRGB(String imageName, RGB rgb) {
         String rgbName = imageName + ColorFactory.convertRGBToString(rgb);
-        ImageRegistry registry = fPlugin.getImageRegistry();
         
+        ImageRegistry registry = fPlugin.getImageRegistry();
         ImageDescriptor newImageDescriptor = registry.getDescriptor(rgbName);
         
-        // Create new ImageDescriptor that sets the pixel to RGB
+        // Create a new ImageDescriptor that sets the pixel to RGB
         if(newImageDescriptor == null) {
-            registry.put(rgbName, new ImageDescriptor() {
+            newImageDescriptor = new ImageDescriptor() {
                 @Override
                 public ImageData getImageData(int zoom) {
                     ImageData id = getImageDescriptor(imageName).getImageData(zoom);
@@ -265,7 +265,9 @@ public class ImageFactory {
                     
                     return id;
                 }
-            });
+            };
+            
+            registry.put(rgbName, newImageDescriptor);
         }
 
         return newImageDescriptor;
