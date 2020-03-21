@@ -5,11 +5,7 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import java.util.Hashtable;
-import java.util.Map.Entry;
-
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -48,8 +44,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 public class SketchEditorPalette extends AbstractPaletteRoot {
     
     private FormatPainterToolEntry formatPainterEntry;
-    
-    private Hashtable<Color, StickyImageDescriptor> fImageTable = new Hashtable<Color, StickyImageDescriptor>();
     
     public SketchEditorPalette() {
         createControlsGroup();
@@ -189,48 +183,33 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
 
     private PaletteEntry createStickyEntry(Color color) {
+        ImageDescriptor id = new ImageDescriptor() {
+            @Override
+            public ImageData getImageData(int zoom) {
+                Image image = new Image(Display.getDefault(), 16, 14);
+                
+                GC gc = new GC(image);
+                gc.setBackground(color);
+                gc.fillRectangle(0, 0, 15, 13);
+                gc.drawRectangle(0, 0, 15, 13);
+                gc.dispose();
+                
+                ImageData id = image.getImageData(zoom);
+                image.dispose();
+                
+                return id;
+           }
+        };
+
         return new CombinedTemplateCreationEntry(
                 Messages.SketchEditorPalette_12,
                 null,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), color),
-                getStickyImageDescriptor(color),
-                getStickyImageDescriptor(color));
+                id,
+                id);
     }
     
-    private ImageDescriptor getStickyImageDescriptor(Color color) {
-        StickyImageDescriptor id = fImageTable.get(color);
-        if(id == null) {
-            id = new StickyImageDescriptor(color);
-            fImageTable.put(color, id);
-        }
-        return id;
-    }
-    
-    public void dispose() {
-        for(Entry<Color, StickyImageDescriptor> entry : fImageTable.entrySet()) {
-            entry.getValue().image.dispose();
-        }
-        
+    void dispose() {
         formatPainterEntry.dispose();
-    }
-    
-    class StickyImageDescriptor extends ImageDescriptor {
-        Image image;
-        
-        StickyImageDescriptor(Color color) {
-            image = new Image(Display.getDefault(), 16, 14);
-            GC gc = new GC(image);
-            SWTGraphics graphics = new SWTGraphics(gc);
-            graphics.setBackgroundColor(color);
-            graphics.fillRectangle(0, 0, 15, 13);
-            graphics.drawRectangle(0, 0, 15, 13);
-            gc.dispose();
-            graphics.dispose();
-        }
-        
-        @Override
-        public ImageData getImageData(int zoom) {
-            return image.getImageData(zoom);
-        }
     }
 }
