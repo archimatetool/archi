@@ -78,7 +78,7 @@ public class FigureImagePreviewFactory {
             figure.refreshVisuals();
             figure.validate();
 
-            image = DiagramUtils.createImage(figure, 1, 0);
+            image = ImageFactory.getAutoScaledImage(DiagramUtils.createImage(figure, 1, 0));
             imageRegistry.put(key, image);
         }
         

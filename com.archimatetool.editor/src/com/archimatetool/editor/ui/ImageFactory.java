@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -180,6 +181,23 @@ public class ImageFactory {
         }
 
         return image;
+    }
+    
+    /**
+     * @param image The image to scale
+     * @return an autoscaled image depending on current device zoom
+     */
+    public static Image getAutoScaledImage(Image image) {
+        final ImageData imageData = image.getImageData(getDeviceZoom());
+        image.dispose();
+        
+        return new Image(Display.getCurrent(), new ImageDataProvider() {
+            @SuppressWarnings("restriction")
+            @Override
+            public ImageData getImageData(int zoom) {
+                return org.eclipse.swt.internal.DPIUtil.autoScaleImageData(Display.getCurrent(), imageData, zoom, getDeviceZoom());
+            }
+        });
     }
 
     /**

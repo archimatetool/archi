@@ -13,8 +13,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -25,7 +25,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
@@ -40,7 +39,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.ui.ImageFactory;
 
 
 
@@ -90,23 +89,10 @@ public class ColorChooser extends EventManager {
         
         fColorButton = new Button(fComposite, SWT.FLAT);
         
-        GridData gd = new GridData();
-        gd.widthHint = 60;
-        fColorButton.setLayoutData(gd);
+        GridDataFactory.create(SWT.NONE).hint(60, SWT.DEFAULT).applyTo(fColorButton);
         
-        // Use an ImageDescriptor to create an image for a given display zoom
-        ImageDescriptor id = new ImageDescriptor() {
-            @Override
-            public ImageData getImageData(int zoom) {
-                Image image = new Image(Display.getCurrent(), 40, 15); // Template image
-                ImageData id = image.getImageData(zoom); // Get Image Data for given zoom
-                image.dispose(); // No longer needed
-                return id;
-            }
-        };
-        
-        // Create an image from the ImageDescriptor and set it in the button
-        fColorButton.setImage(id.createImage());
+        Image image = ImageFactory.getAutoScaledImage(new Image(Display.getCurrent(), 40, 15));
+        fColorButton.setImage(image);
         
         fColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -134,13 +120,6 @@ public class ColorChooser extends EventManager {
         fMenuButton = new Button(fComposite, SWT.FLAT);
         fMenuButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));        
         fMenuButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.MENU_ARROW));
-        
-        if(PlatformUtils.isMac()) {
-            gd.heightHint = 25;
-        }
-        else {
-            gd.heightHint = fMenuButton.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-        }
         
         fMenuButton.addSelectionListener(new SelectionAdapter() {
             @Override
