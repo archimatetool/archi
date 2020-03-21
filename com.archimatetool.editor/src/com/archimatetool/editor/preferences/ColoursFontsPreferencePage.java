@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -53,6 +52,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -290,12 +290,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 if(image == null) {
                     image = new Image(Display.getCurrent(), 16, 16);
                     GC gc = new GC(image);
-                    SWTGraphics graphics = new SWTGraphics(gc);
-                    graphics.setBackgroundColor(fColorsCache.get(object));
-                    graphics.fillRectangle(0, 0, 15, 15);
-                    graphics.drawRectangle(0, 0, 15, 15);
+                    gc.setBackground(fColorsCache.get(object));
+                    gc.fillRectangle(0, 0, 15, 15);
+                    gc.drawRectangle(0, 0, 15, 15);
                     gc.dispose();
-                    graphics.dispose();
+                    image = ImageFactory.getAutoScaledImage(image);
                     fImageRegistry.put(key, image);
                 }
                 
