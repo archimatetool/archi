@@ -80,9 +80,9 @@ dataFolders.push({id:"^folder.Id^", type:"^folder.Class.SimpleName^", name:decod
 expandViewElementsForQuery(view, children) ::= <<
 ^children:{c |
 	^if(c.ArchimateElement)^
-		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
+		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.ArchimateElement.Id^", contenttype:"^c.ArchimateElement.Class.SimpleName^"\});
 	^elseif(c.ReferencedModel)^
-		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
+		dataViewsContent.push({viewid:"^view.Id^", contentid:"^c.ReferencedModel.Id^", contenttype:"^c.ReferencedModel.Class.SimpleName^"\});
 	^endif^
 	^if(c.Children)^
 		^expandViewElementsForQuery(view, c.Children)^		
