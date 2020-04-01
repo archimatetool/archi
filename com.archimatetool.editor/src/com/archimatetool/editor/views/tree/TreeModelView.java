@@ -593,14 +593,18 @@ implements ITreeModelView, IUIRequestListener {
 
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-        
-        if(selected instanceof IArchimateModelObject) {
-            return ((IArchimateModelObject)selected).getArchimateModel();
-        }
-        
-        if(getViewer().getInput() instanceof IArchimateModelObject) {
-            return ((IArchimateModelObject)getViewer().getInput()).getArchimateModel();
+        // viewer can be null if model dirty, focus is on tree, a diagram is open, you close the app
+        // and Eclipse tries to refresh some toolbar items
+        if(getViewer() != null) { 
+            Object selected = getViewer().getStructuredSelection().getFirstElement();
+            
+            if(selected instanceof IArchimateModelObject) {
+                return ((IArchimateModelObject)selected).getArchimateModel();
+            }
+            
+            if(getViewer().getInput() instanceof IArchimateModelObject) {
+                return ((IArchimateModelObject)getViewer().getInput()).getArchimateModel();
+            }
         }
         
         return null;
