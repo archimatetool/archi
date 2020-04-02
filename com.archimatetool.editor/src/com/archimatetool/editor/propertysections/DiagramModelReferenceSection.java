@@ -62,7 +62,7 @@ public class DiagramModelReferenceSection extends AbstractECorePropertySection {
             
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
                 update();
-                fPage.labelProviderChanged(null); // Update Main label
+                updatePropertiesLabel(); // Update Main label
             }
         }
     }

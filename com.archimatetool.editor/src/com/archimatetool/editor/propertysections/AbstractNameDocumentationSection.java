@@ -42,6 +42,7 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
             // Name event
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
                 refreshNameField();
+                updatePropertiesLabel();
             }
             // Documentation event
             else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {

@@ -100,7 +100,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
             // Model Name
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
                 refreshNameField();
-                fPage.labelProviderChanged(null); // Update Main label
+                updatePropertiesLabel(); // Update Main label
             }
             // Model File
             else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__FILE) {

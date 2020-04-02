@@ -95,6 +95,13 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     protected abstract void handleSelection(IStructuredSelection selection);
     
     /**
+     * Update/Refresh the main Properties label
+     */
+    protected void updatePropertiesLabel() {
+        fPage.labelProviderChanged(null);
+    }
+    
+    /**
      * @param parent
      * @return A Single line text Control
      */

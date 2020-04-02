@@ -150,6 +150,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
+        super.notifyChanged(msg);
+        
         if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.START) {
             ignoreMessages = true;
             return;

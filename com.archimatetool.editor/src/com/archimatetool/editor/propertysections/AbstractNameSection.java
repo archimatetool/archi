@@ -40,6 +40,7 @@ public abstract class AbstractNameSection extends AbstractECorePropertySection {
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ||
                     feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
+                updatePropertiesLabel();
             }
         }
     }

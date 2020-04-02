@@ -19,7 +19,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
@@ -30,7 +29,6 @@ import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.ILockable;
-import com.archimatetool.model.util.IModelContentListener;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -82,9 +80,13 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     
     /**
      * Notify that an Ecore event happened which might affect the underlying object in this property section
-     * @param msg
+     * Sub-classes should call super if they need to update the label name
      */
     protected void notifyChanged(Notification msg) {
+        // Update properties label on name change
+        if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME && msg.getNotifier() == getFirstSelectedObject()) {
+            updatePropertiesLabel();
+        }
     }
     
     /**
@@ -181,7 +183,6 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         
         if(selected != null && adapter != null && !selected.eAdapters().contains(adapter)) {
             selected.eAdapters().add(adapter);
-            labelListener.register(selected, fPage);
         }
     }
     
@@ -233,45 +234,8 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     @Override
     public void dispose() {
         removeAdapter();
-        labelListener.unregister();
         fObjects = null;
     }
-    
-    // ===========================================================================================================================
-    // Name Listener to update the Properties Section Label when a rename event occurs
-    // ===========================================================================================================================
-
-    private static NameListener labelListener = new NameListener();
-    
-    private static class NameListener implements IModelContentListener {
-        private IArchimateModel model;
-        private TabbedPropertySheetPage page;
-        
-        void register(IArchimateModelObject object, TabbedPropertySheetPage page) {
-            unregister();
-
-            model = object.getArchimateModel();
-            if(model != null) {
-                model.addModelContentListener(this);
-                this.page = page;
-            }
-        }
-        
-        void unregister() {
-            if(model != null) {
-                model.removeModelContentListener(this);
-                model = null;
-            }
-            page = null;
-        }
-
-        @Override
-        public void notifyChanged(Notification notification) {
-            if(page != null && notification.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                page.labelProviderChanged(null); // Update Main label
-            }
-        }
-    };
     
     // ===========================================================================================================================
     // WIDGET FACTORY METHODS
