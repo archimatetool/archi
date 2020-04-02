@@ -633,15 +633,24 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
      */
     @Override
     public void drawPolyline(PointList pointList) {
-
-        // Draw polylines as a series of lines
-        for (int x = 1; x < pointList.size(); x++) {
-
-            Point p1 = pointList.getPoint(x - 1);
-            Point p2 = pointList.getPoint(x);
-
-            drawLine(p1.x, p1.y, p2.x, p2.y);
-        }
+    	Path2D path = new Path2D.Float();
+    	
+    	if (pointList.size() > 1) {
+    		Point origin = pointList.getPoint(0);
+	        path.moveTo(origin.x + transX, origin.y + transY);
+	    	
+	        // Draw polylines as a Path2D
+	        for (int x = 1; x < pointList.size(); x++) {
+	            Point p2 = pointList.getPoint(x);
+	
+	            path.lineTo(p2.x + transX, p2.y + transY);
+	        }
+	        
+	        checkState();
+	        getGraphics2D().setPaint(getColor(swtGraphics.getForegroundColor()));
+	        getGraphics2D().setStroke(createStroke());
+	        getGraphics2D().draw(path);
+    	}
     }
 
     /*
@@ -668,7 +677,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     @Override
     public void fillRectangle(int x, int y, int width, int height) {
 
-        Rectangle2D rect = new Rectangle2D.Float(x + transX, y + transY, width, height);
+        Rectangle2D rect = new Rectangle2D.Float(x + transX, y + transY, width-1, height-1);
 
         checkState();
         getGraphics2D().setPaint(getColor(swtGraphics.getBackgroundColor()));
@@ -704,7 +713,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     @Override
     public void fillRoundRectangle(Rectangle rect, int arcWidth, int arcHeight) {
 
-        RoundRectangle2D roundRect = new RoundRectangle2D.Float(rect.x + transX, rect.y + transY, rect.width, rect.height, arcWidth,
+        RoundRectangle2D roundRect = new RoundRectangle2D.Float(rect.x + transX, rect.y + transY, rect.width-1, rect.height-1, arcWidth,
                 arcHeight);
 
         checkState();

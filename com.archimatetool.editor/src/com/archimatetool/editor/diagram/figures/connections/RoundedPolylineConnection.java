@@ -57,7 +57,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	// Radius from line-jumps
 	final double JUMP_MAX_RADIUS = 5.0;
 	// Number of intermediate points for circle and ellipse approximation
-	final double MAX_ITER = 15.0;
+	final double MAX_ITER = 6.0;
 	// Constants
 	final double SQRT2 = Math.sqrt(2.0);
 	final double PI34 = Math.PI * 3.0 / 4.0;
