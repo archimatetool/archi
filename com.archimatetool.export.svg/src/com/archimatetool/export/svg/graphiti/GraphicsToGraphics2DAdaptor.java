@@ -197,7 +197,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
 
     private static final TextUtilities TEXT_UTILITIES = new TextUtilities();
 
-    private Rectangle relativeClipRegion;
+    protected Rectangle relativeClipRegion;
 
     private org.eclipse.swt.graphics.Rectangle viewBox;
     private Image image;
@@ -205,24 +205,24 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     /**
      * x coordinate for graphics translation
      */
-    private int transX = 0;
+    protected int transX = 0;
     /**
      * y coordinate for graphics translation
      */
-    private int transY = 0;
+    protected int transY = 0;
     
     /**
      * current rotation angle 
      */
-    private float angle;
+    protected float angle;
     /**
      * The x coordinate of the rotation point
      */
-    private int rotateX;
+    protected int rotateX;
     /**
      * The y coordinate of the rotation point
      */
-    private int rotateY;
+    protected int rotateY;
 
     /**
      * Constructor
@@ -633,24 +633,15 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
      */
     @Override
     public void drawPolyline(PointList pointList) {
-    	Path2D path = new Path2D.Float();
-    	
-    	if (pointList.size() > 1) {
-    		Point origin = pointList.getPoint(0);
-	        path.moveTo(origin.x + transX, origin.y + transY);
-	    	
-	        // Draw polylines as a Path2D
-	        for (int x = 1; x < pointList.size(); x++) {
-	            Point p2 = pointList.getPoint(x);
-	
-	            path.lineTo(p2.x + transX, p2.y + transY);
-	        }
-	        
-	        checkState();
-	        getGraphics2D().setPaint(getColor(swtGraphics.getForegroundColor()));
-	        getGraphics2D().setStroke(createStroke());
-	        getGraphics2D().draw(path);
-    	}
+
+        // Draw polylines as a series of lines
+        for (int x = 1; x < pointList.size(); x++) {
+
+            Point p1 = pointList.getPoint(x - 1);
+            Point p2 = pointList.getPoint(x);
+
+            drawLine(p1.x, p1.y, p2.x, p2.y);
+        }
     }
 
     /*
@@ -677,7 +668,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     @Override
     public void fillRectangle(int x, int y, int width, int height) {
 
-        Rectangle2D rect = new Rectangle2D.Float(x + transX, y + transY, width-1, height-1);
+        Rectangle2D rect = new Rectangle2D.Float(x + transX, y + transY, width, height);
 
         checkState();
         getGraphics2D().setPaint(getColor(swtGraphics.getBackgroundColor()));
@@ -713,7 +704,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     @Override
     public void fillRoundRectangle(Rectangle rect, int arcWidth, int arcHeight) {
 
-        RoundRectangle2D roundRect = new RoundRectangle2D.Float(rect.x + transX, rect.y + transY, rect.width-1, rect.height-1, arcWidth,
+        RoundRectangle2D roundRect = new RoundRectangle2D.Float(rect.x + transX, rect.y + transY, rect.width, rect.height, arcWidth,
                 arcHeight);
 
         checkState();
@@ -1459,7 +1450,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
      * 
      * @return the new AWT stroke
      */
-    private Stroke createStroke() {
+    protected Stroke createStroke() {
         float factor = currentState.lineAttributes.width > 0 ? currentState.lineAttributes.width : 3;
         float awt_dash[];
         int awt_cap;
