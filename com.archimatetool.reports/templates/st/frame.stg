@@ -96,7 +96,7 @@ expandViewRelsForQuery(view, children) ::= <<
 		^if(c.SourceConnections)^
 			^c.SourceConnections:{r |
 				^if(r.ArchimateConcept)^
-					dataViewsContent.push({viewid:"^view.Id^", contentid:"^r.Id^", contenttype:"^r.Class.SimpleName^"\});
+					dataViewsContent.push({viewid:"^view.Id^", contentid:"^r.ArchimateConcept.Id^", contenttype:"^r.ArchimateConcept.Class.SimpleName^"\});
 				^endif^
 			}^
 		^endif^
