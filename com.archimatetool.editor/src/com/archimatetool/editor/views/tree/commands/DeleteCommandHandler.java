@@ -139,8 +139,14 @@ public class DeleteCommandHandler {
             }
         }
         
-        else if(object instanceof IArchimateConcept) {
+        // Concept
+        if(object instanceof IArchimateConcept) {
             return DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)object);
+        }
+        
+        // Diagram Model Reference
+        if(object instanceof IDiagramModel) {
+            return DiagramModelUtils.hasDiagramModelReference((IDiagramModel)object);
         }
         
         return false;

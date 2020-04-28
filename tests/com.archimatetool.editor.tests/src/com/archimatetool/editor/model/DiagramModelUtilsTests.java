@@ -268,6 +268,39 @@ public class DiagramModelUtilsTests {
     }
     
     @Test
+    public void hasDiagramModelReference() {
+        IDiagramModel diagramModel1 = tm.addNewArchimateDiagramModel();
+        IDiagramModel diagramModel2 = tm.addNewArchimateDiagramModel();
+        IDiagramModel diagramModel3 = tm.addNewArchimateDiagramModel();
+        
+        // Should not be found
+        assertFalse(DiagramModelUtils.hasDiagramModelReference(diagramModel1));
+        assertFalse(DiagramModelUtils.hasDiagramModelReference(diagramModel2));
+        assertFalse(DiagramModelUtils.hasDiagramModelReference(diagramModel3));
+
+        // Create some refs
+        IDiagramModelReference ref1 = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        ref1.setReferencedModel(diagramModel1);
+        IDiagramModelReference ref2 = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        ref2.setReferencedModel(diagramModel2);
+        IDiagramModelReference ref3 = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        ref3.setReferencedModel(diagramModel3);
+        
+        diagramModel1.getChildren().add(ref3);
+        
+        // Add the ref into a container group
+        IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        group.getChildren().add(ref1);
+        diagramModel2.getChildren().add(group);
+        
+        diagramModel3.getChildren().add(ref2);
+
+        assertTrue(DiagramModelUtils.hasDiagramModelReference(diagramModel1));
+        assertTrue(DiagramModelUtils.hasDiagramModelReference(diagramModel2));
+        assertTrue(DiagramModelUtils.hasDiagramModelReference(diagramModel3));
+    }
+    
+    @Test
     public void hasDiagramModelArchimateConnection() {
         IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         IArchimateRelationship relationship2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();

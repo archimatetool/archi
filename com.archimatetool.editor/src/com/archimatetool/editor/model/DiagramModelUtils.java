@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -209,6 +210,24 @@ public class DiagramModelUtils {
         }
         
         return list;
+    }
+    
+    /**
+     * Return true if diagramModel is referenced anywhere in its model as a diagram model reference
+     * @param diagramModel The diagram model
+     * @return true if referenced
+     */
+    public static boolean hasDiagramModelReference(IDiagramModel diagramModel) {
+        if(diagramModel.getArchimateModel() != null) {
+            for(Iterator<EObject> iter = diagramModel.getArchimateModel().getFolder(FolderType.DIAGRAMS).eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                if(eObject instanceof IDiagramModelReference && ((IDiagramModelReference)eObject).getReferencedModel() == diagramModel) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
