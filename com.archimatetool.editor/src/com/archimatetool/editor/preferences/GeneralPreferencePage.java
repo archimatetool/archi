@@ -60,6 +60,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fShowUnusedElementsInModelTreeButton;
     private Button fAutoSearchButton;
+    private Button fWarnOnDeleteButton;
     
     private Button fScaleImagesButton;
 
@@ -178,6 +179,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.GeneralPreferencePage_7);
         label.setLayoutData(createHorizontalGridData(2));
         
+        fWarnOnDeleteButton = new Button(modelTreeGroup, SWT.CHECK);
+        fWarnOnDeleteButton.setText(Messages.GeneralPreferencePage_16);
+        fWarnOnDeleteButton.setLayoutData(createHorizontalGridData(2));
+        
         // Other
         Group otherGroup = new Group(client, SWT.NULL);
         otherGroup.setText(Messages.GeneralPreferencePage_12);
@@ -213,6 +218,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
+        fWarnOnDeleteButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
 
         // Themes list
         List<ITheme> themes = new ArrayList<ITheme>();
@@ -258,6 +264,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_SEARCH_AUTO, fAutoSearchButton.getSelection());
+        getPreferenceStore().setValue(SHOW_WARNING_ON_DELETE_FROM_TREE, fWarnOnDeleteButton.getSelection());
         
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
@@ -279,7 +286,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
-        
+        fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
         
         if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
             setTheme(AUTOMATIC_THEME, false);

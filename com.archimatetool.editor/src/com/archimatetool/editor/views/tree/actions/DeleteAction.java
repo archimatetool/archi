@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
 import com.archimatetool.editor.views.tree.commands.DeleteCommandHandler;
@@ -46,15 +48,22 @@ public class DeleteAction extends ViewerAction {
         DeleteCommandHandler cmdHandler = new DeleteCommandHandler((TreeModelViewer)getSelectionProvider(),
                 selection.toArray());
 
-        /*
-         * If the objects are referenced in a diagram warn user
-         */
+        // If the objects are referenced in a diagram then warn
         if(cmdHandler.hasDiagramReferences()) {
             if(!MessageDialog.openQuestion(
                     Display.getDefault().getActiveShell(),
                     Messages.DeleteAction_1,
                     Messages.DeleteAction_2 +
-                    "\n\n" + //$NON-NLS-1$
+                    "\n" + //$NON-NLS-1$
+                    Messages.DeleteAction_3)) {
+                        return;
+            }
+        }
+        // Else if preference is set to warn user in all cases
+        else if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_WARNING_ON_DELETE_FROM_TREE)) {
+            if(!MessageDialog.openQuestion(
+                    Display.getDefault().getActiveShell(),
+                    Messages.DeleteAction_1,
                     Messages.DeleteAction_3)) {
                         return;
             }
