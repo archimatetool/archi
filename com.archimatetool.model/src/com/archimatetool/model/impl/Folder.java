@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.FolderType;
@@ -25,6 +26,7 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
@@ -642,4 +644,15 @@ public class Folder extends EObjectImpl implements IFolder {
         return result.toString();
     }
 
+    @Override
+    public EObject getCopy() {
+    	IFolder newFolder = EcoreUtil.copy(this);
+    	newFolder.setId(UUIDFactory.createID(newFolder)); // New Id to be set
+    	newFolder.getFolders().clear(); // this is required
+    	newFolder.getElements().clear(); // This is required
+    	
+    	// TODO: probably still missing some things here
+    	return newFolder;
+    }
+    
 } //Folder

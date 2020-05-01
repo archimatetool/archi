@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface IFolder extends IArchimateModelObject, IFolderContainer, IDocumentable, IProperties {
+public interface IFolder extends IArchimateModelObject, IFolderContainer, IDocumentable, IProperties, ICloneable {
     /**
      * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
      * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
