@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -31,6 +33,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.impl.ArchimateModel;
 
 
 
@@ -75,9 +78,28 @@ public class DuplicateCommandHandler {
      * @return True if we can duplicate this object
      */
     public static boolean canDuplicate(Object element) {
-        // Elements and Diagrams
-        return (element instanceof IArchimateElement) || (element instanceof IDiagramModel);
+        // Elements, Diagrams and Folders in the Views Model Folder
+        return (element instanceof IArchimateElement) || (element instanceof IDiagramModel) 
+        		|| ((element instanceof IFolder) 
+        				&& checkFolderInViewFolder((IFolder)element)
+        				// We can't allow to duplicate the Views folder
+        				&& !((IFolder)element).getName().equals("Views"));
+        				// TODO: Must Use the messages.properties original name : com.archimatetool.model.FolderType_7
     }
+    
+    // TODO: this function must be in Folder interface
+    private static boolean checkFolderInViewFolder(IFolder folder) {
+    	// if we are at the top
+    	if(folder.eContainer() instanceof ArchimateModel) {
+    		if(folder.getName().equals("Views")) // TODO: Must Use the messages.properties original name : com.archimatetool.model.FolderType_7
+    			return true;
+    		return false;
+    	}
+    	if(folder.eContainer() instanceof IFolder)
+    		return checkFolderInViewFolder((IFolder)folder.eContainer());
+    	return false; // This is not normal : the folder is not in another folder nor in the ArchimateModel
+    }
+    
     
     public DuplicateCommandHandler(Object[] objects) {
         fSelectedObjects = objects;
@@ -128,8 +150,48 @@ public class DuplicateCommandHandler {
                 Command cmd = new DuplicateElementCommand((IArchimateElement)object);
                 compoundCommand.add(cmd);
             }
+            else if(object instanceof IFolder) {
+            	// All actions have to be orchestrated here and cannot be handled in a sub command class
+            	IFolder toCopy = (IFolder)object;
+            	// We have to drill down inside and copy subdiagrams and subfolders
+            	// the reason it has to be here is because it otherwise cannot be add in the compoundCommand
+            	recurseDuplicateVewFolder(toCopy, compoundCommand);
+            }
         }
     }
+    
+    private DuplicateDiagramFolderCommand recurseDuplicateVewFolder(IFolder originalFolder, CompoundCommand compoundCommand) {
+    	// The raw folder is copied first
+    	DuplicateDiagramFolderCommand duplicationFolderCmd = new DuplicateDiagramFolderCommand(originalFolder);
+    	compoundCommand.add(duplicationFolderCmd);
+    	
+    	// we drill in this folder
+    	for(EObject object : originalFolder.getFolders()) {
+    		if(object instanceof IFolder) {
+    			// we recursively drill down
+    			// We duplicate this object 
+    			DuplicateDiagramFolderCommand newFolderCmd = recurseDuplicateVewFolder((IFolder)object, compoundCommand);
+    			// We move this new object in the new folder 
+    			Command moveCmd = new DuplicatedFolderMoveCommand(duplicationFolderCmd, newFolderCmd);
+    			compoundCommand.add(moveCmd);
+    		}
+    	}
+    	
+    	for(EObject object : originalFolder.getElements()) {
+    		if(object instanceof IDiagramModel) {
+    			DuplicateDiagramModelCommand duplicationDiagramCmd = new DuplicateDiagramModelCommand((IDiagramModel)object);
+                compoundCommand.add(duplicationDiagramCmd);
+                
+                // move the copied diagram from its original folder to the new one
+                Command moveCmd = new DuplicatedDiagramMoveCommand(duplicationFolderCmd, duplicationDiagramCmd);
+                compoundCommand.add(moveCmd);
+  
+    		}
+    	}
+    	return duplicationFolderCmd;
+    
+    }
+    
     
     /**
      * Add object to list if not already in list
@@ -167,8 +229,70 @@ public class DuplicateCommandHandler {
         fCommandMap = null;
         fNewObjects = null;
     }
+    
+    /**
+     * Duplicate Diagram Model ViewFolder Command
+     */
+    private class DuplicateDiagramFolderCommand extends Command {
+        private IFolder fParent;
+        private IFolder fFolderlOriginal;
+        private IFolder fFolderCopy;
+        
+        public IFolder getCopiedFolder() { return fFolderCopy; }
+        
+    	public DuplicateDiagramFolderCommand(IFolder viewFolder) {
+    		fParent = (IFolder)viewFolder.eContainer();
+    		fFolderlOriginal = viewFolder;
+    		setLabel(Messages.DuplicateCommandHandler_1);
+    	}
 
+    	@Override
+    	public void execute() {
+    		
+    		fFolderCopy = (IFolder)fFolderlOriginal.getCopy();
+    		
+    		fFolderCopy.setName(fFolderlOriginal.getName() + " " + Messages.DuplicateCommandHandler_3); //$NON-NLS-1$
+    		
+            fParent.getFolders().add(fFolderCopy);
+            
+            // Execute Command
+            fNewObjects.add(fFolderCopy);
 
+    	}
+
+    	/**
+    	 * Close all sub Diagram in the folder in argument
+    	 * Use recursion
+    	 */
+    	private void closeAllDiagram(IFolder folder) {
+    		folder.getElements().forEach(element -> {
+    			if(element instanceof IDiagramModel) 
+    				EditorManager.closeDiagramEditor((IDiagramModel)element);
+    			else if(element instanceof IFolder)
+    				closeAllDiagram(folder);
+				});
+    	}
+    	
+    	@Override
+    	public void undo() {
+            // Get all copied view, have to be closed in the Editor FIRST!
+    		closeAllDiagram(fFolderCopy);
+           
+            fParent.getElements().remove(fFolderCopy);
+    		
+    	}
+    	@Override
+    	public void redo() {
+            fParent.getElements().add(fFolderCopy);
+    		
+    	}
+    	@Override
+    	public void dispose() {
+    		fParent = null;
+    		fFolderlOriginal = null;
+    		fFolderCopy = null;
+    	}
+    }
     
     /**
      * Duplicate Diagram Model Command
@@ -177,6 +301,8 @@ public class DuplicateCommandHandler {
         private IFolder fParent;
         private IDiagramModel fDiagramModelOriginal;
         private IDiagramModel fDiagramModelCopy;
+        
+        public IDiagramModel getCopiedDiagram() { return fDiagramModelCopy; }
         
         /**
          * Mapping of original objects to new copied objects
@@ -331,4 +457,70 @@ public class DuplicateCommandHandler {
         }
     }
 
+    /**
+     * Move an object after its duplication.
+     */
+    private class DuplicatedDiagramMoveCommand extends Command {
+    	private MoveObjectCommand innerCommand;
+    	private DuplicateDiagramFolderCommand futureNewTarget;
+    	private DuplicateDiagramModelCommand futureNewDiagram;
+    	
+    	public DuplicatedDiagramMoveCommand(DuplicateDiagramFolderCommand folderDuplication, DuplicateDiagramModelCommand diagramDuplication) {
+			futureNewDiagram = diagramDuplication;
+			futureNewTarget = folderDuplication;
+		}
+    	@Override
+    	public void execute() {
+    		innerCommand = new MoveObjectCommand(futureNewTarget.getCopiedFolder(), futureNewDiagram.getCopiedDiagram());
+    		innerCommand.execute();
+    	}
+    	@Override
+    	public void redo() {
+    		innerCommand.redo();
+    	}
+    	@Override
+    	public void undo() {
+    		innerCommand.undo();
+    	}
+    	@Override
+    	public void dispose() {
+    		innerCommand.dispose();
+    		innerCommand = null;
+    		futureNewDiagram = null;
+    		futureNewTarget = null;
+    	}
+    }
+    /**
+     * Move an object after its duplication.
+     */
+    private class DuplicatedFolderMoveCommand extends Command {
+    	private MoveFolderCommand innerCommand;
+    	private DuplicateDiagramFolderCommand futureNewDestination;
+    	private DuplicateDiagramFolderCommand futureNewFolder;
+    	
+    	public DuplicatedFolderMoveCommand(DuplicateDiagramFolderCommand duplicatedDestination, DuplicateDiagramFolderCommand duplicatedFolder) {
+    		futureNewFolder = duplicatedFolder;
+    		futureNewDestination = duplicatedDestination;
+		}
+    	@Override
+    	public void execute() {
+    		innerCommand = new MoveFolderCommand(futureNewDestination.getCopiedFolder(), futureNewFolder.getCopiedFolder());
+    		innerCommand.execute();
+    	}
+    	@Override
+    	public void redo() {
+    		innerCommand.redo();
+    	}
+    	@Override
+    	public void undo() {
+    		innerCommand.undo();
+    	}
+    	@Override
+    	public void dispose() {
+    		innerCommand.dispose();
+    		innerCommand = null;
+    		futureNewFolder = null;
+    		futureNewDestination = null;
+    	}
+    }
 }
