@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
@@ -646,12 +647,12 @@ public class Folder extends EObjectImpl implements IFolder {
 
     @Override
     public EObject getCopy() {
-    	IFolder newFolder = EcoreUtil.copy(this);
+        IFolder newFolder = EcoreUtil.copy(this);
+    	newFolder.setName(this.getName());
     	newFolder.setId(UUIDFactory.createID(newFolder)); // New Id to be set
     	newFolder.getFolders().clear(); // this is required
     	newFolder.getElements().clear(); // This is required
-    	
-    	// TODO: probably still missing some things here
+        
     	return newFolder;
     }
     
