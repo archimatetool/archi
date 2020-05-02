@@ -16,10 +16,10 @@ import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
-import com.archimatetool.templates.wizard.TemplateUtils;
 
 
 
@@ -78,7 +78,7 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
             model.setFile(null);
             
             // New IDs
-            TemplateUtils.generateNewUUIDs(model);
+            UUIDFactory.generateNewIDs(model);
             
             // Edit in-place in Tree
             UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));

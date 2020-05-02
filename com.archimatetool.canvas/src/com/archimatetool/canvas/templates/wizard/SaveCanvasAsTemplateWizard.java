@@ -39,6 +39,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateManager;
@@ -260,7 +261,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         }
         
         // Generate new IDs
-        TemplateUtils.generateNewUUIDs(copyCanvas);
+        UUIDFactory.generateNewIDs(copyCanvas);
         
         return copyCanvas;
     }

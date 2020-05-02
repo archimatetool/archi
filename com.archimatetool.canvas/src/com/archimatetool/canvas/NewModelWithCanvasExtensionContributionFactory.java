@@ -34,7 +34,7 @@ import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.ModelVersion;
-import com.archimatetool.templates.wizard.TemplateUtils;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 
@@ -95,7 +95,7 @@ public class NewModelWithCanvasExtensionContributionFactory extends ExtensionCon
                             model.setFile(null);
                             
                             // New IDs
-                            TemplateUtils.generateNewUUIDs(model);
+                            UUIDFactory.generateNewIDs(model);
                             
                             // Open Canvas
                             EditorManager.openDiagramEditor(model.getDefaultDiagramModel(), false);

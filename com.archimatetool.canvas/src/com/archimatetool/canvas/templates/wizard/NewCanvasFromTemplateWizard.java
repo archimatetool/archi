@@ -24,9 +24,9 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.ArchimateResourceFactory;
+import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
-import com.archimatetool.templates.wizard.TemplateUtils;
 
 
 
@@ -112,8 +112,8 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         IFolder folderViews = templateModel.getFolder(FolderType.DIAGRAMS);
         ICanvasModel canvasModel = (ICanvasModel)folderViews.getElements().get(0);
 
-        // Create New UUIDs for elements...
-        TemplateUtils.generateNewUUIDs(canvasModel);
+        // Create New IDs for elements...
+        UUIDFactory.generateNewIDs(canvasModel);
         
         // Load the images from the template model's file now
         if(isArchiveFormat) {
