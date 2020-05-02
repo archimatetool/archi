@@ -165,6 +165,7 @@ public class DuplicateCommandHandlerTests {
         IDiagramModel dmCopy = model.getDiagramModels().get(1);
         assertNotSame(dm, dmCopy);
         assertEquals(dm.getName() + " (copy)", dmCopy.getName());
+        assertNotEquals(dmCopy.getId(), dm.getId());
         
         EList<IDiagramModelObject> children = dmCopy.getChildren();
         assertEquals(2, children.size());
@@ -173,15 +174,21 @@ public class DuplicateCommandHandlerTests {
         IDiagramModelArchimateObject dmo2Copy = (IDiagramModelArchimateObject)children.get(1);
         assertNotSame(dmo1, dmo1Copy);
         assertNotSame(dmo2, dmo2Copy);
+        assertNotEquals(dmo1.getId(), dmo1Copy.getId());
+        assertNotEquals(dmo2.getId(), dmo2Copy.getId());
         assertSame(actor, dmo1Copy.getArchimateConcept());
         assertSame(role, dmo2Copy.getArchimateConcept());
+        assertSame(actor.getId(), dmo1Copy.getArchimateConcept().getId());
+        assertSame(role.getId(), dmo2Copy.getArchimateConcept().getId());
         
         EList<IDiagramModelConnection> connections = dmo1Copy.getSourceConnections();
         assertEquals(1, connections.size());
         
         IDiagramModelArchimateConnection dmc1Copy = (IDiagramModelArchimateConnection)connections.get(0);
         assertNotSame(dmc1, dmc1Copy);
+        assertNotEquals(dmc1.getId(), dmc1Copy.getId());
         assertSame(relation, dmc1Copy.getArchimateConcept());
+        assertSame(relation.getId(), dmc1Copy.getArchimateConcept().getId());
     }
     
     @Test
