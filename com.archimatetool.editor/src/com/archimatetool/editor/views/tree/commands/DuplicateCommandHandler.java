@@ -45,12 +45,9 @@ public class DuplicateCommandHandler {
     // Selected objects in Tree
     private Object[] fSelectedObjects;
     
-    // Newly added objects
+    // Newly added objects that will be selected in the Models Tree
     private List<Object> fNewObjects = new ArrayList<Object>();
 
-    // Elements to duplicate
-    private List<Object> fElementsToDuplicate = new ArrayList<Object>();
-    
     // If true will open duplicated diagrams when created
     private boolean doOpenDiagrams = true;
     
@@ -85,9 +82,6 @@ public class DuplicateCommandHandler {
      * Perform the duplicate command
      */
     public void duplicate() {
-        // Gather the elements to duplicate
-        getElementsToDuplicate();
-        
         // Create the Commands
         createCommands();
         
@@ -102,42 +96,27 @@ public class DuplicateCommandHandler {
         dispose();
     }
 
-    private void getElementsToDuplicate() {
+    private void createCommands() {
         for(Object object : fSelectedObjects) {
             if(canDuplicate(object)) {
-                addToList(object, fElementsToDuplicate);
+                CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
+                if(compoundCommand == null) { // sanity check
+                    System.err.println("Could not get CompoundCommand in " + getClass()); //$NON-NLS-1$
+                    continue;
+                }
+                
+                if(object instanceof IDiagramModel) {
+                    Command cmd = new DuplicateDiagramModelCommand((IDiagramModel)object);
+                    compoundCommand.add(cmd);
+                }
+                else if(object instanceof IArchimateElement) {
+                    Command cmd = new DuplicateElementCommand((IArchimateElement)object);
+                    compoundCommand.add(cmd);
+                }
             }
         }
     }
     
-    private void createCommands() {
-        for(Object object : fElementsToDuplicate) {
-            CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
-            if(compoundCommand == null) { // sanity check
-                System.err.println("Could not get CompoundCommand in " + getClass()); //$NON-NLS-1$
-                continue;
-            }
-            
-            if(object instanceof IDiagramModel) {
-                Command cmd = new DuplicateDiagramModelCommand((IDiagramModel)object);
-                compoundCommand.add(cmd);
-            }
-            else if(object instanceof IArchimateElement) {
-                Command cmd = new DuplicateElementCommand((IArchimateElement)object);
-                compoundCommand.add(cmd);
-            }
-        }
-    }
-    
-    /**
-     * Add object to list if not already in list
-     */
-    private void addToList(Object object, List<Object> list) {
-        if(object != null && !list.contains(object)) {
-            list.add(object);
-        }
-    }
-
     /**
      * Get, and if need be create, a CompoundCommand to which to add the object to be duplicated command
      */
@@ -161,7 +140,6 @@ public class DuplicateCommandHandler {
     
     private void dispose() {
         fSelectedObjects = null;
-        fElementsToDuplicate = null;
         fCommandMap = null;
         fNewObjects = null;
     }
