@@ -661,6 +661,11 @@
             id="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
             name="%command.name.16">
       </command>
+      <command
+            defaultHandler="com.archimatetool.editor.actions.ShowPropertiesManagerHandler"
+            id="com.archimatetool.editor.action.openPropertiesDialog"
+            name="Properties Manager">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -782,6 +787,16 @@
             <visibleWhen
                   checkEnabled="true">
             </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:tools?after=com.archimatetool.action.generateView">
+         <command
+               commandId="com.archimatetool.editor.action.openPropertiesDialog"
+               icon="img/prop_ps.png"
+               label="Properties Manager"
+               style="push">
          </command>
       </menuContribution>
    </extension>
