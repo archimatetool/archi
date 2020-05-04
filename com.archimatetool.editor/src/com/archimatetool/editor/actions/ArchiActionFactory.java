@@ -14,6 +14,8 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
+import com.archimatetool.editor.ui.IArchiImages;
+
 
 
 
@@ -187,6 +189,7 @@ public final class ArchiActionFactory {
             window.getPartService().addPartListener(action);
             // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
+            action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM));
             return action;
         }
     };
