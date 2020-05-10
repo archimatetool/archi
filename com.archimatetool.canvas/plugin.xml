@@ -47,14 +47,12 @@
                afterTab="properties.tab"
                category="main.category"
                id="hint.tab"
-               indented="false"
                label="%propertyTab.label">
          </propertyTab>
          <propertyTab
                afterTab="appearance.tab"
                category="appearance.category"
                id="image.tab"
-               indented="true"
                label="%propertyTab.label.0">
          </propertyTab>
       </propertyTabs>
