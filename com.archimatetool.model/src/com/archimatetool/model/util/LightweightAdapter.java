@@ -7,9 +7,11 @@ package com.archimatetool.model.util;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EObject;
 
 /**
- * AdapterImpl that sends Notifications to a listener.
+ * Convenience AdapterImpl that sends Notifications to a IModelContentListener
+ * and takes care of adding and removing itself from EObjects' eAdapater lists.
  * 
  * @author Phillip Beauvoir
  */
@@ -19,6 +21,30 @@ public class LightweightAdapter extends AdapterImpl {
     
     public LightweightAdapter(IModelContentListener listener) {
         this.listener = listener;
+    }
+    
+    /**
+     * This AdapterImpl will be added to aach EObject's eAdapters
+     * @param eObjects
+     */
+    public void add(EObject... eObjects) {
+        for(EObject eObject : eObjects) {
+            if(eObject != null) {
+                eObject.eAdapters().add(this);
+            }
+        }
+    }
+    
+    /**
+     * This AdapterImpl will be removed from aach EObject's eAdapters
+     * @param eObjects
+     */
+    public void remove(EObject... eObjects) {
+        for(EObject eObject : eObjects) {
+            if(eObject != null) {
+                eObject.eAdapters().remove(this);
+            }
+        }
     }
 
     @Override

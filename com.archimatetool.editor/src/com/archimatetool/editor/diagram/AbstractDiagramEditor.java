@@ -137,7 +137,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.util.IModelContentListener;
+import com.archimatetool.model.util.LightweightAdapter;
 
 
 
@@ -175,9 +175,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected IPropertyChangeListener appPreferencesListener = this::applicationPreferencesChanged;
     
     /**
-     * Listen to ecore changes
+     * Listen to ecore changes for model/view name change
      */
-    protected IModelContentListener fEContentListener = this::notifyChanged;
+    private LightweightAdapter eCoreAdapter = new LightweightAdapter(this::notifyChanged);
     
     /**
      * Application Preference changed
@@ -218,8 +218,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // This first - set model
         fDiagramModel = ((DiagramEditorInput)input).getDiagramModel();
         
-        // Listen to notifications for name changes
-        fDiagramModel.getArchimateModel().addModelContentListener(fEContentListener);
+        // Listen to notifications from diagram model and main model for name changes to update part
+        eCoreAdapter.add(fDiagramModel, fDiagramModel.getArchimateModel());
         
         // Edit Domain before init
         // Use CommandStack from Model
@@ -1005,13 +1005,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * @param msg
      */
     protected void notifyChanged(Notification msg) {
-        if(msg.getEventType() == Notification.SET) {
-            // Archimate Model or Diagram Model name changed
-            if(msg.getNotifier() == getModel() || msg.getNotifier() == getModel().getArchimateModel()) {
-                if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                    setPartName(getEditorInput().getName());
-                }
-            }
+        // Archimate Model or Diagram Model name changed
+        if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            setPartName(getEditorInput().getName());
         }
     }
     
@@ -1019,12 +1015,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     public void dispose() {
         super.dispose();
         
-        // Remove listeners
+        // Remove Preference listener
         Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
         
-        if(getModel() != null && getModel().getArchimateModel() != null) {
-            getModel().getArchimateModel().removeModelContentListener(fEContentListener);
-        }
+        // Remove eCore adapter listener objects
+        eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);
         
         // Update shell text
         getSite().getShell().setText(Platform.getProduct().getName());
