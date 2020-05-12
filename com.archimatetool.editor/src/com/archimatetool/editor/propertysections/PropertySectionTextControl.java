@@ -55,13 +55,11 @@ public abstract class PropertySectionTextControl {
     private void init(Control textControl) {
         fTextControl = textControl;
         
-        // Focus out updates text in data object
+        // FocusOut updates the text
         textControl.addListener(SWT.FocusOut, eventListener);
         
-        // Listen for Return keypress on Single text control
-        if(isSingleTextControl()) {
-            textControl.addListener(SWT.DefaultSelection, eventListener);
-        }
+        // Listen for Enter (or Ctrl+Enter) keypress
+        textControl.addListener(SWT.DefaultSelection, eventListener);
         
         textControl.addDisposeListener((event)-> {
             textControl.removeListener(SWT.FocusOut, eventListener);
@@ -143,6 +141,7 @@ public abstract class PropertySectionTextControl {
         }
     }
     
+    @SuppressWarnings("unused")
     private boolean isSingleTextControl() {
         return (getTextControl().getStyle() & SWT.SINGLE) != 0;
     }

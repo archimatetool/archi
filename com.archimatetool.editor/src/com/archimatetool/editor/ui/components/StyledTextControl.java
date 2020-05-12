@@ -23,8 +23,10 @@ import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -75,6 +77,7 @@ public class StyledTextControl {
     
     private Listener eventListener = this::handleEvent;
     private LineStyleListener lineStyleListener = this::lineGetStyle;
+    private VerifyKeyListener verifyKeyListener = this::handleVerifyKey;
     
     private final int[] eventTypes = {
         SWT.MouseUp, SWT.MouseMove,
@@ -134,7 +137,11 @@ public class StyledTextControl {
             fStyledText.addListener(type, eventListener);
         }
         
+        // Line Style
         fStyledText.addLineStyleListener(lineStyleListener);
+        
+        // Key presses
+        fStyledText.addVerifyKeyListener(verifyKeyListener);
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(fStyledText);
@@ -175,6 +182,23 @@ public class StyledTextControl {
         
         if(!list.isEmpty()) {
             event.styles = list.toArray(new StyleRange[list.size()]);
+        }
+    }
+    
+    private void handleVerifyKey(VerifyEvent event) {
+        // On Ctrl/Command + Enter we send out a SWT.DefaultSelection event instead
+        if(((event.stateMask & SWT.MODIFIER_MASK) == SWT.MOD1 || (event.stateMask & SWT.MODIFIER_MASK) == SWT.CTRL)
+                && (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR)) {
+            // Consume the key press
+            event.doit = false;
+            
+            // Fire a SWT.DefaultSelection event
+            Event e = new Event();
+            e.type = SWT.DefaultSelection;
+            e.widget = fStyledText;
+            e.display = fStyledText.getDisplay();
+            e.time = (int)System.currentTimeMillis();
+            fStyledText.notifyListeners(SWT.DefaultSelection, e);
         }
     }
     
@@ -295,7 +319,7 @@ public class StyledTextControl {
     }
 
     /**
-     * Mouse Up - Open link if Mode Key is pressed and on link
+     * Mouse Up - Open link if Mod Key is pressed and on link
      */
     private void doMouseUp(Event e) {
         if(isModKeyPressed(e)) {
@@ -407,7 +431,7 @@ public class StyledTextControl {
      * @return true if Mod key is pressed
      */
     private boolean isModKeyPressed(Event e) {
-        return (e.stateMask & SWT.MOD1) != 0;
+        return (e.stateMask & SWT.MODIFIER_MASK) == SWT.MOD1;
     }
     
     private void dispose() {
@@ -421,6 +445,8 @@ public class StyledTextControl {
         }
 
         fStyledText.removeLineStyleListener(lineStyleListener);
+        
+        fStyledText.removeVerifyKeyListener(verifyKeyListener);
         
         fCurrentCursor = null;
         fLinkInfos = null;
