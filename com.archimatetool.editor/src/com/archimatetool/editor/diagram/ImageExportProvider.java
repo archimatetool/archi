@@ -42,6 +42,10 @@ public class ImageExportProvider implements IImageExportProvider {
     
     protected Spinner fScaleSpinner;
     
+    private static final int SCALE_MIN = 25;
+    private static final int SCALE_MAX = 400;
+    
+    
     @Override
     public void export(String providerID, File file) throws Exception {
         Image image = null;
@@ -86,8 +90,8 @@ public class ImageExportProvider implements IImageExportProvider {
         Label label = new Label(container, SWT.NONE);
         label.setText(Messages.ImageExportProvider_0);
         fScaleSpinner = new Spinner(container, SWT.BORDER);
-        fScaleSpinner.setMinimum(25);
-        fScaleSpinner.setMaximum(500);
+        fScaleSpinner.setMinimum(SCALE_MIN);
+        fScaleSpinner.setMaximum(SCALE_MAX);
         
         loadPreferences();
     }
@@ -100,7 +104,10 @@ public class ImageExportProvider implements IImageExportProvider {
         
         // Value of scale
         int scale = store.getInt(PREFS_IMAGE_SCALE);
-        fScaleSpinner.setSelection(scale == 0 ? 100 : scale);
+        if(scale < SCALE_MIN || scale > SCALE_MAX) {
+            scale = 100;
+        }
+        fScaleSpinner.setSelection(scale);
     }
     
     /**
