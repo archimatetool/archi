@@ -13,18 +13,16 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 import com.archimatetool.editor.TestSupport;
-import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 

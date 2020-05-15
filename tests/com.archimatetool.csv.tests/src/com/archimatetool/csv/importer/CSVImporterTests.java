@@ -9,18 +9,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
@@ -35,6 +32,8 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -60,10 +59,6 @@ public class CSVImporterTests {
     private IArchimateModel model;
     private CSVImporter importer;
     
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
-    
-
     @Before
     public void runOnceBeforeEachTest() {
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -362,11 +357,13 @@ public class CSVImporterTests {
 
     @Test
     public void testFindArchimateConceptInModel_DifferentClass() throws Exception {
-        expectedEx.expect(CSVParseException.class);
-        expectedEx.expectMessage("Found concept with same id but different class: f6a18059");
-        
         importer.doImport(elements1File);
-        importer.findArchimateConceptInModel("f6a18059", IArchimatePackage.eINSTANCE.getBusinessActor());
+        
+        CSVParseException thrown = assertThrows(CSVParseException.class, () -> {
+            importer.findArchimateConceptInModel("f6a18059", IArchimatePackage.eINSTANCE.getBusinessActor());
+        });
+        
+        assertEquals("Found concept with same id but different class: f6a18059", thrown.getMessage());
     }
     
     @Test

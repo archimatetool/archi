@@ -16,7 +16,6 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.modelimporter.ModelImporter;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 import junit.framework.JUnit4TestAdapter;

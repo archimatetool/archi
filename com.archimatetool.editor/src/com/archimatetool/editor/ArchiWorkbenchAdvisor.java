@@ -7,8 +7,6 @@ package com.archimatetool.editor;
 
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
@@ -40,9 +38,6 @@ extends WorkbenchAdvisor
         
         // Save and restore stuff
         configurer.setSaveAndRestore(true);
-        
-        // Rounded tabs are set on by default
-        PlatformUI.getPreferenceStore().setDefault(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
         
         // Progress
         // PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_PROGRESS_ON_STARTUP, true);

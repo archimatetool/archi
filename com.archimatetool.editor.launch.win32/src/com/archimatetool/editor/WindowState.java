@@ -15,8 +15,6 @@ import java.util.Properties;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
-import com.archimatetool.editor.Logger;
-
 
 /**
  * Window State

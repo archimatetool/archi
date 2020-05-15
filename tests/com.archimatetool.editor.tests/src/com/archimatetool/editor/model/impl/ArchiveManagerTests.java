@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -19,9 +20,7 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IArchiveManager;
@@ -64,21 +63,22 @@ public class ArchiveManagerTests {
         assertFalse(archiveManager.hasImages());
     }
     
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
-    
     @Test
-    public void testAddImageFromFile_Exception() throws IOException {
-        expectedEx.expect(IOException.class);
-        expectedEx.expectMessage("Cannot find file");
-        archiveManager.addImageFromFile(new File("bogus.pomp"));
+    public void testAddImageFromFile_Exception() {
+        IOException thrown = assertThrows(IOException.class, () -> {
+            archiveManager.addImageFromFile(new File("bogus.pomp"));
+        });
+        
+        assertEquals("Cannot find file", thrown.getMessage());
     }
     
     @Test
-    public void testAddImageFromFile_WrongFileFormat() throws IOException {
-        expectedEx.expect(IOException.class);
-        expectedEx.expectMessage("Not a supported image file");
-        archiveManager.addImageFromFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
+    public void testAddImageFromFile_WrongFileFormat() {
+        IOException thrown = assertThrows(IOException.class, () -> {
+            archiveManager.addImageFromFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
+        });
+        
+        assertEquals("Not a supported image file", thrown.getMessage());
     }
 
     @Test
