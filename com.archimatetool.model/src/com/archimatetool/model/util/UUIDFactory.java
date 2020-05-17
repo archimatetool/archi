@@ -18,24 +18,35 @@ import com.archimatetool.model.IIdentifier;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class UUIDFactory {
     
+    /**
+     * The prefix to use for all new UUIDs. This makes it XML friendly for NCNAME and ID types.
+     */
+    public static final String PREFIX = "_";
+    
+    /**
+     * Generate a new UUID for an object
+     * @param object
+     * @return the UUID
+     */
     public static String createID(IIdentifier object) {
-        // Note - in future we could create an id based in the object
-        return UUID.randomUUID().toString();
+        // Note - in future we could create an id based on the object type
+        return PREFIX + UUID.randomUUID().toString();
     }
 
     /**
      * Generate and set a new ID for a given object
-     * @param eObject
+     * @param object The object for which to generate a new ID
      */
     public static void generateNewID(IIdentifier object) {
         object.setId(createID(object));
     }
 
     /**
-     * Generate new IDs for the given objects and all of its child contents that have identifiers
-     * @param eObject The eObject
+     * Generate a new ID for the given object and all of its child contents that have identifiers
+     * @param object The object for which to generate new IDs and its children, if any
      */
     public static void generateNewIDs(EObject object) {
         if(object instanceof IIdentifier) {

@@ -54,6 +54,7 @@ import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.UUIDFactory;
 
 
 
@@ -212,7 +213,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write the model
      */
     private void writeModel(Element rootElement) {
-        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(fModel));
+        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(fModel));
         
         // Gather all properties now
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
@@ -330,7 +331,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementsElement.addContent(elementElement);
         
         // Identifier
-        elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
+        elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(element));
         
         // Type
         elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(element), XSI_NAMESPACE);
@@ -409,13 +410,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         relationshipsElement.addContent(relationshipElement);
         
         // Identifier
-        relationshipElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(relationship));
+        relationshipElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(relationship));
         
         // Source ID
-        relationshipElement.setAttribute(ATTRIBUTE_SOURCE, createID(relationship.getSource()));
+        relationshipElement.setAttribute(ATTRIBUTE_SOURCE, checkID(relationship.getSource()));
         
         // Target ID
-        relationshipElement.setAttribute(ATTRIBUTE_TARGET, createID(relationship.getTarget()));
+        relationshipElement.setAttribute(ATTRIBUTE_TARGET, checkID(relationship.getTarget()));
 
         // Type
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(relationship), JDOMUtils.XSI_Namespace);
@@ -515,7 +516,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                 IIdentifier component = (IIdentifier)eObject;
                 Element itemChildElement = new Element(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE);
                 itemElement.addContent(itemChildElement);
-                itemChildElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(component));
+                itemChildElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, checkID(component));
             }
         }
         
@@ -651,7 +652,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         viewsElement.addContent(viewElement);
 
         // Identifier
-        viewElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dm));
+        viewElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(dm));
         
         // Type
         viewElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_DIAGRAM_TYPE, XSI_NAMESPACE);
@@ -720,11 +721,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(nodeElement);
         
         // ID
-        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dmo));
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(dmo));
         
         // Element Ref
         IArchimateElement element = dmo.getArchimateElement();
-        nodeElement.setAttribute(ATTRIBUTE_ELEMENTREF, createID(element));
+        nodeElement.setAttribute(ATTRIBUTE_ELEMENTREF, checkID(element));
         
         // Type
         nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_ELEMENT_TYPE, XSI_NAMESPACE);
@@ -751,7 +752,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(nodeElement);
         
         // ID
-        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(group));
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(group));
 
         // Bounds
         writeAbsoluteBounds(group, nodeElement);
@@ -784,7 +785,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(nodeElement);
         
         // ID
-        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(note));
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(note));
         
         // Type
         nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LABEL_TYPE, XSI_NAMESPACE);
@@ -809,7 +810,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(nodeElement);
         
         // ID
-        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(ref));
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(ref));
         
         // Type
         nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LABEL_TYPE, XSI_NAMESPACE);
@@ -828,7 +829,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // If the view ref is sketch or canvas this will instead appear as a note
         if(ref.getReferencedModel() instanceof IArchimateDiagramModel) {
             Element viewRefElement = new Element(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
-            viewRefElement.setAttribute(ATTRIBUTE_REF, createID(ref.getReferencedModel()));
+            viewRefElement.setAttribute(ATTRIBUTE_REF, checkID(ref.getReferencedModel()));
             nodeElement.addContent(viewRefElement);
         }
         
@@ -919,11 +920,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(connectionElement);
         
         // ID
-        connectionElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(connection));
+        connectionElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(connection));
 
         // ArchiMate connection has a Relationship ref
         if(connection instanceof IDiagramModelArchimateConnection) {
-            connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(((IDiagramModelArchimateConnection)connection).getArchimateRelationship()));
+            connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, checkID(((IDiagramModelArchimateConnection)connection).getArchimateRelationship()));
             // Type
             connectionElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_RELATIONSHIP_TYPE, XSI_NAMESPACE);
         }
@@ -933,10 +934,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
         // Source
-        connectionElement.setAttribute(ATTRIBUTE_SOURCE, createID(connection.getSource()));
+        connectionElement.setAttribute(ATTRIBUTE_SOURCE, checkID(connection.getSource()));
         
         // Target
-        connectionElement.setAttribute(ATTRIBUTE_TARGET, createID(connection.getTarget()));
+        connectionElement.setAttribute(ATTRIBUTE_TARGET, checkID(connection.getTarget()));
         
         // Style
         writeConnectionStyle(connection, connectionElement);
@@ -1154,12 +1155,20 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
 
     /**
-     * Create a uniform id
+     * Check that identifier is XML valid
      */
-    private String createID(IIdentifier identifier) {
-        if(identifier.getId() != null && identifier.getId().startsWith("id-")) { //$NON-NLS-1$
-            return identifier.getId();
+    private String checkID(IIdentifier identifier) {
+        String id = identifier.getId();
+        
+        if(id == null) { // shouldn't happen
+            id = UUIDFactory.createID(identifier);
         }
-        return "id-" + identifier.getId(); //$NON-NLS-1$
+        
+        // If the first character is a digit, add our prefix
+        if(Character.isDigit(id.charAt(0))) {
+            id = UUIDFactory.PREFIX + id;
+        }
+        
+        return id;
     }
 }

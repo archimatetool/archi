@@ -7,6 +7,7 @@ package com.archimatetool.model.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -29,19 +30,22 @@ public class UUIDFactoryTests {
     @Test
     public void createID_Concept() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createBusinessActor());
-        assertEquals(36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
     
     @Test
     public void createID_Folder() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createFolder());
-        assertEquals(36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
 
     @Test
     public void createID_Model() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createArchimateModel());
-        assertEquals(36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
     
     @Test
