@@ -54,6 +54,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     }
     
     private float[] getLineDashes(double zoomLevel) {
+        zoomLevel = zoomLevel < 1.0 ? zoomLevel : 1.0; // only scale down below 1.0
         return new float[] { (float)(2 * zoomLevel) }; 
     }
     

@@ -80,6 +80,8 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     protected void setLineStyleFromZoomLevel(double zoomLevel) {
         int connectionType = getModelConnection().getType();
         
+        zoomLevel = zoomLevel < 1.0 ? zoomLevel : 1.0; // only scale down below 1.0
+        
         // Line Style
         if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
