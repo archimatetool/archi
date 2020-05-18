@@ -6,10 +6,8 @@
 package com.archimatetool.editor.diagram.util;
 
 import org.eclipse.draw2d.FreeformFigure;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
@@ -162,12 +160,11 @@ public final class DiagramUtils {
         
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale) );
         GC gc = new GC(image);
-        SWTGraphics swtGraphics = new SWTGraphics(gc);
-        Graphics graphics = swtGraphics;
+        SWTGraphics graphics = new SWTGraphics(gc);
         
         // If scaled, then scale now
+        // Issue #621: SWTGraphics supports scale() so no need to use ScaledGraphics
         if(scale != 1) {
-            graphics = new ScaledGraphics(swtGraphics);
             graphics.scale(scale);
         }
         
@@ -180,9 +177,6 @@ public final class DiagramUtils {
         // Dispose
         gc.dispose();
         graphics.dispose();
-        if(swtGraphics != graphics) {
-            swtGraphics.dispose();
-        }
         
         return new ModelReferencedImage(image, bounds);
     }
