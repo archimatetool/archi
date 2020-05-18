@@ -123,6 +123,7 @@ import com.archimatetool.editor.diagram.actions.ToggleGridVisibleAction;
 import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesAction;
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
+import com.archimatetool.editor.diagram.editparts.ExtendedScalableFreeformRootEditPart;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
@@ -300,8 +301,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Create the Root Edit Part
      */
-    protected abstract void createRootEditPart(GraphicalViewer viewer);
-    
+    protected void createRootEditPart(GraphicalViewer viewer) {
+        viewer.setRootEditPart(new ExtendedScalableFreeformRootEditPart());
+    }
     
     @Override
     protected void configureGraphicalViewer() {

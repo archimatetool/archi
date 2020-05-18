@@ -5,12 +5,9 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import org.eclipse.draw2d.ScalableFreeformLayeredPane;
-import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.gef.AutoexposeHelper;
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.help.HelpSystem;
@@ -24,9 +21,9 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
 import com.archimatetool.editor.diagram.DiagramEditorFindReplaceProvider;
 import com.archimatetool.editor.diagram.actions.FindReplaceAction;
+import com.archimatetool.editor.diagram.editparts.ExtendedScalableFreeformRootEditPart;
 import com.archimatetool.editor.diagram.sketch.dnd.SketchDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
-import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.ISketchModel;
@@ -46,7 +43,6 @@ implements ISketchEditor {
      */
     private SketchEditorPalette fPalette;
     
-    private ScalableFreeformLayeredPane fScalableFreeformLayeredPane;
     private BackgroundImageLayer fBackgroundImageLayer;
     
     /**
@@ -92,27 +88,18 @@ implements ISketchEditor {
     @Override
     protected void createRootEditPart(GraphicalViewer viewer) {
         /*
-         * We'll have a Zoom Manager and a background image
+         * Over-ride ExtendedScalableFreeformRootEditPart to set a background image
          */
-        RootEditPart rootPart = new ScalableFreeformRootEditPart() {
+        RootEditPart rootPart = new ExtendedScalableFreeformRootEditPart() {
             @Override
-            protected ScalableFreeformLayeredPane createScaledLayers() {
-                // Insert Background Image behind Grid
+            protected void createLayers(LayeredPane layeredPane) {
+                // Insert Background Image behind other layers
                 // Note - background image is not on a Printable Layer, so won't print!
-                fScalableFreeformLayeredPane = super.createScaledLayers();
+                fBackgroundImageLayer = new BackgroundImageLayer();
+                layeredPane.add(fBackgroundImageLayer, SCALABLE_LAYERS);
                 updateBackgroundImage();
-                return fScalableFreeformLayeredPane;
+                super.createLayers(layeredPane);
             }
-
-            @SuppressWarnings("rawtypes")
-            @Override
-            public Object getAdapter(Class adapter) {
-                if(adapter == AutoexposeHelper.class) {
-                    return new ExtendedViewportAutoexposeHelper(this, new Insets(50), false);
-                }
-                return super.getAdapter(adapter);
-            }
-
         };
         
         viewer.setRootEditPart(rootPart);
@@ -120,14 +107,7 @@ implements ISketchEditor {
     
     @Override
     public void updateBackgroundImage() {
-        ISketchModel model = getModel();
-        
-        if(fBackgroundImageLayer == null) {
-            fBackgroundImageLayer = new BackgroundImageLayer();
-            fScalableFreeformLayeredPane.add(fBackgroundImageLayer, BackgroundImageLayer.NAME, 0);
-        }
-        
-        switch(model.getBackground()) {
+        switch(getModel().getBackground()) {
             case 0:
                 fBackgroundImageLayer.setImage(null);
                 break;

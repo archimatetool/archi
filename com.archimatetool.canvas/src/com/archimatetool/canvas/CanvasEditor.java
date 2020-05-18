@@ -5,11 +5,7 @@
  */
 package com.archimatetool.canvas;
 
-import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.help.HelpSystem;
@@ -25,7 +21,6 @@ import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
 import com.archimatetool.editor.diagram.DiagramEditorFindReplaceProvider;
 import com.archimatetool.editor.diagram.actions.FindReplaceAction;
-import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 
 
@@ -79,26 +74,6 @@ implements ICanvasEditor {
 
         // File DnD
         viewer.addDropTargetListener(new FileTransferDropTargetListener(viewer));
-    }
-    
-    @Override
-    protected void createRootEditPart(GraphicalViewer viewer) {
-        /*
-         * We'll have a Zoom Manager using ScalableFreeformRootEditPart
-         */
-        RootEditPart rootPart = new ScalableFreeformRootEditPart() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public Object getAdapter(Class adapter) {
-                if(adapter == AutoexposeHelper.class) {
-                    return new ExtendedViewportAutoexposeHelper(this, new Insets(50), false);
-                }
-                return super.getAdapter(adapter);
-            }
-
-        };
-        
-        viewer.setRootEditPart(rootPart);
     }
     
     /**

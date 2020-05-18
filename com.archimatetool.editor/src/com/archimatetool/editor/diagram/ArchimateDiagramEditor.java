@@ -8,11 +8,8 @@ package com.archimatetool.editor.diagram;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.help.HelpSystem;
@@ -29,7 +26,6 @@ import com.archimatetool.editor.diagram.actions.GenerateViewAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
-import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
@@ -133,21 +129,6 @@ implements IArchimateDiagramEditor {
         
         // Help for Palette
         PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), PALETTE_HELP_ID);
-    }
-    
-    @Override
-    protected void createRootEditPart(GraphicalViewer viewer) {
-        // We'll have a Zoom Manager for our Root Edit Part
-        viewer.setRootEditPart(new ScalableFreeformRootEditPart() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public Object getAdapter(Class adapter) {
-                if(adapter == AutoexposeHelper.class) {
-                    return new ExtendedViewportAutoexposeHelper(this, new Insets(50), false);
-                }
-                return super.getAdapter(adapter);
-            }
-        });
     }
     
     /**
