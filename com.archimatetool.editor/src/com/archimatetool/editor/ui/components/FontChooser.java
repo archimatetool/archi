@@ -257,8 +257,11 @@ public class FontChooser extends EventManager {
                 ((fFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontChooser_4 : "") + " " + //$NON-NLS-1$ //$NON-NLS-2$
                 ((fFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontChooser_7 : "");  //$NON-NLS-1$
         
+        // Async this as the button width is calculated later in the UI thread
         fTextButton.getDisplay().asyncExec(() -> {
-            fTextButton.setText(UIUtils.shortenText(text, fTextButton, 6));
+            if(!fTextButton.isDisposed()) { // control can be disposed when more than one object is deleted in a view
+                fTextButton.setText(UIUtils.shortenText(text, fTextButton, 6));
+            }
         });
         
         fTextButton.setToolTipText(text);
