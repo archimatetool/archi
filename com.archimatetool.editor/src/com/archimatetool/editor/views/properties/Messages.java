@@ -11,6 +11,8 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.views.properties.messages"; //$NON-NLS-1$
 
+    public static String CustomPropertiesView_0;
+
     public static String ICustomPropertiesView_0;
     static {
         // initialize resource bundle

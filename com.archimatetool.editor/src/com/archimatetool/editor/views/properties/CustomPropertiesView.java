@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.views.properties;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -18,6 +21,8 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -35,22 +40,35 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
         
         // Remove the Pin item
         IMenuManager menuManager = getViewSite().getActionBars().getMenuManager();
-        menuManager.removeAll();
-//        for(IContributionItem item : menuManager.getItems()) {
-//            if(item instanceof ActionContributionItem) {
-//                if(((ActionContributionItem)item).getAction() instanceof PinPropertySheetAction) {
-//                    menuManager.remove(item);
-//                    break;
-//                }
-//            }
-//        }
+        removePinPropertySheetAction(menuManager);
         
         IToolBarManager toolBarManager = getViewSite().getActionBars().getToolBarManager();
-        toolBarManager.removeAll();
-//        for(IContributionItem item : toolBarManager.getItems()) {
+        removePinPropertySheetAction(toolBarManager);
+        
+        // Add an action to allow single column layouts
+        IAction action = new Action(Messages.CustomPropertiesView_0, IAction.AS_CHECK_BOX) {};
+        menuManager.add(action);
+        action.setChecked(Preferences.STORE.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN));
+        
+        action.addPropertyChangeListener(event -> {
+            if(IAction.CHECKED.equals(event.getProperty())) {
+                Preferences.STORE.setValue(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN, action.isChecked());
+                
+                // Scroll bars need resizing
+                if(getCurrentPage() instanceof TabbedPropertySheetPage) {
+                    ((TabbedPropertySheetPage)getCurrentPage()).resizeScrolledComposite();
+                }
+            }
+        });
+    }
+    
+    private void removePinPropertySheetAction(IContributionManager manager) {
+        manager.removeAll();
+        
+//        for(IContributionItem item : manager.getItems()) {
 //            if(item instanceof ActionContributionItem) {
 //                if(((ActionContributionItem)item).getAction() instanceof PinPropertySheetAction) {
-//                    toolBarManager.remove(item);
+//                    manager.remove(item);
 //                    break;
 //                }
 //            }

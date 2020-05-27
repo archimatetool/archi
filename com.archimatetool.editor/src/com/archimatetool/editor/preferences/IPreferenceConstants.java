@@ -130,4 +130,6 @@ public interface IPreferenceConstants {
     String DOWNLOAD_URL = "downloadURL";
     String UPDATE_URL = "updateURL";
     
+    // Single column layout in Properties View
+    String PROPERTIES_SINGLE_COLUMN = "propertiesSingleColumn";
 }

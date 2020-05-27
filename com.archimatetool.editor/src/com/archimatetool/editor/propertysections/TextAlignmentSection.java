@@ -59,6 +59,7 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(final Composite parent) {
         ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
+        GridLayoutColumnHandler.create(parent, 2); // Allow setting 1 or 2 columns
         
         Composite group1 = createComposite(parent, 2, true);
         createTextAlignmentControls(group1);

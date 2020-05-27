@@ -137,5 +137,7 @@ implements IPreferenceConstants {
         // Check for Archi update
         store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download");
         store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt");
+        
+        store.setDefault(PROPERTIES_SINGLE_COLUMN, false);
     }
 }
