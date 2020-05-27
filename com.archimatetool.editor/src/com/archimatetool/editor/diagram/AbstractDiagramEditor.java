@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GraphicsSource;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -25,6 +26,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
@@ -124,6 +126,7 @@ import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesActio
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ExtendedScalableFreeformRootEditPart;
+import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
@@ -133,6 +136,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -601,6 +605,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.commandStackChanged(event);
         updateCommandStackActions(); // Need to update these too
         setDirty(getCommandStack().isDirty());
+        
+        refreshFiguresWithLabelFeature(); // Refresgh Figures with Label Features
     }
     
     /**
@@ -617,6 +623,25 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     
     protected List<UpdateAction> getUpdateCommandStackActions() {
         return fUpdateCommandStackActions;
+    }
+    
+    /**
+     * Refresh all figures with label features
+     */
+    protected void refreshFiguresWithLabelFeature() {
+        for(Object editPart : getGraphicalViewer().getEditPartRegistry().values()) {
+            if(editPart instanceof GraphicalEditPart) {
+                IFigure figure = ((GraphicalEditPart)editPart).getFigure();
+                Object model = ((GraphicalEditPart)editPart).getModel();
+
+                // If it is a text figure and has a label render feature update text
+                if(model instanceof IDiagramModelComponent
+                                        && TextRenderer.getDefault().hasFormatExpression((IDiagramModelComponent)model)
+                                        && figure instanceof ITextFigure) {
+                    ((ITextFigure)figure).setText();
+                }
+            }
+        }
     }
     
     @Override

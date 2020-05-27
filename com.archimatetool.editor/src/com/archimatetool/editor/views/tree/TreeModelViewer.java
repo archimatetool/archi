@@ -42,12 +42,16 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
 
@@ -119,18 +123,20 @@ public class TreeModelViewer extends TreeViewer {
                     return 0;
                 }
                 
-                String name1 = ArchiLabelProvider.INSTANCE.getLabelNormalised(e1);
-                String name2 = ArchiLabelProvider.INSTANCE.getLabelNormalised(e2);
-                
-                if(name1 == null) {
-                    name1 = "";//$NON-NLS-1$
+                // Get rendered text or name
+                String label1 = getAncestorFolderRenderText((IArchimateModelObject)e1);
+                if(label1 == null) {
+                    label1 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e1));
                 }
-                if(name2 == null) {
-                    name2 = "";//$NON-NLS-1$
+
+                // Get rendered text or name
+                String label2 = getAncestorFolderRenderText((IArchimateModelObject)e2);
+                if(label2 == null) {
+                    label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
                 }
                 
-                //return getComparator().compare(name1, name2);
-                return name1.compareToIgnoreCase(name2);
+                //return getComparator().compare(label1, label2);
+                return label1.compareToIgnoreCase(label2);
             }
             
             @Override
@@ -279,6 +285,24 @@ public class TreeModelViewer extends TreeViewer {
         fontBold = FontFactory.getBold(getTree().getFont());
     }
     
+    /**
+     * If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it and return it
+     * But let's keep a limit to its length
+     */
+    private String getAncestorFolderRenderText(IArchimateModelObject object) {
+        if(object instanceof IArchimateConcept || object instanceof IDiagramModel) {
+            String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(object);
+            if(expression != null) {
+                String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().render(object, expression));
+                if(StringUtils.isSet(text)) {
+                    return text.length() > 256 ? text.substring(0, 256) : text;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
     // ========================= Model Providers =====================================
     
     /**
@@ -349,7 +373,13 @@ public class TreeModelViewer extends TreeViewer {
             cell.setFont(getFont(cell.getElement()));
         }
         
-        String getText(Object element) {
+        private String getText(Object element) {
+            // If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it
+            String text = getAncestorFolderRenderText((IArchimateModelObject)element);
+            if(text != null) {
+                return text;
+            }
+            
             String name = ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
             
             // If a dirty model show asterisk
@@ -372,11 +402,11 @@ public class TreeModelViewer extends TreeViewer {
             return name;
         }
         
-        Image getImage(Object element) {
+        private Image getImage(Object element) {
             return ArchiLabelProvider.INSTANCE.getImage(element);
         }
         
-        Font getFont(Object element) {
+        private Font getFont(Object element) {
             // Show bold if using Search
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
@@ -393,7 +423,7 @@ public class TreeModelViewer extends TreeViewer {
             return null;
         }
 
-        Color getForeground(Object element) {
+        private Color getForeground(Object element) {
             return fViewpointFilterProvider.getTextColor(element);
         }
     }

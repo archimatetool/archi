@@ -37,8 +37,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
@@ -49,6 +51,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -283,7 +286,8 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         int type = msg.getEventType();
         
         // Not interested in these types
-        if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
+        if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE
+                || type == EObjectNonNotifyingCompoundCommand.START || type == EObjectNonNotifyingCompoundCommand.END) {
             return;
         }
         
@@ -315,33 +319,70 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     }
     
     /**
-     * @return The parent node to refresh when one of its children is added/removed/set
+     * @return The parent folder to refresh when one of its children is added/removed/set
      */
     protected Object getParentToRefreshFromNotification(Notification msg) {
         int type = msg.getEventType();
-        
-        Object element = null;
+        EObject element = null;
         
         if(type == Notification.REMOVE) {
-            element = msg.getNotifier();
+            if(msg.getNotifier() instanceof EObject) {
+                element = (EObject)msg.getNotifier();
+                
+                // Property removed and element has format expression
+                if(msg.getOldValue() instanceof IProperty && hasFormatExpression(element)) {
+                    element = element.eContainer();
+                }
+            }
         }
         else if(type == Notification.ADD) {
-            element = msg.getNewValue();
-            if(element instanceof EObject) {
-                element = ((EObject)element).eContainer();
+            if(msg.getNewValue() instanceof EObject) {
+                element = ((EObject)msg.getNewValue()).eContainer();
+                
+                // Property added and element has format expression
+                if(msg.getNewValue() instanceof IProperty && hasFormatExpression(element)) {
+                    element = element.eContainer();
+                }
             }
         }
         else if(type == Notification.SET) {
-            // Name changed - need to refresh parent node because of using a ViewerSorter to sort on name
-            if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                element = msg.getNotifier();
-                if(element instanceof EObject) {
-                    element = ((EObject)element).eContainer();
+            // Need to refresh parent node on name or label expression change because of using a ViewerSorter
+            if(msg.getNotifier() instanceof EObject) {
+                element = ((EObject)msg.getNotifier());
+                
+                // Name
+                if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+                    element = element.eContainer();
+                }
+                // Ancestor folder has label expression
+                else if(hasFormatExpression(element)) {
+                    element = element.eContainer();
+                    
+                    // Property set
+                    if(msg.getNotifier() instanceof IProperty) {
+                        element = element.eContainer();
+                    }
                 }
             }
         }
         
-        return (element instanceof IFolder || element instanceof IArchimateModel) ? element : null;
+        return (element instanceof IFolder) ? element : null;
+    }
+    
+    /**
+     * @return true if this objects parent folder has a label expression
+     */
+    protected boolean hasFormatExpression(EObject eObject) {
+        while(eObject != null) {
+            if(eObject instanceof IFolder) {
+                if(TextRenderer.getDefault().hasFormatExpression((IFolder)eObject)) {
+                    return true;
+                }
+            }
+            eObject = eObject.eContainer();
+        }
+        
+        return false;
     }
     
     /**
