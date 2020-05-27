@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui;
 import junit.framework.TestSuite;
 
 import com.archimatetool.editor.ui.factory.AllUIFactoryTests;
+import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
 
 @SuppressWarnings("nls")
 public class AllUITests {
@@ -22,6 +23,9 @@ public class AllUITests {
         
         // factory
         suite.addTest(AllUIFactoryTests.suite());
+        
+        // textrender
+        suite.addTest(AllTextRenderTests.suite());
 
         return suite;
     }
