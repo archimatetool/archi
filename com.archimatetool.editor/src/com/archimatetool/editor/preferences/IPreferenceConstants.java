@@ -105,15 +105,20 @@ public interface IPreferenceConstants {
     
     // ======================================= General =======================================
     
-    String BACKUP_ON_SAVE = "backupOnSave";
-    String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
     String OPEN_DIAGRAMS_ON_LOAD = "openDiagramsOnLoad";
-    String SCALE_IMAGE_EXPORT = "scaleImageExport";
-    String SHOW_WARNING_ON_DELETE_FROM_TREE = "showWarningOnDeleteFromTree";
-    String SHOW_STATUS_LINE = "showStatusLine";
-    String TREE_SEARCH_AUTO = "treeSearchAuto";
-    String THEME_AUTO = "themeAuto";
+    String BACKUP_ON_SAVE = "backupOnSave";
     
+    String THEME_AUTO = "themeAuto";
+    String SHOW_STATUS_LINE = "showStatusLine";
+
+    String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
+    
+    String TREE_SEARCH_AUTO = "treeSearchAuto";
+    String SHOW_WARNING_ON_DELETE_FROM_TREE = "showWarningOnDeleteFromTree";
+    
+    String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";
+    
+    String SCALE_IMAGE_EXPORT = "scaleImageExport";
     
     // ======================================= Internal =======================================
     

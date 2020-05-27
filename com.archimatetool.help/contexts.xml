@@ -53,6 +53,10 @@
        <topic href="help/Text/properties_canvas_sticky.html" label="Sticky Properties"/>
        <topic href="help/Text/properties_canvas_connection.html" label="Connection Properties"/>
     </context>
+    <context id="labelPropertySection" title="Label Expression">
+       <description>Edit Label Expression.</description>
+       <topic href="https://github.com/archimatetool/archi/wiki/Label-Expressions" label="Label Expressions"/>
+    </context>
     <context id="folderSection" title="Folder Properties">
        <description>Edit Folder Properties.</description>
        <topic href="help/Text/properties_folder.html" label="Folder Properties"/>

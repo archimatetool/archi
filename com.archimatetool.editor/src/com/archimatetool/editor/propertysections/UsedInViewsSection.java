@@ -24,9 +24,12 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
 
@@ -104,7 +107,20 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         fTableViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
-                return ((IDiagramModel)element).getName();
+                IDiagramModel dm = (IDiagramModel)element;
+                
+                // Display label according to ancestor folder's label expression, if present and preference is set
+                if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE)) {
+                    String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(dm);
+                    if(expression != null) {
+                        String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().render(dm, expression));
+                        if(text != null) {
+                            return text;
+                        }
+                    }
+                }
+                
+                return dm.getName();
             }
             
             @Override

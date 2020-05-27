@@ -113,14 +113,20 @@ implements IPreferenceConstants {
         
         // ======================================= General =======================================
         
-        store.setDefault(BACKUP_ON_SAVE, true);
-        store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
         store.setDefault(OPEN_DIAGRAMS_ON_LOAD, false);
-        store.setDefault(SCALE_IMAGE_EXPORT, (PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100) ? true : false);
-        store.setDefault(SHOW_WARNING_ON_DELETE_FROM_TREE, true);
-        store.setDefault(SHOW_STATUS_LINE, true);
-        store.setDefault(TREE_SEARCH_AUTO, true);
+        store.setDefault(BACKUP_ON_SAVE, true);
+
         store.setDefault(THEME_AUTO, false);
+        store.setDefault(SHOW_STATUS_LINE, true);
+
+        store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
+        
+        store.setDefault(TREE_SEARCH_AUTO, true);
+        store.setDefault(SHOW_WARNING_ON_DELETE_FROM_TREE, true);
+        
+        store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
+
+        store.setDefault(SCALE_IMAGE_EXPORT, (PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100) ? true : false);
         
         
         // ======================================= Internal =======================================

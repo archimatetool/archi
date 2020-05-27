@@ -63,6 +63,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fWarnOnDeleteButton;
     
     private Button fScaleImagesButton;
+    
+    private Button fUseLabelExpressionsButton;
 
     private ITheme fCurrentTheme;
     
@@ -183,6 +185,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton.setText(Messages.GeneralPreferencePage_16);
         fWarnOnDeleteButton.setLayoutData(createHorizontalGridData(2));
         
+        // Label Expressions
+        Group expressionsGroup = new Group(client, SWT.NULL);
+        expressionsGroup.setText(Messages.GeneralPreferencePage_17);
+        expressionsGroup.setLayout(new GridLayout(2, false));
+        expressionsGroup.setLayoutData(createHorizontalGridData(1));
+        
+        fUseLabelExpressionsButton = new Button(expressionsGroup, SWT.CHECK);
+        fUseLabelExpressionsButton.setText(Messages.GeneralPreferencePage_18);
+        fUseLabelExpressionsButton.setLayoutData(createHorizontalGridData(2));
+        
         // Other
         Group otherGroup = new Group(client, SWT.NULL);
         otherGroup.setText(Messages.GeneralPreferencePage_12);
@@ -219,6 +231,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
+        fUseLabelExpressionsButton.setSelection(getPreferenceStore().getBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
 
         // Themes list
         List<ITheme> themes = new ArrayList<ITheme>();
@@ -265,6 +278,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_SEARCH_AUTO, fAutoSearchButton.getSelection());
         getPreferenceStore().setValue(SHOW_WARNING_ON_DELETE_FROM_TREE, fWarnOnDeleteButton.getSelection());
+        getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
@@ -287,6 +301,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
+        fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
             setTheme(AUTOMATIC_THEME, false);
