@@ -179,6 +179,12 @@ public class Messages extends NLS {
 
     public static String JunctionTypeSection_3;
 
+    public static String LabelRendererSection_0;
+
+    public static String LabelRendererSection_1;
+
+    public static String LabelRendererSection_2;
+
     public static String LineColorSection_0;
 
     public static String LineColorSection_1;

@@ -192,8 +192,13 @@
          <propertyTab
                afterTab="appearance.tab"
                category="appearance.category"
+               id="label.tab"
+               label="Label">
+         </propertyTab>
+         <propertyTab
+               afterTab="label.tab"
+               category="appearance.category"
                id="figure.tab"
-               indented="true"
                label="%propertyTab.label.3">
          </propertyTab>
       </propertyTabs>
@@ -417,6 +422,12 @@
                filter="com.archimatetool.editor.propertysections.GroupBorderTypeSection$Filter"
                id="groupBorderTypeSection"
                tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.LabelRendererSection"
+               filter="com.archimatetool.editor.propertysections.LabelRendererSection$Filter"
+               id="labelRendererSection"
+               tab="label.tab">
          </propertySection>
       </propertySections>
    </extension>
