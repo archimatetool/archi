@@ -30,7 +30,7 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     }
     
     @Override
-    protected void setText() {
+    public void setText() {
         String text = ((ISketchModelSticky)getDiagramModelObject()).getContent();
         ((TextFlow)getTextControl()).setText(StringUtils.safeString(text));
     }

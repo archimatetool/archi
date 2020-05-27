@@ -127,8 +127,8 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
             Rectangle rect = referenceFigure.getBounds().getCopy();
             referenceFigure.translateToAbsolute(rect);
             
-            // Connection Label
-            if(referenceFigure.getParent() instanceof IDiagramConnectionFigure) {
+            // IDiagramConnectionFigure
+            if(getEditPart().getFigure() instanceof IDiagramConnectionFigure) {
                 if(isSingleText) {
                     int trimWidth = text.computeTrim(0, 0, 0, 0).width;
                     rect.width += trimWidth;

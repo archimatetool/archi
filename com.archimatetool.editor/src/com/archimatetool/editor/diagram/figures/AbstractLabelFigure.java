@@ -21,7 +21,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigure {
+public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigure implements ITextFigure { 
     
     private Label fLabel;
 
@@ -64,7 +64,8 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         repaint(); // repaint when figure changes
     }
     
-    protected void setText() {
+    @Override
+    public void setText() {
         String text = StringUtils.safeString(getDiagramModelObject().getName());
         getLabel().setText(text);
     }

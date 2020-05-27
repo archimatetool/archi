@@ -13,7 +13,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
@@ -21,6 +20,7 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
@@ -33,7 +33,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractTextControlContainerFigure extends AbstractContainerFigure {
+public abstract class AbstractTextControlContainerFigure extends AbstractContainerFigure implements ITextFigure {
     
     private IFigure fTextControl;
     private int fTextControlType = TEXT_FLOW_CONTROL;
@@ -102,7 +102,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         // Text Position
         if(getTextControl() instanceof TextFlow) {
             int alignment = getDiagramModelObject().getTextAlignment();
-            ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
+            ((FlowPage)getTextControl().getParent()).setHorizontalAligment(alignment);
             
             if(fTextPositionDelegate != null) {
                 fTextPositionDelegate.updateTextPosition();
@@ -123,9 +123,13 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         }
     }
     
-    protected void setText() {
-        String text = StringUtils.safeString(getDiagramModelObject().getName());
-        
+    @Override
+    public void setText() {
+        String text = TextRenderer.getDefault().render(getDiagramModelObject());
+        if(!StringUtils.isSet(text)) {
+            text = StringUtils.safeString(getDiagramModelObject().getName());
+        }
+                
         if(getTextControl() instanceof TextFlow) {
             ((TextFlow)getTextControl()).setText(text);
         }
@@ -163,11 +167,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         int wordWrapStyle = Preferences.STORE.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, wordWrapStyle));
         
-        BlockFlow block = new BlockFlow();
-        block.add(textFlow);
-
         FlowPage page = new FlowPage();
-        page.add(block);
+        page.add(textFlow);
         
         Figure textWrapperFigure = new Figure();
         GridLayout layout = new GridLayout();

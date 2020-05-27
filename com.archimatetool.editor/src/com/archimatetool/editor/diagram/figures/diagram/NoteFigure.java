@@ -11,7 +11,6 @@ import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
@@ -20,8 +19,10 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
@@ -32,7 +33,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class NoteFigure extends AbstractDiagramModelObjectFigure {
+public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITextFigure {
     
     private TextFlow fTextFlow;
     
@@ -52,11 +53,9 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
         setLayoutManager(new GridLayout());
 
         FlowPage page = new FlowPage();
-        BlockFlow block = new BlockFlow();
         fTextFlow = new TextFlow();
         fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_SOFT));
-        block.add(fTextFlow);
-        page.add(block);
+        page.add(fTextFlow);
         setOpaque(true);
         
         GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
@@ -68,7 +67,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
     @Override
     public void refreshVisuals() {
         // Text
-        setText(getDiagramModelObject().getContent());
+        setText();
         
         // Font
         setFont();
@@ -83,14 +82,21 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
         setLineColor();
 
         // Alignment
-        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
+        ((FlowPage)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         fTextPositionDelegate.updateTextPosition();
         
         // Repaint
         repaint();
     }
     
-    public void setText(String text) {
+    @Override
+    public void setText() {
+        String text = TextRenderer.getDefault().render(getDiagramModelObject());
+        
+        if(!StringUtils.isSet(text)) {
+            text = getDiagramModelObject().getContent();
+        }
+        
         fTextFlow.setText(StringUtils.safeString(text));
     }
 
