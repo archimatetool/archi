@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.preferences;
 
+import java.io.File;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -49,6 +51,7 @@ implements IPreferenceConstants {
         store.setDefault(PROPERTIES_TABLE_FONT, "");
         store.setDefault(SINGLE_LINE_TEXT_FONT, "");
 
+        store.setDefault(USER_FONTS_FOLDER, new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "fonts").getAbsolutePath());
         
         // ======================================= Connections =======================================
         

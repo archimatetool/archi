@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor;
 
+import java.io.File;
+
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -42,11 +45,36 @@ extends WorkbenchWindowAdvisor {
     }
     
     @Override
+    public void preWindowOpen() {
+        // Load user fonts here
+        loadFonts();
+    }
+    
+    @Override
     public void postWindowOpen() {
         // Application specific launcher actions
         IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
         if(launcher != null) {
             launcher.postWindowOpen(getWindowConfigurer().getWindow());
+        }
+    }
+    
+    private void loadFonts() {
+        // Load fonts in local fonts folder
+        loadFonts(ArchiPlugin.INSTANCE.getLocalFontsFolder());
+        
+        // Load user fonts
+        loadFonts(ArchiPlugin.INSTANCE.getUserFontsFolder());
+    }
+
+    // Scan a folder looking for fonts and load them
+    private void loadFonts(File fontFolder) {
+        if(fontFolder.exists()) {
+            for(File font : fontFolder.listFiles()) {
+                if(font.isFile()) {
+                    Display.getDefault().loadFont(font.getAbsolutePath());
+                }
+            }
         }
     }
 }

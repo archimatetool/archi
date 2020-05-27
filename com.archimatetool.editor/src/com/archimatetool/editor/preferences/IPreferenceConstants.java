@@ -39,6 +39,7 @@ public interface IPreferenceConstants {
     String PROPERTIES_TABLE_FONT = "propertiesTableFont";
     String SINGLE_LINE_TEXT_FONT = "singleLineTextFont";
     
+    String USER_FONTS_FOLDER = "userFontsFolder";
     
     // ======================================= Connections =======================================
     
