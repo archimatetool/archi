@@ -113,6 +113,8 @@
     <topic href="help/Text/tools.html" label="Tools">
        <topic href="help/Text/generate_view.html" label="Generating a View from an Element">
        </topic>
+       <topic href="help/Text/properties_manager.html" label="Properties Manager">
+       </topic>
        <topic href="help/Text/validator.html" label="The Validator">
        </topic>
        <topic href="help/Text/preview_report.html" label="Preview HTML Report">
