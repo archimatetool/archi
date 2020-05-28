@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.views.navigator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -25,6 +28,8 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssociationRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -123,13 +128,25 @@ public class NavigatorViewer extends TreeViewer {
         @Override
         public Object[] getChildren(Object parent) {
             if(parent instanceof IArchimateRelationship) {
-                IArchimateRelationship relation = (IArchimateRelationship)parent;
-                if(fShowTargetElements) {
-                    return new Object[] { relation.getTarget() };
+            	IArchimateRelationship relation = (IArchimateRelationship)parent;
+                List<Object> results = new ArrayList<>();
+            	results.addAll(ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateRelationship) parent));
+            	boolean addTarget = fShowTargetElements;
+            	boolean addSource = !fShowTargetElements;
+            	if (parent instanceof IAssociationRelationship) {
+            		// if we traverse an undirected association always add target and source
+            		if (!((IAssociationRelationship) parent).isDirected()) {
+            			addTarget = true;
+            			addSource = true;
+            		}
+            	}
+            	if(addTarget) {
+                    results.add(relation.getTarget());
                 }
-                else {
-                    return new Object[] { relation.getSource() };
+                if (addSource) {
+                	results.add(relation.getSource());
                 }
+                return results.toArray();
             }
             else if(parent instanceof IArchimateElement) {
                 IArchimateElement element = (IArchimateElement)parent;
