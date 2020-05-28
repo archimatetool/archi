@@ -38,7 +38,6 @@ import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -59,16 +58,16 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IArchimateElement;
+            return object instanceof IArchimateConcept;
         }
 
         @Override
         public Class<?> getAdaptableType() {
-            return IArchimateElement.class;
+            return IArchimateConcept.class;
         }
     }
 
-    private IArchimateElement fArchimateElement;
+    private IArchimateConcept fArchimateConcept;
     
     private TableViewer fTableViewer;
     
@@ -109,7 +108,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
             
             @Override
             public Object[] getElements(Object inputElement) {
-                return ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateElement)inputElement).toArray();
+                return ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateConcept)inputElement).toArray();
             }
         });
         
@@ -118,7 +117,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                if(isAlive(fArchimateElement)) {
+                if(isAlive(fArchimateConcept)) {
                     Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                     if(o instanceof IArchimateRelationship) {
                         IArchimateRelationship relation = (IArchimateRelationship)o;
@@ -160,8 +159,8 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     
     @Override
     protected void update() {
-        fArchimateElement = (IArchimateElement)getFirstSelectedObject();
-        fTableViewer.setInput(fArchimateElement);
+        fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
+        fTableViewer.setInput(fArchimateConcept);
     }
     
     @Override
