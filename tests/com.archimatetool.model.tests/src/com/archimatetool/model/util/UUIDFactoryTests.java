@@ -30,21 +30,21 @@ public class UUIDFactoryTests {
     @Test
     public void createID_Concept() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createBusinessActor());
-        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 32, id.length());
         assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
     
     @Test
     public void createID_Folder() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createFolder());
-        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 32, id.length());
         assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
 
     @Test
     public void createID_Model() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createArchimateModel());
-        assertEquals(UUIDFactory.PREFIX.length() + 36, id.length());
+        assertEquals(UUIDFactory.PREFIX.length() + 32, id.length());
         assertTrue(id.startsWith(UUIDFactory.PREFIX));
     }
     

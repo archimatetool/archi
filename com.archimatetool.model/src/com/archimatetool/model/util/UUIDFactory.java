@@ -24,7 +24,7 @@ public class UUIDFactory {
     /**
      * The prefix to use for all new UUIDs. This makes it XML friendly for NCNAME and ID types.
      */
-    public static final String PREFIX = "_";
+    public static final String PREFIX = "id-";
     
     /**
      * Generate a new UUID for an object
@@ -33,7 +33,7 @@ public class UUIDFactory {
      */
     public static String createID(IIdentifier object) {
         // Note - in future we could create an id based on the object type
-        return PREFIX + UUID.randomUUID().toString();
+        return PREFIX + UUID.randomUUID().toString().replace("-", "");
     }
 
     /**
