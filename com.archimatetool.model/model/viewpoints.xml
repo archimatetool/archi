@@ -179,8 +179,10 @@
         <concept>Goal</concept>
         <concept>Meaning</concept>
         <concept>Outcome</concept>
+        <concept>Principle</concept>
         <concept>Requirement</concept>
         <concept>Value</concept>
+        <concept>$StrategyElements$</concept>
 
         <concept>$BusinessElements$</concept>
         <concept>$ApplicationElements$</concept>
@@ -226,6 +228,7 @@
         <concept>Outcome</concept>
         <concept>Resource</concept>
         <concept>Value</concept>
+        <concept>ValueStream</concept>
         
         <concept>$BusinessElements$</concept>
         <concept>$ApplicationElements$</concept>
@@ -249,6 +252,7 @@
         <concept>Deliverable</concept>
         <concept>Goal</concept>
         <concept>ImplementationEvent</concept>
+        <concept>Outcome</concept>
         <concept>WorkPackage</concept>
     </viewpoint>
 
