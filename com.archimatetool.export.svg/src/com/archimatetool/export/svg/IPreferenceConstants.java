@@ -16,7 +16,6 @@ package com.archimatetool.export.svg;
 @SuppressWarnings("nls")
 public interface IPreferenceConstants {
     
-    String SVG_EXPORT_PREFS_EMBED_FONTS = "embedFonts";
     String SVG_EXPORT_PREFS_VIEWBOX_ENABLED = "viewBoxEnabled";
     String SVG_EXPORT_PREFS_VIEWBOX = "viewBox";
     

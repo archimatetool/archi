@@ -45,7 +45,6 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         
         // Set prefs to defaults
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
-        store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS);
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX);
         
@@ -94,7 +93,6 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     @Test
     public void testDefaultPreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
-        assertTrue(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS));
         assertTrue(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
         assertEquals("", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
     }
@@ -103,7 +101,6 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     public void testSavePreferences() {
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
 
-        svgProvider.fEmbedFontsButton.setSelection(false);
         svgProvider.fSetViewboxButton.setSelection(false);
 
         svgProvider.fSpinner1.setSelection(1);
@@ -113,7 +110,6 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
 
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
-        assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS));
         assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
         assertEquals("1 2", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
     }
@@ -122,13 +118,11 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     public void testPreferencesWereLoaded() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
 
-        store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS, false);
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED, false);
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX, "5 6");
         
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         
-        assertFalse(svgProvider.fEmbedFontsButton.getSelection());
         assertFalse(svgProvider.fSetViewboxButton.getSelection());
         
         assertEquals(5, svgProvider.fSpinner1.getSelection());

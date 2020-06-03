@@ -22,7 +22,6 @@ implements IPreferenceConstants {
     public void initializeDefaultPreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
-        store.setDefault(SVG_EXPORT_PREFS_EMBED_FONTS, true);
         store.setDefault(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, true);
         store.setDefault(SVG_EXPORT_PREFS_VIEWBOX, ""); //$NON-NLS-1$
     }

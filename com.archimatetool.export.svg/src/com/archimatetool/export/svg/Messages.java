@@ -10,7 +10,6 @@ public class Messages extends NLS {
 
     public static String SVGExportProvider_1;
 
-    public static String SVGExportProvider_2;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

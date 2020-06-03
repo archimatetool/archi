@@ -40,7 +40,6 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     
     public static final String SVG_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.svg.imageExporter"; //$NON-NLS-1$
     
-    protected Button fEmbedFontsButton;
     protected Button fSetViewboxButton;
     protected Spinner fSpinner1, fSpinner2, fSpinner3, fSpinner4;
     
@@ -52,10 +51,10 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         Document document = createDocument();
         
         // Create a context for customisation
-        SVGGeneratorContext ctx = createContext(document, fEmbedFontsButton.getSelection());
+        SVGGeneratorContext ctx = createContext(document, false); // Don't embed fonts
         
         // Create a Batik SVGGraphics2D instance
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, false);
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, true); // Text is drawn as shapes
         
         // Get the outer bounds of the figure
         Rectangle bounds = getViewportBounds(fFigure);
@@ -93,15 +92,9 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         container.setLayout(new GridLayout(8, false));
         container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fEmbedFontsButton = new Button(container, SWT.CHECK);
-        fEmbedFontsButton.setText(Messages.SVGExportProvider_2);
-        GridData gd = new GridData();
-        gd.horizontalSpan = 8;
-        fEmbedFontsButton.setLayoutData(gd);
-        
         fSetViewboxButton = new Button(container, SWT.CHECK);
         fSetViewboxButton.setText(Messages.SVGExportProvider_0);
-        gd = new GridData();
+        GridData gd = new GridData();
         gd.horizontalSpan = 8;
         fSetViewboxButton.setLayoutData(gd);
         
@@ -162,12 +155,8 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     protected void loadPreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
-        // Embed fonts
-        boolean selected = store.getBoolean(SVG_EXPORT_PREFS_EMBED_FONTS);
-        fEmbedFontsButton.setSelection(selected);
-        
         // Viewbox button selected
-        selected = store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
+        boolean selected = store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
         fSetViewboxButton.setSelection(selected);
         updateControls();
         
@@ -198,9 +187,6 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
      */
     protected void savePreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
-        
-        // Embed fonts
-        store.setValue(SVG_EXPORT_PREFS_EMBED_FONTS, fEmbedFontsButton.getSelection());
         
         // Viewbox button selected
         store.setValue(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());

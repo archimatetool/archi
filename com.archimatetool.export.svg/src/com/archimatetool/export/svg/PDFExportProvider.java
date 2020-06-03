@@ -45,10 +45,10 @@ public class PDFExportProvider extends AbstractExportProvider {
         Document document = createDocument();
         
         // Create a context for customisation
-        SVGGeneratorContext ctx = createContext(document, true); // Must embed fonts for this version of Batik
+        SVGGeneratorContext ctx = createContext(document, false); // Don't embed fonts
         
         // Create a Batik SVGGraphics2D instance
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, false);
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, true); // Text is drawn as shapes 
         
         // Get the outer bounds of the figure
         Rectangle bounds = getViewportBounds(fFigure);
