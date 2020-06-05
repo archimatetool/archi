@@ -54,7 +54,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
@@ -519,6 +518,39 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         return items;
     }
+    
+    /**
+     * @return All unique Property Values for an entire model (sorted)
+     */
+    private String[] getAllUniquePropertyValuesForKeyForModel(String key) {
+        IArchimateModel model = getArchimateModel();
+
+        Set<String> set = new HashSet<String>();
+
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            EObject element = iter.next();
+            if(element instanceof IProperty) {
+                IProperty p = (IProperty)element;
+                if(p.getKey().equals(key)) {
+                    String value = p.getValue();
+                    if(StringUtils.isSetAfterTrim(value)) {
+                        set.add(value);
+                    }
+                }
+            }
+        }
+
+        String[] items = set.toArray(new String[set.size()]);
+        Arrays.sort(items, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        return items;
+    }
+
 
     // -----------------------------------------------------------------------------------------------------------------
     //
@@ -824,11 +856,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      * Value Editor
      */
     private class ValueEditingSupport extends EditingSupport {
-        TextCellEditor cellEditor;
+        StringComboBoxCellEditor cellEditor;
 
         public ValueEditingSupport(ColumnViewer viewer) {
             super(viewer);
-            cellEditor = new TextCellEditor((Composite)viewer.getControl());
+            cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
             
             // Nullify some global Action Handlers so that this cell editor can handle them
             hookCellEditorGlobalActionHandler(cellEditor);
@@ -836,6 +868,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected CellEditor getCellEditor(Object element) {
+            String[] items = new String[0];
+
+            if(isAlive(fPropertiesElement)) {
+                items = getAllUniquePropertyValuesForKeyForModel(((IProperty)element).getKey());
+            }
+
+            cellEditor.setItems(items);
             return cellEditor;
         }
 
