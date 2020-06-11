@@ -19,13 +19,12 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
@@ -89,6 +88,16 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         }
     };
     
+    /**
+     * Zoom listener
+     */
+    private ZoomListener zoomListener = new ZoomListener() {
+        @Override
+        public void zoomChanged(double newZoomValue) {
+            ((AbstractDiagramConnectionFigure)getFigure()).handleZoomChanged(newZoomValue);
+        }
+    };
+    
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
@@ -96,11 +105,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     // Class for new Figure
     protected Class<?> figureClass;
     
-    /**
-     * Keep a hold of the GraphicalViewer for the Zoom manager
-     */
-    protected GraphicalViewer diagramViewer;
-
     public DiagramConnectionEditPart() {
     }
     
@@ -217,8 +221,9 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             // Listen to Prefs changes to set default Font
             Preferences.STORE.addPropertyChangeListener(prefsListener);
             
-            // Set Zoom Manager
-            ((AbstractDiagramConnectionFigure)getFigure()).setZoomManager(getZoomManager());
+            // Listen to Zoom Manager
+            getZoomManager().addZoomListener(zoomListener);
+            zoomListener.zoomChanged(getZoomManager().getZoom());
         }
     }
     
@@ -232,8 +237,8 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             
             Preferences.STORE.removePropertyChangeListener(prefsListener);
             
-            // Set Zoom Manager
-            ((AbstractDiagramConnectionFigure)getFigure()).setZoomManager(null);
+            // Remove Zoom Manager
+            getZoomManager().removeZoomListener(zoomListener);
         }
     }
     
@@ -376,20 +381,10 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     /**
      * @return The Zoom Manager from the Viewer
      */
-    public ZoomManager getZoomManager() {
-        return (ZoomManager)diagramViewer.getProperty(ZoomManager.class.toString());
+    protected ZoomManager getZoomManager() {
+        return (ZoomManager)getViewer().getProperty(ZoomManager.class.toString());
     }
     
-    @Override
-    public void setParent(EditPart parent) {
-        super.setParent(parent);
-        
-        // Get the Viewer so that we can later get the Zoom Manager
-        if(getParent() != null && diagramViewer == null) {
-            diagramViewer = (GraphicalViewer)getViewer();
-        }
-    }
-
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {

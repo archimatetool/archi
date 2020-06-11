@@ -21,8 +21,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.TextFlow;
-import org.eclipse.gef.editparts.ZoomListener;
-import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Path;
@@ -60,40 +58,10 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
-    private ZoomListener zoomListener = new ZoomListener() {
-        @Override
-        public void zoomChanged(double newZoomValue) {
-            handleZoomChanged(newZoomValue);
-        }
-    };
-    
-    protected ZoomManager zoomManager;
-    
     /**
-     * Set the Zoom Manager
-     * @param manager
+     * Zoom Factor changed - connections should reset line dashes and dots
      */
-    public void setZoomManager(ZoomManager manager) {
-        if(zoomManager != manager) {
-            if(zoomManager != null) {
-                zoomManager.removeZoomListener(zoomListener);
-            }
-            
-            zoomManager = manager;
-            
-            if(zoomManager != null) {
-                zoomManager.addZoomListener(zoomListener);
-                handleZoomChanged(zoomManager.getZoom());
-            }
-        }
-    }
-
-    /**
-     * Zoom Factor changed - deal with it :-)
-     * @param newZoomValue
-     */
-    protected void handleZoomChanged(double newZoomValue) {
-    }
+    public void handleZoomChanged(double newZoomValue) {}
     
 	@Override
     public void setModelConnection(IDiagramModelConnection connection) {
