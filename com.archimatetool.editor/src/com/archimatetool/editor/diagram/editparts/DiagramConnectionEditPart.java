@@ -222,8 +222,11 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             Preferences.STORE.addPropertyChangeListener(prefsListener);
             
             // Listen to Zoom Manager
-            getZoomManager().addZoomListener(zoomListener);
-            zoomListener.zoomChanged(getZoomManager().getZoom());
+            ZoomManager zoomManager = getZoomManager();
+            if(zoomManager != null) {
+                zoomManager.addZoomListener(zoomListener);
+                zoomListener.zoomChanged(zoomManager.getZoom());
+            }
         }
     }
     
@@ -238,7 +241,10 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             Preferences.STORE.removePropertyChangeListener(prefsListener);
             
             // Remove Zoom Manager
-            getZoomManager().removeZoomListener(zoomListener);
+            ZoomManager zoomManager = getZoomManager();
+            if(zoomManager != null) {
+                zoomManager.removeZoomListener(zoomListener);
+            }
         }
     }
     
