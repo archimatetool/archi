@@ -16,9 +16,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.utils.StringUtils;
 
 
 
@@ -124,28 +122,6 @@ public class ArchiPlugin extends AbstractUIPlugin {
                 return new File(System.getProperty("user.home")); //$NON-NLS-1$
             }
         }
-    }
-    
-    /**
-     * @return User fonts folder
-     */
-    public File getUserFontsFolder() {
-        // Get from Preferences
-        String path = getPreferenceStore().getString(IPreferenceConstants.USER_FONTS_FOLDER);
-        
-        // Default if not set
-        if(!StringUtils.isSet(path)) {
-            path = getPreferenceStore().getDefaultString(IPreferenceConstants.USER_FONTS_FOLDER);
-        }
-        
-        return new File(path);
-    }
-    
-    /**
-     * @return The local plugin fonts folder
-     */
-    public File getLocalFontsFolder() {
-        return new File(getPluginFolder(), "fonts"); //$NON-NLS-1$
     }
     
     /**

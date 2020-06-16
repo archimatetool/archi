@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.preferences;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,17 +32,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
@@ -118,8 +113,6 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         }
     }
 
-    private Text fUserFontsFolderText;
-    
     // Table
     private TableViewer fTableViewer;
 
@@ -132,51 +125,24 @@ public class FontsPreferenceTab implements IPreferenceConstants {
     private Label fFontPreviewLabel;
     
     public Composite createContents(Composite parent) {
-        Composite mainClient = new Composite(parent, SWT.NULL);
-        mainClient.setLayout(new GridLayout());
+        Composite client = new Composite(parent, SWT.NULL);
+        client.setLayout(new GridLayout(2, false));
         
-        Composite settingsGroup = new Composite(mainClient, SWT.NULL);
-        settingsGroup.setLayout(new GridLayout(3, false));
-        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(settingsGroup);
-        
-        Label label = new Label(settingsGroup, SWT.NULL);
-        label.setText(Messages.FontsPreferenceTab_21);
-        
-        fUserFontsFolderText = UIUtils.createSingleTextControl(settingsGroup, SWT.BORDER, false);
-        fUserFontsFolderText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fUserFontsFolderText.setText(Preferences.STORE.getString(USER_FONTS_FOLDER));
-        
-        Button folderButton = new Button(settingsGroup, SWT.PUSH);
-        folderButton.setText(Messages.FontsPreferenceTab_23);
-        folderButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                String folderPath = chooseFontsFolderPath();
-                if(folderPath != null) {
-                    fUserFontsFolderText.setText(folderPath);
-                }
-            }
-        });
-        
-        Composite fontsGroup = new Composite(mainClient, SWT.NULL);
-        fontsGroup.setLayout(new GridLayout(2, false));
-        GridDataFactory.create(GridData.FILL_BOTH).applyTo(fontsGroup);
-        
-        fontsGroup.addDisposeListener((e) -> {
+        client.addDisposeListener((e) -> {
             disposeLabelFont();
         });
         
         // Table
-        createTable(fontsGroup);
+        createTable(client);
         
         // Buttons
-        createButtonPanel(fontsGroup);
+        createButtonPanel(client);
         
         // Description
-        createDescriptionPanel(fontsGroup);
+        createDescriptionPanel(client);
         
         // Preview
-        createPreviewPanel(fontsGroup);
+        createPreviewPanel(client);
 
         // Add font options
         addFontOptions();
@@ -184,7 +150,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         // Set table input
         fTableViewer.setInput(fontInfos);
         
-        return mainClient;
+        return client;
     }
     
     private void createTable(Composite parent) {
@@ -403,20 +369,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         return dialog.open();
     }
     
-    private String chooseFontsFolderPath() {
-        DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
-        dialog.setText(Messages.FontsPreferenceTab_25);
-        dialog.setMessage(Messages.FontsPreferenceTab_26);
-        File file = new File(fUserFontsFolderText.getText());
-        if(file.exists()) {
-            dialog.setFilterPath(fUserFontsFolderText.getText());
-        }
-        return dialog.open();
-    }
-
     public void performDefaults() {
-        fUserFontsFolderText.setText(Preferences.STORE.getDefaultString(USER_FONTS_FOLDER));
-        
         for(FontInfo info : fontInfos) {
             info.performDefault();
         }
@@ -430,8 +383,6 @@ public class FontsPreferenceTab implements IPreferenceConstants {
     }
     
     public void performOK() {
-        Preferences.STORE.setValue(USER_FONTS_FOLDER, fUserFontsFolderText.getText());
-        
         for(FontInfo info : fontInfos) {
             info.performOK();
         }
