@@ -10,10 +10,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.apache.batik.svggen.SVGGeneratorContext;
-import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -24,10 +21,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 
 
 
@@ -40,33 +34,15 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     
     public static final String SVG_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.svg.imageExporter"; //$NON-NLS-1$
     
-    protected Button fSetViewboxButton;
-    protected Spinner fSpinner1, fSpinner2, fSpinner3, fSpinner4;
-    
-    protected IFigure fFigure;
+    Button fSetViewboxButton;
+    Spinner fSpinner1, fSpinner2, fSpinner3, fSpinner4;
     
     @Override
     public void export(String providerID, File file) throws Exception {
-        // Create a DOM Document
-        Document document = createDocument();
-        
-        // Create a context for customisation
-        SVGGeneratorContext ctx = createContext(document, false); // Don't embed fonts
-        
-        // Create a Batik SVGGraphics2D instance
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, true); // Text is drawn as shapes
-        
-        // Get the outer bounds of the figure
-        Rectangle bounds = getViewportBounds(fFigure);
-
-        // Create a Graphiti wrapper adapter
-        GraphicsToGraphics2DAdaptor graphicsAdaptor = createGraphicsToGraphics2DAdaptor(svgGenerator, bounds);
-        
-        // Paint the figure onto the graphics instance
-        fFigure.paint(graphicsAdaptor);
+        super.export(providerID, file);
         
         // Get the Element root from the SVGGraphics2D instance
-        Element root = svgGenerator.getRoot();
+        Element root = svgGraphics2D.getRoot();
         
         // And set some attributes on the root element
         if(fSetViewboxButton.getSelection()) {
@@ -75,10 +51,10 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         
         // Save the root element
         Writer out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
-        svgGenerator.stream(root, out);
+        svgGraphics2D.stream(root, out);
         
         // Close
-        graphicsAdaptor.dispose();
+        svgGraphics2D.dispose();
         out.close();
         
         // Save Preferences
@@ -87,7 +63,7 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
 
     @Override
     public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
-        fFigure = figure;
+        super.init(adapter, container, figure);
         
         container.setLayout(new GridLayout(8, false));
         container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -137,9 +113,8 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         loadPreferences();
         
         // Set viewBox width and height to the image size
-        Rectangle rect = getViewportBounds(fFigure);
-        fSpinner3.setSelection(rect.width);
-        fSpinner4.setSelection(rect.height);
+        fSpinner3.setSelection(viewPortBounds.width);
+        fSpinner4.setSelection(viewPortBounds.height);
     }
     
     private void updateControls() {

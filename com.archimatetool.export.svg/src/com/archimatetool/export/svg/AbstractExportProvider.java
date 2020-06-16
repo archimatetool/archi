@@ -5,18 +5,24 @@
  */
 package com.archimatetool.export.svg;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
+import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.archimatetool.editor.diagram.IImageExportProvider;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 
 
@@ -27,6 +33,39 @@ import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractExportProvider implements IImageExportProvider {
+    
+    protected IFigure figure;
+    protected SVGGraphics2D svgGraphics2D;
+    protected Rectangle viewPortBounds;
+    
+    @Override
+    public void export(String providerID, File file) throws Exception {
+        // Ensure user fonts are loaded into AWT for Windows
+        loadUserFontsIntoAWT();
+        
+        // Create a DOM Document
+        Document document = createDocument();
+        
+        // Create a context for customisation
+        SVGGeneratorContext ctx = createContext(document, false); // Don't embed fonts
+        
+        // Create a Batik SVGGraphics2D instance
+        svgGraphics2D = new SVGGraphics2D(ctx, true); // Text is drawn as shapes
+        
+        // Create a Graphiti wrapper adapter
+        GraphicsToGraphics2DAdaptor graphicsAdaptor = createGraphicsToGraphics2DAdaptor(svgGraphics2D, viewPortBounds);
+        
+        // Paint the figure onto the graphics instance
+        figure.paint(graphicsAdaptor);
+    }
+    
+    @Override
+    public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
+        this.figure = figure;
+        
+        // Get the outer bounds of the figure
+        viewPortBounds = getViewportBounds(figure);
+    }
     
     /**
      * Get the viewport bounds for the given figure that will be printed
@@ -95,4 +134,30 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         root.setAttributeNS(null, "viewBox", min_x + " " + min_y + " " + width + " " + height);  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
     
+    /**
+     * Load Windows fonts into AWT installed for the user, not "for all users" - we need to do this to register fonts for Windows
+     */
+    private static boolean awtFontsLoaded;
+    
+    private static void loadUserFontsIntoAWT() {
+        if(PlatformUtils.isWindows() && !awtFontsLoaded) {
+            File fontsFolder = new File(System.getProperty("user.home"), "AppData/Local/Microsoft/Windows/Fonts"); //$NON-NLS-1$ //$NON-NLS-2$
+            if(fontsFolder.exists()) {
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                
+                for(File file : fontsFolder.listFiles()) {
+                    if(file.isFile()) {
+                        try {
+                            Font font = Font.createFont(Font.TRUETYPE_FONT, file);
+                            ge.registerFont(font);
+                        }
+                        catch(Exception ex) { // Ignore
+                        }
+                    }
+                }
+                
+                awtFontsLoaded = true;
+            }
+        }
+    }
 }
