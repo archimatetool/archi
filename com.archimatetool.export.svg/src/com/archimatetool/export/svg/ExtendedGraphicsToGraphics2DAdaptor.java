@@ -2,8 +2,6 @@ package com.archimatetool.export.svg;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -63,30 +61,4 @@ public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAda
             getGraphics2D().draw(path);
         }
     }
-    
-    /**
-     * JB fix - decrease width and height by 1 pixel
-     */
-    @Override
-    public void fillRectangle(int x, int y, int width, int height) {
-        Rectangle2D rect = new Rectangle2D.Float(x + transX, y + transY, width - 1, height - 1);
-
-        checkState();
-        getGraphics2D().setPaint(getColor(getSWTGraphics().getBackgroundColor()));
-        getGraphics2D().fill(rect);
-    }
-    
-    /**
-     * JB fix - decrease width and height by 1 pixel
-     */
-    @Override
-    public void fillRoundRectangle(Rectangle rect, int arcWidth, int arcHeight) {
-        RoundRectangle2D roundRect = new RoundRectangle2D.Float(rect.x + transX, rect.y + transY, rect.width - 1, rect.height - 1, arcWidth,
-                arcHeight);
-
-        checkState();
-        getGraphics2D().setPaint(getColor(getSWTGraphics().getBackgroundColor()));
-        getGraphics2D().fill(roundRect);
-    }
-
 }
