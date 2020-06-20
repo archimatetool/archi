@@ -40,6 +40,12 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             
             Rectangle bounds = getBounds();
             
+            bounds.width--;
+            bounds.height--;
+            
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, 1, bounds);
+
             graphics.setAlpha(getAlpha());
             
             if(!isEnabled()) {
@@ -65,8 +71,6 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
 
-            bounds.width--;
-            bounds.height--;
             graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
             graphics.drawRectangle(bounds);
             

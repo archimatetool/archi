@@ -42,19 +42,21 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
         }
         
         Rectangle bounds = getBounds().getCopy();
+        bounds.width--;
+        bounds.height--;
         
         String type = ((IJunction)((DiagramModelArchimateObject)getDiagramModelObject()).getArchimateElement()).getType();
         switch(type) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
                 graphics.setBackgroundColor(getFillColor());
-                graphics.fillOval(bounds.getCopy());                
+                graphics.fillOval(bounds);
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
-                graphics.setForegroundColor(getLineColor());
-                graphics.setBackgroundColor(getFillColor());
-                graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
+                setLineWidth(graphics, 1, bounds);
+                graphics.setForegroundColor(getFillColor());
+                graphics.drawOval(bounds);
                 break;
         }
         

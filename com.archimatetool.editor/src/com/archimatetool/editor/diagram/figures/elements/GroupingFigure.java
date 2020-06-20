@@ -12,6 +12,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -44,10 +45,16 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
         
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+
         graphics.setLineDash(new float[] { (float)(8 * graphics.getAbsoluteScale()), (float)(4 * graphics.getAbsoluteScale()) });
         
         graphics.setBackgroundColor(getFillColor());
@@ -66,19 +73,21 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         if(type == 1) {
             mainRectangle = new int[] {
                     bounds.x, bounds.y,
-                    bounds.x + bounds.width - 1, bounds.y,
-                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                    bounds.x, bounds.y + bounds.height - 1
+                    bounds.x + bounds.width, bounds.y,
+                    bounds.x + bounds.width, bounds.y + bounds.height,
+                    bounds.x, bounds.y + bounds.height
             };
             
-            graphics.fillPolygon(mainRectangle);
+            Path path = FigureUtils.createPathFromPoints(mainRectangle);
+            graphics.fillPath(path);
+            path.dispose();
         }
         else {
             mainRectangle = new int[] {
                     bounds.x, bounds.y + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                    bounds.x, bounds.y + bounds.height - 1
+                    bounds.x + bounds.width, bounds.y + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width, bounds.y + bounds.height,
+                    bounds.x, bounds.y + bounds.height
             };
             
             int[] fillShape = new int[] {
@@ -90,7 +99,9 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
                     bounds.x, bounds.getBottom().y
             };
             
-            graphics.fillPolygon(fillShape);
+            Path path = FigureUtils.createPathFromPoints(fillShape);
+            graphics.fillPath(path);
+            path.dispose();
             
             graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + TOPBAR_HEIGHT);

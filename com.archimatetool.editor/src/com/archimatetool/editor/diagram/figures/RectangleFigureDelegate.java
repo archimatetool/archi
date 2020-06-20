@@ -40,6 +40,12 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
 
         Rectangle bounds = getBounds();
         
+        bounds.width--;
+        bounds.height--;
+
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
@@ -62,8 +68,6 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         }
         
         // Outline
-        bounds.width--;
-        bounds.height--;
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);

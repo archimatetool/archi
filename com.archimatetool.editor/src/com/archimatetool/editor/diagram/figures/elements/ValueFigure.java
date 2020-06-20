@@ -35,6 +35,11 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
         
         graphics.setAlpha(getAlpha());
         
@@ -50,7 +55,7 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
             graphics.setBackgroundPattern(gradient);
         }
 
-        graphics.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
+        graphics.fillOval(bounds);
         
         if(gradient != null) {
             gradient.dispose();
@@ -59,7 +64,7 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
+        graphics.drawOval(bounds);
         
         graphics.popState();
     }

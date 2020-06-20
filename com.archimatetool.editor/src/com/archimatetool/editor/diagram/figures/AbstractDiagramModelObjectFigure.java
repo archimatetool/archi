@@ -13,6 +13,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -88,12 +89,25 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
+     * Set the line width and compensate the figure bounds width and height for this line width and translate the graphics instance
+     * @param graphics The graphics instance
+     * @param lineWidth The line width
+     * @param bounds The bounds of the object
+     */
+    protected void setLineWidth(Graphics graphics, float lineWidth, Rectangle bounds) {
+        bounds.width -= lineWidth;
+        bounds.height -= lineWidth;
+        graphics.setLineWidthFloat(lineWidth);
+        graphics.translate(lineWidth / 2, lineWidth / 2);
+    }
+    
+    /**
      * Set the drawing state when disabled
      * @param graphics
      */
     protected void setDisabledState(Graphics graphics) {
         graphics.setAlpha(100);
-        graphics.setLineStyle(SWT.LINE_DOT);
+        graphics.setLineStyle(SWT.LINE_DASH);
     }
 
     /**

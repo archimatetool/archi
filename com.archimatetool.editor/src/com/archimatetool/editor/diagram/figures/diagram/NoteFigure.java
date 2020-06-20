@@ -15,6 +15,7 @@ import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
@@ -111,21 +112,29 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
+            setLineWidth(graphics, 1, bounds);
+        }
+        
         // Fill
         PointList points = new PointList();
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
             points.addPoint(bounds.x, bounds.y);
-            points.addPoint(bounds.getTopRight().x - 1, bounds.y);
-            points.addPoint(bounds.getTopRight().x - 1, bounds.getBottomRight().y - 13);
-            points.addPoint(bounds.getTopRight().x - 13, bounds.getBottomRight().y - 1);
-            points.addPoint(bounds.x, bounds.getBottomLeft().y - 1);
+            points.addPoint(bounds.getTopRight().x, bounds.y);
+            points.addPoint(bounds.getTopRight().x, bounds.getBottomRight().y - 13);
+            points.addPoint(bounds.getTopRight().x - 13, bounds.getBottomRight().y);
+            points.addPoint(bounds.x, bounds.getBottomLeft().y);
         }
         else {
             points.addPoint(bounds.x, bounds.y);
-            points.addPoint(bounds.getTopRight().x - 1, bounds.y);
-            points.addPoint(bounds.getTopRight().x - 1, bounds.getBottomRight().y - 1);
-            points.addPoint(bounds.x, bounds.getBottomLeft().y - 1);
+            points.addPoint(bounds.getTopRight().x, bounds.y);
+            points.addPoint(bounds.getTopRight().x, bounds.getBottomRight().y);
+            points.addPoint(bounds.x, bounds.getBottomLeft().y);
         }
         
         graphics.setAlpha(getAlpha());
@@ -138,7 +147,9 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
             graphics.setBackgroundPattern(gradient);
         }
         
-        graphics.fillPolygon(points);
+        Path path = FigureUtils.createPathFromPoints(points);
+        graphics.fillPath(path);
+        path.dispose();
         
         if(gradient != null) {
             gradient.dispose();

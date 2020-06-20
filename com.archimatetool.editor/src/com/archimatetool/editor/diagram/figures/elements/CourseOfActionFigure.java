@@ -63,18 +63,19 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
-        // 2 circles
+        // 2 circles and blob
         graphics.setLineWidthFloat(1.2f);
         path = new Path(null);
         pt = getIconOrigin();
+        
         path.addArc(pt.x, pt.y, 13, 13, 0, 360);
         path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
+        path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+        path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
+        
         graphics.drawPath(path);
         path.dispose();
 
-        // centre blob
-        graphics.fillOval(pt.x + 5, pt.y + 5, 4, 4);
-        
         graphics.popState();
     }
     

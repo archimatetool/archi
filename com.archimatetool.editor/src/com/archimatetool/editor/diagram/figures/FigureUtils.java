@@ -9,9 +9,11 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ScalableFigure;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
 
@@ -133,5 +135,33 @@ public class FigureUtils {
     @Deprecated
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
         return createGradient(graphics, r, color, alpha, Direction.LEFT);
+    }
+    
+    /**
+     * Create a Path from a points list
+     * @param points The points list
+     * @return The Path - callers should dispose of it
+     */
+    public static Path createPathFromPoints(PointList points) {
+        return createPathFromPoints(points.toIntArray());
+    }
+    
+    /**
+     * Create a Path from a points list
+     * @param points The points as x,y
+     * @return The Path - callers should dispose of it
+     */
+    public static Path createPathFromPoints(int[] points) {
+        Path path = new Path(null);
+        
+        path.moveTo(points[0], points[1]);
+        
+        for(int i = 2; i < points.length; i += 2) {
+            path.lineTo(points[i], points[i + 1]);
+        }
+        
+        path.lineTo(points[0], points[1]);
+        
+        return path;
     }
 }

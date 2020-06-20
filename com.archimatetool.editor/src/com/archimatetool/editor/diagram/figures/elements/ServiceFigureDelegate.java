@@ -39,6 +39,12 @@ implements IRoundedRectangleFigure {
         
         Rectangle bounds = getBounds();
         
+        bounds.width--;
+        bounds.height--;
+
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+
         Dimension arc = getArc();
         
         graphics.setAlpha(getAlpha());
@@ -65,7 +71,7 @@ implements IRoundedRectangleFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1),
+        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
                 arc.width, arc.height);
         
         graphics.popState();

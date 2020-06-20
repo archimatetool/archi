@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
@@ -42,6 +43,9 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         bounds.width--;
         bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
 
         PointList points = new PointList();
         points.addPoint(bounds.x + FLANGE, bounds.y);
@@ -64,7 +68,9 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
             graphics.setBackgroundPattern(gradient);
         }
         
-        graphics.fillPolygon(points);
+        Path path = FigureUtils.createPathFromPoints(points);
+        graphics.fillPath(path);
+        path.dispose();
         
         if(gradient != null) {
             gradient.dispose();

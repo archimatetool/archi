@@ -11,13 +11,13 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
@@ -49,64 +49,85 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
-        graphics.setAntialias(SWT.ON);
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
         
         graphics.setAlpha(getAlpha());
-
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        
-        int[] topRectangle = null;
-        int[] mainRectangle = null;
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {
-            topRectangle = new int[] {
-                    bounds.x, bounds.y,
-                    (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y,
-                    (int)(bounds.x + (bounds.width / INSET) - 1), bounds.y + TOPBAR_HEIGHT,
-                    bounds.x, bounds.y + TOPBAR_HEIGHT,
-            };
+            // Top Rectangle
+            graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
             
-            mainRectangle = new int[] {
-                    bounds.x, bounds.y + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                    bounds.x, bounds.y + bounds.height - 1
-            };
+            Path path1 = new Path(null);
+            path1.moveTo(bounds.x, bounds.y);
+            path1.lineTo(bounds.x + (bounds.width / INSET), bounds.y);
+            path1.lineTo(bounds.x + (bounds.width / INSET), bounds.y + TOPBAR_HEIGHT);
+            path1.lineTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
+            path1.lineTo(bounds.x, bounds.y);
+            graphics.fillPath(path1);
+            path1.dispose();
             
-            graphics.fillPolygon(topRectangle);
+            // Main rectangle
+            graphics.setBackgroundColor(getFillColor());
+            Pattern gradient = createGradient(graphics);
+            
+            Path path2 = new Path(null);
+            path2.moveTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
+            path2.lineTo(bounds.x + bounds.width, bounds.y + TOPBAR_HEIGHT);
+            path2.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
+            path2.lineTo(bounds.x, bounds.y + bounds.height);
+            graphics.fillPath(path2);
+            path2.dispose();
+            
+            if(gradient != null) {
+                gradient.dispose();
+            }
+            
+            // Line
+            graphics.setForegroundColor(getLineColor());
+            graphics.setAlpha(getLineAlpha());
+            
+            Path path = new Path(null);
+            path.moveTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
+            path.lineTo(bounds.x, bounds.y);
+            path.lineTo(bounds.x + (bounds.width / INSET), bounds.y);
+            path.lineTo(bounds.x + (bounds.width / INSET), bounds.y + TOPBAR_HEIGHT);
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.drawRectangle(bounds.x, bounds.y + TOPBAR_HEIGHT, bounds.width, bounds.height - TOPBAR_HEIGHT);
         }
         else {
-            mainRectangle = new int[] {
-                    bounds.x, bounds.y,
-                    bounds.x + bounds.width - 1, bounds.y,
-                    bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
-                    bounds.x, bounds.y + bounds.height - 1
-            };
+            graphics.setBackgroundColor(getFillColor());
+            Pattern gradient = createGradient(graphics);
+            
+            graphics.fillRectangle(bounds);
+            
+            if(gradient != null) {
+                gradient.dispose();
+            }
+            
+            // Line
+            graphics.setForegroundColor(getLineColor());
+            graphics.setAlpha(getLineAlpha());
+            graphics.drawRectangle(bounds);
         }
 
-        graphics.setBackgroundColor(getFillColor());
-
+        graphics.popState();
+    }
+    
+    private Pattern createGradient(Graphics graphics) {
         Pattern gradient = null;
+        
         if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
         
-        graphics.fillPolygon(mainRectangle);
-        
-        if(gradient != null) {
-            gradient.dispose();
-        }
-
-        // Line
-        graphics.setForegroundColor(getLineColor());
-        graphics.setAlpha(getLineAlpha());
-        if(topRectangle != null) {
-            graphics.drawPolygon(topRectangle);
-        }
-        graphics.drawPolygon(mainRectangle);
-        
-        graphics.popState();
+        return gradient;
     }
     
     @Override

@@ -38,6 +38,14 @@ public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAda
     public void setBackgroundPattern(Pattern pattern) {
     }
     
+    @Override
+    public void translate(float dx, float dy) {
+        // Not sure if we need to do this
+        getSWTGraphics().translate(dx, dy);
+        // Or perhaps this?
+        //super.translate((int)dx, (int)dy);
+    }
+    
     /**
      * JB fix - Draw polylines as a Path2D
      */

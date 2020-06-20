@@ -32,11 +32,14 @@ public class ContractFigure extends ObjectFigure {
             graphics.setAlpha(getAlpha());
             
             Rectangle bounds = getBounds();
+            bounds.width--;
+            
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, 1, bounds);
             
             // Line
             graphics.setForegroundColor(getLineColor());
-
-            bounds.width--;
+            graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.getBottom().y - TOP_MARGIN, bounds.getRight().x, bounds.getBottom().y - TOP_MARGIN);
             
             graphics.popState();

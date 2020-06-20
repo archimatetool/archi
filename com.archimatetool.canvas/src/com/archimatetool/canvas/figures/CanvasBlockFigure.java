@@ -140,36 +140,41 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
     
     @Override
     protected void drawFigure(Graphics graphics) {
+        drawFigure(graphics, getFillColor());
+    }
+
+    @Override
+    protected void drawTargetFeedback(Graphics graphics) {
+        drawFigure(graphics, ColorFactory.getDarkerColor(getFillColor()));
+    }
+    
+    private void drawFigure(Graphics graphics, Color background) {
+        graphics.pushState();
+        
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
         
         Rectangle bounds = getBounds().getCopy();
         
-        graphics.setBackgroundColor(getFillColor());
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+        
+        graphics.setBackgroundColor(background);
         graphics.fillRectangle(bounds);
         
+        fIconicDelegate.drawIcon(graphics, bounds.getCopy().expand(1, 1));
+
         // Border
         if(getBorderColor() != null) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
+            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
         }
         
-        fIconicDelegate.drawIcon(graphics, bounds);
-    }
-
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        Rectangle boundsCopy = getBounds().getCopy();
-        boundsCopy.shrink(1, 1);
-        graphics.pushState();
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillRectangle(boundsCopy);
-        fIconicDelegate.drawIcon(graphics, getBounds().getCopy());
-        //graphics.setForegroundColor(ColorConstants.blue);
-        //graphics.setLineWidth(2);
-        //graphics.drawRectangle(boundsCopy);
         graphics.popState();
     }
     

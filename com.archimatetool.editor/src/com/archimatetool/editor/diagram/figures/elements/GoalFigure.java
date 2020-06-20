@@ -46,12 +46,11 @@ public class GoalFigure extends AbstractMotivationFigure {
         
         path.addArc(pt.x, pt.y, 13, 13, 0, 360);
         path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
-        
+        path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+        path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
         graphics.drawPath(path);
         path.dispose();
 
-        graphics.fillOval(pt.x + 5, pt.y + 5, 4, 4);
-        
         graphics.popState();
     }
     

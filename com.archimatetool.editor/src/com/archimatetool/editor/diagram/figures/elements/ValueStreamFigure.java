@@ -48,8 +48,14 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+
         int indent = Math.min(bounds.height / 2, bounds.width / 2);
-        int centre_y = bounds.y + bounds.height / 2 - 1;
+        int centre_y = bounds.y + bounds.height / 2;
         int point_startx = bounds.x + bounds.width - indent;
 
         graphics.setAlpha(getAlpha());
@@ -62,10 +68,12 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x + indent, centre_y);
-        path.lineTo(bounds.x, bounds.y + bounds.height - 1);
-        path.lineTo(point_startx, bounds.y + bounds.height - 1);
-        path.lineTo(bounds.x + bounds.width - 1, centre_y);
+        path.lineTo(bounds.x, bounds.y + bounds.height);
+        path.lineTo(point_startx, bounds.y + bounds.height);
+        path.lineTo(bounds.x + bounds.width, centre_y);
         path.lineTo(point_startx, bounds.y);
+        path.lineTo(bounds.x, bounds.y);
+        path.lineTo(bounds.x + indent, centre_y);
         
         // Fill
         graphics.setBackgroundColor(getFillColor());
@@ -84,7 +92,6 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
 
         // Outline
         graphics.setForegroundColor(getLineColor());
-        path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
         path.dispose();
         

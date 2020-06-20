@@ -49,6 +49,12 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+        
         int indent = Math.min(bounds.height / 3, bounds.width / 3);
         int centre_y = bounds.y + bounds.height / 2 - 1;
         int arc_startx = bounds.x + bounds.width - indent;
@@ -59,17 +65,15 @@ public class EventFigure extends AbstractTextControlContainerFigure {
             setDisabledState(graphics);
         }
         
-        int x_offset = 2;
-        int y_offset = 1;
-        
         // Main Fill
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x + indent, centre_y);
-        path.lineTo(bounds.x, bounds.y + bounds.height - y_offset);
-        path.lineTo(arc_startx, bounds.y + bounds.height - y_offset);
-        path.addArc(arc_startx - indent - x_offset, bounds.y,
-                indent * 2 + 1, bounds.height - y_offset, -90, 180);
+        path.lineTo(bounds.x, bounds.y + bounds.height);
+        path.lineTo(arc_startx, bounds.y + bounds.height);
+        path.addArc(arc_startx - indent, bounds.y, indent * 2, bounds.height, -90, 180);
+        path.lineTo(bounds.x, bounds.y);
+        path.lineTo(bounds.x + indent, centre_y);
         
         graphics.setBackgroundColor(getFillColor());
 
@@ -88,7 +92,6 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
         path.dispose();
         

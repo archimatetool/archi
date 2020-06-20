@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -34,6 +35,9 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+        
         // The following is the most awful code to draw a cloud...
         
         graphics.setAlpha(getAlpha());
@@ -50,11 +54,26 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
-
-        graphics.fillOval(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2);
-        graphics.fillOval(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2);
-        graphics.fillOval(bounds.x, bounds.y + bounds.height/3, bounds.width/5 * 3, bounds.height/3 * 2);
-        graphics.fillOval(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2);
+        
+        Path path = new Path(null);
+        path.addArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 0, 360);
+        graphics.fillPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 0, 360);
+        graphics.fillPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x, bounds.y + bounds.height/3, bounds.width/5 * 3, bounds.height/3 * 2 - 1, 0, 360);
+        graphics.fillPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2, 0, 360);
+        graphics.fillPath(path);
+        path.dispose();
         
         if(gradient != null) {
             gradient.dispose();
@@ -63,10 +82,26 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 60, 147);
-        graphics.drawArc(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2 - 1, bounds.height/3 * 2, -40, 159);
-        graphics.drawArc(bounds.x, bounds.y + bounds.height / 3, bounds.width/5 * 3 - 1, bounds.height/3 * 2 - 1, -43, -167);
-        graphics.drawArc(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3 - 1, bounds.height/3 * 2 - 1, 0, -110);
+        
+        path = new Path(null);
+        path.addArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 60, 149);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, -38, 157);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x, bounds.y + bounds.height / 3, bounds.width/5 * 3, bounds.height/3 * 2 - 1, -41, -171);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2, 7, -120);
+        graphics.drawPath(path);
+        path.dispose();
         
         graphics.popState();
     }

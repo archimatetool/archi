@@ -31,6 +31,12 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle bounds = getBounds();
 
+        bounds.width--;
+        bounds.height--;
+
+        // Line Width
+        setLineWidth(graphics, 1, bounds);
+        
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
@@ -52,8 +58,6 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         }
 
         // Outline
-        bounds.width--;
-        bounds.height--;
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds);

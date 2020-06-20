@@ -7,12 +7,13 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextPosition;
 
@@ -39,6 +40,12 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 Rectangle bounds = getBounds();
                 
+                bounds.width--;
+                bounds.height--;
+
+                // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+                setLineWidth(graphics, 1, bounds);
+
                 graphics.setAlpha(getAlpha());
                 
                 if(!isEnabled()) {
@@ -64,12 +71,14 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
 
-                graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y + TOP_MARGIN);
-                graphics.drawLine(bounds.getCenter().x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y);
-                        
-                bounds.width--;
-                bounds.height--;
                 graphics.drawRectangle(bounds);
+                
+                Path path = new Path(null);
+                path.moveTo(bounds.x, bounds.y + TOP_MARGIN);
+                path.lineTo(bounds.getCenter().x, bounds.y + TOP_MARGIN);
+                path.lineTo(bounds.getCenter().x, bounds.y);
+                graphics.drawPath(path);
+                path.dispose();
                 
                 graphics.popState();
             }

@@ -6,8 +6,8 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -38,6 +38,14 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        float lineWidth = 1.0f;
+        float offSet = lineWidth / 2;
+        setLineWidth(graphics, lineWidth, bounds);
+        
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
@@ -45,14 +53,6 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         }
 
         // Fill
-        PointList points1 = new PointList();
-        points1.addPoint(bounds.x, bounds.y);
-        points1.addPoint(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
-        points1.addPoint(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
-        points1.addPoint(bounds.x + bounds.width - 1, bounds.y + FOLD_HEIGHT);
-        points1.addPoint(bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
-        points1.addPoint(bounds.x, bounds.y + bounds.height - 1);
-
         graphics.setBackgroundColor(getFillColor());
 
         Pattern gradient = null;
@@ -61,25 +61,43 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
             graphics.setBackgroundPattern(gradient);
         }
         
-        graphics.fillPolygon(points1);
+        Path path1 = new Path(null);
+        path1.moveTo(bounds.x - offSet, bounds.y);
+        path1.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        path1.lineTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
+        path1.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
+        path1.lineTo(bounds.x, bounds.y + bounds.height);
+        path1.lineTo(bounds.x, bounds.y);
+        graphics.fillPath(path1);
         
         if(gradient != null) {
             gradient.dispose();
         }
         
         // Fold
-        PointList points2 = new PointList();
-        points2.addPoint(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
-        points2.addPoint(bounds.x + bounds.width - 1, bounds.y + FOLD_HEIGHT);
-        points2.addPoint(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillPolygon(points2);
         
-        // Line
+        Path path2 = new Path(null);
+        path2.moveTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        path2.lineTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
+        path2.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
+        path2.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        graphics.fillPath(path2);
+        path2.dispose();
+        
+        // Lines
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPolygon(points1);
-        graphics.drawLine(points1.getPoint(1), points1.getPoint(3));
+        
+        graphics.drawPath(path1);
+        path1.dispose();
+        
+        Path path3 = new Path(null);
+        path3.moveTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
+        path3.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
+        path3.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        graphics.drawPath(path3);
+        path3.dispose();
         
         graphics.popState();
     }

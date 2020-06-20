@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 
@@ -100,7 +99,20 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param graphics
      */
     protected void setDisabledState(Graphics graphics) {
-        graphics.setAlpha(100);
-        graphics.setLineStyle(SWT.LINE_DOT);
+        if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
+            ((AbstractDiagramModelObjectFigure)getOwner()).setDisabledState(graphics);
+        }
+    }
+    
+    /**
+     * Set the line width and compensate the figure bounds width and height for this line width and translate the graphics instance
+     * @param graphics The graphics instance
+     * @param lineWidth The line width
+     * @param bounds The bounds of the object
+     */
+    protected void setLineWidth(Graphics graphics, float lineWidth, Rectangle bounds) {
+        if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
+            ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
+        }
     }
 }

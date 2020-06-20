@@ -15,6 +15,7 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
@@ -131,24 +132,40 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        float lineWidth = 1.0f;
+        float offSet = lineWidth / 2;
+        setLineWidth(graphics, lineWidth, bounds);
+        
         graphics.setForegroundColor(getFillColor());
         graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
         graphics.fillGradient(bounds, false);
+        
+        fIconicDelegate.drawIcon(graphics, bounds);
         
         // Border
         if(getBorderColor() != null) {
             graphics.setAlpha(getLineAlpha());
             
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
-            graphics.drawLine(bounds.x, bounds.y, bounds.x + bounds.width - 1, bounds.y);
-            graphics.drawLine(bounds.x + bounds.width - 1, bounds.y, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
+            Path path = new Path(null);
+            path.moveTo(bounds.x - offSet, bounds.y);
+            path.lineTo(bounds.x + bounds.width, bounds.y);
+            path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
+            graphics.drawPath(path);
+            path.dispose();
 
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height - 1);
-            graphics.drawLine(bounds.x, bounds.y + bounds.height - 1, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
+            path = new Path(null);
+            path.moveTo(bounds.x, bounds.y - offSet);
+            path.lineTo(bounds.x, bounds.y + bounds.height);
+            path.lineTo(bounds.x + bounds.width + offSet, bounds.y + bounds.height);
+            graphics.drawPath(path);
+            path.dispose();
         }
-
-        fIconicDelegate.drawIcon(graphics, bounds);
     }
     
     @Override

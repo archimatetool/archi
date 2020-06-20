@@ -38,6 +38,14 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        float lineWidth = 1.0f;
+        float lineOffset = lineWidth / 2;
+        setLineWidth(graphics, lineWidth, bounds);
+
         int offset = 6;
         int curve_y = bounds.y + bounds.height - offset;
         
@@ -52,13 +60,13 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x, curve_y - 1);
         
-        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset - 1,
-                bounds.x + bounds.width / 2 + 1, curve_y - 1);
+        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset,
+                bounds.x + bounds.width / 2 + 1, curve_y);
         
-        path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                bounds.x + bounds.width - 1, curve_y - 1);
+        path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 1,
+                bounds.x + bounds.width, curve_y);
         
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y);
+        path.lineTo(bounds.x + bounds.width, bounds.y);
         
         graphics.setBackgroundColor(getFillColor());
         
@@ -77,7 +85,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        path.lineTo(bounds.x, bounds.y);
+        path.lineTo(bounds.x - lineOffset, bounds.y);
         graphics.drawPath(path);
         path.dispose();
         

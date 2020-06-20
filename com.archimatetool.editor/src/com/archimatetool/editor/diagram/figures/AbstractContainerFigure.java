@@ -108,6 +108,18 @@ implements IContainerFigure {
         }
 
         Rectangle bounds = getBounds().getCopy();
+        
+        // Scaling
+        double scale = FigureUtils.getFigureScale(this);
+        if(scale == 1.5) {
+            bounds.width--;
+            bounds.height--;
+        }
+        else if(scale < 1) {
+            bounds.width -= 2;
+            bounds.height -= 2;
+        }
+        
         bounds.shrink(1, 1);
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);

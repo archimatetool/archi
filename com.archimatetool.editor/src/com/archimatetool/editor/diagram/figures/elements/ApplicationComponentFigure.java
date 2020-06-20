@@ -51,6 +51,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         Rectangle bounds = getBounds().getCopy();
         
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -66,7 +69,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
             graphics.setBackgroundPattern(gradient);
         }
 
-        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT, bounds.height);
+        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT - 1, bounds.height - 1);
         
         if(gradient != null) {
             gradient.dispose();
@@ -87,24 +90,25 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         points.addPoint(pt4);
         Point pt5 = new Point(pt1.x, pt4.y);
         points.addPoint(pt5);
-        Point pt6 = new Point(pt1.x, bounds.y + 42);
+        Point pt6 = new Point(pt1.x, bounds.y + 43);
         points.addPoint(pt6);
         graphics.drawPolyline(points);
-        graphics.drawLine(bounds.x + INDENT, bounds.y + 22, bounds.x + INDENT, bounds.y + 30);
+        
+        graphics.drawLine(bounds.x + INDENT, bounds.y + 23, bounds.x + INDENT, bounds.y + 30);
         
         graphics.setAlpha(getAlpha());
         
         // Nubs Fill
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillRectangle(bounds.x, bounds.y + 10, INDENT * 2 + 1, 13);
-        graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2 + 1, 13);
+        graphics.fillRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
+        graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
         
         graphics.setAlpha(getLineAlpha());
         
         // Nubs Outline
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 12);
-        graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 12);
+        graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
+        graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
         
         graphics.popState();
     }

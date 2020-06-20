@@ -94,10 +94,21 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         graphics.setAlpha(getDiagramModelObject().getAlpha());
         
+        Rectangle bounds = getBounds().getCopy();
+        
+        bounds.width--;
+        bounds.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, bounds);
+        
         if(fImage != null) {
             if(useScaledImage) {
                 rescaleImage();
+                graphics.pushState();
+                graphics.clipRect(bounds); // Need to do this
                 graphics.drawImage(fImage, bounds.x, bounds.y);
+                graphics.popState();
             }
             // This is way too slow
             else {
@@ -115,7 +126,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         if(getBorderColor() != null) {
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
+            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
         }
         
         graphics.popState();
