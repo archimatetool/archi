@@ -69,6 +69,9 @@ class ViewImporter extends AbstractImporter {
             addToParentFolder(importedView, targetView);
             logMessage(StatusMessageLevel.INFO, Messages.ViewImporter_1, targetView);
         }
+        else {
+            logMessage(StatusMessageLevel.INFO, Messages.ViewImporter_3, targetView);
+        }
         
         return targetView;
     }

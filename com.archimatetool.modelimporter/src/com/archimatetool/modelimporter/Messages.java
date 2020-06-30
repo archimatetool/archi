@@ -14,9 +14,15 @@ public class Messages extends NLS {
 
     public static String ConceptImporter_3;
 
+    public static String ConceptImporter_4;
+
+    public static String ConceptImporter_5;
+
     public static String FolderImporter_0;
 
     public static String FolderImporter_1;
+
+    public static String FolderImporter_2;
 
     public static String ImportModelPage_0;
 
@@ -77,6 +83,8 @@ public class Messages extends NLS {
     public static String ViewImporter_1;
 
     public static String ViewImporter_2;
+
+    public static String ViewImporter_3;
 
     static {
         // initialize resource bundle

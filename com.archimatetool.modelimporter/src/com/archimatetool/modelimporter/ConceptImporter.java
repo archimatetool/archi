@@ -42,6 +42,10 @@ class ConceptImporter extends AbstractImporter {
             logMessage(StatusMessageLevel.INFO, (targetConcept instanceof IArchimateElement)
                     ? Messages.ConceptImporter_2 : Messages.ConceptImporter_3, targetConcept);
         }
+        else {
+            logMessage(StatusMessageLevel.INFO, (targetConcept instanceof IArchimateElement)
+                    ? Messages.ConceptImporter_4 : Messages.ConceptImporter_5, targetConcept);
+        }
         
         if(shouldUpdate() || createdNewConcept) {
             // Relationship ends

@@ -51,6 +51,9 @@ class FolderImporter extends AbstractImporter {
             updateObject(importedFolder, targetFolder);
             logMessage(StatusMessageLevel.INFO, Messages.FolderImporter_1, targetFolder);
         }
+        else if(isUserFolder(importedFolder)) {
+            logMessage(StatusMessageLevel.INFO, Messages.FolderImporter_2, targetFolder);
+        }
 
         // Add to parent folder (if it's a sub-folder)
         if((createdNewFolder || shouldUpdate()) && isUserFolder(importedFolder)) {
