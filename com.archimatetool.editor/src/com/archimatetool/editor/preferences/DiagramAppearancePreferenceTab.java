@@ -72,24 +72,17 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
         
-        // -------------- Figures ----------------------------
+        // -------------- Global ----------------------------
         
-        Group figuresGroup = new Group(client, SWT.NULL);
-        figuresGroup.setText(Messages.DiagramAppearancePreferenceTab_0);
-        figuresGroup.setLayout(new GridLayout(2, false));
-        figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Default Gradient
-        Label label = new Label(figuresGroup, SWT.NULL);
-        label.setText(Messages.DiagramFiguresPreferencePage_9);
-        fDefaultGradientCombo = new Combo(figuresGroup, SWT.READ_ONLY);
-        fDefaultGradientCombo.setItems(GRADIENT_STYLES);
-        fDefaultGradientCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        Group globalGroup = new Group(client, SWT.NULL);
+        globalGroup.setText(Messages.DiagramAppearancePreferenceTab_0);
+        globalGroup.setLayout(new GridLayout(2, false));
+        globalGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Word wrap style
-        label = new Label(figuresGroup, SWT.NULL);
+        Label label = new Label(globalGroup, SWT.NULL);
         label.setText(Messages.DiagramAppearancePreferenceTab_7);
-        fWordWrapStyleCombo = new Combo(figuresGroup, SWT.READ_ONLY);
+        fWordWrapStyleCombo = new Combo(globalGroup, SWT.READ_ONLY);
         fWordWrapStyleCombo.setItems(WORD_WRAP_STYLES);
         fWordWrapStyleCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
@@ -126,6 +119,14 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         fDefaultTextPositionCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
         fDefaultTextPositionCombo.setItems(TEXT_POSITIONS);
         fDefaultTextPositionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        // Default Gradient
+        label = new Label(defaultsGroup, SWT.NULL);
+        label.setText(Messages.DiagramFiguresPreferencePage_9);
+        fDefaultGradientCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
+        fDefaultGradientCombo.setItems(GRADIENT_STYLES);
+        fDefaultGradientCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
         
         // -------------- Sketch ----------------------------
 
