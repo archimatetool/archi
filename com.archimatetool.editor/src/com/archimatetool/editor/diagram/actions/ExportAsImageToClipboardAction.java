@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -15,16 +14,21 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.PngTransfer;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.model.IDiagramModel;
 
 
 
 /**
  * Export As Image to clipboard Action
+ * 
+ * We create a new GraphicalViewerImpl instance based on the Diagram Model
+ * This means we are guaranteed to be at 100% scale
  * 
  * @author Phillip Beauvoir
  */
@@ -33,11 +37,13 @@ public class ExportAsImageToClipboardAction extends Action {
     public static final String ID = "com.archimatetool.editor.action.exportAsImageToClipboard"; //$NON-NLS-1$
     public static final String TEXT = Messages.ExportAsImageToClipboardAction_0;
 
-    private GraphicalViewer fDiagramViewer;
+    private IDiagramModel diagramModel;
+    private Shell parentShell;
 
-    public ExportAsImageToClipboardAction(GraphicalViewer diagramViewer) {
+    public ExportAsImageToClipboardAction(IDiagramModel dm, Shell parentShell) {
         super(TEXT);
-        fDiagramViewer = diagramViewer;
+        diagramModel = dm;
+        this.parentShell = parentShell;
         setId(ID);
         setActionDefinitionId(getId()); // register key binding
     }
@@ -51,7 +57,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 Clipboard cb = null;
                 
                 try {
-                    image = DiagramUtils.createImage(fDiagramViewer, 1, 10);
+                    image = DiagramUtils.createImage(diagramModel, 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
                     
                     cb = new Clipboard(Display.getDefault());
@@ -64,7 +70,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 catch(Throwable ex) { // Catch Throwable for SWT errors
                     ex.printStackTrace();
                     
-                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                    MessageDialog.openError(parentShell,
                             Messages.ExportAsImageToClipboardAction_0,
                             Messages.ExportAsImageToClipboardAction_3 + " " + ex.getMessage()); //$NON-NLS-1$
                 }
