@@ -24,7 +24,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
@@ -38,7 +37,6 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
-import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.policies.ManualBendpointEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -85,16 +83,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
                 refreshBendpoints();
                 refreshBendpointEditPolicy();
             }
-        }
-    };
-    
-    /**
-     * Zoom listener
-     */
-    private ZoomListener zoomListener = new ZoomListener() {
-        @Override
-        public void zoomChanged(double newZoomValue) {
-            ((AbstractDiagramConnectionFigure)getFigure()).handleZoomChanged(newZoomValue);
         }
     };
     
@@ -220,13 +208,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             
             // Listen to Prefs changes to set default Font
             Preferences.STORE.addPropertyChangeListener(prefsListener);
-            
-            // Listen to Zoom Manager
-            ZoomManager zoomManager = getZoomManager();
-            if(zoomManager != null) {
-                zoomManager.addZoomListener(zoomListener);
-                zoomListener.zoomChanged(zoomManager.getZoom());
-            }
         }
     }
     
@@ -239,12 +220,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             removeECoreAdapter();
             
             Preferences.STORE.removePropertyChangeListener(prefsListener);
-            
-            // Remove Zoom Manager
-            ZoomManager zoomManager = getZoomManager();
-            if(zoomManager != null) {
-                zoomManager.removeZoomListener(zoomListener);
-            }
         }
     }
     

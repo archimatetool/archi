@@ -9,6 +9,8 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
+
 
 
 /**
@@ -32,17 +34,12 @@ public class FlowConnectionFigure extends AbstractArchimateConnectionFigure {
     protected void setFigureProperties() {
         setTargetDecoration(createFigureTargetDecoration()); 
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(getLineDashes(1.0));
+        setLineDash(getLineDashFloats());
     }
     
     @Override
-    public void handleZoomChanged(double newZoomValue) {
-        setLineDash(getLineDashes(newZoomValue));
+    protected float[] getLineDashFloats() {
+        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
+        return new float[] { (float)(6 * scale), (float)(3 * scale) };
     }
-    
-    private float[] getLineDashes(double zoomLevel) {
-        zoomLevel = zoomLevel < 1.0 ? zoomLevel : 1.0; // only scale down below 1.0
-        return new float[] { (float)(6 * zoomLevel), (float)(3 * zoomLevel) }; 
-    }
-
 }

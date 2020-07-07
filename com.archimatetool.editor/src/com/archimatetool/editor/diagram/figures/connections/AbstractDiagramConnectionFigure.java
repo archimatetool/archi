@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures.connections;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
@@ -57,11 +58,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fLineColor;
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
-    
-    /**
-     * Zoom Factor changed - connections should reset line dashes and dots
-     */
-    public void handleZoomChanged(double newZoomValue) {}
     
 	@Override
     public void setModelConnection(IDiagramModelConnection connection) {
@@ -239,6 +235,30 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             setToolTip(new ToolTipFigure());
         }
         return Preferences.doShowViewTooltips() ? super.getToolTip() : null;
+    }
+    
+    /**
+     * This is called when the parent scale is changed and set
+     * in the figure's ancestor ScalableFreeformLayeredPane#setScale()
+     * So we set the line dash information based on the current scale
+     */
+    @Override
+    protected void fireFigureMoved() {
+        // Get the connection's line dash information
+        float[] ld = getLineDashFloats();
+        // If we have some and there has been a change (i.e the scale has changed) then set the line dash to the new information
+        if(ld != null && !Arrays.equals(ld, getLineDash())) { 
+            setLineDash(ld);
+        }
+        
+        super.fireFigureMoved();
+    }
+    
+    /**
+     * @return line dash float information for connections with lines dashes, or null if the connection has no line dashes
+     */
+    protected float[] getLineDashFloats() {
+        return null;
     }
     
     @Override

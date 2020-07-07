@@ -12,6 +12,7 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -42,8 +43,6 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     public void refreshVisuals() {
         super.refreshVisuals();
         
-        setLineStyleFromZoomLevel(1);
-
         int connectionType = getModelConnection().getType();
         
         // Source Arrow head
@@ -74,31 +73,35 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
             setTargetDecoration(null);
         }
         
-        repaint(); // repaint when figure changes
-    }
-    
-    protected void setLineStyleFromZoomLevel(double zoomLevel) {
-        int connectionType = getModelConnection().getType();
-        
-        zoomLevel = zoomLevel < 1.0 ? zoomLevel : 1.0; // only scale down below 1.0
-        
         // Line Style
         if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { (float)(4 * zoomLevel) });
+            setLineDash(getLineDashFloats());
         }
         else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { (float)(1 * zoomLevel), (float)(4 * zoomLevel) });
+            setLineDash(getLineDashFloats());
         }
         else {
             setLineStyle(Graphics.LINE_SOLID);
         }
+        
+        repaint(); // repaint when figure changes
     }
     
     @Override
-    public void handleZoomChanged(double newZoomValue) {
-        setLineStyleFromZoomLevel(newZoomValue);
+    protected float[] getLineDashFloats() {
+        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
+        
+        int connectionType = getModelConnection().getType();
+        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
+            return new float[] { (float)(4 * scale) };
+        }
+        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
+            return new float[] { (float)(1 * scale), (float)(4 * scale) };
+        }
+        
+        return null;
     }
     
     protected PolygonDecoration getArrowheadSourceFilled() {

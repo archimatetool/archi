@@ -10,6 +10,7 @@ import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
@@ -45,17 +46,13 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     @Override
     protected void setFigureProperties() {
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(getLineDashes(1.0));
+        setLineDash(getLineDashFloats());
     }
     
     @Override
-    public void handleZoomChanged(double newZoomValue) {
-        setLineDash(getLineDashes(newZoomValue));
-    }
-    
-    private float[] getLineDashes(double zoomLevel) {
-        zoomLevel = zoomLevel < 1.0 ? zoomLevel : 1.0; // only scale down below 1.0
-        return new float[] { (float)(2 * zoomLevel) }; 
+    protected float[] getLineDashFloats() {
+        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
+        return new float[] { (float)(2 * scale) };
     }
     
     @Override
