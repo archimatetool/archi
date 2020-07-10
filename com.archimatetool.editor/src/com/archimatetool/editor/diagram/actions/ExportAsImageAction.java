@@ -49,7 +49,6 @@ public class ExportAsImageAction extends WorkbenchPartAction {
         Shell tempShell = new Shell();
         IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
         GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
-        tempShell.dispose();
         
         LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
@@ -68,6 +67,8 @@ public class ExportAsImageAction extends WorkbenchPartAction {
         };
         
         dialog.open();
+        
+        tempShell.dispose();
     }
 
     @Override
