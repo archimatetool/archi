@@ -8,13 +8,14 @@ package com.archimatetool.editor.diagram.actions;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.wizard.ExportAsImageWizard;
@@ -32,31 +33,28 @@ import com.archimatetool.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportAsImageAction extends Action {
+public class ExportAsImageAction extends WorkbenchPartAction {
     
     public static final String ID = "ExportAsImageAction"; //$NON-NLS-1$
     public static final String TEXT = Messages.ExportAsImageAction_0;
 
-    private IDiagramModel diagramModel;
-    private Shell parentShell;
-    
-    public ExportAsImageAction(IDiagramModel dm, Shell parentShell) {
-        super(TEXT);
-        diagramModel = dm;
-        this.parentShell = parentShell;
+    public ExportAsImageAction(IWorkbenchPart part) {
+        super(part);
+        setText(TEXT);
         setId(ID);
     }
 
     @Override
     public void run() {
         Shell tempShell = new Shell();
+        IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
         GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
         tempShell.dispose();
         
         LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
         
-        WizardDialog dialog = new ExtendedWizardDialog(parentShell,
+        WizardDialog dialog = new ExtendedWizardDialog(getWorkbenchPart().getSite().getShell(),
                 new ExportAsImageWizard(rootFigure, ArchiLabelProvider.INSTANCE.getLabel(diagramModel)),
                 "ExportAsImageWizard") { //$NON-NLS-1$
             
@@ -70,6 +68,11 @@ public class ExportAsImageAction extends Action {
         };
         
         dialog.open();
+    }
+
+    @Override
+    protected boolean calculateEnabled() {
+        return true;
     }
     
 }

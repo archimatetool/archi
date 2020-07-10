@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.dnd.Clipboard;
@@ -14,7 +14,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -32,18 +32,14 @@ import com.archimatetool.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportAsImageToClipboardAction extends Action {
+public class ExportAsImageToClipboardAction extends WorkbenchPartAction {
     
     public static final String ID = "com.archimatetool.editor.action.exportAsImageToClipboard"; //$NON-NLS-1$
     public static final String TEXT = Messages.ExportAsImageToClipboardAction_0;
 
-    private IDiagramModel diagramModel;
-    private Shell parentShell;
-
-    public ExportAsImageToClipboardAction(IDiagramModel dm, Shell parentShell) {
-        super(TEXT);
-        diagramModel = dm;
-        this.parentShell = parentShell;
+    public ExportAsImageToClipboardAction(IWorkbenchPart part) {
+        super(part);
+        setText(TEXT);
         setId(ID);
         setActionDefinitionId(getId()); // register key binding
     }
@@ -57,6 +53,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 Clipboard cb = null;
                 
                 try {
+                    IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
                     image = DiagramUtils.createImage(diagramModel, 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
                     
@@ -70,7 +67,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 catch(Throwable ex) { // Catch Throwable for SWT errors
                     ex.printStackTrace();
                     
-                    MessageDialog.openError(parentShell,
+                    MessageDialog.openError(getWorkbenchPart().getSite().getShell(),
                             Messages.ExportAsImageToClipboardAction_0,
                             Messages.ExportAsImageToClipboardAction_3 + " " + ex.getMessage()); //$NON-NLS-1$
                 }
@@ -85,5 +82,10 @@ public class ExportAsImageToClipboardAction extends Action {
                 }
             }
         });          
+    }
+
+    @Override
+    protected boolean calculateEnabled() {
+        return true;
     }
 }

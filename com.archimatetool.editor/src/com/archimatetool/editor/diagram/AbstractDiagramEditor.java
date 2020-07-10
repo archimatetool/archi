@@ -850,11 +850,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getUpdateCommandStackActions().add((UpdateAction)action);
 
         // Export As Image
-        action = new ExportAsImageAction(getModel(), getSite().getShell());
+        action = new ExportAsImageAction(this);
         registry.registerAction(action);
         
         // Export As Image to Clipboard
-        action = new ExportAsImageToClipboardAction(getModel(), getSite().getShell());
+        action = new ExportAsImageToClipboardAction(this);
         registry.registerAction(action);
         
         // Connection Router types
