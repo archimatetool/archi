@@ -43,8 +43,7 @@ public class ImageFactory {
      * @return The actual device zoom level.
      */
     public static int getDeviceZoom() {
-        // This is needed if we are running from the Command Line to init Display and thus ensure DPIUtil.setDeviceZoom(int) is called
-        // when com.archimatetool.editor.preferences.PreferenceInitializer calls this method
+        // Note - Not sure if we need this any more...but just in case
         Display.getDefault();
         
         String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
@@ -53,7 +52,7 @@ public class ImageFactory {
 
     /**
      * @return The zoom level for creating images.
-     * Windows OS with scaling > 100 needs to export images at x2 size
+     * Windows OS with scaling > 100 and Mac Retina since Eclipse 4.12 needs to export images at x2 size
      * If Preferences are set to not use a scaled device zoom then return 100
      */
     public static int getImageDeviceZoom() {

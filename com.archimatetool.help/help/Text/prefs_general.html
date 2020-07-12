@@ -55,8 +55,10 @@
 	<br/>
 
 	<h3>Other</h3>
-	<p><strong>Export images at 2x size</strong><br/>
-	When this is ticked, images are exported and copied to the clipboard at twice their normal size. This is set on by default for Windows operating systems where display scaling is set to 200% or more in order that images are correctly created. This setting is usually not needed on Mac Retina or Linux displays, so it's best to leave this turned off.</p>
+	<p><strong>Export images at double scale</strong><br/>
+	When this is ticked, images are exported and copied to the clipboard at twice their normal size. This is set on by default for Windows operating systems where display scaling is greater than 100%, and on Mac Retina devices. This is so that the exported image quality is not compromised since it is not possible to set a higher DPI in the image. This setting is usually not needed on Linux displays.</p>
+
+	<p>If the resulting image needs to be at its logical size you could edit it in an image editor and set the DPI to double its value. For example, on Mac change the DPI from to 72 to 144.</p>
 
 	<p>&nbsp;</p>
 

@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.tests.TestUtils;
 
 /**
@@ -97,8 +98,9 @@ public class ImageExportProviderTests {
         assertTrue(tmp.exists());
 
         ImageData imageData = new ImageData(tmp.getPath());
-        assertEquals(148, imageData.width); // 128 width + 10 margins
-        assertEquals(72, imageData.height); // 52 height + 10 margins
+        int scale = ImageFactory.getImageDeviceZoom() / 100; // Image Exporter exports using this
+        assertEquals(148 * scale, imageData.width); // 128 width + 10 margins
+        assertEquals(72 * scale, imageData.height); // 52 height + 10 margins
         
         // Test it by setting the scale to 200%
         provider.fScaleSpinner.setSelection(200);
@@ -106,8 +108,8 @@ public class ImageExportProviderTests {
         assertTrue(tmp.exists());
 
         imageData = new ImageData(tmp.getPath());
-        assertEquals(276, imageData.width); // 256 width + 10 margins
-        assertEquals(124, imageData.height); // 104 height + 10 margins
+        assertEquals(276 * scale, imageData.width); // 256 width + 10 margins
+        assertEquals(124 * scale, imageData.height); // 104 height + 10 margins
     }
     
     @Test
