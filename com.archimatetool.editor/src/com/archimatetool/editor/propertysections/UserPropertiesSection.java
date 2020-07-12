@@ -46,11 +46,9 @@ import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -65,6 +63,7 @@ import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -404,36 +403,42 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         /*
          * Selection Listener
          */
-        fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                fActionRemoveProperty.setEnabled(!event.getSelection().isEmpty());
-            }
+        fTableViewer.addSelectionChangedListener((e) -> {
+            fActionRemoveProperty.setEnabled(!e.getSelection().isEmpty());
         });
 
         /*
          * Table Double-click
          */
-        fTableViewer.getTable().addListener(SWT.MouseDoubleClick, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                // Get Table item
-                Point pt = new Point(event.x, event.y);
-                TableItem item = fTableViewer.getTable().getItem(pt);
-                
-                // Double-click into empty table creates new Property
-                if(item == null) {
-                    fActionNewProperty.run();                    
-                }
-                // Double-clicked in column 0 with item
-                else if(item.getData() instanceof IProperty) {
-                    Rectangle rect = item.getBounds(0);
-                    if(rect.contains(pt)) {
-                        handleDoubleClick((IProperty)item.getData());
-                    }
+        fTableViewer.getTable().addListener(SWT.MouseDoubleClick, (e) -> {
+            // Get Table item
+            Point pt = new Point(e.x, e.y);
+            TableItem item = fTableViewer.getTable().getItem(pt);
+            
+            // Double-click into empty table creates new Property
+            if(item == null) {
+                fActionNewProperty.run();                    
+            }
+            // Double-clicked in column 0 with item
+            else if(item.getData() instanceof IProperty) {
+                Rectangle rect = item.getBounds(0);
+                if(rect.contains(pt)) {
+                    handleDoubleClick((IProperty)item.getData());
                 }
             }
         });
+        
+        /*
+         * Edit table row on key press
+         */
+        fTableViewer.getTable().addKeyListener(KeyListener.keyPressedAdapter(e -> {
+            if(e.keyCode == SWT.CR) {
+                Object selected = fTableViewer.getStructuredSelection().getFirstElement();
+                if(selected != null) {
+                    fTableViewer.editElement(selected, 1);
+                }
+            }
+        }));
 
         hookContextMenu();
     }
