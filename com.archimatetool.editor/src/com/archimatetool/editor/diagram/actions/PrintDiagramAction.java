@@ -5,17 +5,19 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.print.PrintGraphicalViewerOperation;
+import org.eclipse.gef.archi.print.PrintGraphicalViewerOperation;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
+import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.model.IDiagramModel;
 
 
 
@@ -34,35 +36,33 @@ public class PrintDiagramAction extends WorkbenchPartAction {
 
     @Override
     protected boolean calculateEnabled() {
-        /*
-         * On Linux we get the dreaded "Prevented recursive attempt to activate part *.treeModelView
-         * while still in the middle of activating part com.archimatetool.diagramEditor" if we open a diagram editor
-         * from the tree view. This can be fixed by putting Printer.getPrinterList(); on a thread, but I can't be bothered.
-         */
-        if(PlatformUtils.isLinux()) {
-            return true;
-        }
-        
-        PrinterData[] printers = Printer.getPrinterList();
-        return printers != null && printers.length > 0;
+        // Should be enabled at all times in case of print to PDF
+        return true;
     }
 
     @Override
     public void run() {
-        GraphicalViewer viewer = getWorkbenchPart().getAdapter(GraphicalViewer.class);
-
-        int printMode = new PrintModeDialog(viewer.getControl().getShell()).open();
+        PrintModeDialog modeDialog = new PrintModeDialog(getWorkbenchPart().getSite().getShell());
+        modeDialog.open();
+        int printMode = modeDialog.getPrintMode();
         if(printMode == -1) {
             return;
         }
         
-        PrintDialog dialog = new PrintDialog(viewer.getControl().getShell(), SWT.NULL);
-        PrinterData data = dialog.open();
+        PrintDialog printDialog = new PrintDialog(getWorkbenchPart().getSite().getShell(), SWT.NULL);
+        PrinterData data = printDialog.open();
 
         if(data != null) {
+            IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
+
+            Shell tempShell = new Shell();
+            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
+            
             PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(new Printer(data), viewer);
             op.setPrintMode(printMode);
             op.run(getWorkbenchPart().getTitle());
+
+            tempShell.dispose();
         }
     }
 }

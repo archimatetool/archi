@@ -24,6 +24,8 @@ public class PrintModeDialog extends Dialog {
 
     private Button tile, fitPage, fitWidth, fitHeight;
 
+    private int mode = -1;
+    
     public PrintModeDialog(Shell shell) {
         super(shell);
     }
@@ -56,29 +58,23 @@ public class PrintModeDialog extends Dialog {
 
     @Override
     protected void okPressed() {
-        int returnCode = -1;
-        
         if(tile.getSelection()) {
-            returnCode = PrintFigureOperation.TILE;
+            mode = PrintFigureOperation.TILE;
         }
         else if(fitPage.getSelection()) {
-            returnCode = PrintFigureOperation.FIT_PAGE;
+            mode = PrintFigureOperation.FIT_PAGE;
         }
         else if(fitHeight.getSelection()) {
-            returnCode = PrintFigureOperation.FIT_HEIGHT;
+            mode = PrintFigureOperation.FIT_HEIGHT;
         }
         else if(fitWidth.getSelection()) {
-            returnCode = PrintFigureOperation.FIT_WIDTH;
+            mode = PrintFigureOperation.FIT_WIDTH;
         }
-        
-        setReturnCode(returnCode);
         
         close();
     }
     
-    @Override
-    protected void cancelPressed() {
-        setReturnCode(-1);
-        close();
+    public int getPrintMode() {
+        return mode;
     }
 }
