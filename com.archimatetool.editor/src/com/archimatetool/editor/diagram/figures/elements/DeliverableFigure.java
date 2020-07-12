@@ -39,8 +39,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        float lineWidth = 1.0f;
-        float lineOffset = lineWidth / 2;
+        int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
         
         int offset = 11;
@@ -82,6 +81,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        float lineOffset = (float)lineWidth / 2;
         path.lineTo(bounds.x - lineOffset, bounds.y);
         graphics.drawPath(path);
         path.dispose();

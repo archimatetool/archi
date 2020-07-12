@@ -110,7 +110,7 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param lineWidth The line width
      * @param bounds The bounds of the object
      */
-    protected void setLineWidth(Graphics graphics, float lineWidth, Rectangle bounds) {
+    protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
         if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
             ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
         }

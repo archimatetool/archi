@@ -18,11 +18,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
+import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -94,11 +96,31 @@ implements IDiagramModelObjectFigure {
      * @param lineWidth The line width
      * @param bounds The bounds of the object
      */
-    protected void setLineWidth(Graphics graphics, float lineWidth, Rectangle bounds) {
+    protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
+        graphics.setLineWidth(lineWidth);
+        
+        // If we are exporting to image or printing this will be ExtendedSWTGraphics
+        // Otherwise it will be SWTGraphics
+        final double scale = graphics instanceof ExtendedSWTGraphics ? ((ExtendedSWTGraphics)graphics).getScale() : FigureUtils.getFigureScale(this);
+        
+        // If line width is 1 and scale is 100% then do nothing
+        if(lineWidth == 1 && scale == 1.0) {
+            return;
+        }
+    
+        // Width and height reduced by line width to compensate for x,y offset
         bounds.width -= lineWidth;
         bounds.height -= lineWidth;
-        graphics.setLineWidthFloat(lineWidth);
-        graphics.translate(lineWidth / 2, lineWidth / 2);
+        
+        // x,y offset is half of line width
+        float offset = (float)lineWidth / 2;
+        
+        // If this is a non hi-res device and scale == 100% round up to integer to stop anti-aliasing
+        if(ImageFactory.getDeviceZoom() == 100 && scale == 1.0) {
+            offset = (float)Math.ceil(offset);
+        }
+        
+        graphics.translate(offset, offset);
     }
     
     /**

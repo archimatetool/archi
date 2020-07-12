@@ -42,8 +42,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        float lineWidth = 1.0f;
-        float offSet = lineWidth / 2;
+        int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
         
         graphics.setAlpha(getAlpha());
@@ -61,8 +60,10 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
             graphics.setBackgroundPattern(gradient);
         }
         
+        float lineOffset = (float)lineWidth / 2;
+
         Path path1 = new Path(null);
-        path1.moveTo(bounds.x - offSet, bounds.y);
+        path1.moveTo(bounds.x - lineOffset, bounds.y);
         path1.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
         path1.lineTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
         path1.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);

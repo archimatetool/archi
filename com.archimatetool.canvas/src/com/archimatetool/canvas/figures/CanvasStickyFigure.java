@@ -136,8 +136,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        float lineWidth = 1.0f;
-        float offSet = lineWidth / 2;
+        int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
         
         graphics.setForegroundColor(getFillColor());
@@ -150,9 +149,11 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         if(getBorderColor() != null) {
             graphics.setAlpha(getLineAlpha());
             
+            float lineOffset = (float)lineWidth / 2;
+
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
-            path.moveTo(bounds.x - offSet, bounds.y);
+            path.moveTo(bounds.x - lineOffset, bounds.y);
             path.lineTo(bounds.x + bounds.width, bounds.y);
             path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
             graphics.drawPath(path);
@@ -160,9 +161,9 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
 
             graphics.setForegroundColor(getBorderColor());
             path = new Path(null);
-            path.moveTo(bounds.x, bounds.y - offSet);
+            path.moveTo(bounds.x, bounds.y - lineOffset);
             path.lineTo(bounds.x, bounds.y + bounds.height);
-            path.lineTo(bounds.x + bounds.width + offSet, bounds.y + bounds.height);
+            path.lineTo(bounds.x + bounds.width + lineOffset, bounds.y + bounds.height);
             graphics.drawPath(path);
             path.dispose();
         }
