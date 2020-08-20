@@ -44,7 +44,7 @@ public class DropinsPluginHandler {
     
     private Shell shell;
     
-    private File userDropinsFolder, systemDropinsFolder;
+    private File userDropinsFolder, systemDropinsFolder, instanceDropinsFolder;
 
     private boolean success;
     private boolean needsClose;
@@ -76,7 +76,7 @@ public class DropinsPluginHandler {
     public int install(Shell shell) throws IOException {
         this.shell = shell;
         
-        if(!checkCanWrite()) {
+        if(!checkCanWriteToFolder(getDefaultDropinsFolder())) {
             return status();
         }
         
@@ -150,7 +150,7 @@ public class DropinsPluginHandler {
         try {
             ZipUtils.unpackZip(zipFile, tmpFolder);
             
-            File pluginsFolder = getDropinsFolder();
+            File pluginsFolder = getDefaultDropinsFolder();
             pluginsFolder.mkdirs();
 
             for(File file : tmpFolder.listFiles()) {
@@ -180,10 +180,6 @@ public class DropinsPluginHandler {
 
     public int uninstall(Shell shell, List<Bundle> selected) throws IOException {
         if(selected.isEmpty()) {
-            return status();
-        }
-        
-        if(!checkCanWrite()) {
             return status();
         }
         
@@ -263,8 +259,7 @@ public class DropinsPluginHandler {
         return string;
     }
 
-    private boolean checkCanWrite() throws IOException {
-        File folder = getDropinsFolder();
+    private boolean checkCanWriteToFolder(File folder) {
         folder.mkdirs();
         
         if(!Files.isWritable(folder.toPath())) {
@@ -289,9 +284,21 @@ public class DropinsPluginHandler {
         return ZipUtils.isZipFile(file) && ZipUtils.hasZipEntry(file, MAGIC_ENTRY);
     }
     
-    private File getDropinsFolder() throws IOException {
-        File userDropinsFolder = getUserDropinsFolder();
-        return userDropinsFolder == null ? getSystemDropinsFolder() : userDropinsFolder;
+    private File getDefaultDropinsFolder() throws IOException {
+        // Get user dropins folder as set in Archi.ini
+        File dropinsFolder = getUserDropinsFolder();
+        
+        // Else get the instance dropins folder as set in osgi.instance.area
+        if(dropinsFolder == null) {
+            dropinsFolder = getInstanceDropinsFolder();
+        }
+        
+        // Else get the dropins folder as the "dropins" folder in the app installation directory
+        if(dropinsFolder == null) {
+            dropinsFolder = getSystemDropinsFolder();
+        }
+        
+        return dropinsFolder;
     }
     
     private File getUserDropinsFolder() {
@@ -306,6 +313,16 @@ public class DropinsPluginHandler {
         }
         
         return userDropinsFolder;
+    }
+    
+    private File getInstanceDropinsFolder() throws IOException {
+        if(instanceDropinsFolder == null) {
+            URL url = Platform.getInstanceLocation().getURL();
+            url = FileLocator.resolve(url);
+            instanceDropinsFolder = new File(url.getPath(), "dropins"); //$NON-NLS-1$
+        }
+        
+        return instanceDropinsFolder;
     }
     
     private File getSystemDropinsFolder() throws IOException {
@@ -363,7 +380,9 @@ public class DropinsPluginHandler {
     File getDropinsBundleFile(Bundle bundle) throws IOException {
         File bundleFile = FileLocator.getBundleFile(bundle);
         File parentFolder = bundleFile.getParentFile();
-        return (parentFolder.equals(getUserDropinsFolder()) || parentFolder.equals(getSystemDropinsFolder())) ? bundleFile : null;
+        return (parentFolder.equals(getUserDropinsFolder())
+                || parentFolder.equals(getInstanceDropinsFolder()) 
+                || parentFolder.equals(getSystemDropinsFolder())) ? bundleFile : null;
     }
 
     private List<File> askOpenFiles() {
