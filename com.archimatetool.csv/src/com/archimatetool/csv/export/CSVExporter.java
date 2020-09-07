@@ -46,8 +46,7 @@ public class CSVExporter implements CSVConstants {
     
     private boolean fStripNewLines = false;
     
-    // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
-    private boolean fUseLeadingCharsHack = false;
+    private boolean fExcelCompatible = false;
     
     private String fEncoding = "UTF-8"; //$NON-NLS-1$
     
@@ -95,8 +94,8 @@ public class CSVExporter implements CSVConstants {
         fStripNewLines = set;
     }
     
-    public void setUseLeadingCharsHack(boolean set) {
-        fUseLeadingCharsHack = set;
+    public void setExcelCompatible(boolean set) {
+        fExcelCompatible = set;
     }
     
     public void setEncoding(String encoding) {
@@ -458,11 +457,22 @@ public class CSVExporter implements CSVConstants {
         if(needsLeadingCharHack(s)) {
             return "\"=\"\"" + s + "\"\"\""; //$NON-NLS-1$ //$NON-NLS-2$
         }
+        else if(needsLeadingCharFormulaHack(s)) {
+            s = " " + s; //$NON-NLS-1$
+        }
         return "\"" + s + "\""; //$NON-NLS-1$ //$NON-NLS-2$
     }
     
+    // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
     boolean needsLeadingCharHack(String s) {
-        return s != null && fUseLeadingCharsHack && (s.startsWith(" ") || s.startsWith("0"));  //$NON-NLS-1$//$NON-NLS-2$
+        return s != null && fExcelCompatible && (s.startsWith(" ") || s.startsWith("0"));  //$NON-NLS-1$//$NON-NLS-2$
+    }
+    
+    // If string starts with "=", "+", "-", "@"
+    // See https://payatu.com/csv-injection-basic-to-exploit
+    //     https://owasp.org/www-community/attacks/CSV_Injection
+    boolean needsLeadingCharFormulaHack(String s) {
+        return s != null && fExcelCompatible && (s.startsWith("=") || s.startsWith("+") || s.startsWith("-") || s.startsWith("@"));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
     
     /**

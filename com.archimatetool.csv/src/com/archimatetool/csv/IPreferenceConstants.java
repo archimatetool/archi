@@ -20,6 +20,6 @@ public interface IPreferenceConstants {
     String CSV_EXPORT_PREFS_LAST_FOLDER = "lastFolder";
     String CSV_EXPORT_PREFS_FILE_PREFIX = "filePrefix";
     String CSV_EXPORT_PREFS_STRIP_NEW_LINES = "stripNewLines";
-    String CSV_EXPORT_PREFS_LEADING_CHARS_HACK = "leadingCharsHack";
+    String CSV_EXPORT_PREFS_EXCEL_COMPATIBLE = "excelCompatible";
     String CSV_EXPORT_PREFS_ENCODING = "encoding";
 }

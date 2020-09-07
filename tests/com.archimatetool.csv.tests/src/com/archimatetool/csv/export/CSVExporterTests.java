@@ -85,7 +85,7 @@ public class CSVExporterTests {
     public void testSurroundWithQuotes() {
         assertEquals("\"Hello World\"", exporter.surroundWithQuotes("Hello World"));
         
-        exporter.setUseLeadingCharsHack(true);
+        exporter.setExcelCompatible(true);
         assertEquals("\"=\"\" Hello World\"\"\"", exporter.surroundWithQuotes(" Hello World"));
         assertEquals("\"=\"\"0123\"\"\"", exporter.surroundWithQuotes("0123"));
     }
@@ -98,12 +98,30 @@ public class CSVExporterTests {
         assertFalse(exporter.needsLeadingCharHack("   Hello World"));
         assertFalse(exporter.needsLeadingCharHack("0123"));
         
-        exporter.setUseLeadingCharsHack(true);
+        exporter.setExcelCompatible(true);
         assertFalse(exporter.needsLeadingCharHack(null));
         assertFalse(exporter.needsLeadingCharHack(""));
         assertFalse(exporter.needsLeadingCharHack("Hello World"));
         assertTrue(exporter.needsLeadingCharHack("   Hello World"));
         assertTrue(exporter.needsLeadingCharHack("0123"));
+    }
+
+    @Test
+    public void testNeedsLeadingCharFormulaHack() {
+        assertFalse(exporter.needsLeadingCharFormulaHack(null));
+        assertFalse(exporter.needsLeadingCharFormulaHack(""));
+        assertFalse(exporter.needsLeadingCharFormulaHack("Hello World"));
+        assertFalse(exporter.needsLeadingCharFormulaHack("   Hello World"));
+        assertFalse(exporter.needsLeadingCharFormulaHack("0123"));
+        
+        exporter.setExcelCompatible(true);
+        assertFalse(exporter.needsLeadingCharFormulaHack(null));
+        assertFalse(exporter.needsLeadingCharFormulaHack(""));
+        assertFalse(exporter.needsLeadingCharFormulaHack("Hello World"));
+        assertTrue(exporter.needsLeadingCharFormulaHack("=cmd"));
+        assertTrue(exporter.needsLeadingCharFormulaHack("+0123"));
+        assertTrue(exporter.needsLeadingCharFormulaHack("-0123"));
+        assertTrue(exporter.needsLeadingCharFormulaHack("@0123"));
     }
 
     @Test
@@ -151,7 +169,7 @@ public class CSVExporterTests {
         element.setName("  The Main Man");
         element.setDocumentation("0123");
         
-        exporter.setUseLeadingCharsHack(true);
+        exporter.setExcelCompatible(true);
         
         assertEquals("\"=\"\"087dfa23\"\"\",\"BusinessActor\",\"=\"\"  The Main Man\"\"\",\"=\"\"0123\"\"\"", exporter.createElementRow(element));
     }

@@ -58,8 +58,8 @@ public class ExportAsCSVWizard extends Wizard implements CSVConstants {
         // Strip newlines
         fExporter.setStripNewLines(fPage.getStripNewlines());
         
-        // Leading chars hack
-        fExporter.setUseLeadingCharsHack(fPage.getUseLeadingCharsHack());
+        // Excel compatible
+        fExporter.setExcelCompatible(fPage.getExcelCompatible());
         
         // Encoding
         fExporter.setEncoding(fPage.getEncoding());

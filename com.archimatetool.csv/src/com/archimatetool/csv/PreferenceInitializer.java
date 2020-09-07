@@ -23,7 +23,7 @@ implements IPreferenceConstants {
         IPreferenceStore store = CSVImportExportPlugin.getDefault().getPreferenceStore();
         
         store.setDefault(CSV_EXPORT_PREFS_SEPARATOR, 0);
-        store.setDefault(CSV_EXPORT_PREFS_LEADING_CHARS_HACK, false);
+        store.setDefault(CSV_EXPORT_PREFS_EXCEL_COMPATIBLE, false);
         store.setDefault(CSV_EXPORT_PREFS_STRIP_NEW_LINES, false);
         store.setDefault(CSV_EXPORT_PREFS_ENCODING, "UTF-8"); //$NON-NLS-1$
     }

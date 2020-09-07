@@ -38,7 +38,7 @@ public class ExportCSVProvider extends AbstractCommandLineProvider {
     static final String OPTION_DELIMITER = "csv.exportDelimiter"; //$NON-NLS-1$
     static final String OPTION_FILE_PREFIX = "csv.exportFilenamePrefix"; //$NON-NLS-1$
     static final String OPTION_STRIP_NEW_LINES = "csv.exportStripNewLines"; //$NON-NLS-1$
-    static final String OPTION_LEADING_CHARS_HACK = "csv.exportLeadingZeros"; //$NON-NLS-1$
+    static final String OPTION_EXCEL_COMPATIBLE = "csv.exportExcelCompatible"; //$NON-NLS-1$
     static final String OPTION_ENCODING = "csv.exportEncoding"; //$NON-NLS-1$
 
     
@@ -104,8 +104,8 @@ public class ExportCSVProvider extends AbstractCommandLineProvider {
             exporter.setEncoding(value);
         }
         
-        // Use leading
-        exporter.setUseLeadingCharsHack(commandLine.hasOption(OPTION_LEADING_CHARS_HACK));
+        // Excel
+        exporter.setExcelCompatible(commandLine.hasOption(OPTION_EXCEL_COMPATIBLE));
 
         // Strip newlines
         exporter.setStripNewLines(commandLine.hasOption(OPTION_STRIP_NEW_LINES));
@@ -156,7 +156,7 @@ public class ExportCSVProvider extends AbstractCommandLineProvider {
         options.addOption(option);
 
         option = Option.builder()
-                .longOpt(OPTION_LEADING_CHARS_HACK)
+                .longOpt(OPTION_EXCEL_COMPATIBLE)
                 .desc(Messages.ExportCSVProvider_14)
                 .build();
         options.addOption(option);

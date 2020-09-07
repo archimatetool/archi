@@ -44,7 +44,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     private Combo fDelimiterCombo;
     private Text fFilePrefixTextField;
     private Button fStripNewlinesButton;
-    private Button fLeadingCharsButton;
+    private Button fExcelCompatibleButton;
     
     private Label fElementsFileNameLabel;
     private Label fRelationsFileNameLabel;
@@ -140,9 +140,8 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         fStripNewlinesButton = new Button(optionsGroup, SWT.CHECK);
         fStripNewlinesButton.setText(Messages.ExportAsCSVPage_8);
         
-        // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
-        fLeadingCharsButton = new Button(optionsGroup, SWT.CHECK);
-        fLeadingCharsButton.setText(Messages.ExportAsCSVPage_9);
+        fExcelCompatibleButton = new Button(optionsGroup, SWT.CHECK);
+        fExcelCompatibleButton.setText(Messages.ExportAsCSVPage_9);
         
         label = new Label(container, SWT.NULL);
         
@@ -196,8 +195,8 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         return fStripNewlinesButton.getSelection();
     }
     
-    boolean getUseLeadingCharsHack() {
-        return fLeadingCharsButton.getSelection();
+    boolean getExcelCompatible() {
+        return fExcelCompatibleButton.getSelection();
     }
     
     String getEncoding() {
@@ -254,7 +253,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         store.setValue(CSV_EXPORT_PREFS_SEPARATOR, getDelimiterIndex());
         store.setValue(CSV_EXPORT_PREFS_FILE_PREFIX, getFilenamePrefix());
         store.setValue(CSV_EXPORT_PREFS_STRIP_NEW_LINES, getStripNewlines());
-        store.setValue(CSV_EXPORT_PREFS_LEADING_CHARS_HACK, getUseLeadingCharsHack());
+        store.setValue(CSV_EXPORT_PREFS_EXCEL_COMPATIBLE, getExcelCompatible());
         store.setValue(CSV_EXPORT_PREFS_ENCODING, getEncoding());
     }
     
@@ -286,9 +285,9 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         boolean selected = store.getBoolean(CSV_EXPORT_PREFS_STRIP_NEW_LINES);
         fStripNewlinesButton.setSelection(selected);
         
-        // Leading chars hack
-        selected = store.getBoolean(CSV_EXPORT_PREFS_LEADING_CHARS_HACK);
-        fLeadingCharsButton.setSelection(selected);
+        // Excel compatible
+        selected = store.getBoolean(CSV_EXPORT_PREFS_EXCEL_COMPATIBLE);
+        fExcelCompatibleButton.setSelection(selected);
         
         // Encoding
         String encoding = store.getString(CSV_EXPORT_PREFS_ENCODING);
