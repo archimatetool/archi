@@ -5,9 +5,11 @@
  */
 package com.archimatetool.editor.model.impl;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,7 +35,6 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -245,25 +246,40 @@ public class ArchiveManager implements IArchiveManager {
      * Save the model to Archive File format
      */
     private void saveModelToArchiveFile(File file) throws IOException {
+        try(ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
+            // Add the model xml file
+            saveModelFile(zOut);
+            
+            // Add any images
+            saveImages(zOut);
+        }
+    }
+    
+    /**
+     * Save the model xml file in the Archive File
+     */
+    private void saveModelFile(ZipOutputStream zOut) throws IOException {
         // Temp file for xml model file
         File tmpFile = File.createTempFile("archi-", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
         saveResource(tmpFile);
         
-        // Create Zip File output stream to model's file
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        ZipOutputStream zOut = new ZipOutputStream(out);
+        ZipEntry zipEntry = new ZipEntry("model.xml"); //$NON-NLS-1$
+        zipEntry.setTime(0); // Set time to zero for coArchi
+        zOut.putNextEntry(zipEntry);
         
-        try {
-            // Add the model xml file
-            ZipUtils.addFileToZip(tmpFile, "model.xml", zOut); //$NON-NLS-1$
-            
-            // Add any images
-            saveImages(zOut);
+        final int bufSize = 8192;
+        byte buf[] = new byte[bufSize];
+        int bytesRead;
+        
+        try(BufferedInputStream in = new BufferedInputStream(new FileInputStream(tmpFile), bufSize)) {
+            while((bytesRead = in.read(buf)) != -1) {
+                zOut.write(buf, 0, bytesRead);
+            }
+            zOut.closeEntry();
         }
         finally {
             tmpFile.delete();
-            zOut.close();
         }
     }
     
@@ -304,6 +320,7 @@ public class ArchiveManager implements IArchiveManager {
                     byte[] bytes = byteArrayStorage.getEntry(imagePath);
                     if(bytes != null) {
                         ZipEntry zipEntry = new ZipEntry(imagePath);
+                        zipEntry.setTime(0); // Set time to zero for coArchi
                         zOut.putNextEntry(zipEntry);
                         zOut.write(bytes);
                         zOut.closeEntry();
