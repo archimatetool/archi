@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateModelObject;
 
@@ -16,10 +19,24 @@ import com.archimatetool.model.IArchimateModelObject;
 @SuppressWarnings("nls")
 public class TypeRenderer extends AbstractTextRenderer {
     
-    private static final String TYPE = "${type}";
+    private static final Pattern TYPE_PATTERN = Pattern.compile("\\$" + allPrefixesGroup + "\\{type\\}");
 
     @Override
     public String render(IArchimateModelObject object, String text) {
-        return text.replace(TYPE, ArchiLabelProvider.INSTANCE.getDefaultName(getActualObject(object).eClass()));
+        Matcher matcher = TYPE_PATTERN.matcher(text);
+        
+        while(matcher.find()) {
+            String prefix = matcher.group(1);
+            String replacement = "";
+            
+            IArchimateModelObject refObject = getObjectFromPrefix(object, prefix);
+            if(refObject != null) {
+                replacement = ArchiLabelProvider.INSTANCE.getDefaultName(refObject.eClass());
+            }
+            
+            text = text.replace(matcher.group(), replacement);
+        }
+        
+        return text;
     }
 }

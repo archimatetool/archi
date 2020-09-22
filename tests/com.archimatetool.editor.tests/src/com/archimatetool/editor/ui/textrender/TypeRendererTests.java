@@ -74,4 +74,47 @@ public class TypeRendererTests extends AbstractTextRendererTests {
         String result = renderer.render(IArchimateFactory.eINSTANCE.createDiagramModelReference(), "${type}");
         assertEquals("View Reference", result);
     }
+    
+    @Test
+    public void render_SourceType() {
+        String result = renderer.render(dmc, "$source{type}");
+        assertEquals("Business Actor", result);
+    }
+    
+    @Test
+    public void render_TargetType() {
+        String result = renderer.render(dmc, "$target{type}");
+        assertEquals("Business Role", result);
+    }
+
+    @Test
+    public void render_ParentType() {
+        String result = renderer.render(dmo, "$parent{type}");
+        assertEquals("View", result);
+    }
+
+    @Test
+    public void render_ConnectedSourceName() {
+        String result = renderer.render(dmc.getTarget(), "$assignment:source{type}");
+        assertEquals("Business Actor", result);
+    }
+    
+    @Test
+    public void render_ConnectedTargetName() {
+        String result = renderer.render(dmc.getSource(), "$assignment:target{type}");
+        assertEquals("Business Role", result);
+    }
+
+    @Test
+    public void render_ModelFolderName() {
+        String result = renderer.render(dmo, "$mfolder{type}");
+        assertEquals("Folder", result);
+    }
+    
+    @Test
+    public void render_ViewFolderName() {
+        String result = renderer.render(dmo, "$vfolder{type}");
+        assertEquals("Folder", result);
+    }
+
 }
