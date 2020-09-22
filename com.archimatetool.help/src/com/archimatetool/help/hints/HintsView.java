@@ -256,7 +256,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         
         // This is a Hint Provider so this takes priority...
         if(actualObject instanceof IHelpHintProvider) {
-            showHintForHintProvider((IHelpHintProvider)actualObject);
+            showHintForHintProvider(source, (IHelpHintProvider)actualObject);
         }
         // Object
         else {
@@ -308,7 +308,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
     }
     
-    private void showHintForHintProvider(IHelpHintProvider provider) {
+    private void showHintForHintProvider(Object source, IHelpHintProvider provider) {
         String title = provider.getHelpHintTitle();
         String text = provider.getHelpHintContent();
         
@@ -318,8 +318,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             fBrowser.setText(text);
             fLastPath = ""; //$NON-NLS-1$
         }
+        // No user hint, so show inbuilt hint
         else {
-            showBlankHint();
+            showHintForObject(source, provider);
         }
     }
     
