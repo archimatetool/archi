@@ -42,7 +42,6 @@ import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IDocumentable;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
@@ -362,7 +361,7 @@ public class ModelImporter {
         private UpdatePropertiesCommand(IProperties importedObject, IProperties targetObject) {
             this.importedObject = importedObject;
             this.targetObject = targetObject;
-            oldProperties = new ArrayList<>(targetObject.getProperties());;
+            oldProperties = new ArrayList<>(targetObject.getProperties());
         }
 
         @Override
@@ -388,12 +387,13 @@ public class ModelImporter {
     private static class UpdateFeaturesCommand extends Command {
         private IFeatures importedObject;
         private IFeatures targetObject;
-        private ArrayList<IFeature> oldFeatures;
+        private List<Map.Entry<String, String>> oldFeatures;
 
         private UpdateFeaturesCommand(IFeatures importedObject, IFeatures targetObject) {
             this.importedObject = importedObject;
             this.targetObject = targetObject;
-            oldFeatures = new ArrayList<>(targetObject.getFeatures());
+            oldFeatures = targetObject.getFeatures();
+            oldFeatures = new ArrayList<Map.Entry<String,String>>(targetObject.getFeatures());
         }
 
         @Override

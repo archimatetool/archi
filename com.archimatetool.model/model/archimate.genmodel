@@ -44,7 +44,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Properties/properties"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//Feature">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Feature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Feature/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Feature/value"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//Features">

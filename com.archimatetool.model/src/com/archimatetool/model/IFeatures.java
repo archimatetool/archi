@@ -35,6 +35,6 @@ public interface IFeatures extends EObject {
      *        extendedMetaData="name='feature' kind='element'"
      * @generated NOT
      */
-    IFeaturesEList getFeatures();
+    IFeaturesEMap getFeatures();
 
 } // IFeatures

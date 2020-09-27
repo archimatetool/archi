@@ -12,9 +12,11 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -30,12 +32,11 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDocumentable;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IFeaturesEMap;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
-import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -98,14 +99,14 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     protected String id = ID_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getFeatures()
      * @generated
      * @ordered
      */
-    protected EList<IFeature> features;
+    protected EMap<String, String> features;
 
     /**
      * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
@@ -196,11 +197,11 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated NOT
      */
     @Override
-    public IFeaturesEList getFeatures() {
+    public IFeaturesEMap getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+            features = new FeaturesEMap(this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
         }
-        return (IFeaturesEList)features;
+        return (IFeaturesEMap)features;
     }
 
     /**
@@ -356,7 +357,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
             case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
                 return getId();
             case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
-                return getFeatures();
+                if (coreType) return getFeatures();
+                else return getFeatures().map();
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 return getDocumentation();
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
@@ -381,8 +383,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 setId((String)newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
-                getFeatures().clear();
-                getFeatures().addAll((Collection<? extends IFeature>)newValue);
+                ((EStructuralFeature.Setting)getFeatures()).set(newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
                 setDocumentation((String)newValue);

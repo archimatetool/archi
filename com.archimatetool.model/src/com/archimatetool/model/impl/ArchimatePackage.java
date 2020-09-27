@@ -79,7 +79,6 @@ import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
@@ -145,6 +144,7 @@ import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
 import java.io.File;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -1248,7 +1248,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
-    public EAttribute getFeature_Name() {
+    public EAttribute getFeature_Key() {
         return (EAttribute)featureEClass.getEStructuralFeatures().get(0);
     }
 
@@ -3204,7 +3204,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(propertiesEClass, PROPERTIES__PROPERTIES);
 
         featureEClass = createEClass(FEATURE);
-        createEAttribute(featureEClass, FEATURE__NAME);
+        createEAttribute(featureEClass, FEATURE__KEY);
         createEAttribute(featureEClass, FEATURE__VALUE);
 
         featuresEClass = createEClass(FEATURES);
@@ -3787,9 +3787,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(propertiesEClass, IProperties.class, "Properties", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getProperties_Properties(), this.getProperty(), null, "properties", null, 0, -1, IProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(featureEClass, IFeature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getFeature_Name(), ecorePackage.getEString(), "name", "", 0, 1, IFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-        initEAttribute(getFeature_Value(), ecorePackage.getEString(), "value", "", 0, 1, IFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEClass(featureEClass, Map.Entry.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getFeature_Key(), ecorePackage.getEString(), "key", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getFeature_Value(), ecorePackage.getEString(), "value", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(featuresEClass, IFeatures.class, "Features", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getFeatures_Features(), this.getFeature(), null, "features", null, 0, -1, IFeatures.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -4210,6 +4210,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
            new String[] {
                "name", "property", //$NON-NLS-1$ //$NON-NLS-2$
                "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
+        addAnnotation
+          (getFeature_Key(),
+           source,
+           new String[] {
+               "name", "name", //$NON-NLS-1$ //$NON-NLS-2$
+               "kind", "attribute" //$NON-NLS-1$ //$NON-NLS-2$
            });
         addAnnotation
           (getFeatures_Features(),

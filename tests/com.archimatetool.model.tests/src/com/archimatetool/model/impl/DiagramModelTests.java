@@ -87,7 +87,7 @@ public abstract class DiagramModelTests {
         dm.setDocumentation("doc");
         
         dm.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
-        dm.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
+        dm.getFeatures().putString("key", "value");
         
         IDiagramModel copy = (IDiagramModel)dm.getCopy();
         

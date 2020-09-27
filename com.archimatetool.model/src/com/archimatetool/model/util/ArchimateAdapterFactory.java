@@ -77,7 +77,6 @@ import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
@@ -141,6 +140,7 @@ import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
+import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -220,7 +220,7 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createPropertiesAdapter();
             }
             @Override
-            public Adapter caseFeature(IFeature object) {
+            public Adapter caseFeature(Map.Entry<String, String> object) {
                 return createFeatureAdapter();
             }
             @Override
@@ -806,13 +806,13 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFeature <em>Feature</em>}'.
+     * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Feature</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see com.archimatetool.model.IFeature
+     * @see java.util.Map.Entry
      * @generated
      */
     public Adapter createFeatureAdapter() {

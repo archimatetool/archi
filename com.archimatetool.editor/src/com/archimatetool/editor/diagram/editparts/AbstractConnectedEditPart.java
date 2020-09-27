@@ -21,7 +21,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IFeature;
+import com.archimatetool.model.impl.Feature;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -41,7 +41,7 @@ implements NodeEditPart {
         super(figureClass);
     }
 
-    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
+    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, Feature.class);
     
     /**
      * Message from the ECore Adapter
@@ -51,7 +51,7 @@ implements NodeEditPart {
         Object feature = msg.getFeature();
         
         // Archi Features
-        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof Feature) {
             refreshFigure();
             return;
         }

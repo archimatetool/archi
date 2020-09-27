@@ -29,7 +29,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IFeature;
+import com.archimatetool.model.impl.Feature;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -48,7 +48,7 @@ implements IEditPartFilterProvider {
      */
     private List<IEditPartFilter> fEditPartFilters;
     
-    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
+    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, Feature.class);
     
     /**
      * Message from the ECore Adapter
@@ -58,7 +58,7 @@ implements IEditPartFilterProvider {
         Object feature = msg.getFeature();
         
         // Archi Features
-        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof Feature) {
             refreshVisuals();
             return;
         }

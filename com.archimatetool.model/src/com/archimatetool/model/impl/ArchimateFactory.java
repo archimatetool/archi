@@ -63,7 +63,6 @@ import com.archimatetool.model.IDistributionNetwork;
 import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGap;
@@ -105,6 +104,7 @@ import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
+import java.util.Map;
 
 
 /**
@@ -152,7 +152,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case IArchimatePackage.PROPERTY: return createProperty();
-            case IArchimatePackage.FEATURE: return createFeature();
+            case IArchimatePackage.FEATURE: return (EObject)createFeature();
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
@@ -292,8 +292,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    @Override
-    public IFeature createFeature() {
+    public Map.Entry<String, String> createFeature() {
         Feature feature = new Feature();
         return feature;
     }

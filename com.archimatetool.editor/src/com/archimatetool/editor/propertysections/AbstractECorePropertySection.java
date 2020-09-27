@@ -27,8 +27,8 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.impl.Feature;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -53,7 +53,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     /**
      * We need an EContentAdapter to listen to all child IFeature objects
      */
-    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged, IFeature.class);
+    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged, Feature.class);
     
     @Override
     protected void handleSelection(IStructuredSelection selection) {
@@ -209,18 +209,18 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         // Feature added or removed
         if(msg.getFeature() == IArchimatePackage.Literals.FEATURES__FEATURES) {
             // Added
-            if(msg.getNewValue() instanceof IFeature) {
-                return name.equals(((IFeature)msg.getNewValue()).getName());
+            if(msg.getNewValue() instanceof Feature) {
+                return name.equals(((Feature)msg.getNewValue()).getKey());
             }
             // Removed
-            if(msg.getOldValue() instanceof IFeature) {
-                return name.equals(((IFeature)msg.getOldValue()).getName());
+            if(msg.getOldValue() instanceof Feature) {
+                return name.equals(((Feature)msg.getOldValue()).getKey());
             }
         }
         
         // Feature value changed
         return msg.getFeature() == IArchimatePackage.Literals.FEATURE__VALUE
-            && name.equals(((IFeature)msg.getNotifier()).getName());
+            && name.equals(((Feature)msg.getNotifier()).getKey());
     }
     
     /**

@@ -5,15 +5,15 @@
  */
 package com.archimatetool.model.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -27,9 +27,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
-import com.archimatetool.model.IFeaturesEList;
+import com.archimatetool.model.IFeaturesEMap;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -91,14 +90,14 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     protected String name = NAME_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getFeatures()
      * @generated
      * @ordered
      */
-    protected EList<IFeature> features;
+    protected EMap<String, String> features;
 
     /**
      * Adapter Map for arbitrary objects
@@ -177,11 +176,11 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated NOT
      */
     @Override
-    public IFeaturesEList getFeatures() {
+    public IFeaturesEMap getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES);
+            features = new FeaturesEMap(this, IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES);
         }
-        return (IFeaturesEList)features;
+        return (IFeaturesEMap)features;
     }
 
     /**
@@ -273,7 +272,8 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 return getName();
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
-                return getFeatures();
+                if (coreType) return getFeatures();
+                else return getFeatures().map();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -283,7 +283,6 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * <!-- end-user-doc -->
      * @generated
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -294,8 +293,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 setName((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES:
-                getFeatures().clear();
-                getFeatures().addAll((Collection<? extends IFeature>)newValue);
+                ((EStructuralFeature.Setting)getFeatures()).set(newValue);
                 return;
         }
         super.eSet(featureID, newValue);

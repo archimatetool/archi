@@ -5,65 +5,59 @@
  */
 package com.archimatetool.model;
 
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 
 /**
- * Convenience class to set and get and set keys and values from a IFeature EList
+ * Convenience class to set and get and set keys and values from an EMap
  * 
  * @author Phillip Beauvoir
  */
-public interface IFeaturesEList extends EList<IFeature> {
+public interface IFeaturesEMap extends EMap<String, String> {
 
     /**
      * Put or update a name/value as an IFeature
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, non-null string.
-     * @return the updated or new feature
      */
-    IFeature putString(String name, String value);
+    void putString(String name, String value);
     
     /**
      * Put or update a name/value as an IFeature
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, non-null string.
      * @param defaultValue The default value. If value and default value are equal the feature is removed
-     * @return the updated or new feature
      */
-    IFeature putString(String name, String value, String defaultValue);
+    void putString(String name, String value, String defaultValue);
     
     /**
      * Put or update a name/value as an IFeature where value is an integer
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, integer.
-     * @return the updated or new feature
      */
-    IFeature putInt(String name, int value);
+    void putInt(String name, int value);
     
     /**
      * Put or update a name/value as an IFeature where value is an integer
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, integer.
      * @param defaultValue The default value. If value and default value are equal the feature is removed
-     * @return the updated or new feature
      */
-    IFeature putInt(String name, int value, int defaultValue);
+    void putInt(String name, int value, int defaultValue);
     
     /**
      * Put or update a name/value as an IFeature where value is a boolean
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, boolean.
-     * @return the updated or new feature
      */
-    IFeature putBoolean(String name, boolean value);
+    void putBoolean(String name, boolean value);
 
     /**
      * Put or update a name/value as an IFeature where value is a boolean
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, boolean.
      * @param defaultValue The default value. If value and default value are equal the feature is removed
-     * @return the updated or new feature
      */
-    IFeature putBoolean(String name, boolean value, boolean defaultValue);
+    void putBoolean(String name, boolean value, boolean defaultValue);
 
     /**
      * Return a value from its name. If it does not exist, defaultValue is returned.
@@ -92,19 +86,12 @@ public interface IFeaturesEList extends EList<IFeature> {
     /** 
      * Remove an entry by its name
      * @param name The name, non-null.
-     * @return true if the entry was removed
      */
-    boolean remove(String name);
+    void remove(String name);
     
     /**
      * @param name The name, non-null.
      * @return true if there is an entry with name
      */
     boolean has(String name);
-    
-    /**
-     * @param name The name, non-null.
-     * @return the feature of the given name, or null if not found
-     */
-    IFeature getFeature(String name);
 }

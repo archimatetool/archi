@@ -17,8 +17,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -36,9 +38,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
-import com.archimatetool.model.IFeaturesEList;
+import com.archimatetool.model.IFeaturesEMap;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
@@ -125,14 +126,14 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     protected String id = ID_EDEFAULT;
     /**
-     * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+     * The cached value of the '{@link #getFeatures() <em>Features</em>}' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getFeatures()
      * @generated
      * @ordered
      */
-    protected EList<IFeature> features;
+    protected EMap<String, String> features;
     /**
      * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -487,11 +488,11 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     @Override
-    public IFeaturesEList getFeatures() {
+    public IFeaturesEMap getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_MODEL__FEATURES);
+            features = new FeaturesEMap(this, IArchimatePackage.ARCHIMATE_MODEL__FEATURES);
         }
-        return (IFeaturesEList)features;
+        return (IFeaturesEMap)features;
     }
 
     /**
@@ -679,7 +680,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 return getId();
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
-                return getFeatures();
+                if (coreType) return getFeatures();
+                else return getFeatures().map();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -714,8 +716,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 setId((String)newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
-                getFeatures().clear();
-                getFeatures().addAll((Collection<? extends IFeature>)newValue);
+                ((EStructuralFeature.Setting)getFeatures()).set(newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 getProperties().clear();

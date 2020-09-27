@@ -45,7 +45,7 @@ public abstract class DiagramModelComponentTests {
     @Test
     public void testGetCopy() {
         component.setName("name");
-        component.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
+        component.getFeatures().putString("key", "value");
         
         IDiagramModelComponent copy = (IDiagramModelComponent)component.getCopy();
         

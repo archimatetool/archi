@@ -253,13 +253,13 @@ public interface IArchimatePackage extends EPackage {
     int FEATURE = 4;
 
     /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * The feature id for the '<em><b>Key</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int FEATURE__NAME = 0;
+    int FEATURE__KEY = 0;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -290,7 +290,7 @@ public interface IArchimatePackage extends EPackage {
     int FEATURES = 5;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -445,7 +445,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_MODEL_OBJECT__ID = ADAPTER_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -481,7 +481,7 @@ public interface IArchimatePackage extends EPackage {
     int FOLDER__ID = ARCHIMATE_MODEL_OBJECT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -572,7 +572,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_CONCEPT__ID = ARCHIMATE_MODEL_OBJECT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -636,7 +636,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_ELEMENT__ID = ARCHIMATE_CONCEPT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1230,7 +1230,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_RELATIONSHIP__ID = ARCHIMATE_CONCEPT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1312,7 +1312,7 @@ public interface IArchimatePackage extends EPackage {
     int STRATEGY_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1366,7 +1366,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1420,7 +1420,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1474,7 +1474,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1768,7 +1768,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_OBJECT__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1822,7 +1822,7 @@ public interface IArchimatePackage extends EPackage {
     int PHYSICAL_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1876,7 +1876,7 @@ public interface IArchimatePackage extends EPackage {
     int MOTIVATION_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1930,7 +1930,7 @@ public interface IArchimatePackage extends EPackage {
     int IMPLEMENTATION_MIGRATION_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1984,7 +1984,7 @@ public interface IArchimatePackage extends EPackage {
     int COMPOSITE_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2038,7 +2038,7 @@ public interface IArchimatePackage extends EPackage {
     int BEHAVIOR_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2102,7 +2102,7 @@ public interface IArchimatePackage extends EPackage {
     int STRATEGY_BEHAVIOR_ELEMENT__ID = BEHAVIOR_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2156,7 +2156,7 @@ public interface IArchimatePackage extends EPackage {
     int STRUCTURE_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2210,7 +2210,7 @@ public interface IArchimatePackage extends EPackage {
     int ACTIVE_STRUCTURE_ELEMENT__ID = STRUCTURE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2264,7 +2264,7 @@ public interface IArchimatePackage extends EPackage {
     int PASSIVE_STRUCTURE_ELEMENT__ID = STRUCTURE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2318,7 +2318,7 @@ public interface IArchimatePackage extends EPackage {
     int STRUCTURAL_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2390,7 +2390,7 @@ public interface IArchimatePackage extends EPackage {
     int DEPENDENDENCY_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2462,7 +2462,7 @@ public interface IArchimatePackage extends EPackage {
     int DYNAMIC_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2534,7 +2534,7 @@ public interface IArchimatePackage extends EPackage {
     int OTHER_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2615,7 +2615,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_MODEL__ID = FOLDER_CONTAINER_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2706,7 +2706,7 @@ public interface IArchimatePackage extends EPackage {
     int JUNCTION__ID = ARCHIMATE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2769,7 +2769,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_COLLABORATION__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2823,7 +2823,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_COMPONENT__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2877,7 +2877,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_EVENT__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2931,7 +2931,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_FUNCTION__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2985,7 +2985,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_INTERACTION__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3039,7 +3039,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_INTERFACE__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3093,7 +3093,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_PROCESS__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3147,7 +3147,7 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_SERVICE__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3201,7 +3201,7 @@ public interface IArchimatePackage extends EPackage {
     int ARTIFACT__ID = TECHNOLOGY_OBJECT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3255,7 +3255,7 @@ public interface IArchimatePackage extends EPackage {
     int ASSESSMENT__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3309,7 +3309,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ACTOR__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3363,7 +3363,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_COLLABORATION__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3417,7 +3417,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_EVENT__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3471,7 +3471,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_FUNCTION__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3525,7 +3525,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_INTERACTION__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3579,7 +3579,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_INTERFACE__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3633,7 +3633,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_OBJECT__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3687,7 +3687,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_PROCESS__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3741,7 +3741,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ROLE__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3795,7 +3795,7 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_SERVICE__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3849,7 +3849,7 @@ public interface IArchimatePackage extends EPackage {
     int CAPABILITY__ID = STRATEGY_BEHAVIOR_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3903,7 +3903,7 @@ public interface IArchimatePackage extends EPackage {
     int COMMUNICATION_NETWORK__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -3957,7 +3957,7 @@ public interface IArchimatePackage extends EPackage {
     int CONTRACT__ID = BUSINESS_OBJECT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4011,7 +4011,7 @@ public interface IArchimatePackage extends EPackage {
     int CONSTRAINT__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4065,7 +4065,7 @@ public interface IArchimatePackage extends EPackage {
     int COURSE_OF_ACTION__ID = STRATEGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4119,7 +4119,7 @@ public interface IArchimatePackage extends EPackage {
     int DATA_OBJECT__ID = APPLICATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4173,7 +4173,7 @@ public interface IArchimatePackage extends EPackage {
     int DELIVERABLE__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4227,7 +4227,7 @@ public interface IArchimatePackage extends EPackage {
     int DEVICE__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4291,7 +4291,7 @@ public interface IArchimatePackage extends EPackage {
     int DISTRIBUTION_NETWORK__ID = PHYSICAL_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4345,7 +4345,7 @@ public interface IArchimatePackage extends EPackage {
     int DRIVER__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4399,7 +4399,7 @@ public interface IArchimatePackage extends EPackage {
     int EQUIPMENT__ID = PHYSICAL_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4463,7 +4463,7 @@ public interface IArchimatePackage extends EPackage {
     int FACILITY__ID = PHYSICAL_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4517,7 +4517,7 @@ public interface IArchimatePackage extends EPackage {
     int GAP__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4571,7 +4571,7 @@ public interface IArchimatePackage extends EPackage {
     int GOAL__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4625,7 +4625,7 @@ public interface IArchimatePackage extends EPackage {
     int GROUPING__ID = COMPOSITE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4689,7 +4689,7 @@ public interface IArchimatePackage extends EPackage {
     int IMPLEMENTATION_EVENT__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4743,7 +4743,7 @@ public interface IArchimatePackage extends EPackage {
     int LOCATION__ID = COMPOSITE_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4807,7 +4807,7 @@ public interface IArchimatePackage extends EPackage {
     int MATERIAL__ID = PHYSICAL_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4861,7 +4861,7 @@ public interface IArchimatePackage extends EPackage {
     int MEANING__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4915,7 +4915,7 @@ public interface IArchimatePackage extends EPackage {
     int NODE__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -4969,7 +4969,7 @@ public interface IArchimatePackage extends EPackage {
     int OUTCOME__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5023,7 +5023,7 @@ public interface IArchimatePackage extends EPackage {
     int PATH__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5077,7 +5077,7 @@ public interface IArchimatePackage extends EPackage {
     int PLATEAU__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5131,7 +5131,7 @@ public interface IArchimatePackage extends EPackage {
     int PRINCIPLE__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5185,7 +5185,7 @@ public interface IArchimatePackage extends EPackage {
     int PRODUCT__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5239,7 +5239,7 @@ public interface IArchimatePackage extends EPackage {
     int REPRESENTATION__ID = BUSINESS_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5293,7 +5293,7 @@ public interface IArchimatePackage extends EPackage {
     int RESOURCE__ID = STRATEGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5347,7 +5347,7 @@ public interface IArchimatePackage extends EPackage {
     int REQUIREMENT__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5401,7 +5401,7 @@ public interface IArchimatePackage extends EPackage {
     int STAKEHOLDER__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5455,7 +5455,7 @@ public interface IArchimatePackage extends EPackage {
     int SYSTEM_SOFTWARE__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5509,7 +5509,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_COLLABORATION__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5563,7 +5563,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_EVENT__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5617,7 +5617,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_FUNCTION__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5671,7 +5671,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_INTERFACE__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5725,7 +5725,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_INTERACTION__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5789,7 +5789,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_PROCESS__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5853,7 +5853,7 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_SERVICE__ID = TECHNOLOGY_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5907,7 +5907,7 @@ public interface IArchimatePackage extends EPackage {
     int VALUE__ID = MOTIVATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -5971,7 +5971,7 @@ public interface IArchimatePackage extends EPackage {
     int VALUE_STREAM__ID = STRATEGY_BEHAVIOR_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6025,7 +6025,7 @@ public interface IArchimatePackage extends EPackage {
     int WORK_PACKAGE__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6079,7 +6079,7 @@ public interface IArchimatePackage extends EPackage {
     int ACCESS_RELATIONSHIP__ID = DEPENDENDENCY_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6160,7 +6160,7 @@ public interface IArchimatePackage extends EPackage {
     int AGGREGATION_RELATIONSHIP__ID = STRUCTURAL_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6232,7 +6232,7 @@ public interface IArchimatePackage extends EPackage {
     int ASSIGNMENT_RELATIONSHIP__ID = STRUCTURAL_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6304,7 +6304,7 @@ public interface IArchimatePackage extends EPackage {
     int ASSOCIATION_RELATIONSHIP__ID = DEPENDENDENCY_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6385,7 +6385,7 @@ public interface IArchimatePackage extends EPackage {
     int COMPOSITION_RELATIONSHIP__ID = STRUCTURAL_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6457,7 +6457,7 @@ public interface IArchimatePackage extends EPackage {
     int FLOW_RELATIONSHIP__ID = DYNAMIC_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6529,7 +6529,7 @@ public interface IArchimatePackage extends EPackage {
     int INFLUENCE_RELATIONSHIP__ID = DEPENDENDENCY_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6620,7 +6620,7 @@ public interface IArchimatePackage extends EPackage {
     int REALIZATION_RELATIONSHIP__ID = STRUCTURAL_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6702,7 +6702,7 @@ public interface IArchimatePackage extends EPackage {
     int SERVING_RELATIONSHIP__ID = DEPENDENDENCY_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6784,7 +6784,7 @@ public interface IArchimatePackage extends EPackage {
     int SPECIALIZATION_RELATIONSHIP__ID = OTHER_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6856,7 +6856,7 @@ public interface IArchimatePackage extends EPackage {
     int TRIGGERING_RELATIONSHIP__ID = DYNAMIC_RELATIONSHIP__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6948,7 +6948,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_COMPONENT__NAME = IDENTIFIER_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -6994,7 +6994,7 @@ public interface IArchimatePackage extends EPackage {
     int CONNECTABLE__NAME = DIAGRAM_MODEL_COMPONENT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7078,7 +7078,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONTAINER__NAME = DIAGRAM_MODEL_COMPONENT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7123,7 +7123,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL__ID = ARCHIMATE_MODEL_OBJECT__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7205,7 +7205,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_OBJECT__NAME = CONNECTABLE__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7341,7 +7341,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_REFERENCE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7495,7 +7495,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_GROUP__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7676,7 +7676,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -7848,7 +7848,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_IMAGE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -8020,7 +8020,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONNECTION__NAME = CONNECTABLE__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -8544,7 +8544,7 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_DIAGRAM_MODEL__ID = DIAGRAM_MODEL__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -8635,7 +8635,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_COMPONENT__NAME = CONNECTABLE__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -8689,7 +8689,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -8851,7 +8851,7 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__NAME = DIAGRAM_MODEL_CONNECTION__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -9032,7 +9032,7 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL__ID = DIAGRAM_MODEL__ID;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -9123,7 +9123,7 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_STICKY__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -9295,7 +9295,7 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_ACTOR__NAME = DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * The feature id for the '<em><b>Features</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -9494,32 +9494,35 @@ public interface IArchimatePackage extends EPackage {
     EReference getProperties_Properties();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.model.IFeature <em>Feature</em>}'.
+     * Returns the meta object for class '{@link java.util.Map.Entry <em>Feature</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Feature</em>'.
-     * @see com.archimatetool.model.IFeature
+     * @see java.util.Map.Entry
+     * @model keyDefault="" keyDataType="org.eclipse.emf.ecore.EString"
+     *        keyExtendedMetaData="name='name' kind='attribute'"
+     *        valueDefault="" valueDataType="org.eclipse.emf.ecore.EString"
      * @generated
      */
     EClass getFeature();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IFeature#getName <em>Name</em>}'.
+     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see com.archimatetool.model.IFeature#getName()
+     * @return the meta object for the attribute '<em>Key</em>'.
+     * @see java.util.Map.Entry
      * @see #getFeature()
      * @generated
      */
-    EAttribute getFeature_Name();
+    EAttribute getFeature_Key();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IFeature#getValue <em>Value</em>}'.
+     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Value</em>'.
-     * @see com.archimatetool.model.IFeature#getValue()
+     * @see java.util.Map.Entry
      * @see #getFeature()
      * @generated
      */
@@ -9536,10 +9539,10 @@ public interface IArchimatePackage extends EPackage {
     EClass getFeatures();
 
     /**
-     * Returns the meta object for the containment reference list '{@link com.archimatetool.model.IFeatures#getFeatures <em>Features</em>}'.
+     * Returns the meta object for the map '{@link com.archimatetool.model.IFeatures#getFeatures <em>Features</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Features</em>'.
+     * @return the meta object for the map '<em>Features</em>'.
      * @see com.archimatetool.model.IFeatures#getFeatures()
      * @see #getFeatures()
      * @generated
@@ -11562,12 +11565,12 @@ public interface IArchimatePackage extends EPackage {
         EClass FEATURE = eINSTANCE.getFeature();
 
         /**
-         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute FEATURE__NAME = eINSTANCE.getFeature_Name();
+        EAttribute FEATURE__KEY = eINSTANCE.getFeature_Key();
 
         /**
          * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -11588,7 +11591,7 @@ public interface IArchimatePackage extends EPackage {
         EClass FEATURES = eINSTANCE.getFeatures();
 
         /**
-         * The meta object literal for the '<em><b>Features</b></em>' containment reference list feature.
+         * The meta object literal for the '<em><b>Features</b></em>' map feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

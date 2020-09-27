@@ -55,7 +55,7 @@ public abstract class ArchimateConceptTests {
         concept.setName("name");
         concept.setDocumentation("doc");
         concept.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
-        concept.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
+        concept.getFeatures().putString("key", "value");
         
         IArchimateConcept copy = (IArchimateConcept)concept.getCopy();
         
