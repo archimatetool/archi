@@ -35,12 +35,6 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         
         IFeature feature = getFeature(name);
 
-        // Value equals default value so remove it
-        if(value.equals(defaultValue)) {
-            remove(name);
-            return feature;
-        }
-        
         // New one
         if(feature == null) {
             feature = IArchimateFactory.eINSTANCE.createFeature();
@@ -48,7 +42,11 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
             feature.setValue(value);
             add(feature);
         }
-        // Different
+        // Value equals default value so remove it
+        else if(value.equals(defaultValue)) {
+            remove(feature);
+        }
+        // Different value
         else if(!value.equals(feature.getValue())) {
             feature.setValue(value);
         }
@@ -133,5 +131,14 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         if(s == null) {
             throw new IllegalArgumentException("key or value cannot be null"); //$NON-NLS-1$
         }
+    }
+    
+    /**
+     * Return true so that {@link #contains(Object)} checks {@link Feature#equals(Object)}
+     * For unique entries keyed by name
+     */
+    @Override
+    protected boolean useEquals() {
+        return true;
     }
 }

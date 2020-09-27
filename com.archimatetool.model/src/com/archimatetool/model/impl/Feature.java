@@ -220,5 +220,20 @@ public class Feature extends EObjectImpl implements IFeature {
         result.append(')');
         return result.toString();
     }
+    
+    /**
+     * Over-ride this to test equality based on this Feature's name
+     * This ensures we have unique entries keyed by name
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) {
+            return true;
+        }
+        
+        return (obj instanceof Feature) &&
+                name != null &&
+                name.equals(((Feature)obj).name);
+    }
 
 } //Feature

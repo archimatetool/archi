@@ -162,4 +162,92 @@ public class FeaturesEListTests {
         
         assertNull(list.getFeature("bogus"));
     }
+    
+    @Test
+    public void noDuplicateFeature1() {
+        IFeature feature = IArchimateFactory.eINSTANCE.createFeature();
+        feature.setName("uniqueName");
+        feature.setValue("someValue");
+        
+        // Add the feature
+        boolean result = list.add(feature);
+        assertTrue(result);
+        
+        // Should not be able to add the first feature again
+        result = list.add(feature);
+        assertFalse(result);
+
+        // Should not be able to add the first feature again, even if name and value change
+        feature.setName("uniqueName2");
+        feature.setValue("someValue2");
+        result = list.add(feature);
+        assertFalse(result);
+    }
+    
+    @Test
+    public void noDuplicateFeature2() {
+        IFeature feature = IArchimateFactory.eINSTANCE.createFeature();
+        feature.setName("uniqueName");
+        feature.setValue("someValue");
+        
+        // Add the feature
+        boolean result = list.add(feature);
+        assertTrue(result);
+        
+        // Should not be able to add a different feature object with the same name
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature();
+        feature2.setName("uniqueName");
+        feature2.setValue("someValue2");
+        result = list.add(feature2);
+        assertFalse(result);
+    }
+
+    @Test
+    public void noDuplicateFeature3() {
+        IFeature feature = IArchimateFactory.eINSTANCE.createFeature();
+        feature.setName("uniqueName");
+        feature.setValue("someValue");
+        
+        // Add the feature
+        boolean result = list.add(feature);
+        assertTrue(result);
+        
+        // Should be able to add a different feature object with a different name
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature();
+        feature2.setName("uniqueName2");
+        feature2.setValue("someValue2");
+        result = list.add(feature2);
+        assertTrue(result);
+    }
+    
+    @Test
+    public void noDuplicateFeature4() {
+        // Create another list
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
+        FeaturesEList list2 = new FeaturesEList(IFeature.class, (InternalEObject)element, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+
+        // Add Feature to first list
+        IFeature feature1 = IArchimateFactory.eINSTANCE.createFeature();
+        feature1.setName("uniqueName");
+        feature1.setValue("someValue");
+        list.add(feature1);
+        
+        // Add feature with same name to second list
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature();
+        feature2.setName("uniqueName");
+        feature2.setValue("someValue");
+        list2.add(feature2);
+
+        // Should not be able to add first list to second list
+        boolean result = list2.addAll(list);
+        assertFalse(result);
+        
+        // remove it
+        list2.remove(feature2);
+        
+        // Should be able to add it now
+        result = list2.addAll(list);
+        assertTrue(result);
+    }
+
 }
