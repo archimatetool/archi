@@ -21,8 +21,12 @@ import org.eclipse.swt.widgets.Event;
  */
 public final class MouseWheelHorizontalScrollHandler implements MouseWheelHandler {
     
-    final int DELTA = 30;
-
+    // Scrolling down scrolls to the right
+    private static final int DIRECTION = -1;
+    
+    // How many pixels to scroll
+    private static final int DELTA = 30;
+    
 	/**
 	 * The Singleton
 	 */
@@ -42,7 +46,7 @@ public final class MouseWheelHorizontalScrollHandler implements MouseWheelHandle
         if(zoomMgr != null) {
             Viewport viewport = zoomMgr.getViewport();
             if(viewport != null) {
-                viewport.setViewLocation(viewport.getViewLocation().translate(DELTA * event.count, 0));
+                viewport.setViewLocation(viewport.getViewLocation().translate(event.count * DELTA * DIRECTION, 0));
                 event.doit = false;
             }
         }
