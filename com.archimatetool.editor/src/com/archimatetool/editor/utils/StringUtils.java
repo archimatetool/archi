@@ -151,11 +151,9 @@ public final class StringUtils {
     }
     
     /**
-     * Convert a version number to an integer
-     * @param version
-     * @return integer
+     * Convert a version number to an integer to be used as comparison
      */
-    public static int versionNumberAsInt(String version) {
+    static int versionNumberAsInt(String version) {
         if(!isSet(version)) {
             return 0;
         }
@@ -164,7 +162,7 @@ public final class StringUtils {
         
         try {
             if(vals.length == 1) {
-                return Integer.parseInt(vals[0]);
+                return Integer.parseInt(vals[0]) << 16;
             }
             if(vals.length == 2) {
                 return (Integer.parseInt(vals[0]) << 16) + (Integer.parseInt(vals[1]) << 8);

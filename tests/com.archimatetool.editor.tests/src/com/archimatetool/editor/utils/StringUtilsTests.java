@@ -184,13 +184,20 @@ public class StringUtilsTests {
         assertEquals(-1, StringUtils.compareVersionNumbers("1.1.1", "10.10.10"));
         assertEquals(0, StringUtils.compareVersionNumbers("10.10.10", "10.10.10"));
         assertEquals(1, StringUtils.compareVersionNumbers("10.10.10", "1.1.1"));
+        
+        assertEquals(-1, StringUtils.compareVersionNumbers("10", "10.1"));
+        assertEquals(0, StringUtils.compareVersionNumbers("10", "10.0.0"));
+        assertEquals(0, StringUtils.compareVersionNumbers("10", "10.0"));
+        assertEquals(1, StringUtils.compareVersionNumbers("11", "10.15.7"));
+        assertEquals(1, StringUtils.compareVersionNumbers("11.0", "10.15.7"));
+        assertEquals(1, StringUtils.compareVersionNumbers("11.0.0", "10.15.7"));
     }
 
     @Test
     public void testVersionNumberAsInt() {
         assertEquals(0, StringUtils.versionNumberAsInt(null));
         assertEquals(0, StringUtils.versionNumberAsInt(""));
-        assertEquals(1, StringUtils.versionNumberAsInt("1"));
+        assertEquals(1 << 16, StringUtils.versionNumberAsInt("1"));
         assertEquals(1 << 16, StringUtils.versionNumberAsInt("1.0"));
         assertEquals((1 << 16) + (1 << 8), StringUtils.versionNumberAsInt("1.1"));
         assertEquals((8 << 16) + (2 << 8) + 16, StringUtils.versionNumberAsInt("8.2.16"));
