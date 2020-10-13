@@ -35,8 +35,6 @@ public class Messages extends NLS {
 
     public static String MagicConnectionCreationTool_4;
 
-    public static String MagicConnectionCreationTool_5;
-
     public static String MagicConnectionCreationTool_6;
 
     public static String MagicConnectionCreationTool_7;

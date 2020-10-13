@@ -45,6 +45,7 @@ import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -350,13 +351,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                         sourceDiagramModelComponent, ArchimateModelUtils.getMotivationClasses(), relationshipType);
                 addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_4,
                         sourceDiagramModelComponent, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
-                
-                List<EClass> list = new ArrayList<EClass>();
-                list.addAll(Arrays.asList(ArchimateModelUtils.getOtherClasses()));
-                list.addAll(Arrays.asList(ArchimateModelUtils.getConnectorClasses()));
-                EClass[] arr = list.toArray(new EClass[] {});
                 addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_8,
-                        sourceDiagramModelComponent, arr, relationshipType);
+                        sourceDiagramModelComponent, getOtherAndConnectorClasses(), relationshipType);
                 
                 if(subMenu.getItemCount() == 0) {
                     item.dispose(); // Nothing there
@@ -379,7 +375,11 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 continue;
             }
 
-            if(ArchimateModelUtils.isValidRelationship(sourceDiagramModelComponent.getArchimateConcept().eClass(), type, relationshipType)) {
+            // Check valid relationship between actual concepts to check Junction rules, if any
+            IArchimateConcept sourceConcept = sourceDiagramModelComponent.getArchimateConcept();
+            IArchimateConcept targetConcept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(type);
+            
+            if(ArchimateModelUtils.isValidRelationship(sourceConcept, targetConcept, relationshipType)) {
                 addElementAction(subMenu, type);
             }
         }
@@ -393,14 +393,13 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      * Add Element to Connection Actions
      */
     private void addElementActions(Menu menu, IDiagramModelArchimateComponent sourceDiagramModelComponent) {
-        addElementActions(menu, Messages.MagicConnectionCreationTool_7, sourceDiagramModelComponent,  ArchimateModelUtils.getStrategyClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelComponent,  ArchimateModelUtils.getBusinessClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelComponent,  ArchimateModelUtils.getApplicationClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelComponent,  ArchimateModelUtils.getTechnologyClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelComponent,  ArchimateModelUtils.getMotivationClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelComponent,  ArchimateModelUtils.getImplementationMigrationClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelComponent,  ArchimateModelUtils.getOtherClasses());
-        addElementActions(menu, Messages.MagicConnectionCreationTool_5, sourceDiagramModelComponent,  ArchimateModelUtils.getConnectorClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_7, sourceDiagramModelComponent, ArchimateModelUtils.getStrategyClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelComponent, ArchimateModelUtils.getBusinessClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelComponent, ArchimateModelUtils.getApplicationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelComponent, ArchimateModelUtils.getTechnologyClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelComponent, ArchimateModelUtils.getMotivationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelComponent, ArchimateModelUtils.getImplementationMigrationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelComponent, getOtherAndConnectorClasses());
     }
     
     private void addElementActions(Menu menu, String menuText, IDiagramModelArchimateComponent sourceDiagramModelComponent, EClass[] list) {
@@ -409,8 +408,6 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         Menu subMenu = new Menu(item);
         item.setMenu(subMenu);
 
-        IArchimateConcept sourceConcept = sourceDiagramModelComponent.getArchimateConcept();
-        
         for(EClass type : list) {
             // Check if allowed by Viewpoint
             if(!isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, type)) {
@@ -420,11 +417,15 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             MenuItem subItem = addElementAction(subMenu, type);
             Menu childSubMenu = new Menu(subItem);
             subItem.setMenu(childSubMenu);
-            for(EClass typeRel : ArchimateModelUtils.getRelationsClasses()) {
-                if(ArchimateModelUtils.isValidRelationship(sourceConcept.eClass(), type, typeRel)) {
-                    addConnectionAction(childSubMenu, typeRel, false);
-                }
+            
+            // Check valid relationship between actual concepts to check Junction rules, if any
+            IArchimateConcept sourceConcept = sourceDiagramModelComponent.getArchimateConcept();
+            IArchimateConcept targetConcept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(type);
+            
+            for(EClass eClass : ArchimateModelUtils.getValidRelationships(sourceConcept, targetConcept)) {
+                addConnectionAction(childSubMenu, eClass, false);
             }
+            
             if(childSubMenu.getItemCount() == 0) {
                 subItem.dispose(); // Nothing there
             }
@@ -512,6 +513,16 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         });
         
         return item;
+    }
+    
+    /**
+     * @return "Other" and "Connector" Classes as one arraArraysy
+     */
+    private EClass[] getOtherAndConnectorClasses() {
+        List<EClass> list = new ArrayList<EClass>();
+        list.addAll(Arrays.asList(ArchimateModelUtils.getOtherClasses()));
+        list.addAll(Arrays.asList(ArchimateModelUtils.getConnectorClasses()));
+        return list.toArray(new EClass[] {});
     }
     
     /**
