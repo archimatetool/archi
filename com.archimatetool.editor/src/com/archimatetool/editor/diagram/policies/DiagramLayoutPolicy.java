@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -38,30 +36,8 @@ extends XYLayoutEditPolicy {
     
     @Override
     protected Command getCreateCommand(CreateRequest request) {
-        Rectangle bounds = getConstraintFor(request);
+        Rectangle bounds = (Rectangle)getConstraintFor(request);
         return new CreateDiagramObjectCommand(getHost(), request, bounds);
-    }
-    
-    /*
-     * Over-ride this to get any extra constraints for an object
-     */
-    @Override
-    protected Rectangle getConstraintFor(CreateRequest request) {
-        Rectangle bounds = (Rectangle)super.getConstraintFor(request);
-        
-        Dimension d = getMaximumSizeFor(request.getNewObjectType());
-        bounds.width = Math.min(d.width, bounds.width);
-        bounds.height = Math.min(d.height, bounds.height);
-        
-        return bounds;
-    }
-    
-    /**
-     * @param object
-     * @return The Maximum size constraint for an object
-     */
-    protected Dimension getMaximumSizeFor(Object object) {
-        return IFigure.MAX_DIMENSION;
     }
     
     @Override

@@ -5,7 +5,9 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -13,6 +15,9 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -86,6 +91,19 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
         subCommand.redo();
     }
     
+    @Override
+    protected Dimension getPreferredSize() {
+        Object object = fRequest.getNewObjectType();
+        
+        // Junction size should be in-built default
+        if(object == IArchimatePackage.eINSTANCE.getJunction()) {
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass((EClass)object);
+            return provider.getDefaultSize();
+        }
+        
+        return null;
+    }
+
     @Override
     public void dispose() {
         super.dispose();

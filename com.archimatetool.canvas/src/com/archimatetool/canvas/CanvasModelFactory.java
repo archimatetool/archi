@@ -5,7 +5,9 @@
  */
 package com.archimatetool.canvas;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 
@@ -55,7 +57,7 @@ public class CanvasModelFactory implements ICreationFactory {
     @Override
     public Object getNewObject() {
         // Create the instance from the registered factory in case of extensions
-        Object object = fTemplate.getEPackage().getEFactoryInstance().create(fTemplate);
+        EObject object = fTemplate.getEPackage().getEFactoryInstance().create(fTemplate);
         
         // Sticky
         if(object instanceof ICanvasModelSticky) {
@@ -87,14 +89,20 @@ public class CanvasModelFactory implements ICreationFactory {
             }
         }
         
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
+
         if(object instanceof ITextAlignment) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelObject)object);
             ((IDiagramModelObject)object).setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
         if(object instanceof ITextPosition) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((ITextPosition)object);
             ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        }
+        
+        // Add new bounds with a default user size
+        if(object instanceof IDiagramModelObject) {
+            Dimension size = provider.getUserDefaultSize();
+            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
         }
         
         return object;

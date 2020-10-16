@@ -19,8 +19,6 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -65,20 +63,29 @@ public class CreateDiagramObjectCommand extends Command {
     }
     
     protected void addChild() {
+        // Create new object from the factory
         fChild = (IDiagramModelObject)fRequest.getNewObject();
         
-        // Default size
-        if(fBounds.width == -1 && fBounds.height == -1) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fChild);
-            if(provider != null) {
-                Dimension size = provider.getUserDefaultSize();
-                fBounds.width = size.width;
-                fBounds.height = size.height;
-            }
-        }
+        // Set the location from the supplied bounds in the creation request
+        fChild.getBounds().setLocation(fBounds.x, fBounds.y);
         
-        fChild.setBounds(fBounds.x, fBounds.y, fBounds.width, fBounds.height);
+        // Sub-classes might have a preferred size...
+        Dimension preferredSize = getPreferredSize();
+        if(preferredSize != null) {
+            fChild.getBounds().setSize(preferredSize.width, preferredSize.height);
+        }
+        // Else the new width and height can come from the creation request
+        else if(fBounds.width != -1 && fBounds.height != -1) {
+            fChild.getBounds().setSize(fBounds.width, fBounds.height);
+        }
+        // Otherwise the width and height should already be set in the ICreationFactory
+
+        // Redo, so sub-classes can over-ride
         redo();
+    }
+    
+    protected Dimension getPreferredSize() {
+        return null;
     }
 
     @Override

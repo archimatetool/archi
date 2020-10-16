@@ -5,7 +5,9 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 
@@ -58,7 +60,7 @@ public class SketchModelFactory implements ICreationFactory {
     
     @Override
     public Object getNewObject() {
-        Object object = IArchimateFactory.eINSTANCE.create(fTemplate);
+        EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
         // Actor
         if(object instanceof ISketchModelActor) {
@@ -104,14 +106,20 @@ public class SketchModelFactory implements ICreationFactory {
             ColorFactory.setDefaultColors(connection);
         }
         
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
+
         if(object instanceof ITextAlignment) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelObject)object);
             ((IDiagramModelObject)object).setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
         if(object instanceof ITextPosition) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((ITextPosition)object);
             ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        }
+
+        // Add new bounds with a default user size
+        if(object instanceof IDiagramModelObject) {
+            Dimension size = provider.getUserDefaultSize();
+            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
         }
         
         return object;
