@@ -6,7 +6,7 @@
       <exportHandler
             class="org.opengroup.archimate.xmlexchange.XMLExchangeExportProvider"
             id="com.archimatetool.exchange.exportHandler"
-            label="Model To Open Exchange File...">
+            label="%exportHandler.label">
       </exportHandler>
    </extension>
    <extension
@@ -14,7 +14,7 @@
       <importHandler
             class="org.opengroup.archimate.xmlexchange.XMLExchangeImportProvider"
             id="com.archimatetool.exchange.importHandler"
-            label="Model From Open Exchange File...">
+            label="%importHandler.label">
       </importHandler>
    </extension>
    <extension

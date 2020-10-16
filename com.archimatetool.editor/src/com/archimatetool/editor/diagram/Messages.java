@@ -15,9 +15,27 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditor_1;
 
+    public static String AbstractDiagramEditor_10;
+
+    public static String AbstractDiagramEditor_11;
+
+    public static String AbstractDiagramEditor_12;
+
     public static String AbstractDiagramEditor_2;
 
     public static String AbstractDiagramEditor_3;
+
+    public static String AbstractDiagramEditor_4;
+
+    public static String AbstractDiagramEditor_5;
+
+    public static String AbstractDiagramEditor_6;
+
+    public static String AbstractDiagramEditor_7;
+
+    public static String AbstractDiagramEditor_8;
+
+    public static String AbstractDiagramEditor_9;
 
     public static String AbstractDiagramEditorActionBarContributor_0;
 

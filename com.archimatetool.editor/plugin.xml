@@ -193,7 +193,7 @@
                afterTab="appearance.tab"
                category="appearance.category"
                id="label.tab"
-               label="Label">
+               label="%propertyTab.label.4">
          </propertyTab>
          <propertyTab
                afterTab="label.tab"
@@ -675,7 +675,7 @@
       <command
             defaultHandler="com.archimatetool.editor.actions.ShowPropertiesManagerHandler"
             id="com.archimatetool.editor.action.openPropertiesDialog"
-            name="Properties Manager">
+            name="%command.name.17">
       </command>
    </extension>
    <extension
@@ -806,7 +806,7 @@
          <command
                commandId="com.archimatetool.editor.action.openPropertiesDialog"
                icon="img/prop_ps.png"
-               label="Properties Manager"
+               label="%command.label.5"
                style="push">
          </command>
       </menuContribution>

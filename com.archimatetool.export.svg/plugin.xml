@@ -7,13 +7,13 @@
             class="com.archimatetool.export.svg.SVGExportProvider"
             extensions="svg"
             id="com.archimatetool.export.svg.imageExporter"
-            label="SVG Image">
+            label="%imageExportProvider.label">
       </imageExportProvider>
       <imageExportProvider
             class="com.archimatetool.export.svg.PDFExportProvider"
             extensions="pdf"
             id="com.archimatetool.export.pdf.imageExporter"
-            label="PDF Image">
+            label="%imageExportProvider.label.0">
       </imageExportProvider>
    </extension>
    <extension

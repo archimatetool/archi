@@ -6,7 +6,7 @@
       <importHandler2
             class="com.archimatetool.modelimporter.ImportProvider"
             id="com.archimatetool.modelimporter.importHandler"
-            label="Another Model Into Selected Model...">
+            label="%importHandler.label">
       </importHandler2>
    </extension>
    <extension

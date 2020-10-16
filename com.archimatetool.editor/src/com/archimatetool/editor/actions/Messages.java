@@ -11,65 +11,65 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.actions.messages"; //$NON-NLS-1$
 
+    public static String ArchiActionBarAdvisor_0;
+
+    public static String ArchiActionBarAdvisor_1;
+
+    public static String ArchiActionBarAdvisor_10;
+
+    public static String ArchiActionBarAdvisor_11;
+
+    public static String ArchiActionBarAdvisor_12;
+
+    public static String ArchiActionBarAdvisor_13;
+
+    public static String ArchiActionBarAdvisor_14;
+
+    public static String ArchiActionBarAdvisor_15;
+
+    public static String ArchiActionBarAdvisor_16;
+
+    public static String ArchiActionBarAdvisor_17;
+
+    public static String ArchiActionBarAdvisor_18;
+
+    public static String ArchiActionBarAdvisor_19;
+
+    public static String ArchiActionBarAdvisor_2;
+
+    public static String ArchiActionBarAdvisor_20;
+
+    public static String ArchiActionBarAdvisor_3;
+
+    public static String ArchiActionBarAdvisor_4;
+
+    public static String ArchiActionBarAdvisor_5;
+
+    public static String ArchiActionBarAdvisor_6;
+
+    public static String ArchiActionBarAdvisor_7;
+
+    public static String ArchiActionBarAdvisor_8;
+
+    public static String ArchiActionBarAdvisor_9;
+
     public static String ArchiActionFactory_0;
 
-    public static String ArchimateEditorActionBarAdvisor_0;
+    public static String ArchiActionFactory_1;
 
-    public static String ArchimateEditorActionBarAdvisor_1;
+    public static String ArchiActionFactory_2;
 
-    public static String ArchimateEditorActionBarAdvisor_10;
+    public static String ArchiActionFactory_3;
 
-    public static String ArchimateEditorActionBarAdvisor_11;
+    public static String ArchiActionFactory_4;
 
-    public static String ArchimateEditorActionBarAdvisor_12;
+    public static String ArchiActionFactory_5;
 
-    public static String ArchimateEditorActionBarAdvisor_13;
+    public static String ArchiActionFactory_6;
 
-    public static String ArchimateEditorActionBarAdvisor_14;
+    public static String ArchiActionFactory_7;
 
-    public static String ArchimateEditorActionBarAdvisor_15;
-
-    public static String ArchimateEditorActionBarAdvisor_16;
-
-    public static String ArchimateEditorActionBarAdvisor_17;
-
-    public static String ArchimateEditorActionBarAdvisor_18;
-
-    public static String ArchimateEditorActionBarAdvisor_19;
-
-    public static String ArchimateEditorActionBarAdvisor_2;
-
-    public static String ArchimateEditorActionBarAdvisor_20;
-
-    public static String ArchimateEditorActionBarAdvisor_3;
-
-    public static String ArchimateEditorActionBarAdvisor_4;
-
-    public static String ArchimateEditorActionBarAdvisor_5;
-
-    public static String ArchimateEditorActionBarAdvisor_6;
-
-    public static String ArchimateEditorActionBarAdvisor_7;
-
-    public static String ArchimateEditorActionBarAdvisor_8;
-
-    public static String ArchimateEditorActionBarAdvisor_9;
-
-    public static String ArchimateEditorActionFactory_0;
-
-    public static String ArchimateEditorActionFactory_1;
-
-    public static String ArchimateEditorActionFactory_2;
-
-    public static String ArchimateEditorActionFactory_3;
-
-    public static String ArchimateEditorActionFactory_4;
-
-    public static String ArchimateEditorActionFactory_5;
-
-    public static String ArchimateEditorActionFactory_6;
-
-    public static String ArchimateEditorActionFactory_7;
+    public static String ArchiActionFactory_8;
 
     public static String CheckForNewVersionAction_0;
 
@@ -90,20 +90,6 @@ public class Messages extends NLS {
     public static String ImportIntoModelAction_0;
 
     public static String ImportModelAction_0;
-
-    public static String InstallPluginAction_0;
-
-    public static String InstallPluginAction_1;
-
-    public static String InstallPluginAction_2;
-
-    public static String InstallPluginAction_3;
-
-    public static String InstallPluginAction_4;
-
-    public static String InstallPluginAction_5;
-
-    public static String InstallPluginAction_6;
 
     public static String MRUMenuManager_0;
 

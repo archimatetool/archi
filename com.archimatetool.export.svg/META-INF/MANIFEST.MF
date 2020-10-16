@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.archimatetool.export.svg;singleton:=true
 Bundle-Version: 4.7.1.qualifier
 Bundle-Activator: com.archimatetool.export.svg.ExportSVGPlugin
 Bundle-Vendor: Phil Beauvoir
+Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
