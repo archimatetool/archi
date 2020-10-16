@@ -32,24 +32,28 @@ public class ZestGraphViewer extends GraphViewer {
         
         // Mouse Wheel listener
         getGraphControl().addMouseWheelListener(new MouseWheelListener() {
-            final int DELTA = 30;
+            // Scrolling down scrolls to the right
+            private static final int DIRECTION = -1;
+            
+            // How many pixels to scroll
+            private static final int DELTA = 30;
             
             @Override
-            public void mouseScrolled(MouseEvent e) {
+            public void mouseScrolled(MouseEvent event) {
                 // Zoom in and out with Ctrl Key and mouse wheel - need better icons for this to look good
-//                if((e.stateMask & SWT.MOD1) != 0) {
-//                    if(e.count > 0) {
+//                if((event.stateMask & SWT.MOD1) != 0) {
+//                    if(event.count < 0) {
 //                        getZoomManager().zoomOut();
 //                    }
-//                    else if(e.count < 0) {
+//                    else if(event.count > 0) {
 //                        getZoomManager().zoomIn();
 //                    }
 //                }
                 
                 // Scroll left/right with mouse wheel and Shift key
-                if((e.stateMask & SWT.MOD2) != 0) {
+                if((event.stateMask & SWT.MOD2) != 0) {
                     Viewport viewPort = getGraphControl().getViewport();
-                    viewPort.setViewLocation(viewPort.getViewLocation().translate(DELTA * e.count, 0));
+                    viewPort.setViewLocation(viewPort.getViewLocation().translate(event.count * DELTA * DIRECTION, 0));
                 }
             }
         });
