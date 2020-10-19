@@ -35,16 +35,18 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         
         IFeature feature = getFeature(name);
 
+        // Value equals default value so remove it
+        if(value.equals(defaultValue)) {
+            remove(name);
+            return feature;
+        }
+        
         // New one
         if(feature == null) {
             feature = IArchimateFactory.eINSTANCE.createFeature();
             feature.setName(name);
             feature.setValue(value);
             add(feature);
-        }
-        // Value equals default value so remove it
-        else if(value.equals(defaultValue)) {
-            remove(feature);
         }
         // Different value
         else if(!value.equals(feature.getValue())) {
