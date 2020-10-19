@@ -17,6 +17,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.UpdateListener;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -67,6 +68,7 @@ public class Thumbnail extends Figure implements UpdateListener {
         // GC and Graphics to let the source figure paint on the tile image
         private GC tileGC;
         private SWTGraphics tileGCGraphics;
+        private ScaledGraphics tileGraphics;
         // GC used to copy from the tile image into the thumbnail image
         private GC thumbnailGC;
 
@@ -173,7 +175,7 @@ public class Thumbnail extends Figure implements UpdateListener {
          */
         @Override
         public void run() {
-            if (!isActive() || !isRunning() || tileGCGraphics == null)
+            if (!isActive() || !isRunning() || tileGraphics == null)
                 return;
 
             // On Linux hi-res displays when an image is re-drawn its destroy() method disposes the GC
@@ -196,10 +198,10 @@ public class Thumbnail extends Figure implements UpdateListener {
                 createTileGCGraphics();
             }
 
-            tileGCGraphics.pushState();
+            tileGraphics.pushState();
             // clear the background (by filling with the background color)
             Rectangle rect = new Rectangle(0, 0, sx2 - sx1, sy2 - sy1);
-            tileGCGraphics.fillRectangle(rect);
+            tileGraphics.fillRectangle(rect);
 
             // Let the source figure paint into the tile image.
             // IMPORTANT (fix for bug #309912): we do not let the source figure
@@ -210,11 +212,11 @@ public class Thumbnail extends Figure implements UpdateListener {
             // image and copying from it into the thumbnail image, we are safe.
             org.eclipse.draw2d.geometry.Point p = getSourceRectangle()
                     .getLocation();
-            tileGCGraphics.translate(-p.x * getScaleX() - sx1, -p.y * getScaleY()
+            tileGraphics.translate(-p.x * getScaleX() - sx1, -p.y * getScaleY()
                     - sy1);
-            tileGCGraphics.scale(getScaleX());
-            sourceFigure.paint(tileGCGraphics);
-            tileGCGraphics.popState();
+            tileGraphics.scale(getScaleX());
+            sourceFigure.paint(tileGraphics);
+            tileGraphics.popState();
             
             // Copy the painted tile image into the thumbnail image.
             thumbnailGC.drawImage(tileImage, 0, 0, sx2 - sx1, sy2 - sy1, sx1,
@@ -316,19 +318,25 @@ public class Thumbnail extends Figure implements UpdateListener {
             tileGC = new GC(tileImage,
                     sourceFigure.isMirrored() ? SWT.RIGHT_TO_LEFT : SWT.NONE);
 
-            // ...and this means we gave to have a new SWTGraphics instance
+            // ...and this means we need a new SWTGraphics instance
             if(tileGCGraphics != null) {
                 tileGCGraphics.dispose();
             }
             tileGCGraphics = new SWTGraphics(tileGC);
+            
+            // ...and a new ScaledGraphics instance
+            if(tileGraphics != null) {
+                tileGraphics.dispose();
+            }
+            tileGraphics = new ScaledGraphics(tileGCGraphics);
 
             Color color = sourceFigure.getForegroundColor();
             if (color != null)
-                tileGCGraphics.setForegroundColor(color);
+                tileGraphics.setForegroundColor(color);
             color = sourceFigure.getBackgroundColor();
             if (color != null)
-                tileGCGraphics.setBackgroundColor(color);
-            tileGCGraphics.setFont(sourceFigure.getFont());
+                tileGraphics.setBackgroundColor(color);
+            tileGraphics.setFont(sourceFigure.getFont());
         }
 
         private void resetThumbnailImage() {
@@ -365,6 +373,10 @@ public class Thumbnail extends Figure implements UpdateListener {
          */
         public void stop() {
             isRunning = false;
+            if (tileGraphics != null) {
+                tileGraphics.dispose();
+                tileGraphics = null;
+            }
             if (tileGCGraphics != null) {
                 tileGCGraphics.dispose();
                 tileGCGraphics = null;
