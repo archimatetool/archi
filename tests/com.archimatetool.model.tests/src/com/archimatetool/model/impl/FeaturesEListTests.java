@@ -67,6 +67,12 @@ public class FeaturesEListTests {
     }
     
     @Test
+    public void putStringWithDefaultValueShouldNotAddFeature() {
+        list.putString("name1", "default", "default");
+        assertTrue(list.isEmpty());
+    }
+    
+    @Test
     public void putInt() {
         list.putInt("name1", 1);
         assertEquals("name1", list.get(0).getName());
@@ -83,6 +89,12 @@ public class FeaturesEListTests {
         assertTrue(list.isEmpty());
     }
     
+    @Test
+    public void putIntWithDefaultValueShouldNotAddFeature() {
+        list.putInt("name1", 1, 1);
+        assertTrue(list.isEmpty());
+    }
+
     @Test
     public void putBoolean() {
         list.putBoolean("name1", true);
@@ -103,6 +115,12 @@ public class FeaturesEListTests {
         assertTrue(list.isEmpty());
     }
     
+    @Test
+    public void putBooleanWithDefaultValueShouldNotAddFeature() {
+        list.putBoolean("name1", true, true);
+        assertTrue(list.isEmpty());
+    }
+
     @Test
     public void getString() {
         list.putString("name1", "value1");
