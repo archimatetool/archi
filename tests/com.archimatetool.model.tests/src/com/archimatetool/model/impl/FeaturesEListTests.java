@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.InternalEObject;
@@ -40,90 +41,106 @@ public class FeaturesEListTests {
 
     @Test
     public void putString() {
-        list.putString("name1", "value1");
+        IFeature feature = list.putString("name1", "value1");
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("value1", list.get(0).getValue());
     }
     
     @Test
     public void putStringValueChanged() {
-        list.putString("name1", "value1");
+        IFeature feature = list.putString("name1", "value1");
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("value1", list.get(0).getValue());
         
-        list.putString("name1", "value2");
+        IFeature feature2 = list.putString("name1", "value2");
+        assertSame(feature, feature2);
         assertEquals("name1", list.get(0).getName());
         assertEquals("value2", list.get(0).getValue());
     }
 
     @Test
     public void putStringDefaultValue() {
-        list.putString("name1", "value", "default");
+        IFeature feature = list.putString("name1", "value", "default");
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("value", list.get(0).getValue());
 
-        list.putString("name1", "default", "default");
+        feature = list.putString("name1", "default", "default");
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
     
     @Test
     public void putStringWithDefaultValueShouldNotAddFeature() {
-        list.putString("name1", "default", "default");
+        IFeature feature = list.putString("name1", "default", "default");
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
     
     @Test
     public void putInt() {
-        list.putInt("name1", 1);
+        IFeature feature = list.putInt("name1", 1);
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("1", list.get(0).getValue());
     }
     
     @Test
     public void putIntDefaultValue() {
-        list.putInt("name1", 1, 0);
+        IFeature feature = list.putInt("name1", 1, 0);
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("1", list.get(0).getValue());
 
-        list.putInt("name1", 1, 1);
+        feature = list.putInt("name1", 1, 1);
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
     
     @Test
     public void putIntWithDefaultValueShouldNotAddFeature() {
-        list.putInt("name1", 1, 1);
+        IFeature feature = list.putInt("name1", 1, 1);
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
 
     @Test
     public void putBoolean() {
-        list.putBoolean("name1", true);
+        IFeature feature = list.putBoolean("name1", true);
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("true", list.get(0).getValue());
         
-        list.putBoolean("name1", false);
+        IFeature feature2 = list.putBoolean("name1", false);
+        assertSame(feature, feature2);
         assertEquals("false", list.get(0).getValue());
     }
     
     @Test
     public void putBooleanDefaultValue() {
-        list.putBoolean("name1", true, false);
+        IFeature feature = list.putBoolean("name1", true, false);
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("true", list.get(0).getValue());
 
-        list.putBoolean("name1", true, true);
+        feature = list.putBoolean("name1", true, true);
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
     
     @Test
     public void putBooleanWithDefaultValueShouldNotAddFeature() {
-        list.putBoolean("name1", true, true);
+        IFeature feature = list.putBoolean("name1", true, true);
+        assertNull(feature);
         assertTrue(list.isEmpty());
     }
 
     @Test
     public void getString() {
-        list.putString("name1", "value1");
+        IFeature feature = list.putString("name1", "value1");
+        assertNotNull(feature);
         assertEquals("value1", list.getString("name1", ""));
     }
 
@@ -134,7 +151,8 @@ public class FeaturesEListTests {
     
     @Test
     public void getInt() {
-        list.putInt("name1", 1);
+        IFeature feature = list.putInt("name1", 1);
+        assertNotNull(feature);
         assertEquals(1, list.getInt("name1", 0));
     }
 
@@ -145,7 +163,8 @@ public class FeaturesEListTests {
 
     @Test
     public void getBoolean() {
-        list.putBoolean("name1", true);
+        IFeature feature = list.putBoolean("name1", true);
+        assertNotNull(feature);
         assertEquals(true, list.getBoolean("name1", false));
     }
 
@@ -157,12 +176,17 @@ public class FeaturesEListTests {
     
     @Test
     public void remove() {
-        list.putString("name1", "value1");
+        IFeature feature = list.putString("name1", "value1");
+        assertNotNull(feature);
         assertEquals("name1", list.get(0).getName());
         assertEquals("value1", list.get(0).getValue());
         
-        list.remove("name1");
+        boolean result = list.remove("name1");
+        assertTrue(result);
         assertTrue(list.isEmpty());
+        
+        result = list.remove("bogus");
+        assertFalse(result);
     }
     
     @Test
@@ -175,7 +199,8 @@ public class FeaturesEListTests {
     
     @Test
     public void getFeature() {
-        list.putString("name1", "value1");
+        IFeature feature = list.putString("name1", "value1");
+        assertNotNull(feature);
         assertNotNull(list.getFeature("name1"));
         
         assertNull(list.getFeature("bogus"));

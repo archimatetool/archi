@@ -33,14 +33,14 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         checkNull(name);
         checkNull(value);
         
-        IFeature feature = getFeature(name);
-
-        // Value equals default value so remove it
+        // value == default value so remove it or don't add it and return null
         if(value.equals(defaultValue)) {
             remove(name);
-            return feature;
+            return null;
         }
         
+        IFeature feature = getFeature(name);
+
         // New one
         if(feature == null) {
             feature = IArchimateFactory.eINSTANCE.createFeature();

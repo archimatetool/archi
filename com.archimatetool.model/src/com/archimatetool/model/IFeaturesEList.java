@@ -26,8 +26,8 @@ public interface IFeaturesEList extends EList<IFeature> {
      * Put or update a name/value as an IFeature
      * @param name The name, non-null. If it already exists the value will be updated with the new value.
      * @param value The value, non-null string.
-     * @param defaultValue The default value. If value and default value are equal the feature is removed
-     * @return the updated or new feature
+     * @param defaultValue The default value. If value and default value are equal the feature is either not added or is removed and null is returned
+     * @return Either the updated or new feature, or null if value == defaultValue because the feature is either removed from the list or not added
      */
     IFeature putString(String name, String value, String defaultValue);
     
