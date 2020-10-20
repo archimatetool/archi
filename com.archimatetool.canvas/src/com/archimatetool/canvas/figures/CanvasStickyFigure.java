@@ -126,6 +126,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
 
     @Override
     protected void paintFigure(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
@@ -143,7 +145,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
         graphics.fillGradient(bounds, false);
         
-        fIconicDelegate.drawIcon(graphics, bounds);
+        graphics.setAlpha(255);
+        fIconicDelegate.drawIcon(graphics, bounds.getCopy().expand(1, 1));
         
         // Border
         if(getBorderColor() != null) {
@@ -167,6 +170,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
             graphics.drawPath(path);
             path.dispose();
         }
+        
+        graphics.popState();
     }
     
     @Override
