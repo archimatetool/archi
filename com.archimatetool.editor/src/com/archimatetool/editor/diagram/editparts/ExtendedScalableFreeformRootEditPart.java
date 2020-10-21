@@ -63,6 +63,7 @@ public class ExtendedScalableFreeformRootEditPart extends ScalableFreeformRootEd
                 graphics.pushState();
                 paintChildren(graphics);
                 graphics.popState();
+                graphics.restoreState();
             }
         }
     }
