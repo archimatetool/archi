@@ -40,6 +40,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
     private MultiToolTipFigure fTooltip;
     private Color fBorderColor;
     
+    private static final int MAX_ICON_SIZE = 100;
+    
     public CanvasStickyFigure(ICanvasModelSticky diagramModelSticky) {
         super(diagramModelSticky);
     }
@@ -61,7 +63,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         add(flowPage, new GridData(SWT.CENTER, SWT.CENTER, true, true));
         fTextPositionDelegate = new TextPositionDelegate(this, flowPage, getDiagramModelObject());
         
-        fIconicDelegate = new IconicDelegate(getDiagramModelObject());
+        fIconicDelegate = new IconicDelegate(getDiagramModelObject(), MAX_ICON_SIZE);
         fIconicDelegate.updateImage();
     }
     
@@ -145,8 +147,9 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
         graphics.fillGradient(bounds, false);
         
+        // Icon
         graphics.setAlpha(255);
-        fIconicDelegate.drawIcon(graphics, bounds.getCopy().expand(1, 1));
+        fIconicDelegate.drawIcon(graphics, bounds.getCopy());
         
         // Border
         if(getBorderColor() != null) {

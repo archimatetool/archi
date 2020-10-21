@@ -39,6 +39,8 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
     private IconicDelegate fIconicDelegate;
     private Color fBorderColor;
     
+    private static final int MAX_ICON_SIZE = 100;
+    
     public CanvasBlockFigure(ICanvasModelBlock diagramModelBlock) {
         super(diagramModelBlock);
     }
@@ -75,7 +77,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         // This last
         add(getMainFigure(), mainLocator);
 
-        fIconicDelegate = new IconicDelegate(getDiagramModelObject());
+        fIconicDelegate = new IconicDelegate(getDiagramModelObject(), MAX_ICON_SIZE);
         fIconicDelegate.updateImage();
     }
     
@@ -166,8 +168,9 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         graphics.setBackgroundColor(background);
         graphics.fillRectangle(bounds);
         
+        // Icon
         graphics.setAlpha(255);
-        fIconicDelegate.drawIcon(graphics, bounds.getCopy().expand(1, 1));
+        fIconicDelegate.drawIcon(graphics, bounds.getCopy());
         
         // Border
         if(getBorderColor() != null) {
