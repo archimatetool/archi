@@ -51,6 +51,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         Rectangle bounds = getBounds().getCopy();
         
+        bounds.width--;
+        bounds.height--;
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, bounds);
         
@@ -69,7 +72,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
             graphics.setBackgroundPattern(gradient);
         }
 
-        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT - 1, bounds.height - 1);
+        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT, bounds.height);
         
         if(gradient != null) {
             gradient.dispose();
@@ -84,9 +87,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         points.addPoint(pt1);
         Point pt2 = new Point(pt1.x, bounds.y);
         points.addPoint(pt2);
-        Point pt3 = new Point(bounds.x + bounds.width - 1, bounds.y);
+        Point pt3 = new Point(bounds.x + bounds.width, bounds.y);
         points.addPoint(pt3);
-        Point pt4 = new Point(pt3.x, bounds.y + bounds.height - 1);
+        Point pt4 = new Point(pt3.x, bounds.y + bounds.height);
         points.addPoint(pt4);
         Point pt5 = new Point(pt1.x, pt4.y);
         points.addPoint(pt5);

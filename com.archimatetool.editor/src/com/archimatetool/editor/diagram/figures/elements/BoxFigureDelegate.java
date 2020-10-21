@@ -42,6 +42,9 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle bounds = getBounds();
         
+        bounds.width--;
+        bounds.height--;
+        
         // Set line width here so that the whole figure is consttained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, bounds);
 
@@ -56,10 +59,10 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y + FOLD_HEIGHT);
         path.lineTo(bounds.x + FOLD_HEIGHT, bounds.y);
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y);
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y + bounds.height - FOLD_HEIGHT - 1);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + bounds.height - 1);
-        path.lineTo(bounds.x, bounds.y + bounds.height - 1);
+        path.lineTo(bounds.x + bounds.width, bounds.y);
+        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT);
+        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
+        path.lineTo(bounds.x, bounds.y + bounds.height);
         graphics.fillPath(path);
         path.dispose();
         
@@ -72,7 +75,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
             graphics.setBackgroundPattern(gradient);
         }
 
-        graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT - 1, bounds.height - FOLD_HEIGHT - 1);
+        graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
 
         if(gradient != null) {
             gradient.dispose();
@@ -86,15 +89,15 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         path.moveTo(bounds.x, bounds.y + FOLD_HEIGHT);
         path.lineTo(bounds.x + FOLD_HEIGHT, bounds.y);
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y);
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y + bounds.height - FOLD_HEIGHT - 1);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + bounds.height - 1);
-        path.lineTo(bounds.x, bounds.y + bounds.height - 1);
+        path.lineTo(bounds.x + bounds.width, bounds.y);
+        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT);
+        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
+        path.lineTo(bounds.x, bounds.y + bounds.height);
         path.lineTo(bounds.x, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - 1, bounds.y);
-        path.moveTo(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + bounds.height - 1);
+        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
+        path.lineTo(bounds.x + bounds.width, bounds.y);
+        path.moveTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
+        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
         
         graphics.drawPath(path);
         path.dispose();
