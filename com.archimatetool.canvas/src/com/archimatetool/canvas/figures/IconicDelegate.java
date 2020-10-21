@@ -33,6 +33,11 @@ public class IconicDelegate {
     private Image fImage;
     private int fMaxImageSize = MAX_IMAGESIZE;
     
+    private int topOffset = 0;
+    private int bottomOffset = 0;
+    private int leftOffset = 0;
+    private int rightOffset = 0;
+    
     public IconicDelegate(IIconic owner) {
         this(owner, MAX_IMAGESIZE);
     }
@@ -76,6 +81,38 @@ public class IconicDelegate {
     }
     
     /**
+     * Set offset value to use when icon is positioned on the top
+     * The y position will be moved down by val amount
+     */
+    public void setTopOffset(int val) {
+        topOffset = val;
+    }
+    
+    /**
+     * Set offset value to use when icon is positioned on the bottom
+     * The y position will be moved down by val amount (use negative value to move up)
+     */
+    public void setBottomOffset(int val) {
+        bottomOffset = val;
+    }
+    
+    /**
+     * Set offset value to use when icon is positioned on the left
+     * The x position will be moved to the right by val amount
+     */
+    public void setLeftOffset(int val) {
+        leftOffset = val;
+    }
+    
+    /**
+     * Set offset value to use when icon is positioned on the right
+     * The x position will be moved to the right by val amount (use negative value to move left)
+     */
+    public void setRightOffset(int val) {
+        rightOffset = val;
+    }
+
+    /**
      * Draw the icon
      */
     public void drawIcon(Graphics graphics, Rectangle bounds) {
@@ -89,15 +126,20 @@ public class IconicDelegate {
             
             switch(fIconic.getImagePosition()) {
                 case IIconic.ICON_POSITION_TOP_LEFT:
+                    x += leftOffset;
+                    y += topOffset;
                     break;
                 case IIconic.ICON_POSITION_TOP_CENTRE:
                     x = bounds.x + ((bounds.width - width) / 2);
+                    y += topOffset;
                     break;
                 case IIconic.ICON_POSITION_TOP_RIGHT:
-                    x = (bounds.x + bounds.width) - width;
+                    x = (bounds.x + bounds.width) - width + rightOffset;
+                    y += topOffset;
                     break;
 
                 case IIconic.ICON_POSITION_MIDDLE_LEFT:
+                    x += leftOffset;
                     y = bounds.y + ((bounds.height - height) / 2);
                     break;
                 case IIconic.ICON_POSITION_MIDDLE_CENTRE:
@@ -105,20 +147,21 @@ public class IconicDelegate {
                     y = bounds.y + ((bounds.height - height) / 2);
                     break;
                 case IIconic.ICON_POSITION_MIDDLE_RIGHT:
-                    x = (bounds.x + bounds.width) - width;
+                    x = (bounds.x + bounds.width) - width + rightOffset;
                     y = bounds.y + ((bounds.height - height) / 2);
                     break;
 
                 case IIconic.ICON_POSITION_BOTTOM_LEFT:
-                    y = (bounds.y + bounds.height) - height;
+                    x += leftOffset;
+                    y = (bounds.y + bounds.height) - height + bottomOffset;
                     break;
                 case IIconic.ICON_POSITION_BOTTOM_CENTRE:
                     x = bounds.x + ((bounds.width - width) / 2);
-                    y = (bounds.y + bounds.height) - height;
+                    y = (bounds.y + bounds.height) - height + bottomOffset;
                     break;
                 case IIconic.ICON_POSITION_BOTTOM_RIGHT:
-                    x = (bounds.x + bounds.width) - width;
-                    y = (bounds.y + bounds.height) - height;
+                    x = (bounds.x + bounds.width) - width + rightOffset;
+                    y = (bounds.y + bounds.height) - height + bottomOffset;
                     break;
 
                 default:
