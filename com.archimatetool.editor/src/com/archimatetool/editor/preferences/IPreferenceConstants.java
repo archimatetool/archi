@@ -75,7 +75,10 @@ public interface IPreferenceConstants {
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject";
     String PALETTE_STATE = "palette_state";
     String VIEW_TOOLTIPS = "viewTooltips";
-    
+
+    // Whether to scale images first when drawing them
+    String USE_SCALED_IMAGES = "scaledImages";
+
     String DIAGRAM_OBJECT_RESIZE_BEHAVIOUR = "resizeBehaviour"; 
     String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior";
    

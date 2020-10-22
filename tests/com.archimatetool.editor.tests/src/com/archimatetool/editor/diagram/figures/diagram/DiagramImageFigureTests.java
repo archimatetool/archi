@@ -95,7 +95,10 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @Test
-    public void testDiagramImageChangesSize() throws Exception {
+    public void testDiagramImageScaled() throws Exception {
+        // Have to set this to use scaling
+        DiagramImageFigure.useScaledImage = true;
+        
         Image image = getPrivateImageField();
         assertNull(image);
         

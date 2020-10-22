@@ -86,6 +86,8 @@ implements IPreferenceConstants {
         store.setDefault(PALETTE_STATE, true);
         store.setDefault(VIEW_TOOLTIPS, true);
         
+        store.setDefault(USE_SCALED_IMAGES, false);
+
         store.setDefault(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, 0);
         store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);
 
