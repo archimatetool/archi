@@ -6,9 +6,9 @@
 package com.archimatetool.canvas.figures;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 
 import com.archimatetool.canvas.model.IIconic;
 import com.archimatetool.editor.Logger;
@@ -63,15 +63,6 @@ public class IconicDelegate {
             catch(Exception ex) {
                 ex.printStackTrace();
                 Logger.logError("Could not create image!", ex);
-                return;
-            }
-            
-            // If the image bounds is bigger than the set max size then create a scaled image
-            if(fImage != null && fMaxImageSize != MAX_IMAGESIZE && 
-                    (fImage.getBounds().width > fMaxImageSize || fImage.getBounds().height > fMaxImageSize)) {
-                Image image = ImageFactory.getScaledImage(fImage, fMaxImageSize);
-                fImage.dispose();
-                fImage = image;
             }
         }
     }
@@ -115,11 +106,15 @@ public class IconicDelegate {
     /**
      * Draw the icon
      */
-    public void drawIcon(Graphics graphics, Rectangle bounds) {
+    public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle bounds) {
         if(fImage != null) {
-            org.eclipse.swt.graphics.Rectangle imageBounds = fImage.getBounds();
-            int width = imageBounds.width;
-            int height = imageBounds.height;
+            Rectangle imageBounds = fImage.getBounds();
+            
+            // New Image size, possibly scaled
+            Rectangle newSize = getImageSize(imageBounds);
+            
+            int width = newSize.width;
+            int height = newSize.height;
             
             int x = bounds.x;
             int y = bounds.y;
@@ -170,8 +165,28 @@ public class IconicDelegate {
             
             graphics.setAntialias(SWT.ON);
             graphics.setInterpolation(SWT.HIGH);
-            graphics.drawImage(fImage, x, y);
+            
+            // Original size
+            if(fMaxImageSize == MAX_IMAGESIZE) {
+                graphics.drawImage(fImage, x, y);
+            }
+            // Scaled size
+            else {
+                graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, width, height);
+            }
         }
+    }
+    
+    /**
+     * @return the possibly scaled image size or original image size if not scaled
+     */
+    private Rectangle getImageSize(Rectangle imageBounds) {
+        // Use image bounds
+        if(fMaxImageSize == MAX_IMAGESIZE) {
+            return imageBounds;
+        }
+
+        return ImageFactory.getScaledImageSize(fImage, fMaxImageSize);
     }
     
     public void dispose() {

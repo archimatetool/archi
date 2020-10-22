@@ -56,7 +56,6 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -187,9 +186,9 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         fGallery.setGroupRenderer(groupRenderer);
         
         final DefaultGalleryItemRenderer itemRenderer = new DefaultGalleryItemRenderer();
-        itemRenderer.setDropShadows(true);
-        itemRenderer.setDropShadowsSize(7);
-        itemRenderer.setShowRoundedSelectionCorners(false);
+        //itemRenderer.setDropShadows(true);
+        //itemRenderer.setDropShadowsSize(7);
+        itemRenderer.setShowRoundedSelectionCorners(true);
         fGallery.setItemRenderer(itemRenderer);
         
         // Root Group
@@ -313,10 +312,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                     Image thumbnail = fImageCache.get(path);
                     if(thumbnail == null) {
                         try {
-                            Image image = archiveManager.createImage(path);
-                            if(image != null) {
-                                thumbnail = ImageFactory.getScaledImage(image, MAX_GALLERY_ITEM_SIZE);
-                                image.dispose();
+                            thumbnail = archiveManager.createImage(path);
+                            if(thumbnail != null) {
                                 fImageCache.put(path, thumbnail);
                             }
                         }

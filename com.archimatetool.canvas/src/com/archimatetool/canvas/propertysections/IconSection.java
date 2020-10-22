@@ -37,6 +37,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IIconic;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.propertysections.DiagramModelImageSection;
@@ -74,6 +75,8 @@ public class IconSection extends DiagramModelImageSection {
     private Canvas fCanvas;
     private Combo fComboPosition;
     
+    private static final int IMAGE_SIZE = 100;
+    
     private static final String[] fComboPositionItems = {
         Messages.IconSection_0,
         Messages.IconSection_1,
@@ -91,13 +94,11 @@ public class IconSection extends DiagramModelImageSection {
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.IconSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        final int canvasSize = IIconic.MAX_IMAGE_SIZE;
-        
         fCanvas = new Canvas(parent, SWT.BORDER);
         getWidgetFactory().adapt(fCanvas);
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = canvasSize;
-        gd.heightHint = canvasSize;
+        gd.widthHint = IMAGE_SIZE;
+        gd.heightHint = IMAGE_SIZE;
         fCanvas.setLayoutData(gd);
         GridLayout layout = new GridLayout();
         layout.marginWidth = 0;
@@ -124,10 +125,18 @@ public class IconSection extends DiagramModelImageSection {
             @Override
             public void paintControl(PaintEvent e) {
                 if(fImage != null) {
-                    Rectangle bounds = fImage.getBounds();
-                    int x = (canvasSize - bounds.width) / 2;
-                    int y = (canvasSize - bounds.height) / 2;
-                    e.gc.drawImage(fImage, x, y);
+                    e.gc.setAntialias(SWT.ON);
+                    e.gc.setInterpolation(SWT.HIGH);
+                    
+                    Rectangle imageBounds = fImage.getBounds();
+                    Rectangle newSize = ImageFactory.getScaledImageSize(fImage, IMAGE_SIZE);
+                    
+                    // Centre the image
+                    int x = (IMAGE_SIZE - newSize.width) / 2;
+                    int y = (IMAGE_SIZE - newSize.height) / 2;
+                    
+                    e.gc.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height,
+                            x, y, newSize.width, newSize.height);
                 }
             }
         });
@@ -212,7 +221,7 @@ public class IconSection extends DiagramModelImageSection {
         refreshButtons();
     }
     
-    protected void refreshPreviewImage() {
+    private void refreshPreviewImage() {
         disposeImage();
         
         IIconic iconic = (IIconic)getFirstSelectedObject();
@@ -220,24 +229,12 @@ public class IconSection extends DiagramModelImageSection {
         if(iconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)iconic.getAdapter(IArchiveManager.class);
             
-            Image image = null;
             try {
-                image = archiveManager.createImage(iconic.getImagePath());
+                fImage = archiveManager.createImage(iconic.getImagePath());
             }
             catch(Exception ex) {
                 ex.printStackTrace();
-            }
-            
-            if(image != null) {
-                // If the image is bigger than the maximum allowed image then create a scaled image
-                if(image.getBounds().width > IIconic.MAX_IMAGE_SIZE || image.getBounds().height > IIconic.MAX_IMAGE_SIZE) {
-                    fImage = ImageFactory.getScaledImage(image, IIconic.MAX_IMAGE_SIZE);
-                    image.dispose();
-                }
-                // Else use original
-                else {
-                    fImage = image;
-                }
+                Logger.logError("Could not create image!", ex); //$NON-NLS-1$
             }
         }
         
@@ -261,7 +258,7 @@ public class IconSection extends DiagramModelImageSection {
         }
     }
     
-    protected void disposeImage() {
+    private void disposeImage() {
         if(fImage != null && !fImage.isDisposed()) {
             fImage.dispose();
             fImage = null;
