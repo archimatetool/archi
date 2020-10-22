@@ -21,7 +21,25 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditor_12;
 
+    public static String AbstractDiagramEditor_13;
+
+    public static String AbstractDiagramEditor_14;
+
+    public static String AbstractDiagramEditor_15;
+
+    public static String AbstractDiagramEditor_16;
+
+    public static String AbstractDiagramEditor_17;
+
+    public static String AbstractDiagramEditor_18;
+
+    public static String AbstractDiagramEditor_19;
+
     public static String AbstractDiagramEditor_2;
+
+    public static String AbstractDiagramEditor_20;
+
+    public static String AbstractDiagramEditor_21;
 
     public static String AbstractDiagramEditor_3;
 
@@ -41,6 +59,12 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditorActionBarContributor_1;
 
+    public static String AbstractDiagramEditorActionBarContributor_10;
+
+    public static String AbstractDiagramEditorActionBarContributor_11;
+
+    public static String AbstractDiagramEditorActionBarContributor_12;
+
     public static String AbstractDiagramEditorActionBarContributor_2;
 
     public static String AbstractDiagramEditorActionBarContributor_3;
@@ -54,6 +78,8 @@ public class Messages extends NLS {
     public static String AbstractDiagramEditorActionBarContributor_7;
 
     public static String AbstractDiagramEditorActionBarContributor_8;
+
+    public static String AbstractDiagramEditorActionBarContributor_9;
 
     public static String AbstractDiagramEditorContextMenuProvider_0;
 

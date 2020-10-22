@@ -93,6 +93,20 @@
     	</antcall>
 
 
+        <!-- com.archimatetool.hammer -->
+        <property name="hammer.prj.src"            value="com.archimatetool.hammer"/>
+        <property name="hammer.prj.tgt"            value="${hammer.prj.src}.${lang_code}"/>
+        <property name="hammer.loc.src"            location="../../${hammer.prj.src}"/>
+        <property name="hammer.loc.tgt"            location="../../${main.dir}/${hammer.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${hammer.prj.src}"/>
+            <param name="prj.tgt"                   value="${hammer.prj.tgt}"/>
+            <param name="loc.src"                   value="${hammer.loc.src}"/>
+            <param name="loc.tgt"                   value="${hammer.loc.tgt}"/>
+        </antcall>
+        
+	    
 		<!-- com.archimatetool.help -->
 		<property name="help.prj.src"    			value="com.archimatetool.help"/>
 		<property name="help.prj.tgt"    			value="${help.prj.src}.${lang_code}"/>
@@ -150,6 +164,20 @@
     	</antcall>
 		
 		
+        <!-- com.archimatetool.modelimporter -->
+        <property name="modelimporter.prj.src"      value="com.archimatetool.modelimporter"/>
+        <property name="modelimporter.prj.tgt"      value="${modelimporter.prj.src}.${lang_code}"/>
+        <property name="modelimporter.loc.src"      location="../../${modelimporter.prj.src}"/>
+        <property name="modelimporter.loc.tgt"      location="../../${main.dir}/${modelimporter.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${modelimporter.prj.src}"/>
+            <param name="prj.tgt"                   value="${modelimporter.prj.tgt}"/>
+            <param name="loc.src"                   value="${modelimporter.loc.src}"/>
+            <param name="loc.tgt"                   value="${modelimporter.loc.tgt}"/>
+        </antcall>
+
+
 		<!-- com.archimatetool.reports -->
 		<property name="reports.prj.src"    		value="com.archimatetool.reports"/>
 		<property name="reports.prj.tgt"    		value="${reports.prj.src}.${lang_code}"/>
@@ -198,17 +226,17 @@
     	</antcall>
 
 
-		<!-- com.archimatetool.hammer -->
-        <property name="hammer.prj.src"             value="com.archimatetool.hammer"/>
-        <property name="hammer.prj.tgt"             value="${hammer.prj.src}.${lang_code}"/>
-        <property name="hammer.loc.src"             location="../../${hammer.prj.src}"/>
-        <property name="hammer.loc.tgt"             location="../../${main.dir}/${hammer.prj.tgt}"/>
+		<!-- org.opengroup.archimate.xmlexchange -->
+        <property name="xmlexchange.prj.src"        value="org.opengroup.archimate.xmlexchange"/>
+        <property name="xmlexchange.prj.tgt"        value="${xmlexchange.prj.src}.${lang_code}"/>
+        <property name="xmlexchange.loc.src"        location="../../${xmlexchange.prj.src}"/>
+        <property name="xmlexchange.loc.tgt"        location="../../${main.dir}/${xmlexchange.prj.tgt}"/>
         
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="${hammer.prj.src}"/>
-            <param name="prj.tgt"                   value="${hammer.prj.tgt}"/>
-            <param name="loc.src"                   value="${hammer.loc.src}"/>
-            <param name="loc.tgt"                   value="${hammer.loc.tgt}"/>
+            <param name="prj.src"                   value="${xmlexchange.prj.src}"/>
+            <param name="prj.tgt"                   value="${xmlexchange.prj.tgt}"/>
+            <param name="loc.src"                   value="${xmlexchange.loc.src}"/>
+            <param name="loc.tgt"                   value="${xmlexchange.loc.tgt}"/>
         </antcall>
             	
 	</target>

@@ -5,3 +5,4 @@ Bundle-SymbolicName: !bundle-name!
 Bundle-Version: !nls-version!.qualifier
 Fragment-Host: !fragment-host!
 Bundle-ClassPath: !bundle-classpath!
+Automatic-Module-Name: !bundle-name!
