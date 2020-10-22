@@ -163,6 +163,11 @@
         	<param name="loc.tgt"  					value="${model.loc.tgt}"/>
     	</antcall>
 		
+        <copy todir="${model.loc.tgt}/nl/${lang_code}">
+            <fileset dir="${model.loc.src}">
+                <include name="model/viewpoints.xml" />
+            </fileset>
+        </copy>
 		
         <!-- com.archimatetool.modelimporter -->
         <property name="modelimporter.prj.src"      value="com.archimatetool.modelimporter"/>
