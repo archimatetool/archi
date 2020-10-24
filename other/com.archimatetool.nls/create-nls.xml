@@ -78,7 +78,13 @@
         	<param name="loc.tgt"  					value="${editor.loc.tgt}"/>
     	</antcall>
 		
-		
+        <copy todir="${editor.loc.tgt}/nl/${lang_code}">
+            <fileset dir="${editor.loc.src}">
+                <include name="intro/" />
+            </fileset>
+        </copy>
+
+                
 		<!-- com.archimatetool.export.svg -->
 		<property name="svg.prj.src"    			value="com.archimatetool.export.svg"/>
 		<property name="svg.prj.tgt"    			value="${svg.prj.src}.${lang_code}"/>
@@ -124,7 +130,6 @@
 			<fileset dir="${help.loc.src}">
 				<include name="cheatsheets/" />
 				<include name="help/" />
-				<exclude name="help/img/" />
 				<include name="hints/" />
 			</fileset>
 		</copy>
