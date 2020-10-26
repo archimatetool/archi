@@ -125,10 +125,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     
     @Override
     public void setText() {
-        String text = TextRenderer.getDefault().render(getDiagramModelObject());
-        if(!StringUtils.isSet(text)) {
-            text = StringUtils.safeString(getDiagramModelObject().getName());
-        }
+        String text = TextRenderer.getDefault().render(getDiagramModelObject(),
+                                                       StringUtils.safeString(getDiagramModelObject().getName()));
                 
         if(getTextControl() instanceof TextFlow) {
             ((TextFlow)getTextControl()).setText(text);

@@ -160,11 +160,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         // If we are showing the label name
         if(getModelConnection().isNameVisible()) {
             // Do we have any rendered text?
-            text = TextRenderer.getDefault().render(getModelConnection());
-            // No rendered text so use name
-            if(!StringUtils.isSet(text)) {
-                text = StringUtils.safeString(getModelConnection().getName().trim());
-            }
+            text = TextRenderer.getDefault().render(getModelConnection(),
+                                                    StringUtils.safeString(getModelConnection().getName().trim()));
         }
         
         getConnectionLabel().setText(text);

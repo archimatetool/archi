@@ -113,7 +113,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE)) {
                     String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(dm);
                     if(expression != null) {
-                        String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().render(dm, expression));
+                        String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().renderWithExpression(dm, expression));
                         if(text != null) {
                             return text;
                         }

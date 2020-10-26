@@ -293,7 +293,7 @@ public class TreeModelViewer extends TreeViewer {
         if(object instanceof IArchimateConcept || object instanceof IDiagramModel) {
             String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(object);
             if(expression != null) {
-                String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().render(object, expression));
+                String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().renderWithExpression(object, expression));
                 if(StringUtils.isSet(text)) {
                     return text.length() > 256 ? text.substring(0, 256) : text;
                 }

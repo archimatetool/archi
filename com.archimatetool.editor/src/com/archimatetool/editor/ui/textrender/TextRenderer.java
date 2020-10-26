@@ -58,7 +58,28 @@ public class TextRenderer {
      * @return The rendered text, or the empty string "" if no rendering is performed
      */
     public String render(IArchimateModelObject object) {
-        return render(object, getFormatExpression(object));
+        return render(object, "");
+    }
+
+    /**
+     * Render an object's format expression but return the provided default text if there is no format expression
+     * 
+     * @param object The object that has the format expression string and will be rendered 
+     * @param defaultText The text to return if there is no format expression set
+     * @return The rendered text, or defaultText if no rendering is performed
+     */
+    public String render(IArchimateModelObject object, String defaultText) {
+        return renderWithExpression(object, getFormatExpression(object), defaultText);
+    }
+    
+   /**
+     * Render an object with the given format expression
+     * 
+     * @param object The object that has the format expression string and will be rendered 
+     * @return The rendered text, or the empty string "" if no rendering is performed
+     */
+    public String renderWithExpression(IArchimateModelObject object, String formatExpression) {
+        return renderWithExpression(object, formatExpression, "");
     }
     
     /**
@@ -66,11 +87,12 @@ public class TextRenderer {
      * 
      * @param object The object that will be rendered 
      * @param formatExpression the format expression to use on the object
-     * @return The rendered text, or the empty string "" if no rendering is performed
+     * @param defaultText The text to return if formatExpression is not set
+     * @return The rendered text, or defaultText if no rendering is performed
      */
-    public String render(IArchimateModelObject object, String formatExpression) {
+    private String renderWithExpression(IArchimateModelObject object, String formatExpression, String defaultText) {
         if(!StringUtils.isSet(formatExpression)) {
-            return "";
+            return defaultText;
         }
         
         // Remove escapement of newline chars

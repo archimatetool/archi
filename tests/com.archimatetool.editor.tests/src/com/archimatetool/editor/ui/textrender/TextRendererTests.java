@@ -119,27 +119,27 @@ public class TextRendererTests {
     @Test
     public void render_EmptyString() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        assertEquals("", textRenderer.render(group, null));
+        assertEquals("", textRenderer.renderWithExpression(group, null));
     }
     
     @Test
     public void render_NoExpression() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        assertEquals("Just Some Text", textRenderer.render(group, "Just Some Text"));
+        assertEquals("Just Some Text", textRenderer.renderWithExpression(group, "Just Some Text"));
     }
 
     @Test
     public void render_InfiniteLoop() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         group.setName("${name} Name");
-        assertEquals("*** Recursion Error in Label Expression ***", textRenderer.render(group, "${name}"));
+        assertEquals("*** Recursion Error in Label Expression ***", textRenderer.renderWithExpression(group, "${name}"));
     }
 
     @Test
     public void render_NonInfiniteLoop() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         group.setName("${name}");
-        assertEquals("${name}", textRenderer.render(group, "${name}"));
+        assertEquals("${name}", textRenderer.renderWithExpression(group, "${name}"));
     }
 
     @Test
@@ -153,6 +153,16 @@ public class TextRendererTests {
     }
 
     @Test
+    public void render_WithDefault() {
+        IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        group.setName("Group Name");
+        assertEquals("default", textRenderer.render(group, "default"));
+        
+        group.getFeatures().putString(TextRenderer.FEATURE_NAME, "${name}");
+        assertEquals("Group Name", textRenderer.render(group, "default"));
+    }
+
+    @Test
     public void render_Test1() {
         IArchimateConcept concept = IArchimateFactory.eINSTANCE.createBusinessActor();
         concept.setName("Concept Name");
@@ -162,7 +172,7 @@ public class TextRendererTests {
         dmo.setArchimateConcept(concept);
         
         String expression = "${name} ${documentation} ${property:p1}";
-        String result = textRenderer.render(dmo, expression);
+        String result = textRenderer.renderWithExpression(dmo, expression);
         assertEquals("Concept Name Concept Documentation v1", result);
     }
     
@@ -176,12 +186,12 @@ public class TextRendererTests {
 
         IProperty property = TextRendererTests.addProperty(dmo.getArchimateModel(), "lang", "en");
         
-        assertEquals("English", textRenderer.render(dmo, "${property:$model{property:lang}}"));
+        assertEquals("English", textRenderer.renderWithExpression(dmo, "${property:$model{property:lang}}"));
         
         property.setValue("fr");
-        assertEquals("French", textRenderer.render(dmo, "${property:$model{property:lang}}"));
+        assertEquals("French", textRenderer.renderWithExpression(dmo, "${property:$model{property:lang}}"));
         
-        assertEquals("French French", textRenderer.render(dmo, "${property:$model{property:lang}} ${property:$model{property:lang}}"));
+        assertEquals("French French", textRenderer.renderWithExpression(dmo, "${property:$model{property:lang}} ${property:$model{property:lang}}"));
     }
     
     @Test
@@ -192,8 +202,8 @@ public class TextRendererTests {
         addProperty(dmo.getArchimateConcept(), "p2", "${property:p3}");
         addProperty(dmo.getArchimateConcept(), "p3", "Result!");
         
-        assertEquals("Result!", textRenderer.render(dmo, "${property:p1}"));
-        assertEquals("Result! Result!", textRenderer.render(dmo, "${property:p1} ${property:p1}"));
+        assertEquals("Result!", textRenderer.renderWithExpression(dmo, "${property:p1}"));
+        assertEquals("Result! Result!", textRenderer.renderWithExpression(dmo, "${property:p1} ${property:p1}"));
     }
 
     @Test
@@ -204,8 +214,8 @@ public class TextRendererTests {
         addProperty(dmo.getArchimateModel(), "p2", "$model{property:p3}");
         addProperty(dmo.getArchimateModel(), "p3", "Result!");
         
-        assertEquals("Result!", textRenderer.render(dmo, "$model{property:p1}"));
-        assertEquals("Result! Result!", textRenderer.render(dmo, "$model{property:p1} $model{property:p1}"));
+        assertEquals("Result!", textRenderer.renderWithExpression(dmo, "$model{property:p1}"));
+        assertEquals("Result! Result!", textRenderer.renderWithExpression(dmo, "$model{property:p1} $model{property:p1}"));
     }
 
     @Test
@@ -216,7 +226,7 @@ public class TextRendererTests {
         addProperty(dmo.getArchimateConcept(), "p2", "${property:p3}");
         addProperty(dmo.getArchimateConcept(), "p3", "${property:p1}");
         
-        assertEquals("${property:p1}", textRenderer.render(dmo, "${property:p1}"));
+        assertEquals("${property:p1}", textRenderer.renderWithExpression(dmo, "${property:p1}"));
     }
 
     // ============================= Word Wrap Expression Tests =========================================
@@ -224,39 +234,39 @@ public class TextRendererTests {
     @Test
     public void render_WordWrap_Name() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-        assertEquals("Concept \nName", textRenderer.render(dmo, "${wordwrap:6:${name}}"));
+        assertEquals("Concept \nName", textRenderer.renderWithExpression(dmo, "${wordwrap:6:${name}}"));
     }
     
     @Test
     public void render_WordWrap_Documentation() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-        assertEquals("Concept \nDocumentation", textRenderer.render(dmo, "${wordwrap:6:${documentation}}"));
+        assertEquals("Concept \nDocumentation", textRenderer.renderWithExpression(dmo, "${wordwrap:6:${documentation}}"));
     }
     
     @Test
     public void render_WordWrap_ModelPrefix() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-        assertEquals("Model \nName", textRenderer.render(dmo, "${wordwrap:6:$model{name}}"));
+        assertEquals("Model \nName", textRenderer.renderWithExpression(dmo, "${wordwrap:6:$model{name}}"));
     }
     
     @Test
     public void render_WordWrap_ViewPrefix() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-        assertEquals("View \nName", textRenderer.render(dmo, "${wordwrap:6:$view{name}}"));
+        assertEquals("View \nName", textRenderer.renderWithExpression(dmo, "${wordwrap:6:$view{name}}"));
     }
     
     @Test
     public void render_WordWrap_Property() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
         addProperty(dmo.getArchimateConcept(), "p1", "This is a Property");
-        assertEquals("This \nis a \nProperty", textRenderer.render(dmo, "${wordwrap:6:${property:p1}}"));
+        assertEquals("This \nis a \nProperty", textRenderer.renderWithExpression(dmo, "${wordwrap:6:${property:p1}}"));
     }
 
     @Test
     public void render_WordWrap_ModelProperty() {
         IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
         addProperty(dmo.getArchimateModel(), "p1", "This is a Property");
-        assertEquals("This \nis a \nProperty", textRenderer.render(dmo, "${wordwrap:6:$model{property:p1}}"));
+        assertEquals("This \nis a \nProperty", textRenderer.renderWithExpression(dmo, "${wordwrap:6:$model{property:p1}}"));
     }
 
     // ============================= Utils =========================================

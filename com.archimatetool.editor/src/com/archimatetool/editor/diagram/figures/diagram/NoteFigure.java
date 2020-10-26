@@ -24,7 +24,6 @@ import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
-import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -92,13 +91,8 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
     
     @Override
     public void setText() {
-        String text = TextRenderer.getDefault().render(getDiagramModelObject());
-        
-        if(!StringUtils.isSet(text)) {
-            text = getDiagramModelObject().getContent();
-        }
-        
-        fTextFlow.setText(StringUtils.safeString(text));
+        String text = TextRenderer.getDefault().render(getDiagramModelObject(), getDiagramModelObject().getContent());
+        fTextFlow.setText(text);
     }
 
     @Override
