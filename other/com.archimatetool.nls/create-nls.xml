@@ -10,12 +10,16 @@
 	<!-- USER MUST SET THESE VALUES -->
 	<target name="init_user">
 		<description>
-			Edit the following values.
+		    Edit the following values:
 			"lang_code" shold be one of the language codes such as fr, de, nl, ru
 			"nls_version" should be the version of the language packs
+		    "bundle_name" should be your language pack name like "German Langauage Pack"
+		    "bundle_vendor" should be your name like "Acme Company", "Fred Bloggs", or "Acme University"
 	  	</description>
 		<property name="lang_code"					value="en"/>
 		<property name="nls_version"				value="4.0.0"/>
+        <property name="bundle_name"                value="Your Language Pack Name"/>
+        <property name="bundle_vendor"              value="Your Name"/>
 	</target>
 	
 	
@@ -255,20 +259,26 @@
 	<target name="create_archi_project">
 		<mkdir dir="${loc.tgt}/nl"/>
 		
+	    <!-- Copy files -->
 		<copy tofile="${loc.tgt}/.project" file="${project.dir}/project" overwrite="true" />
 		<copy tofile="${loc.tgt}/.classpath" file="${project.dir}/classpath" overwrite="true" />
 		<copy todir="${loc.tgt}" file="${project.dir}/build.properties" overwrite="true" />
 		<copy todir="${loc.tgt}/META-INF" file="${project.dir}/MANIFEST.MF" overwrite="true" />
 		
+        <!--Replace the tokens in the .project and build.properties files -->
 		<replace file="${loc.tgt}/.project" token="!project-name!" value="${prj.src}.${lang_code}"/>
 		<replace file="${loc.tgt}/build.properties" token="_xx" value="_${lang_code}"/>
 		<replace file="${loc.tgt}/build.properties" token="!jar-name!" value="${prj.tgt}.jar"/>
 		
-		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-name!" value="${prj.tgt}"/>
+	    <!--Replace the tokens in the MANIFEST.MF file -->
+        <replace file="${loc.tgt}/${file.manifest}" token="!bundle-name!" value="${bundle_name}"/>
+        <replace file="${loc.tgt}/${file.manifest}" token="!bundle-vendor!" value="${bundle_vendor}"/>
+		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-symbolicname!" value="${prj.tgt}"/>
 		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-classpath!" value="${prj.tgt}.jar"/>
 		<replace file="${loc.tgt}/${file.manifest}" token="!fragment-host!" value="${prj.src}"/>
 		<replace file="${loc.tgt}/${file.manifest}" token="!nls-version!" value="${nls_version}"/>
 		
+	    <!-- Copy properties files -->
 		<antcall target="copy_properties_files">
 			<param name="in.dir"  					value="${loc.src}"/>
 			<param name="out.dir"  					value="${loc.tgt}"/>
