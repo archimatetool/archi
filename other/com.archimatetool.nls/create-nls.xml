@@ -16,7 +16,8 @@
 		    "bundle_name" should be your language pack name like "German Langauage Pack"
 		    "bundle_vendor" should be your name like "Acme Company", "Fred Bloggs", or "Acme University"
 	  	</description>
-		<property name="lang_code"					value="en"/>
+		
+	    <property name="lang_code"					value="en"/>
 		<property name="nls_version"				value="4.0.0"/>
         <property name="bundle_name"                value="Your Language Pack Name"/>
         <property name="bundle_vendor"              value="Your Name"/>
@@ -25,7 +26,6 @@
 	
 	
 	<target name="init_main">
-		<property name="file.manifest"				value="META-INF/MANIFEST.MF"/>
 		<property name="main.dir"    				value="nls"/>
 		<property name="project.dir"    			value="project"/>
 	</target>
@@ -255,33 +255,41 @@
             	
 	</target>
 	
+    
+    
 	<!-- Create target Archi NLS Project -->
 	<target name="create_archi_project">
-		<mkdir dir="${loc.tgt}/nl"/>
+        <mkdir dir="${loc.tgt}/nl"/>
 		
 	    <!-- Copy files -->
-		<copy tofile="${loc.tgt}/.project" file="${project.dir}/project" overwrite="true" />
-		<copy tofile="${loc.tgt}/.classpath" file="${project.dir}/classpath" overwrite="true" />
-		<copy todir="${loc.tgt}" file="${project.dir}/build.properties" overwrite="true" />
-		<copy todir="${loc.tgt}/META-INF" file="${project.dir}/MANIFEST.MF" overwrite="true" />
+		<copy tofile="${loc.tgt}/.project"          file="${project.dir}/project" overwrite="true"/>
+		<copy tofile="${loc.tgt}/.classpath"        file="${project.dir}/classpath" overwrite="true"/>
+		<copy todir="${loc.tgt}"                    file="${project.dir}/build.properties" overwrite="true"/>
+		<copy todir="${loc.tgt}/META-INF"           file="${project.dir}/MANIFEST.MF" overwrite="true"/>
 		
-        <!--Replace the tokens in the .project and build.properties files -->
+        <!--Replace the token in the .project file -->
 		<replace file="${loc.tgt}/.project" token="!project-name!" value="${prj.src}.${lang_code}"/>
-		<replace file="${loc.tgt}/build.properties" token="_xx" value="_${lang_code}"/>
-		<replace file="${loc.tgt}/build.properties" token="!jar-name!" value="${prj.tgt}.jar"/>
 		
+        <!--Replace the tokens in the build.properties files -->
+	    <replace file="${loc.tgt}/build.properties">
+		    <replacefilter token="_xx"                      value="_${lang_code}"/>
+		    <replacefilter token="!jar-name!"               value="${prj.tgt}.jar"/>
+		</replace>
+	    
 	    <!--Replace the tokens in the MANIFEST.MF file -->
-        <replace file="${loc.tgt}/${file.manifest}" token="!bundle-name!" value="${bundle_name}"/>
-        <replace file="${loc.tgt}/${file.manifest}" token="!bundle-vendor!" value="${bundle_vendor}"/>
-		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-symbolicname!" value="${prj.tgt}"/>
-		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-classpath!" value="${prj.tgt}.jar"/>
-		<replace file="${loc.tgt}/${file.manifest}" token="!fragment-host!" value="${prj.src}"/>
-		<replace file="${loc.tgt}/${file.manifest}" token="!nls-version!" value="${nls_version}"/>
-		
+	    <replace file="${loc.tgt}/META-INF/MANIFEST.MF">
+	        <replacefilter token="!bundle-name!"            value="${bundle_name}"/>
+            <replacefilter token="!bundle-vendor!"          value="${bundle_vendor}"/>
+            <replacefilter token="!bundle-symbolicname!"    value="${prj.tgt}"/>
+            <replacefilter token="!bundle-classpath!"       value="${prj.tgt}.jar"/>
+            <replacefilter token="!fragment-host!"          value="${prj.src}"/>
+            <replacefilter token="!nls-version!"            value="${nls_version}"/>
+	    </replace>
+        
 	    <!-- Copy properties files -->
 		<antcall target="copy_properties_files">
-			<param name="in.dir"  					value="${loc.src}"/>
-			<param name="out.dir"  					value="${loc.tgt}"/>
+			<param name="in.dir"                            value="${loc.src}"/>
+			<param name="out.dir"                           value="${loc.tgt}"/>
 		</antcall>
 	</target>
 	
