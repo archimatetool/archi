@@ -82,6 +82,8 @@ public class FontChooser extends EventManager {
         fComposite.setLayout(layout);
 
         fTextButton = new Button(fComposite, SWT.FLAT);
+        // Ensure button has initial height, especially on MacOS Big Sur
+        fTextButton.setText("Select"); //$NON-NLS-1$
         
         fTextButton.addSelectionListener(new SelectionAdapter() {
             @Override
