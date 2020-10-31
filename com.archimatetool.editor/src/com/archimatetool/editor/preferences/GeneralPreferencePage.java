@@ -68,21 +68,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private ITheme fCurrentTheme;
     
-    /**
-     * Pseudo theme to set automatic light/dark on startup
-     */
-    private static ITheme AUTOMATIC_THEME = new ITheme() {
-        @Override
-        public String getId() {
-            return "autoTheme"; //$NON-NLS-1$
-        }
-
-        @Override
-        public String getLabel() {
-            return Messages.GeneralPreferencePage_15;
-        }
-    };
-
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
 	}
@@ -236,11 +221,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Themes list
         List<ITheme> themes = new ArrayList<ITheme>();
         
-        // Add our pseudo theme if supported
-        if(ThemeUtils.isAutoThemeSupported()) {
-            themes.add(AUTOMATIC_THEME);
-        }
-        
         // Get Themes for this OS
         for(ITheme theme : ThemeUtils.getThemeEngine().getThemes()) {
             if(!theme.getId().contains("linux") && !theme.getId().contains("macosx") && !theme.getId().contains("win32")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -250,14 +230,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fThemeComboViewer.setInput(themes.toArray());
         
-        if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getBoolean(THEME_AUTO)) {
-            fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
-        }
-        else {
-            ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
-            if(activeTheme != null) {
-                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
-            }
+        ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+        if(activeTheme != null) {
+            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
         
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
@@ -303,16 +278,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
-        if(ThemeUtils.isAutoThemeSupported() && getPreferenceStore().getDefaultBoolean(THEME_AUTO)) {
-            setTheme(AUTOMATIC_THEME, false);
-            fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
-        }
-        else {
-            ThemeUtils.getThemeEngine().setTheme(ThemeUtils.getDefaultThemeName(), false);
-            ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
-            if(activeTheme != null) {
-                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
-            }
+        ThemeUtils.getThemeEngine().setTheme(ThemeUtils.getDefaultThemeName(), false);
+        ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+        if(activeTheme != null) {
+            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
@@ -343,19 +312,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setTheme(ITheme theme, boolean persist) {
         hideEmptyShells(true);
         
-        if(theme == AUTOMATIC_THEME) {
-            ThemeUtils.getThemeEngine().setTheme(Display.isSystemDarkTheme() ? ThemeUtils.E4_DARK_THEME_ID : ThemeUtils.E4_DEFAULT_THEME_ID, persist);
-        }
-        else {
-            ThemeUtils.getThemeEngine().setTheme(theme, persist);
-        }
+        ThemeUtils.getThemeEngine().setTheme(theme, persist);
         
         hideEmptyShells(false);
         
         if(persist) {
-            if(ThemeUtils.isAutoThemeSupported()) {
-                getPreferenceStore().setValue(THEME_AUTO, theme == AUTOMATIC_THEME);
-            }
             fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
         }
     }

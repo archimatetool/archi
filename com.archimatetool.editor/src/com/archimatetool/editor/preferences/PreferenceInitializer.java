@@ -114,7 +114,6 @@ implements IPreferenceConstants {
         store.setDefault(OPEN_DIAGRAMS_ON_LOAD, false);
         store.setDefault(BACKUP_ON_SAVE, true);
 
-        store.setDefault(THEME_AUTO, false);
         store.setDefault(SHOW_STATUS_LINE, true);
 
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);

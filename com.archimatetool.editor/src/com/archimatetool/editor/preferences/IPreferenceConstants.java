@@ -109,7 +109,6 @@ public interface IPreferenceConstants {
     String OPEN_DIAGRAMS_ON_LOAD = "openDiagramsOnLoad";
     String BACKUP_ON_SAVE = "backupOnSave";
     
-    String THEME_AUTO = "themeAuto";
     String SHOW_STATUS_LINE = "showStatusLine";
 
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
