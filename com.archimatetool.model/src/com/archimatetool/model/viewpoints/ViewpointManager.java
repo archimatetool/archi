@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.jdom2.Document;
@@ -161,7 +163,9 @@ public class ViewpointManager {
      * Load viewpoints from XML file
      */
     void loadDefaultViewpointsFile() throws IOException, JDOMException {
-        URL url = Platform.getBundle(BUNDLE_ID).getEntry(VIEWPOINTS_FILE);
+        // Load localised file from bundle
+        URL url = FileLocator.find(Platform.getBundle(BUNDLE_ID), new Path("$nl$/" + VIEWPOINTS_FILE)); //$NON-NLS-1$
+        url = FileLocator.resolve(url);
         
         Document doc = new SAXBuilder().build(url);
         Element rootElement = doc.getRootElement();

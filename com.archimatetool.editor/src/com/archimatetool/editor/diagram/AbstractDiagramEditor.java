@@ -711,6 +711,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new DirectEditAction(this);
         action.setId(ActionFactory.RENAME.getId()); // Set this for Global Handler
         action.setText(Messages.AbstractDiagramEditor_4); // Externalise this one
+        action.setToolTipText(Messages.AbstractDiagramEditor_13);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
@@ -761,41 +762,49 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         action = new MatchWidthAction(this);
         action.setText(Messages.AbstractDiagramEditor_5); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_14);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         
         action = new MatchHeightAction(this);
         registry.registerAction(action);
         action.setText(Messages.AbstractDiagramEditor_6); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_15);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.LEFT);
         action.setText(Messages.AbstractDiagramEditor_7); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_16);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.RIGHT);
         action.setText(Messages.AbstractDiagramEditor_8); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_17);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.TOP);
         action.setText(Messages.AbstractDiagramEditor_9); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_18);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.BOTTOM);
         action.setText(Messages.AbstractDiagramEditor_10); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_19);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.CENTER);
         action.setText(Messages.AbstractDiagramEditor_11); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_20);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.MIDDLE);
         action.setText(Messages.AbstractDiagramEditor_12); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_21);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         

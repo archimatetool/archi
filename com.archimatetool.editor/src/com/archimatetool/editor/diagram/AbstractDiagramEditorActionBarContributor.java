@@ -77,12 +77,17 @@ extends ActionBarContributor {
     
     @Override
     protected void buildActions() {
-        // Zoom in and out
+        // Zoom in
         ZoomInRetargetAction zoomInAction = new ZoomInRetargetAction();
+        zoomInAction.setText(Messages.AbstractDiagramEditorActionBarContributor_9); // Externalise these
+        zoomInAction.setToolTipText(Messages.AbstractDiagramEditorActionBarContributor_10);
         zoomInAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_IN));
         addRetargetAction(zoomInAction);
         
+        // Zoom out
         ZoomOutRetargetAction zoomOutAction = new ZoomOutRetargetAction();
+        zoomOutAction.setText(Messages.AbstractDiagramEditorActionBarContributor_11); // Externalise these
+        zoomOutAction.setToolTipText(Messages.AbstractDiagramEditorActionBarContributor_12);
         zoomOutAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_OUT));
         addRetargetAction(zoomOutAction);
         
@@ -90,6 +95,8 @@ extends ActionBarContributor {
         RetargetAction retargetAction = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
         retargetAction.setActionDefinitionId(ZoomNormalAction.ID);
         retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_NORMAL));
+        retargetAction.setText(ZoomNormalAction.TEXT);
+        retargetAction.setToolTipText(ZoomNormalAction.TEXT);
         addRetargetAction(retargetAction);
         
         // Alignment Actions

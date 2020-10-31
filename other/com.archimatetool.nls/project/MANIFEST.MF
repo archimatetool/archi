@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Language Pack
-Bundle-SymbolicName: !bundle-name!
+Bundle-Name: !bundle-name!
+Bundle-SymbolicName: !bundle-symbolicname!
 Bundle-Version: !nls-version!.qualifier
+Bundle-Vendor: !bundle-vendor!
 Fragment-Host: !fragment-host!
 Bundle-ClassPath: !bundle-classpath!
+Automatic-Module-Name: !bundle-symbolicname!
