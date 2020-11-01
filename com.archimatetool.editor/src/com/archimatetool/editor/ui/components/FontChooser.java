@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
-import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
+import com.archimatetool.editor.preferences.FontsPreferencePage;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -188,10 +188,8 @@ public class FontChooser extends EventManager {
                 @Override
                 public void run() {
                     PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getControl().getShell(),
-                            ColoursFontsPreferencePage.ID, null, null);
+                            FontsPreferencePage.ID, null, null);
                     if(dialog != null) {
-                        ColoursFontsPreferencePage page = (ColoursFontsPreferencePage)dialog.getSelectedPage();
-                        page.selectFontsTab();
                         dialog.open();
                     }
                 }

@@ -16,8 +16,12 @@ package com.archimatetool.editor.preferences;
 @SuppressWarnings("nls")
 public interface IPreferenceConstants {
     
-    // ======================================= Colours & Fonts =======================================
+    // ======================================= Appearance =======================================
     
+    // Appearance
+    
+    String SHOW_STATUS_LINE = "showStatusLine";
+
     // Colours
     
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor";
@@ -76,9 +80,6 @@ public interface IPreferenceConstants {
     String PALETTE_STATE = "palette_state";
     String VIEW_TOOLTIPS = "viewTooltips";
 
-    // Whether to scale images first when drawing them
-    String USE_SCALED_IMAGES = "scaledImages";
-
     String DIAGRAM_OBJECT_RESIZE_BEHAVIOUR = "resizeBehaviour"; 
     String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior";
    
@@ -86,6 +87,12 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS = "viewpointsGhostDiagramElements";
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements";
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements";
+
+    // Whether to use the older method to scale images first when drawing them
+    String USE_SCALED_IMAGES = "scaledImages";
+    
+    // Whether to use a line offset in all cases for figures drawn on hi-res screens
+    String USE_FIGURE_LINE_OFFSET = "figureLineOffset";
 
     // Appearance
     
@@ -109,8 +116,6 @@ public interface IPreferenceConstants {
     String OPEN_DIAGRAMS_ON_LOAD = "openDiagramsOnLoad";
     String BACKUP_ON_SAVE = "backupOnSave";
     
-    String SHOW_STATUS_LINE = "showStatusLine";
-
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
     
     String TREE_SEARCH_AUTO = "treeSearchAuto";

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -36,17 +37,25 @@ import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
- * Fonts Preference Tab
+ * Fonts Preference Page
  * 
  * @author Phillip Beauvoir
  */
-public class FontsPreferenceTab implements IPreferenceConstants {
+public class FontsPreferencePage extends PreferencePage
+implements IWorkbenchPreferencePage, IPreferenceConstants {
+
+    public static String ID = "com.archimatetool.editor.prefsFonts"; //$NON-NLS-1$
+    public static String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
 
     /**
      * Font information for a control
@@ -124,7 +133,16 @@ public class FontsPreferenceTab implements IPreferenceConstants {
     private Label fDescriptionLabel;
     private Label fFontPreviewLabel;
     
+    public FontsPreferencePage() {
+        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+        setDescription(Messages.FontsPreferencePage_21);
+    }
+    
+    @Override
     public Composite createContents(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout(2, false));
         
@@ -242,7 +260,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
 
         // Edit...
         fEditFontButton = new Button(buttonClient, SWT.PUSH);
-        fEditFontButton.setText(Messages.FontsPreferenceTab_2);
+        fEditFontButton.setText(Messages.FontsPreferencePage_2);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fEditFontButton);
         fEditFontButton.setEnabled(false);
         fEditFontButton.addSelectionListener(new SelectionAdapter() {
@@ -264,7 +282,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
 
         // Default
         fDefaultFontButton = new Button(buttonClient, SWT.PUSH);
-        fDefaultFontButton.setText(Messages.FontsPreferenceTab_7);
+        fDefaultFontButton.setText(Messages.FontsPreferencePage_7);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fDefaultFontButton);
         fDefaultFontButton.setEnabled(false);
         fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
@@ -284,7 +302,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
     
     private void createDescriptionPanel(Composite parent) {
         Group group = new Group(parent, SWT.NULL);
-        group.setText(Messages.FontsPreferenceTab_11);
+        group.setText(Messages.FontsPreferencePage_11);
         group.setLayout(new GridLayout());
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(group);
         
@@ -298,7 +316,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
     
     private void createPreviewPanel(Composite parent) {
         Group group = new Group(parent, SWT.NULL);
-        group.setText(Messages.FontsPreferenceTab_8);
+        group.setText(Messages.FontsPreferencePage_8);
         group.setLayout(new GridLayout());
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(group);
         
@@ -311,8 +329,8 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         
         fFontPreviewLabel.setText(fd.getName() + " " + //$NON-NLS-1$
                 fd.getHeight() + " " + //$NON-NLS-1$
-                ((fd.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontsPreferenceTab_5 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
-                ((fd.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontsPreferenceTab_6 : ""));  //$NON-NLS-1$
+                ((fd.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontsPreferencePage_5 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
+                ((fd.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontsPreferencePage_6 : ""));  //$NON-NLS-1$
         
         Font font = new Font(null, fd);
         fFontPreviewLabel.setFont(font);
@@ -331,7 +349,7 @@ public class FontsPreferenceTab implements IPreferenceConstants {
      */
     private void addFontOptions() {
         // View object default font gets its font info in a convoluted way from FontFactory...
-        fontInfos.add(new FontInfo(Messages.FontsPreferenceTab_1, Messages.FontsPreferenceTab_12, FontFactory.getDefaultUserViewFontData()) {
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, FontFactory.getDefaultUserViewFontData()) {
             @Override
             void performOK() {
                 FontFactory.setDefaultUserViewFont(getFontData());
@@ -344,31 +362,32 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         });
 
         // Single line text control font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_10, Messages.FontsPreferenceTab_13, SINGLE_LINE_TEXT_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_10, Messages.FontsPreferencePage_13, SINGLE_LINE_TEXT_FONT));
         
         // Multiline text control font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_4, Messages.FontsPreferenceTab_14, MULTI_LINE_TEXT_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_4, Messages.FontsPreferencePage_14, MULTI_LINE_TEXT_FONT));
         
         // Model Tree font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_0, Messages.FontsPreferenceTab_15, MODEL_TREE_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_0, Messages.FontsPreferencePage_15, MODEL_TREE_FONT));
         
         // Navigator Tree font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_9, Messages.FontsPreferenceTab_16, NAVIGATOR_TREE_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_9, Messages.FontsPreferencePage_16, NAVIGATOR_TREE_FONT));
 
         // Properties Table font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_17, Messages.FontsPreferenceTab_18, PROPERTIES_TABLE_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_17, Messages.FontsPreferencePage_18, PROPERTIES_TABLE_FONT));
 
         // Analysis Table font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferenceTab_19, Messages.FontsPreferenceTab_20, ANALYSIS_TABLE_FONT));
+        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_19, Messages.FontsPreferencePage_20, ANALYSIS_TABLE_FONT));
     }
     
     private FontData openFontDialog(FontInfo fontInfo) {
         FontDialog dialog = new FontDialog(fTableViewer.getControl().getShell());
-        dialog.setText(Messages.FontsPreferenceTab_3);
+        dialog.setText(Messages.FontsPreferencePage_3);
         dialog.setFontList(new FontData[] { fontInfo.getFontData() });
         return dialog.open();
     }
     
+    @Override
     public void performDefaults() {
         for(FontInfo info : fontInfos) {
             info.performDefault();
@@ -380,12 +399,17 @@ public class FontsPreferenceTab implements IPreferenceConstants {
         if(fontInfo != null) {
             updatePreview((FontInfo)fTableViewer.getStructuredSelection().getFirstElement());
         }
+        
+        super.performDefaults();
     }
     
-    public void performOK() {
+    @Override
+    public boolean performOk() {
         for(FontInfo info : fontInfos) {
             info.performOK();
         }
+        
+        return true;
     }
 
     private void disposeLabelFont() {
@@ -394,4 +418,9 @@ public class FontsPreferenceTab implements IPreferenceConstants {
             labelFont.dispose();
         }
     }
+    
+    @Override
+    public void init(IWorkbench workbench) {
+    }
+    
 }

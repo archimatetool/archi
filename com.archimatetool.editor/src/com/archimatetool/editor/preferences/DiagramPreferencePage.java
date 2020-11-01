@@ -15,20 +15,21 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
+
 /**
- * Diagram Preferences Page
+ * Diagram Preferences General Page
  * 
  * @author Phillip Beauvoir
  */
 public class DiagramPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
+    
     private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
     private Spinner fGridSizeSpinner;
@@ -44,11 +45,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fEditNameOnNewObjectButton;
     
-    private TabFolder fTabfolder;
-    
-    private DiagramFiguresPreferenceTab fDiagramFiguresPreferenceTab;
-    private DiagramAppearancePreferenceTab fDiagramAppearancePreferenceTab;
-    
     private Button[] fPasteSpecialButtons;
     
     private String[] PASTE_SPECIAL_BEHAVIOR = {
@@ -63,72 +59,55 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             Messages.DiagramPreferencePage_2
     };
     
-	/**
-	 * Constructor
-	 */
+    private Button fScaleFigureImagesButton;
+    private Button fUseFigureLineOffsetButton;
+    
 	public DiagramPreferencePage() {
-		setPreferenceStore(Preferences.STORE);
-		//setDescription("Diagram Preferences.");
+		setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
 	}
 	
-
     @Override
     protected Control createContents(Composite parent) {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-        fTabfolder = new TabFolder(parent, SWT.NONE);
-
-        createGeneralTab();
-        createAppearanceTab();
-        createDefaultElementsTab();
-        
-        return fTabfolder;
-    }
-    
-    private void createGeneralTab() {
         GridData gd;
         Label label;
         
-        Composite client = new Composite(fTabfolder, SWT.NULL);
+        Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
-        
-        TabItem item = new TabItem(fTabfolder, SWT.NONE);
-        item.setText(Messages.DiagramPreferencePage_5);
-        item.setControl(client);
-
-        Composite c = new Composite(client, SWT.NULL);
-        c.setLayout(new GridLayout(2, false));
-        c.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Grid Size
-        label = new Label(c, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_1);
-        
-        fGridSizeSpinner = new Spinner(c, SWT.BORDER);
-        fGridSizeSpinner.setMinimum(5);
-        fGridSizeSpinner.setMaximum(100);
         
         // -------------- View ----------------------------
 
         Group viewGroup = new Group(client, SWT.NULL);
         viewGroup.setText(Messages.DiagramPreferencePage_4);
-        viewGroup.setLayout(new GridLayout(1, false));
+        viewGroup.setLayout(new GridLayout(2, false));
         viewGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        // Grid Size
+        label = new Label(viewGroup, SWT.NULL);
+        label.setText(Messages.DiagramPreferencePage_1);
+        
+        fGridSizeSpinner = new Spinner(viewGroup, SWT.BORDER);
+        fGridSizeSpinner.setMinimum(5);
+        fGridSizeSpinner.setMaximum(100);
+
         fPaletteStateButton = new Button(viewGroup, SWT.CHECK);
         fPaletteStateButton.setText(Messages.DiagramPreferencePage_6);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fPaletteStateButton.setLayoutData(gd);
         
         fViewTooltipsButton = new Button(viewGroup, SWT.CHECK);
         fViewTooltipsButton.setText(Messages.DiagramPreferencePage_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fViewTooltipsButton.setLayoutData(gd);
         
         fEditNameOnNewObjectButton = new Button(viewGroup, SWT.CHECK);
         fEditNameOnNewObjectButton.setText(Messages.DiagramPreferencePage_24);
         gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
         fEditNameOnNewObjectButton.setLayoutData(gd);
         
         // -------------- Viewpoints ----------------------------
@@ -190,25 +169,32 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fResizeBehaviourButtons[i].setLayoutData(gd);
         }
 
+        // -------------- Other ----------------------------
+        
+        Group otherGroup = new Group(client, SWT.NULL);
+        otherGroup.setText(Messages.DiagramPreferencePage_3);
+        otherGroup.setLayout(new GridLayout(2, false));
+        otherGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        // Scale diagram image figures
+        fScaleFigureImagesButton = new Button(otherGroup, SWT.CHECK);
+        fScaleFigureImagesButton.setText(Messages.DiagramPreferencePage_5);
+        fScaleFigureImagesButton.setLayoutData(createHorizontalGridData(2));
+        
+        // Use line width offset on Windows hi-res
+        fUseFigureLineOffsetButton = new Button(otherGroup, SWT.CHECK);
+        fUseFigureLineOffsetButton.setText(Messages.DiagramPreferencePage_8);
+        fUseFigureLineOffsetButton.setLayoutData(createHorizontalGridData(2));
+        
         setValues();
+        
+        return client;
     }
     
-    private void createDefaultElementsTab() {
-        fDiagramFiguresPreferenceTab = new DiagramFiguresPreferenceTab();
-        Composite client = fDiagramFiguresPreferenceTab.createContents(fTabfolder);
-
-        TabItem item = new TabItem(fTabfolder, SWT.NONE);
-        item.setText(Messages.DiagramPreferencePage_8);
-        item.setControl(client);
-    }
-    
-    private void createAppearanceTab() {
-        fDiagramAppearancePreferenceTab = new DiagramAppearancePreferenceTab();
-        Composite client = fDiagramAppearancePreferenceTab.createContents(fTabfolder);
-
-        TabItem item = new TabItem(fTabfolder, SWT.NONE);
-        item.setText(Messages.DiagramPreferencePage_9);
-        item.setControl(client);        
+    private GridData createHorizontalGridData(int span) {
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = span;
+        return gd;
     }
     
     private void setValues() {
@@ -232,6 +218,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
+        
+        fScaleFigureImagesButton.setSelection(getPreferenceStore().getBoolean(USE_SCALED_IMAGES));
+        fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getBoolean(USE_FIGURE_LINE_OFFSET));
     }
     
     private void setSpinnerValues() {
@@ -264,35 +253,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        fDiagramFiguresPreferenceTab.performOk();
-        fDiagramAppearancePreferenceTab.performOk();
+        getPreferenceStore().setValue(USE_SCALED_IMAGES, fScaleFigureImagesButton.getSelection());
+        getPreferenceStore().setValue(USE_FIGURE_LINE_OFFSET, fUseFigureLineOffsetButton.getSelection());
         
         return true;
     }
     
     @Override
     protected void performDefaults() {
-        switch(fTabfolder.getSelectionIndex()) {
-            case 0:
-                performGeneralDefaults();
-                break;
-
-            case 1:
-                fDiagramAppearancePreferenceTab.performDefaults();
-                break;
-                
-            case 2:
-                fDiagramFiguresPreferenceTab.performDefaults();
-                break;
-           
-            default:
-                break;
-        }
-        
-        super.performDefaults();
-    }
-    
-    private void performGeneralDefaults() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(GRID_SIZE));
 
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
@@ -307,16 +275,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
-        	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
+            fPasteSpecialButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
         }
         
         for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
+        
+        fScaleFigureImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_SCALED_IMAGES));
+        fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_FIGURE_LINE_OFFSET));
+        
+        super.performDefaults();
     }
-
+    
     @Override
     public void init(IWorkbench workbench) {
     }
-    
 }

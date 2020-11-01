@@ -18,6 +18,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -42,6 +43,9 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
+    
+    // Use line width offset handling
+    boolean useLineOffset = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
     
     private IDiagramModelObject fDiagramModelObject;
     
@@ -103,8 +107,8 @@ implements IDiagramModelObjectFigure {
         // Otherwise it will be SWTGraphics
         final double scale = graphics instanceof ExtendedSWTGraphics ? ((ExtendedSWTGraphics)graphics).getScale() : FigureUtils.getFigureScale(this);
         
-        // If line width is 1 and scale is 100% then do nothing
-        if(lineWidth == 1 && scale == 1.0) {
+        // If line width is 1 and scale is 100% and don't use offset then do nothing
+        if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {
             return;
         }
     

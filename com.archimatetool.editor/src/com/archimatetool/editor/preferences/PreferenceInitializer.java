@@ -31,8 +31,12 @@ implements IPreferenceConstants {
     public void initializeDefaultPreferences() {
 		IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
 		
-	    // ======================================= Colours & Fonts =======================================
-	    
+	    // ======================================= Appearance =======================================
+		
+		// Appearance
+		
+        store.setDefault(SHOW_STATUS_LINE, true);
+
 	    // Colours
 	    
         store.setDefault(DERIVE_ELEMENT_LINE_COLOR, true);
@@ -86,8 +90,6 @@ implements IPreferenceConstants {
         store.setDefault(PALETTE_STATE, true);
         store.setDefault(VIEW_TOOLTIPS, true);
         
-        store.setDefault(USE_SCALED_IMAGES, false);
-
         store.setDefault(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, 0);
         store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);
 
@@ -96,6 +98,12 @@ implements IPreferenceConstants {
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
         
+        // Old method of scaling figures
+        store.setDefault(USE_SCALED_IMAGES, false);
+        
+        // Windows at hi-res needs this set to true
+        store.setDefault(USE_FIGURE_LINE_OFFSET, PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100);
+
         // Appearance
         
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_WIDTH, 120);
@@ -113,8 +121,6 @@ implements IPreferenceConstants {
         
         store.setDefault(OPEN_DIAGRAMS_ON_LOAD, false);
         store.setDefault(BACKUP_ON_SAVE, true);
-
-        store.setDefault(SHOW_STATUS_LINE, true);
 
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
         

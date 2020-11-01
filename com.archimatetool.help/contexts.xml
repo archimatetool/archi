@@ -88,6 +88,10 @@
        <topic href="help/Text/view_palette_creation_tools.html" label="Palette Creation Tools"/>
        <topic href="help/Text/view_format_painter.html" label="The Format Painter"/>
     </context>
+    <context id="prefsAppearance" title="Appearance Preferences">
+       <description>Change Appearance, Colours and Fonts Preferences.</description>
+       <topic href="help/Text/prefs_appearance.html" label="Appearance Preferences"/>
+    </context>
     <context id="prefsCanvas" title="Canvas Preferences">
        <description>Edit the Canvas Modelling Toolkit Preferences.</description>
        <topic href="help/Text/prefs_canvas.html" label="Canvas Modelling Toolkit Preferences"/>
@@ -95,10 +99,6 @@
     <context id="prefsConnections" title="Connections Preferences">
        <description>Edit the Connections Preferences.</description>
        <topic href="help/Text/prefs_connections.html" label="Connections Preferences"/>
-    </context>
-    <context id="prefsColoursFonts" title="Colours and Fonts Preferences">
-       <topic href="help/Text/prefs_colours_fonts.html" label="Colours and Fonts Preferences"/>
-       <description>Edit the application colours</description>
     </context>
     <context id="prefsDiagram" title="Diagram Preferences">
        <description>Edit the Diagram Preferences.</description>

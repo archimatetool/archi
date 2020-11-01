@@ -175,9 +175,9 @@
        </topic>
     </topic>
     <topic href="help/Text/preferences.html" label="Preferences">
-       <topic href="help/Text/prefs_canvas.html" label="Canvas Toolkit">
+       <topic href="help/Text/prefs_appearance.html" label="Appearance">
        </topic>
-       <topic href="help/Text/prefs_colours_fonts.html" label="Colours and Fonts">
+       <topic href="help/Text/prefs_canvas.html" label="Canvas Toolkit">
        </topic>
        <topic href="help/Text/prefs_connections.html" label="Connections">
        </topic>

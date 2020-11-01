@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -23,11 +24,16 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FigureImagePreviewFactory;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
@@ -35,11 +41,14 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 
 
 /**
- * Default Figures Preferences Tab panel
+ * Default Figures Preferences Page
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
+public class DiagramFiguresPreferencePage extends PreferencePage
+implements IWorkbenchPreferencePage, IPreferenceConstants {
+    
+    private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
     private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
     
@@ -67,7 +76,15 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         }
     }
     
+    public DiagramFiguresPreferencePage() {
+        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+    }
+    
+    @Override
     public Composite createContents(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
         loadFigures();
         
         Composite client = new Composite(parent, SWT.NULL);
@@ -96,6 +113,11 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         
         fTableViewer.setInput(fChoices);
         
+        // Weird bug on Windows where the table and scroll bars are sometimes not drawn correctly
+        Display.getCurrent().asyncExec(() -> {
+            client2.layout();
+        });
+        
         return client;
     }
     
@@ -119,7 +141,6 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     private void createTable(Composite parent) {
         fTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
         
-        
         TableColumnLayout layout = (TableColumnLayout)parent.getLayout();
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE);
         layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
@@ -137,6 +158,10 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             @Override
             public void handleEvent(Event event) {
                 TableItem item = (TableItem)event.item;
+                if(item == null) {
+                    return;
+                }
+                
                 int row = fTableViewer.getTable().indexOf(item);
                 
                 ImageChoice ic = fChoices.get(row);
@@ -172,6 +197,10 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             @Override
             public void handleEvent(Event event) {
                 TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
+                if(item == null) {
+                    return;
+                }
+                
                 int row = fTableViewer.getTable().indexOf(item);
                 ImageChoice ic = fChoices.get(row);
                 
@@ -209,7 +238,8 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         });
     }
     
-    protected boolean performOk() {
+    @Override
+    public boolean performOk() {
         for(ImageChoice choice : fChoices) {
             Preferences.STORE.setValue(choice.preferenceKey, choice.chosenType);
         }
@@ -217,11 +247,19 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         return true;
     }
     
+    @Override
     protected void performDefaults() {
         for(ImageChoice choice : fChoices) {
             choice.chosenType = 0;
         }
         
         fTableViewer.getTable().redraw();
+        
+        super.performDefaults();
     }
+    
+    @Override
+    public void init(IWorkbench workbench) {
+    }
+
 }

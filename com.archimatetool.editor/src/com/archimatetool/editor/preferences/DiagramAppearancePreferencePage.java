@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.preferences;
 
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,26 +14,33 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 import com.archimatetool.model.ITextAlignment;
 
 
 /**
- * Diagram Appearance Preferences Tab panel
+ * Diagram Appearance Preferences Page
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
+public class DiagramAppearancePreferencePage extends PreferencePage
+implements IWorkbenchPreferencePage, IPreferenceConstants {
+    
+    private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
     private Combo fDefaultGradientCombo;
     
     private String[] GRADIENT_STYLES = {
-            Messages.DiagramAppearancePreferenceTab_16,
-            Messages.DiagramAppearancePreferenceTab_17,
-            Messages.DiagramAppearancePreferenceTab_18,
-            Messages.DiagramAppearancePreferenceTab_19,
-            Messages.DiagramAppearancePreferenceTab_20
+            Messages.DiagramAppearancePreferencePage_16,
+            Messages.DiagramAppearancePreferencePage_17,
+            Messages.DiagramAppearancePreferencePage_18,
+            Messages.DiagramAppearancePreferencePage_19,
+            Messages.DiagramAppearancePreferencePage_20
     };
     
     private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
@@ -41,9 +48,9 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     private Combo fWordWrapStyleCombo;
     
     private String[] WORD_WRAP_STYLES = {
-            Messages.DiagramAppearancePreferenceTab_4,
-            Messages.DiagramAppearancePreferenceTab_5,
-            Messages.DiagramAppearancePreferenceTab_6
+            Messages.DiagramAppearancePreferencePage_4,
+            Messages.DiagramAppearancePreferencePage_5,
+            Messages.DiagramAppearancePreferencePage_6
     };
     
     private Combo fDefaultSketchBackgroundCombo;
@@ -51,9 +58,9 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     private Combo fDefaultTextAlignmentCombo, fDefaultTextPositionCombo;
     
     private String[] TEXT_ALIGNMENTS = {
-            Messages.DiagramAppearancePreferenceTab_8,
-            Messages.DiagramAppearancePreferenceTab_9,
-            Messages.DiagramAppearancePreferenceTab_10
+            Messages.DiagramAppearancePreferencePage_8,
+            Messages.DiagramAppearancePreferencePage_9,
+            Messages.DiagramAppearancePreferencePage_10
     };
     
     private int[] TEXT_ALIGNMENT_VALUES = {
@@ -63,25 +70,33 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     };
     
     private String[] TEXT_POSITIONS = {
-            Messages.DiagramAppearancePreferenceTab_11,
-            Messages.DiagramAppearancePreferenceTab_12,
-            Messages.DiagramAppearancePreferenceTab_13
+            Messages.DiagramAppearancePreferencePage_11,
+            Messages.DiagramAppearancePreferencePage_12,
+            Messages.DiagramAppearancePreferencePage_13
     };
     
+    public DiagramAppearancePreferencePage() {
+        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+    }
+
+    @Override
     public Composite createContents(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
         
         // -------------- Global ----------------------------
         
         Group globalGroup = new Group(client, SWT.NULL);
-        globalGroup.setText(Messages.DiagramAppearancePreferenceTab_0);
+        globalGroup.setText(Messages.DiagramAppearancePreferencePage_0);
         globalGroup.setLayout(new GridLayout(2, false));
         globalGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Word wrap style
         Label label = new Label(globalGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_7);
+        label.setText(Messages.DiagramAppearancePreferencePage_7);
         fWordWrapStyleCombo = new Combo(globalGroup, SWT.READ_ONLY);
         fWordWrapStyleCombo.setItems(WORD_WRAP_STYLES);
         fWordWrapStyleCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -89,40 +104,40 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         // -------------- Defaults ----------------------------
         
         Group defaultsGroup = new Group(client, SWT.NULL);
-        defaultsGroup.setText(Messages.DiagramAppearancePreferenceTab_1);
+        defaultsGroup.setText(Messages.DiagramAppearancePreferencePage_1);
         defaultsGroup.setLayout(new GridLayout(2, false));
         defaultsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Sizes
         label = new Label(defaultsGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_2);
+        label.setText(Messages.DiagramAppearancePreferencePage_2);
         fDefaultArchimateFigureWidthSpinner = new Spinner(defaultsGroup, SWT.BORDER);
         fDefaultArchimateFigureWidthSpinner.setMinimum(30);
         fDefaultArchimateFigureWidthSpinner.setMaximum(300);
         
         label = new Label(defaultsGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_3);
+        label.setText(Messages.DiagramAppearancePreferencePage_3);
         fDefaultArchimateFigureHeightSpinner = new Spinner(defaultsGroup, SWT.BORDER);
         fDefaultArchimateFigureHeightSpinner.setMinimum(30);
         fDefaultArchimateFigureHeightSpinner.setMaximum(300);
         
         // Default Text Alignment
         label = new Label(defaultsGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_14);
+        label.setText(Messages.DiagramAppearancePreferencePage_14);
         fDefaultTextAlignmentCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
         fDefaultTextAlignmentCombo.setItems(TEXT_ALIGNMENTS);
         fDefaultTextAlignmentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Default Text Position
         label = new Label(defaultsGroup, SWT.NULL);
-        label.setText(Messages.DiagramAppearancePreferenceTab_15);
+        label.setText(Messages.DiagramAppearancePreferencePage_15);
         fDefaultTextPositionCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
         fDefaultTextPositionCombo.setItems(TEXT_POSITIONS);
         fDefaultTextPositionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Default Gradient
         label = new Label(defaultsGroup, SWT.NULL);
-        label.setText(Messages.DiagramFiguresPreferencePage_9);
+        label.setText(Messages.DiagramAppearancePreferencePage_21);
         fDefaultGradientCombo = new Combo(defaultsGroup, SWT.READ_ONLY);
         fDefaultGradientCombo.setItems(GRADIENT_STYLES);
         fDefaultGradientCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -132,12 +147,12 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
 
         Group sketchGroup = new Group(client, SWT.NULL);
         sketchGroup.setLayout(new GridLayout(2, false));
-        sketchGroup.setText(Messages.DiagramPreferencePage_19);
+        sketchGroup.setText(Messages.DiagramAppearancePreferencePage_22);
         sketchGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         // Default Sketch background
         label = new Label(sketchGroup, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_20);
+        label.setText(Messages.DiagramAppearancePreferencePage_23);
         fDefaultSketchBackgroundCombo = new Combo(sketchGroup, SWT.READ_ONLY);
         fDefaultSketchBackgroundCombo.setItems(ISketchEditor.BACKGROUNDS);
         fDefaultSketchBackgroundCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -146,7 +161,6 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
 
         return client;
     }
-    
     
     private void setValues() {
         fDefaultGradientCombo.select(getPreferenceStore().getInt(DEFAULT_GRADIENT) + 1); // Starts at -1
@@ -164,10 +178,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));        
     }
     
-    private IPreferenceStore getPreferenceStore() {
-        return Preferences.STORE;
-    }
-
+    @Override
     public boolean performOk() {
         getPreferenceStore().setValue(DEFAULT_GRADIENT, fDefaultGradientCombo.getSelectionIndex() - 1); // Starts at -1
         getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, fWordWrapStyleCombo.getSelectionIndex());
@@ -183,6 +194,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         return true;
     }
     
+    @Override
     protected void performDefaults() {
         fDefaultGradientCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_GRADIENT) + 1); // Starts at -1
         fWordWrapStyleCombo.select(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
@@ -194,5 +206,12 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         fDefaultTextPositionCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
+        
+        super.performDefaults();
     }
+    
+    @Override
+    public void init(IWorkbench workbench) {
+    }
+
 }

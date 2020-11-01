@@ -76,9 +76,53 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            class="com.archimatetool.editor.preferences.AppearancePreferencePage"
+            id="com.archimatetool.editor.prefsAppearance"
+            name="%prefsAppearance">
+         <keywordReference
+               id="keywords.prefsAppearance">
+         </keywordReference>
+      </page>
+      <page
+            category="com.archimatetool.editor.prefsAppearance"
+            class="com.archimatetool.editor.preferences.FontsPreferencePage"
+            id="com.archimatetool.editor.prefsFonts"
+            name="%prefsFonts">
+         <keywordReference
+               id="keywords.prefsColoursFonts">
+         </keywordReference>
+      </page>
+      <page
+            category="com.archimatetool.editor.prefsAppearance"
+            class="com.archimatetool.editor.preferences.ColoursPreferencePage"
+            id="com.archimatetool.editor.prefsColours"
+            name="%prefsColours">
+         <keywordReference
+               id="keywords.prefsColoursFonts">
+         </keywordReference>
+      </page>
+      <page
             class="com.archimatetool.editor.preferences.DiagramPreferencePage"
             id="com.archimatetool.editor.prefsDiagram"
             name="%prefsDiagram">
+         <keywordReference
+               id="keywords.prefsDiagram">
+         </keywordReference>
+      </page>
+      <page
+            category="com.archimatetool.editor.prefsDiagram"
+            class="com.archimatetool.editor.preferences.DiagramAppearancePreferencePage"
+            id="com.archimatetool.editor.prefsDiagramAppearance"
+            name="%prefsDiagramAppearance">
+         <keywordReference
+               id="keywords.prefsDiagram">
+         </keywordReference>
+      </page>
+      <page
+            category="com.archimatetool.editor.prefsDiagram"
+            class="com.archimatetool.editor.preferences.DiagramFiguresPreferencePage"
+            id="com.archimatetool.editor.prefsDiagramFigures"
+            name="%prefsDiagramFigures">
          <keywordReference
                id="keywords.prefsDiagram">
          </keywordReference>
@@ -100,11 +144,12 @@
          </keywordReference>
       </page>
       <page
-            class="com.archimatetool.editor.preferences.ColoursFontsPreferencePage"
-            id="com.archimatetool.editor.prefsColoursFonts"
-            name="%prefsColoursFonts">
+            category="com.archimatetool.editor.prefsConnections"
+            class="com.archimatetool.editor.preferences.ConnectionsARMPreferencePage"
+            id="com.archimatetool.editor.prefsARM"
+            name="%prefsARM">
          <keywordReference
-               id="keywords.prefsColoursFonts">
+               id="keywords.prefsConnections">
          </keywordReference>
       </page>
    </extension>
@@ -680,6 +725,10 @@
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
+      <keyword
+            id="keywords.prefsAppearance"
+            label="%keyword.label.5">
+      </keyword>
       <keyword
             id="keywords.prefsGeneral"
             label="%keyword.label">

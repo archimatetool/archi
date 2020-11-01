@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
-import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
+import com.archimatetool.editor.preferences.ColoursPreferencePage;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 
@@ -200,10 +200,8 @@ public class ColorChooser extends EventManager {
                 @Override
                 public void run() {
                     PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getControl().getShell(),
-                            ColoursFontsPreferencePage.ID, null, null);
+                            ColoursPreferencePage.ID, null, null);
                     if(dialog != null) {
-                        ColoursFontsPreferencePage page = (ColoursFontsPreferencePage)dialog.getSelectedPage();
-                        page.selectColoursTab();
                         dialog.open();
                     }
                 }
