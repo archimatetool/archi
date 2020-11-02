@@ -268,24 +268,27 @@ public class ImageFactory {
         
         // Create a new ImageDescriptor that sets the pixel to RGB
         if(newImageDescriptor == null) {
-            newImageDescriptor = new ImageDescriptor() {
-                @Override
-                public ImageData getImageData(int zoom) {
-                    ImageData id = getImageDescriptor(imageName).getImageData(zoom);
-                    int pixel = id.palette.getPixel(rgb);
-                    
-                    for(int x = 0; x < id.width; x++) {
-                        for(int y = 0; y < id.height; y++) {
-                            id.setPixel(x, y, pixel);
+            ImageDescriptor id = getImageDescriptor(imageName);
+            if(id != null) {
+                newImageDescriptor = new ImageDescriptor() {
+                    @Override
+                    public ImageData getImageData(int zoom) {
+                        ImageData imageData = getImageDescriptor(imageName).getImageData(zoom);
+                        if(imageData != null) {
+                            int pixel = imageData.palette.getPixel(rgb);
+                            for(int x = 0; x < imageData.width; x++) {
+                                for(int y = 0; y < imageData.height; y++) {
+                                    imageData.setPixel(x, y, pixel);
+                                }
+                            }
                         }
+                        return imageData;
                     }
-                    
-                    return id;
-                }
-            };
-            
-            registry.put(rgbName, newImageDescriptor);
-        }
+                };
+                
+                registry.put(rgbName, newImageDescriptor);
+            }
+         }
 
         return newImageDescriptor;
     }
