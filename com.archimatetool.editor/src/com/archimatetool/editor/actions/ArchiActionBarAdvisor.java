@@ -463,24 +463,34 @@ extends ActionBarAdvisor {
         menu.add(navigationMenu);
 
         IAction a = ActionFactory.NEXT_EDITOR.create(window);
+        a.setText(Messages.ArchiActionBarAdvisor_21);
+        a.setToolTipText(Messages.ArchiActionBarAdvisor_22);
         register(a);
         navigationMenu.add(a);
 
         a = ActionFactory.PREVIOUS_EDITOR.create(window);
+        a.setText(Messages.ArchiActionBarAdvisor_23);
+        a.setToolTipText(Messages.ArchiActionBarAdvisor_24);
         register(a);
         navigationMenu.add(a);
 
         a = ActionFactory.SHOW_WORKBOOK_EDITORS.create(window);
+        a.setText(Messages.ArchiActionBarAdvisor_25);
+        a.setToolTipText(Messages.ArchiActionBarAdvisor_26);
         register(a);
         navigationMenu.add(a);
         
         navigationMenu.add(new Separator());
 
         a = ActionFactory.NEXT_PART.create(window);
+        a.setText(Messages.ArchiActionBarAdvisor_27);
+        a.setToolTipText(Messages.ArchiActionBarAdvisor_28);
         register(a);
         navigationMenu.add(a);
 
         a = ActionFactory.PREVIOUS_PART.create(window);
+        a.setText(Messages.ArchiActionBarAdvisor_29);
+        a.setToolTipText(Messages.ArchiActionBarAdvisor_30);
         register(a);
         navigationMenu.add(a);
         

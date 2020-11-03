@@ -39,7 +39,27 @@ public class Messages extends NLS {
 
     public static String ArchiActionBarAdvisor_20;
 
+    public static String ArchiActionBarAdvisor_21;
+
+    public static String ArchiActionBarAdvisor_22;
+
+    public static String ArchiActionBarAdvisor_23;
+
+    public static String ArchiActionBarAdvisor_24;
+
+    public static String ArchiActionBarAdvisor_25;
+
+    public static String ArchiActionBarAdvisor_26;
+
+    public static String ArchiActionBarAdvisor_27;
+
+    public static String ArchiActionBarAdvisor_28;
+
+    public static String ArchiActionBarAdvisor_29;
+
     public static String ArchiActionBarAdvisor_3;
+
+    public static String ArchiActionBarAdvisor_30;
 
     public static String ArchiActionBarAdvisor_4;
 
