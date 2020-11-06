@@ -20,10 +20,9 @@ import com.archimatetool.editor.ui.IGraphicsIcon;
  */
 public class ArchimateDiagramModelGraphicsIcon implements IGraphicsIcon {
     
-    static Color blue1 = ColorFactory.get(20, 105, 171);
-    static Color blue2 = ColorFactory.get(193, 232, 255);
-    static Color blue3 = ColorFactory.get(225, 246, 255);
-    static Color blue4 = ColorFactory.get(150, 210, 247);
+    private static Color blue1 = ColorFactory.get(20, 105, 171);
+    private static Color blue2 = ColorFactory.get(193, 232, 255);
+    private static Color blue3 = ColorFactory.get(220, 240, 250);
 
     @Override
     public void drawIcon(Graphics graphics, Point origin) {
@@ -31,11 +30,10 @@ public class ArchimateDiagramModelGraphicsIcon implements IGraphicsIcon {
         
         graphics.setLineWidth(1);
         
-        // fills
-        graphics.setForegroundColor(blue3);
-        graphics.setBackgroundColor(blue4);
-        graphics.fillGradient(origin.x, origin.y, 5, 5, true);
-        graphics.fillGradient(origin.x, origin.y + 9, 5, 5, true);
+        // Note - don't use graphics.fillGradient as it messes up the co-ordinate system on Linux hi-res
+        graphics.setBackgroundColor(blue3);
+        graphics.fillRectangle(origin.x, origin.y, 5, 5);
+        graphics.fillRectangle(origin.x, origin.y + 9, 5, 5);
         
         graphics.setForegroundColor(blue1);
         
