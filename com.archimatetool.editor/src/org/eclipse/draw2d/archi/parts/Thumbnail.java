@@ -44,10 +44,6 @@ public class Thumbnail extends Figure implements UpdateListener {
     // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=543796
     private static final boolean useMacFix = PlatformUtils.isMac() && PlatformUtils.compareOSVersion("10.14") >= 0; //$NON-NLS-1$
     
-    // Bug on Linux Hires displays - GC is disposed of when Image is redrawn
-    // See https://github.com/archimatetool/archi/issues/624
-    private boolean useLinuxFix;
-    
     /**
      * This updates the Thumbnail by breaking the thumbnail {@link Image} into
      * several tiles and updating each tile individually.
@@ -178,13 +174,6 @@ public class Thumbnail extends Figure implements UpdateListener {
             if (!isActive() || !isRunning() || tileGraphics == null)
                 return;
 
-            // On Linux hi-res displays when an image is re-drawn its destroy() method disposes the GC
-            // See https://github.com/archimatetool/archi/issues/624
-            if(thumbnailGC.isDisposed()) {
-                thumbnailGC = new GC(thumbnailImage);
-                useLinuxFix = true;
-            }
-            
             int v = getCurrentVTile();
             int sy1 = v * tileSize.height;
             int sy2 = Math.min((v + 1) * tileSize.height, sourceSize.height);
@@ -193,8 +182,8 @@ public class Thumbnail extends Figure implements UpdateListener {
             int sx1 = h * tileSize.width;
             int sx2 = Math.min((h + 1) * tileSize.width, sourceSize.width);
             
-            // Mac hack and Linux hires hack - create new GC instances
-            if(useMacFix || useLinuxFix) {
+            // Mac hack - create new GC instances
+            if(useMacFix) {
                 createTileGCGraphics();
             }
 

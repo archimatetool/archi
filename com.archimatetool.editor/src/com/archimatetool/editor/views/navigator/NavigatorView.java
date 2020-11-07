@@ -36,7 +36,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.archi.part.DrillDownAdapter;
+import org.eclipse.ui.part.DrillDownAdapter;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.IArchiImages;
