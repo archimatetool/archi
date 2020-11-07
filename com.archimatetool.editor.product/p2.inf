@@ -1,0 +1,7 @@
+provides.0.namespace = osgi.ee
+provides.0.name = JavaSE
+provides.0.version = 11.0.0
+
+provides.1.namespace = osgi.ee
+provides.1.name = JavaSE
+provides.1.version = 13.0.0
