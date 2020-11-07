@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2017 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ *
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
@@ -25,23 +28,9 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 	color: #C4C5C1;
 }
 
+
 .MTrimmedWindow {
 	background-color: #E8E8E8;
-}
-
-.MPartStack {
-	swt-simple: false;
-	swt-mru-visible: false;
-	swt-unselected-tabs-color: #E8E8E8 #FFFFFF 100%;
-	swt-outer-keyline-color: #FFFFFF;
-	swt-inner-keyline-color: #FFFFFF;
-	swt-tab-outline: #B6BCCC;
-}
-
-.MPartStack.active {
-	swt-tab-outline: #B6BCCC;
-	swt-shadow-visible: false;
-	swt-outer-keyline-color: #C4C5C1;
 }
 
 .MTrimBar {
@@ -64,60 +53,27 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 	handle-image: url(./macHandle.png);
 }
 
-.MTrimmedWindow {
-	background-color: #E8E8E8;
+.MPartStack {
+	swt-simple: false;
+	swt-unselected-tabs-color: #E8E8E8 #FFFFFF 100%;
+	swt-outer-keyline-color: #FFFFFF;
+	swt-inner-keyline-color: #FFFFFF;
+	swt-tab-outline: #B6BCCC;
 }
 
-#PerspectiveSwitcher {
-	background-color: #F0F0F0 #E8E8E8 100%;
-	eclipse-perspective-keyline-color: #E8E8E8 #E8E8E8;
-	handle-image: url(./macHandle.png);
-}
-
-#org-eclipse-ui-editorss {
-	swt-tab-height: 8px;
-	padding: 0px 5px 7px;
-	swt-unselected-tabs-color: #D6DDE5 #D6DDE5 #D6DDE5 100% 100%;
-	swt-outer-keyline-color: #D6DDE5;
-	swt-inner-keyline-color: #D6DDE5;
-	swt-tab-outline: #D6DDE5;
-	color: #D6DDE5;
-}
-
-CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
+.MPartStack.active {
+	swt-tab-outline: #B6BCCC;
 	swt-shadow-visible: false;
+	swt-outer-keyline-color: #C4C5C1;
 }
 
-CTabFolder Canvas {
-	background-color: #FFFFFF;
-}
-
-Form, FormHeading {
-	background-color: #ffffff;
-	background: #ffffff;
-	background-image: #ffffff;
-	color: #505050;
-}
-
-Form {
-	/* Bug 465148: Additional styling for the Form */
-	text-background-color: #ffffff;
-
-	tb-toggle-hover-color: #505050;
-	tb-toggle-color: #505050;
-	h-hover-full-color: #505050;
-	h-hover-light-color: #505050;
-	h-bottom-keyline-2-color: #eaeaea;
-	h-bottom-keyline-1-color: #eaeaea;
-}
-
-
-Section {
-	background-color: #ffffff;
-  	color: #505050;
-  	background-color-titlebar: #eaeaea;
-  	background-color-gradient-titlebar: #eaeaea;
-  	border-color-titlebar: #ffffff;
+CTabFolder.MArea {
+	background-color: #E8E8E8;
+	swt-selected-tab-fill: #E8E8E8;
+	swt-unselected-tabs-color: #E8E8E8;
+	swt-outer-keyline-color: #E8E8E8;
+	swt-inner-keyline-color: #E8E8E8;
+	swt-tab-outline: #E8E8E8;
 }
 
 CTabFolder {
@@ -126,4 +82,8 @@ CTabFolder {
 
 CTabFolder CTabItem:selected {
   background-color: #E9E8E9;
+}
+
+CTabFolder Canvas {
+	background-color: #FFFFFF;
 }

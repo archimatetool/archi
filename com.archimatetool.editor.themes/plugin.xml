@@ -24,7 +24,7 @@
        id="org.eclipse.e4.Themes"
        point="org.eclipse.e4.ui.css.swt.theme">
 		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic_winxp.css"
+			basestylesheeturi="themes/eclipse/css/e4_classic.css"
 			id="org.eclipse.e4.ui.css.theme.e4_classic"
 			label="Classic">
 		</theme>
@@ -44,23 +44,8 @@
             basestylesheeturi="themes/eclipse/css/e4_default_win.css"
             id="org.eclipse.e4.ui.css.theme.e4_default"
             label="Light"
-            os="win32"
-            os_version="6.0,6.1,6.2,6.3,10.0">
+            os="win32">
         </theme>
-		<theme
-        	basestylesheeturi="themes/eclipse/css/e4_default_winxp_blu.css"
-        	id="org.eclipse.e4.ui.css.theme.e4_default"
-        	label="Windows XP Blue"
-        	os="win32"
-        	os_version="5.1">
-		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic_win7.css"
-			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="Windows Classic"
-			os="win32"
-			os_version="6.0,6.1,6.2,6.3">
-		</theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4-dark_win.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
@@ -68,7 +53,7 @@
             os="win32">
         </theme>
         <theme
-            basestylesheeturi="themes/eclipse/css/e4-dark.css"
+            basestylesheeturi="themes/eclipse/css/e4-dark_linux.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
             label="Dark"
             os="linux">
@@ -84,8 +69,7 @@
             basestylesheeturi="themes/eclipse/css/e4-dark_mac.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
             label="Dark"
-            os="macosx"
-            os_version="10.14,10.15">
+            os="macosx">
         </theme>
 	</extension>
    

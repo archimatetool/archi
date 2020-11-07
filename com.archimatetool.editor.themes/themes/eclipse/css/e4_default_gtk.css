@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2014 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ *
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
@@ -15,76 +18,69 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #EEEEEE;
+	color: #E1DEDB;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #EEEEEE;
+	color: #E1DEDB;
 }
-/* Higher contrast keylines for selected stack */
+
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #A0A0A0;
+	color: #CDC7C2;
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #A0A0A0;
+	color: #CDC7C2;
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-	color: #A0A0A0;
+	color: #CDC7C2;
 }
 
-
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #DCDCDC;
+	color: #EAE8E6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #DCDCDC;
+	color: #EAE8E6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #B4B4B4;
+	color: #D5D0CC;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #B4B4B4;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START{
-	color: #E2E2E2;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-	color: #E2E2E2;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_START {
-	color: #E2E2E2;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
-	color: #E2E2E2;
+	color: #D5D0CC;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
-	color: #B4B4B4;
+	color: #D5D0CC;
 }
 
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
+	color: #F6F5F4;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
+	color: #F6F5F4;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_START {
+	color: #EAE8E6;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
+	color: #EAE8E6;
+}
 
 .MTrimmedWindow {
-	background-color: #E2E2E2;
-}
-
-.MPartStack {
-	swt-simple: false;
-	swt-mru-visible: false;
+	background-color: #F6F5F4;
 }
 
 .MTrimBar {
-	background-color: #E2E2E2;
+	background-color: #F6F5F4;
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar  {
-	background-color: COLOR-WIDGET-BACKGROUND #E2E2E2 100%;
+	background-color: COLOR-WIDGET-BACKGROUND #F6F5F4 100%;
 }
 
 .MToolControl.TrimStack {
@@ -94,50 +90,19 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 	handle-image-rotated:  url(./gtkHandle-rotated.png);
 }
 
-#PerspectiveSwitcher {
-	background-color: COLOR-WIDGET-BACKGROUND #E2E2E2 100%;
-	eclipse-perspective-keyline-color: #E2E2E2 #B4B4B4;
+.MPartStack {
+	swt-simple: false;
 }
 
-#org-eclipse-ui-editorss {
-	swt-tab-height: 8px;
-	padding: 0px 5px 7px;
-}
-
-CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
-	swt-shadow-visible: false;
+CTabFolder.MArea {
+	background-color: #F6F5F4;
+	swt-selected-tab-fill: #F6F5F4;
+	swt-unselected-tabs-color: #F6F5F4;
+	swt-outer-keyline-color: #F6F5F4;
+	swt-inner-keyline-color: #F6F5F4;
+	swt-tab-outline: #F6F5F4;
 }
 
 CTabFolder Canvas {
-	background-color: #F8F8F8;
-}
-
-Form, FormHeading {
-	background-color: #ffffff;
-	background: #ffffff;
-	background-image: #ffffff;
-	color: #505050;
-}
-
-Form {
-	/* Bug 465148: Additional styling for the Form */
-	text-background-color: #ffffff;
-
-	tb-toggle-hover-color: #505050;
-	tb-toggle-color: #505050;
-	h-hover-full-color: #505050;
-	h-hover-light-color: #505050;
-	h-bottom-keyline-2-color: #eaeaea;
-	h-bottom-keyline-1-color: #eaeaea;
-
-}
-
-
-
-Section {
-	background-color: #ffffff;
-  	color: #505050;
-  	background-color-titlebar: #eaeaea;
-  	background-color-gradient-titlebar: #eaeaea;
-  	border-color-titlebar: #ffffff;
+	background-color: #F8F7F6;
 }
