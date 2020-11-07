@@ -8,6 +8,7 @@ package com.archimatetool.editor.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.service.prefs.BackingStoreException;
 
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -50,6 +52,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private ComboViewer fThemeComboViewer;
     
+    private Button fUseRoundTabsButton;
     private Button fShowStatusLineButton;
     
     private ITheme fCurrentTheme;
@@ -97,6 +100,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fThemeComboViewer.setComparator(new ViewerComparator());
         
+        // Use Round Tabs
+        fUseRoundTabsButton = new Button(client, SWT.CHECK);
+        fUseRoundTabsButton.setText(Messages.AppearancePreferencePage_3);
+        fUseRoundTabsButton.setLayoutData(createHorizontalGridData(2));
+        
         // Show Status Line
         fShowStatusLineButton = new Button(client, SWT.CHECK);
         fShowStatusLineButton.setText(Messages.AppearancePreferencePage_2);
@@ -133,8 +141,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
         
-        // Status line
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
+        fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
     }
     
     @Override
@@ -148,6 +156,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Status line
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
         
+        // Round tabs
+        IEclipsePreferences prefs = ThemeUtils.getSwtRendererPreferences();
+        prefs.putBoolean(ThemeUtils.USE_ROUND_TABS, fUseRoundTabsButton.getSelection());
+        
+        try {
+            // Have to do this for it to persist
+            prefs.flush();
+        }
+        catch(BackingStoreException ex) {
+        }
+
         return true;
     }
     
@@ -160,7 +179,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
         }
         
-        // Status line
+        fUseRoundTabsButton.setSelection(false);
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
         super.performDefaults();

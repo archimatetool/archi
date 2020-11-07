@@ -27,6 +27,11 @@ public final class ThemeUtils {
     public static final String E4_DEFAULT_THEME_ID = "org.eclipse.e4.ui.css.theme.e4_default";
     public static final String E4_DARK_THEME_ID = "org.eclipse.e4.ui.css.theme.e4_dark";
     
+    /**
+     * SWT CSS Tabs are squeare by default in Eclipse 4.16 and greater
+     */
+    public static final String USE_ROUND_TABS = "USE_ROUND_TABS";
+    
     private static IThemeEngine engine;
 
     public static IThemeEngine getThemeEngine() {
@@ -48,6 +53,13 @@ public final class ThemeUtils {
     
     public static IEclipsePreferences getThemePreferences() {
         return InstanceScope.INSTANCE.getNode(FrameworkUtil.getBundle(ThemeEngine.class).getSymbolicName());
+    }
+    
+    /**
+     * @return SWT Renderer Preferences
+     */
+    public static IEclipsePreferences getSwtRendererPreferences() {
+        return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
     }
     
     public static String getDefaultThemeName() {
