@@ -7,6 +7,8 @@ package com.archimatetool.editor;
 
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
@@ -22,6 +24,7 @@ import com.archimatetool.editor.perspectives.MainPerspective;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ArchiWorkbenchAdvisor
 extends WorkbenchAdvisor
 {
@@ -38,8 +41,9 @@ extends WorkbenchAdvisor
         // Save and restore stuff
         configurer.setSaveAndRestore(true);
         
-        // Progress
-        // PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_PROGRESS_ON_STARTUP, true);
+        // If System Property in VM arguments is "-Dshowheap=true" then Show Heap Widget
+        PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_MEMORY_MONITOR,
+                "true".equals(System.getProperty("showheap")));
 
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);

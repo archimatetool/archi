@@ -38,7 +38,6 @@ import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.model.IModelImporter;
 import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
 import com.archimatetool.editor.ui.dialog.RelationshipsMatrixDialog;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -589,20 +588,6 @@ extends ActionBarAdvisor {
         
         IToolBarManager toolBarTools = new ToolBarManager(SWT.FLAT);
         coolBarManager.add(new ToolBarContributionItem(toolBarTools, "toolbar_tools")); //$NON-NLS-1$
-
-        // If System Property to VM arguments is "-Dshowheap=true" then Show Heap Widget
-        if("true".equals(System.getProperty("showheap"))) { //$NON-NLS-1$ //$NON-NLS-2$
-            // BUG on Windows - the Contribution Item Height is not computed unless there is also an ActionContributionItem
-            if(PlatformUtils.isWindows()) {
-                toolBarTools.add(new Action(" ") { //$NON-NLS-1$
-                    @Override
-                    public boolean isEnabled() {
-                        return false;
-                    }
-                });
-            }
-            toolBarTools.add(new HeapStatusWidgetToolBarContributionItem());
-        }
     }
 
     /**
