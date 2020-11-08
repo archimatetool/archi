@@ -3,7 +3,6 @@
 
 <product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="4.8.0.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="">
    </configIni>
 
@@ -15,10 +14,7 @@
    <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png" i256="/com.archimatetool.editor/img/app-256.png"/>
 
    <splash
-      location="com.archimatetool.editor"
-      startupProgressRect="0,290,470,0"
-      startupMessageRect="5,180,0,0"
-      startupForegroundColor="C0C0C0" />
+      location="com.archimatetool.editor" />
    <launcher name="Archi">
       <linux icon="/com.archimatetool.editor.product/icons/icon.xpm"/>
       <macosx icon="/com.archimatetool.editor.product/icons/icon.icns"/>
@@ -28,10 +24,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
    </plugins>
