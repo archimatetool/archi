@@ -77,7 +77,10 @@ implements IPreferenceConstants {
         store.setDefault(USE_NESTED_CONNECTIONS, true);
         
         store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 1);
-        store.setDefault(NEW_REVERSE_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 1);
+        
+        // Reverse relationships - by default none are allowed set on 2020-11-11
+        //store.setDefault(NEW_REVERSE_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 1);
+        store.setDefault(NEW_REVERSE_RELATIONS_TYPES, 0);
 
         
         // ======================================= Diagram =======================================
