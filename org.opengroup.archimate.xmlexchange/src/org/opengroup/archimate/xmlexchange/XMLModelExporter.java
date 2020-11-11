@@ -499,6 +499,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Documentation
         writeTextToElement(folder.getDocumentation(), itemElement, ELEMENT_DOCUMENTATION, false);
+        
+        // Identifier
+        itemElement.setAttribute(ATTRIBUTE_IDENTIFIER, checkID(folder));
 
         // Sub-folders
         for(IFolder subFolder : folder.getFolders()) {

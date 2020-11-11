@@ -445,19 +445,17 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         // Work through the item hierarchy from top to bottom
         for(Element element : getItemHierarchy(itemElement)) {
-            String name = StringUtils.safeString(getChildElementText(element, ELEMENT_LABEL, true));
-            String documentation = StringUtils.safeString(getChildElementText(element, ELEMENT_DOCUMENTATION, true));
-
             // Is this a top-level Archi folder?
             IFolder toplevelFolder = getTopLevelArchiFolder(element);
             
             // Yes it is, so just update the documentation
-            if(toplevelFolder != null) { 
+            if(toplevelFolder != null) {
+                String documentation = StringUtils.safeString(getChildElementText(element, ELEMENT_DOCUMENTATION, true));
                 toplevelFolder.setDocumentation(documentation);
             }
             // Not a top-level Archi folder so get/create the next sub-folder
             else { 
-                folder = createSubFolder(folder, name, documentation);
+                folder = createSubFolder(folder, element);
             }
         }
 
@@ -467,7 +465,11 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     /**
      * Get or create a sub-folder. If it does not exist, it is created and its name and documentation set.
      */
-    private IFolder createSubFolder(IFolder parent, String name, String documentation) {
+    private IFolder createSubFolder(IFolder parent, Element itemElement) {
+        String name = StringUtils.safeString(getChildElementText(itemElement, ELEMENT_LABEL, true));
+        String documentation = StringUtils.safeString(getChildElementText(itemElement, ELEMENT_DOCUMENTATION, true));
+        String id = itemElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
+        
         for(IFolder f : parent.getFolders()) {
             if(f.getName().equals(name)) {
                 return f;
@@ -477,6 +479,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
         folder.setName(name);
         folder.setDocumentation(documentation);
+        
+        // Identifier
+        if(id != null) {
+            folder.setId(id);
+        }
+        
         parent.getFolders().add(folder);
         
         return folder;
