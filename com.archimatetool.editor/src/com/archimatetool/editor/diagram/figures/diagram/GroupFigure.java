@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -31,8 +32,11 @@ import com.archimatetool.model.ITextPosition;
  */
 public class GroupFigure extends AbstractTextControlContainerFigure {
     
-    protected static final int TOPBAR_HEIGHT = 18;
+    private static final int TOPBAR_HEIGHT = 18;
     private static final float INSET = 2f;
+    
+    private int tabHeight;
+    private int tabWidth;
     
     public GroupFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject, TEXT_FLOW_CONTROL);
@@ -58,14 +62,25 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         graphics.setAlpha(getAlpha());
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {
+            tabWidth = (int)(bounds.width / INSET);
+            tabHeight = TOPBAR_HEIGHT;
+            
+            if(getDiagramModelObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+                int textWidth = FigureUtilities.getTextExtents(getText(), getFont()).width;
+                tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), bounds.width);
+
+                int textHeight = getTextControl().getBounds().height;
+                tabHeight = Math.max(TOPBAR_HEIGHT, textHeight);
+            }
+            
             // Top Rectangle
             graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
             
             Path path1 = new Path(null);
             path1.moveTo(bounds.x, bounds.y);
-            path1.lineTo(bounds.x + (bounds.width / INSET), bounds.y);
-            path1.lineTo(bounds.x + (bounds.width / INSET), bounds.y + TOPBAR_HEIGHT);
-            path1.lineTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
+            path1.lineTo(bounds.x + tabWidth, bounds.y);
+            path1.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
+            path1.lineTo(bounds.x, bounds.y + tabHeight);
             path1.lineTo(bounds.x, bounds.y);
             graphics.fillPath(path1);
             path1.dispose();
@@ -75,8 +90,8 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             Pattern gradient = createGradient(graphics);
             
             Path path2 = new Path(null);
-            path2.moveTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
-            path2.lineTo(bounds.x + bounds.width, bounds.y + TOPBAR_HEIGHT);
+            path2.moveTo(bounds.x, bounds.y + tabHeight);
+            path2.lineTo(bounds.x + bounds.width, bounds.y + tabHeight);
             path2.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
             path2.lineTo(bounds.x, bounds.y + bounds.height);
             graphics.fillPath(path2);
@@ -91,14 +106,14 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             graphics.setAlpha(getLineAlpha());
             
             Path path = new Path(null);
-            path.moveTo(bounds.x, bounds.y + TOPBAR_HEIGHT);
+            path.moveTo(bounds.x, bounds.y + tabHeight);
             path.lineTo(bounds.x, bounds.y);
-            path.lineTo(bounds.x + (bounds.width / INSET), bounds.y);
-            path.lineTo(bounds.x + (bounds.width / INSET), bounds.y + TOPBAR_HEIGHT);
+            path.lineTo(bounds.x + tabWidth, bounds.y);
+            path.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
             graphics.drawPath(path);
             path.dispose();
             
-            graphics.drawRectangle(bounds.x, bounds.y + TOPBAR_HEIGHT, bounds.width, bounds.height - TOPBAR_HEIGHT);
+            graphics.drawRectangle(bounds.x, bounds.y + tabHeight, bounds.width, bounds.height - tabHeight);
         }
         else {
             graphics.setBackgroundColor(getFillColor());
@@ -136,7 +151,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y -= 3;
+            bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
         }
         
         return bounds;
@@ -158,7 +173,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     /**
      * Connection Anchor adjusts for Group shape
      */
-    class GroupFigureConnectionAnchor extends ChopboxAnchor {
+    private class GroupFigureConnectionAnchor extends ChopboxAnchor {
         public GroupFigureConnectionAnchor(IFigure owner) {
             super(owner);
         }
@@ -174,7 +189,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             Rectangle r = getBox().getCopy();
             getOwner().translateToAbsolute(r);
             
-            int shiftY = TOPBAR_HEIGHT - (pt.y - r.y) - 1;
+            int shiftY = tabHeight - (pt.y - r.y) - 1;
             
             if(pt.x > r.x + (r.width / INSET) && shiftY > 0) {
                 pt.y += shiftY;
