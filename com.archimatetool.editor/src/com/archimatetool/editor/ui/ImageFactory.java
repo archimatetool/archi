@@ -374,18 +374,18 @@ public class ImageFactory {
      */
     public static Rectangle getScaledImageSize(Image source, int maxSize) {
         Rectangle srcBounds = source.getBounds();
-        int width = srcBounds.width;
-        int height = srcBounds.height;
+        float width = srcBounds.width;
+        float height = srcBounds.height;
 
         if(height > maxSize) {
-            width *= ((float)maxSize / height);
+            width *= (maxSize / height);
             height = maxSize;
         }
         if(width > maxSize) {
-            height *= ((float)maxSize / width);
+            height *= (maxSize / width);
             width = maxSize;
         }
         
-        return new Rectangle(0, 0, width, height);
+        return new Rectangle(0, 0, (int)width, (int)height);
     }
 }

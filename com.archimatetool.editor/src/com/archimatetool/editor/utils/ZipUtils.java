@@ -14,8 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -495,16 +493,13 @@ public final class ZipUtils {
 	public static void unpackZip(File zipFile, File targetFolder, IProgressMonitor progressMonitor) throws IOException {
 	    targetFolder.mkdirs();
 		
-		BufferedInputStream in = null;
 		BufferedOutputStream out = null;
-		ZipInputStream zIn = null;
 		ZipEntry zipEntry;
 		int bytesRead;
 		final int bufSize = 1024;
 		byte buf[] = new byte[bufSize];
-		
-		in = new BufferedInputStream(new FileInputStream(zipFile), bufSize);
-		zIn = new ZipInputStream(in);
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(zipFile), bufSize);
+		ZipInputStream zIn = new ZipInputStream(in);
 		
 		try {
 			while((zipEntry = zIn.getNextEntry()) != null) {
@@ -514,11 +509,9 @@ public final class ZipUtils {
 					
 					// Check that the path of the outfile is a sub-directory of targetFolder
 					// To ensure that it doesn't over-write something it shouldn't from entries like "../../entry"
-					Path parentFolder = Paths.get(targetFolder.getCanonicalPath());
-					Path childFile = Paths.get(outFile.getCanonicalPath());
-					if(!childFile.startsWith(parentFolder)) {
+					if(!outFile.toPath().normalize().startsWith(targetFolder.toPath())) {
 					    zIn.close();
-					    throw new IOException("Attempt to write file outside of folder: " + childFile); //$NON-NLS-1$
+					    throw new IOException("Attempt to write file outside of folder: " + outFile); //$NON-NLS-1$
 					}
 					
 					// Ensure that the parent Folder exists
