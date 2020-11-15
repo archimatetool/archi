@@ -130,20 +130,30 @@ public class PropertiesLabelProviderTests {
     public void testGetTextRelation() {
         // Text for relation
         IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        relation.setSource(IArchimateFactory.eINSTANCE.createBusinessActor());
+        relation.setTarget(IArchimateFactory.eINSTANCE.createBusinessRole());
+        relation.getSource().setName("BA1");
+        relation.getTarget().setName("BR1");
+        
+        String expectedText = "Assignment relation (BA1 - BR1)";
+        
         String text = provider.getText(new StructuredSelection(relation));
-        assertEquals("Assignment relation", text);
+        assertEquals(expectedText, text);
+        
+        text = provider.getText(new StructuredSelection(relation));
+        assertEquals(expectedText, text);
         
         // Text for DiagramModelArchimateConnection
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         connection.setArchimateRelationship(relation);
         text = provider.getText(new StructuredSelection(relation));
-        assertEquals("Assignment relation", text);
+        assertEquals(expectedText, text);
 
         // Text for EditPart
         EditPart editPart = new ArchimateRelationshipEditPart(AssignmentConnectionFigure.class);
         editPart.setModel(connection);
         text = provider.getText(new StructuredSelection(editPart));
-        assertEquals("Assignment relation", text);
+        assertEquals(expectedText, text);
     }
 
     @Test
@@ -203,17 +213,19 @@ public class PropertiesLabelProviderTests {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
         assertEquals("Artifact", provider.getArchimateConceptText(element));
         
-        // Type of relation
+        // Type of relation + source/target
         IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        assertEquals("Assignment relation", provider.getArchimateConceptText(relation));
+        relation.setSource(IArchimateFactory.eINSTANCE.createBusinessActor());
+        relation.setTarget(IArchimateFactory.eINSTANCE.createBusinessRole());
+        assertEquals("Assignment relation (Business Actor - Business Role)", provider.getArchimateConceptText(relation));
         
-        // Name + type
+        // Name + type + source/target
         relation.setName("Hello");
-        assertEquals("Hello (Assignment relation)", provider.getArchimateConceptText(relation));
+        assertEquals("Hello (Assignment relation) (Business Actor - Business Role)", provider.getArchimateConceptText(relation));
         
-        // Null is OK
+        // Null name is OK
         relation.setName(null);
-        assertEquals("Assignment relation", provider.getArchimateConceptText(relation));
+        assertEquals("Assignment relation (Business Actor - Business Role)", provider.getArchimateConceptText(relation));
     }
     
 }

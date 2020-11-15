@@ -15,6 +15,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 
@@ -81,15 +82,27 @@ public class PropertiesLabelProvider implements ILabelProvider {
     }
     
     String getArchimateConceptText(IArchimateConcept archimateConcept) {
+        String text = ""; //$NON-NLS-1$
         String name = normalise(archimateConcept.getName());
-        
         String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
         
         if(StringUtils.isSet(name)) {
-            return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            text = name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        else {
+            text = typeName;
         }
         
-        return typeName;
+        if(archimateConcept instanceof IArchimateRelationship) {
+            IArchimateRelationship relationship = (IArchimateRelationship)archimateConcept;
+            text += " ("; //$NON-NLS-1$
+            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
+            text += " - "; //$NON-NLS-1$
+            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
+            text += ")"; //$NON-NLS-1$
+        }
+        
+        return text;
     }
     
     /**
