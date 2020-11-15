@@ -43,7 +43,7 @@ public class ToolTipFigure extends Figure {
     @Override
     public Dimension getPreferredSize(int wHint, int hHint) {
         // Not too wide
-        return super.getPreferredSize(300, hHint);
+        return super.getPreferredSize(450, hHint);
     }
     
     public void setType(String type) {
