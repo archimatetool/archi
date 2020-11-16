@@ -132,6 +132,13 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
+            // Is there a value set in preferences? (This could be in a suppplied preference file)
+            String defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
+            if(StringUtils.isSet(defaultValue)) {
+                return get(defaultValue);
+            }
+            
+            // Use UI Provider
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
                 return ((IGraphicalObjectUIProvider)provider).getDefaultColor() == null ?
@@ -187,6 +194,20 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
+            // Is there a default value set in preferences? (This could be in a suppplied preference file)
+            String defaultValue = null;
+            if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
+                    IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
+                defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+            }
+            // Element
+            else {
+                defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+            }
+            if(StringUtils.isSet(defaultValue)) {
+                return get(defaultValue);
+            }
+            
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
                 return ((IGraphicalObjectUIProvider)provider).getDefaultLineColor() == null ?

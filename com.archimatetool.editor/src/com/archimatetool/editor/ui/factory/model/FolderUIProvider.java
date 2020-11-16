@@ -31,10 +31,20 @@ import com.archimatetool.model.IFolder;
 public class FolderUIProvider extends AbstractObjectUIProvider {
     
     // This is the actual color in the default icon
-    public static Color DEFAULT_COLOR = ColorFactory.get(255, 199, 63);
+    private static Color DEFAULT_COLOR = ColorFactory.get(255, 199, 63);
     
     public static Color getFolderColor(FolderType type) {
         String colorValue = Preferences.STORE.getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
+        
+        if(StringUtils.isSet(colorValue)) {
+            return ColorFactory.get(colorValue);
+        }
+        
+        return DEFAULT_COLOR;
+    }
+    
+    public static Color getDefaultFolderColor(FolderType type) {
+        String colorValue = Preferences.STORE.getDefaultString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
         
         if(StringUtils.isSet(colorValue)) {
             return ColorFactory.get(colorValue);

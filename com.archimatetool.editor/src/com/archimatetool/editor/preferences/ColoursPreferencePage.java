@@ -458,13 +458,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void resetColorToInbuiltDefault(Object object) {
         RGB defaultRGB = null;
 
-        // Element line color - use any object eClass as there is only one
+        // Element line color
         if(object.equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor()).getRGB();
+            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateElement()).getRGB();
         }
-        // Connection line color - use any object eClass as there is only one
+        // Connection line color
         else if(object.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getAssociationRelationship()).getRGB();
+            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship()).getRGB();
         }
         // Fill color
         else if(object instanceof EClass) {
@@ -474,7 +474,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Folder
         else if(object instanceof FolderType) {
-            defaultRGB = FolderUIProvider.DEFAULT_COLOR.getRGB();
+            defaultRGB = FolderUIProvider.getDefaultFolderColor((FolderType)object).getRGB();
         }
         
         setColor(object, defaultRGB);
@@ -527,20 +527,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
         fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
         
-        // Element line color - use any object eClass as there is only one line color pref
-        eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
+        // Element line color
+        eClass = IArchimatePackage.eINSTANCE.getArchimateElement();
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
         fColorsCache.put(DEFAULT_ELEMENT_LINE_COLOR, new Color(color.getDevice(), color.getRGB()));
 
-        // Connection line color - use any object eClass as there is only one line color pref
-        eClass = IArchimatePackage.eINSTANCE.getDiagramModelConnection();
+        // Connection line color
+        eClass = IArchimatePackage.eINSTANCE.getArchimateRelationship();
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
         fColorsCache.put(DEFAULT_CONNECTION_LINE_COLOR, new Color(color.getDevice(), color.getRGB()));
         
         // Folder colours
         for(FolderType folderType : FolderType.VALUES) {
             if(folderType != FolderType.USER) { // This is not used
-                color = useInbuiltDefaults ? FolderUIProvider.DEFAULT_COLOR : FolderUIProvider.getFolderColor(folderType);
+                color = useInbuiltDefaults ? FolderUIProvider.getDefaultFolderColor(folderType) : FolderUIProvider.getFolderColor(folderType);
                 fColorsCache.put(folderType, new Color(color.getDevice(), color.getRGB()));
             }
         }
@@ -677,19 +677,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             
             // Element line
             if(entry.getKey().equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-                // Outline color - use any object eClass as there is only one
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor());
+                // Outline color
+                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateElement());
                 key = DEFAULT_ELEMENT_LINE_COLOR;
             }
             // Connection line
             else if(entry.getKey().equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-                // Outline color - use any object eClass as there is only one
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getAssociationRelationship());
+                // Line color
+                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship());
                 key = DEFAULT_CONNECTION_LINE_COLOR;
             }
             // Folders
             else if(entry.getKey() instanceof FolderType) {
-                colorDefault = FolderUIProvider.DEFAULT_COLOR;
+                colorDefault = FolderUIProvider.getDefaultFolderColor((FolderType)entry.getKey());
                 key = FOLDER_COLOUR_PREFIX + getColorKey(entry.getKey());
             }
             // Element Fills
