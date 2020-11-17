@@ -96,6 +96,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         graphics.fillRoundRectangle(rect, 30, 30);
         
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
 

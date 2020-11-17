@@ -78,6 +78,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
 
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
 

@@ -77,6 +77,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.fillPath(path);
         
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
 

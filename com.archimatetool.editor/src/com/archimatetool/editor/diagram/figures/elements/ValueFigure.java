@@ -58,6 +58,7 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         graphics.fillOval(bounds);
         
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
 

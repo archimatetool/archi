@@ -75,6 +75,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT, bounds.height);
         
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
         

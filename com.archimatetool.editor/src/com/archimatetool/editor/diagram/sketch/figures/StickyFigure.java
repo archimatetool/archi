@@ -60,6 +60,7 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         graphics.fillRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
         
         if(gradient != null) {
+            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
             gradient.dispose();
         }
 
