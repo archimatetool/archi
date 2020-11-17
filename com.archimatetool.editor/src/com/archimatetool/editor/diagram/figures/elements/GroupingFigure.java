@@ -57,6 +57,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         
         graphics.setAlpha(getAlpha());
         
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, bounds);
 

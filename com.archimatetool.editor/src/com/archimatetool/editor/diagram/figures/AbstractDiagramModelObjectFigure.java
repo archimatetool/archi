@@ -14,7 +14,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -132,8 +131,8 @@ implements IDiagramModelObjectFigure {
      * @param graphics
      */
     protected void setDisabledState(Graphics graphics) {
-        graphics.setAlpha(100);
-        graphics.setLineStyle(SWT.LINE_DASH);
+        //graphics.setLineStyle(SWT.LINE_DASH);
+        graphics.setLineDash(new int[] { 4, 3 });
     }
 
     /**
@@ -226,7 +225,7 @@ implements IDiagramModelObjectFigure {
     }
     
     protected int getAlpha() {
-        return fDiagramModelObject.getAlpha();
+        return isEnabled() ? fDiagramModelObject.getAlpha() : 100;
     }
 
     protected int getLineAlpha() {

@@ -77,21 +77,21 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @return The owner's alpha fill transparency
      */
     protected int getAlpha() {
-        return getOwner().getDiagramModelObject().getAlpha();
+        return ((AbstractDiagramModelObjectFigure)getOwner()).getAlpha();
     }
 
     /**
      * @return The owner's alpha line transparency
      */
     protected int getLineAlpha() {
-        return getOwner().getDiagramModelObject().getLineAlpha();
+        return ((AbstractDiagramModelObjectFigure)getOwner()).getLineAlpha();
     }
     
     /**
      * @return The owner's gradient setting
      */
     protected int getGradient() {
-        return getOwner().getDiagramModelObject().getGradient();
+        return ((AbstractDiagramModelObjectFigure)getOwner()).getGradient();
     }
 
     /**
@@ -99,9 +99,7 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param graphics
      */
     protected void setDisabledState(Graphics graphics) {
-        if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
-            ((AbstractDiagramModelObjectFigure)getOwner()).setDisabledState(graphics);
-        }
+        ((AbstractDiagramModelObjectFigure)getOwner()).setDisabledState(graphics);
     }
     
     /**
@@ -111,8 +109,6 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param bounds The bounds of the object
      */
     protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
-        if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
-            ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
-        }
+        ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
     }
 }
