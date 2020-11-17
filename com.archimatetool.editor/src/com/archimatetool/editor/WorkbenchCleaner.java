@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.p2.core.IAgentLocation;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
@@ -23,51 +24,63 @@ import com.archimatetool.editor.p2.P2;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class WorkbenchCleaner {
     
-    static final String RESET_FILE = ".reset";
+    private static final String SOFT_RESET_FILE = ".softreset"; //$NON-NLS-1$
+    private static final String HARD_RESET_FILE = ".hardreset"; //$NON-NLS-1$
     
-    static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi";
+    private static final String METADATA_FOLDER = ".metadata"; //$NON-NLS-1$
+    private static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi"; //$NON-NLS-1$
     
     // If this is set in VM arguments as -DcleanConfig=false then don't clean these
-    static final String CLEAN_CONFIG = "cleanConfig";
+    private static final String CLEAN_CONFIG = "cleanConfig"; //$NON-NLS-1$
     
-    static final String[] CONFIG_FILES_TO_DELETE = {
+    private static final String[] CONFIG_FILES_TO_DELETE = {
             // Files
-            ".baseConfigIniTimestamp",
-            "config.ini",
-            "eclipse.ini.ignored",
+            ".baseConfigIniTimestamp", //$NON-NLS-1$
+            "config.ini", //$NON-NLS-1$
+            "eclipse.ini.ignored", //$NON-NLS-1$
             
             // Folders
-            "org.eclipse.core.runtime",
-            "org.eclipse.equinox.app",
-            "org.eclipse.equinox.simpleconfigurator",
-            "org.eclipse.update",
+            "org.eclipse.core.runtime", //$NON-NLS-1$
+            "org.eclipse.equinox.app", //$NON-NLS-1$
+            "org.eclipse.equinox.simpleconfigurator", //$NON-NLS-1$
+            "org.eclipse.update", //$NON-NLS-1$
 
             // "org.eclipse.osgi" Not this one as -clean launch option will delete it 
     };
     
     // This will be generated in the parent folder of the "p2" folder
-    static final String ARTIFACTS_FILE = "artifacts.xml";
+    private static final String ARTIFACTS_FILE = "artifacts.xml"; //$NON-NLS-1$
     
     /**
-     * Ask user if they want to reset the workbench.
+     * Ask user if they want to reset the workbench and/or preferences.
      * If they do, create a marker file and restart.
      */
     public static void askResetWorkbench() {
-        boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+        int response = MessageDialog.open(MessageDialog.QUESTION,
+                Display.getCurrent().getActiveShell(),
                 Messages.WorkbenchCleaner_0,
-                Messages.WorkbenchCleaner_1);
-        if(!result) {
+                Messages.WorkbenchCleaner_1 + "\n\n" + //$NON-NLS-1$
+                Messages.WorkbenchCleaner_3,
+                SWT.NONE,
+                Messages.WorkbenchCleaner_4,
+                Messages.WorkbenchCleaner_5,
+                Messages.WorkbenchCleaner_6);
+        
+        // Cancel
+        if(response == -1 || response == 2) {
             return;
         }
+        
+        // Hard reset
+        boolean hardReset = response == 1;
         
         Location instanceLoc = Platform.getInstanceLocation();
         if(instanceLoc != null) {
             try {
                 if(PlatformUI.getWorkbench().restart()) { // User might have cancelled on a dirty editor
-                    File resetFile = new File(instanceLoc.getURL().getPath(), RESET_FILE);
+                    File resetFile = new File(instanceLoc.getURL().getPath(), hardReset ? HARD_RESET_FILE : SOFT_RESET_FILE);
                     resetFile.createNewFile();
                 }
             }
@@ -82,21 +95,32 @@ public class WorkbenchCleaner {
      * Clean the crap out of the instance location folder, config area and workbench.xmi
      */
     public static void clean() throws IOException {
-        // If reset file exists clean workbench.xmi file
+        // If reset file exists clean the workbench
         cleanWorkbench();
         
-        // Config and P2 files
-        cleanConfig();
+        // Delete config and P2 files if running as deployed product
+        if(!Platform.inDevelopmentMode()) {
+            cleanConfig();
+        }
     }
     
     private static void cleanWorkbench() throws IOException {
         Location instanceLoc = Platform.getInstanceLocation();
         if(instanceLoc != null) {
             File instanceLocationFolder = new File(instanceLoc.getURL().getPath());
-            // If reset file exists clean workbench.xmi file
-            File resetFile = new File(instanceLocationFolder, RESET_FILE);
-            if(resetFile.exists()) {
-                delete(resetFile);
+            
+            // If hard reset file exists delete the .metadata folder
+            File hardResetFile = new File(instanceLocationFolder, HARD_RESET_FILE);
+            if(hardResetFile.exists()) {
+                delete(hardResetFile);
+                delete(new File(instanceLocationFolder, METADATA_FOLDER));
+                return;
+            }
+            
+            // If soft reset file exists delete the workbench.xmi file
+            File softResetFile = new File(instanceLocationFolder, SOFT_RESET_FILE);
+            if(softResetFile.exists()) {
+                delete(softResetFile);
                 delete(new File(instanceLocationFolder, WORKBENCH_FILE));
             }
         }
@@ -120,7 +144,7 @@ public class WorkbenchCleaner {
                 File installationFolder = new File(Platform.getInstallLocation().getURL().getPath());
                 
                 // Don't delete anything if the config folder is in the Archi installation folder and called "configuration"
-                if(configLocationFolder.getName().equals("configuration") && installationFolder.equals(configLocationFolder.getParentFile())) {
+                if(configLocationFolder.getName().equals("configuration") && installationFolder.equals(configLocationFolder.getParentFile())) { //$NON-NLS-1$
                     return;
                 }
                 

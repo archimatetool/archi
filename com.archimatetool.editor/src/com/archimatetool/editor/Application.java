@@ -42,15 +42,13 @@ implements IApplication {
 	
 	@Override
     public Object start(IApplicationContext context) throws Exception {
-	    // Clean Workbench if running as deployed product
-	    if(!Platform.inDevelopmentMode()) {
-	        try {
-                WorkbenchCleaner.clean();
-            }
-            catch(IOException ex) {
-                // Just log the error
-                Logger.logError("Error cleaning workbench", ex); //$NON-NLS-1$
-            }
+	    // Clean Workbench
+	    try {
+	        WorkbenchCleaner.clean();
+	    }
+	    catch(IOException ex) {
+	        // Just log the error
+	        Logger.logError("Error cleaning workbench", ex); //$NON-NLS-1$
 	    }
 	    
 	    // Store the application version and build IDs in System Property
