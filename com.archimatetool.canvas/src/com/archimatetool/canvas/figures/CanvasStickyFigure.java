@@ -23,6 +23,8 @@ import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -143,9 +145,17 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
         
-        graphics.setForegroundColor(getFillColor());
-        graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
-        graphics.fillGradient(bounds, false);
+        // Bug on Linux hi-res using Graphics.fillGradient()
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=568864
+        if(PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) {
+            graphics.setBackgroundColor(getFillColor());
+            graphics.fillRectangle(bounds);
+        }
+        else {
+            graphics.setForegroundColor(getFillColor());
+            graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
+            graphics.fillGradient(bounds, false);
+        }
         
         // Icon
         graphics.setAlpha(255);
