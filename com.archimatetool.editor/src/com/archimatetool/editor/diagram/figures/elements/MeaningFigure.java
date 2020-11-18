@@ -11,9 +11,6 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -49,11 +46,7 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         // Main fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = null;
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
+        Pattern gradient = applyGradientPattern(graphics, bounds);
         
         Path path = new Path(null);
         path.addArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 0, 360);
@@ -75,10 +68,7 @@ public class MeaningFigure extends AbstractTextControlContainerFigure {
         graphics.fillPath(path);
         path.dispose();
         
-        if(gradient != null) {
-            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-            gradient.dispose();
-        }
+        disposeGradientPattern(graphics, gradient);
         
         // Outline
         graphics.setAlpha(getLineAlpha());

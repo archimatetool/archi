@@ -16,8 +16,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -236,6 +238,33 @@ implements IDiagramModelObjectFigure {
         return fDiagramModelObject.getGradient();
     }
 
+    /**
+     * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting
+     * @return the Pattern if a gradient should be applied or null if not
+     */
+    protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {
+        Pattern gradient = null;
+        
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
+            graphics.setBackgroundPattern(gradient);
+        }
+        
+        return gradient;
+    }
+    
+    /**
+     * Dispose the given Pattern if not null
+     */
+    protected void disposeGradientPattern(Graphics graphics, Pattern gradient) {
+        if(gradient != null) {
+            // Must set this to null in case of calling graphics.pushState() / graphics.popState();
+            // Or any further drawing that might reference the Pattern
+            graphics.setBackgroundPattern(null);
+            gradient.dispose();
+        }
+    }
+    
     @Override
     public IFigure getToolTip() {
         if(!Preferences.doShowViewTooltips()) {

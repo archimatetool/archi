@@ -11,10 +11,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -52,11 +49,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
         
-        Pattern gradient = null;
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, getBounds(), getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
+        Pattern gradient = applyGradientPattern(graphics, bounds);
 
         Path path = new Path(null);
         
@@ -76,10 +69,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         path.lineTo(bounds.x, y1 - lineOffset);
         graphics.fillPath(path);
         
-        if(gradient != null) {
-            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-            gradient.dispose();
-        }
+        disposeGradientPattern(graphics, gradient);
 
         // Line
         graphics.setForegroundColor(getLineColor());

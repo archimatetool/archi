@@ -20,12 +20,10 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -135,20 +133,13 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = null;
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
+        Pattern gradient = applyGradientPattern(graphics, bounds);
         
         Path path = FigureUtils.createPathFromPoints(points);
         graphics.fillPath(path);
         path.dispose();
         
-        if(gradient != null) {
-            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-            gradient.dispose();
-        }
+        disposeGradientPattern(graphics, gradient);
 
         if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
             graphics.setAlpha(getLineAlpha());

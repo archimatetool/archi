@@ -16,8 +16,6 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -87,7 +85,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             
             // Main rectangle
             graphics.setBackgroundColor(getFillColor());
-            Pattern gradient = createGradient(graphics);
+            Pattern gradient = applyGradientPattern(graphics, bounds);
             
             Path path2 = new Path(null);
             path2.moveTo(bounds.x, bounds.y + tabHeight);
@@ -97,10 +95,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             graphics.fillPath(path2);
             path2.dispose();
             
-            if(gradient != null) {
-                graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-                gradient.dispose();
-            }
+            disposeGradientPattern(graphics, gradient);
             
             // Line
             graphics.setForegroundColor(getLineColor());
@@ -118,14 +113,11 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         }
         else {
             graphics.setBackgroundColor(getFillColor());
-            Pattern gradient = createGradient(graphics);
+            Pattern gradient = applyGradientPattern(graphics, bounds);
             
             graphics.fillRectangle(bounds);
             
-            if(gradient != null) {
-                graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-                gradient.dispose();
-            }
+            disposeGradientPattern(graphics, gradient);
             
             // Line
             graphics.setForegroundColor(getLineColor());
@@ -134,17 +126,6 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         }
 
         graphics.popState();
-    }
-    
-    private Pattern createGradient(Graphics graphics) {
-        Pattern gradient = null;
-        
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
-        
-        return gradient;
     }
     
     @Override

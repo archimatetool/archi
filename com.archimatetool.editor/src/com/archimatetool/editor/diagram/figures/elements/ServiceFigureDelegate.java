@@ -11,11 +11,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -55,19 +52,12 @@ implements IRoundedRectangleFigure {
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = null;
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
+        Pattern gradient = applyGradientPattern(graphics, bounds);
 
         graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
                 arc.width, arc.height);
         
-        if(gradient != null) {
-            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-            gradient.dispose();
-        }
+        disposeGradientPattern(graphics, gradient);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

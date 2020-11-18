@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Pattern;
 
 
 /**
@@ -111,4 +112,19 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
         ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
     }
+    
+    /**
+     * Apply a gradient to the given Graphics instance and bounds using current fill color, alpha and gradient settings
+     */
+    protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {
+        return ((AbstractDiagramModelObjectFigure)getOwner()).applyGradientPattern(graphics, bounds);
+    }
+    
+    /**
+     * Dispose the given gradient if not null
+     */
+    protected void disposeGradientPattern(Graphics graphics, Pattern gradient) {
+        ((AbstractDiagramModelObjectFigure)getOwner()).disposeGradientPattern(graphics, gradient);
+    }
+
 }

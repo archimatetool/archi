@@ -11,10 +11,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ISketchModelSticky;
 
 
@@ -51,18 +48,11 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
 
         graphics.setBackgroundColor(getFillColor());
 
-        Pattern gradient = null;
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
-            graphics.setBackgroundPattern(gradient);
-        }
+        Pattern gradient = applyGradientPattern(graphics, bounds);
         
         graphics.fillRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
         
-        if(gradient != null) {
-            graphics.setBackgroundPattern(null); // Must set this to null in case of calling graphics.pushState() / graphics.popState();
-            gradient.dispose();
-        }
+        disposeGradientPattern(graphics, gradient);
 
         // Outline
         graphics.setAlpha(getLineAlpha());
