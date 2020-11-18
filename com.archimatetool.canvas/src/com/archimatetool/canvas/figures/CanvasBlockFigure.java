@@ -169,7 +169,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         graphics.fillRectangle(bounds);
         
         // Icon
-        graphics.setAlpha(255);
         fIconicDelegate.drawIcon(graphics, bounds.getCopy());
         
         // Border

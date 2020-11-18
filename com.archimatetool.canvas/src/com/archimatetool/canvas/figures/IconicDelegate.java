@@ -163,8 +163,13 @@ public class IconicDelegate {
                     break;
             }
             
+            graphics.pushState();
+            
             graphics.setAntialias(SWT.ON);
             graphics.setInterpolation(SWT.HIGH);
+            
+            // Ensure image is drawn in full alpha
+            graphics.setAlpha(255);
             
             // Original size
             if(fMaxImageSize == MAX_IMAGESIZE) {
@@ -174,6 +179,8 @@ public class IconicDelegate {
             else {
                 graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, width, height);
             }
+            
+            graphics.popState();
         }
     }
     

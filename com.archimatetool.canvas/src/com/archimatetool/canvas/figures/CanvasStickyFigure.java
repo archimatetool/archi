@@ -158,7 +158,6 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         }
         
         // Icon
-        graphics.setAlpha(255);
         fIconicDelegate.drawIcon(graphics, bounds.getCopy());
         
         // Border
