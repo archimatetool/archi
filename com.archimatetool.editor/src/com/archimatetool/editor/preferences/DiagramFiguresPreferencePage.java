@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -34,6 +35,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FigureImagePreviewFactory;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
@@ -155,6 +157,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fTableViewer.getTable().addListener(SWT.PaintItem, new Listener() {
+            Color hilite = ColorFactory.get(78, 178, 255);
+            int alpha = 100;
+            
             @Override
             public void handleEvent(Event event) {
                 TableItem item = (TableItem)event.item;
@@ -168,19 +173,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 
                 Image image1 = ic.getImage(0);
                 int x = (itemWidth / 2) - (image1.getBounds().width / 2);
-                event.gc.setAlpha(ic.chosenType == 0 ? 255 : 70);
+                event.gc.setAlpha(ic.chosenType == 0 ? 255 : alpha);
                 event.gc.drawImage(image1, event.x + x, event.y + (itemHeight - image1.getBounds().height) / 2);
                 
                 Image image2 = ic.getImage(1);
                 x = itemWidth + ((itemWidth / 2) - (image2.getBounds().width / 2));
-                event.gc.setAlpha(ic.chosenType == 1 ? 255 : 70);
+                event.gc.setAlpha(ic.chosenType == 1 ? 255 : alpha);
                 event.gc.drawImage(image2, event.x + x, event.y + (itemHeight - image2.getBounds().height) / 2);
                 
                 // Highlight rectangle
-                //int highlight_x = ic.chosenType == 0 ? 20 : itemWidth + 20;
-                //event.gc.setForeground(ColorConstants.gray);
-                //event.gc.setLineWidth(2);
-                //event.gc.drawRectangle(event.x + highlight_x, event.y + 2, event.x + itemWidth - 39, itemHeight - 3);
+                int highlight_x = ic.chosenType == 0 ? 20 : itemWidth + 20;
+                event.gc.setForeground(hilite);
+                event.gc.setAlpha(255);
+                event.gc.setLineWidth(2);
+                event.gc.drawRoundRectangle(event.x + highlight_x, event.y + 2, event.x + itemWidth - 39, itemHeight - 3,
+                        15, 15);
              }
         });
         
