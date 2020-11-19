@@ -4,7 +4,7 @@ Bundle-Name: Archi Widgets
 Bundle-SymbolicName: com.archimatetool.widgets;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Archi
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.widgets.jar,
  lib/org.eclipse.nebula.widgets.gallery_1.0.0.201812241324.jar,

@@ -9,6 +9,6 @@ Require-Bundle: org.junit,
  com.archimatetool.testsupport,
  com.archimatetool.help,
  com.archimatetool.canvas
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.reports.tests

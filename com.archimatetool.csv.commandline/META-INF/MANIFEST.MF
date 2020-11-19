@@ -8,5 +8,5 @@ Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: com.archimatetool.csv,
  com.archimatetool.commandline
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: com.archimatetool.csv.commandline

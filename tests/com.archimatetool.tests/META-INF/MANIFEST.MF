@@ -4,7 +4,7 @@ Bundle-Name: All Archi JUnit Tests
 Bundle-SymbolicName: com.archimatetool.tests
 Bundle-Version: 4.0.0
 Bundle-Vendor: Archi
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.archimatetool.canvas,
  com.archimatetool.commandline,
  com.archimatetool.csv,

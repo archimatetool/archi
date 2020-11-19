@@ -7,6 +7,6 @@ Fragment-Host: com.archimatetool.help
 Bundle-Vendor: Archi
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.help.tests

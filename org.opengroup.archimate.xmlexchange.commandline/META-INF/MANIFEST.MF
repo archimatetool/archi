@@ -8,5 +8,5 @@ Bundle-Vendor: Phillip Beauvoir, The Open Group
 Require-Bundle: com.archimatetool.commandline,
  org.opengroup.archimate.xmlexchange
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.commandline

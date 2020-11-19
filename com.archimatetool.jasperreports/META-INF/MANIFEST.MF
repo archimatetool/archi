@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.jasperreports;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/commons-beanutils-1.9.3.jar,

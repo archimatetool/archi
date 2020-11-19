@@ -7,7 +7,7 @@ Fragment-Host: com.archimatetool.modelimporter
 Bundle-Vendor: Phillip Beauvoir & Jean-Baptiste Sarrodie
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.modelimporter.tests
 Import-Package: com.archimatetool.testingtools
