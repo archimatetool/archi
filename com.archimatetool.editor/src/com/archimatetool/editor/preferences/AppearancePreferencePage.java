@@ -68,7 +68,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout(2, false));
+        GridLayout layout = new GridLayout(2, false);
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         // Themes
         Label label = new Label(client, SWT.NULL);

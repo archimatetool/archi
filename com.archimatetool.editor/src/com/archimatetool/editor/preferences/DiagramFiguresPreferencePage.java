@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -90,7 +91,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         loadFigures();
         
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout());
+        GridLayout layout = new GridLayout();
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         GridLayout gridLayout = new GridLayout();
         gridLayout.marginWidth = 0;
@@ -106,10 +109,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Composite client2 = new Composite(tableClient, SWT.NULL);
         client2.setLayout(new TableColumnLayout());
         
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        gd.heightHint = 80; // need this to set a smaller height
-        gd.widthHint = 80;  // need this to stop it getting larger when the splitter is resized in the Prefs dialog
-        client2.setLayoutData(gd);
+        // Need this to stop it getting taller when the splitter is resized in the Prefs dialog
+        GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(client2);
         
         createTable(client2);
         

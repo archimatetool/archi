@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.PreferenceStore;
@@ -118,7 +119,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fImageRegistry = new ImageRegistry();
         
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout(2, false));
+        GridLayout layout = new GridLayout(2, false);
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         Label label = new Label(client, SWT.NULL);
         label.setText(Messages.ColoursPreferencePage_0);
@@ -128,9 +131,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Tree
         fTreeViewer = new TreeViewer(client);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.heightHint = 80; // need this to set a smaller height
-        fTreeViewer.getTree().setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTreeViewer.getTree());
         
         // Tree Double-click listener
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -285,9 +286,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         //fTreeViewer.setAutoExpandLevel(2);
 
-        // Set Content in Tree
-        fTreeViewer.setInput(""); //$NON-NLS-1$
-        
         // Buttons
         Composite buttonClient = new Composite(client, SWT.NULL);
         gd = new GridData(SWT.TOP, SWT.TOP, false, false);
@@ -402,6 +400,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPersistUserDefaultColors.setText(Messages.ColoursPreferencePage_21);
         fPersistUserDefaultColors.setLayoutData(gd);
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_COLOR));
+        
+        // Set tree input
+        fTreeViewer.setInput(""); //$NON-NLS-1$
         
         return client;
     }

@@ -53,7 +53,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout());
+        GridLayout layout = new GridLayout();
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         Group fileGroup = new Group(client, SWT.NULL);
         fileGroup.setText(Messages.GeneralPreferencePage_0);

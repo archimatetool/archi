@@ -144,7 +144,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
 
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout(2, false));
+        GridLayout layout = new GridLayout(2, false);
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         client.addDisposeListener((e) -> {
             disposeLabelFont();
@@ -174,7 +176,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void createTable(Composite parent) {
         fTableViewer = new TableViewer(parent);
         
-        GridDataFactory.create(GridData.FILL_BOTH).applyTo(fTableViewer.getControl());
+        GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTableViewer.getTable());
         
         // Table Double-click listener
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {

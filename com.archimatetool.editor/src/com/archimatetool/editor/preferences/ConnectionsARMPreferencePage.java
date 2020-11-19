@@ -6,6 +6,7 @@
 package com.archimatetool.editor.preferences;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateProvider;
@@ -21,6 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -63,7 +65,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
         Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout());
+        GridLayout layout = new GridLayout();
+        layout.marginWidth = layout.marginHeight = 0;
+        client.setLayout(layout);
         
         // Nested Connections
         
@@ -123,16 +127,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.ConnectionsARMPreferencePage_7);
         fTableViewerHiddenRelations = createRelationsTable(client);
         
-        setValues();
+        // On Mac the tables are laid out later
+        Display.getCurrent().asyncExec(() -> {
+            setValues();
+        });
 
         return client;
     }
     
     private CheckboxTableViewer createRelationsTable(Composite parent) {
         final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.heightHint = 80;
-        viewer.getTable().setLayoutData(gd);
+        
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).hint(SWT.DEFAULT, 100).applyTo(viewer.getTable());
         
         viewer.setLabelProvider(new LabelProvider() {
             @Override
