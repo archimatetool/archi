@@ -134,7 +134,7 @@ public class OpacityAction extends SelectionAction {
         @Override
         protected void configureShell(Shell newShell) {
             super.configureShell(newShell);
-            newShell.setText(Messages.OpacityAction_0);
+            newShell.setText(Messages.OpacityAction_1);
         }
         
         @Override
