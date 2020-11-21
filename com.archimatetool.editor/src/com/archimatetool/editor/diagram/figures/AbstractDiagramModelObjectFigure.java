@@ -227,11 +227,11 @@ implements IDiagramModelObjectFigure {
     }
     
     protected int getAlpha() {
-        return isEnabled() ? fDiagramModelObject.getAlpha() : 100;
+        return isEnabled() ? fDiagramModelObject.getAlpha() : Math.min(100, fDiagramModelObject.getAlpha());
     }
 
     protected int getLineAlpha() {
-        return fDiagramModelObject.getLineAlpha();
+        return isEnabled() ? fDiagramModelObject.getLineAlpha() : 100;
     }
     
     protected int getGradient() {
