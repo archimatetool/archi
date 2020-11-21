@@ -3,7 +3,7 @@
 <target name="Archi" sequenceNumber="50">
 <locations>
     <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-        <repository location="http://download.eclipse.org/releases/2020-03"/>
+        <repository location="https://download.eclipse.org/releases/2020-03"/>
         <unit id="org.eclipse.zest.sdk.feature.group" version="1.7.0.201606061308"/>
         <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.500.v20200217-1548"/>
         <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.1.300.v20191023-2007"/>
