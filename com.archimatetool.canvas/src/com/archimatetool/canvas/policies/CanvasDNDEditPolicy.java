@@ -68,6 +68,11 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
     protected Command getFileDropCommand(DiagramDropRequest request) {
         String[] files = (String[])request.getData();
         
+        // This can be null for example DND from Windows IE Browser
+        if(files == null) {
+            return null;
+        }
+        
         // XY drop point
         Point pt = getDropLocation(request);
 
