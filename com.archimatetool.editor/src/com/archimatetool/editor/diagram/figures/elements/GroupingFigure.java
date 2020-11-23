@@ -95,8 +95,13 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             if(getDiagramModelObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
                 int textWidth = FigureUtilities.getTextExtents(getText(), getFont()).width;
                 tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), bounds.width);
-
-                int textHeight = getTextControl().getBounds().height;
+                
+                // Tab height is calculated from font height
+                int textHeight = FigureUtilities.getFontMetrics(getFont()).getHeight();
+                
+                // Tab height is calculated from the text control height which includes all text
+                // int textHeight = getTextControl().getBounds().height;
+                
                 tabHeight = Math.max(TOPBAR_HEIGHT, textHeight);
             }
             
