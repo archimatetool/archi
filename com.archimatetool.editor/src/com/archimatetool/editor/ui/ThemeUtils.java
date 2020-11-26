@@ -28,12 +28,22 @@ public final class ThemeUtils {
     public static final String E4_DARK_THEME_ID = "org.eclipse.e4.ui.css.theme.e4_dark";
     
     /**
-     * SWT CSS Tabs are squeare by default in Eclipse 4.16 and greater
+     * SWT CSS Tabs are square by default in Eclipse 4.16 and greater
+     * Stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
      */
     public static final String USE_ROUND_TABS = "USE_ROUND_TABS";
     
+    /**
+     * Whether the theme engine is in use or not
+     * Stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
+     */
+    public static final String THEME_ENABLED = "themeEnabled";
+    
     private static IThemeEngine engine;
-
+    
+    /**
+     * @return The Theme engine. This might be null if THEME_ENABLED is false
+     */
     public static IThemeEngine getThemeEngine() {
         if(engine == null) {
             MApplication application = PlatformUI.getWorkbench().getService(MApplication.class);
@@ -51,7 +61,11 @@ public final class ThemeUtils {
         return engine;
     }
     
+    /**
+     * @return Theme Preferences
+     */
     public static IEclipsePreferences getThemePreferences() {
+        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.css.swt.theme.prefs
         return InstanceScope.INSTANCE.getNode(FrameworkUtil.getBundle(ThemeEngine.class).getSymbolicName());
     }
     
@@ -59,6 +73,7 @@ public final class ThemeUtils {
      * @return SWT Renderer Preferences
      */
     public static IEclipsePreferences getSwtRendererPreferences() {
+        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
         return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
     }
     
@@ -72,6 +87,7 @@ public final class ThemeUtils {
      * @return true if we are using a dark theme
      */
     public static boolean isDarkTheme() {
-        return getThemeEngine().getActiveTheme() != null && getThemeEngine().getActiveTheme().getId().contains("dark");
+        return getThemeEngine() != null && 
+                getThemeEngine().getActiveTheme() != null && getThemeEngine().getActiveTheme().getId().contains("dark");
     }
 }

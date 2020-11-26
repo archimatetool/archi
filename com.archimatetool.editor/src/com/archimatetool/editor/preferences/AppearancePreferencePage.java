@@ -5,11 +5,9 @@
  */
 package com.archimatetool.editor.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
+import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -52,10 +50,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private ComboViewer fThemeComboViewer;
     
+    private Button fUseThemes;
     private Button fUseRoundTabsButton;
     private Button fShowStatusLineButton;
     
-    private ITheme fCurrentTheme;
+    private IThemeEngine themeEngine;
+    private ITheme currentTheme;
     
 	public AppearancePreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -72,35 +72,42 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         layout.marginWidth = layout.marginHeight = 0;
         client.setLayout(layout);
         
-        // Themes
-        Label label = new Label(client, SWT.NULL);
-        label.setText(Messages.AppearancePreferencePage_1);
-        fThemeComboViewer = new ComboViewer(client, SWT.READ_ONLY);
-        fThemeComboViewer.getCombo().setLayoutData(createHorizontalGridData(1));
+        // Enable Theming
+        fUseThemes = new Button(client, SWT.CHECK);
+        fUseThemes.setText(Messages.AppearancePreferencePage_4);
+        fUseThemes.setLayoutData(createHorizontalGridData(2));
         
-        fThemeComboViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
+        // Themes, if enabled
+        if(themeEngine != null) {
+            Label label = new Label(client, SWT.NULL);
+            label.setText(Messages.AppearancePreferencePage_1);
+            fThemeComboViewer = new ComboViewer(client, SWT.READ_ONLY);
+            fThemeComboViewer.getCombo().setLayoutData(createHorizontalGridData(1));
             
-            @Override
-            public void dispose() {
-            }
+            fThemeComboViewer.setContentProvider(new IStructuredContentProvider() {
+                @Override
+                public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+                }
+                
+                @Override
+                public void dispose() {
+                }
+                
+                @Override
+                public Object[] getElements(Object inputElement) {
+                    return (Object[])inputElement;
+                }
+            });
             
-            @Override
-            public Object[] getElements(Object inputElement) {
-                return (Object[])inputElement;
-            }
-        });
-        
-        fThemeComboViewer.setLabelProvider(new LabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return ((ITheme)element).getLabel();
-            }
-        });
-        
-        fThemeComboViewer.setComparator(new ViewerComparator());
+            fThemeComboViewer.setLabelProvider(new LabelProvider() {
+                @Override
+                public String getText(Object element) {
+                    return ((ITheme)element).getLabel();
+                }
+            });
+            
+            fThemeComboViewer.setComparator(new ViewerComparator());
+        }
         
         // Use Round Tabs
         fUseRoundTabsButton = new Button(client, SWT.CHECK);
@@ -114,35 +121,31 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         setValues();
         
-        fThemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-                setTheme(theme, false);
-            }
-        });
+        if(themeEngine != null) {
+            fThemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+                @Override
+                public void selectionChanged(SelectionChangedEvent event) {
+                    ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
+                    setTheme(theme, false);
+                }
+            });
+        }
         
         return client;
     }
 
     private void setValues() {
         // Themes list
-        List<ITheme> themes = new ArrayList<ITheme>();
-        
-        // Get Themes for this OS
-        for(ITheme theme : ThemeUtils.getThemeEngine().getThemes()) {
-            if(!theme.getId().contains("linux") && !theme.getId().contains("macosx") && !theme.getId().contains("win32")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                themes.add(theme);
+        if(themeEngine != null) {
+            fThemeComboViewer.setInput(themeEngine.getThemes().toArray());
+            
+            ITheme activeTheme = themeEngine.getActiveTheme();
+            if(activeTheme != null) {
+                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
             }
         }
-
-        fThemeComboViewer.setInput(themes.toArray());
         
-        ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
-        if(activeTheme != null) {
-            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
-        }
-        
+        fUseThemes.setSelection(ThemeUtils.getThemeEngine() != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
     }
@@ -150,21 +153,27 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         // Theme
-        ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-        if(theme != null) {
-            setTheme(theme, true);
+        if(themeEngine != null) {
+            ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
+            if(theme != null) {
+                setTheme(theme, true);
+            }
         }
         
         // Status line
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
         
+        IEclipsePreferences swtPrefs = ThemeUtils.getSwtRendererPreferences();
+        
+        // Enable Theming
+        swtPrefs.putBoolean(ThemeUtils.THEME_ENABLED, fUseThemes.getSelection());
+        
         // Round tabs
-        IEclipsePreferences prefs = ThemeUtils.getSwtRendererPreferences();
-        prefs.putBoolean(ThemeUtils.USE_ROUND_TABS, fUseRoundTabsButton.getSelection());
+        swtPrefs.putBoolean(ThemeUtils.USE_ROUND_TABS, fUseRoundTabsButton.getSelection());
         
         try {
             // Have to do this for it to persist
-            prefs.flush();
+            swtPrefs.flush();
         }
         catch(BackingStoreException ex) {
         }
@@ -174,13 +183,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     protected void performDefaults() {
-        // Theme
-        ThemeUtils.getThemeEngine().setTheme(ThemeUtils.getDefaultThemeName(), false);
-        ITheme activeTheme = ThemeUtils.getThemeEngine().getActiveTheme();
-        if(activeTheme != null) {
-            fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+        if(themeEngine != null) {
+            // Theme
+            themeEngine.setTheme(ThemeUtils.getDefaultThemeName(), false);
+            ITheme activeTheme = themeEngine.getActiveTheme();
+            if(activeTheme != null) {
+                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+            }
         }
         
+        fUseThemes.setSelection(true);
         fUseRoundTabsButton.setSelection(false);
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
@@ -190,8 +202,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performCancel() {
         // Cancel theme
-        if(fCurrentTheme != ThemeUtils.getThemeEngine().getActiveTheme()) {
-            ThemeUtils.getThemeEngine().setTheme(fCurrentTheme, false);
+        if(themeEngine != null && currentTheme != themeEngine.getActiveTheme()) {
+            themeEngine.setTheme(currentTheme, false);
         }
         
         return super.performCancel();
@@ -205,20 +217,25 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void init(IWorkbench workbench) {
-        fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+        themeEngine = ThemeUtils.getThemeEngine();
+        currentTheme = themeEngine == null ? null : themeEngine.getActiveTheme();
     }
     
     private void setTheme(ITheme theme, boolean persist) {
+        if(themeEngine == null) {
+            return;
+        }
+        
         // Seems to be fixed
         //hideEmptyShells(true);
         
-        ThemeUtils.getThemeEngine().setTheme(theme, persist);
+        themeEngine.setTheme(theme, persist);
         
         // Seems to be fixed
         //hideEmptyShells(false);
         
         if(persist) {
-            fCurrentTheme = ThemeUtils.getThemeEngine().getActiveTheme();
+            currentTheme = themeEngine.getActiveTheme();
         }
     }
     
