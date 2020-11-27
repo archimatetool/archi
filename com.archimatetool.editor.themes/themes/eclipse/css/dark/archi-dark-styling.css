@@ -1,0 +1,10 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings
+ *******************************************************************************/
+
+
+/* Diagram FigureCanvas and Zest Graph backgrounds should not be dark */
+.MPart FlyoutPaletteComposite FigureCanvas,
+.MPart Graph {
+    background-color: #F6F6F6;
+}

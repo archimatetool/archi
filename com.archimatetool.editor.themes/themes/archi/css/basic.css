@@ -1,0 +1,28 @@
+/*******************************************************************************
+ * Styling for very basic theme
+ *******************************************************************************/
+
+
+.MTrimmedWindow {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.MPartStack {
+    swt-simple: true; /* not curved tabs */
+    padding: 0px;
+    swt-shadow-visible: false;
+}
+
+TabbedPropertyTitle > CLabel {
+    color: #505050;
+}
+
+TabbedPropertyTitle {
+    swt-backgroundGradientStart-color:  #eaeaea;
+    swt-backgroundGradientEnd-color:    #eaeaea;
+    swt-backgroundBottomKeyline1-color: #eaeaea;
+    swt-backgroundBottomKeyline2-color: #eaeaea;
+}

@@ -1,0 +1,122 @@
+/*******************************************************************************
+ * Copyright (c) 2010, 2014 IBM Corporation and others.
+ *
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
+ *     Mickael Istria <mistria@redhat.com> - 325937
+ *     Patrik Suzzi <psuzzi@gmail.com> - Bug 501250
+ *******************************************************************************/
+
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/e4_globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_ide_colorextensions.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_partstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_tabstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light-drag-styling.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/archi-light-styling.css");
+
+.MToolControl.TrimStack {
+	frame-image:  url(./winXPTSFrame.png);
+	handle-image:  url(./winXPHandle.png);
+	frame-image-rotated:  url(./winXPTSFrame-rotated.png);
+	handle-image-rotated:  url(./winXPHandle-rotated.png);
+	frame-cuts: 5px 1px 5px 16px;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
+	color: '#COLOR-LIST-SELECTION';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
+	color: '#COLOR-WIDGET-NORMAL-SHADOW';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_START {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
+	color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+.MTrimmedWindow {
+	background-color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+.MTrimBar {
+	background-color: '#COLOR-WIDGET-BACKGROUND';
+}
+
+.MTrimBar#org-eclipse-ui-main-toolbar  {
+	background-color: COLOR-WIDGET-BACKGROUND '#COLOR-WIDGET-BACKGROUND' 100%;
+}
+
+.MToolControl.TrimStack {
+	frame-image:  url(./gtkTSFrame.png);
+	handle-image:  url(./gtkHandle.png);
+	frame-image-rotated:  url(./gtkTSFrame-rotated.png);
+	handle-image-rotated:  url(./gtkHandle-rotated.png);
+}
+
+.MPartStack {
+	swt-simple: false;
+}
+
+CTabFolder.MArea {
+	background-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-selected-tab-fill: '#COLOR-WIDGET-BACKGROUND';
+	swt-unselected-tabs-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-outer-keyline-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-inner-keyline-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-tab-outline: '#COLOR-WIDGET-BACKGROUND';
+}
+
+CTabFolder Canvas {
+	background-color: '#COLOR-WIDGET-BACKGROUND';
+}

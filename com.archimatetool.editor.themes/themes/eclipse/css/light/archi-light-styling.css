@@ -1,0 +1,9 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings
+ *******************************************************************************/
+
+
+TabbedPropertyList {
+    /* Default is too light */
+    color   : #202020;  /* text color in the tab / tab area */
+}

@@ -121,7 +121,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         
         fTitleLabel = new CLabel(parent, SWT.NULL);
         fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont")); //$NON-NLS-1$
-        fTitleLabel.setBackground(ColorFactory.get(220, 235, 235));
+        // Use CSS styling for label color in case of Dark Theme
+        fTitleLabel.setData("style", "background-color: RGB(220, 235, 235); color: #000;"); //$NON-NLS-1$ //$NON-NLS-2$
+        // fTitleLabel.setBackground(ColorFactory.get(220, 235, 235));
         
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fTitleLabel.setLayoutData(gd);

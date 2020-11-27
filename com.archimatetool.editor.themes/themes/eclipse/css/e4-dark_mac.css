@@ -18,6 +18,7 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_partstyle.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_tabstyle.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark-drag-styling.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/archi-dark-styling.css");
 
 .MToolControl.TrimStack {
     /*frame-image:  url(./gtkTSFrame.png);*/
@@ -41,7 +42,7 @@ ImageBasedFrame,
 #org-eclipse-ui-StatusLine CLabel,
 #org-eclipse-ui-ProgressBar,
 #org-eclipse-ui-ProgressBar Canvas {
-     color:#eeeeee;
+     color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
 }
 
 /* ###################### Global Styles ########################## */

@@ -14,48 +14,42 @@
  *******************************************************************************/
 
 
-Form, FormHeading {
-	background-color: #ffffff;
-	background: #ffffff;
-	color: #505050;
-}
-
 Form {
 	/* Bug 465148: Additional styling for the Form */
-	text-background-color: #ffffff;
+	color: '#COLOR-TITLE-BACKGROUND';
+	text-background-color:'#COLOR-TITLE-FOREGROUND';
 
-	tb-toggle-hover-color: #505050;
-	tb-toggle-color: #505050;
-	h-hover-full-color: #505050;
-	h-hover-light-color: #505050;
-	h-bottom-keyline-2-color: #eaeaea;
-	h-bottom-keyline-1-color: #eaeaea;
+	tb-toggle-hover-color: '#COLOR-TITLE-FOREGROUND-GRAD';
+	tb-toggle-color: '#COLOR-TITLE-FOREGROUND';
+	h-hover-full-color: '#COLOR-TITLE-FOREGROUND';
+	h-hover-light-color: '#COLOR-TITLE-FOREGROUND';
+	h-bottom-keyline-2-color: '#COLOR-WIDGET-BACKGROUND';
+	h-bottom-keyline-1-color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 
 Section {
-	background-color: #ffffff;
-  	color: #505050;
-  	background-color-titlebar: #eaeaea;
-  	background-color-gradient-titlebar: #eaeaea;
-  	border-color-titlebar: #ffffff;
+  	background-color-titlebar: '#COLOR-TITLE-BACKGROUND-GRADIENT';
+	swt-titlebar-color:'#COLOR-TITLE-FOREGROUND';
+  	background-color-gradient-titlebar: '#COLOR-TITLE-BACKGROUND-GRADIENT';
+  	border-color-titlebar: '#COLOR-TITLE-BACKGROUND-GRADIENT';
 }
 
 TabbedPropertyTitle > CLabel{
-	color: #505050;
+	color: '#COLOR-TITLE-FOREGROUND';
 }
 
 TabbedPropertyTitle {
-	swt-backgroundGradientStart-color:  #eaeaea;
-	swt-backgroundGradientEnd-color:    #eaeaea;
-	swt-backgroundBottomKeyline1-color: #eaeaea;
-	swt-backgroundBottomKeyline2-color: #eaeaea;
+	swt-backgroundGradientStart-color:  '#COLOR-WIDGET-BACKGROUND';
+	swt-backgroundGradientEnd-color:    '#COLOR-WIDGET-BACKGROUND';
+	swt-backgroundBottomKeyline1-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-backgroundBottomKeyline2-color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 TabbedPropertyList {
 	swt-tabNormalShadow-color   : '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR';             /* color of shadow lines around the tabs */
 	swt-tabDarkShadow-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR'; /* line color of the tiny scroll triangle (at top / at bottom) */
-	swt-tabAreaBackground-color : #ffffff;
+	swt-tabAreaBackground-color : '#COLOR-LIST-BACKGROUND';
 	swt-tabBackground-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START';
-	color                       : #505050; /* text color in the tab / tab area */
+	color                       : '#COLOR-LIST-SELECTION'; /* text color in the tab / tab area */
 }

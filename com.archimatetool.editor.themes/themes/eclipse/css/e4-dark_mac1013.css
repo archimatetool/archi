@@ -18,6 +18,7 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_partstyle.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark_tabstyle.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark-drag-styling.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/archi-dark-styling.css");
 
 .MToolControl.TrimStack {
     /*frame-image:  url(./gtkTSFrame.png);*/
@@ -45,7 +46,7 @@ ImageBasedFrame,
 #org-eclipse-ui-StatusLine CLabel,
 #org-eclipse-ui-ProgressBar,
 #org-eclipse-ui-ProgressBar Canvas {
-     color:#eeeeee;
+     color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
 }
 
 
@@ -54,7 +55,7 @@ ImageBasedFrame,
 TabFolder {
     /* background-color is not applied to the whole button,
        but text color is changed, so it appear light on light */
-    background-color: #515658;
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
     color: #222;
 }
 
@@ -67,13 +68,13 @@ Button {
 Button[style~='SWT.CHECK'] {
     /* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
     /* so, css rules applied to Button have to be overridden for non-Button matches */
-    background-color: #515658;
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
     color: #ddd;
 }
 Button[style~='SWT.RADIO'] {
     /* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
     /* so, css rules applied to Button have to be overridden for non-Button matches */
-    background-color: #515658;
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
     color: #ddd;
 }
 
