@@ -31,8 +31,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.FrameworkUtil;
 
-import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -478,7 +479,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     }
     
     protected IDialogSettings getDialogSettings(String sectionName) {
-        IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
+        IDialogSettings settings = PlatformUI.getDialogSettingsProvider(FrameworkUtil.getBundle(FindReplaceDialog.class)).getDialogSettings();
         IDialogSettings section = settings.getSection(sectionName);
         if(section == null) {
             section = settings.addNewSection(sectionName);

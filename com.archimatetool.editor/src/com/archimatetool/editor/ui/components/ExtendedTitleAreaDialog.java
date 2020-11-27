@@ -9,8 +9,8 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
-
-import com.archimatetool.editor.ArchiPlugin;
+import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.FrameworkUtil;
 
 
 
@@ -30,7 +30,7 @@ public class ExtendedTitleAreaDialog extends TitleAreaDialog {
 
     @Override
     protected IDialogSettings getDialogBoundsSettings() {
-        IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
+        IDialogSettings settings = PlatformUI.getDialogSettingsProvider(FrameworkUtil.getBundle(ExtendedTitleAreaDialog.class)).getDialogSettings();
         IDialogSettings section = settings.getSection(fId);
         if(section == null) {
             section = settings.addNewSection(fId);

@@ -10,8 +10,8 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
-
-import com.archimatetool.editor.ArchiPlugin;
+import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.FrameworkUtil;
 
 
 
@@ -31,7 +31,7 @@ public class ExtendedWizardDialog extends WizardDialog {
 
     @Override
     protected IDialogSettings getDialogBoundsSettings() {
-        IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
+        IDialogSettings settings = PlatformUI.getDialogSettingsProvider(FrameworkUtil.getBundle(ExtendedWizardDialog.class)).getDialogSettings();
         IDialogSettings section = settings.getSection(fId);
         if(section == null) {
             section = settings.addNewSection(fId);
