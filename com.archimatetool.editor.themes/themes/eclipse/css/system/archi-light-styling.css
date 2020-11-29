@@ -7,3 +7,8 @@ TabbedPropertyList {
     /* Default is too light */
     color   : #202020;  /* text color in the tab / tab area */
 }
+
+TabbedPropertyTitle > CLabel {
+    /* On Linux the default is white */
+    color: #505050;
+}
