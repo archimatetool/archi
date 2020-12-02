@@ -50,6 +50,11 @@ CTabFolder Scale {
     color: #CCC;
 }
 
+/* Archi added this. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=567933 */
+Tree, Table {
+    swt-lines-visible: false;
+}
+
 /* ##################### Bottom Status Bar ####################### */
 
 StatusLine,
