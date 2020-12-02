@@ -161,6 +161,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         if(!ignoreMessages) {
             Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                updateLocked();
+            }
 
             if(feature == IArchimatePackage.Literals.PROPERTIES__PROPERTIES) {
                 fTableViewer.refresh();
@@ -181,6 +185,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         
         // Update kludge
         ((UpdatingTableColumnLayout)fTableViewer.getTable().getParent().getLayout()).doRelayout();
+        
+        // Locked
+        updateLocked();
+    }
+    
+    private void updateLocked() {
+        boolean locked = isLocked(getFirstSelectedObject());
+        fTableViewer.getTable().setEnabled(!locked);
+        fActionNewProperty.setEnabled(!locked);
+        fActionRemoveProperty.setEnabled(!locked && !fTableViewer.getSelection().isEmpty());
+        fActionNewMultipleProperty.setEnabled(!locked);
     }
 
     @Override
