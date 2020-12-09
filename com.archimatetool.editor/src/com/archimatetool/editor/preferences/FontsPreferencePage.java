@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -339,7 +338,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         disposeLabelFont();
         fFontPreviewLabel.setData(font);
         
-        GC gc = new GC(new Shell());
+        GC gc = new GC(getControl());
         gc.setFont(font);
         ((GridData)fFontPreviewLabel.getLayoutData()).heightHint = gc.getFontMetrics().getHeight();
         gc.dispose();
