@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
@@ -35,6 +36,7 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
+import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction;
 import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
@@ -167,6 +169,12 @@ extends ActionBarContributor {
         addRetargetAction(new RetargetAction(SendToBackAction.ID, SendToBackAction.TEXT));
         addRetargetAction(new RetargetAction(SendBackwardAction.ID, SendBackwardAction.TEXT));
         
+        // Refactor Actions
+        for (RetargetAction action : ChangeElementTypeAction.getRetargetActions()) {
+        	addRetargetAction(action);
+        }
+        
+        
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT, IAction.AS_RADIO_BUTTON));
@@ -243,7 +251,7 @@ extends ActionBarContributor {
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_CENTER));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_RIGHT));
-        
+
         alignmentMenu.add(new Separator());
         
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_TOP));

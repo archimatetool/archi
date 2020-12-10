@@ -94,6 +94,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
+import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction;
 import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
@@ -907,6 +908,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
+        
+        // Change Type Actions
+        for (ChangeElementTypeAction a : ChangeElementTypeAction.createActions(this)) {
+            registry.registerAction(a);
+            getSelectionActions().add(a.getId());
+            getUpdateCommandStackActions().add(a);
+        }
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {

@@ -18,6 +18,8 @@ public class Messages extends NLS {
     public static String BringForwardAction_0;
 
     public static String BringToFrontAction_0;
+    
+    public static String ChangeElementTypeAction_0;
 
     public static String ConnectionLineWidthAction_0;
 

@@ -19,6 +19,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
+import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
@@ -124,6 +125,11 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_CENTER));
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_RIGHT));
+
+        IMenuManager refactorMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5bis, "menu_refactor"); //$NON-NLS-1$
+        menu.add(refactorMenu);
+        //refactorMenu.add(actionRegistry.getAction(ChangeElementTypeAction.ID));
+        ChangeElementTypeAction.fillMenu(actionRegistry, refactorMenu);
         
         alignmentMenu.add(new Separator());
         

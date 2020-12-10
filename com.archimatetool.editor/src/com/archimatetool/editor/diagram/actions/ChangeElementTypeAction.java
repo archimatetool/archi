@@ -19,19 +19,24 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
+import com.archimatetool.editor.diagram.AbstractDiagramEditor;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.impl.ArchimateElement;
 import com.archimatetool.model.impl.BusinessActor;
 import com.archimatetool.model.impl.BusinessRole;
+import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.impl.Value;
 
 /**
@@ -48,17 +53,78 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static final String ID = "ChangeElementTypeAction"; //$NON-NLS-1$
 	public static final String TEXT = Messages.ChangeElementTypeAction_0;
 
-	static List<Class<? extends IArchimateElement>> archimateElementClasses = new ArrayList<>();
-	static {
-		initArchimateElementClasses();
+	/** The list of {@link SelectionAction} created to manage the type changes */
+	public static List<ChangeElementTypeAction> actionList = null;
+
+	/**
+	 * Creation of all menu actions to change types
+	 * 
+	 * @param abstractDiagramEditor
+	 * @return
+	 */
+	public static List<ChangeElementTypeAction> createActions(IWorkbenchPart part) {
+		if (actionList == null) {
+			actionList = new ArrayList<>();
+			// Let's find of EClass that has 'ArchimateElement' as a super type
+			for (EClass eClassifier : getEClassListFromSuperType(IArchimatePackage.eINSTANCE.getBusinessElement())) {
+				actionList.add(
+						new ChangeElementTypeAction(part, ID + "_" + eClassifier.getName(), eClassifier.getName()));
+			} // for
+		}
+		return actionList;
 	}
 
-	public ChangeElementTypeAction(IWorkbenchPart part) {
+	public static List<RetargetAction> getRetargetActions() {
+		List<RetargetAction> ret = new ArrayList<>();
+		// This method is called before createActions, so we can't use the actionList
+		// list.
+		for (EClass eClassifier : getEClassListFromSuperType(IArchimatePackage.eINSTANCE.getBusinessElement())) {
+			ret.add(new RetargetAction(ID + "_" + eClassifier.getName(), eClassifier.getName()));
+		} // for
+		return ret;
+	}
+
+	/**
+	 * Returns the list of EClass, that have the give EClass as a super type
+	 * 
+	 * @param superType
+	 * @return
+	 */
+	static List<EClass> getEClassListFromSuperType(EClass superType) {
+		List<EClass> ret = new ArrayList<>();
+		EClass businessElement = IArchimatePackage.eINSTANCE.getBusinessElement();
+		// Let's find of EClass that has 'ArchimateElement' as a super type
+		for (EClassifier eClassifier : IArchimatePackage.eINSTANCE.getEClassifiers()) {
+			// We keep the EClass, that has the given EClass as a super type
+			if (eClassifier instanceof EClass && businessElement.isSuperTypeOf((EClass) eClassifier))
+				ret.add((EClass) eClassifier);
+		} // for
+		return ret;
+	}
+
+	/**
+	 * Fills in the given menu, with one line per Archimate's objet (that is all
+	 * objects out of relationships
+	 * 
+	 * @param actionRegistry
+	 * @param refactorMenu   The menu to fill in
+	 */
+	public static void fillMenu(ActionRegistry actionRegistry, IMenuManager refactorMenu) {
+		for (ChangeElementTypeAction a : actionList) {
+			refactorMenu.add(actionRegistry.getAction(a.getId()));
+		}
+	}
+
+	public ChangeElementTypeAction(IWorkbenchPart part, String id, String text) {
 		super(part);
-		setText(TEXT);
-		setId(ID);
+		setId(id);
+		setText(text);
 	}
 
+	/**
+	 * Change type is enabled if the selection contains only one editable element.
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean calculateEnabled() {
 		List<?> selected = getSelectedObjects();
@@ -97,6 +163,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 					continue;
 				}
 
+				// IDiagramModelObject: any Archimate object (but not a relationship)
 				if (model instanceof IDiagramModelObject) {
 					result.add(new ChangeElementTypeCommand((IDiagramModelObject) model));
 				}
@@ -117,7 +184,12 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 		@Override
 		public boolean canExecute() {
-			return fDiagramOldObject != null;
+			// This can only be executed on ArchimateElement
+			EClass eClass = fDiagramOldObject.eClass();
+			return fDiagramOldObject != null && 
+					fDiagramOldObject instanceof DiagramModelArchimateObject 
+//					&& IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(fDiagramOldObject.eClass())
+					;
 		}
 
 		@Override
@@ -139,129 +211,4 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// TODO do something useful here
 		}
 	}
-
-	/**
-	 * This method initializes the {@link #archimateElementClasses} field, with all
-	 * the Concrete class that implements this class, that is with all types of
-	 * objects of ArchiMate
-	 */
-	static void initArchimateElementClasses() {
-		for (Class<?> clazz : getComArchimatetoolModelImplClasses()) {
-			if (IArchimateElement.class.isAssignableFrom(clazz)) {
-				// Ok, this class is an ArchiMate's object (not a relationship or a technical
-				// class)
-				@SuppressWarnings("unchecked")
-				Class<? extends IArchimateElement> c = (Class<? extends IArchimateElement>) clazz;
-				archimateElementClasses.add(c);
-			}
-		} // for
-	}
-
-	/**
-	 * Returns the classes contained in the com.archimatetool.model.impl package. As
-	 * getting these classes from reflection is complex (need external
-	 * dependencies), this way is simpler. And this list should be quite stable...
-	 * 
-	 * @return
-	 */
-	static List<Class<? extends Object>> getComArchimatetoolModelImplClasses() {
-		return Arrays.asList(com.archimatetool.model.impl.AccessRelationship.class,
-				com.archimatetool.model.impl.AggregationRelationship.class,
-				com.archimatetool.model.impl.ApplicationCollaboration.class,
-				com.archimatetool.model.impl.ApplicationComponent.class,
-				com.archimatetool.model.impl.ApplicationEvent.class,
-				com.archimatetool.model.impl.ApplicationFunction.class,
-				com.archimatetool.model.impl.ApplicationInteraction.class,
-				com.archimatetool.model.impl.ApplicationInterface.class,
-				com.archimatetool.model.impl.ApplicationProcess.class,
-				com.archimatetool.model.impl.ApplicationService.class,
-				com.archimatetool.model.impl.ArchimateConcept.class,
-				com.archimatetool.model.impl.ArchimateDiagramModel.class,
-				com.archimatetool.model.impl.ArchimateElement.class,
-				com.archimatetool.model.impl.ArchimateFactory.class, com.archimatetool.model.impl.ArchimateModel.class,
-				com.archimatetool.model.impl.ArchimatePackage.class,
-				com.archimatetool.model.impl.ArchimateRelationship.class, com.archimatetool.model.impl.Artifact.class,
-				com.archimatetool.model.impl.Assessment.class,
-				com.archimatetool.model.impl.AssignmentRelationship.class,
-				com.archimatetool.model.impl.AssociationRelationship.class, com.archimatetool.model.impl.Bounds.class,
-				com.archimatetool.model.impl.BusinessActor.class,
-				com.archimatetool.model.impl.BusinessCollaboration.class,
-				com.archimatetool.model.impl.BusinessEvent.class, com.archimatetool.model.impl.BusinessFunction.class,
-				com.archimatetool.model.impl.BusinessInteraction.class,
-				com.archimatetool.model.impl.BusinessInterface.class, com.archimatetool.model.impl.BusinessObject.class,
-				com.archimatetool.model.impl.BusinessProcess.class, com.archimatetool.model.impl.BusinessRole.class,
-				com.archimatetool.model.impl.BusinessService.class, com.archimatetool.model.impl.Capability.class,
-				com.archimatetool.model.impl.CommunicationNetwork.class,
-				com.archimatetool.model.impl.CompositionRelationship.class,
-				com.archimatetool.model.impl.Connectable.class, com.archimatetool.model.impl.Constraint.class,
-				com.archimatetool.model.impl.Contract.class, com.archimatetool.model.impl.CourseOfAction.class,
-				com.archimatetool.model.impl.DataObject.class, com.archimatetool.model.impl.Deliverable.class,
-				com.archimatetool.model.impl.Device.class, com.archimatetool.model.impl.DiagramModel.class,
-				com.archimatetool.model.impl.DiagramModelArchimateConnection.class,
-				com.archimatetool.model.impl.DiagramModelArchimateObject.class,
-				com.archimatetool.model.impl.DiagramModelBendpoint.class,
-				com.archimatetool.model.impl.DiagramModelComponent.class,
-				com.archimatetool.model.impl.DiagramModelConnection.class,
-				com.archimatetool.model.impl.DiagramModelGroup.class,
-				com.archimatetool.model.impl.DiagramModelImage.class,
-				com.archimatetool.model.impl.DiagramModelNote.class,
-				com.archimatetool.model.impl.DiagramModelObject.class,
-				com.archimatetool.model.impl.DiagramModelReference.class,
-				com.archimatetool.model.impl.DistributionNetwork.class, com.archimatetool.model.impl.Driver.class,
-				com.archimatetool.model.impl.Equipment.class, com.archimatetool.model.impl.Facility.class,
-				com.archimatetool.model.impl.Feature.class, com.archimatetool.model.impl.FeaturesEList.class,
-				com.archimatetool.model.impl.FlowRelationship.class, com.archimatetool.model.impl.Folder.class,
-				com.archimatetool.model.impl.Gap.class, com.archimatetool.model.impl.Goal.class,
-				com.archimatetool.model.impl.Grouping.class, com.archimatetool.model.impl.ImplementationEvent.class,
-				com.archimatetool.model.impl.InfluenceRelationship.class, com.archimatetool.model.impl.Junction.class,
-				com.archimatetool.model.impl.Location.class, com.archimatetool.model.impl.Material.class,
-				com.archimatetool.model.impl.Meaning.class, com.archimatetool.model.impl.Metadata.class,
-				com.archimatetool.model.impl.Node.class, com.archimatetool.model.impl.Outcome.class,
-				com.archimatetool.model.impl.Path.class, com.archimatetool.model.impl.Plateau.class,
-				com.archimatetool.model.impl.Principle.class, com.archimatetool.model.impl.Product.class,
-				com.archimatetool.model.impl.Property.class, com.archimatetool.model.impl.RealizationRelationship.class,
-				com.archimatetool.model.impl.Representation.class, com.archimatetool.model.impl.Requirement.class,
-				com.archimatetool.model.impl.Resource.class, com.archimatetool.model.impl.ServingRelationship.class,
-				com.archimatetool.model.impl.SketchModel.class, com.archimatetool.model.impl.SketchModelActor.class,
-				com.archimatetool.model.impl.SketchModelSticky.class,
-				com.archimatetool.model.impl.SpecializationRelationship.class,
-				com.archimatetool.model.impl.Stakeholder.class, com.archimatetool.model.impl.SystemSoftware.class,
-				com.archimatetool.model.impl.TechnologyCollaboration.class,
-				com.archimatetool.model.impl.TechnologyEvent.class,
-				com.archimatetool.model.impl.TechnologyFunction.class,
-				com.archimatetool.model.impl.TechnologyInteraction.class,
-				com.archimatetool.model.impl.TechnologyInterface.class,
-				com.archimatetool.model.impl.TechnologyObject.class,
-				com.archimatetool.model.impl.TechnologyProcess.class,
-				com.archimatetool.model.impl.TechnologyService.class,
-				com.archimatetool.model.impl.TriggeringRelationship.class, com.archimatetool.model.impl.Value.class,
-				com.archimatetool.model.impl.ValueStream.class, com.archimatetool.model.impl.WorkPackage.class);
-	}
-
-	public static List<RetargetAction> getRetargetActions() {
-		List<RetargetAction> ret = new ArrayList<>();
-		EClass businessElement = IArchimatePackage.eINSTANCE.getBusinessElement();
-		// Let's find of EClass that has 'ArchimateElement' as a super type
-		for (EClassifier eClassifier : IArchimatePackage.eINSTANCE.getEClassifiers()) {
-			// We keep the EClass, that has
-			if (eClassifier instanceof EClass) {
-				if (businessElement.isSuperTypeOf((EClass) eClassifier)) {
-					ret.add(new RetargetAction(TEXT + "_" + eClassifier.getName(), eClassifier.getName()));
-				}
-			}
-		} // for
-		return ret;
-	}
-
-	/**
-	 * Fills in the given menu, with one line per Archimate's objet (that is all
-	 * objects out of relationships
-	 * 
-	 * @param actionRegistry
-	 * @param refactorMenu   The menu to fill in
-	 */
-	public static void fillMenu(ActionRegistry actionRegistry, IMenuManager refactorMenu) {
-		refactorMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_TOP));
-	}
-
 }

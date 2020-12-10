@@ -73,6 +73,9 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditorActionBarContributor_5;
 
+    public static String AbstractDiagramEditorActionBarContributor_5bis;
+    public static String AbstractDiagramEditorActionBarContributor_5bis_1;
+
     public static String AbstractDiagramEditorActionBarContributor_6;
 
     public static String AbstractDiagramEditorActionBarContributor_7;
