@@ -168,6 +168,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     return;
                 }
                 
+                event.gc.setAntialias(SWT.ON);
+                
                 int row = fTableViewer.getTable().indexOf(item);
                 
                 ImageChoice ic = fChoices.get(row);
