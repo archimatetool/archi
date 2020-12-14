@@ -1,0 +1,5 @@
+
+#Ignore build files, in all subfolders 
+bin/
+target/
+**/*.jar
