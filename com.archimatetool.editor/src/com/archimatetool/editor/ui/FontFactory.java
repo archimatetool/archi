@@ -148,7 +148,8 @@ public final class FontFactory {
                 String fontName = fd[0].toString();
                 if(!windowsFontRegistry.hasValueFor(fontName)) {
                     float factor = (float)96 / DPI;
-                    fd[0].height *= factor;
+                    int newHeight = (int)(fd[0].getHeight() * factor);
+                    fd[0].setHeight(newHeight);
                     windowsFontRegistry.put(fontName, fd);
                 }
                 font = windowsFontRegistry.get(fontName);

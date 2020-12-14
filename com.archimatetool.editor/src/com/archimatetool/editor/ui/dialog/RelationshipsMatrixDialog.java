@@ -27,6 +27,7 @@ import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.internal.CellSelection;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -108,9 +109,13 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             }
         });
         
+        GC gc = new GC(viewer.getGrid());
+        int columnWidth = gc.textExtent("acfginorstv").x + 8; //$NON-NLS-1$
+        gc.dispose();
+        
         for(EClass eClass : getData()) {
             GridColumn column = new GridColumn(viewer.getGrid(), SWT.NONE);
-            column.setWidth(70);
+            column.setWidth(columnWidth);
             column.setImage(ArchiLabelProvider.INSTANCE.getImage(eClass));
             column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
         }
