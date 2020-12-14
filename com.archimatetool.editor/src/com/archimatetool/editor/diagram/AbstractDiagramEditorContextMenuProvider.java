@@ -128,7 +128,6 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
 
         IMenuManager refactorMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5bis, "menu_refactor"); //$NON-NLS-1$
         menu.add(refactorMenu);
-        //refactorMenu.add(actionRegistry.getAction(ChangeElementTypeAction.ID));
         ChangeElementTypeAction.fillMenu(actionRegistry, refactorMenu);
         
         alignmentMenu.add(new Separator());

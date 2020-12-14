@@ -173,8 +173,7 @@ extends ActionBarContributor {
         for (RetargetAction action : ChangeElementTypeAction.getRetargetActions()) {
         	addRetargetAction(action);
         }
-        
-        
+
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT, IAction.AS_RADIO_BUTTON));
@@ -251,7 +250,7 @@ extends ActionBarContributor {
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_CENTER));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_RIGHT));
-
+        
         alignmentMenu.add(new Separator());
         
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_TOP));
