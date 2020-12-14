@@ -5,17 +5,13 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -26,28 +22,20 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
-import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.editor.diagram.commands.ChangeElementTypeCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IFolder;
 import com.archimatetool.model.ILockable;
-import com.archimatetool.model.impl.ArchimateElement;
-import com.archimatetool.model.impl.ArchimateFactory;
 import com.archimatetool.model.impl.BusinessActor;
 import com.archimatetool.model.impl.BusinessRole;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
- * Change the Type of an Element, for instance from a {@link BusinessActor} to a {@link BusinessRole}. All the existing associations are maintained,
- * and of the same type as the existing one. This may lead to association coming to or going from the current object that become invalid, according to
- * the ArchiMate specification.
+ * Change the Type of an Element, for instance from a {@link BusinessActor} to a
+ * {@link BusinessRole}. All the existing associations are maintained, and of
+ * the same type as the existing one. This may lead to association coming to or
+ * going from the current object that become invalid, according to the ArchiMate
+ * specification.
  * 
  * @author Etienne Gauthier
  */
@@ -56,24 +44,35 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static final String ROOT_ID = "ChangeElementTypeAction"; //$NON-NLS-1$
 	public static final String TEXT = Messages.ChangeElementTypeAction_0;
 
-	/** The list of type of ArchiMate objects, which contains the entry for the menu, to be displayed in this order */
+	/**
+	 * The list of type of ArchiMate objects, which contains the entry for the menu,
+	 * to be displayed in this order
+	 */
 	public static List<EClass> archimateObjectTypes = Arrays.asList(IArchimatePackage.eINSTANCE.getStrategyElement(),
 			IArchimatePackage.eINSTANCE.getBusinessElement(), IArchimatePackage.eINSTANCE.getApplicationElement(),
 			IArchimatePackage.eINSTANCE.getTechnologyElement(), IArchimatePackage.eINSTANCE.getPhysicalElement(),
-			IArchimatePackage.eINSTANCE.getMotivationElement(), IArchimatePackage.eINSTANCE.getImplementationMigrationElement());
+			IArchimatePackage.eINSTANCE.getMotivationElement(),
+			IArchimatePackage.eINSTANCE.getImplementationMigrationElement());
 
 	/**
-	 * The list of Archimate Objects, per type. This is used to create the menus and the actions. The order of the items in the list is the order
-	 * displayed in the menus
+	 * The list of Archimate Objects, per type. This is used to create the menus and
+	 * the actions. The order of the items in the list is the order displayed in the
+	 * menus
 	 */
 	public static Map<EClass, EClass[]> archimateObjects = new HashMap<>();
 	static {
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(), ArchimateModelUtils.getStrategyClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(), ArchimateModelUtils.getBusinessClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(), ArchimateModelUtils.getApplicationClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(), ArchimateModelUtils.getTechnologyClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(), ArchimateModelUtils.getPhysicalClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(), ArchimateModelUtils.getMotivationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(),
+				ArchimateModelUtils.getStrategyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(),
+				ArchimateModelUtils.getBusinessClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(),
+				ArchimateModelUtils.getApplicationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(),
+				ArchimateModelUtils.getTechnologyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(),
+				ArchimateModelUtils.getPhysicalClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(),
+				ArchimateModelUtils.getMotivationClasses());
 		archimateObjects.put(IArchimatePackage.eINSTANCE.getImplementationMigrationElement(),
 				ArchimateModelUtils.getImplementationMigrationClasses());
 	}
@@ -82,8 +81,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static List<ChangeElementTypeAction> actionList = null;
 
 	/**
-	 * The class that is the target of this change. That is: when this change is applied to an object, it will be transformed into an instance of this
-	 * type
+	 * The class that is the target of this change. That is: when this change is
+	 * applied to an object, it will be transformed into an instance of this type
 	 */
 	private EClass targetEClass = null;
 
@@ -99,7 +98,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// Let's go through all archimate objects
 			for (EClass type : archimateObjectTypes) {
 				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass.getName(), eclass));
+					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass.getName(),
+							eclass));
 				}
 			}
 		}
@@ -136,7 +136,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 //	}
 
 	/**
-	 * Fills in the given menu, with one line per Archimate's objet (that is all objects out of relationships
+	 * Fills in the given menu, with one line per Archimate's objet (that is all
+	 * objects out of relationships
 	 * 
 	 * @param actionRegistry
 	 * @param refactorMenu   The menu to fill in
@@ -160,7 +161,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 	}
 
 	/**
-	 * Change type is enabled if the selection contains only one editable element. {@inheritDoc}
+	 * Change type is enabled if the selection contains only one editable element.
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected boolean calculateEnabled() {
@@ -176,7 +178,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 				return false;
 			}
 			if (!(((EditPart) object).getModel() instanceof DiagramModelArchimateObject)) {
-				// The selected element must be an Archimate object (that is: not a relationship)
+				// The selected element must be an Archimate object (that is: not a
+				// relationship)
 				return false;
 			}
 		}
@@ -214,191 +217,4 @@ public class ChangeElementTypeAction extends SelectionAction {
 		return result.unwrap();
 	}
 
-	/**
-	 * This class is used in the {@link ChangeElementTypeCommand#changeElementType(DiagramModelArchimateObject, EClass)} method, to store the parent's
-	 * properties for each model
-	 */
-	static class ArchimateObjectModelParent {
-		ArchimateObjectModelParent(IDiagramModelContainer parent, int index) {
-			this.parent = parent;
-			this.index = index;
-		}
-
-		/**
-		 * The parent of the {@link DiagramModelArchimateObject} model. We need to store it, as we'll remove the model from its parent, before
-		 * restoring it into its parent
-		 */
-		IDiagramModelContainer parent;
-		/** The index of the model in its parent's children list */
-		int index;
-	}
-
-	static class ChangeElementTypeCommand extends Command {
-
-		/**
-		 * The source object, which content (the Archimate Object) must be be migrated to the {@link #targetEClass}.<BR/>
-		 * Note: {@link IDiagramModelObject} is an object that can contain any Archimate object (but not a relationship)
-		 */
-		DiagramModelArchimateObject fDiagramSourceObject;
-
-		/** The {@link EClass} of the {@link #fDiagramSourceObject}. It is stored to allow to undo the change, if asked by the user */
-		EClass sourceEClass;
-
-		/** The {@link EClass} to which we must transform the given {@link IDiagramModelObject} */
-		EClass targetEClass;
-
-		/**
-		 * The standard constructor
-		 * 
-		 * @param selectedDiagramObject The selected object which content (the Archimate Object) must be be migrated to the {@link #targetEClass}
-		 * @param targetEClass
-		 */
-		public ChangeElementTypeCommand(DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
-			setLabel(Messages.ChangeElementTypeAction_0);
-			this.fDiagramSourceObject = selectedDiagramObject;
-			this.sourceEClass = fDiagramSourceObject.getArchimateElement().eClass();
-			this.targetEClass = targetEClass;
-		}
-
-		@Override
-		public boolean canExecute() {
-			// This can only be executed on ArchimateElement
-			return fDiagramSourceObject != null && fDiagramSourceObject instanceof DiagramModelArchimateObject;
-		}
-
-		@Override
-		public void execute() {
-			changeElementType(fDiagramSourceObject, targetEClass);
-		}
-
-		@Override
-		public void undo() {
-			changeElementType(fDiagramSourceObject, sourceEClass);
-		}
-
-		@Override
-		public void dispose() {
-			fDiagramSourceObject = null;
-			sourceEClass = null;
-			targetEClass = null;
-		}
-
-		/**
-		 * This method creates a new {@link IArchimateElement} of the given {@link EClass}, linked it into the Archimate Model in replacement of the
-		 * existing one.
-		 * 
-		 * @param dmo
-		 * @param targetEClass
-		 * @See {@link ArchimateDiagramModelFactory#createDiagramModelArchimateObject(IArchimateElement)}
-		 */
-		void changeElementType(DiagramModelArchimateObject dmo, EClass targetEClass) {
-
-			// Creation of the Archimate object of the new type
-			ArchimateElement sourceElement = (ArchimateElement) dmo.getArchimateElement();
-			ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
-
-			// Let's store the list of IDiagramModelArchimateObject that contains this element, and for each, its parent and the index in its parent's
-			// children list of the model that contains the sourceElement
-			Map<IDiagramModelArchimateObject, ArchimateObjectModelParent> models = new HashMap<>();
-			for (IDiagramModel dm : sourceElement.getArchimateModel().getDiagramModels()) {
-				for (Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
-					EObject eObject = iter.next();
-					if (eObject instanceof IDiagramModelArchimateObject) {
-						IDiagramModelArchimateObject model = ((IDiagramModelArchimateObject) eObject);
-						if (model.getArchimateElement() == sourceElement) {
-							// We've found a IDiagramModelArchimateObject, which element is our sourceElement (whose type we want to change)
-							if (!models.keySet().contains(model)) {
-								IDiagramModelContainer parent = (IDiagramModelContainer) model.eContainer();
-								models.put(model, new ArchimateObjectModelParent(parent, parent.getChildren().indexOf(model)));
-							}
-						}
-					}
-				}
-			}
-
-			// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
-			// This will effectively remove the concept listener from the Edit Part.
-			// It needs to be done in a separate loop, to avoid side effects of the children removal.
-			for (IDiagramModelArchimateObject model : models.keySet()) {
-				models.get(model).parent.getChildren().remove(model);
-			}
-
-			// Cloning the attributes (id, name, documentation, properties) to the new instance
-			targetElement.setId(sourceElement.getId());
-			targetElement.setName(sourceElement.getName());
-			targetElement.setDocumentation(sourceElement.getDocumentation());
-			targetElement.getProperties().addAll(sourceElement.getProperties());
-
-			// Let's remove the old element from its container (its folder)
-			IFolder sourceFolder = (IFolder) sourceElement.eContainer();
-			sourceFolder.getElements().remove(sourceElement);
-
-			// Let's set the target container (the folder) of the target element: the same container if source and target are of the same type. Or the
-			// root folder of the target type otherwise
-
-			// TODO: manage change of element type (which implies: change of containing folder)
-			sourceFolder.getElements().add(targetElement);
-
-			// Disconnect all source relationship from the old object, and connect them to the new one
-			// To avoid a ConcurrentModificationException, we can't directly loop on the sourceRelationships list
-			while (sourceElement.getSourceRelationships().size() > 0) {
-				sourceElement.getSourceRelationships().get(0).setSource(targetElement);
-			}
-
-			// Disconnect all target relationship to the old object, and connect them to the new one
-			// To avoid a ConcurrentModificationException, we can't directly loop on the targetRelationships list
-			while (sourceElement.getTargetRelationships().size() > 0) {
-				sourceElement.getTargetRelationships().get(0).setTarget(targetElement);
-			}
-
-			// Set the new Archimate object into the correct folder ... If it's possible (that is: if it's of the same category)
-
-			// Add all the Diagram Objects from the old object into the new one
-
-			// Change the Archimate object in the containing diagram objects
-			for (IDiagramModelArchimateObject model : models.keySet()) {
-				model.setArchimateElement(targetElement);
-				// Figure Type
-				model.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + targetElement.eClass().getName()));
-			}
-
-			// And re-attach the DMOs into their parent's children list. This which will also update the UI
-			for (IDiagramModelArchimateObject model : models.keySet()) {
-				ArchimateObjectModelParent parentInfo = models.get(model);
-				// When undoing/redoing with multiple selections, it seems that the command may not be executed in the same order or reverse. So we
-				// need to check first if the index is still valid.
-				if (parentInfo.index >= parentInfo.parent.getChildren().size())
-					parentInfo.parent.getChildren().add(model);
-				else
-					parentInfo.parent.getChildren().add(parentInfo.index, model);
-			}
-		}
-
-		/**
-		 * Create an Archimate object instance, from the given {@link EClass}. This {@link EClass} may be the {@link #targetEClass} (when doing the
-		 * command), or the old EClass (when undoing the command)
-		 * 
-		 * @param eclass
-		 * @return
-		 */
-		IArchimateElement createArchimateElement(EClass eclass) {
-			String methodName = "create" + eclass.getName();
-			Method createMethod;
-
-			// First step: get the create method
-			try {
-				createMethod = ArchimateFactory.eINSTANCE.getClass().getMethod(methodName);
-			} catch (NoSuchMethodException | SecurityException e) {
-				throw new RuntimeException(e.getClass().getSimpleName() + " while getting the '" + methodName + "' method: " + e.getMessage(), e);
-			}
-
-			// Second step: invoke the create method to create a new instance of the
-			// relevant object
-			try {
-				return (IArchimateElement) createMethod.invoke(IArchimatePackage.eINSTANCE.getArchimateFactory());
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				throw new RuntimeException(e.getClass().getSimpleName() + " while invoking the '" + methodName + "' method: " + e.getMessage(), e);
-			}
-		}
-	}
 }
