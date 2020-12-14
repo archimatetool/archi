@@ -188,7 +188,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 		List<?> selected = getSelectedObjects();
 
 		// Quick checks (can change only one item per one item)
-		if (selected.isEmpty() || selected.size() > 1) {
+		if (selected.isEmpty()) {
 			return false;
 		}
 
@@ -386,7 +386,12 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// And re-attach the DMOs into their parent's children list. This which will also update the UI
 			for (IDiagramModelArchimateObject model : models.keySet()) {
 				ArchimateObjectModelParent parentInfo = models.get(model);
-				parentInfo.parent.getChildren().add(parentInfo.index, model);
+				// When undoing/redoing with multiple selections, it seems that the command may not be executed in the same order or reverse. So we
+				// need to check first if the index is still valid.
+				if (parentInfo.index >= parentInfo.parent.getChildren().size())
+					parentInfo.parent.getChildren().add(model);
+				else
+					parentInfo.parent.getChildren().add(parentInfo.index, model);
 			}
 		}
 
