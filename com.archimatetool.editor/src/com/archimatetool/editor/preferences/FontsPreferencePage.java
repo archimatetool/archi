@@ -219,7 +219,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Table Label Provider
         fTableViewer.setLabelProvider(new CellLabelProvider() {
-            private float tableHeight = JFaceResources.getDefaultFont().getFontData()[0].height;
+            private int tableHeight = fTableViewer.getTable().getFont().getFontData()[0].getHeight();
             private Map<FontInfo, Font> fontCache = new HashMap<>();
             
             @Override
@@ -237,7 +237,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 }
                 
                 FontData fd = new FontData(fontInfo.getFontData().toString());
-                fd.height = tableHeight;
+                fd.setHeight(tableHeight);
                 font = new Font(null, fd);
                 fontCache.put(fontInfo, font);
                 
