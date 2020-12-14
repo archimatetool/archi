@@ -10,16 +10,22 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.transform.Source;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -44,6 +50,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessActor;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -228,6 +235,25 @@ public class ChangeElementTypeAction extends SelectionAction {
 		return result.unwrap();
 	}
 
+	/**
+	 * This class is used in the {@link ChangeElementTypeCommand#changeElementType(DiagramModelArchimateObject, EClass)} method, to store the parent's
+	 * properties for each model
+	 */
+	static class ArchimateObjectModelParent {
+		ArchimateObjectModelParent(IDiagramModelContainer parent, int index) {
+			this.parent = parent;
+			this.index = index;
+		}
+
+		/**
+		 * The parent of the {@link DiagramModelArchimateObject} model. We need to store it, as we'll remove the model from its parent, before
+		 * restoring it into its parent
+		 */
+		IDiagramModelContainer parent;
+		/** The index of the model in its parent's children list */
+		int index;
+	}
+
 	static class ChangeElementTypeCommand extends Command {
 
 		/**
@@ -237,10 +263,10 @@ public class ChangeElementTypeAction extends SelectionAction {
 		DiagramModelArchimateObject fDiagramSourceObject;
 
 		/** The {@link EClass} of the {@link #fDiagramSourceObject}. It is stored to allow to undo the change, if asked by the user */
-		final EClass sourceEClass;
+		EClass sourceEClass;
 
 		/** The {@link EClass} to which we must transform the given {@link IDiagramModelObject} */
-		final EClass targetEClass;
+		EClass targetEClass;
 
 		/**
 		 * The standard constructor
@@ -249,19 +275,16 @@ public class ChangeElementTypeAction extends SelectionAction {
 		 * @param targetEClass
 		 */
 		public ChangeElementTypeCommand(DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
-			this.fDiagramSourceObject = selectedDiagramObject;
 			setLabel(Messages.ChangeElementTypeAction_0);
-			this.sourceEClass = fDiagramSourceObject.getArchimateModel().eClass();
+			this.fDiagramSourceObject = selectedDiagramObject;
+			this.sourceEClass = fDiagramSourceObject.getArchimateElement().eClass();
 			this.targetEClass = targetEClass;
 		}
 
 		@Override
 		public boolean canExecute() {
 			// This can only be executed on ArchimateElement
-			EClass eClass = fDiagramSourceObject.eClass();
-			return fDiagramSourceObject != null && fDiagramSourceObject instanceof DiagramModelArchimateObject
-//					&& IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(fDiagramOldObject.eClass())
-			;
+			return fDiagramSourceObject != null && fDiagramSourceObject instanceof DiagramModelArchimateObject;
 		}
 
 		@Override
@@ -271,15 +294,14 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 		@Override
 		public void undo() {
-			changeElementType(null, null);
+			changeElementType(fDiagramSourceObject, sourceEClass);
 		}
-
-		// TODO Check redo
-		// See MoveObjectCommand
 
 		@Override
 		public void dispose() {
 			fDiagramSourceObject = null;
+			sourceEClass = null;
+			targetEClass = null;
 		}
 
 		/**
@@ -291,23 +313,42 @@ public class ChangeElementTypeAction extends SelectionAction {
 		 * @See {@link ArchimateDiagramModelFactory#createDiagramModelArchimateObject(IArchimateElement)}
 		 */
 		void changeElementType(DiagramModelArchimateObject dmo, EClass targetEClass) {
-			IDiagramModelContainer parent = (IDiagramModelContainer) dmo.eContainer();
-			int index = parent.getChildren().indexOf(dmo);
-
-			// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
-			// This will effectively remove the concept listener from the Edit Part
-			parent.getChildren().remove(dmo);
 
 			// Creation of the Archimate object of the new type
 			ArchimateElement sourceElement = (ArchimateElement) dmo.getArchimateElement();
 			ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
-			// Figure Type
-			dmo.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + targetElement.eClass().getName()));
 
-			// Cloning of all attributes (name, documentation, properties...) to the new instance
+			// Let's store the list of IDiagramModelArchimateObject that contains this element, and for each, its parent and the index in its parent's
+			// children list of the model that contains the sourceElement
+			Map<IDiagramModelArchimateObject, ArchimateObjectModelParent> models = new HashMap<>();
+			for (IDiagramModel dm : sourceElement.getArchimateModel().getDiagramModels()) {
+				for (Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+					EObject eObject = iter.next();
+					if (eObject instanceof IDiagramModelArchimateObject) {
+						IDiagramModelArchimateObject model = ((IDiagramModelArchimateObject) eObject);
+						if (model.getArchimateElement() == sourceElement) {
+							// We've found a IDiagramModelArchimateObject, which element is our sourceElement (whose type we want to change)
+							if (!models.keySet().contains(model)) {
+								IDiagramModelContainer parent = (IDiagramModelContainer) model.eContainer();
+								models.put(model, new ArchimateObjectModelParent(parent, parent.getChildren().indexOf(model)));
+							}
+						}
+					}
+				}
+			}
+
+			// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
+			// This will effectively remove the concept listener from the Edit Part.
+			// It needs to be done in a separate loop, to avoid side effects of the children removal.
+			for (IDiagramModelArchimateObject model : models.keySet()) {
+				models.get(model).parent.getChildren().remove(model);
+			}
+
+			// Cloning the attributes (id, name, documentation, properties) to the new instance
 			targetElement.setId(sourceElement.getId());
 			targetElement.setName(sourceElement.getName());
 			targetElement.setDocumentation(sourceElement.getDocumentation());
+			targetElement.getProperties().addAll(sourceElement.getProperties());
 
 			// Let's remove the old element from its container (its folder)
 			IFolder sourceFolder = (IFolder) sourceElement.eContainer();
@@ -335,13 +376,18 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 			// Add all the Diagram Objects from the old object into the new one
 
-			// Change the Archimate object in the current diagram object
-			dmo.setArchimateElement(targetElement);
+			// Change the Archimate object in the containing diagram objects
+			for (IDiagramModelArchimateObject model : models.keySet()) {
+				model.setArchimateElement(targetElement);
+				// Figure Type
+				model.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + targetElement.eClass().getName()));
+			}
 
-			// And re-attach which will also update the UI
-			parent.getChildren().add(index, dmo);
-
-			// TODO update other DMO that also contain this element (in the same view, in other views)
+			// And re-attach the DMOs into their parent's children list. This which will also update the UI
+			for (IDiagramModelArchimateObject model : models.keySet()) {
+				ArchimateObjectModelParent parentInfo = models.get(model);
+				parentInfo.parent.getChildren().add(parentInfo.index, model);
+			}
 		}
 
 		/**
