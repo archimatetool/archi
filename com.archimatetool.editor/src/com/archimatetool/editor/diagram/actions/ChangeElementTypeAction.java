@@ -13,8 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.Source;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -29,13 +36,18 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
+import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.impl.ArchimateElement;
@@ -44,6 +56,7 @@ import com.archimatetool.model.impl.BusinessActor;
 import com.archimatetool.model.impl.BusinessRole;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.impl.Value;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
  * Change the Type of an Element, for instance from a {@link BusinessActor} to a {@link BusinessRole}. All the existing associations are maintained,
@@ -67,86 +80,16 @@ public class ChangeElementTypeAction extends SelectionAction {
 	 * The list of Archimate Objects, per type. This is used to create the menus and the actions. The order of the items in the list is the order
 	 * displayed in the menus
 	 */
-	public static Map<EClass, List<EClass>> archimateObjects = new HashMap<>();
+	public static Map<EClass, EClass[]> archimateObjects = new HashMap<>();
 	static {
-		List<EClass> eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getCapability());
-		eclasses.add(IArchimatePackage.eINSTANCE.getCourseOfAction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getResource());
-		eclasses.add(IArchimatePackage.eINSTANCE.getValueStream());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessActor());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessCollaboration());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessEvent());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessFunction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessInteraction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessInterface());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessObject());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessProcess());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessRole());
-		eclasses.add(IArchimatePackage.eINSTANCE.getBusinessService());
-		eclasses.add(IArchimatePackage.eINSTANCE.getContract());
-		eclasses.add(IArchimatePackage.eINSTANCE.getProduct());
-		eclasses.add(IArchimatePackage.eINSTANCE.getRepresentation());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationCollaboration());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationComponent());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationEvent());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationFunction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationInteraction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationInterface());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationProcess());
-		eclasses.add(IArchimatePackage.eINSTANCE.getApplicationService());
-		eclasses.add(IArchimatePackage.eINSTANCE.getDataObject());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyCollaboration());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyEvent());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyFunction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyInteraction());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyInterface());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyProcess());
-		eclasses.add(IArchimatePackage.eINSTANCE.getTechnologyService());
-		eclasses.add(IArchimatePackage.eINSTANCE.getNode());
-		eclasses.add(IArchimatePackage.eINSTANCE.getDevice());
-		eclasses.add(IArchimatePackage.eINSTANCE.getSystemSoftware());
-		eclasses.add(IArchimatePackage.eINSTANCE.getPath());
-		eclasses.add(IArchimatePackage.eINSTANCE.getCommunicationNetwork());
-		eclasses.add(IArchimatePackage.eINSTANCE.getArtifact());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getEquipment());
-		eclasses.add(IArchimatePackage.eINSTANCE.getFacility());
-		eclasses.add(IArchimatePackage.eINSTANCE.getDistributionNetwork());
-		eclasses.add(IArchimatePackage.eINSTANCE.getMaterial());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getStakeholder());
-		eclasses.add(IArchimatePackage.eINSTANCE.getDriver());
-		eclasses.add(IArchimatePackage.eINSTANCE.getAssessment());
-		eclasses.add(IArchimatePackage.eINSTANCE.getGoal());
-		eclasses.add(IArchimatePackage.eINSTANCE.getOutcome());
-		eclasses.add(IArchimatePackage.eINSTANCE.getPrinciple());
-		eclasses.add(IArchimatePackage.eINSTANCE.getRequirement());
-		eclasses.add(IArchimatePackage.eINSTANCE.getConstraint());
-		eclasses.add(IArchimatePackage.eINSTANCE.getMeaning());
-		eclasses.add(IArchimatePackage.eINSTANCE.getValue());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(), eclasses);
-
-		eclasses = new ArrayList<>();
-		eclasses.add(IArchimatePackage.eINSTANCE.getWorkPackage());
-		eclasses.add(IArchimatePackage.eINSTANCE.getDeliverable());
-		eclasses.add(IArchimatePackage.eINSTANCE.getImplementationEvent());
-		eclasses.add(IArchimatePackage.eINSTANCE.getPlateau());
-		eclasses.add(IArchimatePackage.eINSTANCE.getGap());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getImplementationMigrationElement(), eclasses);
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(), ArchimateModelUtils.getStrategyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(), ArchimateModelUtils.getBusinessClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(), ArchimateModelUtils.getApplicationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(), ArchimateModelUtils.getTechnologyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(), ArchimateModelUtils.getPhysicalClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(), ArchimateModelUtils.getMotivationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getImplementationMigrationElement(),
+				ArchimateModelUtils.getImplementationMigrationClasses());
 	}
 
 	/** The list of {@link SelectionAction} created to manage the type changes */
@@ -246,6 +189,10 @@ public class ChangeElementTypeAction extends SelectionAction {
 			if (!(object instanceof EditPart)) {
 				return false;
 			}
+			if (!(((EditPart) object).getModel() instanceof DiagramModelArchimateObject)) {
+				// The selected element must be an Archimate object (that is: not a relationship)
+				return false;
+			}
 		}
 
 		Command command = createCommand(selected);
@@ -272,8 +219,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 				}
 
 				// IDiagramModelObject: any Archimate object (but not a relationship)
-				if (model instanceof IDiagramModelObject) {
-					result.add(new ChangeElementTypeCommand((IDiagramModelObject) model, targetEClass));
+				if (model instanceof DiagramModelArchimateObject) {
+					result.add(new ChangeElementTypeCommand((DiagramModelArchimateObject) model, targetEClass));
 				}
 			}
 		}
@@ -283,62 +230,118 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 	static class ChangeElementTypeCommand extends Command {
 
-		// IDiagramModelObject: any Archimate object (but not a relationship)
-		private IDiagramModelObject fDiagramOldObject;
+		/**
+		 * The source object, which content (the Archimate Object) must be be migrated to the {@link #targetEClass}.<BR/>
+		 * Note: {@link IDiagramModelObject} is an object that can contain any Archimate object (but not a relationship)
+		 */
+		DiagramModelArchimateObject fDiagramSourceObject;
+
+		/** The {@link EClass} of the {@link #fDiagramSourceObject}. It is stored to allow to undo the change, if asked by the user */
+		final EClass sourceEClass;
+
+		/** The {@link EClass} to which we must transform the given {@link IDiagramModelObject} */
+		final EClass targetEClass;
 
 		/**
-		 * The {@link EClass} to which we must transform the given {@link IDiagramModelObject}
+		 * The standard constructor
+		 * 
+		 * @param selectedDiagramObject The selected object which content (the Archimate Object) must be be migrated to the {@link #targetEClass}
+		 * @param targetEClass
 		 */
-		EClass targetEClass;
-
-		public ChangeElementTypeCommand(IDiagramModelObject diagramObject, EClass targetEClass) {
-			this.fDiagramOldObject = diagramObject;
+		public ChangeElementTypeCommand(DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
+			this.fDiagramSourceObject = selectedDiagramObject;
 			setLabel(Messages.ChangeElementTypeAction_0);
+			this.sourceEClass = fDiagramSourceObject.getArchimateModel().eClass();
 			this.targetEClass = targetEClass;
 		}
 
 		@Override
 		public boolean canExecute() {
 			// This can only be executed on ArchimateElement
-			EClass eClass = fDiagramOldObject.eClass();
-			return fDiagramOldObject != null && fDiagramOldObject instanceof DiagramModelArchimateObject
+			EClass eClass = fDiagramSourceObject.eClass();
+			return fDiagramSourceObject != null && fDiagramSourceObject instanceof DiagramModelArchimateObject
 //					&& IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(fDiagramOldObject.eClass())
 			;
 		}
 
 		@Override
 		public void execute() {
-			changeElementType();
+			changeElementType(fDiagramSourceObject, targetEClass);
 		}
 
 		@Override
 		public void undo() {
-			changeElementType();
+			changeElementType(null, null);
 		}
+
+		// TODO Check redo
+		// See MoveObjectCommand
 
 		@Override
 		public void dispose() {
-			fDiagramOldObject = null;
+			fDiagramSourceObject = null;
 		}
 
-		void changeElementType() {
+		/**
+		 * This method creates a new {@link IArchimateElement} of the given {@link EClass}, linked it into the Archimate Model in replacement of the
+		 * existing one.
+		 * 
+		 * @param dmo
+		 * @param targetEClass
+		 * @See {@link ArchimateDiagramModelFactory#createDiagramModelArchimateObject(IArchimateElement)}
+		 */
+		void changeElementType(DiagramModelArchimateObject dmo, EClass targetEClass) {
+			IDiagramModelContainer parent = (IDiagramModelContainer) dmo.eContainer();
+			int index = parent.getChildren().indexOf(dmo);
+
+			// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
+			// This will effectively remove the concept listener from the Edit Part
+			parent.getChildren().remove(dmo);
+
 			// Creation of the Archimate object of the new type
-			IDiagramModelArchimateObject diagramModelArchimateObject = IArchimatePackage.eINSTANCE.getArchimateFactory()
-					.createDiagramModelArchimateObject();
-			IArchimateElement archimateElement = createArchimateElement(targetEClass);
+			ArchimateElement sourceElement = (ArchimateElement) dmo.getArchimateElement();
+			ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
+			// Figure Type
+			dmo.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + targetElement.eClass().getName()));
 
 			// Cloning of all attributes (name, documentation, properties...) to the new instance
+			targetElement.setId(sourceElement.getId());
+			targetElement.setName(sourceElement.getName());
+			targetElement.setDocumentation(sourceElement.getDocumentation());
+
+			// Let's remove the old element from its container (its folder)
+			IFolder sourceFolder = (IFolder) sourceElement.eContainer();
+			sourceFolder.getElements().remove(sourceElement);
+
+			// Let's set the target container (the folder) of the target element: the same container if source and target are of the same type. Or the
+			// root folder of the target type otherwise
+
+			// TODO: manage change of element type (which implies: change of containing folder)
+			sourceFolder.getElements().add(targetElement);
 
 			// Disconnect all source relationship from the old object, and connect them to the new one
+			// To avoid a ConcurrentModificationException, we can't directly loop on the sourceRelationships list
+			while (sourceElement.getSourceRelationships().size() > 0) {
+				sourceElement.getSourceRelationships().get(0).setSource(targetElement);
+			}
 
 			// Disconnect all target relationship to the old object, and connect them to the new one
+			// To avoid a ConcurrentModificationException, we can't directly loop on the targetRelationships list
+			while (sourceElement.getTargetRelationships().size() > 0) {
+				sourceElement.getTargetRelationships().get(0).setTarget(targetElement);
+			}
 
 			// Set the new Archimate object into the correct folder ... If it's possible (that is: if it's of the same category)
 
 			// Add all the Diagram Objects from the old object into the new one
 
 			// Change the Archimate object in the current diagram object
+			dmo.setArchimateElement(targetElement);
 
+			// And re-attach which will also update the UI
+			parent.getChildren().add(index, dmo);
+
+			// TODO update other DMO that also contain this element (in the same view, in other views)
 		}
 
 		/**
