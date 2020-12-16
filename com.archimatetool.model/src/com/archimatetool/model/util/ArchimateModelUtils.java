@@ -19,6 +19,7 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IJunction;
 
@@ -375,4 +376,29 @@ public class ArchimateModelUtils {
         
         return list.toArray(new EClass[list.size()]);
     }
+    
+    /**
+     * @return true if the given parent folder is the correct folder to contain this object
+     */
+    public static boolean isCorrectFolderForObject(IFolder folder, EObject eObject) {
+        if(folder == null || eObject == null) {
+            return false;
+        }
+        
+        // Check that the object is in the correct main category folder 
+        IFolder topFolder = folder.getArchimateModel().getDefaultFolderForObject(eObject);
+        if(folder == topFolder) {
+            return true;
+        }
+        
+        EObject e = folder;
+        while((e = e.eContainer()) != null) {
+            if(e == topFolder) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
 }
