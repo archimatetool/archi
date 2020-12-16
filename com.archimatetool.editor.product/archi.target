@@ -3,7 +3,7 @@
 <target name="Archi">
 <locations>
     <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2020-12/202012161000/"/>
+        <repository location="https://download.eclipse.org/releases/2020-12"/>
         <unit id="org.eclipse.sdk.ide" version="4.18.0.I20201202-1800"/>
         <unit id="org.eclipse.ecf.filetransfer.httpclient45.feature.feature.group" version="1.0.702.v20201025-2303"/>
         <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.701.v20201027-0550"/>
