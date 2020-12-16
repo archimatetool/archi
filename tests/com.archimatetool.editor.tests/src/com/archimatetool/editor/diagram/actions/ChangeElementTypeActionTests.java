@@ -4,18 +4,14 @@
 package com.archimatetool.editor.diagram.actions;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction.ChangeElementTypeCommand;
 import com.archimatetool.model.IArchimatePackage;
 
 import junit.framework.JUnit4TestAdapter;
@@ -32,9 +28,6 @@ public class ChangeElementTypeActionTests {
 
 	@Test
 	public void test_getEClassListFromSuperType() {
-		// Below, an initialization, just for inspection at debug time
-		IArchimatePackage archimatePackage = IArchimatePackage.eINSTANCE;
-
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		///////// StrategyElement
 		///////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,17 +71,4 @@ public class ChangeElementTypeActionTests {
 		assertTrue(names.contains("Product"));
 	}
 
-	/**
-	 * Create an instance of every available Archimate type, to check that there is no issue with these creations
-	 */
-	@Test
-	public void test_createArchimateElement() {
-		for (EClass type : ChangeElementTypeAction.archimateObjectTypes) {
-			for (EClass eclass : ChangeElementTypeAction.archimateObjects.get(type)) {
-				ChangeElementTypeCommand command = new ChangeElementTypeCommand(null, eclass);
-				// Let's check the instance creation
-				assertNotNull("Check creation of instance of " + eclass.getName(), command.createArchimateElement(eclass));
-			}
-		} // for(archimateObjectTypes)
-	}
 }
