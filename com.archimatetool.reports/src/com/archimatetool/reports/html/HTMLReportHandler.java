@@ -5,12 +5,12 @@
  */
 package com.archimatetool.reports.html;
 
-import java.io.IOException;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.model.IArchimateModel;
 
@@ -31,9 +31,10 @@ public class HTMLReportHandler extends AbstractModelSelectionHandler {
                 HTMLReportExporter exporter = new HTMLReportExporter(model);
                 exporter.export();
             }
-            catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
+            catch(Exception ex) {
                 ex.printStackTrace();
+                Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
             }
         }
 

@@ -93,7 +93,7 @@ public class ExportJasperReportsWizard extends Wizard {
                         reportTitle, locale, exportOptions);
                 exporter.export(monitor);
             }
-            catch(Exception ex) {
+            catch(Throwable ex) { // Catch SWT and OOM exceptions
                 // Async this to close progress monitor
                 Display.getCurrent().asyncExec(new Runnable() {
                     @Override
