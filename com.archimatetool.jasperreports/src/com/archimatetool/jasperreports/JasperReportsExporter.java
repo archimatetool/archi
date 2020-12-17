@@ -184,6 +184,10 @@ public class JasperReportsExporter {
                 File file = new File(tmpFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
+            catch(Throwable t) {
+                throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+                        t.getClass().getName() + ": " + t.getMessage(), t); //$NON-NLS-1$
+            }
             finally {
                 image.dispose();
             }
@@ -287,14 +291,14 @@ public class JasperReportsExporter {
         exporter.exportReport();
     }
 
-    private void setProgressSubTask(String task) throws IOException {
+    private void setProgressSubTask(String task) throws CancelledException {
         if(progressMonitor != null) {
             progressMonitor.subTask(task);
             updateProgress();
         }
     }
     
-    private void updateProgress() throws IOException {
+    private void updateProgress() throws CancelledException {
         if(progressMonitor != null && PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
             while(Display.getCurrent().readAndDispatch());
             

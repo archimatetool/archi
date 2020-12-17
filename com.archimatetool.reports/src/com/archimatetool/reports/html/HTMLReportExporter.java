@@ -114,7 +114,7 @@ public class HTMLReportExporter {
             return;
         }
         
-        Throwable[] exception = new Throwable[1];
+        Exception[] exception = new Exception[1];
         
         // Since this can take a while, show the busy dialog
         IRunnableWithProgress runnable = monitor -> {
@@ -127,7 +127,7 @@ public class HTMLReportExporter {
                 // This method supports network URLs
                 browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
-            catch(Throwable ex) { // Catch OOM and SWT exceptions
+            catch(Exception ex) { // Catch OOM and SWT exceptions
                 exception[0] = ex;
             }
         };
@@ -136,7 +136,7 @@ public class HTMLReportExporter {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
             dialog.run(false, true, runnable);
         }
-        catch(Throwable ex) {
+        catch(Exception ex) {
             exception[0] = ex;
         }
 
@@ -144,14 +144,14 @@ public class HTMLReportExporter {
             MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
         }
         else if(exception[0] != null) {
-            throw new Exception(exception[0]);
+            throw exception[0];
         }
     }
     
     public void preview() throws Exception {
         PREVIEW_FOLDER.mkdirs();
         
-        Throwable[] exception = new Throwable[1];
+        Exception[] exception = new Exception[1];
         
         // Since this can take a while, show the busy dialog
         IRunnableWithProgress runnable = monitor -> {
@@ -165,7 +165,7 @@ public class HTMLReportExporter {
                     editor.getBrowser().refresh();
                 }
             }
-            catch(Throwable ex) {  // Catch OOM and SWT exceptions
+            catch(Exception ex) {  // Catch OOM and SWT exceptions
                 exception[0] = ex;
             }
         };
@@ -174,7 +174,7 @@ public class HTMLReportExporter {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
             dialog.run(false, true, runnable);
         }
-        catch(Throwable ex) {
+        catch(Exception ex) {
             exception[0] = ex;
         }
 
@@ -182,7 +182,7 @@ public class HTMLReportExporter {
             MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
         }
         else if(exception[0] != null) {
-            throw new Exception(exception[0]);
+            throw exception[0];
         }
     }
     
@@ -392,7 +392,7 @@ public class HTMLReportExporter {
      * @param diagramModels 
      * @throws IOException 
      */
-    private void saveImages(File imagesFolder, List<IDiagramModel> diagramModels) throws CancelledException {
+    private void saveImages(File imagesFolder, List<IDiagramModel> diagramModels) throws IOException {
         // Use this to generate unique name for image file
         Hashtable<IDiagramModel, String> nameTable = new Hashtable<IDiagramModel, String>();
         
@@ -436,6 +436,10 @@ public class HTMLReportExporter {
                 loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
+            }
+            catch(Throwable t) {
+                throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+                        t.getClass().getName() + ": " + t.getMessage(), t); //$NON-NLS-1$
             }
             finally {
                 image.dispose();
