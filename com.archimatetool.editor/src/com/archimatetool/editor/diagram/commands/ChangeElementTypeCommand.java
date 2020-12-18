@@ -25,6 +25,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.impl.ArchimateElement;
 import com.archimatetool.model.impl.ArchimateFactory;
+import com.archimatetool.model.impl.ArchimateModel;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -40,11 +41,15 @@ public class ChangeElementTypeCommand extends Command {
 	 */
 	final static boolean CHANGE_COLOR_TO_DEFAULT_IF_ELEMENT_TYPE_CHANGES = false;
 
+	/** The current {@link ArchimateModel} */
+	IArchimateModel model;
+
 	/**
-	 * The source object, which content (the Archimate Object) must be be migrated to the {@link #targetEClass}.<BR/>
-	 * Note: {@link IDiagramModelObject} is an object that can contain any Archimate object (but not a relationship)
+	 * The ID of the element, whose type should be changed.<BR/>
+	 * Note: it can not be a {@link DiagramModelArchimateObject}, as this element may be on no diagram. And it can not be an {@link ArchimateElement},
+	 * as we recreate it.
 	 */
-	DiagramModelArchimateObject fDiagramSourceObject;
+	String elementId;
 
 	/**
 	 * This map contains the list of {@link IDiagramModelArchimateObject}s that contain this element, and for each, its parent, index (in its parent's
@@ -85,36 +90,46 @@ public class ChangeElementTypeCommand extends Command {
 	}
 
 	/**
-	 * The standard constructor
-	 * 
+	 * @param model                 The current {@link ArchimateModel}
 	 * @param selectedDiagramObject The selected object which content (the Archimate Object) must be be migrated to the {@link #targetEClass}
 	 * @param targetEClass
 	 */
-	public ChangeElementTypeCommand(DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
+	public ChangeElementTypeCommand(IArchimateModel model, DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
+		this(model, selectedDiagramObject.getArchimateElement(), targetEClass);
+	}
+
+	/**
+	 * The standard constructor
+	 * 
+	 * @param model         The current {@link ArchimateModel}
+	 * @param sourceElement
+	 * @param targetEClass
+	 */
+	public ChangeElementTypeCommand(IArchimateModel model, IArchimateElement sourceElement, EClass targetEClass) {
 		setLabel(Messages.ChangeElementTypeAction_0);
-		this.fDiagramSourceObject = selectedDiagramObject;
-		this.sourceEClass = fDiagramSourceObject.getArchimateElement().eClass();
+		this.model = model;
+		this.elementId = sourceElement.getId();
+		this.sourceEClass = sourceElement.eClass();
 		this.targetEClass = targetEClass;
-		sourceFolder = (IFolder) fDiagramSourceObject.getArchimateElement().eContainer();
+		sourceFolder = (IFolder) sourceElement.eContainer();
 
 		// Let's store the model properties, to be able to restore them, if the action is to be undone
-		ArchimateElement sourceElement = (ArchimateElement) selectedDiagramObject.getArchimateElement();
 		modelProperties = new HashMap<>();
 		for (IDiagramModel dm : sourceElement.getArchimateModel().getDiagramModels()) {
 			for (Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
 				EObject eObject = iter.next();
 				if (eObject instanceof IDiagramModelArchimateObject) {
-					IDiagramModelArchimateObject model = ((IDiagramModelArchimateObject) eObject);
-					if (model.getArchimateElement() == sourceElement) {
+					IDiagramModelArchimateObject dmo = ((IDiagramModelArchimateObject) eObject);
+					if (dmo.getArchimateElement() == sourceElement) {
 						// We've found a IDiagramModelArchimateObject, which element is our sourceElement (whose type we want to change)
-						if (!modelProperties.keySet().contains(model)) {
+						if (!modelProperties.keySet().contains(dmo)) {
 							ArchimateObjectModelProperties props = new ArchimateObjectModelProperties();
-							modelProperties.put(model, props);
-							props.parent = (IDiagramModelContainer) model.eContainer();
-							props.index = props.parent.getChildren().indexOf(model);
-							props.sourceFillColor = model.getFillColor();
-							props.sourceFontColor = model.getFontColor();
-							props.sourceLineColor = model.getLineColor();
+							modelProperties.put(dmo, props);
+							props.parent = (IDiagramModelContainer) dmo.eContainer();
+							props.index = props.parent.getChildren().indexOf(dmo);
+							props.sourceFillColor = dmo.getFillColor();
+							props.sourceFontColor = dmo.getFontColor();
+							props.sourceLineColor = dmo.getLineColor();
 						}
 					}
 				}
@@ -124,23 +139,24 @@ public class ChangeElementTypeCommand extends Command {
 
 	@Override
 	public boolean canExecute() {
-		// This can only be executed on ArchimateElement
-		return fDiagramSourceObject != null && fDiagramSourceObject instanceof DiagramModelArchimateObject;
+		// This can only be executed on ArchimateElement, from which we know the id
+		return elementId != null;
 	}
 
 	@Override
 	public void execute() {
-		changeElementType(fDiagramSourceObject, targetEClass, false);
+		changeElementType(targetEClass, false);
 	}
 
 	@Override
 	public void undo() {
-		changeElementType(fDiagramSourceObject, sourceEClass, true);
+		changeElementType(sourceEClass, true);
 	}
 
 	@Override
 	public void dispose() {
-		fDiagramSourceObject = null;
+		model = null;
+		elementId = null;
 		sourceEClass = null;
 		sourceFolder = null;
 		targetEClass = null;
@@ -154,13 +170,11 @@ public class ChangeElementTypeCommand extends Command {
 	 * @param targetEClass
 	 * @See {@link ArchimateDiagramModelFactory#createDiagramModelArchimateObject(IArchimateElement)}
 	 */
-	void changeElementType(DiagramModelArchimateObject dmo, EClass targetEClass, boolean restoreColor) {
-		// Let's read the current ArchimateModel, before we detach the dmo from its parent
-		IArchimateModel archimateModel = dmo.getArchimateModel();
+	void changeElementType(EClass targetEClass, boolean restoreColor) {
 		boolean changeColor = false;
 
 		// Creation of the Archimate object of the new type
-		ArchimateElement sourceElement = (ArchimateElement) dmo.getArchimateElement();
+		ArchimateElement sourceElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, "674");
 		ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
 
 		// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
@@ -176,7 +190,7 @@ public class ChangeElementTypeCommand extends Command {
 		targetElement.setDocumentation(sourceElement.getDocumentation());
 		targetElement.getProperties().addAll(sourceElement.getProperties());
 
-		IFolder currentFolder = (IFolder) fDiagramSourceObject.getArchimateElement().eContainer();
+		IFolder currentFolder = (IFolder) sourceElement.eContainer();
 		// So, we have two folders, now:
 		// - sourceFolder: the folder that contains the sourceElement, before executing the command
 		// - currentFolder: the folder that contains the element of the given dmo
@@ -203,7 +217,7 @@ public class ChangeElementTypeCommand extends Command {
 			// versus Application element).
 
 			// We must change its folder
-			IFolder newTargetFolder = archimateModel.getDefaultFolderForObject(targetElement);
+			IFolder newTargetFolder = model.getDefaultFolderForObject(targetElement);
 			newTargetFolder.getElements().add(targetElement);
 
 			// And its color (that is: the color of each DiagramModelArchimateObject that contains it)

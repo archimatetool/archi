@@ -31,11 +31,9 @@ import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
- * Change the Type of an Element, for instance from a {@link BusinessActor} to a
- * {@link BusinessRole}. All the existing associations are maintained, and of
- * the same type as the existing one. This may lead to association coming to or
- * going from the current object that become invalid, according to the ArchiMate
- * specification.
+ * Change the Type of an Element, for instance from a {@link BusinessActor} to a {@link BusinessRole}. All the existing associations are maintained,
+ * and of the same type as the existing one. This may lead to association coming to or going from the current object that become invalid, according to
+ * the ArchiMate specification.
  * 
  * @author Etienne Gauthier
  */
@@ -45,34 +43,25 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static final String TEXT = Messages.ChangeElementTypeAction_0;
 
 	/**
-	 * The list of type of ArchiMate objects, which contains the entry for the menu,
-	 * to be displayed in this order
+	 * The list of type of ArchiMate objects, which contains the entry for the menu, to be displayed in this order
 	 */
 	public static List<EClass> archimateObjectTypes = Arrays.asList(IArchimatePackage.eINSTANCE.getStrategyElement(),
 			IArchimatePackage.eINSTANCE.getBusinessElement(), IArchimatePackage.eINSTANCE.getApplicationElement(),
 			IArchimatePackage.eINSTANCE.getTechnologyElement(), IArchimatePackage.eINSTANCE.getPhysicalElement(),
-			IArchimatePackage.eINSTANCE.getMotivationElement(),
-			IArchimatePackage.eINSTANCE.getImplementationMigrationElement());
+			IArchimatePackage.eINSTANCE.getMotivationElement(), IArchimatePackage.eINSTANCE.getImplementationMigrationElement());
 
 	/**
-	 * The list of Archimate Objects, per type. This is used to create the menus and
-	 * the actions. The order of the items in the list is the order displayed in the
-	 * menus
+	 * The list of Archimate Objects, per type. This is used to create the menus and the actions. The order of the items in the list is the order
+	 * displayed in the menus
 	 */
 	public static Map<EClass, EClass[]> archimateObjects = new HashMap<>();
 	static {
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(),
-				ArchimateModelUtils.getStrategyClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(),
-				ArchimateModelUtils.getBusinessClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(),
-				ArchimateModelUtils.getApplicationClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(),
-				ArchimateModelUtils.getTechnologyClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(),
-				ArchimateModelUtils.getPhysicalClasses());
-		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(),
-				ArchimateModelUtils.getMotivationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getStrategyElement(), ArchimateModelUtils.getStrategyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getBusinessElement(), ArchimateModelUtils.getBusinessClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getApplicationElement(), ArchimateModelUtils.getApplicationClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getTechnologyElement(), ArchimateModelUtils.getTechnologyClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getPhysicalElement(), ArchimateModelUtils.getPhysicalClasses());
+		archimateObjects.put(IArchimatePackage.eINSTANCE.getMotivationElement(), ArchimateModelUtils.getMotivationClasses());
 		archimateObjects.put(IArchimatePackage.eINSTANCE.getImplementationMigrationElement(),
 				ArchimateModelUtils.getImplementationMigrationClasses());
 	}
@@ -81,8 +70,8 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static List<ChangeElementTypeAction> actionList = null;
 
 	/**
-	 * The class that is the target of this change. That is: when this change is
-	 * applied to an object, it will be transformed into an instance of this type
+	 * The class that is the target of this change. That is: when this change is applied to an object, it will be transformed into an instance of this
+	 * type
 	 */
 	private EClass targetEClass = null;
 
@@ -98,8 +87,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// Let's go through all archimate objects
 			for (EClass type : archimateObjectTypes) {
 				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass.getName(),
-							eclass));
+					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass.getName(), eclass));
 				}
 			}
 		}
@@ -136,8 +124,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 //	}
 
 	/**
-	 * Fills in the given menu, with one line per Archimate's objet (that is all
-	 * objects out of relationships
+	 * Fills in the given menu, with one line per Archimate's objet (that is all objects out of relationships
 	 * 
 	 * @param actionRegistry
 	 * @param refactorMenu   The menu to fill in
@@ -161,8 +148,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 	}
 
 	/**
-	 * Change type is enabled if the selection contains only one editable element.
-	 * {@inheritDoc}
+	 * Change type is enabled if the selection contains only one editable element. {@inheritDoc}
 	 */
 	@Override
 	protected boolean calculateEnabled() {
@@ -201,15 +187,16 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 		for (Object object : selection) {
 			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
+				Object dmo = ((EditPart) object).getModel();
 
-				if (model instanceof ILockable && ((ILockable) model).isLocked()) {
+				if (dmo instanceof ILockable && ((ILockable) dmo).isLocked()) {
 					continue;
 				}
 
 				// IDiagramModelObject: any Archimate object (but not a relationship)
-				if (model instanceof DiagramModelArchimateObject) {
-					result.add(new ChangeElementTypeCommand((DiagramModelArchimateObject) model, targetEClass));
+				if (dmo instanceof DiagramModelArchimateObject) {
+					result.add(new ChangeElementTypeCommand(((DiagramModelArchimateObject) dmo).getArchimateModel(),
+							(DiagramModelArchimateObject) dmo, targetEClass));
 				}
 			}
 		}
