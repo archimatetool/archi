@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.ChangeElementTypeCommand;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.impl.BusinessActor;
@@ -39,11 +40,11 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  */
 public class ChangeElementTypeAction extends SelectionAction {
 
-	public static final String ROOT_ID = "ChangeElementTypeAction"; //$NON-NLS-1$
+	public static final String ROOT_ID = "Context_ChangeElementTypeAction"; //$NON-NLS-1$
 	public static final String TEXT = Messages.ChangeElementTypeAction_0;
 
 	/**
-	 * The list of type of ArchiMate objects, which contains the entry for the menu, to be displayed in this order
+	 * The list of type of ArchiMate objects, which contains the entry for the menu, to be displayed IN THIS ORDER.
 	 */
 	public static List<EClass> archimateObjectTypes = Arrays.asList(IArchimatePackage.eINSTANCE.getStrategyElement(),
 			IArchimatePackage.eINSTANCE.getBusinessElement(), IArchimatePackage.eINSTANCE.getApplicationElement(),
@@ -87,11 +88,19 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// Let's go through all archimate objects
 			for (EClass type : archimateObjectTypes) {
 				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass.getName(), eclass));
+					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass));
 				}
 			}
 		}
 		return actionList;
+	}
+
+	public static List<EClass> getArchimateObjectTypes() {
+		return archimateObjectTypes;
+	}
+
+	public static Map<EClass, EClass[]> getArchimateObjects() {
+		return archimateObjects;
 	}
 
 	public static List<RetargetAction> getRetargetActions() {
@@ -140,10 +149,10 @@ public class ChangeElementTypeAction extends SelectionAction {
 		}
 	}
 
-	public ChangeElementTypeAction(IWorkbenchPart part, String id, String text, EClass targetEClass) {
+	public ChangeElementTypeAction(IWorkbenchPart part, String id, EClass targetEClass) {
 		super(part);
 		setId(id);
-		setText(text);
+		setText(ArchiLabelProvider.INSTANCE.getDefaultName(targetEClass));
 		this.targetEClass = targetEClass;
 	}
 
