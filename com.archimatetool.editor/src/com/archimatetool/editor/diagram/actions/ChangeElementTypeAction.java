@@ -115,23 +115,6 @@ public class ChangeElementTypeAction extends SelectionAction {
 		return ret;
 	}
 
-//	/**
-//	 * Returns the list of EClass, that have the give EClass as a super type
-//	 * 
-//	 * @param superType
-//	 * @return
-//	 */
-//	static List<EClass> getEClassListFromSuperType(EClass superType) {
-//		List<EClass> ret = new ArrayList<>();
-//		// Let's find of EClass that has 'ArchimateElement' as a super type
-//		for (EClassifier eClassifier : IArchimatePackage.eINSTANCE.getEClassifiers()) {
-//			// We keep the EClass, that has the given EClass as a super type
-//			if (eClassifier instanceof EClass && superType.isSuperTypeOf((EClass) eClassifier) && !(((EClass) eClassifier).equals(superType)))
-//				ret.add((EClass) eClassifier);
-//		} // for
-//		return ret;
-//	}
-
 	/**
 	 * Fills in the given menu, with one line per Archimate's objet (that is all objects out of relationships
 	 * 
@@ -149,15 +132,18 @@ public class ChangeElementTypeAction extends SelectionAction {
 		}
 	}
 
-	/** There seems to be no way to get a proper label for the types (Strategy, Business...). There lable exist in a lot of places, but for various usage, and a mapping to them would have to be done. <BR/> This method take the EClass's name (StrategyElement, BusinessElement...) and return the associated label
+	/**
+	 * There seems to be no way to get a proper label for the types (Strategy, Business...). There lable exist in a lot of places, but for various
+	 * usage, and a mapping to them would have to be done. <BR/>
+	 * This method take the EClass's name (StrategyElement, BusinessElement...) and return the associated label
 	 */
 	public static String getDisplayableTypeLabel(EClass type) {
 		String label = type.getName();
 		if (label.equals("ImplementationMigrationElement")) {
 			return "Implementation && Migration";
 		} else if (label.endsWith("Element")) {
-			return label.substring(0, label.length()-"Element".length());
-		}else {
+			return label.substring(0, label.length() - "Element".length());
+		} else {
 			// Oups, the label has changed.
 			return label;
 		}
