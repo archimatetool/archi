@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.actions;
 
+import java.util.Map;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -15,6 +17,8 @@ import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.views.tree.actions.ChangeElementTypeAction;
+import com.archimatetool.editor.views.tree.actions.IViewerAction;
 
 
 
@@ -173,6 +177,9 @@ public final class ArchiActionFactory {
             return action;
         }
     };
+    
+    /** The map that contains each action, associated to the {@link ActionFactory}s, for the change type action */ 
+	public static Map<ActionFactory, IViewerAction> CHANGE_ELEMENT_TYPES = ChangeElementTypeAction.getActionFactories();
 
     /**
      * A Retargetable Action to Generate a View For element
@@ -215,5 +222,6 @@ public final class ArchiActionFactory {
             return action;
         }
     };
+
 
 }

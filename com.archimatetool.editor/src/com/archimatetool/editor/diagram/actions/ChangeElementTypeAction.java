@@ -40,7 +40,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  */
 public class ChangeElementTypeAction extends SelectionAction {
 
-	public static final String ROOT_ID = "Context_ChangeElementTypeAction"; //$NON-NLS-1$
+	public static final String ROOT_ID = "Diagram_ChangeElementTypeAction_"; //$NON-NLS-1$
 	public static final String TEXT = Messages.ChangeElementTypeAction_0;
 
 	/**
@@ -88,7 +88,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// Let's go through all archimate objects
 			for (EClass type : archimateObjectTypes) {
 				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + "_" + eclass.getName(), eclass));
+					actionList.add(new ChangeElementTypeAction(part, ROOT_ID  + eclass.getName(), eclass));
 				}
 			}
 		}
@@ -109,7 +109,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 		// Let's go through all archimate objects
 		for (EClass type : archimateObjectTypes) {
 			for (EClass eclass : archimateObjects.get(type)) {
-				ret.add(new RetargetAction(ROOT_ID + "_" + eclass.getName(), eclass.getName()));
+				ret.add(new RetargetAction(ROOT_ID  + eclass.getName(), eclass.getName()));
 			}
 		} // for
 		return ret;
@@ -144,7 +144,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 			IMenuManager subMenu = new MenuManager(type.getName(), "menu_refactor_" + type.getName()); //$NON-NLS-1$
 			refactorMenu.add(subMenu);
 			for (EClass eclass : archimateObjects.get(type)) {
-				subMenu.add(actionRegistry.getAction(ROOT_ID + "_" + eclass.getName()));
+				subMenu.add(actionRegistry.getAction(ROOT_ID + eclass.getName()));
 			}
 		}
 	}
@@ -204,8 +204,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 
 				// IDiagramModelObject: any Archimate object (but not a relationship)
 				if (dmo instanceof DiagramModelArchimateObject) {
-					result.add(new ChangeElementTypeCommand(((DiagramModelArchimateObject) dmo).getArchimateModel(),
-							(DiagramModelArchimateObject) dmo, targetEClass));
+					result.add(new ChangeElementTypeCommand((DiagramModelArchimateObject) dmo, targetEClass));
 				}
 			}
 		}

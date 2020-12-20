@@ -94,8 +94,8 @@ public class ChangeElementTypeCommand extends Command {
 	 * @param selectedDiagramObject The selected object which content (the Archimate Object) must be be migrated to the {@link #targetEClass}
 	 * @param targetEClass
 	 */
-	public ChangeElementTypeCommand(IArchimateModel model, DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
-		this(model, selectedDiagramObject.getArchimateElement(), targetEClass);
+	public ChangeElementTypeCommand(DiagramModelArchimateObject selectedDiagramObject, EClass targetEClass) {
+		this(selectedDiagramObject.getArchimateElement(), targetEClass);
 	}
 
 	/**
@@ -105,9 +105,9 @@ public class ChangeElementTypeCommand extends Command {
 	 * @param sourceElement
 	 * @param targetEClass
 	 */
-	public ChangeElementTypeCommand(IArchimateModel model, IArchimateElement sourceElement, EClass targetEClass) {
+	public ChangeElementTypeCommand(IArchimateElement sourceElement, EClass targetEClass) {
 		setLabel(Messages.ChangeElementTypeAction_0);
-		this.model = model;
+		this.model = sourceElement.getArchimateModel();
 		this.elementId = sourceElement.getId();
 		this.sourceEClass = sourceElement.eClass();
 		this.targetEClass = targetEClass;
@@ -140,7 +140,23 @@ public class ChangeElementTypeCommand extends Command {
 	@Override
 	public boolean canExecute() {
 		// This can only be executed on ArchimateElement, from which we know the id
-		return elementId != null;
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+	}
+
+	@Override
+	public boolean canUndo() {
+		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
+		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
+		// the newly created/recreated element and the one that which type should be changed)
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+	}
+
+	@Override
+	public boolean canRedo() {
+		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
+		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
+		// the newly created/recreated element and the one that which type should be changed)
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
@@ -174,7 +190,7 @@ public class ChangeElementTypeCommand extends Command {
 		boolean changeColor = false;
 
 		// Creation of the Archimate object of the new type
-		ArchimateElement sourceElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, "674");
+		ArchimateElement sourceElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, elementId);
 		ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
 
 		// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
