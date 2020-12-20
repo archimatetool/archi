@@ -88,7 +88,8 @@ public class ChangeElementTypeAction extends ViewerAction {
 	public static void fillMenu(IMenuManager refactorMenu) {
 		// Let's go through all archimate objects, in the correct order
 		for (EClass type : com.archimatetool.editor.diagram.actions.ChangeElementTypeAction.getArchimateObjectTypes()) {
-			IMenuManager subMenu = new MenuManager(type.getName(), "treemenu_refactor_" + type.getName()); //$NON-NLS-1$
+			IMenuManager subMenu = new MenuManager(com.archimatetool.editor.diagram.actions.ChangeElementTypeAction.getDisplayableTypeLabel(type),
+					"treemenu_refactor_" + type.getName()); //$NON-NLS-1$
 			refactorMenu.add(subMenu);
 			for (IViewerAction viewerAction : actionsPerType.get(type)) {
 				subMenu.add(viewerAction);

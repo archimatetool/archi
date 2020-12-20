@@ -88,7 +88,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 			// Let's go through all archimate objects
 			for (EClass type : archimateObjectTypes) {
 				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID  + eclass.getName(), eclass));
+					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + eclass.getName(), eclass));
 				}
 			}
 		}
@@ -109,7 +109,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 		// Let's go through all archimate objects
 		for (EClass type : archimateObjectTypes) {
 			for (EClass eclass : archimateObjects.get(type)) {
-				ret.add(new RetargetAction(ROOT_ID  + eclass.getName(), eclass.getName()));
+				ret.add(new RetargetAction(ROOT_ID + eclass.getName(), eclass.getName()));
 			}
 		} // for
 		return ret;
@@ -141,11 +141,25 @@ public class ChangeElementTypeAction extends SelectionAction {
 	public static void fillMenu(ActionRegistry actionRegistry, IMenuManager refactorMenu) {
 		// Let's go through all archimate objects
 		for (EClass type : archimateObjectTypes) {
-			IMenuManager subMenu = new MenuManager(type.getName(), "menu_refactor_" + type.getName()); //$NON-NLS-1$
+			IMenuManager subMenu = new MenuManager(getDisplayableTypeLabel(type), "menu_refactor_" + type.getName()); //$NON-NLS-1$
 			refactorMenu.add(subMenu);
 			for (EClass eclass : archimateObjects.get(type)) {
 				subMenu.add(actionRegistry.getAction(ROOT_ID + eclass.getName()));
 			}
+		}
+	}
+
+	/** There seems to be no way to get a proper label for the types (Strategy, Business...). There lable exist in a lot of places, but for various usage, and a mapping to them would have to be done. <BR/> This method take the EClass's name (StrategyElement, BusinessElement...) and return the associated label
+	 */
+	public static String getDisplayableTypeLabel(EClass type) {
+		String label = type.getName();
+		if (label.equals("ImplementationMigrationElement")) {
+			return "Implementation && Migration";
+		} else if (label.endsWith("Element")) {
+			return label.substring(0, label.length()-"Element".length());
+		}else {
+			// Oups, the label has changed.
+			return label;
 		}
 	}
 
