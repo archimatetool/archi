@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
-import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
