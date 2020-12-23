@@ -15,6 +15,7 @@ public class AllCommandsTests {
 		
         // commands
         suite.addTest(CreateDiagramArchimateConnectionWithDialogCommandTests.suite());
+        suite.addTest(ChangeElementTypeCommandTests.suite());
 
         return suite;
 	}
