@@ -31,7 +31,7 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 import junit.framework.JUnit4TestAdapter;
 
 /**
- * @author gauthiereti
+ * @author etienne-sf
  *
  */
 public class ChangeElementTypeCommandTests {

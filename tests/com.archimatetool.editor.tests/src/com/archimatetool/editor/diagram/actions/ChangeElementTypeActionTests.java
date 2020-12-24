@@ -17,7 +17,7 @@ import com.archimatetool.model.IArchimatePackage;
 import junit.framework.JUnit4TestAdapter;
 
 /**
- * @author gauthiereti
+ * @author etienne-sf
  *
  */
 public class ChangeElementTypeActionTests {
