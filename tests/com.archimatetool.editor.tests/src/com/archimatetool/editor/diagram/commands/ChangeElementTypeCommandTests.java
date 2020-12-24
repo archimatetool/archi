@@ -6,10 +6,13 @@ package com.archimatetool.editor.diagram.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -66,7 +69,6 @@ public class ChangeElementTypeCommandTests {
 	/**
 	 * Create an instance of every available Archimate type, to check that there is no issue with these creations
 	 */
-	// TODO allow and recheck this test, once ArchimateTestModel doesn't throw an exception any more
 	@Test
 	public void test_createArchimateElement() {
 		for (EClass type : ChangeElementTypeAction.archimateObjectTypes) {
@@ -78,9 +80,18 @@ public class ChangeElementTypeCommandTests {
 		} // for(archimateObjectTypes)
 	}
 
-	// TODO allow and finish coding this test, once ArchimateTestModel doesn't throw an exception any more
 	@Test
 	public void test_changeType() {
+
+		// Let's look for the dmos that contain our element. We expect three of them.
+		List<DiagramModelArchimateObject> dmos = new ArrayList<>();
+		for (Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+			EObject e = iter.next();
+			if (e instanceof DiagramModelArchimateObject && ((DiagramModelArchimateObject) e).getArchimateElement().equals(elementBusinessObject)) {
+				dmos.add((DiagramModelArchimateObject) e);
+			}
+		}
+		assertEquals("We expect 3 DMOs", 3, dmos.size());
 
 		// Some other checks, before beginning
 		checkArchimateElementIsUnique(elementBusinessObject);
@@ -99,7 +110,7 @@ public class ChangeElementTypeCommandTests {
 		// Let's do the type change 1
 		change1ToBusinessRole.execute();
 
-		checkBusinessRole("after 1");
+		checkBusinessRole("after 1", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Second transformation: from a BusinessObject to an ApplicationObject
@@ -109,7 +120,7 @@ public class ChangeElementTypeCommandTests {
 		// Let's do the type change 2
 		change2ToDataObject.execute();
 		//
-		checkDataObject("after 2");
+		checkDataObject("after 2", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Undo second transformation: ApplicationObject back to a BusinessRole
@@ -117,7 +128,7 @@ public class ChangeElementTypeCommandTests {
 		//
 		change2ToDataObject.undo();
 		//
-		checkBusinessRole("after undo2");
+		checkBusinessRole("after undo2", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Undo first transformation: BusinessObject back to a BusinessObject
@@ -142,7 +153,7 @@ public class ChangeElementTypeCommandTests {
 		//
 		change1ToBusinessRole.redo();
 		//
-		checkBusinessRole("after redo1");
+		checkBusinessRole("after redo1", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Redo second transformation: BusinessRole again changed to a Data Object
@@ -150,10 +161,10 @@ public class ChangeElementTypeCommandTests {
 		//
 		change2ToDataObject.redo();
 		//
-		checkDataObject("after redo2");
+		checkDataObject("after redo2", dmos);
 	}
 
-	private void checkDataObject(String change) {
+	private void checkDataObject(String change, List<DiagramModelArchimateObject> dmos) {
 		ArchimateElement dataObjectElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, ID_ARCHIMATE_ELEMENT);
 		assertEquals("(" + change + ", id) Properties are saved", elementBusinessObject.getId(), dataObjectElement.getId());
 		assertEquals("(" + change + ", name) Properties are saved", elementBusinessObject.getName(), dataObjectElement.getName());
@@ -166,9 +177,11 @@ public class ChangeElementTypeCommandTests {
 		assertEquals("(" + change + ") folder, the folder is now the default folder for Data Objects", "Application",
 				((IFolder) dataObjectElement.eContainer()).getName());
 		checkArchimateElementIsUnique(dataObjectElement);
+
+		checkElementInDMOs(dmos, dataObjectElement);
 	}
 
-	private void checkBusinessRole(String change) {
+	private void checkBusinessRole(String change, List<DiagramModelArchimateObject> dmos) {
 		ArchimateElement elementBusinessRole = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, ID_ARCHIMATE_ELEMENT);
 
 		assertEquals("(" + change + ", id) Properties are saved", elementBusinessObject.getId(), elementBusinessRole.getId());
@@ -181,6 +194,22 @@ public class ChangeElementTypeCommandTests {
 		assertEquals("(" + change + ") IFolder", true, elementBusinessRole.eContainer() instanceof IFolder);
 		assertEquals("(" + change + ") folder, the folder has not changed", "Information", ((IFolder) elementBusinessRole.eContainer()).getName());
 		checkArchimateElementIsUnique(elementBusinessRole);
+
+		checkElementInDMOs(dmos, elementBusinessRole);
+	}
+
+	private void checkElementInDMOs(List<DiagramModelArchimateObject> dmos, ArchimateElement element) {
+		for (DiagramModelArchimateObject dmo : dmos) {
+			assertEquals("DMO must contain the current element", element, dmo.getArchimateElement());
+		}
+
+		for (Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+			EObject e = iter.next();
+			if (e instanceof DiagramModelArchimateObject && ((DiagramModelArchimateObject) e).getArchimateElement().equals(element)
+					&& !dmos.contains(e)) {
+				fail("Only the DiagramModelArchimateObjects that originally contain the ArchimateElement, may contain the element of the new type");
+			}
+		}
 	}
 
 	/**
