@@ -118,7 +118,7 @@ public class ChangeElementTypeAction extends SelectionAction {
 	 * @param refactorMenu   The menu to fill in
 	 */
 	public static void fillMenu(ActionRegistry actionRegistry, IMenuManager refactorMenu) {
-		// Let's go through all archimate objects
+		// Let's go through all archimate types
 		for (EClass type : archimateObjectTypes) {
 			IMenuManager subMenu = new MenuManager(getDisplayableTypeLabel(type), "menu_refactor_" + type.getName()); //$NON-NLS-1$
 			refactorMenu.add(subMenu);
