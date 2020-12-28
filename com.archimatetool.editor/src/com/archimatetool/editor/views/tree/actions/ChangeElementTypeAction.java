@@ -2,12 +2,14 @@ package com.archimatetool.editor.views.tree.actions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -112,19 +114,33 @@ public class ChangeElementTypeAction extends ViewerAction {
 		}
 
 		// Let's loop over all the selected objects, and execute the change type command on the right stack
+		Map<CommandStack, CompoundCommand> commandMap = new Hashtable<>();
 		for (Object object : getSelection()) {
 			// Non ArchimateElement are ignored
 			if (object instanceof IArchimateElement) {
 				IArchimateElement element = (IArchimateElement) object;
+
 				// Get the Command Stack registered to the object
 				CommandStack stack = (CommandStack) element.getAdapter(CommandStack.class);
 				if (stack == null) {
 					System.err.println("CommandStack was null in " + getClass()); //$NON-NLS-1$
-				} else {
-					Command cmd = new ChangeElementTypeCommand(element, targetEClass);
-					stack.execute(cmd);
 				}
+
+				// Get the compoundCommand we've stored for this stack, or create and store a new one
+				CompoundCommand compoundCommand = commandMap.get(stack);
+				if (compoundCommand == null) {
+					compoundCommand = new CompoundCommand();
+					commandMap.put(stack, compoundCommand);
+				}
+
+				// Add the changeElementType command to the compoundCommand
+				compoundCommand.add(new ChangeElementTypeCommand(element, targetEClass));
 			}
+		}
+
+		// Once all compound commands have been stored, we execute them. This allows to undo and redo them as a a block, stack per stack.
+		for (Entry<CommandStack, CompoundCommand> entry : commandMap.entrySet()) {
+			entry.getKey().execute(entry.getValue());
 		}
 	}
 
