@@ -169,9 +169,10 @@ extends ActionBarContributor {
         addRetargetAction(new RetargetAction(SendBackwardAction.ID, SendBackwardAction.TEXT));
         
         // Refactor Actions
-        for (RetargetAction action : ChangeElementTypeAction.getRetargetActions()) {
-        	addRetargetAction(action);
-        }
+//EGR
+//        for (RetargetAction action : ChangeElementTypeAction.getRetargetActions()) {
+//        	addRetargetAction(action);
+//        }
 
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,

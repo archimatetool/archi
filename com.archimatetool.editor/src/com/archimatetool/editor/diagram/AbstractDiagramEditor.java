@@ -910,11 +910,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Change Type Actions
-        for (ChangeElementTypeAction a : ChangeElementTypeAction.createActions(this)) {
-            registry.registerAction(a);
-            getSelectionActions().add(a.getId());
-            getUpdateCommandStackActions().add(a);
-        }
+// EGR        
+//        for (ChangeElementTypeAction a : ChangeElementTypeAction.createActions(this)) {
+//            registry.registerAction(a);
+//            getSelectionActions().add(a.getId());
+//            getUpdateCommandStackActions().add(a);
+//        }
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
