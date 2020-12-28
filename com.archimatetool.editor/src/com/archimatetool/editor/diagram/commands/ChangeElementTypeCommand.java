@@ -121,23 +121,19 @@ public class ChangeElementTypeCommand extends Command {
 	@Override
 	public boolean canExecute() {
 		// This can only be executed on ArchimateElement, from which we know the id
-		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
 	public boolean canUndo() {
-		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
-		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
-		// the newly created/recreated element and the one that which type should be changed)
-		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands)
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
 	public boolean canRedo() {
-		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
-		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
-		// the newly created/recreated element and the one that which type should be changed)
-		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands)
+		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
@@ -153,6 +149,7 @@ public class ChangeElementTypeCommand extends Command {
 	@Override
 	public void dispose() {
 		model = null;
+		sourceElement = null;
 		elementId = null;
 		sourceEClass = null;
 		sourceFolder = null;
