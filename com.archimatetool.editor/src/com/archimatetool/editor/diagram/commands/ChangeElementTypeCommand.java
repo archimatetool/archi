@@ -44,6 +44,9 @@ public class ChangeElementTypeCommand extends Command {
 	/** The current {@link ArchimateModel} */
 	IArchimateModel model;
 
+	/** The element to be changed. It is used only once, for the first execution, to read its properties */
+	IArchimateElement sourceElement;
+
 	/**
 	 * The ID of the element, whose type should be changed.<BR/>
 	 * Note: it can not be a {@link DiagramModelArchimateObject}, as this element may be on no diagram. And it can not be an {@link ArchimateElement},
@@ -107,40 +110,18 @@ public class ChangeElementTypeCommand extends Command {
 	 */
 	public ChangeElementTypeCommand(IArchimateElement sourceElement, EClass targetEClass) {
 		setLabel(Messages.ChangeElementTypeAction_0);
+		this.sourceElement = sourceElement;
 		this.model = sourceElement.getArchimateModel();
 		this.elementId = sourceElement.getId();
 		this.sourceEClass = sourceElement.eClass();
 		this.targetEClass = targetEClass;
 		sourceFolder = (IFolder) sourceElement.eContainer();
-
-		// Let's store the model properties, to be able to restore them, if the action is to be undone
-		modelProperties = new HashMap<>();
-		for (IDiagramModel dm : sourceElement.getArchimateModel().getDiagramModels()) {
-			for (Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
-				EObject eObject = iter.next();
-				if (eObject instanceof IDiagramModelArchimateObject) {
-					IDiagramModelArchimateObject dmo = ((IDiagramModelArchimateObject) eObject);
-					if (dmo.getArchimateElement() == sourceElement) {
-						// We've found a IDiagramModelArchimateObject, which element is our sourceElement (whose type we want to change)
-						if (!modelProperties.keySet().contains(dmo)) {
-							ArchimateObjectModelProperties props = new ArchimateObjectModelProperties();
-							modelProperties.put(dmo, props);
-							props.parent = (IDiagramModelContainer) dmo.eContainer();
-							props.index = props.parent.getChildren().indexOf(dmo);
-							props.sourceFillColor = dmo.getFillColor();
-							props.sourceFontColor = dmo.getFontColor();
-							props.sourceLineColor = dmo.getLineColor();
-						}
-					}
-				}
-			}
-		}
 	}
 
 	@Override
 	public boolean canExecute() {
 		// This can only be executed on ArchimateElement, from which we know the id
-		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
@@ -148,7 +129,7 @@ public class ChangeElementTypeCommand extends Command {
 		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
 		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
 		// the newly created/recreated element and the one that which type should be changed)
-		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
@@ -156,7 +137,7 @@ public class ChangeElementTypeCommand extends Command {
 		// This can only be executed on ArchimateElement, from which we know the id, and which id exists (when undoing/redoing several commands, if
 		// the changeType occurs on an element that has been created by another of these command, then it's not possible to maintain the list between
 		// the newly created/recreated element and the one that which type should be changed)
-		return elementId != null && ArchimateModelUtils.getObjectByID(model, elementId) != null;
+		return elementId != null;// && ArchimateModelUtils.getObjectByID(model, elementId) != null;
 	}
 
 	@Override
@@ -188,6 +169,31 @@ public class ChangeElementTypeCommand extends Command {
 	 */
 	void changeElementType(EClass targetEClass, boolean restoreColor) {
 		boolean changeColor = false;
+
+		// Let's store the model properties, to be able to restore them, if the action is to be undone
+		if (modelProperties == null) {
+			modelProperties = new HashMap<>();
+			for (IDiagramModel dm : sourceElement.getArchimateModel().getDiagramModels()) {
+				for (Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+					EObject eObject = iter.next();
+					if (eObject instanceof IDiagramModelArchimateObject) {
+						IDiagramModelArchimateObject dmo = ((IDiagramModelArchimateObject) eObject);
+						if (dmo.getArchimateElement() == sourceElement) {
+							// We've found a IDiagramModelArchimateObject, which element is our sourceElement (whose type we want to change)
+							if (!modelProperties.keySet().contains(dmo)) {
+								ArchimateObjectModelProperties props = new ArchimateObjectModelProperties();
+								modelProperties.put(dmo, props);
+								props.parent = (IDiagramModelContainer) dmo.eContainer();
+								props.index = props.parent.getChildren().indexOf(dmo);
+								props.sourceFillColor = dmo.getFillColor();
+								props.sourceFontColor = dmo.getFontColor();
+								props.sourceLineColor = dmo.getLineColor();
+							}
+						}
+					}
+				}
+			}
+		}
 
 		// Creation of the Archimate object of the new type
 		ArchimateElement sourceElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, elementId);
