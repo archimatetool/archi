@@ -35,7 +35,6 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
-import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction;
 import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
