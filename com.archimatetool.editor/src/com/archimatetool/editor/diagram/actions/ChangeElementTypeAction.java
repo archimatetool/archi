@@ -67,9 +67,6 @@ public class ChangeElementTypeAction extends SelectionAction {
 				ArchimateModelUtils.getImplementationMigrationClasses());
 	}
 
-	/** The list of {@link SelectionAction} created to manage the type changes */
-	public static List<ChangeElementTypeAction> actionList = null;
-
 	/**
 	 * The class that is the target of this change. That is: when this change is applied to an object, it will be transformed into an instance of this
 	 * type
@@ -83,15 +80,14 @@ public class ChangeElementTypeAction extends SelectionAction {
 	 * @return
 	 */
 	public static List<ChangeElementTypeAction> createActions(IWorkbenchPart part) {
-		if (actionList == null) {
-			actionList = new ArrayList<>();
-			// Let's go through all archimate objects
-			for (EClass type : archimateObjectTypes) {
-				for (EClass eclass : archimateObjects.get(type)) {
-					actionList.add(new ChangeElementTypeAction(part, ROOT_ID + eclass.getName(), eclass));
-				}
+		List<ChangeElementTypeAction> actionList = new ArrayList<>();
+		// Let's go through all archimate objects
+		for (EClass type : archimateObjectTypes) {
+			for (EClass eclass : archimateObjects.get(type)) {
+				actionList.add(new ChangeElementTypeAction(part, ROOT_ID + eclass.getName(), eclass));
 			}
 		}
+
 		return actionList;
 	}
 
@@ -149,7 +145,14 @@ public class ChangeElementTypeAction extends SelectionAction {
 		}
 	}
 
-	public ChangeElementTypeAction(IWorkbenchPart part, String id, EClass targetEClass) {
+	/**
+	 * This constructor can only be created by the {@link #createActions(IWorkbenchPart)} static method
+	 * 
+	 * @param part
+	 * @param id
+	 * @param targetEClass
+	 */
+	private ChangeElementTypeAction(IWorkbenchPart part, String id, EClass targetEClass) {
 		super(part);
 		setId(id);
 		setText(ArchiLabelProvider.INSTANCE.getDefaultName(targetEClass));

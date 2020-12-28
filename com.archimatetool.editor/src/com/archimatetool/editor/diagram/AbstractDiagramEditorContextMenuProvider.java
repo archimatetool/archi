@@ -124,13 +124,11 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_CENTER));
+        alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_RIGHT));
 
-//EGR
-//      alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_RIGHT));
-//		IMenuManager refactorMenu = new MenuManager(com.archimatetool.editor.diagram.Messages.AbstractDiagramEditorActionBarContributor_5bis,
-//				"menu_refactor"); //$NON-NLS-1$
-//		menu.add(refactorMenu);
-//		ChangeElementTypeAction.fillMenu(actionRegistry, refactorMenu);
+        IMenuManager refactorMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5bis, "menu_refactor"); //$NON-NLS-1$
+		menu.add(refactorMenu);
+		ChangeElementTypeAction.fillMenu(actionRegistry, refactorMenu);
 
         alignmentMenu.add(new Separator());
         
