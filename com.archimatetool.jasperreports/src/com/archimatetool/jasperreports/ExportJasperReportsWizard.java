@@ -9,12 +9,14 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.jasperreports.JasperReportsExporter.CancelledException;
 import com.archimatetool.model.IArchimateModel;
 
@@ -93,7 +95,7 @@ public class ExportJasperReportsWizard extends Wizard {
                         reportTitle, locale, exportOptions);
                 exporter.export(monitor);
             }
-            catch(Exception ex) {
+            catch(Throwable ex) { // Catch SWT and OOM exceptions
                 // Async this to close progress monitor
                 Display.getCurrent().asyncExec(new Runnable() {
                     @Override
@@ -103,6 +105,7 @@ public class ExportJasperReportsWizard extends Wizard {
                         }
                         else {
                             ex.printStackTrace();
+                            Logger.log(IStatus.ERROR, "Error saving Jasper Report", ex); //$NON-NLS-1$
                             MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, ex.getMessage());
                         }
                     }

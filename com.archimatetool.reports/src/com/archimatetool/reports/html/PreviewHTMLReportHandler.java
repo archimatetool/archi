@@ -7,7 +7,10 @@ package com.archimatetool.reports.html;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.MessageDialog;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.model.IArchimateModel;
 
@@ -24,8 +27,15 @@ public class PreviewHTMLReportHandler extends AbstractModelSelectionHandler {
     public Object execute(ExecutionEvent event) throws ExecutionException {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
-            HTMLReportExporter exporter = new HTMLReportExporter(model);
-            exporter.preview();
+            try {
+                HTMLReportExporter exporter = new HTMLReportExporter(model);
+                exporter.preview();
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+                Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
+            }
         }
 
         return null;

@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -19,7 +18,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
@@ -34,7 +32,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
@@ -44,7 +41,6 @@ import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
@@ -112,13 +108,13 @@ public class HTMLReportExporter {
         fModel = model;
     }
     
-    public void export() throws IOException {
+    public void export() throws Exception {
         File targetFolder = askSaveFolder();
         if(targetFolder == null) {
             return;
         }
         
-        IOException[] exception = new IOException[1];
+        Exception[] exception = new Exception[1];
         
         // Since this can take a while, show the busy dialog
         IRunnableWithProgress runnable = monitor -> {
@@ -127,16 +123,11 @@ public class HTMLReportExporter {
                 
                 // Open it in external Browser
                 IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-                try {
-                    IWebBrowser browser = support.getExternalBrowser();
-                    // This method supports network URLs
-                    browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                }
-                catch(PartInitException ex) {
-                    ex.printStackTrace();
-                }
+                IWebBrowser browser = support.getExternalBrowser();
+                // This method supports network URLs
+                browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
-            catch(IOException ex) {
+            catch(Exception ex) { // Catch OOM and SWT exceptions
                 exception[0] = ex;
             }
         };
@@ -145,25 +136,22 @@ public class HTMLReportExporter {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
             dialog.run(false, true, runnable);
         }
-        catch(InvocationTargetException | InterruptedException ex) {
-            ex.printStackTrace();
-            Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
+        catch(Exception ex) {
+            exception[0] = ex;
         }
 
-        if(exception[0] != null) {
-            if(exception[0] instanceof CancelledException) {
-                MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
-                return;
-            }
-
+        if(exception[0] instanceof CancelledException) {
+            MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
+        }
+        else if(exception[0] != null) {
             throw exception[0];
         }
     }
     
-    public void preview() {
+    public void preview() throws Exception {
         PREVIEW_FOLDER.mkdirs();
         
-        IOException[] exception = new IOException[1];
+        Exception[] exception = new Exception[1];
         
         // Since this can take a while, show the busy dialog
         IRunnableWithProgress runnable = monitor -> {
@@ -177,7 +165,7 @@ public class HTMLReportExporter {
                     editor.getBrowser().refresh();
                 }
             }
-            catch(IOException ex) {
+            catch(Exception ex) {  // Catch OOM and SWT exceptions
                 exception[0] = ex;
             }
         };
@@ -186,19 +174,15 @@ public class HTMLReportExporter {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
             dialog.run(false, true, runnable);
         }
-        catch(InvocationTargetException | InterruptedException ex) {
-            ex.printStackTrace();
-            Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
+        catch(Exception ex) {
+            exception[0] = ex;
         }
 
-        if(exception[0] != null) {
-            if(exception[0] instanceof CancelledException) {
-                MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
-                return;
-            }
-            
-            MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.HTMLReportAction_0, exception[0].getMessage());
-            exception[0].printStackTrace();
+        if(exception[0] instanceof CancelledException) {
+            MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
+        }
+        else if(exception[0] != null) {
+            throw exception[0];
         }
     }
     
@@ -453,13 +437,17 @@ public class HTMLReportExporter {
                 File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
+            catch(Throwable t) {
+                throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+                        t.getClass().getName() + ": " + t.getMessage(), t); //$NON-NLS-1$
+            }
             finally {
                 image.dispose();
             }
         }
     }
     
-    private void updateProgress() throws IOException {
+    private void updateProgress() throws CancelledException {
         if(progressMonitor != null && PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
             while(Display.getCurrent().readAndDispatch());
             
@@ -469,7 +457,7 @@ public class HTMLReportExporter {
         }
     }
     
-    private void setProgressSubTask(String task, boolean doUpdate) throws IOException {
+    private void setProgressSubTask(String task, boolean doUpdate) throws CancelledException {
         if(progressMonitor != null) {
             progressMonitor.subTask(task);
             if(doUpdate) {
