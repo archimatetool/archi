@@ -105,21 +105,21 @@ public class ChangeElementTypeCommandTests {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// First transformation: from a BusinessObject to an ApplicationObject
 		ChangeElementTypeCommand change1ToBusinessRole = new ChangeElementTypeCommand(dmo, IArchimatePackage.eINSTANCE.getBusinessRole());
-		assertEquals("(before 1) The source Business Object is 3 times in the model", 3, change1ToBusinessRole.modelProperties.size());
 		assertEquals("(before 1) can execute", true, change1ToBusinessRole.canExecute());
 		// Let's do the type change 1
 		change1ToBusinessRole.execute();
 
+		assertEquals("(after 1) The source Business Object is 3 times in the model", 3, change1ToBusinessRole.modelProperties.size());
 		checkBusinessRole("after 1", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Second transformation: from a BusinessObject to an ApplicationObject
 		ChangeElementTypeCommand change2ToDataObject = new ChangeElementTypeCommand(dmo, IArchimatePackage.eINSTANCE.getDataObject());
-		assertEquals("(before 2) The source Business Object is 3 times in the model", 3, change2ToDataObject.modelProperties.size());
 		assertEquals("(before 2) can execute", true, change2ToDataObject.canExecute());
 		// Let's do the type change 2
 		change2ToDataObject.execute();
 		//
+		assertEquals("(after 2) The source Business Object is 3 times in the model", 3, change2ToDataObject.modelProperties.size());
 		checkDataObject("after 2", dmos);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
