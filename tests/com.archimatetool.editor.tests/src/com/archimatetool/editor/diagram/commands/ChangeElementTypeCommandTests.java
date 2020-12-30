@@ -14,13 +14,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
-import com.archimatetool.editor.diagram.actions.ChangeElementTypeAction;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFolder;
@@ -64,20 +62,6 @@ public class ChangeElementTypeCommandTests {
 		dmo = (DiagramModelArchimateObject) ArchimateModelUtils.getObjectByID(model, ID_DIAGRAM_MODEL_ARCHIMATE_OBJECT);
 		assertNotNull("Must have found the dmo on which we will execute the tests", dmo);
 		assertEquals("Must have found the dmo on which we will execute the tests (check element)", elementBusinessObject, dmo.getArchimateElement());
-	}
-
-	/**
-	 * Create an instance of every available Archimate type, to check that there is no issue with these creations
-	 */
-	@Test
-	public void test_createArchimateElement() {
-		for (EClass type : ChangeElementTypeAction.archimateObjectTypes) {
-			for (EClass eclass : ChangeElementTypeAction.archimateObjects.get(type)) {
-				ChangeElementTypeCommand command = new ChangeElementTypeCommand(dmo, eclass);
-				// Let's check the instance creation
-				assertNotNull("Check creation of instance of " + eclass.getName(), command.createArchimateElement(eclass));
-			}
-		} // for(archimateObjectTypes)
 	}
 
 	@Test

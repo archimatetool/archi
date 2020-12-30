@@ -1,7 +1,6 @@
 package com.archimatetool.editor.diagram.commands;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,15 +15,14 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.impl.ArchimateElement;
-import com.archimatetool.model.impl.ArchimateFactory;
 import com.archimatetool.model.impl.ArchimateModel;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -194,7 +192,7 @@ public class ChangeElementTypeCommand extends Command {
 
 		// Creation of the Archimate object of the new type
 		ArchimateElement sourceElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, elementId);
-		ArchimateElement targetElement = (ArchimateElement) createArchimateElement(targetEClass);
+		ArchimateElement targetElement = (ArchimateElement) IArchimateFactory.eINSTANCE.create(targetEClass);
 
 		// Remove the dmo in case it is open in the UI with listeners attached to the underlying concept
 		// This will effectively remove the concept listener from the Edit Part.
@@ -285,33 +283,6 @@ public class ChangeElementTypeCommand extends Command {
 					model.setLineColor(null);
 				}
 			}
-		}
-	}
-
-	/**
-	 * Create an Archimate object instance, from the given {@link EClass}. This {@link EClass} may be the {@link #targetEClass} (when doing the
-	 * command), or the old EClass (when undoing the command)
-	 * 
-	 * @param eclass
-	 * @return
-	 */
-	IArchimateElement createArchimateElement(EClass eclass) {
-		String methodName = "create" + eclass.getName();
-		Method createMethod;
-
-		// First step: get the create method
-		try {
-			createMethod = ArchimateFactory.eINSTANCE.getClass().getMethod(methodName);
-		} catch (NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException(e.getClass().getSimpleName() + " while getting the '" + methodName + "' method: " + e.getMessage(), e);
-		}
-
-		// Second step: invoke the create method to create a new instance of the
-		// relevant object
-		try {
-			return (IArchimateElement) createMethod.invoke(IArchimatePackage.eINSTANCE.getArchimateFactory());
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			throw new RuntimeException(e.getClass().getSimpleName() + " while invoking the '" + methodName + "' method: " + e.getMessage(), e);
 		}
 	}
 }
