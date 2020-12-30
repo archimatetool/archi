@@ -1,8 +1,9 @@
 
 #Ignore build files, in all subfolders 
 bin/
+icons/
 target/
+
+**/.project
 **/*.jar
-
-
-**/.log
+**/*.log
