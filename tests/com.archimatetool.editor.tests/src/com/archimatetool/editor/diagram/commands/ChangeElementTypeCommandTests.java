@@ -121,10 +121,11 @@ public class ChangeElementTypeCommandTests {
 		change1ToBusinessRole.undo();
 		//
 		ArchimateElement newElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, ID_ARCHIMATE_ELEMENT);
-		assertEquals("(after undo1, id) Properties are saved", elementBusinessObject.getId(), newElement.getId());
-		assertEquals("(after undo1, name) Properties are saved", elementBusinessObject.getName(), newElement.getName());
-		assertEquals("(after undo1, documentation) Properties are saved", elementBusinessObject.getDocumentation(), newElement.getDocumentation());
-		assertEquals("(after undo1, props) Properties are saved", elementBusinessObject.getProperties(), newElement.getProperties());
+		assertEquals("(after undo1, id) Attributes are saved", elementBusinessObject.getId(), newElement.getId());
+		assertEquals("(after undo1, name) Attributes are saved", elementBusinessObject.getName(), newElement.getName());
+		assertEquals("(after undo1, documentation) Attributes are saved", elementBusinessObject.getDocumentation(), newElement.getDocumentation());
+		assertEquals("(after undo1, features) Attributes are saved", elementBusinessObject.getFeatures(), newElement.getFeatures());
+		assertEquals("(after undo1, props) Attributes are saved", elementBusinessObject.getProperties(), newElement.getProperties());
 		assertNotNull("(after undo1) There must be an element with this id: " + ID_ARCHIMATE_ELEMENT, newElement);
 		assertEquals("(after undo1) It must be of this type", IArchimatePackage.eINSTANCE.getBusinessObject(), newElement.eClass());
 		assertEquals("(after undo1) IFolder", true, newElement.eContainer() instanceof IFolder);
@@ -150,11 +151,12 @@ public class ChangeElementTypeCommandTests {
 
 	private void checkDataObject(String change, List<DiagramModelArchimateObject> dmos) {
 		ArchimateElement dataObjectElement = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, ID_ARCHIMATE_ELEMENT);
-		assertEquals("(" + change + ", id) Properties are saved", elementBusinessObject.getId(), dataObjectElement.getId());
-		assertEquals("(" + change + ", name) Properties are saved", elementBusinessObject.getName(), dataObjectElement.getName());
-		assertEquals("(" + change + ", documentation) Properties are saved", elementBusinessObject.getDocumentation(),
+		assertEquals("(" + change + ", id) Attributes are saved", elementBusinessObject.getId(), dataObjectElement.getId());
+		assertEquals("(" + change + ", name) Attributes are saved", elementBusinessObject.getName(), dataObjectElement.getName());
+		assertEquals("(" + change + ", documentation) Attributes are saved", elementBusinessObject.getDocumentation(),
 				dataObjectElement.getDocumentation());
-		assertEquals("(" + change + ", props) Properties are saved", elementBusinessObject.getProperties(), dataObjectElement.getProperties());
+		assertEquals("(" + change + ", features) Attributes are saved", elementBusinessObject.getFeatures(), dataObjectElement.getFeatures());
+		assertEquals("(" + change + ", props) Attributes are saved", elementBusinessObject.getProperties(), dataObjectElement.getProperties());
 		assertNotNull("(" + change + ") There must be an element with this id: " + ID_ARCHIMATE_ELEMENT, dataObjectElement);
 		assertEquals("(" + change + ") It must be of this type", IArchimatePackage.eINSTANCE.getDataObject(), dataObjectElement.eClass());
 		assertEquals("(" + change + ") IFolder", true, dataObjectElement.eContainer() instanceof IFolder);
@@ -168,11 +170,12 @@ public class ChangeElementTypeCommandTests {
 	private void checkBusinessRole(String change, List<DiagramModelArchimateObject> dmos) {
 		ArchimateElement elementBusinessRole = (ArchimateElement) ArchimateModelUtils.getObjectByID(model, ID_ARCHIMATE_ELEMENT);
 
-		assertEquals("(" + change + ", id) Properties are saved", elementBusinessObject.getId(), elementBusinessRole.getId());
-		assertEquals("(" + change + ", name) Properties are saved", elementBusinessObject.getName(), elementBusinessRole.getName());
-		assertEquals("(" + change + ", documentation) Properties are saved", elementBusinessObject.getDocumentation(),
+		assertEquals("(" + change + ", id) Attributes are saved", elementBusinessObject.getId(), elementBusinessRole.getId());
+		assertEquals("(" + change + ", name) Attributes are saved", elementBusinessObject.getName(), elementBusinessRole.getName());
+		assertEquals("(" + change + ", documentation) Attributes are saved", elementBusinessObject.getDocumentation(),
 				elementBusinessRole.getDocumentation());
-		assertEquals("(" + change + ", props) Properties are saved", elementBusinessObject.getProperties(), elementBusinessRole.getProperties());
+		assertEquals("(" + change + ", features) Attributes are saved", elementBusinessObject.getFeatures(), elementBusinessRole.getFeatures());
+		assertEquals("(" + change + ", props) Attributes are saved", elementBusinessObject.getProperties(), elementBusinessRole.getProperties());
 		assertNotNull("(" + change + ") There must be an element with this id: " + ID_ARCHIMATE_ELEMENT, elementBusinessRole);
 		assertEquals("(" + change + ") It must be of this type", IArchimatePackage.eINSTANCE.getBusinessRole(), elementBusinessRole.eClass());
 		assertEquals("(" + change + ") IFolder", true, elementBusinessRole.eContainer() instanceof IFolder);

@@ -205,6 +205,7 @@ public class ChangeElementTypeCommand extends Command {
 		targetElement.setId(sourceElement.getId());
 		targetElement.setName(sourceElement.getName());
 		targetElement.setDocumentation(sourceElement.getDocumentation());
+		targetElement.getFeatures().addAll(sourceElement.getFeatures());
 		targetElement.getProperties().addAll(sourceElement.getProperties());
 
 		IFolder currentFolder = (IFolder) sourceElement.eContainer();
