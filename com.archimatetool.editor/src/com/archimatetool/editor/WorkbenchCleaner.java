@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.equinox.p2.core.IAgentLocation;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -32,7 +33,7 @@ public class WorkbenchCleaner {
     private static final String METADATA_FOLDER = ".metadata"; //$NON-NLS-1$
     private static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi"; //$NON-NLS-1$
     
-    // If this is set in VM arguments as -DcleanConfig=false then don't clean these
+    // If this is set in VM arguments as "-DcleanConfig=false" then don't clean the config area
     private static final String CLEAN_CONFIG = "cleanConfig"; //$NON-NLS-1$
     
     private static final String[] CONFIG_FILES_TO_DELETE = {
@@ -92,14 +93,20 @@ public class WorkbenchCleaner {
     }
     
     /**
-     * Clean the crap out of the instance location folder, config area and workbench.xmi
+     * Clean the workbench and the config area
      */
-    public static void clean() throws IOException {
+    public static void clean(IApplicationContext context) throws IOException {
         // If reset file exists clean the workbench
         cleanWorkbench();
         
-        // Delete config and P2 files if running as deployed product
-        if(!Platform.inDevelopmentMode()) {
+        // Is the "-clean" (osgi.clean) option set?
+        // We should only clean the config files if it is set, else the "org.eclipse.osgi" folder will be re-populated with new bundle folders each launch
+        String osgiClean = context.getBrandingBundle().getBundleContext().getProperty("osgi.clean"); //$NON-NLS-1$
+        
+        // Delete config and P2 files if running as a deployed product
+        // And the "-clean" option is set
+        // And "-DcleanConfig=false" is not set
+        if(!Platform.inDevelopmentMode() && osgiClean != null && !"false".equals(System.getProperty(CLEAN_CONFIG))) { //$NON-NLS-1$
             cleanConfig();
         }
     }
@@ -131,11 +138,6 @@ public class WorkbenchCleaner {
      * See https://github.com/archimatetool/archi/issues/429
      */
     private static void cleanConfig() throws IOException {
-        // If System Property set to false then don't clean these files
-        if("false".equals(System.getProperty(CLEAN_CONFIG))) { //$NON-NLS-1$
-            return;
-        }
-        
         // Clean config area if using dropins
         if(P2.USE_DROPINS) {
             Location configLoc = Platform.getConfigurationLocation();

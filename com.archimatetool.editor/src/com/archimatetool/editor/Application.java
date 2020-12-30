@@ -44,7 +44,7 @@ implements IApplication {
     public Object start(IApplicationContext context) throws Exception {
 	    // Clean Workbench
 	    try {
-	        WorkbenchCleaner.clean();
+	        WorkbenchCleaner.clean(context);
 	    }
 	    catch(IOException ex) {
 	        // Just log the error
