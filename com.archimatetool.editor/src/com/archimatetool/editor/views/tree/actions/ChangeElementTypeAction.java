@@ -53,6 +53,7 @@ public class ChangeElementTypeAction extends ViewerAction {
 				List<IViewerAction> actions = new ArrayList<>();
 				for (EClass eclass : com.archimatetool.editor.diagram.actions.ChangeElementTypeAction.getArchimateObjects().get(type)) {
 					IViewerAction action = new ChangeElementTypeAction(selectionProvider, eclass);
+					action.setImageDescriptor(ArchiLabelProvider.INSTANCE.getImageDescriptor(eclass));
 					allActions.add(action);
 					actions.add(action);
 

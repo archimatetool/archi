@@ -84,7 +84,9 @@ public class ChangeElementTypeAction extends SelectionAction {
 		// Let's go through all archimate objects
 		for (EClass type : archimateObjectTypes) {
 			for (EClass eclass : archimateObjects.get(type)) {
-				actionList.add(new ChangeElementTypeAction(part, ROOT_ID + eclass.getName(), eclass));
+				ChangeElementTypeAction action = new ChangeElementTypeAction(part, ROOT_ID + eclass.getName(), eclass);
+				action.setImageDescriptor(ArchiLabelProvider.INSTANCE.getImageDescriptor(eclass));
+				actionList.add(action);
 			}
 		}
 
