@@ -15,7 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
@@ -28,6 +30,9 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchListener;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -47,11 +52,9 @@ public class DropinsPluginHandler {
     private File userDropinsFolder, systemDropinsFolder, instanceDropinsFolder;
 
     private boolean success;
-    private boolean needsClose;
     
     static final int CONTINUE = 0;
     static final int RESTART = 1;
-    static final int CLOSE = 2;
     
     static final String MAGIC_ENTRY = "archi-plugin"; //$NON-NLS-1$
     
@@ -194,7 +197,7 @@ public class DropinsPluginHandler {
         for(Bundle bundle : selected) {
             File file = getDropinsBundleFile(bundle);
             if(file != null) {
-                deleteOnExit(file);
+                addFileToDeleteOnExit(file);
             }
             else {
                 Logger.logError(NLS.bind(Messages.DropinsPluginHandler_1, bundle.getLocation()));
@@ -207,9 +210,6 @@ public class DropinsPluginHandler {
     }
     
     private int status() {
-        if(success && needsClose) {
-            return CLOSE;
-        }
         if(success) {
             return RESTART;
         }
@@ -218,9 +218,9 @@ public class DropinsPluginHandler {
     }
     
     // Delete matching older plugin
-    private void deleteOlderPluginOnExit(File newPlugin, File pluginsFolder) throws IOException {
+    private void deleteOlderPluginOnExit(File newPlugin, File pluginsFolder) {
         for(File file : findMatchingPlugins(pluginsFolder, newPlugin)) {
-            deleteOnExit(file);
+            addFileToDeleteOnExit(file);
         }
     }
     
@@ -408,39 +408,79 @@ public class DropinsPluginHandler {
         
         return files;
     }
-
-    private void deleteOnExit(File file) throws IOException {
-        if(file.isDirectory()) {
-            recursiveDeleteOnExit(file.toPath());
-        }
-        else {
-            file.deleteOnExit();
-        }
-        
-        // Mac won't delete files with File.deleteOnExit() if workbench is restarted
-        needsClose = PlatformUtils.isMac();
-    }
     
-    private void recursiveDeleteOnExit(Path path) throws IOException {
-        Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                file.toFile().deleteOnExit();
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                dir.toFile().deleteOnExit();
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
     private void displayErrorDialog(String message) {
         MessageDialog.openError(shell,
                 Messages.DropinsPluginHandler_12,
                 message);
+    }
+    
+    /*
+     * Plug-in File cleanup deletion handling.
+     * Because Mac doesn't call File#deleteOnExit() or a Shutdown hook on a Restart we have to do it this way.
+     * When a plug-in file or folder is marked for deletion it is added to the list of files to delete.
+     */
+    private static Set<File> filesToDelete;
+    
+    private void addFileToDeleteOnExit(File file) {
+        if(filesToDelete == null) {
+            filesToDelete = new HashSet<>();
+            
+            // Mac does not call shutdown hooks on a Restart so delete files on Workbench shutdown
+            if(PlatformUtils.isMac() && PlatformUI.isWorkbenchRunning()) {
+                PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+                    @Override
+                    public boolean preShutdown(IWorkbench workbench, boolean forced) {
+                        return true;
+                    }
+                    
+                    @Override
+                    public void postShutdown(IWorkbench workbench) {
+                        deleteFiles();
+                    }
+                });
+            }
+            // Else add a shutdown hook to delete files after Java has exited
+            else {
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> deleteFiles()));
+            }
+        }
+        
+        filesToDelete.add(file);
+    }
+    
+    private static void deleteFiles() {
+        try {
+            for(File file : filesToDelete) {
+                if(file.isDirectory()) {
+                    recursiveDelete(file);
+                }
+                else {
+                    file.delete();
+                }
+            }
+        }
+        catch(Exception ex) {
+            Logger.logError("Error deleting file", ex); //$NON-NLS-1$
+        }
+    }
+    
+    private static void recursiveDelete(File file) throws IOException {
+        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+            
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                if(exc != null) {
+                    throw exc;
+                }
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

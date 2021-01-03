@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 
@@ -117,7 +118,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     return handler.getInstalledPlugins().toArray();
                 }
                 catch(IOException ex) {
-                    ex.printStackTrace();
+                    Logger.logError("Error getting installed plug-in", ex); //$NON-NLS-1$
                 }
                 
                 return new Object[0];
@@ -195,21 +196,12 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
             case INSTALL:
                 try {
                     DropinsPluginHandler handler = new DropinsPluginHandler();
-                    switch(handler.install(getShell())) {
-                        case DropinsPluginHandler.CLOSE:
-                            shutDown();
-                            break;
-
-                        case DropinsPluginHandler.RESTART:
-                            restart();
-                            break;
-
-                        default:
-                            break;
+                    if(handler.install(getShell()) == DropinsPluginHandler.RESTART) {
+                        restart();
                     }
                 }
                 catch(IOException ex) {
-                    ex.printStackTrace();
+                    Logger.logError("Error installing plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 
@@ -218,38 +210,17 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     @SuppressWarnings("unchecked")
                     List<Bundle> selected = ((IStructuredSelection)viewer.getSelection()).toList();
                     DropinsPluginHandler handler = new DropinsPluginHandler();
-                    switch(handler.uninstall(getShell(), selected)) {
-                        case DropinsPluginHandler.CLOSE:
-                            shutDown();
-                            break;
-
-                        case DropinsPluginHandler.RESTART:
-                            restart();
-                            break;
-
-                        default:
-                            break;
+                    if(handler.uninstall(getShell(), selected) == DropinsPluginHandler.RESTART) {
+                        restart();
                     }
                 }
                 catch(IOException ex) {
-                    ex.printStackTrace();
+                    Logger.logError("Error uninstalling plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 
             default:
                 super.buttonPressed(buttonId);
-        }
-    }
-    
-    private void shutDown() {
-        okPressed();
-        
-        boolean ok = MessageDialog.openQuestion(getShell(),
-                Messages.DropinsPluginDialog_7,
-                Messages.DropinsPluginDialog_8);
-        
-        if(ok) {
-            PlatformUI.getWorkbench().close();
         }
     }
     
