@@ -5,21 +5,22 @@
  */
 package com.archimatetool.editor.actions;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.Application;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -52,9 +53,8 @@ public class CheckForNewVersionActionTests {
 
     @Test
     public void testNewVersionIsGreater() {
-        String newVersion = "10.1.1";
-        System.setProperty(Application.APPLICATION_VERSIONID, "2.7.1");
-        String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
+        String newVersion = "100.1.1";
+        String thisVersion = ArchiPlugin.INSTANCE.getVersion();
         assertNotNull(thisVersion);
         assertEquals(1, StringUtils.compareVersionNumbers(newVersion, thisVersion));
     }

@@ -15,6 +15,7 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Version;
 
 import com.archimatetool.editor.preferences.Preferences;
 
@@ -155,5 +156,20 @@ public class ArchiPlugin extends AbstractUIPlugin {
      */
     public String getId(){
         return getBundle().getSymbolicName();
+    }
+    
+    /**
+     * @return The version of this app in format 1.0.0
+     */
+    public String getVersion() {
+        Version v = getBundle().getVersion();
+        return v.getMajor() + "." + v.getMinor() + "." + v.getMicro(); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+    
+    /**
+     * @return The build quailifer version
+     */
+    public String getBuild() {
+        return getBundle().getVersion().getQualifier();
     }
 }

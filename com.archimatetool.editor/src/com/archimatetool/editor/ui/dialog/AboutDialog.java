@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.about.InstallationDialog;
 
-import com.archimatetool.editor.Application;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.actions.CheckForNewVersionAction;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -146,8 +145,8 @@ public class AboutDialog extends TrayDialog {
             imageHeight = 300;
         }
         
-        final String version = Messages.AboutDialog_2 + System.getProperty(Application.APPLICATION_VERSIONID);
-        final String build = Messages.AboutDialog_3 + System.getProperty(Application.APPLICATION_BUILDID);
+        final String version = Messages.AboutDialog_2 + ArchiPlugin.INSTANCE.getVersion();
+        final String build = Messages.AboutDialog_3 + ArchiPlugin.INSTANCE.getBuild();
         final String copyright = ArchiPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         FontData fd = imageControl.getFont().getFontData()[0];

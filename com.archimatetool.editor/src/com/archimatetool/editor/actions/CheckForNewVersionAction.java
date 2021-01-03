@@ -20,7 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
-import com.archimatetool.editor.Application;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
@@ -73,7 +73,7 @@ public class CheckForNewVersionAction extends Action {
             String newVersion = getOnlineVersion(url);
             
             // Get this app's main version number
-            String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
+            String thisVersion = ArchiPlugin.INSTANCE.getVersion();
             
             if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
                 String downloadURL = Preferences.STORE.getString(IPreferenceConstants.DOWNLOAD_URL);

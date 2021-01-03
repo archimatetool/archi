@@ -29,7 +29,7 @@ public class SplashHandler extends AbstractSplashHandler {
         super.init(shell);
         shell.setBackgroundMode(SWT.INHERIT_FORCE);
         
-        String version = Messages.SplashHandler_0 + System.getProperty(Application.APPLICATION_VERSIONID);
+        String version = Messages.SplashHandler_0 + " " + ArchiPlugin.INSTANCE.getVersion(); //$NON-NLS-1$
 
         // Have to use a child composite to draw on because...yes, you guessed it, otherwise it doesn't work on Mac
         Composite parent = new Composite(shell, SWT.NONE);
