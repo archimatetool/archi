@@ -15,6 +15,8 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.utils.PlatformUtils;
+
 
 
 
@@ -39,26 +41,31 @@ implements IApplication {
 	
 	@Override
     public Object start(IApplicationContext context) throws Exception {
-	    // Clean Workbench
-	    try {
-	        WorkbenchCleaner.clean(context);
-	    }
-	    catch(IOException ex) {
-	        // Just log the error
-	        Logger.logError("Error cleaning workbench", ex); //$NON-NLS-1$
-	    }
-	    
-	    /*
-	     * Platform specific startup if user launches app twice or from .archimate file on the desktop
-	     */
-	    IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
-	    if(launcher != null) {
-	        launcher.startup();
-	        
-            /*
-             * If the application is already open (Windows), exit
-             */
-	        if(launcher.shouldApplicationExitEarly()) {
+        // Clean Workbench
+        try {
+            WorkbenchCleaner.clean(context);
+        }
+        catch(IOException ex) {
+            // Just log the error
+            Logger.logError("Error cleaning workbench", ex); //$NON-NLS-1$
+        }
+        
+        // If running on Linux lock the instance location so we can only launch Archi once
+        if(PlatformUtils.isLinux() && Platform.getInstanceLocation() != null) {
+            if(Platform.getInstanceLocation().isLocked()) {
+                return EXIT_OK;
+            }
+            
+            Platform.getInstanceLocation().lock();
+        }
+
+        // Platform specific launcher check
+        IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
+        if(launcher != null) {
+            launcher.startup();
+            
+            // If the application is already open (Windows), exit
+            if(launcher.shouldApplicationExitEarly()) {
                 return EXIT_OK;
             }
 	    }
