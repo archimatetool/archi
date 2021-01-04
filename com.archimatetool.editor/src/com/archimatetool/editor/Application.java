@@ -41,15 +41,6 @@ implements IApplication {
 	
 	@Override
     public Object start(IApplicationContext context) throws Exception {
-        // Clean Workbench
-        try {
-            WorkbenchCleaner.clean(context);
-        }
-        catch(IOException ex) {
-            // Just log the error
-            Logger.logError("Error cleaning workbench", ex); //$NON-NLS-1$
-        }
-        
         // If running on Linux lock the instance location so we can only launch Archi once
         if(PlatformUtils.isLinux() && Platform.getInstanceLocation() != null) {
             if(Platform.getInstanceLocation().isLocked()) {
@@ -82,10 +73,19 @@ implements IApplication {
 	    OpenDocumentHandler.getInstance().hook(display);
 	    	    
 	    try {
+	        // Create and Run the Workbench
 	        int returnCode = PlatformUI.createAndRunWorkbench(display, new ArchiWorkbenchAdvisor());
-	        if(returnCode == PlatformUI.RETURN_RESTART) {
+
+	        // Was it a restart?
+	        boolean restart = returnCode == PlatformUI.RETURN_RESTART;
+	        
+	        // Clean Workbench on exit/restart
+	        WorkbenchCleaner.clean(restart);
+            
+	        if(restart) {
                 return EXIT_RESTART;
             }
+	        
 	        return EXIT_OK;
 	    }
 	    finally {

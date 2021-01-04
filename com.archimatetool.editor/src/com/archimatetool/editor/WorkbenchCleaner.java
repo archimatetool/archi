@@ -7,9 +7,9 @@ package com.archimatetool.editor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.equinox.p2.core.IAgentLocation;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -18,23 +18,46 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.p2.P2;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
  * Cleans and resets the Workbench state
  * 
+ * This happens on application exit.
+ * It does these things:
+ * 
+ * (1) Deletes the workbench.xmi file if user chooses to reset the UI
+ * (2) Deletes the .metadata folder if user chooses to reset the UI and all user preferences
+ * (3) Deletes certain files in the config area
+ * 
+ * Why do we do (3)?
+ * See https://github.com/archimatetool/archi/issues/429
+ * Mainly because Eclipse caches the location of bundles using absolute file paths. If you move the application or dropins location it gets out of sync.
+ * 
+ * So we delete some key files in the config area when exiting Archi.
+ * 
+ * In order for (3) to work we set an option in Archi.ini:
+ * 
+ * -cleanConfig
+ * 
+ * But it means that we must not also set the "-clean" option (this cleans osgi files at startup) as this can cause problems.
+ * 
+ * Here's an edge case on Windows/Linux if Archi -clean is set:
+ * - Archi is launched. Clean is done.
+ * - Archi is launched from desktop again as a second instance. App will exit but Clean is done again.
+ * - Then user uninstalls some Archi plug-ins and restarts Archi.
+ * - Lots of errors because of missing cached files that were in the osgi folder but the second clean action deleted them.
+ * 
  * @author Phillip Beauvoir
  */
 public class WorkbenchCleaner {
     
-    private static final String SOFT_RESET_FILE = ".softreset"; //$NON-NLS-1$
-    private static final String HARD_RESET_FILE = ".hardreset"; //$NON-NLS-1$
-    
     private static final String METADATA_FOLDER = ".metadata"; //$NON-NLS-1$
     private static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi"; //$NON-NLS-1$
     
-    // If this is set in VM arguments as "-DcleanConfig=false" then don't clean the config area
-    private static final String CLEAN_CONFIG = "cleanConfig"; //$NON-NLS-1$
+    // If this is set in Program arguments then clean the config area
+    private static final String CLEAN_CONFIG = "-cleanConfig"; //$NON-NLS-1$
     
     private static final String[] CONFIG_FILES_TO_DELETE = {
             // Files
@@ -47,12 +70,14 @@ public class WorkbenchCleaner {
             "org.eclipse.equinox.app", //$NON-NLS-1$
             "org.eclipse.equinox.simpleconfigurator", //$NON-NLS-1$
             "org.eclipse.update", //$NON-NLS-1$
-
-            // "org.eclipse.osgi" Not this one as -clean launch option will delete it 
+            "org.eclipse.osgi" //$NON-NLS-1$
     };
     
     // This will be generated in the parent folder of the "p2" folder
     private static final String ARTIFACTS_FILE = "artifacts.xml"; //$NON-NLS-1$
+
+    // Clean workbench on exit flag for either full or soft reset
+    private static int cleanWorkBench = -1;
     
     /**
      * Ask user if they want to reset the workbench and/or preferences.
@@ -74,116 +99,121 @@ public class WorkbenchCleaner {
             return;
         }
         
-        // Hard reset
-        boolean hardReset = response == 1;
-        
-        Location instanceLoc = Platform.getInstanceLocation();
-        if(instanceLoc != null) {
-            try {
-                if(PlatformUI.getWorkbench().restart()) { // User might have cancelled on a dirty editor
-                    File resetFile = new File(instanceLoc.getURL().getPath(), hardReset ? HARD_RESET_FILE : SOFT_RESET_FILE);
-                    resetFile.createNewFile();
-                }
-            }
-            catch(Exception ex) {
-                MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.WorkbenchCleaner_2, ex.getMessage());
-                ex.printStackTrace();
-            }
+        if(PlatformUI.getWorkbench().restart()) { // User might have cancelled on a dirty editor
+            // Set this here as a flag for later when the app is closed so we can delete the files afterwards
+            cleanWorkBench = response;
         }
+    }
+    
+    static void clean(boolean isRestart) {
+        cleanWorkbench();
+        cleanConfigOnExit(isRestart);
     }
     
     /**
-     * Clean the workbench and the config area
+     * Clean the workbench if requested
      */
-    public static void clean(IApplicationContext context) throws IOException {
-        // If reset file exists clean the workbench
-        cleanWorkbench();
-        
-        // Is the "-clean" (osgi.clean) option set?
-        // We should only clean the config files if it is set, else the "org.eclipse.osgi" folder will be re-populated with new bundle folders each launch
-        String osgiClean = context.getBrandingBundle().getBundleContext().getProperty("osgi.clean"); //$NON-NLS-1$
-        
-        // Delete config and P2 files if running as a deployed product
-        // And the "-clean" option is set
-        // And "-DcleanConfig=false" is not set
-        if(!Platform.inDevelopmentMode() && osgiClean != null && !"false".equals(System.getProperty(CLEAN_CONFIG))) { //$NON-NLS-1$
-            cleanConfig();
+    private static void cleanWorkbench() {
+        // Not set
+        if(cleanWorkBench == -1) {
+            return;
         }
-    }
-    
-    private static void cleanWorkbench() throws IOException {
-        Location instanceLoc = Platform.getInstanceLocation();
-        if(instanceLoc != null) {
-            File instanceLocationFolder = new File(instanceLoc.getURL().getPath());
-            
-            // If hard reset file exists delete the .metadata folder
-            File hardResetFile = new File(instanceLocationFolder, HARD_RESET_FILE);
-            if(hardResetFile.exists()) {
-                delete(hardResetFile);
-                delete(new File(instanceLocationFolder, METADATA_FOLDER));
-                return;
-            }
-            
-            // If soft reset file exists delete the workbench.xmi file
-            File softResetFile = new File(instanceLocationFolder, SOFT_RESET_FILE);
-            if(softResetFile.exists()) {
-                delete(softResetFile);
+        
+        File instanceLocationFolder = getLocationAsFile(Platform.getInstanceLocation());
+        if(instanceLocationFolder != null) {
+            // Just delete the workbench.xmi file
+            if(cleanWorkBench == 0) {
                 delete(new File(instanceLocationFolder, WORKBENCH_FILE));
             }
+            // Delete the whole .metadata folder
+            else if(cleanWorkBench == 1) {
+                delete(new File(instanceLocationFolder, METADATA_FOLDER));
+            }
         }
     }
-    
+
     /**
-     * Clean the config area
+     * Clean the config area on exit
      * See https://github.com/archimatetool/archi/issues/429
      */
-    private static void cleanConfig() throws IOException {
-        // Clean config area if using dropins
+    private static void cleanConfigOnExit(boolean isRestart) {
+        // Don't clean if the "-cleanConfig" option is not set
+        if(!Arrays.asList(Platform.getApplicationArgs()).contains(CLEAN_CONFIG)) {
+            return;
+        }
+        
+        File configLocationFolder = getLocationAsFile(Platform.getConfigurationLocation());
+        File installationFolder = getLocationAsFile(Platform.getInstallLocation());
+        
+        if(configLocationFolder == null || installationFolder == null) {
+            return;
+        }
+
+        // Don't delete anything if the config folder is in the Archi installation folder and called "configuration"
+        if(configLocationFolder.getName().equals("configuration") && installationFolder.equals(configLocationFolder.getParentFile())) { //$NON-NLS-1$
+            return;
+        }
+
+        // Clean config area using this method if using dropins
         if(P2.USE_DROPINS) {
-            Location configLoc = Platform.getConfigurationLocation();
-            if(configLoc != null) {
-                File configLocationFolder = new File(configLoc.getURL().getPath());
-                File installationFolder = new File(Platform.getInstallLocation().getURL().getPath());
-                
-                // Don't delete anything if the config folder is in the Archi installation folder and called "configuration"
-                if(configLocationFolder.getName().equals("configuration") && installationFolder.equals(configLocationFolder.getParentFile())) { //$NON-NLS-1$
-                    return;
-                }
-                
+            File p2Folder = getP2Location(); // Get this before running the shutdown hook
+
+            Runnable runnable = (() -> {
                 // Delete config files
                 for(String path : CONFIG_FILES_TO_DELETE) {
                     delete(new File(configLocationFolder, path));
                 }
-                
+
                 // Delete p2 folder
-                File p2Folder = getP2Location();
                 // But check it's not in the installation folder
                 if(p2Folder != null && !installationFolder.equals(p2Folder.getParentFile())) {
                     delete(p2Folder);
                 }
-                
+
                 // The "artifacts.xml" file is generated by Eclipse in the parent folder of the configuration folder
                 File artifactsFile = new File(configLocationFolder.getParentFile(), ARTIFACTS_FILE);
-                
+
                 // But make sure it's not the one in the installation folder
                 if(!installationFolder.equals(artifactsFile.getParentFile())) {
                     delete(artifactsFile);
                 }
+            });
+            
+            // Mac does not call shutdown hooks on Restart so run this now.
+            // Note, not all files will be deleted in this case.
+            if(PlatformUtils.isMac() && isRestart) {
+                runnable.run();
+            }
+            // Add a shutdown hook to delete files after Java has exited
+            else {
+                Runtime.getRuntime().addShutdownHook(new Thread((runnable)));
             }
         }
+    }
+    
+    /**
+     * @return a osgi data Location as a File object or null
+     */
+    private static File getLocationAsFile(Location location) {
+        return location == null ? null : new File(location.getURL().getPath());
     }
     
     /**
      * Get the location of the "p2" folder as set in "eclipse.p2.data.area" in Archi.ini, or if not set there, in config.ini
      * Found a clue in https://git.eclipse.org/c/oomph/org.eclipse.oomph.git/tree/plugins/org.eclipse.oomph.p2.core/src/org/eclipse/oomph/p2/internal/core/ProvisioningAgentProvider.java
      */
-    private static File getP2Location() throws IOException {
+    private static File getP2Location() {
         // We can either get the IAgentLocation as a public static field
         @SuppressWarnings("restriction")
         IAgentLocation agentDataLocation = org.eclipse.equinox.internal.p2.core.Activator.agentDataLocation;
         if(agentDataLocation != null) {
             // Normalise the uri in case it has ".." in the path. If it does File#equals(File) doesn't work
-            return new File(agentDataLocation.getRootLocation()).getCanonicalFile();
+            try {
+                return new File(agentDataLocation.getRootLocation()).getCanonicalFile();
+            }
+            catch(IOException ex) {
+                ex.printStackTrace();
+            }
             // Alternate method
             //return Paths.get(agentDataLocation.getRootLocation()).normalize().toFile();
         }
@@ -201,16 +231,16 @@ public class WorkbenchCleaner {
         return null;
     }
     
-    private static void delete(File f) throws IOException {
-        if(f.isDirectory()) {
-            deleteFolder(f);
+    private static void delete(File file) {
+        if(file.isDirectory()) {
+            deleteFolder(file);
         }
         else {
-            f.delete();
+            file.delete();
         }
     }
     
-    private static void deleteFolder(File folder) throws IOException {
+    private static void deleteFolder(File folder) {
         if(folder.exists() && folder.isDirectory()) {
             for(File file : folder.listFiles()) {
                 if(file.isFile()) {
