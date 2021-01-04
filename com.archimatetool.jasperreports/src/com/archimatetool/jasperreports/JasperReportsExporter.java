@@ -176,9 +176,11 @@ public class JasperReportsExporter {
         for(IDiagramModel dm : diagramModels) {
             setProgressSubTask(NLS.bind(Messages.JasperReportsExporter_1, i++, total));
             
-            Image image = DiagramUtils.createImage(dm, 1, 10);
-            String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
+            Image image = null;
+            
             try {
+                image = DiagramUtils.createImage(dm, 1, 10);
+                String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(tmpFolder, diagramName);
@@ -186,10 +188,12 @@ public class JasperReportsExporter {
             }
             catch(Throwable t) {
                 throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
-                        t.getClass().getName() + ": " + t.getMessage(), t); //$NON-NLS-1$
+                        (t.getMessage() == null ? t.toString() : t.getMessage()), t);
             }
             finally {
-                image.dispose();
+                if(image != null) {
+                    image.dispose();
+                }
             }
         }
     }

@@ -104,7 +104,6 @@ public class ExportJasperReportsWizard extends Wizard {
                             MessageDialog.openInformation(getShell(), Messages.ExportJasperReportsWizard_0, ex.getMessage());
                         }
                         else {
-                            ex.printStackTrace();
                             Logger.log(IStatus.ERROR, "Error saving Jasper Report", ex); //$NON-NLS-1$
                             MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, ex.getMessage());
                         }

@@ -403,35 +403,37 @@ public class HTMLReportExporter {
         for(IDiagramModel dm : diagramModels) {
             setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, i++, total), true);
 
-            ModelReferencedImage geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
-            Image image = geoImage.getImage();
+            Image image = null;
             
-            // Generate file name
-            String diagramName = dm.getId();
-            if(StringUtils.isSet(diagramName)) {
-                // removed this because ids can have hyphens in them (when imported from TOG format)
-                // Let's hope that ids are filename friendly...
-                //diagramName = FileUtils.getValidFileName(diagramName);
-                
-                int j = 2;
-                String s = diagramName + ".png";  //$NON-NLS-1$
-                while(nameTable.containsValue(s)) {
-                    s = diagramName + "_" + j++ + ".png"; //$NON-NLS-1$ //$NON-NLS-2$
-                }
-                diagramName = s;
-            }
-            else {
-                diagramName = Messages.HTMLReportExporter_1 + " " + nameCount++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
-            }
-
-            nameTable.put(dm, diagramName);
-
-            // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
-            Rectangle bounds = geoImage.getBounds();
-            bounds.performScale(ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
-            diagramBoundsMap.put(dm, bounds);
-
             try {
+                ModelReferencedImage geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
+                image = geoImage.getImage();
+
+                // Generate file name
+                String diagramName = dm.getId();
+                if(StringUtils.isSet(diagramName)) {
+                    // removed this because ids can have hyphens in them (when imported from TOG format)
+                    // Let's hope that ids are filename friendly...
+                    //diagramName = FileUtils.getValidFileName(diagramName);
+
+                    int j = 2;
+                    String s = diagramName + ".png";  //$NON-NLS-1$
+                    while(nameTable.containsValue(s)) {
+                        s = diagramName + "_" + j++ + ".png"; //$NON-NLS-1$ //$NON-NLS-2$
+                    }
+                    diagramName = s;
+                }
+                else {
+                    diagramName = Messages.HTMLReportExporter_1 + " " + nameCount++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
+                }
+
+                nameTable.put(dm, diagramName);
+
+                // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
+                Rectangle bounds = geoImage.getBounds();
+                bounds.performScale(ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
+                diagramBoundsMap.put(dm, bounds);
+
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(imagesFolder, diagramName);
@@ -439,10 +441,12 @@ public class HTMLReportExporter {
             }
             catch(Throwable t) {
                 throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
-                        t.getClass().getName() + ": " + t.getMessage(), t); //$NON-NLS-1$
+                        (t.getMessage() == null ? t.toString() : t.getMessage()), t);
             }
             finally {
-                image.dispose();
+                if(image != null) {
+                    image.dispose();
+                }
             }
         }
     }

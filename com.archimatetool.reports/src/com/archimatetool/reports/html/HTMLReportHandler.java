@@ -32,9 +32,10 @@ public class HTMLReportHandler extends AbstractModelSelectionHandler {
                 exporter.export();
             }
             catch(Exception ex) {
-                ex.printStackTrace();
                 Logger.log(IStatus.ERROR, "Error saving HTML Report", ex); //$NON-NLS-1$
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(),
+                        Messages.HTMLReportAction_0,
+                        (ex.getMessage() == null ? ex.toString() : ex.getMessage()) );
             }
         }
 

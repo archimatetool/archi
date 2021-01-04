@@ -5,6 +5,7 @@
  */
 package com.archimatetool.zest;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -15,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.PngTransfer;
@@ -56,11 +58,12 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                     cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
-                    ex.printStackTrace();
+                    Logger.log(IStatus.ERROR, "Error exporting image", ex); //$NON-NLS-1$
                     
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
                             Messages.CopyZestViewAsImageToClipboardAction_0,
-                            Messages.CopyZestViewAsImageToClipboardAction_2 + " " + ex.getMessage()); //$NON-NLS-1$
+                            Messages.CopyZestViewAsImageToClipboardAction_2 + " " + //$NON-NLS-1$
+                                    (ex.getMessage() == null ? ex.toString() : ex.getMessage()));
                 }
                 finally {
                     if(image != null && !image.isDisposed()) {
