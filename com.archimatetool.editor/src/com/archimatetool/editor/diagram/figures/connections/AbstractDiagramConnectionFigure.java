@@ -14,6 +14,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScaledGraphics;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
 // Use alternate PolylineConnection
@@ -339,7 +340,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
                     graphicsCopy = (Graphics)f.get(graphics);
                 }
                 
-                Field f = graphicsCopy.getClass().getDeclaredField("sharedClipping"); //$NON-NLS-1$
+                // Set the "sharedClipping" field of the SWTGraphics class (or ExtendedSWTGraphics class) to false
+                Field f = SWTGraphics.class.getDeclaredField("sharedClipping"); //$NON-NLS-1$
                 f.setAccessible(true);
                 f.set(graphicsCopy, false);
             }
