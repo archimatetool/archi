@@ -17,6 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.dnd.CanvasDiagramTransferDropTargetListener;
 import com.archimatetool.canvas.dnd.FileTransferDropTargetListener;
+import com.archimatetool.canvas.dnd.URLTransferDropTargetListener;
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
 import com.archimatetool.editor.diagram.DiagramEditorFindReplaceProvider;
@@ -74,6 +75,9 @@ implements ICanvasEditor {
 
         // File DnD
         viewer.addDropTargetListener(new FileTransferDropTargetListener(viewer));
+        
+        // URL DnD
+        viewer.addDropTargetListener(new URLTransferDropTargetListener(viewer));
     }
     
     /**

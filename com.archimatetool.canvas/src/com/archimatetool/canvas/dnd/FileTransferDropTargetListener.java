@@ -22,12 +22,11 @@ import com.archimatetool.model.IDiagramModel;
  */
 public class FileTransferDropTargetListener extends AbstractTransferDropTargetListener {
     
-    public static String FILE_TRANSFER_REQUEST = "filetransfer"; //$NON-NLS-1$
-
     public FileTransferDropTargetListener(EditPartViewer viewer) {
-        super(viewer, FileTransfer.getInstance());
+        super(viewer);
+        setTransfer(FileTransfer.getInstance());
     }
-
+    
     @Override
     protected void updateTargetRequest(){
         getNativeDropRequest().setData(getCurrentEvent().data);
@@ -36,7 +35,7 @@ public class FileTransferDropTargetListener extends AbstractTransferDropTargetLi
     
     @Override
     protected Request createTargetRequest() {
-        return new DiagramDropRequest(FileTransfer.getInstance());
+        return new DiagramDropRequest(getTransfer());
     }
 
     protected DiagramDropRequest getNativeDropRequest() {
