@@ -130,7 +130,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
         // Online URL that we should download to a temporary file
         else {
             // Download and save to temporary file
-            file = File.createTempFile("archi-", null);
+            file = File.createTempFile("archi-", s.substring(s.lastIndexOf(".")));
             file.deleteOnExit();
             
             try(FileOutputStream fos = new FileOutputStream(file)) {
