@@ -65,6 +65,10 @@ td.border {
 	padding: 4px;
 }
 
+pre {
+    font-size: 11px;
+}
+
 .font12 {
 	font-size: 12pt;
 }
