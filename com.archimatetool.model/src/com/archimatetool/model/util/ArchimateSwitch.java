@@ -2048,16 +2048,18 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: {
                 IDiagramModelGroup diagramModelGroup = (IDiagramModelGroup)theEObject;
                 T result = caseDiagramModelGroup(diagramModelGroup);
-                if (result == null) result = caseDiagramModelObject(diagramModelGroup);
                 if (result == null) result = caseDiagramModelContainer(diagramModelGroup);
                 if (result == null) result = caseDocumentable(diagramModelGroup);
                 if (result == null) result = caseProperties(diagramModelGroup);
                 if (result == null) result = caseTextPosition(diagramModelGroup);
                 if (result == null) result = caseBorderType(diagramModelGroup);
+                if (result == null) result = caseIconic(diagramModelGroup);
+                if (result == null) result = caseDiagramModelObject(diagramModelGroup);
                 if (result == null) result = caseConnectable(diagramModelGroup);
                 if (result == null) result = caseFontAttribute(diagramModelGroup);
                 if (result == null) result = caseLineObject(diagramModelGroup);
                 if (result == null) result = caseTextAlignment(diagramModelGroup);
+                if (result == null) result = caseDiagramModelImageProvider(diagramModelGroup);
                 if (result == null) result = caseDiagramModelComponent(diagramModelGroup);
                 if (result == null) result = caseCloneable(diagramModelGroup);
                 if (result == null) result = caseArchimateModelObject(diagramModelGroup);
@@ -2071,15 +2073,17 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: {
                 IDiagramModelNote diagramModelNote = (IDiagramModelNote)theEObject;
                 T result = caseDiagramModelNote(diagramModelNote);
-                if (result == null) result = caseDiagramModelObject(diagramModelNote);
                 if (result == null) result = caseTextContent(diagramModelNote);
                 if (result == null) result = caseTextPosition(diagramModelNote);
                 if (result == null) result = caseProperties(diagramModelNote);
                 if (result == null) result = caseBorderType(diagramModelNote);
+                if (result == null) result = caseIconic(diagramModelNote);
+                if (result == null) result = caseDiagramModelObject(diagramModelNote);
                 if (result == null) result = caseConnectable(diagramModelNote);
                 if (result == null) result = caseFontAttribute(diagramModelNote);
                 if (result == null) result = caseLineObject(diagramModelNote);
                 if (result == null) result = caseTextAlignment(diagramModelNote);
+                if (result == null) result = caseDiagramModelImageProvider(diagramModelNote);
                 if (result == null) result = caseDiagramModelComponent(diagramModelNote);
                 if (result == null) result = caseCloneable(diagramModelNote);
                 if (result == null) result = caseArchimateModelObject(diagramModelNote);

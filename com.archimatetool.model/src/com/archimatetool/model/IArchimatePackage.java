@@ -7639,13 +7639,31 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_GROUP__BORDER_TYPE = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
 
     /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 5;
+
+    /**
+     * The feature id for the '<em><b>Image Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__IMAGE_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 6;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Group</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_GROUP_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_GROUP_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 7;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelNote <em>Diagram Model Note</em>}' class.
@@ -7811,13 +7829,31 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__BORDER_TYPE = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
 
     /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Image Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__IMAGE_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 5;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Note</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_NOTE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_NOTE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 6;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.
