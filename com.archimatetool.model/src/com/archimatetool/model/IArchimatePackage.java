@@ -9466,13 +9466,31 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_STICKY__TEXT_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
 
     /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Image Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__IMAGE_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 5;
+
+    /**
      * The number of structural features of the '<em>Sketch Model Sticky</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SKETCH_MODEL_STICKY_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
+    int SKETCH_MODEL_STICKY_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 6;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.SketchModelActor <em>Sketch Model Actor</em>}' class.

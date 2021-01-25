@@ -28,8 +28,13 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public void setText() {
-        String text = ((ISketchModelSticky)getDiagramModelObject()).getContent();
+        String text = getDiagramModelObject().getContent();
         ((TextFlow)getTextControl()).setText(StringUtils.safeString(text));
+    }
+
+    @Override
+    public ISketchModelSticky getDiagramModelObject() {
+        return (ISketchModelSticky)super.getDiagramModelObject();
     }
 
     @Override
@@ -53,6 +58,9 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         graphics.fillRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
         
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

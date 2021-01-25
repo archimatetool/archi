@@ -19,7 +19,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ISketchModelSticky;
@@ -39,6 +41,8 @@ import com.archimatetool.model.ITextPosition;
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getImagePath <em>Image Path</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getImagePosition <em>Image Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -103,6 +107,46 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * @ordered
      */
     protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected static final String IMAGE_PATH_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected String imagePath = IMAGE_PATH_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int IMAGE_POSITION_EDEFAULT = 2;
+
+    /**
+     * The cached value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected int imagePosition = IMAGE_POSITION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -195,6 +239,52 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION, oldTextPosition, textPosition));
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePath(String newImagePath) {
+        String oldImagePath = imagePath;
+        imagePath = newImagePath;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH, oldImagePath, imagePath));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int getImagePosition() {
+        return imagePosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePosition(int newImagePosition) {
+        int oldImagePosition = imagePosition;
+        imagePosition = newImagePosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION, oldImagePosition, imagePosition));
+    }
+
     @Override
     public EObject getCopy() {
         ISketchModelSticky newObject = (ISketchModelSticky)super.getCopy();
@@ -235,6 +325,10 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 return getProperties();
             case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
                 return getTextPosition();
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH:
+                return getImagePath();
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION:
+                return getImagePosition();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -262,6 +356,12 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
             case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
                 return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH:
+                setImagePath((String)newValue);
+                return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION:
+                setImagePosition((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -286,6 +386,12 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
             case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH:
+                setImagePath(IMAGE_PATH_EDEFAULT);
+                return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION:
+                setImagePosition(IMAGE_POSITION_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -306,6 +412,10 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH:
+                return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
+            case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION:
+                return imagePosition != IMAGE_POSITION_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -338,6 +448,18 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         if (baseClass == ITextPosition.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION: return IArchimatePackage.TEXT_POSITION__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION: return IArchimatePackage.ICONIC__IMAGE_POSITION;
                 default: return -1;
             }
         }
@@ -375,6 +497,18 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 default: return -1;
             }
         }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.ICONIC__IMAGE_POSITION: return IArchimatePackage.SKETCH_MODEL_STICKY__IMAGE_POSITION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -392,6 +526,10 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         result.append(content);
         result.append(", textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
+        result.append(", imagePath: "); //$NON-NLS-1$
+        result.append(imagePath);
+        result.append(", imagePosition: "); //$NON-NLS-1$
+        result.append(imagePosition);
         result.append(')');
         return result.toString();
     }

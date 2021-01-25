@@ -3799,6 +3799,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         sketchModelStickyEClass.getESuperTypes().add(this.getTextContent());
         sketchModelStickyEClass.getESuperTypes().add(this.getProperties());
         sketchModelStickyEClass.getESuperTypes().add(this.getTextPosition());
+        sketchModelStickyEClass.getESuperTypes().add(this.getIconic());
         sketchModelActorEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelActorEClass.getESuperTypes().add(this.getDocumentable());
         sketchModelActorEClass.getESuperTypes().add(this.getProperties());
