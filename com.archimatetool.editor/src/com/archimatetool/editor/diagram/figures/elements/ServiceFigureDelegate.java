@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
@@ -58,6 +59,9 @@ implements IRoundedRectangleFigure {
                 arc.width, arc.height);
         
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

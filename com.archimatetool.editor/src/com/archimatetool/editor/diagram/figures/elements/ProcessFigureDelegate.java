@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
@@ -70,6 +71,9 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
 
         // Line
         graphics.setForegroundColor(getLineColor());

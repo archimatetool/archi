@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -71,6 +72,9 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
 
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

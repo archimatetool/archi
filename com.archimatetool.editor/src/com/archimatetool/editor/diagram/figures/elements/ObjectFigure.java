@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
@@ -57,6 +58,9 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.fillRectangle(bounds);
             
             disposeGradientPattern(graphics, gradient);
+
+            // Icon
+            ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
 
             // Outline
             graphics.setForegroundColor(getLineColor());

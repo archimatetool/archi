@@ -80,6 +80,9 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
+        // Icon
+        drawIconImage(graphics, bounds);
+
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -93,6 +96,10 @@ public class EventFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);

@@ -52,6 +52,9 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
+        // Icon
+        drawIconImage(graphics, bounds);
+
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());

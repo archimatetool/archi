@@ -87,6 +87,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             Path path = FigureUtils.createPathFromPoints(mainRectangle);
             graphics.fillPath(path);
             path.dispose();
+            
+            // Icon
+            getIconicDelegate().setTopOffset(0);
+            drawIconImage(graphics, bounds);
         }
         else {
             tabWidth = (int)(bounds.width / INSET);
@@ -125,6 +129,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             graphics.fillPath(path);
             path.dispose();
             
+            // Icon
+            getIconicDelegate().setTopOffset(tabHeight);
+            drawIconImage(graphics, bounds);
+
             graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
             graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
