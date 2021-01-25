@@ -456,6 +456,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition #//Iconic"/>
   <eClassifiers xsi:type="ecore:EClass" name="SketchModelActor" eSuperTypes="#//DiagramModelObject #//Documentable #//Properties"/>
 </ecore:EPackage>

@@ -2308,15 +2308,17 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.SKETCH_MODEL_STICKY: {
                 ISketchModelSticky sketchModelSticky = (ISketchModelSticky)theEObject;
                 T result = caseSketchModelSticky(sketchModelSticky);
-                if (result == null) result = caseDiagramModelObject(sketchModelSticky);
                 if (result == null) result = caseDiagramModelContainer(sketchModelSticky);
                 if (result == null) result = caseTextContent(sketchModelSticky);
                 if (result == null) result = caseProperties(sketchModelSticky);
                 if (result == null) result = caseTextPosition(sketchModelSticky);
+                if (result == null) result = caseIconic(sketchModelSticky);
+                if (result == null) result = caseDiagramModelObject(sketchModelSticky);
                 if (result == null) result = caseConnectable(sketchModelSticky);
                 if (result == null) result = caseFontAttribute(sketchModelSticky);
                 if (result == null) result = caseLineObject(sketchModelSticky);
                 if (result == null) result = caseTextAlignment(sketchModelSticky);
+                if (result == null) result = caseDiagramModelImageProvider(sketchModelSticky);
                 if (result == null) result = caseDiagramModelComponent(sketchModelSticky);
                 if (result == null) result = caseCloneable(sketchModelSticky);
                 if (result == null) result = caseArchimateModelObject(sketchModelSticky);
