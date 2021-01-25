@@ -71,6 +71,9 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
+        
+        // Icon
+        drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

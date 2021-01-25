@@ -36,6 +36,10 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);

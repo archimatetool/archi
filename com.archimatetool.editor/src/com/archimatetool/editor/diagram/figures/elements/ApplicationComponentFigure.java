@@ -69,6 +69,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         disposeGradientPattern(graphics, gradient);
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.setAlpha(getLineAlpha());
         
         // Outline
@@ -111,6 +114,10 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);

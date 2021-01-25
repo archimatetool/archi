@@ -38,6 +38,10 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);

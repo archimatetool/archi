@@ -90,6 +90,9 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
         rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
@@ -102,6 +105,10 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);

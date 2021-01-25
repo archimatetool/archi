@@ -40,6 +40,10 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidthFloat(1);
