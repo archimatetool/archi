@@ -11,7 +11,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -24,6 +26,8 @@ import com.archimatetool.model.ITextPosition;
  * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelReference#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelReference#getImagePath <em>Image Path</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelReference#getImagePosition <em>Image Position</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelReference#getReferencedModel <em>Referenced Model</em>}</li>
  * </ul>
  *
@@ -48,6 +52,42 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * @ordered
      */
     protected int textPosition = TEXT_POSITION_EDEFAULT;
+    /**
+     * The default value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected static final String IMAGE_PATH_EDEFAULT = null;
+    /**
+     * The cached value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected String imagePath = IMAGE_PATH_EDEFAULT;
+    /**
+     * The default value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int IMAGE_POSITION_EDEFAULT = 2;
+    /**
+     * The cached value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected int imagePosition = IMAGE_POSITION_EDEFAULT;
     /**
      * The cached value of the '{@link #getReferencedModel() <em>Referenced Model</em>}' reference.
      * <!-- begin-user-doc -->
@@ -105,6 +145,52 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
      * @generated
      */
     @Override
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePath(String newImagePath) {
+        String oldImagePath = imagePath;
+        imagePath = newImagePath;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH, oldImagePath, imagePath));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int getImagePosition() {
+        return imagePosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePosition(int newImagePosition) {
+        int oldImagePosition = imagePosition;
+        imagePosition = newImagePosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION, oldImagePosition, imagePosition));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public IDiagramModel getReferencedModel() {
         return referencedModel;
     }
@@ -149,6 +235,10 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__TEXT_POSITION:
                 return getTextPosition();
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH:
+                return getImagePath();
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION:
+                return getImagePosition();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL:
                 return getReferencedModel();
         }
@@ -165,6 +255,12 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH:
+                setImagePath((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION:
+                setImagePosition((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL:
                 setReferencedModel((IDiagramModel)newValue);
@@ -184,6 +280,12 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH:
+                setImagePath(IMAGE_PATH_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION:
+                setImagePosition(IMAGE_POSITION_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL:
                 setReferencedModel((IDiagramModel)null);
                 return;
@@ -201,6 +303,10 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH:
+                return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
+            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION:
+                return imagePosition != IMAGE_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL:
                 return referencedModel != null;
         }
@@ -220,6 +326,18 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
                 default: return -1;
             }
         }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION: return IArchimatePackage.ICONIC__IMAGE_POSITION;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -233,6 +351,18 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
         if (baseClass == ITextPosition.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_REFERENCE__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.ICONIC__IMAGE_POSITION: return IArchimatePackage.DIAGRAM_MODEL_REFERENCE__IMAGE_POSITION;
                 default: return -1;
             }
         }
@@ -251,6 +381,10 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
         StringBuilder result = new StringBuilder(super.toString());
         result.append(" (textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
+        result.append(", imagePath: "); //$NON-NLS-1$
+        result.append(imagePath);
+        result.append(", imagePosition: "); //$NON-NLS-1$
+        result.append(imagePosition);
         result.append(')');
         return result.toString();
     }

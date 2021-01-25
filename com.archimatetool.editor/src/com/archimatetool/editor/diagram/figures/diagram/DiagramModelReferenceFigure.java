@@ -44,6 +44,10 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(hasIconImage()) {
+            return;
+        }
+        
         // Draw the icon depending on the diagramModelObject
         IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
 
