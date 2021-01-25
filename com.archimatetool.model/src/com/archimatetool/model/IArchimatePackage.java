@@ -7047,7 +7047,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 130;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 131;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -7184,7 +7184,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 128;
+    int ARCHIMATE_DIAGRAM_MODEL = 129;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8171,7 +8171,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 131;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 132;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -8526,6 +8526,160 @@ public interface IArchimatePackage extends EPackage {
     int LOCKABLE_FEATURE_COUNT = 1;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.IIconic <em>Iconic</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.IIconic
+     * @see com.archimatetool.model.impl.ArchimatePackage#getIconic()
+     * @generated
+     */
+    int ICONIC = 128;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__ID = DIAGRAM_MODEL_OBJECT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Features</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__FEATURES = DIAGRAM_MODEL_OBJECT__FEATURES;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Font</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__FONT = DIAGRAM_MODEL_OBJECT__FONT;
+
+    /**
+     * The feature id for the '<em><b>Font Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
+
+    /**
+     * The feature id for the '<em><b>Bounds</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
+
+    /**
+     * The feature id for the '<em><b>Fill Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Alpha</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__ALPHA = DIAGRAM_MODEL_OBJECT__ALPHA;
+
+    /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Image Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__IMAGE_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Iconic</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8614,7 +8768,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 129;
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 130;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8806,13 +8960,31 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TEXT_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
 
     /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+    /**
+     * The feature id for the '<em><b>Image Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__IMAGE_POSITION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
+
+    /**
      * The feature id for the '<em><b>Archimate Element</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -8821,7 +8993,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 3;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The number of structural features of the '<em>Diagram Model Archimate Object</em>' class.
@@ -8830,7 +9002,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -9011,7 +9183,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 132;
+    int SKETCH_MODEL = 133;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9102,7 +9274,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 133;
+    int SKETCH_MODEL_STICKY = 134;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -9274,7 +9446,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 134;
+    int SKETCH_MODEL_ACTOR = 135;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -9428,7 +9600,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 135;
+    int FOLDER_TYPE = 136;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -9438,7 +9610,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 136;
+    int FILE = 137;
 
 
     /**
@@ -11422,6 +11594,27 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getLockable_Locked();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IIconic <em>Iconic</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Iconic</em>'.
+     * @see com.archimatetool.model.IIconic
+     * @generated
+     */
+    EClass getIconic();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IIconic#getImagePosition <em>Image Position</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Image Position</em>'.
+     * @see com.archimatetool.model.IIconic#getImagePosition()
+     * @see #getIconic()
+     * @generated
+     */
+    EAttribute getIconic_ImagePosition();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.ISketchModel <em>Sketch Model</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -13304,6 +13497,24 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute LOCKABLE__LOCKED = eINSTANCE.getLockable_Locked();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.IIconic <em>Iconic</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.IIconic
+         * @see com.archimatetool.model.impl.ArchimatePackage#getIconic()
+         * @generated
+         */
+        EClass ICONIC = eINSTANCE.getIconic();
+
+        /**
+         * The meta object literal for the '<em><b>Image Position</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute ICONIC__IMAGE_POSITION = eINSTANCE.getIconic_ImagePosition();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.SketchModel <em>Sketch Model</em>}' class.

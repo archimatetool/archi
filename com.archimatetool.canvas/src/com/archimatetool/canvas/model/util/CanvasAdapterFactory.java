@@ -27,6 +27,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -94,10 +95,6 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     protected CanvasSwitch<Adapter> modelSwitch =
         new CanvasSwitch<Adapter>() {
             @Override
-            public Adapter caseIconic(IIconic object) {
-                return createIconicAdapter();
-            }
-            @Override
             public Adapter caseHintProvider(IHintProvider object) {
                 return createHintProviderAdapter();
             }
@@ -130,20 +127,16 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createCanvasModelConnectionAdapter();
             }
             @Override
-            public Adapter caseIdentifier(IIdentifier object) {
-                return createIdentifierAdapter();
-            }
-            @Override
-            public Adapter caseCloneable(ICloneable object) {
-                return createCloneableAdapter();
-            }
-            @Override
             public Adapter caseAdapter(IAdapter object) {
                 return createAdapterAdapter();
             }
             @Override
             public Adapter caseNameable(INameable object) {
                 return createNameableAdapter();
+            }
+            @Override
+            public Adapter caseIdentifier(IIdentifier object) {
+                return createIdentifierAdapter();
             }
             @Override
             public Adapter caseFeatures(IFeatures object) {
@@ -154,8 +147,28 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createArchimateModelObjectAdapter();
             }
             @Override
+            public Adapter caseCloneable(ICloneable object) {
+                return createCloneableAdapter();
+            }
+            @Override
             public Adapter caseDiagramModelComponent(IDiagramModelComponent object) {
                 return createDiagramModelComponentAdapter();
+            }
+            @Override
+            public Adapter caseDiagramModelContainer(IDiagramModelContainer object) {
+                return createDiagramModelContainerAdapter();
+            }
+            @Override
+            public Adapter caseDocumentable(IDocumentable object) {
+                return createDocumentableAdapter();
+            }
+            @Override
+            public Adapter caseProperties(IProperties object) {
+                return createPropertiesAdapter();
+            }
+            @Override
+            public Adapter caseDiagramModel(IDiagramModel object) {
+                return createDiagramModelAdapter();
             }
             @Override
             public Adapter caseConnectable(IConnectable object) {
@@ -182,20 +195,8 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelImageProviderAdapter();
             }
             @Override
-            public Adapter caseDiagramModelContainer(IDiagramModelContainer object) {
-                return createDiagramModelContainerAdapter();
-            }
-            @Override
-            public Adapter caseDocumentable(IDocumentable object) {
-                return createDocumentableAdapter();
-            }
-            @Override
-            public Adapter caseProperties(IProperties object) {
-                return createPropertiesAdapter();
-            }
-            @Override
-            public Adapter caseDiagramModel(IDiagramModel object) {
-                return createDiagramModelAdapter();
+            public Adapter caseIconic(IIconic object) {
+                return createIconicAdapter();
             }
             @Override
             public Adapter caseTextContent(ITextContent object) {
@@ -676,13 +677,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.canvas.model.IIconic <em>Iconic</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IIconic <em>Iconic</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see com.archimatetool.canvas.model.IIconic
+     * @see com.archimatetool.model.IIconic
      * @generated
      */
     public Adapter createIconicAdapter() {

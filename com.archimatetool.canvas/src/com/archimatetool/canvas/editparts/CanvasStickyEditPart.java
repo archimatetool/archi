@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -20,7 +19,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.canvas.figures.CanvasStickyFigure;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
-import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.policies.CanvasConnectionPolicy;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
@@ -37,28 +35,6 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class CanvasStickyEditPart extends AbstractConnectedEditPart {
     
-    @Override
-    protected void eCoreChanged(Notification msg) {
-        Object feature = msg.getFeature();
-        
-        switch(msg.getEventType()) {
-            case Notification.SET:
-                // Refresh Icon
-                if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
-                            || feature == ICanvasPackage.Literals.ICONIC__IMAGE_POSITION) {
-                    ((CanvasStickyFigure)getFigure()).updateImage();
-                }
-                else {
-                    super.eCoreChanged(msg);
-                }
-                
-                break;
-
-            default:
-                super.eCoreChanged(msg);
-        }
-    }
-
     @Override
     protected IFigure createFigure() {
         return new CanvasStickyFigure(getModel());

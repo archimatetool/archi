@@ -297,6 +297,9 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//Lockable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Lockable/locked"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//Iconic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Iconic/imagePosition"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//ArchimateDiagramModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateDiagramModel/viewpoint"/>
     </genClasses>

@@ -89,6 +89,10 @@ implements NodeEditPart {
                         ((AbstractBaseEditPart)getParent()).updateEditPolicies();
                     }
                 }
+                // Refresh Icon
+                else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
+                    getFigure().updateIconImage();
+                }
                 else {
                     refreshFigure();
                 }

@@ -86,6 +86,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
@@ -714,6 +715,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseLockable(ILockable object) {
                 return createLockableAdapter();
+            }
+            @Override
+            public Adapter caseIconic(IIconic object) {
+                return createIconicAdapter();
             }
             @Override
             public Adapter caseArchimateDiagramModel(IArchimateDiagramModel object) {
@@ -1978,6 +1983,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createLockableAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IIconic <em>Iconic</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IIconic
+     * @generated
+     */
+    public Adapter createIconicAdapter() {
         return null;
     }
 

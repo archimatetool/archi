@@ -3,17 +3,17 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.canvas.figures;
+package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
-import com.archimatetool.canvas.model.IIconic;
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IIconic;
 
 
 /**

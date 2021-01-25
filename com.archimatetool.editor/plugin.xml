@@ -230,6 +230,12 @@
                id="figure.tab"
                label="%propertyTab.label.3">
          </propertyTab>
+         <propertyTab
+               afterTab="appearance.tab"
+               category="appearance.category"
+               id="image.tab"
+               label="Image">
+         </propertyTab>
       </propertyTabs>
    </extension>
    <extension
@@ -457,6 +463,12 @@
                filter="com.archimatetool.editor.propertysections.LabelRendererSection$Filter"
                id="labelRendererSection"
                tab="label.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.IconSection"
+               filter="com.archimatetool.editor.propertysections.IconSection$Filter"
+               id="iconSection"
+               tab="image.tab">
          </propertySection>
       </propertySections>
    </extension>

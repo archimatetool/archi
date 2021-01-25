@@ -86,6 +86,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
@@ -2190,6 +2191,25 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.ICONIC: {
+                IIconic iconic = (IIconic)theEObject;
+                T result = caseIconic(iconic);
+                if (result == null) result = caseDiagramModelObject(iconic);
+                if (result == null) result = caseDiagramModelImageProvider(iconic);
+                if (result == null) result = caseConnectable(iconic);
+                if (result == null) result = caseFontAttribute(iconic);
+                if (result == null) result = caseLineObject(iconic);
+                if (result == null) result = caseTextAlignment(iconic);
+                if (result == null) result = caseDiagramModelComponent(iconic);
+                if (result == null) result = caseCloneable(iconic);
+                if (result == null) result = caseArchimateModelObject(iconic);
+                if (result == null) result = caseIdentifier(iconic);
+                if (result == null) result = caseAdapter(iconic);
+                if (result == null) result = caseNameable(iconic);
+                if (result == null) result = caseFeatures(iconic);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: {
                 IArchimateDiagramModel archimateDiagramModel = (IArchimateDiagramModel)theEObject;
                 T result = caseArchimateDiagramModel(archimateDiagramModel);
@@ -2224,14 +2244,16 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: {
                 IDiagramModelArchimateObject diagramModelArchimateObject = (IDiagramModelArchimateObject)theEObject;
                 T result = caseDiagramModelArchimateObject(diagramModelArchimateObject);
-                if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelArchimateComponent(diagramModelArchimateObject);
                 if (result == null) result = caseTextPosition(diagramModelArchimateObject);
+                if (result == null) result = caseIconic(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
                 if (result == null) result = caseConnectable(diagramModelArchimateObject);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
                 if (result == null) result = caseLineObject(diagramModelArchimateObject);
                 if (result == null) result = caseTextAlignment(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelImageProvider(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
                 if (result == null) result = caseCloneable(diagramModelArchimateObject);
                 if (result == null) result = caseArchimateModelObject(diagramModelArchimateObject);
@@ -3627,6 +3649,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseLockable(ILockable object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Iconic</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Iconic</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseIconic(IIconic object) {
         return null;
     }
 

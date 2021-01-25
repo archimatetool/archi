@@ -23,6 +23,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -80,6 +81,11 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         };
         
         add(getMainFigure(), mainLocator);
+        
+        // If the model object is IIconic
+        if(getDiagramModelObject() instanceof IIconic) {
+            setIconicDelegate(new IconicDelegate((IIconic)getDiagramModelObject()));
+        }
     }
     
     @Override

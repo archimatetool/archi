@@ -26,6 +26,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -93,25 +94,6 @@ public class CanvasSwitch<T> extends Switch<T> {
     @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
-            case ICanvasPackage.ICONIC: {
-                IIconic iconic = (IIconic)theEObject;
-                T result = caseIconic(iconic);
-                if (result == null) result = caseDiagramModelObject(iconic);
-                if (result == null) result = caseDiagramModelImageProvider(iconic);
-                if (result == null) result = caseConnectable(iconic);
-                if (result == null) result = caseFontAttribute(iconic);
-                if (result == null) result = caseLineObject(iconic);
-                if (result == null) result = caseTextAlignment(iconic);
-                if (result == null) result = caseDiagramModelComponent(iconic);
-                if (result == null) result = caseCloneable(iconic);
-                if (result == null) result = caseArchimateModelObject(iconic);
-                if (result == null) result = caseIdentifier(iconic);
-                if (result == null) result = caseAdapter(iconic);
-                if (result == null) result = caseNameable(iconic);
-                if (result == null) result = caseFeatures(iconic);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case ICanvasPackage.HINT_PROVIDER: {
                 IHintProvider hintProvider = (IHintProvider)theEObject;
                 T result = caseHintProvider(hintProvider);

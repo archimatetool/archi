@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Color;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
@@ -36,7 +37,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
     
     private TextFlow fTextFlow;
     private TextPositionDelegate fTextPositionDelegate;
-    private IconicDelegate fIconicDelegate;
     private Color fBorderColor;
     
     private static final int MAX_ICON_SIZE = 100;
@@ -77,8 +77,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         // This last
         add(getMainFigure(), mainLocator);
 
-        fIconicDelegate = new IconicDelegate(getDiagramModelObject(), MAX_ICON_SIZE);
-        fIconicDelegate.updateImage();
+        setIconicDelegate(new IconicDelegate(getDiagramModelObject(), MAX_ICON_SIZE));
     }
     
     @Override
@@ -108,11 +107,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         repaint();
     }
 
-    public void updateImage() {
-        fIconicDelegate.updateImage();
-        repaint();
-    }
-    
     @Override
     public void setText() {
         String content = getDiagramModelObject().getContent();
@@ -169,7 +163,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         graphics.fillRectangle(bounds);
         
         // Icon
-        fIconicDelegate.drawIcon(graphics, bounds.getCopy());
+        drawIconImage(graphics, bounds);
         
         // Border
         if(getBorderColor() != null) {
@@ -179,10 +173,5 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         }
         
         graphics.popState();
-    }
-    
-    @Override
-    public void dispose() {
-        fIconicDelegate.dispose();
     }
 }

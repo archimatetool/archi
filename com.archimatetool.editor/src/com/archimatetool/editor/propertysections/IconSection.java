@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.canvas.propertysections;
+package com.archimatetool.editor.propertysections;
 
 import java.io.File;
 
@@ -35,17 +35,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IIconic;
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.propertysections.DiagramModelImageSection;
-import com.archimatetool.editor.propertysections.IObjectFilter;
-import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
-import com.archimatetool.editor.propertysections.ObjectFilter;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -178,7 +173,7 @@ public class IconSection extends DiagramModelImageSection {
                     if(isAlive(iconic)) {
                         Command cmd = new EObjectFeatureCommand(Messages.IconSection_12,
                                 iconic,
-                                ICanvasPackage.Literals.ICONIC__IMAGE_POSITION,
+                                IArchimatePackage.Literals.ICONIC__IMAGE_POSITION,
                                 fComboPosition.getSelectionIndex());
                         
                         if(cmd.canExecute()) {
@@ -209,7 +204,7 @@ public class IconSection extends DiagramModelImageSection {
                 refreshPreviewImage();
             }
             else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
-                    || feature == ICanvasPackage.Literals.ICONIC__IMAGE_POSITION) {
+                    || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION) {
                 refreshButtons();
             }
         }
