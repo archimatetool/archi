@@ -6,6 +6,7 @@
 package com.archimatetool.canvas.model;
 
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.ITextContent;

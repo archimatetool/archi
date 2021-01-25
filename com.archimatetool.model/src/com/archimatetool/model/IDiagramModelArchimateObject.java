@@ -23,7 +23,7 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='DiagramObject'"
  * @generated
  */
-public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition {
+public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition, IIconic {
     
     String FEATURE_HIDE_JUNCTION_ARROWS = "hideJunctionArrows"; //$NON-NLS-1$
     boolean FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT = false;

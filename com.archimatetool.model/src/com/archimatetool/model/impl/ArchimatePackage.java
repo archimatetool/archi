@@ -88,6 +88,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
@@ -770,6 +771,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass lockableEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass iconicEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2628,6 +2636,26 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EClass getIconic() {
+        return iconicEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getIconic_ImagePosition() {
+        return (EAttribute)iconicEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getSketchModel() {
         return sketchModelEClass;
     }
@@ -3503,6 +3531,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         lockableEClass = createEClass(LOCKABLE);
         createEAttribute(lockableEClass, LOCKABLE__LOCKED);
 
+        iconicEClass = createEClass(ICONIC);
+        createEAttribute(iconicEClass, ICONIC__IMAGE_POSITION);
+
         archimateDiagramModelEClass = createEClass(ARCHIMATE_DIAGRAM_MODEL);
         createEAttribute(archimateDiagramModelEClass, ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT);
 
@@ -3749,12 +3780,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelConnectionEClass.getESuperTypes().add(this.getDocumentable());
         diagramModelConnectionEClass.getESuperTypes().add(this.getLineObject());
         diagramModelBendpointEClass.getESuperTypes().add(this.getCloneable());
+        iconicEClass.getESuperTypes().add(this.getDiagramModelObject());
+        iconicEClass.getESuperTypes().add(this.getDiagramModelImageProvider());
         archimateDiagramModelEClass.getESuperTypes().add(this.getDiagramModel());
         diagramModelArchimateComponentEClass.getESuperTypes().add(this.getConnectable());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelArchimateComponent());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getTextPosition());
+        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getIconic());
         diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelConnection());
         diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelArchimateComponent());
         sketchModelEClass.getESuperTypes().add(this.getDiagramModel());
@@ -4142,6 +4176,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(lockableEClass, ILockable.class, "Lockable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getLockable_Locked(), ecorePackage.getEBoolean(), "locked", null, 0, 1, ILockable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(iconicEClass, IIconic.class, "Iconic", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getIconic_ImagePosition(), ecorePackage.getEInt(), "imagePosition", "2", 0, 1, IIconic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(archimateDiagramModelEClass, IArchimateDiagramModel.class, "ArchimateDiagramModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getArchimateDiagramModel_Viewpoint(), ecorePackage.getEString(), "viewpoint", "", 0, 1, IArchimateDiagramModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
