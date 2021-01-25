@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IDiagramModelNote;
@@ -60,6 +61,8 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         add(page, gd);
         
         fTextPositionDelegate = new TextPositionDelegate(this, page, getDiagramModelObject());
+        
+        setIconicDelegate(new IconicDelegate(getDiagramModelObject()));
     }
     
     @Override
@@ -140,6 +143,9 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         path.dispose();
         
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        drawIconImage(graphics, bounds);
 
         if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
             graphics.setAlpha(getLineAlpha());

@@ -21,8 +21,10 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextPosition;
@@ -41,6 +43,8 @@ import com.archimatetool.model.ITextPosition;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getBorderType <em>Border Type</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getImagePath <em>Image Path</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getImagePosition <em>Image Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -124,6 +128,46 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected int borderType = BORDER_TYPE_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected static final String IMAGE_PATH_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected String imagePath = IMAGE_PATH_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int IMAGE_POSITION_EDEFAULT = 2;
+
+    /**
+     * The cached value of the '{@link #getImagePosition() <em>Image Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePosition()
+     * @generated
+     * @ordered
+     */
+    protected int imagePosition = IMAGE_POSITION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -252,6 +296,52 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @generated
      */
     @Override
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePath(String newImagePath) {
+        String oldImagePath = imagePath;
+        imagePath = newImagePath;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH, oldImagePath, imagePath));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int getImagePosition() {
+        return imagePosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePosition(int newImagePosition) {
+        int oldImagePosition = imagePosition;
+        imagePosition = newImagePosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION, oldImagePosition, imagePosition));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
@@ -280,6 +370,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
                 return getBorderType();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH:
+                return getImagePath();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION:
+                return getImagePosition();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -310,6 +404,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
                 setBorderType((Integer)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH:
+                setImagePath((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION:
+                setImagePosition((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -337,6 +437,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
                 setBorderType(BORDER_TYPE_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH:
+                setImagePath(IMAGE_PATH_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION:
+                setImagePosition(IMAGE_POSITION_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -359,6 +465,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE:
                 return borderType != BORDER_TYPE_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH:
+                return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION:
+                return imagePosition != IMAGE_POSITION_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -397,6 +507,18 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         if (baseClass == IBorderType.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_GROUP__BORDER_TYPE: return IArchimatePackage.BORDER_TYPE__BORDER_TYPE;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION: return IArchimatePackage.ICONIC__IMAGE_POSITION;
                 default: return -1;
             }
         }
@@ -440,6 +562,18 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == IDiagramModelImageProvider.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == IIconic.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.ICONIC__IMAGE_POSITION: return IArchimatePackage.DIAGRAM_MODEL_GROUP__IMAGE_POSITION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -459,6 +593,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         result.append(textPosition);
         result.append(", borderType: "); //$NON-NLS-1$
         result.append(borderType);
+        result.append(", imagePath: "); //$NON-NLS-1$
+        result.append(imagePath);
+        result.append(", imagePosition: "); //$NON-NLS-1$
+        result.append(imagePosition);
         result.append(')');
         return result.toString();
     }

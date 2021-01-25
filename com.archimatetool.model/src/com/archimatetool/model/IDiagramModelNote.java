@@ -16,7 +16,7 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='Note'"
  * @generated
  */
-public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, ITextPosition, IProperties, IBorderType {
+public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, ITextPosition, IProperties, IBorderType, IIconic {
 
     int BORDER_DOGEAR = 0; // Default
     int BORDER_RECTANGLE = 1;
