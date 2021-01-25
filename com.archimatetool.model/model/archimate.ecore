@@ -307,7 +307,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModel" abstract="true" eSuperTypes="#//ArchimateModelObject #//DiagramModelContainer #//Documentable #//Properties">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionRouterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject #//TextPosition">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject #//TextPosition #//Iconic">
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedModel" eType="#//DiagramModel"
         resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

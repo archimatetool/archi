@@ -2012,12 +2012,14 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: {
                 IDiagramModelReference diagramModelReference = (IDiagramModelReference)theEObject;
                 T result = caseDiagramModelReference(diagramModelReference);
-                if (result == null) result = caseDiagramModelObject(diagramModelReference);
                 if (result == null) result = caseTextPosition(diagramModelReference);
+                if (result == null) result = caseIconic(diagramModelReference);
+                if (result == null) result = caseDiagramModelObject(diagramModelReference);
                 if (result == null) result = caseConnectable(diagramModelReference);
                 if (result == null) result = caseFontAttribute(diagramModelReference);
                 if (result == null) result = caseLineObject(diagramModelReference);
                 if (result == null) result = caseTextAlignment(diagramModelReference);
+                if (result == null) result = caseDiagramModelImageProvider(diagramModelReference);
                 if (result == null) result = caseDiagramModelComponent(diagramModelReference);
                 if (result == null) result = caseCloneable(diagramModelReference);
                 if (result == null) result = caseArchimateModelObject(diagramModelReference);
