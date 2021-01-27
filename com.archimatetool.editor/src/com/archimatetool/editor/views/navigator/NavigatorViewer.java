@@ -26,10 +26,9 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IAssociationRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -129,23 +128,18 @@ public class NavigatorViewer extends TreeViewer {
         public Object[] getChildren(Object parent) {
             if(parent instanceof IArchimateRelationship) {
             	IArchimateRelationship relation = (IArchimateRelationship)parent;
-                List<Object> results = new ArrayList<>();
-            	results.addAll(ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateRelationship) parent));
-            	boolean addTarget = fShowTargetElements;
-            	boolean addSource = !fShowTargetElements;
-            	if (parent instanceof IAssociationRelationship) {
-            		// if we traverse an undirected association always add target and source
-            		if (!((IAssociationRelationship) parent).isDirected()) {
-            			addTarget = true;
-            			addSource = true;
-            		}
+                
+            	List<IArchimateConcept> results = new ArrayList<>();
+            	
+            	if(fShowTargetElements) {
+            	    results.addAll(relation.getSourceRelationships());
+            	    results.add(relation.getTarget());
             	}
-            	if(addTarget) {
-                    results.add(relation.getTarget());
-                }
-                if (addSource) {
-                	results.add(relation.getSource());
-                }
+            	else {
+            	    results.addAll(relation.getTargetRelationships());
+            	    results.add(relation.getSource());
+            	}
+                
                 return results.toArray();
             }
             else if(parent instanceof IArchimateElement) {
