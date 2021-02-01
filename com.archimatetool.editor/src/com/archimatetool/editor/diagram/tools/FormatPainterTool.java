@@ -23,14 +23,12 @@ import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
-import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -38,7 +36,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
-import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -226,22 +223,24 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IIconic
-        if(pf.getSourceComponent() instanceof IIconic && targetComponent instanceof IIconic) {
-            IIconic source = (IIconic)pf.getSourceComponent();
-            IIconic target = (IIconic)targetComponent;
-            
-            // Image Path
-            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, source.getImagePath()); //$NON-NLS-1$
-            if(cmd.canExecute()) {
-                result.add(cmd);
-            }
-            
-            // Image position
-            cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
-            if(cmd.canExecute()) {
-                result.add(cmd);
-            }
-        }
+        // Removed because it doesn't make sense to copy the icon image to a different Stereotype
+        // And because this behaviour would affect Canvas objects which might be unwanted
+//        if(pf.getSourceComponent() instanceof IIconic && targetComponent instanceof IIconic) {
+//            IIconic source = (IIconic)pf.getSourceComponent();
+//            IIconic target = (IIconic)targetComponent;
+//            
+//            // Image Path
+//            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, source.getImagePath()); //$NON-NLS-1$
+//            if(cmd.canExecute()) {
+//                result.add(cmd);
+//            }
+//            
+//            // Image position
+//            cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
+//            if(cmd.canExecute()) {
+//                result.add(cmd);
+//            }
+//        }
         
         return result;
     }
