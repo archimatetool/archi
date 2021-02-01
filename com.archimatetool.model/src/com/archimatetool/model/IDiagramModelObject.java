@@ -32,28 +32,42 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     int GRADIENT_NONE = -1;
     int FEATURE_GRADIENT_DEFAULT = GRADIENT_NONE;
     
+    String FEATURE_ICON_VISIBLE = "iconVisible"; //$NON-NLS-1$
+    boolean FEATURE_ICON_VISIBLE_DEFAULT = true;
+    
     
     /**
-     * @return the value of feature LINE_ALPHA
+     * @return the value of FEATURE_LINE_ALPHA
      */
     int getLineAlpha();
     
     /**
-     * Set the value of feature LINE_ALPHA
+     * Set the value of FEATURE_LINE_ALPHA
      * @param value
      */
     void setLineAlpha(int value);
     
     /**
-     * @return the gradient type
+     * @return the gradient type FEATURE_GRADIENT
      */
     int getGradient();
     
     /**
-     * Set the gradient type
-     * @param type
+     * Set the gradient type FEATURE_GRADIENT
+     * @param type The type
      */
     void setGradient(int type);
+    
+    /**
+     * @return true if the icon is visible (if this object has an icon)
+     */
+    boolean isIconVisible();
+    
+    /**
+     * Set the value of feature FEATURE_ICON_VISIBLE
+     * @param visible the value
+     */
+    void setIconVisible(boolean visible);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

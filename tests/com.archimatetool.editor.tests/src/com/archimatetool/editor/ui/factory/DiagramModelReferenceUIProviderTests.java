@@ -69,4 +69,10 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
         image = provider.getImage();
         assertNotNull(image);
     }
+    
+    @Test
+    public void testHasIcon() {
+        assertTrue(getProvider().hasIcon());
+    }
+
 }

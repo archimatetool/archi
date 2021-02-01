@@ -32,7 +32,7 @@ public class DriverFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(hasIconImage()) {
+        if(!getDiagramModelObject().isIconVisible()) {
             return;
         }
         

@@ -78,4 +78,9 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     public Color getDefaultColor() {
         return ColorFactory.get(220, 235, 235);
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return true;
+    }
 }

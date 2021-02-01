@@ -52,4 +52,8 @@ implements IArchimateElementUIProvider {
         return Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
     }
 
+    @Override
+    public boolean hasIcon() {
+        return true;
+    }
 }

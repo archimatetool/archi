@@ -55,4 +55,10 @@ public class DataObjectUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(181, 255, 255);
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+
 }

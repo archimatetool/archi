@@ -74,4 +74,10 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
                 featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName() ||
                         featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName(); 
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+
 }
