@@ -49,4 +49,9 @@ public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
      * @return The default text position
      */
     int getDefaultTextPosition();
+    
+    /**
+     * @return true if the figure for this object should have an icon in the top-right position
+     */
+    boolean hasIcon();
 }

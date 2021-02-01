@@ -49,7 +49,7 @@ import com.archimatetool.model.IIconic;
  * 
  * @author Phillip Beauvoir
  */
-public class IconSection extends DiagramModelImageSection {
+public class IconSection extends ImageChooserSection {
     
     /**
      * Filter to show or reject this section depending on input value
@@ -57,7 +57,9 @@ public class IconSection extends DiagramModelImageSection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IIconic;
+            // Should be IIconic and exposes image path feature
+            return object instanceof IIconic && shouldExposeFeature((EObject)object,
+                    IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName());
         }
 
         @Override
@@ -205,7 +207,7 @@ public class IconSection extends DiagramModelImageSection {
             }
             else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
                     || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION) {
-                refreshButtons();
+                refreshButton();
             }
         }
     }
@@ -213,7 +215,7 @@ public class IconSection extends DiagramModelImageSection {
     @Override
     protected void update() {
         refreshPreviewImage();
-        refreshButtons();
+        refreshButton();
     }
     
     private void refreshPreviewImage() {
@@ -237,8 +239,8 @@ public class IconSection extends DiagramModelImageSection {
     }
     
     @Override
-    protected void refreshButtons() {
-        super.refreshButtons();
+    protected void refreshButton() {
+        super.refreshButton();
         
         IIconic iconic = (IIconic)getFirstSelectedObject();
         

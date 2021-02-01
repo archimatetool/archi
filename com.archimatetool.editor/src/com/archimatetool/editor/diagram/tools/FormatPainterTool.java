@@ -26,6 +26,9 @@ import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
@@ -198,6 +201,15 @@ public class FormatPainterTool extends AbstractTool {
             cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$
             if(cmd.canExecute()) {
                 result.add(cmd);
+            }
+            
+            // Icon Visibility, but paste only if the target object has an icon
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(target);
+            if(provider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)provider).hasIcon()) {
+                cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_ICON_VISIBLE, source.isIconVisible(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
         }
         

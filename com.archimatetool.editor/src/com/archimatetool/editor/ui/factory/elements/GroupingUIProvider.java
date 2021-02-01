@@ -83,4 +83,10 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     public int getDefaultTextPosition() {
         return ITextPosition.TEXT_POSITION_TOP;
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+
 }

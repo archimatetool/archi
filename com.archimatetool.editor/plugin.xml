@@ -470,6 +470,13 @@
                id="iconSection"
                tab="image.tab">
          </propertySection>
+         <propertySection
+               afterSection="iconSection"
+               class="com.archimatetool.editor.propertysections.IconVisibleSection"
+               filter="com.archimatetool.editor.propertysections.IconVisibleSection$Filter"
+               id="iconVisibleSection"
+               tab="image.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

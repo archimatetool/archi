@@ -183,6 +183,8 @@ public class Messages extends NLS {
 
     public static String IconSection_9;
 
+    public static String IconVisibleSection_0;
+
     public static String ImageManagerDialog_0;
 
     public static String ImageManagerDialog_1;

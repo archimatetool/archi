@@ -53,4 +53,9 @@ implements IGraphicalObjectUIProvider {
     public int getDefaultTextPosition() {
         return ITextPosition.TEXT_POSITION_TOP;
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
 }

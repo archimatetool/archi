@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -123,6 +124,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertEquals(IDiagramModelObject.GRADIENT_NONE, object.getGradient());
         object.setGradient(2);
         assertEquals(2, object.getGradient());
+    }
+    
+    @Test
+    public void testIconVisible() {
+        assertTrue(object.isIconVisible());
+        object.setIconVisible(false);
+        assertFalse(object.isIconVisible());
     }
     
     @Test
