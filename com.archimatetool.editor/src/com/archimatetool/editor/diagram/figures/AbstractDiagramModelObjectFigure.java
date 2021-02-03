@@ -257,6 +257,16 @@ implements IDiagramModelObjectFigure {
             getIconicDelegate().drawIcon(graphics, bounds.getCopy());
         }
     }
+    
+    /**
+     * If there is a delegate, draw the icon image in the given bounds with given offsets
+     */
+    public void drawIconImage(Graphics graphics, Rectangle bounds, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
+        if(hasIconImage()) {
+            getIconicDelegate().setOffsets(topOffset, rightOffset, bottomOffset, leftOffset);
+            getIconicDelegate().drawIcon(graphics, bounds.getCopy());
+        }
+    }
 
     /**
      * @return true if this has a delegate and an image to draw
@@ -268,14 +278,14 @@ implements IDiagramModelObjectFigure {
     /**
      * Set the IconicDelegate if this figure draws icons
      */
-    protected void setIconicDelegate(IconicDelegate delegate) {
+    public void setIconicDelegate(IconicDelegate delegate) {
         fIconicDelegate = delegate;
     }
     
     /**
      * @return The IconicDelegate if this figure draws icons, or null if not
      */
-    protected IconicDelegate getIconicDelegate() {
+    public IconicDelegate getIconicDelegate() {
         return fIconicDelegate;
     }
 

@@ -102,6 +102,16 @@ public class IconicDelegate {
     public void setRightOffset(int val) {
         rightOffset = val;
     }
+    
+    /**
+     * Set offset values to use
+     */
+    public void setOffsets(int top, int right, int bottom, int left) {
+        topOffset = top;
+        rightOffset = right;
+        bottomOffset = bottom;
+        leftOffset = left;
+    }
 
     /**
      * Draw the icon
