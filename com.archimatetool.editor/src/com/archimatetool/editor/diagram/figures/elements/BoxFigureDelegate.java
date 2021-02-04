@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -29,7 +28,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     
     protected int iconOffset;
     
-    public BoxFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+    public BoxFigureDelegate(AbstractDiagramModelObjectFigure owner, int iconOffset) {
         super(owner);
         this.iconOffset = iconOffset;
     }
@@ -74,7 +73,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

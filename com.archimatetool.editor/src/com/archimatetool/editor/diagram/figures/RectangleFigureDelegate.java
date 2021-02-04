@@ -23,11 +23,11 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
     protected int iconOffset;
     
-    public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+    public RectangleFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
-    public RectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+    public RectangleFigureDelegate(AbstractDiagramModelObjectFigure owner, int iconOffset) {
         super(owner);
         this.iconOffset = iconOffset;
     }
@@ -60,7 +60,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
         
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
         
         // Outline
         graphics.setAlpha(getLineAlpha());
