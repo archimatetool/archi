@@ -177,6 +177,7 @@ public class IconicDelegate {
             
             graphics.setAntialias(SWT.ON);
             graphics.setInterpolation(SWT.HIGH);
+            graphics.setClip(bounds); // At zoom levels > 100 the image can be painted beyond the bounds
             
             // Ensure image is drawn in full alpha
             graphics.setAlpha(255);
