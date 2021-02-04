@@ -11,7 +11,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
@@ -28,7 +27,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
     protected static final int TOP_MARGIN = 12;
     
     class ObjectFigureDelegate extends RectangleFigureDelegate {
-        ObjectFigureDelegate(IDiagramModelObjectFigure owner) {
+        ObjectFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
         }
         
@@ -60,7 +59,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             disposeGradientPattern(graphics, gradient);
 
             // Icon
-            ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+            drawIconImage(graphics, bounds);
 
             // Outline
             graphics.setForegroundColor(getLineColor());

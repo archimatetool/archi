@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 
 
 /**
@@ -29,7 +28,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
     
     protected boolean fWithSlash;
     
-    public ParallelogramFigureDelegate(IDiagramModelObjectFigure owner, boolean withSlash) {
+    public ParallelogramFigureDelegate(AbstractDiagramModelObjectFigure owner, boolean withSlash) {
         super(owner);
         fWithSlash = withSlash;
     }
@@ -70,7 +69,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

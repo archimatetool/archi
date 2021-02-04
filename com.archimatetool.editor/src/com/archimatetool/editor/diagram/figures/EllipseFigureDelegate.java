@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
  */
 public class EllipseFigureDelegate extends AbstractFigureDelegate {
     
-    public EllipseFigureDelegate(IDiagramModelObjectFigure owner) {
+    public EllipseFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -49,7 +49,7 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
 
         // Outline
         graphics.setAlpha(getLineAlpha());

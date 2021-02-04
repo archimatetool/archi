@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -25,7 +24,7 @@ import com.archimatetool.model.ITextPosition;
  */
 public class ProcessFigureDelegate extends AbstractFigureDelegate {
 
-    public ProcessFigureDelegate(IDiagramModelObjectFigure owner) {
+    public ProcessFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -73,7 +72,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
 
         // Line
         graphics.setForegroundColor(getLineColor());

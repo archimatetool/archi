@@ -8,7 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
 
 /**
@@ -19,7 +19,7 @@ import com.archimatetool.model.ITextPosition;
 public class ContractFigure extends ObjectFigure {
     
     class ContractFigureDelegate extends ObjectFigureDelegate {
-        ContractFigureDelegate(IDiagramModelObjectFigure owner) {
+        ContractFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
         }
         

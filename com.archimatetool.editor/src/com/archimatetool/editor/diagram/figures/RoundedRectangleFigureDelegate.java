@@ -23,11 +23,11 @@ implements IRoundedRectangleFigure {
 
     private Dimension fArc = new Dimension(20, 20);
     
-    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+    public RoundedRectangleFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
-    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+    public RoundedRectangleFigureDelegate(AbstractDiagramModelObjectFigure owner, int iconOffset) {
         super(owner, iconOffset);
     }
 
@@ -59,7 +59,7 @@ implements IRoundedRectangleFigure {
         disposeGradientPattern(graphics, gradient);
         
         // Icon
-        ((AbstractDiagramModelObjectFigure)getOwner()).drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds);
         
         // Outline
         graphics.setAlpha(getLineAlpha());
