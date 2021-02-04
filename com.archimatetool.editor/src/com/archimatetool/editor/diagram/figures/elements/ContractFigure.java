@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
@@ -25,22 +26,41 @@ public class ContractFigure extends ObjectFigure {
         
         @Override
         public void drawFigure(Graphics graphics) {
-            super.drawFigure(graphics);
-            
             graphics.pushState();
             
-            graphics.setAlpha(getAlpha());
-            
             Rectangle bounds = getBounds();
+            
             bounds.width--;
+            bounds.height--;
             
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, 1, bounds);
+
+            graphics.setAlpha(getAlpha());
             
-            // Line
+            if(!isEnabled()) {
+                setDisabledState(graphics);
+            }
+            
+            // Main Fill
+            graphics.setBackgroundColor(getFillColor());
+            
+            Pattern gradient = applyGradientPattern(graphics, bounds);
+            
+            graphics.fillRectangle(bounds);
+            
+            disposeGradientPattern(graphics, gradient);
+
+            // Outline
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
+
+            graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
             graphics.drawLine(bounds.x, bounds.getBottom().y - TOP_MARGIN, bounds.getRight().x, bounds.getBottom().y - TOP_MARGIN);
+            graphics.drawRectangle(bounds);
+            
+            // Icon
+            getOwner().drawIconImage(graphics, bounds);
             
             graphics.popState();
         }

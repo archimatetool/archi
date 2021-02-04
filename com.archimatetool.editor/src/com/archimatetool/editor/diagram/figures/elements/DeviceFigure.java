@@ -90,14 +90,14 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        drawIconImage(graphics, bounds);
-
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
         rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
         graphics.drawRoundRectangle(rect, 30, 30);
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

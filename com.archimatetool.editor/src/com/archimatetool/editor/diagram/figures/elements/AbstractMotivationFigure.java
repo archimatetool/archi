@@ -73,14 +73,14 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        drawIconImage(graphics, bounds);
-
         // Line
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
-        
+
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 }

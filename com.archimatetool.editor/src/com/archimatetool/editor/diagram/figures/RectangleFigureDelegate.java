@@ -59,13 +59,13 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         
         disposeGradientPattern(graphics, gradient);
         
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-        
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);
+        
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
         
         graphics.popState();
     }

@@ -72,9 +72,6 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
         
-        // Icon
-        drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -86,6 +83,9 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         // Line
         graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 

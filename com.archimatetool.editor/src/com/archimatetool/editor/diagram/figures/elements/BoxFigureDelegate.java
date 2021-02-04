@@ -72,9 +72,6 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
 
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -95,7 +92,10 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         graphics.drawPath(path);
         path.dispose();
-        
+
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

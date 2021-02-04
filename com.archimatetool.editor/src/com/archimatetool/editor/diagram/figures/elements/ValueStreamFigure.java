@@ -81,14 +81,14 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setForegroundColor(getLineColor());
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

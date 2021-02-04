@@ -58,9 +58,6 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             
             disposeGradientPattern(graphics, gradient);
 
-            // Icon
-            drawIconImage(graphics, bounds);
-
             // Outline
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
@@ -68,6 +65,9 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
             graphics.drawRectangle(bounds);
             
+            // Icon
+            getOwner().drawIconImage(graphics, bounds);
+
             graphics.popState();
         }
         

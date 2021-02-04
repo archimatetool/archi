@@ -58,9 +58,6 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 disposeGradientPattern(graphics, gradient);
                 
-                // Icon
-                getOwner().drawIconImage(graphics, bounds);
-
                 // Outline
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
@@ -74,6 +71,9 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 graphics.drawPath(path);
                 path.dispose();
                 
+                // Icon
+                getOwner().drawIconImage(graphics, bounds);
+
                 graphics.popState();
             }
 

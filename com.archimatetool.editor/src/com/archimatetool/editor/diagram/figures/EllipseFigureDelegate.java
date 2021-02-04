@@ -48,14 +48,14 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds);
         
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 }
