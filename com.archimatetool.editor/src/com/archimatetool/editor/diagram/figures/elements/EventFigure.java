@@ -80,15 +80,15 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 

@@ -68,9 +68,6 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -81,6 +78,9 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
             graphics.drawLine(bounds.x + FLANGE + 20, bounds.y, bounds.x + 20, bounds.y + bounds.height);
         }
         
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 }

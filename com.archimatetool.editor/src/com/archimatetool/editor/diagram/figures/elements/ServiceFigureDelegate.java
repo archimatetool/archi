@@ -59,15 +59,15 @@ implements IRoundedRectangleFigure {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
                 arc.width, arc.height);
         
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

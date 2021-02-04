@@ -69,9 +69,6 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        drawIconImage(graphics, bounds);
-
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -80,6 +77,9 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 }

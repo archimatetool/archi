@@ -58,14 +58,14 @@ implements IRoundedRectangleFigure {
         
         disposeGradientPattern(graphics, gradient);
         
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-        
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
 
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+        
         graphics.popState();
     }
     

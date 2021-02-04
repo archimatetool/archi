@@ -71,9 +71,6 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         disposeGradientPattern(graphics, gradient);
 
-        // Icon
-        getOwner().drawIconImage(graphics, bounds);
-
         // Line
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
@@ -81,6 +78,9 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         path.dispose();
         
+        // Icon
+        getOwner().drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

@@ -69,9 +69,6 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         disposeGradientPattern(graphics, gradient);
         
-        // Icon
-        drawIconImage(graphics, bounds);
-
         graphics.setAlpha(getLineAlpha());
         
         // Outline
@@ -107,6 +104,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
         graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
     

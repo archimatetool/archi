@@ -65,9 +65,6 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         graphics.fillPath(path1);
         
         disposeGradientPattern(graphics, gradient);
-        
-        // Icon
-        drawIconImage(graphics, bounds);
 
         // Fold
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
@@ -94,6 +91,9 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path3);
         path3.dispose();
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 }
