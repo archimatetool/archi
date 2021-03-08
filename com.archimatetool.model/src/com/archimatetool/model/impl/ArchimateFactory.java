@@ -82,6 +82,7 @@ import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
@@ -154,6 +155,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.PROPERTY: return createProperty();
             case IArchimatePackage.FEATURE: return createFeature();
             case IArchimatePackage.METADATA: return createMetadata();
+            case IArchimatePackage.PROFILE: return createProfile();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.JUNCTION: return createJunction();
@@ -318,6 +320,17 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IMetadata createMetadata() {
         Metadata metadata = new Metadata();
         return metadata;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public IProfile createProfile() {
+        Profile profile = new Profile();
+        return profile;
     }
 
     /**

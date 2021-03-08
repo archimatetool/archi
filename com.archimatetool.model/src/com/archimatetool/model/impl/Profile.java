@@ -12,55 +12,44 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IAdapter;
-import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.ICloneable;
-import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProfile;
-import com.archimatetool.model.IProfiles;
-import com.archimatetool.model.IProperties;
-import com.archimatetool.model.IFeaturesEList;
-import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Concept</b></em>'.
+ * An implementation of the model object '<em><b>Profile</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getName <em>Name</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getId <em>Id</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getFeatures <em>Features</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getDocumentation <em>Documentation</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getProperties <em>Properties</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getProfiles <em>Profiles</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getName <em>Name</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getId <em>Id</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getFeatures <em>Features</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getImagePath <em>Image Path</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#isSpecialization <em>Specialization</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getConceptType <em>Concept Type</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class ArchimateConcept extends EObjectImpl implements IArchimateConcept {
+public class Profile extends EObjectImpl implements IProfile {
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -112,61 +101,77 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     protected EList<IFeature> features;
 
     /**
-     * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDocumentation()
-     * @generated
-     * @ordered
-     */
-    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
-
-    /**
-     * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDocumentation()
-     * @generated
-     * @ordered
-     */
-    protected String documentation = DOCUMENTATION_EDEFAULT;
-
-    /**
-     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getProperties()
-     * @generated
-     * @ordered
-     */
-    protected EList<IProperty> properties;
-
-    /**
-     * The cached value of the '{@link #getProfiles() <em>Profiles</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getProfiles()
-     * @generated
-     * @ordered
-     */
-    protected EList<IProfile> profiles;
-
-    /**
      * Adapter Map for arbitrary objects
      */
     private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
 
+    
     /**
-     * Stored references to connected relationships
+     * The default value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
      */
-    protected EList<IArchimateRelationship> sourceRelationships, targetRelationships;
+    protected static final String IMAGE_PATH_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getImagePath() <em>Image Path</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getImagePath()
+     * @generated
+     * @ordered
+     */
+    protected String imagePath = IMAGE_PATH_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #isSpecialization() <em>Specialization</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #isSpecialization()
+     * @generated
+     * @ordered
+     */
+    protected static final boolean SPECIALIZATION_EDEFAULT = true;
+
+    /**
+     * The cached value of the '{@link #isSpecialization() <em>Specialization</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #isSpecialization()
+     * @generated
+     * @ordered
+     */
+    protected boolean specialization = SPECIALIZATION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getConceptType() <em>Concept Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getConceptType()
+     * @generated
+     * @ordered
+     */
+    protected static final String CONCEPT_TYPE_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getConceptType() <em>Concept Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getConceptType()
+     * @generated
+     * @ordered
+     */
+    protected String conceptType = CONCEPT_TYPE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    protected ArchimateConcept() {
+    protected Profile() {
         super();
         id = UUIDFactory.createID(this);
     }
@@ -178,7 +183,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      */
     @Override
     protected EClass eStaticClass() {
-        return IArchimatePackage.Literals.ARCHIMATE_CONCEPT;
+        return IArchimatePackage.Literals.PROFILE;
     }
 
     /**
@@ -201,7 +206,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         String oldId = id;
         id = newId;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_CONCEPT__ID, oldId, id));
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROFILE__ID, oldId, id));
     }
 
     /**
@@ -212,7 +217,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.PROFILE__FEATURES);
         }
         return (IFeaturesEList)features;
     }
@@ -237,7 +242,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         String oldName = name;
         name = newName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_CONCEPT__NAME, oldName, name));
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROFILE__NAME, oldName, name));
     }
 
     /**
@@ -246,8 +251,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated
      */
     @Override
-    public String getDocumentation() {
-        return documentation;
+    public boolean isSpecialization() {
+        return specialization;
     }
 
     /**
@@ -256,11 +261,11 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated
      */
     @Override
-    public void setDocumentation(String newDocumentation) {
-        String oldDocumentation = documentation;
-        documentation = newDocumentation;
+    public void setSpecialization(boolean newSpecialization) {
+        boolean oldSpecialization = specialization;
+        specialization = newSpecialization;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION, oldDocumentation, documentation));
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROFILE__SPECIALIZATION, oldSpecialization, specialization));
     }
 
     /**
@@ -269,11 +274,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated
      */
     @Override
-    public EList<IProperty> getProperties() {
-        if (properties == null) {
-            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES);
-        }
-        return properties;
+    public String getConceptType() {
+        return conceptType;
     }
 
     /**
@@ -282,39 +284,11 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated
      */
     @Override
-    public EList<IProfile> getProfiles() {
-        if (profiles == null) {
-            profiles = new EObjectEList<IProfile>(IProfile.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES);
-        }
-        return profiles;
-    }
-
-    @Override
-    public EList<IArchimateRelationship> getSourceRelationships() {
-        if(sourceRelationships == null) {
-            sourceRelationships = new UniqueEList<IArchimateRelationship>();
-        }
-        return sourceRelationships;
-    }
-    
-    @Override
-    public EList<IArchimateRelationship> getTargetRelationships() {
-        if(targetRelationships == null) {
-            targetRelationships = new UniqueEList<IArchimateRelationship>();
-        }
-        return targetRelationships;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    @Override
-    public EObject getCopy() {
-        IArchimateConcept newObject = EcoreUtil.copy(this);
-        newObject.setId(UUIDFactory.createID(newObject)); // need a new ID
-        return newObject;
+    public void setConceptType(String newConceptType) {
+        String oldConceptType = conceptType;
+        conceptType = newConceptType;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROFILE__CONCEPT_TYPE, oldConceptType, conceptType));
     }
 
     /**
@@ -362,10 +336,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+            case IArchimatePackage.PROFILE__FEATURES:
                 return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
-                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -376,20 +348,43 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @generated
      */
     @Override
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setImagePath(String newImagePath) {
+        String oldImagePath = imagePath;
+        imagePath = newImagePath;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROFILE__IMAGE_PATH, oldImagePath, imagePath));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_CONCEPT__NAME:
+            case IArchimatePackage.PROFILE__NAME:
                 return getName();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
+            case IArchimatePackage.PROFILE__ID:
                 return getId();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+            case IArchimatePackage.PROFILE__FEATURES:
                 return getFeatures();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
-                return getDocumentation();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
-                return getProperties();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
-                return getProfiles();
+            case IArchimatePackage.PROFILE__IMAGE_PATH:
+                return getImagePath();
+            case IArchimatePackage.PROFILE__SPECIALIZATION:
+                return isSpecialization();
+            case IArchimatePackage.PROFILE__CONCEPT_TYPE:
+                return getConceptType();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -403,26 +398,24 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_CONCEPT__NAME:
+            case IArchimatePackage.PROFILE__NAME:
                 setName((String)newValue);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
+            case IArchimatePackage.PROFILE__ID:
                 setId((String)newValue);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+            case IArchimatePackage.PROFILE__FEATURES:
                 getFeatures().clear();
                 getFeatures().addAll((Collection<? extends IFeature>)newValue);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
-                setDocumentation((String)newValue);
+            case IArchimatePackage.PROFILE__IMAGE_PATH:
+                setImagePath((String)newValue);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
-                getProperties().clear();
-                getProperties().addAll((Collection<? extends IProperty>)newValue);
+            case IArchimatePackage.PROFILE__SPECIALIZATION:
+                setSpecialization((Boolean)newValue);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
-                getProfiles().clear();
-                getProfiles().addAll((Collection<? extends IProfile>)newValue);
+            case IArchimatePackage.PROFILE__CONCEPT_TYPE:
+                setConceptType((String)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -436,23 +429,23 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_CONCEPT__NAME:
+            case IArchimatePackage.PROFILE__NAME:
                 setName(NAME_EDEFAULT);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
+            case IArchimatePackage.PROFILE__ID:
                 setId(ID_EDEFAULT);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+            case IArchimatePackage.PROFILE__FEATURES:
                 getFeatures().clear();
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
-                setDocumentation(DOCUMENTATION_EDEFAULT);
+            case IArchimatePackage.PROFILE__IMAGE_PATH:
+                setImagePath(IMAGE_PATH_EDEFAULT);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
-                getProperties().clear();
+            case IArchimatePackage.PROFILE__SPECIALIZATION:
+                setSpecialization(SPECIALIZATION_EDEFAULT);
                 return;
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
-                getProfiles().clear();
+            case IArchimatePackage.PROFILE__CONCEPT_TYPE:
+                setConceptType(CONCEPT_TYPE_EDEFAULT);
                 return;
         }
         super.eUnset(featureID);
@@ -466,18 +459,18 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_CONCEPT__NAME:
+            case IArchimatePackage.PROFILE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case IArchimatePackage.ARCHIMATE_CONCEPT__ID:
+            case IArchimatePackage.PROFILE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES:
+            case IArchimatePackage.PROFILE__FEATURES:
                 return features != null && !features.isEmpty();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION:
-                return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
-                return properties != null && !properties.isEmpty();
-            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
-                return profiles != null && !profiles.isEmpty();
+            case IArchimatePackage.PROFILE__IMAGE_PATH:
+                return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
+            case IArchimatePackage.PROFILE__SPECIALIZATION:
+                return specialization != SPECIALIZATION_EDEFAULT;
+            case IArchimatePackage.PROFILE__CONCEPT_TYPE:
+                return CONCEPT_TYPE_EDEFAULT == null ? conceptType != null : !CONCEPT_TYPE_EDEFAULT.equals(conceptType);
         }
         return super.eIsSet(featureID);
     }
@@ -491,42 +484,25 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
         if (baseClass == INameable.class) {
             switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__NAME: return IArchimatePackage.NAMEABLE__NAME;
+                case IArchimatePackage.PROFILE__NAME: return IArchimatePackage.NAMEABLE__NAME;
                 default: return -1;
             }
         }
         if (baseClass == IIdentifier.class) {
             switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__ID: return IArchimatePackage.IDENTIFIER__ID;
+                case IArchimatePackage.PROFILE__ID: return IArchimatePackage.IDENTIFIER__ID;
                 default: return -1;
             }
         }
         if (baseClass == IFeatures.class) {
             switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
+                case IArchimatePackage.PROFILE__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
                 default: return -1;
             }
         }
-        if (baseClass == ICloneable.class) {
+        if (baseClass == IDiagramModelImageProvider.class) {
             switch (derivedFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IDocumentable.class) {
-            switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION: return IArchimatePackage.DOCUMENTABLE__DOCUMENTATION;
-                default: return -1;
-            }
-        }
-        if (baseClass == IProperties.class) {
-            switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
-                default: return -1;
-            }
-        }
-        if (baseClass == IProfiles.class) {
-            switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES: return IArchimatePackage.PROFILES__PROFILES;
+                case IArchimatePackage.PROFILE__IMAGE_PATH: return IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH;
                 default: return -1;
             }
         }
@@ -542,42 +518,25 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
         if (baseClass == INameable.class) {
             switch (baseFeatureID) {
-                case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.ARCHIMATE_CONCEPT__NAME;
+                case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.PROFILE__NAME;
                 default: return -1;
             }
         }
         if (baseClass == IIdentifier.class) {
             switch (baseFeatureID) {
-                case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.ARCHIMATE_CONCEPT__ID;
+                case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.PROFILE__ID;
                 default: return -1;
             }
         }
         if (baseClass == IFeatures.class) {
             switch (baseFeatureID) {
-                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES;
+                case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.PROFILE__FEATURES;
                 default: return -1;
             }
         }
-        if (baseClass == ICloneable.class) {
+        if (baseClass == IDiagramModelImageProvider.class) {
             switch (baseFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IDocumentable.class) {
-            switch (baseFeatureID) {
-                case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.ARCHIMATE_CONCEPT__DOCUMENTATION;
-                default: return -1;
-            }
-        }
-        if (baseClass == IProperties.class) {
-            switch (baseFeatureID) {
-                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES;
-                default: return -1;
-            }
-        }
-        if (baseClass == IProfiles.class) {
-            switch (baseFeatureID) {
-                case IArchimatePackage.PROFILES__PROFILES: return IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES;
+                case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.PROFILE__IMAGE_PATH;
                 default: return -1;
             }
         }
@@ -598,10 +557,23 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         result.append(name);
         result.append(", id: "); //$NON-NLS-1$
         result.append(id);
-        result.append(", documentation: "); //$NON-NLS-1$
-        result.append(documentation);
+        result.append(", imagePath: "); //$NON-NLS-1$
+        result.append(imagePath);
+        result.append(", specialization: "); //$NON-NLS-1$
+        result.append(specialization);
+        result.append(", conceptType: "); //$NON-NLS-1$
+        result.append(conceptType);
         result.append(')');
         return result.toString();
     }
 
-} //ArchimateConcept
+    
+    /**
+     * @return The EClass for this Profile's concept type
+     */
+    @Override
+    public EClass getConceptClass() {
+        return (EClass)IArchimatePackage.eINSTANCE.getEClassifier(getConceptType());
+    }
+
+} //Profile

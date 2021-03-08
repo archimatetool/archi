@@ -26,6 +26,7 @@ import com.archimatetool.model.util.IModelContentListener;
  *   <li>{@link com.archimatetool.model.IArchimateModel#getFile <em>File</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getVersion <em>Version</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link com.archimatetool.model.IArchimateModel#getProfiles <em>Profiles</em>}</li>
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getArchimateModel()
@@ -141,6 +142,19 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      * @generated
      */
     void setMetadata(IMetadata value);
+
+    /**
+     * Returns the value of the '<em><b>Profiles</b></em>' containment reference list.
+     * The list contents are of type {@link com.archimatetool.model.IProfile}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Profiles</em>' containment reference list.
+     * @see com.archimatetool.model.IArchimatePackage#getArchimateModel_Profiles()
+     * @model containment="true"
+     *        extendedMetaData="name='profile' kind='element'"
+     * @generated
+     */
+    EList<IProfile> getProfiles();
 
     /**
      * <!-- begin-user-doc -->

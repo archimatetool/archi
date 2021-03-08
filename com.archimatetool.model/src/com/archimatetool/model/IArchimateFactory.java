@@ -62,6 +62,15 @@ public interface IArchimateFactory extends EFactory {
     IMetadata createMetadata();
 
     /**
+     * Returns a new object of class '<em>Profile</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Profile</em>'.
+     * @generated
+     */
+    IProfile createProfile();
+
+    /**
      * Returns a new object of class '<em>Model</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
