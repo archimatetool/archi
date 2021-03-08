@@ -65,6 +65,13 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//Cloneable">
       <genOperations ecoreOperation="archimate.ecore#//Cloneable/getCopy"/>
     </genClasses>
+    <genClasses ecoreClass="archimate.ecore#//Profile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Profile/specialization"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Profile/conceptType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//Profiles">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//Profiles/profiles"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//FolderContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//FolderContainer/folders"/>
     </genClasses>
@@ -110,6 +117,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/file"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/version"/>
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateModel/metadata"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateModel/profiles"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/setDefaults"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultFolderForObject">
         <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getDefaultFolderForObject/object"/>

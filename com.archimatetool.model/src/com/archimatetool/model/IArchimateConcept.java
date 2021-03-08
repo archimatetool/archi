@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface IArchimateConcept extends IArchimateModelObject, ICloneable, IDocumentable, IProperties {
+public interface IArchimateConcept extends IArchimateModelObject, ICloneable, IDocumentable, IProperties, IProfiles {
     
     /**
      * @return A list of source relationships connected to this concept - this is a live list so don't change it!

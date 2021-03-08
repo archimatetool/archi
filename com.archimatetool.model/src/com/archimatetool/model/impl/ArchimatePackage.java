@@ -111,6 +111,8 @@ import com.archimatetool.model.IPhysicalElement;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealizationRelationship;
@@ -232,6 +234,20 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass cloneableEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass profileEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass profilesEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1386,6 +1402,56 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EClass getProfile() {
+        return profileEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getProfile_Specialization() {
+        return (EAttribute)profileEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getProfile_ConceptType() {
+        return (EAttribute)profileEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EClass getProfiles() {
+        return profilesEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EReference getProfiles_Profiles() {
+        return (EReference)profilesEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getFolderContainer() {
         return folderContainerEClass;
     }
@@ -1478,6 +1544,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EReference getArchimateModel_Metadata() {
         return (EReference)archimateModelEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EReference getArchimateModel_Profiles() {
+        return (EReference)archimateModelEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -3252,6 +3328,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         cloneableEClass = createEClass(CLONEABLE);
 
+        profileEClass = createEClass(PROFILE);
+        createEAttribute(profileEClass, PROFILE__SPECIALIZATION);
+        createEAttribute(profileEClass, PROFILE__CONCEPT_TYPE);
+
+        profilesEClass = createEClass(PROFILES);
+        createEReference(profilesEClass, PROFILES__PROFILES);
+
         folderContainerEClass = createEClass(FOLDER_CONTAINER);
         createEReference(folderContainerEClass, FOLDER_CONTAINER__FOLDERS);
 
@@ -3310,6 +3393,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__FILE);
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__VERSION);
         createEReference(archimateModelEClass, ARCHIMATE_MODEL__METADATA);
+        createEReference(archimateModelEClass, ARCHIMATE_MODEL__PROFILES);
 
         junctionEClass = createEClass(JUNCTION);
         createEAttribute(junctionEClass, JUNCTION__TYPE);
@@ -3588,6 +3672,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        profileEClass.getESuperTypes().add(this.getArchimateModelObject());
+        profileEClass.getESuperTypes().add(this.getDiagramModelImageProvider());
         folderEClass.getESuperTypes().add(this.getArchimateModelObject());
         folderEClass.getESuperTypes().add(this.getFolderContainer());
         folderEClass.getESuperTypes().add(this.getDocumentable());
@@ -3600,6 +3686,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         archimateConceptEClass.getESuperTypes().add(this.getCloneable());
         archimateConceptEClass.getESuperTypes().add(this.getDocumentable());
         archimateConceptEClass.getESuperTypes().add(this.getProperties());
+        archimateConceptEClass.getESuperTypes().add(this.getProfiles());
         archimateElementEClass.getESuperTypes().add(this.getArchimateConcept());
         archimateRelationshipEClass.getESuperTypes().add(this.getArchimateConcept());
         strategyElementEClass.getESuperTypes().add(this.getArchimateElement());
@@ -3848,6 +3935,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         addEOperation(cloneableEClass, ecorePackage.getEObject(), "getCopy", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
+        initEClass(profileEClass, IProfile.class, "Profile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getProfile_Specialization(), ecorePackage.getEBoolean(), "specialization", "true", 1, 1, IProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getProfile_ConceptType(), ecorePackage.getEString(), "conceptType", null, 0, 1, IProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(profilesEClass, IProfiles.class, "Profiles", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEReference(getProfiles_Profiles(), this.getProfile(), null, "profiles", null, 0, -1, IProfiles.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
         initEClass(folderContainerEClass, IFolderContainer.class, "FolderContainer", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getFolderContainer_Folders(), this.getFolder(), null, "folders", null, 0, -1, IFolderContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
@@ -3916,6 +4010,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEAttribute(getArchimateModel_File(), this.getFile(), "file", null, 0, 1, IArchimateModel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getArchimateModel_Version(), ecorePackage.getEString(), "version", "", 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
         initEReference(getArchimateModel_Metadata(), this.getMetadata(), null, "metadata", null, 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEReference(getArchimateModel_Profiles(), this.getProfile(), null, "profiles", null, 0, -1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         addEOperation(archimateModelEClass, null, "setDefaults", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
@@ -4302,6 +4397,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
           (getArchimateModel_Purpose(),
            source,
            new String[] {
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });
+        addAnnotation
+          (getArchimateModel_Profiles(),
+           source,
+           new String[] {
+               "name", "profile", //$NON-NLS-1$ //$NON-NLS-2$
                "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
            });
         addAnnotation

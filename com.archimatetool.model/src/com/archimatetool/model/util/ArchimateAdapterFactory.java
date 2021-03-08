@@ -109,6 +109,8 @@ import com.archimatetool.model.IPhysicalElement;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealizationRelationship;
@@ -247,6 +249,14 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseCloneable(ICloneable object) {
                 return createCloneableAdapter();
+            }
+            @Override
+            public Adapter caseProfile(IProfile object) {
+                return createProfileAdapter();
+            }
+            @Override
+            public Adapter caseProfiles(IProfiles object) {
+                return createProfilesAdapter();
             }
             @Override
             public Adapter caseFolderContainer(IFolderContainer object) {
@@ -905,6 +915,34 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createCloneableAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IProfile <em>Profile</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IProfile
+     * @generated
+     */
+    public Adapter createProfileAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IProfiles <em>Profiles</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IProfiles
+     * @generated
+     */
+    public Adapter createProfilesAdapter() {
         return null;
     }
 

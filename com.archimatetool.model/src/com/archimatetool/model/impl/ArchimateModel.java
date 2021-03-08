@@ -49,6 +49,7 @@ import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IPhysicalElement;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IStrategyElement;
@@ -74,6 +75,7 @@ import com.archimatetool.model.util.UUIDFactory;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFile <em>File</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getVersion <em>Version</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getProfiles <em>Profiles</em>}</li>
  * </ul>
  *
  * @generated
@@ -208,6 +210,16 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     protected IMetadata metadata;
 
+    /**
+     * The cached value of the '{@link #getProfiles() <em>Profiles</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProfiles()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProfile> profiles;
+    
     /**
      * Adapter Map for arbitrary objects
      */
@@ -568,6 +580,20 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated
      */
     @Override
+    public EList<IProfile> getProfiles() {
+        if (profiles == null) {
+            profiles = new EObjectContainmentEList<IProfile>(IProfile.class, this, IArchimatePackage.ARCHIMATE_MODEL__PROFILES);
+        }
+        return profiles;
+    }
+
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public String getPurpose() {
         return purpose;
     }
@@ -660,6 +686,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
                 return basicSetMetadata(null, msgs);
+            case IArchimatePackage.ARCHIMATE_MODEL__PROFILES:
+                return ((InternalEList<?>)getProfiles()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -690,6 +718,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return getVersion();
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
                 return getMetadata();
+            case IArchimatePackage.ARCHIMATE_MODEL__PROFILES:
+                return getProfiles();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -733,6 +763,10 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
                 setMetadata((IMetadata)newValue);
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__PROFILES:
+                getProfiles().clear();
+                getProfiles().addAll((Collection<? extends IProfile>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -772,6 +806,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
                 setMetadata((IMetadata)null);
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__PROFILES:
+                getProfiles().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -802,6 +839,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
                 return metadata != null;
+            case IArchimatePackage.ARCHIMATE_MODEL__PROFILES:
+                return profiles != null && !profiles.isEmpty();
         }
         return super.eIsSet(featureID);
     }
