@@ -1051,8 +1051,15 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
 
             int height = fontInfo[0].getHeight();
 
+            // Possible improvement for clipped text on Windows with scaling > 100
+            // https://github.com/archimatetool/archi/issues/714
+            // https://github.com/eclipse/gmf-runtime/blob/master/org.eclipse.gmf.runtime.draw2d.ui.render.awt/src/org/eclipse/gmf/runtime/draw2d/ui/render/awt/internal/graphics/GraphicsToGraphics2DAdaptor.java
+            // https://github.com/eclipse/gmf-runtime/commit/2d71b27e2d536c459ae115f92f2b9a5790454078#diff-6472b34090ce6cb354ce805448d72e932824883ce9dcecf658bc2515d4a2cae4
+            
             float fsize = height * (float) Display.getCurrent().getDPI().x / 72.0f;
-            height = Math.round(fsize);
+            // Round down instead of up. Font will be 1 point smaller.
+            //height = Math.round(fsize);
+            height = (int)fsize;
 
             int style = fontInfo[0].getStyle();
             boolean bItalic = (style & SWT.ITALIC) == SWT.ITALIC;
