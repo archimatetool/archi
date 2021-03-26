@@ -42,12 +42,16 @@ implements IApplication {
 	@Override
     public Object start(IApplicationContext context) throws Exception {
         // If running on Linux lock the instance location so we can only launch Archi once
-        if(PlatformUtils.isLinux() && Platform.getInstanceLocation() != null) {
-            if(Platform.getInstanceLocation().isLocked()) {
-                return EXIT_OK;
-            }
+        if(PlatformUtils.isLinux()) {
+            Location loc = Platform.getInstanceLocation();
             
-            Platform.getInstanceLocation().lock();
+            if(loc.isLocked()) {
+                return EXIT_OK;
+            }            
+            
+            if(loc.isSet()) { // Ensure it's set to avoid IOException
+                loc.lock(); // Lock it
+            }
         }
 
         // Platform specific launcher check
