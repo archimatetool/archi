@@ -30,6 +30,7 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelImageProvider;
 
@@ -115,7 +116,9 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
         IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)getFirstSelectedObject();
         
         if(isAlive(dmo)) {
-            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell(), dmo);
+            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell());
+            dialog.setSelected(((IArchimateModelObject)dmo).getArchimateModel(), dmo.getImagePath());
+            
             if(dialog.open() == Window.OK) {
                 // File
                 if(dialog.getUserSelectedFile() != null) {
