@@ -59,8 +59,6 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelObject;
-import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.INameable;
 
 
@@ -89,16 +87,20 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     private String fUserSelectedImagePath;
     private File fUserSelectedFile;
     
-    private IDiagramModelImageProvider fFirstSelected;
-    
     private Map<String, Image> fImageCache = new HashMap<String, Image>();
 
-    public ImageManagerDialog(Shell parentShell, IDiagramModelImageProvider firstSelected) {
+    public ImageManagerDialog(Shell parentShell) {
         super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
-        
-        fFirstSelected = firstSelected;
+    }
+    
+    /**
+     * Set the initial selected model and image path, if any
+     */
+    public void setSelected(IArchimateModel model, String imagePath) {
+        fUserSelectedModel = model;
+        fUserSelectedImagePath = imagePath;
     }
 
     @Override
@@ -254,36 +256,26 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
 
         sash.setWeights(new int[] { 30, 70 });
         
-        /*
-         * Select the initial model and image if there is one
-         */
-        if(fFirstSelected != null) {
-            // Selected model
-            fUserSelectedModel = ((IArchimateModelObject)fFirstSelected).getArchimateModel();
-            // Image path
-            fUserSelectedImagePath = fFirstSelected.getImagePath();
-            
-            // If we have this model in the table, select it
-            if(((ModelsViewerContentProvider)fModelsViewer.getContentProvider()).getModels().contains(fUserSelectedModel)) {
-                fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
-                
-                // Make selection of image path if it's set
-                if(fUserSelectedImagePath != null) {
-                    for(GalleryItem item : fGalleryRoot.getItems()) {
-                        String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
-                        if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
-                            fGallery.setSelection(new GalleryItem[] { item });
-                            break;
-                        }
+        // If we have this model in the table, select it
+        if(fUserSelectedModel != null && ((ModelsViewerContentProvider)fModelsViewer.getContentProvider()).getModels().contains(fUserSelectedModel)) {
+            fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
+
+            // Make selection of image path if it's set
+            if(fUserSelectedImagePath != null) {
+                for(GalleryItem item : fGalleryRoot.getItems()) {
+                    String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
+                    if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
+                        fGallery.setSelection(new GalleryItem[] { item });
+                        break;
                     }
                 }
             }
-            // Else select the first model in the table, if there is one
-            else {
-                Object element = fModelsViewer.getElementAt(0);
-                if(element != null) {
-                    fModelsViewer.setSelection(new StructuredSelection(element), true);
-                }
+        }
+        // Else select the first model in the table, if there is one
+        else {
+            Object element = fModelsViewer.getElementAt(0);
+            if(element != null) {
+                fModelsViewer.setSelection(new StructuredSelection(element), true);
             }
         }
         

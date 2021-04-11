@@ -176,6 +176,7 @@ public interface IArchiImages {
     String ICON_SKETCH = IMGPATH + "sketch.png"; //$NON-NLS-1$
     String ICON_SMALL_X = IMGPATH + "smallx.png"; //$NON-NLS-1$
     String ICON_SORT = IMGPATH + "alphab_sort_co.png"; //$NON-NLS-1$
+    String ICON_SPECIALIZATION = IMGPATH + "specialization.png"; //$NON-NLS-1$
     String ICON_STICKY = IMGPATH + "sticky.png"; //$NON-NLS-1$
     String ICON_TRASH = IMGPATH + "trash.png"; //$NON-NLS-1$
     String ICON_UNLOCK = IMGPATH + "unlockedstate.png"; //$NON-NLS-1$

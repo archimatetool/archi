@@ -725,6 +725,11 @@
             id="com.archimatetool.editor.action.openPropertiesDialog"
             name="%command.name.17">
       </command>
+      <command
+            defaultHandler="com.archimatetool.editor.actions.ShowProfilesManagerHandler"
+            id="com.archimatetool.editor.action.openProfilesDialog"
+            name="Specializations Manager">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -855,12 +860,26 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:tools?after=com.archimatetool.action.generateView">
+         <separator
+               name="com.archimatetool.menu.separatorTools1"
+               visible="true">
+         </separator>
          <command
                commandId="com.archimatetool.editor.action.openPropertiesDialog"
                icon="img/prop_ps.png"
                label="%command.label.5"
                style="push">
          </command>
+         <command
+               commandId="com.archimatetool.editor.action.openProfilesDialog"
+               icon="img/specialization.png"
+               label="Specializations Manager"
+               style="push">
+         </command>
+         <separator
+               name="com.archimatetool.menu.separatorTools2"
+               visible="true">
+         </separator>
       </menuContribution>
    </extension>
    <extension
