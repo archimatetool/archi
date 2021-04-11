@@ -5,7 +5,12 @@
  */
 package com.archimatetool.model.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -17,6 +22,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IProfile;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -27,6 +33,7 @@ import junit.framework.JUnit4TestAdapter;
  *
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ArchimateModelUtilsTests {
 
     public static junit.framework.Test suite() {
@@ -249,5 +256,32 @@ public class ArchimateModelUtilsTests {
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));
         }
+    }
+    
+    @Test
+    public void hasProfileByNameAndType_Model() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
+        
+        String name1 = "profile";
+        String name2 = "profile2";
+        String conceptType1 = IArchimatePackage.eINSTANCE.getBusinessActor().getName();
+        String conceptType2 = IArchimatePackage.eINSTANCE.getBusinessRole().getName();
+        
+        assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+        
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setName(name1);
+        profile.setConceptType(conceptType1);
+        model.getProfiles().add(profile);
+        
+        assertTrue(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+        
+        profile.setConceptType(conceptType2);
+        assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+        
+        profile.setName(name2);
+        profile.setConceptType(conceptType1);
+        assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
     }
 } 
