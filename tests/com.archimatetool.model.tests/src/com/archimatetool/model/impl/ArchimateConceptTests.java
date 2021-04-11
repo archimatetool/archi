@@ -18,6 +18,7 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 
 
 @SuppressWarnings("nls")
@@ -107,5 +108,10 @@ public abstract class ArchimateConceptTests {
         assertEquals(0, concept.getTargetRelationships().size());
         concept.getTargetRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
         assertEquals(1, concept.getTargetRelationships().size());
+    }
+    
+    @Test
+    public void testGetProfiles() {
+        CommonTests.testList(concept.getProfiles(), IArchimatePackage.eINSTANCE.getProfile());
     }
 }
