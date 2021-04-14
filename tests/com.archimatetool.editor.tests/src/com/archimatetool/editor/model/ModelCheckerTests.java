@@ -27,6 +27,7 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -187,5 +188,34 @@ public class ModelCheckerTests {
         messages = modelChecker.checkFolder(folder);
         assertEquals(1, messages.size());
         assertEquals("Folder contains wrong child object (Folder: " + folder.getId() + " Object: " + object.getId() + ")", messages.get(0));
+    }
+    
+    @Test
+    public void checkProfiles() {
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getFolder(FolderType.BUSINESS).getElements().add(element);
+        
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setName("Specialization");
+        profile.setConceptType(element.eClass().getName());
+        
+        model.getProfiles().add(profile);
+        element.getProfiles().add(profile);
+        
+        List<String> messages = modelChecker.checkProfiles(element);
+        assertEquals(0, messages.size());
+        
+        // Remove from model
+        model.getProfiles().remove(profile);
+        
+        messages = modelChecker.checkProfiles(element);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Profile is orphaned"));
+        
+        // Wrong concept type
+        profile.setConceptType(IArchimatePackage.eINSTANCE.getArtifact().getName());
+        messages = modelChecker.checkProfiles(element);
+        assertEquals(2, messages.size());
+        assertTrue(messages.get(1).startsWith("Profile has wrong concept type"));
     }
 }
