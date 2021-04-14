@@ -8,13 +8,17 @@ package com.archimatetool.model.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -23,6 +27,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 
 
 
@@ -379,7 +384,7 @@ public class ArchimateModelUtils {
     }
     
     // =====================================================================================================
-    // Profile/Specialization Utils
+    // Profile / Specialization Utils
     // =====================================================================================================
 
     /**
@@ -401,5 +406,69 @@ public class ArchimateModelUtils {
         }
         
         return false;
+    }
+    
+    /**
+     * @return A list of all model Profiles that have a concept type set to the given conceptType
+     *         This is so we can find the ones suitable for a given concept
+     */
+    public static List<IProfile> findProfilesForConceptType(IArchimateModel model, EClass conceptType) {
+        List<IProfile> profiles = new ArrayList<>();
+        
+        for(IProfile profile : model.getProfiles()) {
+            if(conceptType != null && conceptType.getName().equals(profile.getConceptType())) {
+                profiles.add(profile);
+            }
+        }
+        
+        return profiles;
+    }
+    
+    /**
+     * @return A list of all references of the given Profile in the model.
+     *         If profile is null or is not contained in a model then an empty list is returned
+     *         This is a slow process if this is called more than once
+     */
+    public static List<IProfiles> findProfileUsage(IProfile profile) {
+        List<IProfiles> profiles = new ArrayList<>();
+        
+        if(profile != null && profile.getArchimateModel() != null) {
+            for(Setting setting : UsageCrossReferencer.find(profile, profile.getArchimateModel())) {
+                profiles.add((IProfiles)setting.getEObject());
+            }
+        }
+        
+        return profiles;
+    }
+    
+    /**
+     * @return A map of all references of all Profiles in the given model.
+     *         This method is many times faster than calling findProfileUsage(IProfile) repeatedly
+     */
+    public static Map<IProfile, List<IProfiles>> findProfilesUsage(IArchimateModel model) {
+        Map<IProfile, List<IProfiles>> map = new HashMap<>();
+        
+        // Iterate through all model contents
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            
+            // This is a concept potentially containing profile references
+            if(eObject instanceof IProfiles) {
+                // Iterate through the profiles
+                for(IProfile profile : ((IProfiles)eObject).getProfiles()) {
+                    // Get the list from the map
+                    List<IProfiles> list = map.get(profile);
+                    // Create and add a new list if needed
+                    if(list == null) {
+                        list = new ArrayList<>();
+                        map.put(profile, list);
+                    }
+                    // Add the concept to the list
+                    list.add((IProfiles)eObject);
+                }
+            }
+        }
+        
+        return map;
     }
 }
