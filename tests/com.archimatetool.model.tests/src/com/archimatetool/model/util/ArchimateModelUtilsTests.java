@@ -12,6 +12,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
@@ -23,6 +26,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -283,5 +287,82 @@ public class ArchimateModelUtilsTests {
         profile.setName(name2);
         profile.setConceptType(conceptType1);
         assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+    }
+    
+    @Test
+    public void findProfilesForConceptType() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
+        
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        profile1.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        model.getProfiles().add(profile1);
+        
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        model.getProfiles().add(profile2);
+        
+        IProfile profile3 = IArchimateFactory.eINSTANCE.createProfile();
+        profile3.setConceptType(IArchimatePackage.eINSTANCE.getBusinessRole().getName());
+        model.getProfiles().add(profile3);
+        
+        List<IProfile> profiles = ArchimateModelUtils.findProfilesForConceptType(model, IArchimatePackage.eINSTANCE.getBusinessActor());
+        assertEquals(2, profiles.size());
+        assertSame(profile1, profiles.get(0));
+        assertSame(profile2, profiles.get(1));
+        
+        profiles = ArchimateModelUtils.findProfilesForConceptType(model, IArchimatePackage.eINSTANCE.getBusinessRole());
+        assertEquals(1, profiles.size());
+        assertSame(profile3, profiles.get(0));
+        
+        profiles = ArchimateModelUtils.findProfilesForConceptType(model, IArchimatePackage.eINSTANCE.getBusinessEvent());
+        assertEquals(0, profiles.size());
+    }
+    
+    @Test
+    public void findProfileUsage() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
+        
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        model.getProfiles().add(profile);
+        
+        assertEquals(0, ArchimateModelUtils.findProfileUsage(profile).size());
+        
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationFunction();
+        model.getDefaultFolderForObject(element).getElements().add(element);
+        element.getProfiles().add(profile);
+        
+        element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getDefaultFolderForObject(element).getElements().add(element);
+        element.getProfiles().add(profile);
+        
+        assertEquals(2, ArchimateModelUtils.findProfileUsage(profile).size());
+    }
+    
+    @Test
+    public void findProfilesUsage() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
+
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        model.getProfiles().add(profile);
+        
+        assertEquals(0, ArchimateModelUtils.findProfilesUsage(model).size());
+        
+        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
+        element1.getProfiles().add(profile);
+        
+        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
+        element2.getProfiles().add(profile);
+        
+        Map<IProfile, List<IProfiles>> map = ArchimateModelUtils.findProfilesUsage(model);
+        
+        assertEquals(1, map.size());
+        assertEquals(2, map.get(profile).size());
+        assertTrue(map.get(profile).contains(element1));
+        assertTrue(map.get(profile).contains(element2));
     }
 } 

@@ -177,7 +177,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         return (eObject != null) && (eObject instanceof IArchimateModel || eObject.eContainer() != null);
     }
 
-    private void addAdapter() {
+    protected void addAdapter() {
         IArchimateModelObject selected = getFirstSelectedObject();
         Adapter adapter = getECoreAdapter();
         
@@ -186,7 +186,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         }
     }
     
-    private void removeAdapter() {
+    protected void removeAdapter() {
         IArchimateModelObject selected = getFirstSelectedObject();
         Adapter adapter = getECoreAdapter();
         

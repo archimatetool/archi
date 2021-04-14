@@ -477,6 +477,12 @@
                id="iconVisibleSection"
                tab="image.tab">
          </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.SpecializationSection"
+               filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
+               id="specializationSection"
+               tab="main.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension
