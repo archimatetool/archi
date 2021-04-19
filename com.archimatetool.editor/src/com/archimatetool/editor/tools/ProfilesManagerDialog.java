@@ -73,6 +73,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.commands.AddListMemberCommand;
+import com.archimatetool.editor.model.commands.RemoveListMemberCommand;
 import com.archimatetool.editor.propertysections.ImageManagerDialog;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -614,7 +616,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
             }
             // A new Profile was added
             else {
-                compoundCmd.add(new NewProfileCommand(fArchimateModel, profile));
+                compoundCmd.add(new AddListMemberCommand<IProfile>(fArchimateModel.getProfiles(), profile));
             }
         }
         
@@ -846,78 +848,19 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * New Profile Command
-     */
-    private static class NewProfileCommand extends Command {
-        IArchimateModel model;
-        IProfile profile;
-
-        NewProfileCommand(IArchimateModel model, IProfile profile) {
-            this.model = model;
-            this.profile = profile;
-        }
-
-        @Override
-        public void execute() {
-            model.getProfiles().add(profile);
-        }
-
-        @Override
-        public void undo() {
-            model.getProfiles().remove(profile);
-        }
-
-        @Override
-        public void dispose() {
-            model = null;
-            profile = null;
-        }
-    }
-
-    /**
      * Delete Profile Command
      */
-    private static class DeleteProfileCommand extends Command {
-        IArchimateModel model;
-        IProfile profile;
-        int index;
-        List<IProfiles> usages;
-
+    private static class DeleteProfileCommand extends CompoundCommand {
         DeleteProfileCommand(IProfile profile, List<IProfiles> usages) {
-            this.profile = profile;
-            this.usages = usages;
-            model = profile.getArchimateModel();
-        }
-
-        @Override
-        public void execute() {
-            // Ensure index position is stored just before execute as this is part of a composite delete action the index position will have changed
-            index = model.getProfiles().indexOf(profile);
+            // Delete Profile from Model
+            add(new RemoveListMemberCommand<IProfile>(profile.getArchimateModel().getProfiles(), profile));
             
-            // Delete the profile from the model and all references to it
-            EcoreUtil.delete(profile);
-        }
-
-        @Override
-        public void undo() {
-            if(index != -1) {
-                // Restore the profile to the model
-                model.getProfiles().add(index, profile);
-                
-                // Restore all references to the profile
-                if(usages != null) {
-                    for(IProfiles profilesObject : usages) {
-                        profilesObject.getProfiles().add(profile);
-                    }
+            // Delete Usages
+            if(usages != null) {
+                for(IProfiles owner : usages) {
+                    add(new RemoveListMemberCommand<IProfile>(owner.getProfiles(), profile));
                 }
             }
-        }
-
-        @Override
-        public void dispose() {
-            model = null;
-            profile = null;
-            usages = null;
         }
     }
     
