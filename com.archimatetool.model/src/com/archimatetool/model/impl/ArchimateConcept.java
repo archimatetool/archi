@@ -288,6 +288,12 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         }
         return profiles;
     }
+    
+    @Override
+    public IProfile getPrimaryProfile() {
+        // Return the first one
+        return profiles == null || getProfiles().isEmpty() ? null : getProfiles().get(0);
+    }
 
     @Override
     public EList<IArchimateRelationship> getSourceRelationships() {

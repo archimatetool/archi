@@ -37,5 +37,10 @@ public interface IProfiles extends EObject {
      * @generated
      */
     EList<IProfile> getProfiles();
+    
+    /**
+     * @return The Primary Profile used for image or null if not set
+     */
+    IProfile getPrimaryProfile();
 
 } // IProfiles

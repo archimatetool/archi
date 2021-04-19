@@ -61,6 +61,19 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Gradient
         dmo.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+        
+        // If there is a primary Profile
+        if(element.getPrimaryProfile() != null) {
+            // Get the image path
+            String imagePath = element.getPrimaryProfile().getImagePath();
+            // If set
+            if(imagePath != null) {
+                dmo.setImagePath(element.getPrimaryProfile().getImagePath());
+                if(provider.hasIcon()) { // Hide icon
+                    dmo.setIconVisible(false);
+                }
+            }
+        }
  
         return dmo;
     }

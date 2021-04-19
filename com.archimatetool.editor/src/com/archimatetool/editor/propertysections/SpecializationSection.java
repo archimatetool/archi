@@ -249,12 +249,12 @@ public class SpecializationSection extends AbstractECorePropertySection {
         public void execute() {
             // Contains no Profiles, so add it
             if(owner.getProfiles().isEmpty()) {
-                owner.getProfiles().add(0, newProfile);
+                owner.getProfiles().add(newProfile);
             }
             // Contains at least one Profile, so store old one and set to new one
             else {
                 // Store old Profile
-                oldProfile = owner.getProfiles().get(0);
+                oldProfile = owner.getPrimaryProfile();
                 
                 // New profile is null so remove Profile
                 if(newProfile == null) {
@@ -273,7 +273,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
             if(oldProfile != null) {
                 // If Empty add it
                 if(owner.getProfiles().isEmpty()) {
-                    owner.getProfiles().add(0, oldProfile);
+                    owner.getProfiles().add(oldProfile);
                 }
                 // Else set it
                 else {
@@ -298,8 +298,8 @@ public class SpecializationSection extends AbstractECorePropertySection {
                 return false;
             }
             
-            // If owner's Profile at the zero index is already set to this Profile
-            if(!owner.getProfiles().isEmpty() && owner.getProfiles().get(0) == newProfile) {
+            // If owner's Primary Profile is already set to this Profile
+            if(owner.getPrimaryProfile() == newProfile) {
                 return false;
             }
             
