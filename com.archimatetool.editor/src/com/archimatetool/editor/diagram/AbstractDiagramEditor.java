@@ -30,6 +30,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
@@ -39,6 +40,7 @@ import org.eclipse.gef.internal.InternalGEFPlugin;
 import org.eclipse.gef.palette.PaletteListener;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -337,6 +339,21 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Listen to selections
         hookSelectionListener();
+        
+        // If on Wayland double-click open requests are not forwarded so hook in here
+        if(PlatformUtils.isLinuxWayland()) {
+            viewer.getControl().addListener(SWT.MouseDoubleClick, event -> {
+                EditPart editPart = viewer.findObjectAt(new Point(event.x, event.y));
+                if(editPart != null ) {
+                    SelectionRequest request = new SelectionRequest();
+                    request.setType(RequestConstants.REQ_OPEN);
+                    request.setLocation(new Point(event.x, event.y));
+                    request.setModifiers(event.stateMask);
+                    request.setLastButtonPressed(event.button);
+                    editPart.performRequest(request);
+                }
+            });
+        }
     }
     
     @Override
