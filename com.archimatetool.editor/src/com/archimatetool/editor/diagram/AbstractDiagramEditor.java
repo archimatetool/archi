@@ -354,6 +354,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
                 }
             });
         }
+
+        // Set CSS class name
+        viewer.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiFigureCanvas"); //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     @Override

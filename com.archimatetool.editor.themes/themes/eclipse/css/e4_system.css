@@ -22,6 +22,7 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_tabstyle.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light-drag-styling.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/archi-light-styling.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
 
 .MToolControl.TrimStack {
 	frame-image:  url(./winXPTSFrame.png);

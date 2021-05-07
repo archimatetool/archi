@@ -3,8 +3,8 @@
  *******************************************************************************/
 
 
-/* Diagram FigureCanvas and Zest Graph backgrounds should be off white so as not to be too glaring */
+/* Diagram FigureCanvas and Zest Graph backgrounds should always be white */
 FigureCanvas.ArchiFigureCanvas,
 Graph.ArchiGraph {
-    background-color: #EEEEEE;
+    background-color: #FFFFFF;
 }

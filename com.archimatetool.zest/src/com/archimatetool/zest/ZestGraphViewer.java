@@ -57,6 +57,9 @@ public class ZestGraphViewer extends GraphViewer {
                 }
             }
         });
+        
+        // Set CSS class name for Themes
+        getGraphControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiGraph"); //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     void doApplyLayout() {
