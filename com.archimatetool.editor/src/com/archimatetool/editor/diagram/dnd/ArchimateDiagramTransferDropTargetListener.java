@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.dnd;
 
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTargetEvent;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
@@ -27,17 +28,10 @@ public class ArchimateDiagramTransferDropTargetListener extends AbstractDiagramT
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void updateTargetRequest(){
-        super.updateTargetRequest();
-        
-        // If user holds down Copy Key then don't add connections to elements
-        if(getCurrentEvent().detail == DND.DROP_COPY) {
-            getNativeDropRequest().getExtendedData().put(ADD_ELEMENT_CONNECTIONS, false);
-        }
-        else {
-            getNativeDropRequest().getExtendedData().put(ADD_ELEMENT_CONNECTIONS, true);
-            getCurrentEvent().detail = DND.DROP_LINK; // Show link cursor
-        }
+    public void drop(DropTargetEvent event) {
+        // If Copy key held down then don't add connections to elements
+        getNativeDropRequest().getExtendedData().put(ADD_ELEMENT_CONNECTIONS, getCurrentEvent().detail != DND.DROP_COPY);
+        super.drop(event);
     }
     
     @Override

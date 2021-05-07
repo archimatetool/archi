@@ -6,7 +6,6 @@
 package com.archimatetool.canvas.dnd;
 
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.swt.dnd.DND;
 
 import com.archimatetool.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
 import com.archimatetool.model.IDiagramModel;
@@ -21,12 +20,6 @@ public class CanvasDiagramTransferDropTargetListener extends AbstractDiagramTran
 
     public CanvasDiagramTransferDropTargetListener(EditPartViewer viewer) {
         super(viewer);
-    }
-
-    @Override
-    protected void updateTargetRequest() {
-        super.updateTargetRequest();
-        getCurrentEvent().detail = DND.DROP_LINK; // Show link cursor
     }
 
     @Override

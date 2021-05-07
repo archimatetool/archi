@@ -6,7 +6,6 @@
 package com.archimatetool.editor.diagram.sketch.dnd;
 
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.swt.dnd.DND;
 
 import com.archimatetool.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
 import com.archimatetool.model.IDiagramModel;
@@ -23,12 +22,6 @@ public class SketchDiagramTransferDropTargetListener extends AbstractDiagramTran
         super(viewer);
     }
     
-    @Override
-    protected void updateTargetRequest() {
-        super.updateTargetRequest();
-        getCurrentEvent().detail = DND.DROP_LINK; // Show link cursor
-    }
-
     @Override
     protected boolean isEnabled(Object element) {
         // Only allow (other) Diagram Model References

@@ -133,7 +133,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         fTableViewer.setComparator(new ViewerComparator());
         
         // DND
-        fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK, new Transfer[] { LocalSelectionTransfer.getTransfer() },
+        fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE, new Transfer[] { LocalSelectionTransfer.getTransfer() },
                 new DragSourceListener() {
             @Override
             public void dragStart(DragSourceEvent event) {

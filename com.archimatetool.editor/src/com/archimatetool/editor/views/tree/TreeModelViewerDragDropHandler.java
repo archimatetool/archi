@@ -48,12 +48,12 @@ public class TreeModelViewerDragDropHandler {
     /**
      * Drag operations we support
      */
-    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK; 
+    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
     /**
      * Drop operations we support on the tree
      */
-    private int fDropOperations = DND.DROP_MOVE; 
+    private int fDropOperations = DND.DROP_MOVE;
 
     /**
      * Whether we have a valid tree selection

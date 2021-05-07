@@ -71,7 +71,7 @@ public class TreeModelViewerDragDropHandlerTests {
     public void verifyDragHandlerRegisteredDragSupport() {
         // Verify treeViewer added drag support
         verify(treeViewer).addDragSupport(
-                eq(DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK),
+                eq(DND.DROP_COPY | DND.DROP_MOVE),
                 eq(dragHandler.sourceTransferTypes),
                 any(DragSourceListener.class));
     }

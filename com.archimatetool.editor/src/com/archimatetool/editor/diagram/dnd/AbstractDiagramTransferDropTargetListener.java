@@ -11,6 +11,7 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
 import com.archimatetool.model.IArchimateModel;
@@ -97,5 +98,23 @@ public abstract class AbstractDiagramTransferDropTargetListener extends Abstract
         }
         
         return true;
+    }
+    
+    /**
+     * Set cursor to DND.DROP_COPY
+     */
+    @Override
+    protected void handleDragOperationChanged() {
+        getCurrentEvent().detail = DND.DROP_COPY;
+        super.handleDragOperationChanged();
+    }
+
+    /**
+     * Set cursor to DND.DROP_COPY
+     */
+    @Override
+    protected void handleDragOver() {
+        getCurrentEvent().detail = DND.DROP_COPY;
+        super.handleDragOver();
     }
 }
