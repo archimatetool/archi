@@ -156,6 +156,16 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         return IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT;
     }
 
+    @Override
+    public boolean useProfileImage() {
+        return getFeatures().getBoolean(FEATURE_USE_PROFILE_IMAGE, FEATURE_USE_PROFILE_IMAGE_DEFAULT);
+    }
+    
+    @Override
+    public void setUseProfileImage(boolean set) {
+        getFeatures().putBoolean(FEATURE_USE_PROFILE_IMAGE, set, FEATURE_USE_PROFILE_IMAGE_DEFAULT);
+    }
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
