@@ -58,6 +58,13 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         // Archi Features
         if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
             refreshFigure();
+            getFigure().updateIconImage();
+            return;
+        }
+        
+        // Profile
+        if(feature == IArchimatePackage.Literals.PROFILES__PROFILES) {
+            getFigure().updateIconImage();
             return;
         }
 

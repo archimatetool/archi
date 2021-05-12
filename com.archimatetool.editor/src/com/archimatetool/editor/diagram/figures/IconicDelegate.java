@@ -13,7 +13,9 @@ import org.eclipse.swt.graphics.Rectangle;
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IIconic;
+import com.archimatetool.model.IProfile;
 
 
 /**
@@ -54,11 +56,11 @@ public class IconicDelegate {
     public void updateImage() {
         disposeImage();
         
-        if(fIconic.getImagePath() != null) {
-            IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-
+        String imagePath = getImagePath();
+        if(imagePath != null) {
             try {
-                fImage = archiveManager.createImage(fIconic.getImagePath());
+                IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
+                fImage = archiveManager.createImage(imagePath);
             }
             catch(Exception ex) {
                 ex.printStackTrace();
@@ -69,6 +71,28 @@ public class IconicDelegate {
     
     public Image getImage() {
         return fImage;
+    }
+    
+    public boolean hasImage() {
+        return fImage != null;
+    }
+    
+    private String getImagePath() {
+        // If this is an ArchiMate object and has a Profile with image then return the Profile Image path...
+        if(fIconic instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)fIconic;
+            IProfile profile = dmo.getArchimateElement().getPrimaryProfile();
+            if(profile != null && dmo.useProfileImage()) {
+                return profile.getImagePath();
+            }
+        }
+        
+        // If this has an image path...
+        if(fIconic.getImagePath() != null) {
+            return fIconic.getImagePath();
+        }
+        
+        return null;
     }
     
     /**

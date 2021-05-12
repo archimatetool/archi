@@ -24,6 +24,22 @@ package com.archimatetool.model;
  * @generated
  */
 public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition, IIconic {
+    
+    String FEATURE_USE_PROFILE_IMAGE = "useProfileImage"; //$NON-NLS-1$
+    boolean FEATURE_USE_PROFILE_IMAGE_DEFAULT = true;
+    
+    /**
+     * @return true if the Profile's image should be used
+     */
+    boolean useProfileImage();
+    
+    /**
+     * Set the value of feature FEATURE_USE_PROFILE_IMAGE
+     * @param set the value
+     */
+    void setUseProfileImage(boolean set);
+
+    
     /**
      * Returns the value of the '<em><b>Archimate Element</b></em>' reference.
      * <!-- begin-user-doc -->

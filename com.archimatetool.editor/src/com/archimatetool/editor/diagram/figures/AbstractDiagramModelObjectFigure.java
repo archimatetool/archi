@@ -272,7 +272,7 @@ implements IDiagramModelObjectFigure {
      * @return true if this has a delegate and an image to draw
      */
     public boolean hasIconImage() {
-        return getIconicDelegate() != null && getIconicDelegate().getImage() != null;
+        return getIconicDelegate() != null && getIconicDelegate().hasImage();
     }
     
     /**
