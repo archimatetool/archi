@@ -5,9 +5,6 @@
  */
 package com.archimatetool.editor.tools;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -267,19 +264,19 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         // Name
         TableViewerColumn columnName = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
         columnName.getColumn().setText("Name");
-        tableLayout.setColumnData(columnName.getColumn(), new ColumnWeightData(25, true));
+        tableLayout.setColumnData(columnName.getColumn(), new ColumnWeightData(50, true));
         columnName.setEditingSupport(new NameEditingSupport(fTableViewer));
 
         // Restricted to Concept Type
         TableViewerColumn columnConceptType = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
         columnConceptType.getColumn().setText("Restricted To");
-        tableLayout.setColumnData(columnConceptType.getColumn(), new ColumnWeightData(25, true));
+        tableLayout.setColumnData(columnConceptType.getColumn(), new ColumnWeightData(35, true));
         columnConceptType.setEditingSupport(new ConceptTypeEditingSupport(fTableViewer));
         
         // Usage
         TableViewerColumn columnUsage = new TableViewerColumn(fTableViewer, SWT.NONE, 3);
-        columnUsage.getColumn().setText("Usage");
-        tableLayout.setColumnData(columnUsage.getColumn(), new ColumnWeightData(45, true));
+        columnUsage.getColumn().setText("Instances");
+        tableLayout.setColumnData(columnUsage.getColumn(), new ColumnWeightData(10, true));
 
         // Content Provider
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
@@ -672,37 +669,16 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                     
                 // Usage
                 case 3:
-                    return getUsage(profile);
+                    return getInstanceCount(profile);
 
                 default:
                     return null;
             }
         }
         
-        private String getUsage(IProfile profile) {
+        private String getInstanceCount(IProfile profile) {
             List<IProfiles> usage = fProfilesUsage.get(profile.getId());
-            
-            if(usage == null) {
-                return ""; //$NON-NLS-1$
-            }
-            
-            List<String> names = new ArrayList<>();
-            
-            // Get names for these objects
-            for(IProfiles profilesObject : usage) {
-                names.add(ArchiLabelProvider.INSTANCE.getLabel(profilesObject));
-            }
-            
-            // Sort the names
-            Collections.sort(names, new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    return s1.compareToIgnoreCase(s2);
-                }
-            });
-            
-            // Create one comma separated string
-            return String.join(", ", names); //$NON-NLS-1$
+            return usage == null ? "" : String.valueOf(usage.size()); //$NON-NLS-1$
         }
     }
 
