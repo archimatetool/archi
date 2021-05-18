@@ -105,7 +105,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, 0, 0, 0, INDENT * 2);
 
         graphics.popState();
     }

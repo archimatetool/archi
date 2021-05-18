@@ -60,7 +60,8 @@ public class ContractFigure extends ObjectFigure {
             graphics.drawRectangle(bounds);
             
             // Icon
-            getOwner().drawIconImage(graphics, bounds);
+            // getOwner().drawIconImage(graphics, bounds);
+            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
             
             graphics.popState();
         }

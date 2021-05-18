@@ -78,7 +78,8 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         path.dispose();
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, 0, 0, -14, 0);
 
         graphics.popState();
     }

@@ -79,7 +79,9 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         path.dispose();
         
         // Icon
-        getOwner().drawIconImage(graphics, bounds);
+        // getOwner().drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds,
+                bounds.height / 5 + 1, (int)-(bounds.width * 0.2f), -(bounds.height / 5 + 1), 0);
 
         graphics.popState();
     }

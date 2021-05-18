@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -72,7 +73,9 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 path.dispose();
                 
                 // Icon
-                getOwner().drawIconImage(graphics, bounds);
+                // getOwner().drawIconImage(graphics, bounds);
+                int topOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_LEFT ? TOP_MARGIN : 0;
+                drawIconImage(graphics, bounds, topOffset, 0, 0, 0);
 
                 graphics.popState();
             }

@@ -54,7 +54,10 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         graphics.drawOval(bounds);
         
         // Icon
-        getOwner().drawIconImage(graphics, bounds);
+        // getOwner().drawIconImage(graphics, bounds);
+        Rectangle iconArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
+                bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
+        getOwner().drawIconImage(graphics, iconArea, 0, 0, 0, 0);
 
         graphics.popState();
     }
