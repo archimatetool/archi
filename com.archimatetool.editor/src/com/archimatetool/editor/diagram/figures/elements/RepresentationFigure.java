@@ -84,7 +84,8 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
 
         graphics.popState();
     }

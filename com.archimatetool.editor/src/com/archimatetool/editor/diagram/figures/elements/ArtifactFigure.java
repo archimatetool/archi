@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -92,7 +93,10 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         path3.dispose();
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        int rightOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_RIGHT ? -(FOLD_HEIGHT + 1) : 0;
+        //int rightOffset = -(FOLD_HEIGHT + 1);
+        drawIconImage(graphics, bounds, 0, rightOffset, 0, 0);
 
         graphics.popState();
     }

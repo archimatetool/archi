@@ -12,6 +12,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -58,7 +59,36 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
         graphics.drawOval(bounds);
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        
+        int top = 0, right = 0, left = 0, bottom = 0;
+        int offset = 6;
+        switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
+            case IIconic.ICON_POSITION_TOP_LEFT:
+                top = bounds.height / offset;
+                left = bounds.width / offset;
+                break;
+
+            case IIconic.ICON_POSITION_TOP_RIGHT:
+                top = bounds.height / offset;
+                right = -(bounds.width / offset);
+                break;
+
+            case IIconic.ICON_POSITION_BOTTOM_LEFT:
+                bottom = -(bounds.height / offset);
+                left = bounds.width / offset;
+                break;
+
+            case IIconic.ICON_POSITION_BOTTOM_RIGHT:
+                bottom = -(bounds.height / offset);
+                right = -(bounds.width / offset);
+                break;
+        }
+        drawIconImage(graphics, bounds, top, right, bottom, left);
+
+        //Rectangle iconArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
+        //        bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
+        //drawIconImage(graphics, iconArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

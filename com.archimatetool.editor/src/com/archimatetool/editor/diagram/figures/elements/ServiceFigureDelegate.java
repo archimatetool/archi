@@ -66,7 +66,9 @@ implements IRoundedRectangleFigure {
                 arc.width, arc.height);
         
         // Icon
-        getOwner().drawIconImage(graphics, bounds);
+        // getOwner().drawIconImage(graphics, bounds);
+        Rectangle iconArea = new Rectangle(bounds.x + arc.width / 6, bounds.y + arc.height / 6, bounds.width - arc.width / 3, bounds.height - arc.height / 3);
+        getOwner().drawIconImage(graphics, iconArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

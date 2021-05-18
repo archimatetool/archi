@@ -17,6 +17,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IIconic;
 
 
 /**
@@ -87,7 +88,29 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         path.dispose();
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        
+        int top = 0, right = 0, left = 0, bottom = 0;
+        switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
+            case IIconic.ICON_POSITION_TOP_LEFT:
+            case IIconic.ICON_POSITION_BOTTOM_LEFT:
+                left = 10;
+                break;
+
+            case IIconic.ICON_POSITION_TOP_RIGHT:
+            case IIconic.ICON_POSITION_BOTTOM_RIGHT:
+                right = -indent;
+                break;
+
+            case IIconic.ICON_POSITION_MIDDLE_LEFT:
+                left = indent;
+                break;
+
+            case IIconic.ICON_POSITION_MIDDLE_RIGHT:
+                right = -10;
+                break;
+        }
+        drawIconImage(graphics, bounds, top, right, bottom, left);
 
         graphics.popState();
     }

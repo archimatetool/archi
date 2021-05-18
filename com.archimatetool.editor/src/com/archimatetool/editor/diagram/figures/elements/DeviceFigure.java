@@ -96,7 +96,9 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         graphics.drawRoundRectangle(rect, 30, 30);
         
         // Icon
-        drawIconImage(graphics, bounds);
+        // drawIconImage(graphics, bounds);
+        Rectangle iconArea = new Rectangle(bounds.x + 3, bounds.y + 3, bounds.width - 6, bounds.height - height_indent - 6);
+        drawIconImage(graphics, iconArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

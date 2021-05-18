@@ -66,7 +66,8 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.drawRectangle(bounds);
             
             // Icon
-            getOwner().drawIconImage(graphics, bounds);
+            // getOwner().drawIconImage(graphics, bounds);
+            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, 0, 0);
 
             graphics.popState();
         }

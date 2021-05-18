@@ -65,7 +65,8 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         graphics.drawRectangle(bounds);
         
         // Icon
-        getOwner().drawIconImage(graphics, bounds);
+        // getOwner().drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
