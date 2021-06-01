@@ -11,7 +11,7 @@
     <name>Archi Tool Parent</name>
 
     <properties>
-        <tycho-version>1.5.0</tycho-version>
+        <tycho-version>2.3.0</tycho-version>
         <revision>4.8.1-SNAPSHOT</revision>
     </properties>
     
@@ -23,40 +23,69 @@
         </repository>
     </repositories>
 
-    <modules>
-        <module>com.archimatetool.canvas</module>
-        <module>com.archimatetool.commandline</module>
-        <module>com.archimatetool.csv</module>
-        <module>com.archimatetool.csv.commandline</module>
-        <module>com.archimatetool.editor</module>
-        <module>com.archimatetool.editor.browser</module>
-        <module>com.archimatetool.editor.feature</module>
-        <module>com.archimatetool.editor.launch.win32</module>
-        <module>com.archimatetool.editor.themes</module>
-        <module>com.archimatetool.export.svg</module>
-        <module>com.archimatetool.hammer</module>
-        <module>com.archimatetool.help</module>
-        <module>com.archimatetool.jasperreports</module>
-        <module>com.archimatetool.jasperreports.commandline</module>
-        <module>com.archimatetool.jdom</module>
-        <module>com.archimatetool.model</module>
-        <module>com.archimatetool.modelimporter</module>
-        <module>com.archimatetool.modelimporter.commandline</module>
-        <module>com.archimatetool.reports</module>
-        <module>com.archimatetool.reports.commandline</module>
-        <module>com.archimatetool.templates</module>
-        <module>com.archimatetool.widgets</module>
-        <module>com.archimatetool.zest</module>
-        <module>org.opengroup.archimate.xmlexchange</module>
-        <module>org.opengroup.archimate.xmlexchange.commandline</module>
-        <module>tests</module>
+    <profiles>
+        <!-- Profile of core modules -->
+        <profile>
+            <id>core</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>com.archimatetool.canvas</module>
+                <module>com.archimatetool.commandline</module>
+                <module>com.archimatetool.csv</module>
+                <module>com.archimatetool.csv.commandline</module>
+                <module>com.archimatetool.editor</module>
+                <module>com.archimatetool.editor.browser</module>
+                <module>com.archimatetool.editor.feature</module>
+                <module>com.archimatetool.editor.launch.win32</module>
+                <module>com.archimatetool.editor.themes</module>
+                <module>com.archimatetool.export.svg</module>
+                <module>com.archimatetool.hammer</module>
+                <module>com.archimatetool.help</module>
+                <module>com.archimatetool.jasperreports</module>
+                <module>com.archimatetool.jasperreports.commandline</module>
+                <module>com.archimatetool.jdom</module>
+                <module>com.archimatetool.model</module>
+                <module>com.archimatetool.modelimporter</module>
+                <module>com.archimatetool.modelimporter.commandline</module>
+                <module>com.archimatetool.reports</module>
+                <module>com.archimatetool.reports.commandline</module>
+                <module>com.archimatetool.templates</module>
+                <module>com.archimatetool.widgets</module>
+                <module>com.archimatetool.zest</module>
+                <module>org.opengroup.archimate.xmlexchange</module>
+                <module>org.opengroup.archimate.xmlexchange.commandline</module>
+            </modules>
+        </profile>
         
-        <!-- For a full product build include the following module -->
-        <!-- <module>com.archimatetool.editor.product</module> -->
-    </modules>
+        <!-- Profile for running tests, active by default -->
+        <profile>
+            <id>tests</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>tests</module>
+            </modules>
+        </profile>
+        
+        <!-- Profile for creating a product build, not active by default -->
+        <!-- Use mvn package -P core,product,!tests from the command line -->
+        <profile>
+            <id>product</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>com.archimatetool.editor.product</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        
         <plugins>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
@@ -103,6 +132,7 @@
                         <useProjectSettings>false</useProjectSettings>
                     </configuration>
                 </plugin>
+                
                 <plugin>
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-source-plugin</artifactId>
@@ -116,21 +146,16 @@
                         </execution>
                     </executions>
                 </plugin>
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                     <configuration>
                         <encoding>ISO-8859-1</encoding>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.9</version>
-                </plugin>
             </plugins>
-
         </pluginManagement>
 
     </build>

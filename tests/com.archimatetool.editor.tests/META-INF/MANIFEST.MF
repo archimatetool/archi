@@ -9,5 +9,6 @@ Require-Bundle: org.junit,
  com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: .
-Export-Package: com.archimatetool.testingtools
+Export-Package: com.archimatetool.editor.ui.factory,
+ com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.editor.tests

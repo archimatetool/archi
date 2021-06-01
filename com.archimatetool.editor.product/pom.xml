@@ -25,22 +25,19 @@
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-p2-director-plugin</artifactId>
                 <version>${tycho-version}</version>
+                
                 <executions>
+                    <!-- Create the products for all configured os/ws/arch environments using p2 director -->
                     <execution>
-                        <!-- install the product for all configured os/ws/arch environments using p2 director -->
-                        <id>materialize-products</id>
+                        <id>create-distributions</id>
                         <goals>
                             <goal>materialize-products</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- (optional) create product zips (one per os/ws/arch) -->
-                        <id>archive-products</id>
-                        <goals>
-                            <goal>archive-products</goal>
+                            <!-- (optional) create product zips (one per os/ws/arch) -->
+                            <!-- goal>archive-products</goal -->
                         </goals>
                     </execution>
                 </executions>
+                
                 <!-- (optional) customize the root folder name of the product zip -->
                 <configuration>
                     <products>
@@ -52,10 +49,12 @@
                     </products>
                 </configuration>
             </plugin>
+            
             <!-- But see https://bugs.eclipse.org/bugs/show_bug.cgi?id=349421 -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.2.0</version>
+                
                 <executions>
                     <execution>
                         <id>copy-resources</id>
