@@ -38,7 +38,7 @@
                     </execution>
                 </executions>
                 
-                <!-- (optional) customize the root folder name of the product zip -->
+                <!-- (optional) customize the root folder name and archive names of the product zips -->
                 <configuration>
                     <products>
                         <product>
@@ -48,30 +48,6 @@
                         </product>
                     </products>
                 </configuration>
-            </plugin>
-            
-            <!-- But see https://bugs.eclipse.org/bugs/show_bug.cgi?id=349421 -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/${product-id}/icons/</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>icons</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
