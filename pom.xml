@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.archimatetool</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>archi</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>Archi Tool Parent</name>
+    <name>Archi Tool</name>
 
     <properties>
         <tycho-version>2.3.0</tycho-version>
@@ -96,10 +96,23 @@
 
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <!-- Replace the "-SNAPSHOT" version when generating jars -->
+                    <finalName>${project.artifactId}_${unqualifiedVersion}.${buildQualifier}</finalName>
+                    <!-- Don't add pom.xml and pom.properties files to META-INF folder  -->
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
                 <artifactId>target-platform-configuration</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
-                    <resolver>p2</resolver>
                     <environments>
                         <environment>
                             <os>win32</os>
@@ -131,20 +144,6 @@
                         <encoding>UTF-8</encoding>
                         <useProjectSettings>false</useProjectSettings>
                     </configuration>
-                </plugin>
-                
-                <plugin>
-                    <groupId>org.eclipse.tycho</groupId>
-                    <artifactId>tycho-source-plugin</artifactId>
-                    <version>${tycho-version}</version>
-                    <executions>
-                        <execution>
-                            <id>plugin-source</id>
-                            <goals>
-                                <goal>plugin-source</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 
                 <plugin>

@@ -5,7 +5,7 @@
     
     <parent>
         <groupId>com.archimatetool</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>archi</artifactId>
         <version>${revision}</version>
         <relativePath>../</relativePath>
     </parent>
