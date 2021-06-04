@@ -27,7 +27,7 @@
                 <version>${tycho-version}</version>
                 
                 <executions>
-                    <!-- Create the products for all configured os/ws/arch environments using p2 director -->
+                    <!-- Create the products for all configured os/ws/arch environments -->
                     <execution>
                         <id>create-distributions</id>
                         <goals>
@@ -38,17 +38,29 @@
                     </execution>
                 </executions>
                 
-                <!-- (optional) customize the root folder name and archive names of the product zips -->
                 <configuration>
                     <products>
                         <product>
                             <id>${product-id}</id>
-                            <!-- rootFolder>Archi</rootFolder -->
+                            <!-- Set the root folder name under the os/ws/arch folders) -->
+                            <rootFolder>Archi</rootFolder>
+                            <!-- Set the archive name prefix of the products (if archives are created) -->
                             <archiveFileName>Archi</archiveFileName>
                         </product>
                     </products>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-repository-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <!-- Don't create a zip archive of the p2 repository as well as the "repository" directory -->
+                    <skipArchive>true</skipArchive>
+                </configuration>
+            </plugin>
+            
         </plugins>
     </build>
 
