@@ -23,42 +23,36 @@
         </repository>
     </repositories>
 
+    <!--Core modules -->
+    <modules>
+        <module>com.archimatetool.canvas</module>
+        <module>com.archimatetool.commandline</module>
+        <module>com.archimatetool.csv</module>
+        <module>com.archimatetool.csv.commandline</module>
+        <module>com.archimatetool.editor</module>
+        <module>com.archimatetool.editor.browser</module>
+        <module>com.archimatetool.editor.feature</module>
+        <module>com.archimatetool.editor.launch.win32</module>
+        <module>com.archimatetool.editor.themes</module>
+        <module>com.archimatetool.export.svg</module>
+        <module>com.archimatetool.hammer</module>
+        <module>com.archimatetool.help</module>
+        <module>com.archimatetool.jasperreports</module>
+        <module>com.archimatetool.jasperreports.commandline</module>
+        <module>com.archimatetool.jdom</module>
+        <module>com.archimatetool.model</module>
+        <module>com.archimatetool.modelimporter</module>
+        <module>com.archimatetool.modelimporter.commandline</module>
+        <module>com.archimatetool.reports</module>
+        <module>com.archimatetool.reports.commandline</module>
+        <module>com.archimatetool.templates</module>
+        <module>com.archimatetool.widgets</module>
+        <module>com.archimatetool.zest</module>
+        <module>org.opengroup.archimate.xmlexchange</module>
+        <module>org.opengroup.archimate.xmlexchange.commandline</module>
+    </modules>
+
     <profiles>
-        <!-- Profile of core modules -->
-        <profile>
-            <id>core</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>com.archimatetool.canvas</module>
-                <module>com.archimatetool.commandline</module>
-                <module>com.archimatetool.csv</module>
-                <module>com.archimatetool.csv.commandline</module>
-                <module>com.archimatetool.editor</module>
-                <module>com.archimatetool.editor.browser</module>
-                <module>com.archimatetool.editor.feature</module>
-                <module>com.archimatetool.editor.launch.win32</module>
-                <module>com.archimatetool.editor.themes</module>
-                <module>com.archimatetool.export.svg</module>
-                <module>com.archimatetool.hammer</module>
-                <module>com.archimatetool.help</module>
-                <module>com.archimatetool.jasperreports</module>
-                <module>com.archimatetool.jasperreports.commandline</module>
-                <module>com.archimatetool.jdom</module>
-                <module>com.archimatetool.model</module>
-                <module>com.archimatetool.modelimporter</module>
-                <module>com.archimatetool.modelimporter.commandline</module>
-                <module>com.archimatetool.reports</module>
-                <module>com.archimatetool.reports.commandline</module>
-                <module>com.archimatetool.templates</module>
-                <module>com.archimatetool.widgets</module>
-                <module>com.archimatetool.zest</module>
-                <module>org.opengroup.archimate.xmlexchange</module>
-                <module>org.opengroup.archimate.xmlexchange.commandline</module>
-            </modules>
-        </profile>
-        
         <!-- Profile for running tests, active by default -->
         <profile>
             <id>tests</id>
@@ -71,7 +65,7 @@
         </profile>
         
         <!-- Profile for creating a product build, not active by default -->
-        <!-- Use mvn package -P core,product,!tests from the command line -->
+        <!-- Use "mvn package -P product,!tests" to create product but not run tests -->
         <profile>
             <id>product</id>
             <activation>
