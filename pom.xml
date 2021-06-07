@@ -53,7 +53,7 @@
     </modules>
 
     <profiles>
-        <!-- Profile for running tests, active by default -->
+        <!-- Profile for tests, active by default -->
         <profile>
             <id>tests</id>
             <activation>
@@ -65,7 +65,7 @@
         </profile>
         
         <!-- Profile for creating a product build, not active by default -->
-        <!-- Use "mvn package -P product,!tests" to create product but not run tests -->
+        <!-- Use "mvn clean package -P product" to create products but not run tests -->
         <profile>
             <id>product</id>
             <activation>
