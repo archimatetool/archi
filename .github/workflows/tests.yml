@@ -15,19 +15,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
-        
-    - name: Cache Maven
-      id: cache-maven
-      uses: actions/cache@v1
-      with:
-        path: apache-maven-3.6.3
-        key: maven-3.6.3
-        
-    - name: Download Maven if not cached
-      if: steps.cache-maven.outputs.cache-hit != 'true'
-      run: |
-        wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-        tar xzvf apache-maven-3.6.3-bin.tar.gz
       
     - name: Cache Maven Repository
       id: cache-m2
@@ -36,5 +23,7 @@ jobs:
         path: ~/.m2/repository
         key: maven-${{ hashFiles('**/pom.xml') }}
     
-    - name: Run Maven with a virtual display
-      run: xvfb-run apache-maven-3.6.3/bin/mvn verify
+    - name: Run Maven tests with a virtual display
+      run: |
+        mvn -v
+        xvfb-run mvn clean verify
