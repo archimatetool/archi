@@ -1,7 +1,13 @@
+# Required for PDE build
 provides.0.namespace = osgi.ee
 provides.0.name = JavaSE
 provides.0.version = 11.0.0
-
 provides.1.namespace = osgi.ee
 provides.1.name = JavaSE
 provides.1.version = 13.0.0
+
+# Remove some junk produced by Tycho product build
+instructions.configure=\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/eclipsec.exe);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/artifacts.xml);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/readme/);

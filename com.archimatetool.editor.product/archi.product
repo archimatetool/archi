@@ -7,8 +7,27 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgsMac>-XstartOnFirstThread
+      <programArgs>-cleanConfig
+--launcher.defaultAction
+openFile
+--add-modules=ALL-SYSTEM
+      </programArgs>
+      <vmArgs>-Dosgi.requiredJavaVersion=11
+-Declipse.p2.data.area=@config.dir/.p2
+      </vmArgs>
+      <vmArgsLin>-Dosgi.instance.area=@user.home/.archi4
+-Dosgi.configuration.area=@user.home/.archi4/.config
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/.archi4/dropins
+      </vmArgsLin>
+      <vmArgsMac>-Dosgi.instance.area=&quot;@user.home/Library/Application Support/Archi4&quot;
+-Dosgi.configuration.area=&quot;@user.home/Library/Application Support/Archi4/.config&quot;
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=&quot;%user.home%/Library/Application Support/Archi4/dropins&quot;
+-XstartOnFirstThread
       </vmArgsMac>
+      <vmArgsWin>-Dosgi.instance.area=@user.home/AppData/Roaming/Archi4
+-Dosgi.configuration.area=@user.home/AppData/Roaming/Archi4/.config
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/AppData/Roaming/Archi4/dropins
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png" i256="/com.archimatetool.editor/img/app-256.png"/>
