@@ -137,8 +137,8 @@ public class WorkbenchCleaner {
      * See https://github.com/archimatetool/archi/issues/429
      */
     private static void cleanConfigOnExit(boolean isRestart) {
-        // Don't clean if the "-cleanConfig" option is not set
-        if(!Arrays.asList(Platform.getApplicationArgs()).contains(CLEAN_CONFIG)) {
+        // Don't clean if the "-cleanConfig" option is not set or we are in development mode
+        if(Platform.inDevelopmentMode() || !Arrays.asList(Platform.getApplicationArgs()).contains(CLEAN_CONFIG)) {
             return;
         }
         
