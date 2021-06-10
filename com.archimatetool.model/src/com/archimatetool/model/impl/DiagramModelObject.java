@@ -232,13 +232,13 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     }
 
     @Override
-    public boolean isIconVisible() {
-        return getFeatures().getBoolean(FEATURE_ICON_VISIBLE, FEATURE_ICON_VISIBLE_DEFAULT);
+    public int getIconVisibleState() {
+        return getFeatures().getInt(FEATURE_ICON_VISIBLE, FEATURE_ICON_VISIBLE_DEFAULT);
     }
     
     @Override
-    public void setIconVisible(boolean visible) {
-        getFeatures().putBoolean(FEATURE_ICON_VISIBLE, visible, FEATURE_ICON_VISIBLE_DEFAULT);
+    public void setIconVisibleState(int value) {
+        getFeatures().putInt(FEATURE_ICON_VISIBLE, value, FEATURE_ICON_VISIBLE_DEFAULT);
     }
     
     /**

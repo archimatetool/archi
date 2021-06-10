@@ -115,7 +115,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!getDiagramModelObject().isIconVisible()) {
+        if(!isIconVisible()) {
             return;
         }
         

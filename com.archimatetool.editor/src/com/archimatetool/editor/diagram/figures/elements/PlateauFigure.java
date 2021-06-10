@@ -39,7 +39,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!getDiagramModelObject().isIconVisible()) {
+        if(!isIconVisible()) {
             return;
         }
         

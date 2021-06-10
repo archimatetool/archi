@@ -12,7 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -54,14 +54,22 @@ public class IconVisibleSection extends AbstractECorePropertySection {
         }
     }
 
-    private Button fIconVisibleButton; // Draw2D icon
+    private Combo fIconVisibleCombo; // ArchiMate Draw2D icon
+    
+    private String[] VISIBLE_CHOICES = {
+            "If no image defined",
+            "Always",
+            "Never"
+    };
     
     @Override
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.IconVisibleSection_0 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
-        fIconVisibleButton = new Button(parent, SWT.CHECK);
-        fIconVisibleButton.addSelectionListener(new SelectionAdapter() {
+        fIconVisibleCombo = new Combo(parent, SWT.READ_ONLY);
+        fIconVisibleCombo.setItems(VISIBLE_CHOICES);
+        
+        fIconVisibleCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 CompoundCommand result = new CompoundCommand();
@@ -69,7 +77,7 @@ public class IconVisibleSection extends AbstractECorePropertySection {
                 for(EObject selected : getEObjects()) {
                     if(isAlive(selected)) {
                         Command cmd = new FeatureCommand(Messages.IconVisibleSection_0, (IFeatures)selected,
-                                IDiagramModelObject.FEATURE_ICON_VISIBLE, fIconVisibleButton.getSelection(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT);
+                                IDiagramModelObject.FEATURE_ICON_VISIBLE, mapFromComboToValue(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -103,15 +111,50 @@ public class IconVisibleSection extends AbstractECorePropertySection {
         refreshButton();
     }
     
-    protected void refreshButton() {
+    private void refreshButton() {
         if(fIsExecutingCommand) {
             return; 
         }
         
         IDiagramModelObject lastSelectedObject = (IDiagramModelObject)getFirstSelectedObject();
         
-        fIconVisibleButton.setSelection(lastSelectedObject.isIconVisible());
+        fIconVisibleCombo.select(mapFromValueToCombo(lastSelectedObject.getIconVisibleState()));
         
-        fIconVisibleButton.setEnabled(!isLocked(lastSelectedObject));
+        fIconVisibleCombo.setEnabled(!isLocked(lastSelectedObject));
     }
+    
+    /**
+     * map from combo index value to model value
+     */
+    private int mapFromComboToValue() {
+        switch(fIconVisibleCombo.getSelectionIndex()) {
+            case 0:
+            default:
+                return IDiagramModelObject.ICON_VISIBLE_IF_NO_IMAGE_DEFINED;
+
+            case 1:
+                return IDiagramModelObject.ICON_VISIBLE_ALWAYS;
+
+            case 2:
+                return IDiagramModelObject.ICON_VISIBLE_NEVER;
+        }
+    }
+    
+    /**
+     * map from model value to combo index value
+     */
+    private int mapFromValueToCombo(int value) {
+        switch(value) {
+            case IDiagramModelObject.ICON_VISIBLE_IF_NO_IMAGE_DEFINED:
+            default:
+                return 0;
+
+            case IDiagramModelObject.ICON_VISIBLE_ALWAYS:
+                return 1;
+
+            case IDiagramModelObject.ICON_VISIBLE_NEVER:
+                return 2;
+        }
+    }
+
 }
