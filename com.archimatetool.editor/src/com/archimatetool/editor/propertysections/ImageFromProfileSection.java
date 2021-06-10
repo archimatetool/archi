@@ -50,7 +50,7 @@ public class ImageFromProfileSection extends AbstractECorePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, "Specialization:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
+        createLabel(parent, "Use Specialization Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
         fUseProfileImageButton = new Button(parent, SWT.CHECK);
         fUseProfileImageButton.addSelectionListener(new SelectionAdapter() {

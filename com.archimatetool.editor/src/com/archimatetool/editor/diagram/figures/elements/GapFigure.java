@@ -34,7 +34,7 @@ extends DeliverableFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!getDiagramModelObject().isIconVisible()) {
+        if(!isIconVisible()) {
             return;
         }
         

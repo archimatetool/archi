@@ -33,8 +33,10 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     int FEATURE_GRADIENT_DEFAULT = GRADIENT_NONE;
     
     String FEATURE_ICON_VISIBLE = "iconVisible"; //$NON-NLS-1$
-    boolean FEATURE_ICON_VISIBLE_DEFAULT = true;
-    
+    int ICON_VISIBLE_IF_NO_IMAGE_DEFINED = 0;
+    int ICON_VISIBLE_ALWAYS = 1;
+    int ICON_VISIBLE_NEVER = 2;
+    int FEATURE_ICON_VISIBLE_DEFAULT = ICON_VISIBLE_IF_NO_IMAGE_DEFINED;
     
     /**
      * @return the value of FEATURE_LINE_ALPHA
@@ -61,13 +63,13 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     /**
      * @return true if the icon is visible (if this object has an icon)
      */
-    boolean isIconVisible();
+    int getIconVisibleState();
     
     /**
      * Set the value of feature FEATURE_ICON_VISIBLE
      * @param visible the value
      */
-    void setIconVisible(boolean visible);
+    void setIconVisibleState(int value);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

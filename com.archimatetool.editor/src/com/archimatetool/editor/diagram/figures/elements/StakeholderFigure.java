@@ -32,7 +32,7 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!getDiagramModelObject().isIconVisible()) {
+        if(!isIconVisible()) {
             return;
         }
         

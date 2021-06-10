@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -128,9 +127,9 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     
     @Test
     public void testIconVisible() {
-        assertTrue(object.isIconVisible());
-        object.setIconVisible(false);
-        assertFalse(object.isIconVisible());
+        assertEquals(IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT, object.getIconVisibleState());
+        object.setIconVisibleState(IDiagramModelObject.ICON_VISIBLE_ALWAYS);
+        assertEquals(IDiagramModelObject.ICON_VISIBLE_ALWAYS, object.getIconVisibleState());
     }
     
     @Test

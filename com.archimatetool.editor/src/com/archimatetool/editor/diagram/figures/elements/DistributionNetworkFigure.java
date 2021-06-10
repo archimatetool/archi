@@ -40,7 +40,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!getDiagramModelObject().isIconVisible()) {
+        if(!isIconVisible()) {
             return;
         }
         

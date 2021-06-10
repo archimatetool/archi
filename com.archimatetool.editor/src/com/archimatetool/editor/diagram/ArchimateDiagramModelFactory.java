@@ -62,11 +62,6 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Gradient
         dmo.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         
-        // If the element is linked to a primary Profile with an image then hide the icon
-        if(element.getPrimaryProfile() != null && element.getPrimaryProfile().getImagePath() != null && provider.hasIcon()) {
-            dmo.setIconVisible(false);
-        }
- 
         return dmo;
     }
 

@@ -477,16 +477,16 @@
                tab="image.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.ImageFromProfileSection"
-               filter="com.archimatetool.editor.propertysections.ImageFromProfileSection$Filter"
-               id="imageProfileSection"
-               tab="image.tab">
-         </propertySection>
-         <propertySection
-               afterSection="imageProfileSection"
                class="com.archimatetool.editor.propertysections.IconVisibleSection"
                filter="com.archimatetool.editor.propertysections.IconVisibleSection$Filter"
                id="iconVisibleSection"
+               tab="image.tab">
+         </propertySection>
+         <propertySection
+               afterSection="iconVisibleSection"
+               class="com.archimatetool.editor.propertysections.ImageFromProfileSection"
+               filter="com.archimatetool.editor.propertysections.ImageFromProfileSection$Filter"
+               id="imageProfileSection"
                tab="image.tab">
          </propertySection>
          <propertySection

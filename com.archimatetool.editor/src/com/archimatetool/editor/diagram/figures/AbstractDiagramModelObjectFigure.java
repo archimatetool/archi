@@ -285,6 +285,22 @@ implements IDiagramModelObjectFigure {
     public IconicDelegate getIconicDelegate() {
         return fIconicDelegate;
     }
+    
+    /**
+     * @return whether to show the small in-built icon - either the ArchiMate icon or the view reference icon
+     */
+    public boolean isIconVisible() {
+        switch(getDiagramModelObject().getIconVisibleState()) {
+            case IDiagramModelObject.ICON_VISIBLE_NEVER:
+                return false;
+
+            case IDiagramModelObject.ICON_VISIBLE_IF_NO_IMAGE_DEFINED:
+                return !hasIconImage();
+
+            default:
+                return true;
+        }
+    }
 
     /**
      * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting
