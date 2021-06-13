@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -28,7 +29,6 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
@@ -331,14 +331,24 @@ public class ArchiveManager implements IArchiveManager {
         }
     }
     
+    /**
+     * Create a unique image path name from the file name, appending a digit to the name if the name already exists
+     */
     private String createArchiveImagePathname(File file) {
+        String name = "images/" + FileUtils.getFileNameWithoutExtension(file); //$NON-NLS-1$
         String ext = FileUtils.getFileExtension(file);
+        String path = name + ext;
         
-        String unique = EcoreUtil.generateUUID();
+        int count = 1;
         
-        String path = "images/" + unique; //$NON-NLS-1$
-        if(ext.length() != 0) {
-            path += ext;
+        // Get all paths as lower case
+        List<String> paths = getLoadedImagePaths().stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+        
+        // Increase number count if path name exists
+        while(paths.contains(path.toLowerCase())) {
+            path = name + count++ + ext;
         }
         
         return path;
