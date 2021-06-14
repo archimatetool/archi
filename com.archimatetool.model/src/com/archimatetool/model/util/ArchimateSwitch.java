@@ -277,6 +277,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseProfile(profile);
                 if (result == null) result = caseArchimateModelObject(profile);
                 if (result == null) result = caseDiagramModelImageProvider(profile);
+                if (result == null) result = caseCloneable(profile);
                 if (result == null) result = caseAdapter(profile);
                 if (result == null) result = caseNameable(profile);
                 if (result == null) result = caseIdentifier(profile);

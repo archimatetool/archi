@@ -7,7 +7,9 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -112,6 +114,28 @@ public class ProfileTests {
         assertNull(profile.getImagePath());
         profile.setImagePath("somePath");
         assertEquals("somePath", profile.getImagePath());
+    }
+    
+    @Test
+    public void testGetCopy() {
+        profile.setName("name");
+        profile.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        profile.setImagePath("somePath");
+        profile.setSpecialization(false);
+        profile.getFeatures().add(IArchimateFactory.eINSTANCE.createFeature());
+        
+        IProfile copy = (IProfile)profile.getCopy();
+        
+        assertNotSame(profile, copy);
+        assertNotNull(copy.getId());
+        assertNotEquals(profile.getId(), copy.getId());
+        assertEquals(profile.getName(), copy.getName());
+        assertEquals(profile.getConceptType(), copy.getConceptType());
+        assertEquals(profile.getImagePath(), copy.getImagePath());
+        assertEquals(profile.isSpecialization(), copy.isSpecialization());
+        
+        assertNotSame(profile.getFeatures(), copy.getFeatures());
+        assertEquals(profile.getFeatures().size(), copy.getFeatures().size());
     }
     
     /**
