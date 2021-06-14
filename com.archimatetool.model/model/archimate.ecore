@@ -78,7 +78,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Cloneable" abstract="true" interface="true">
     <eOperations name="getCopy" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Profile" eSuperTypes="#//ArchimateModelObject #//DiagramModelImageProvider">
+  <eClassifiers xsi:type="ecore:EClass" name="Profile" eSuperTypes="#//ArchimateModelObject #//DiagramModelImageProvider #//Cloneable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="specialization" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="conceptType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

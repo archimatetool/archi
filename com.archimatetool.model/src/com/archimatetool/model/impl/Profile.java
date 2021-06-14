@@ -13,15 +13,18 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
@@ -297,6 +300,18 @@ public class Profile extends EObjectImpl implements IProfile {
      * @generated NOT
      */
     @Override
+    public EObject getCopy() {
+        IProfile newObject = EcoreUtil.copy(this);
+        newObject.setId(UUIDFactory.createID(newObject)); // need a new ID
+        return newObject;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
     public IArchimateModel getArchimateModel() {
         if(eContainer() == null) {
             return null;
@@ -506,6 +521,11 @@ public class Profile extends EObjectImpl implements IProfile {
                 default: return -1;
             }
         }
+        if (baseClass == ICloneable.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -537,6 +557,11 @@ public class Profile extends EObjectImpl implements IProfile {
         if (baseClass == IDiagramModelImageProvider.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH: return IArchimatePackage.PROFILE__IMAGE_PATH;
+                default: return -1;
+            }
+        }
+        if (baseClass == ICloneable.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }

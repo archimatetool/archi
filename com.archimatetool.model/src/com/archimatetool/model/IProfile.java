@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EClass;
  * @model
  * @generated
  */
-public interface IProfile extends IArchimateModelObject, IDiagramModelImageProvider {
+public interface IProfile extends IArchimateModelObject, IDiagramModelImageProvider, ICloneable {
     /**
      * Returns the value of the '<em><b>Specialization</b></em>' attribute.
      * The default value is <code>"true"</code>.

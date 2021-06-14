@@ -3674,6 +3674,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         // Add supertypes to classes
         profileEClass.getESuperTypes().add(this.getArchimateModelObject());
         profileEClass.getESuperTypes().add(this.getDiagramModelImageProvider());
+        profileEClass.getESuperTypes().add(this.getCloneable());
         folderEClass.getESuperTypes().add(this.getArchimateModelObject());
         folderEClass.getESuperTypes().add(this.getFolderContainer());
         folderEClass.getESuperTypes().add(this.getDocumentable());
