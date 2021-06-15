@@ -176,13 +176,15 @@ public class SpecializationSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        IArchimateModelObject firstSelected = getFirstSelectedObject();
+
+        // Check also if the selected object has been deleted in case the Properties View is still showing the object if it has the focus
+        if(fIsExecutingCommand || !isAlive(getFirstSelectedObject())) {
             return;
         }
         
         fComboViewer.refresh();
         
-        IArchimateModelObject firstSelected = getFirstSelectedObject();
         if(firstSelected instanceof IArchimateConcept) {
             fIsRefreshing = true; // A Viewer will get a selectionChanged event when setting it
             
