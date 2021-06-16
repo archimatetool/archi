@@ -484,9 +484,9 @@
          </propertySection>
          <propertySection
                afterSection="iconVisibleSection"
-               class="com.archimatetool.editor.propertysections.ImageFromProfileSection"
-               filter="com.archimatetool.editor.propertysections.ImageFromProfileSection$Filter"
-               id="imageProfileSection"
+               class="com.archimatetool.editor.propertysections.ImageSourceSection"
+               filter="com.archimatetool.editor.propertysections.ImageSourceSection$Filter"
+               id="imageSourceSection"
                tab="image.tab">
          </propertySection>
          <propertySection

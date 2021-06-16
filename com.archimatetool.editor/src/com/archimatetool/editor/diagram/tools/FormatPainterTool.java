@@ -220,8 +220,9 @@ public class FormatPainterTool extends AbstractTool {
             IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)pf.getSourceComponent();
             IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)targetComponent;
 
-            // Use Profile Image
-            Command cmd = new FeatureCommand("", target, IDiagramModelArchimateObject.FEATURE_USE_PROFILE_IMAGE, source.useProfileImage(), IDiagramModelArchimateObject.FEATURE_USE_PROFILE_IMAGE_DEFAULT); //$NON-NLS-1$
+            // Image Source
+            Command cmd = new FeatureCommand("", target, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE, //$NON-NLS-1$
+                    source.getImageSource(), IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT);
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
