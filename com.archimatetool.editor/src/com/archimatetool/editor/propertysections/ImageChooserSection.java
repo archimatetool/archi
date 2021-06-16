@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 
 import com.archimatetool.editor.model.IArchiveManager;
@@ -32,6 +33,7 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelImageProvider;
 
 
@@ -47,12 +49,14 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
 
     protected Button fImageButton;
     
+    protected Label fLabel;
+    
     /**
      * Create Image button
      * @param parent
      */
     protected void createImageButton(Composite parent) {
-        createLabel(parent, Messages.DiagramModelImageSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        fLabel = createLabel(parent, Messages.DiagramModelImageSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fImageButton = new Button(parent, SWT.PUSH);
         fImageButton.setText(" " + Messages.DiagramModelImageSection_1); //$NON-NLS-1$
@@ -109,6 +113,12 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
     }
     
     protected void refreshButton() {
+        IArchimateModelObject selected = getFirstSelectedObject();
+        
+        // Set Label depending on selection
+        fLabel.setText(selected instanceof IDiagramModelArchimateObject ? "Custom Image:" : "Image:");
+        
+        // Locked
         fImageButton.setEnabled(!isLocked(getFirstSelectedObject()));
     }
     
