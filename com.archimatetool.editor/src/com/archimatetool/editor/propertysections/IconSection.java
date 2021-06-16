@@ -7,6 +7,7 @@ package com.archimatetool.editor.propertysections;
 
 import java.io.File;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -35,17 +36,19 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IIconic;
 
 
 
 /**
- * Property Section for an Icon
+ * Property Section for an User Image Icon
  * 
  * @author Phillip Beauvoir
  */
@@ -112,7 +115,7 @@ public class IconSection extends ImageChooserSection {
         fCanvas.addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event) {
-                if(!isLocked(getFirstSelectedObject())) {
+                if(fImageButton.isEnabled()) {
                     chooseImage();
                 }
             }
@@ -147,11 +150,9 @@ public class IconSection extends ImageChooserSection {
         target.addDropListener(new DropTargetAdapter() {
             @Override
             public void drop(DropTargetEvent event) {
-                if(event.data instanceof String[]) {
-                    if(!isLocked(getFirstSelectedObject())) {
-                        File file = new File(((String[])event.data)[0]);
-                        setImage(file);
-                    }
+                if(event.data instanceof String[] && fImageButton.isEnabled()) {
+                    File file = new File(((String[])event.data)[0]);
+                    setImage(file);
                 }
             }
         });
@@ -200,16 +201,56 @@ public class IconSection extends ImageChooserSection {
 
     @Override
     protected void notifyChanged(Notification msg) {
+        // Profile might have been added or removed from the underlying Archimate element which might affect the image
+        if(msg.getFeature() == IArchimatePackage.Literals.PROFILES__PROFILES) {
+            refreshPreviewImage();
+        }
+        
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
+                    || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
                 refreshPreviewImage();
             }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
-                    || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION) {
+            
+            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
+                    || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION
+                    || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
                 refreshButton();
             }
+        }
+    }
+    
+    @Override
+    protected void addAdapter() {
+        super.addAdapter();
+        
+        // Add adapter to listen to underlying ArchimateElement if there is one
+        
+        IArchimateModelObject selected = getFirstSelectedObject();
+        Adapter adapter = getECoreAdapter();
+        
+        if(selected instanceof IDiagramModelArchimateObject && adapter != null) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+            if(!element.eAdapters().contains(adapter)) {
+                element.eAdapters().add(adapter);
+            }
+        }
+    }
+    
+    @Override
+    protected void removeAdapter() {
+        super.removeAdapter();
+        
+        // Remove adapter to underlying ArchimateElement if there is one
+
+        IArchimateModelObject selected = getFirstSelectedObject();
+        Adapter adapter = getECoreAdapter();
+        
+        if(selected instanceof IDiagramModelArchimateObject && adapter != null) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+            element.eAdapters().remove(adapter);
         }
     }
     
@@ -222,19 +263,9 @@ public class IconSection extends ImageChooserSection {
     private void refreshPreviewImage() {
         disposeImage();
         
-        IIconic iconic = (IIconic)getFirstSelectedObject();
-        
-        if(iconic.getImagePath() != null) {
-            IArchiveManager archiveManager = (IArchiveManager)iconic.getAdapter(IArchiveManager.class);
-            
-            try {
-                fImage = archiveManager.createImage(iconic.getImagePath());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.logError("Could not create image!", ex); //$NON-NLS-1$
-            }
-        }
+        // Use an IconicDelegate to create the image which may come from the object or via a profile image
+        IconicDelegate iconicDelegate = new IconicDelegate((IIconic)getFirstSelectedObject());
+        fImage = iconicDelegate.getImage();
         
         fCanvas.redraw();
     }
@@ -243,16 +274,22 @@ public class IconSection extends ImageChooserSection {
     protected void refreshButton() {
         super.refreshButton();
         
-        IIconic iconic = (IIconic)getFirstSelectedObject();
+        IArchimateModelObject selected = getFirstSelectedObject();
         
-        int position = iconic.getImagePosition();
+        // If this is an ArchiMate element and we are not using a custom image then disable this
+        if(selected instanceof IDiagramModelArchimateObject) {
+            int source = ((IDiagramModelArchimateObject)selected).getImageSource();
+            fImageButton.setEnabled(source == IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM  && !isLocked(selected));
+        }
+        
+        int position = ((IIconic)selected).getImagePosition();
         if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_BOTTOM_RIGHT) {
             position = IIconic.ICON_POSITION_TOP_RIGHT;
         }
         
         if(!fIsExecutingCommand) {
             fComboPosition.select(position);
-            fComboPosition.setEnabled(!isLocked(iconic));
+            fComboPosition.setEnabled(!isLocked(selected));
         }
     }
     

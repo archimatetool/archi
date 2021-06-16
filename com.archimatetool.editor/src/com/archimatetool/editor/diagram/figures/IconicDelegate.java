@@ -81,9 +81,11 @@ public class IconicDelegate {
         // If this is an ArchiMate object and has a Profile with image then return the Profile Image path...
         if(fIconic instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)fIconic;
-            IProfile profile = dmo.getArchimateElement().getPrimaryProfile();
-            if(profile != null && dmo.useProfileImage()) {
-                return profile.getImagePath();
+            // If set to show profile image...
+            if(dmo.useProfileImage()) {
+                // If there is a profile...
+                IProfile profile = dmo.getArchimateElement().getPrimaryProfile();
+                return profile != null ? profile.getImagePath() : null;
             }
         }
         
