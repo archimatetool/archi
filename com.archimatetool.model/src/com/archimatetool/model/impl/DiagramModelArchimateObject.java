@@ -157,15 +157,20 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
     }
 
     @Override
-    public boolean useProfileImage() {
-        return getFeatures().getBoolean(FEATURE_USE_PROFILE_IMAGE, FEATURE_USE_PROFILE_IMAGE_DEFAULT);
+    public int getImageSource() {
+        return getFeatures().getInt(FEATURE_IMAGE_SOURCE, FEATURE_IMAGE_SOURCE_DEFAULT);
     }
     
     @Override
-    public void setUseProfileImage(boolean set) {
-        getFeatures().putBoolean(FEATURE_USE_PROFILE_IMAGE, set, FEATURE_USE_PROFILE_IMAGE_DEFAULT);
+    public void setImageSource(int value) {
+        getFeatures().putInt(FEATURE_IMAGE_SOURCE, value, FEATURE_IMAGE_SOURCE_DEFAULT);
     }
-
+    
+    @Override
+    public boolean useProfileImage() {
+        return getImageSource() == IMAGE_SOURCE_PROFILE;
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

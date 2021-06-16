@@ -12,7 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -23,11 +23,12 @@ import com.archimatetool.model.IFeatures;
 
 
 /**
- * Property Section for to use the Image from a Specialization Profile
+ * Property Section to set the Image source.
+ * Currently can be set from a Specialization Profile or Custom Image
  * 
  * @author Phillip Beauvoir
  */
-public class ImageFromProfileSection extends AbstractECorePropertySection {
+public class ImageSourceSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -46,23 +47,29 @@ public class ImageFromProfileSection extends AbstractECorePropertySection {
         }
     }
 
-    private Button fUseProfileImageButton;
+    private Combo fImageSourceCombo;
+    
+    private String[] IMAGE_SOURCE_CHOICES = {
+            "From Specialization",
+            "Custom"
+    };
     
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, "Use Specialization Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
+        createLabel(parent, "Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
-        fUseProfileImageButton = new Button(parent, SWT.CHECK);
-        fUseProfileImageButton.addSelectionListener(new SelectionAdapter() {
+        fImageSourceCombo = new Combo(parent, SWT.READ_ONLY);
+        fImageSourceCombo.setItems(IMAGE_SOURCE_CHOICES);
+        
+        fImageSourceCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject selected : getEObjects()) {
                     if(isAlive(selected)) {
-                        Command cmd = new FeatureCommand("Specialization Image", (IFeatures)selected,
-                                IDiagramModelArchimateObject.FEATURE_USE_PROFILE_IMAGE, fUseProfileImageButton.getSelection(),
-                                IDiagramModelArchimateObject.FEATURE_USE_PROFILE_IMAGE_DEFAULT);
+                        Command cmd = new FeatureCommand("Image Source", (IFeatures)selected,
+                                IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE, mapFromComboToValue(), IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -85,26 +92,55 @@ public class ImageFromProfileSection extends AbstractECorePropertySection {
     @Override
     protected void notifyChanged(Notification msg) {
         if(msg.getNotifier() == getFirstSelectedObject()) {
-            if(isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_USE_PROFILE_IMAGE)) {
-                refreshButton();
+            if(isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
+                refreshCombo();
             }
         }
     }
     
     @Override
     protected void update() {
-        refreshButton();
+        refreshCombo();
     }
     
-    protected void refreshButton() {
+    protected void refreshCombo() {
         if(fIsExecutingCommand) {
             return; 
         }
         
         IDiagramModelArchimateObject lastSelectedObject = (IDiagramModelArchimateObject)getFirstSelectedObject();
         
-        fUseProfileImageButton.setSelection(lastSelectedObject.useProfileImage());
+        fImageSourceCombo.select(mapFromValueToCombo(lastSelectedObject.getImageSource()));
         
-        fUseProfileImageButton.setEnabled(!isLocked(lastSelectedObject));
+        fImageSourceCombo.setEnabled(!isLocked(lastSelectedObject));
     }
+    
+    /**
+     * map from combo index value to model value
+     */
+    private int mapFromComboToValue() {
+        switch(fImageSourceCombo.getSelectionIndex()) {
+            case 0:
+            default:
+                return IDiagramModelArchimateObject.IMAGE_SOURCE_PROFILE;
+
+            case 1:
+                return IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM;
+        }
+    }
+    
+    /**
+     * map from model value to combo index value
+     */
+    private int mapFromValueToCombo(int value) {
+        switch(value) {
+            case IDiagramModelArchimateObject.IMAGE_SOURCE_PROFILE:
+            default:
+                return 0;
+
+            case IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM:
+                return 1;
+        }
+    }
+
 }

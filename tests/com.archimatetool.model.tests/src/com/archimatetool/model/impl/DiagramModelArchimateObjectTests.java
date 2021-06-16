@@ -131,9 +131,16 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     }
     
     @Test
+    public void testSetImageSource() {
+        assertEquals(IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT, object.getImageSource());
+        object.setImageSource(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM);
+        assertEquals(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM, object.getImageSource());
+    }
+    
+    @Test
     public void testUseProfileImage() {
         assertTrue(object.useProfileImage());
-        object.setUseProfileImage(false);
+        object.setImageSource(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM);
         assertFalse(object.useProfileImage());
     }
     
