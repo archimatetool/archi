@@ -135,6 +135,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
 
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.MATCH_WIDTH));
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.MATCH_HEIGHT));
+        alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.MATCH_SIZE));
         
         alignmentMenu.add(new Separator());
         alignmentMenu.add(actionRegistry.getAction(DefaultEditPartSizeAction.ID));

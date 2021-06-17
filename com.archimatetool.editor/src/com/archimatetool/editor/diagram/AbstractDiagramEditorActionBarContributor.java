@@ -11,6 +11,7 @@ import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
+import org.eclipse.gef.ui.actions.MatchSizeRetargetAction;
 import org.eclipse.gef.ui.actions.MatchWidthRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
@@ -107,9 +108,10 @@ extends ActionBarContributor {
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.MIDDLE));
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.BOTTOM));
         
-        // Match width/height
+        // Match width/height/size
         addRetargetAction(new MatchWidthRetargetAction());
         addRetargetAction(new MatchHeightRetargetAction());
+        addRetargetAction(new MatchSizeRetargetAction());
         
         addRetargetAction(new RetargetAction(SnapToGrid.PROPERTY_GRID_ENABLED, 
                 Messages.AbstractDiagramEditorActionBarContributor_0, IAction.AS_CHECK_BOX));
@@ -254,6 +256,7 @@ extends ActionBarContributor {
         
         alignmentMenu.add(getAction(GEFActionConstants.MATCH_WIDTH));
         alignmentMenu.add(getAction(GEFActionConstants.MATCH_HEIGHT));
+        alignmentMenu.add(getAction(GEFActionConstants.MATCH_SIZE));
         
         alignmentMenu.add(new Separator());
         alignmentMenu.add(getAction(DefaultEditPartSizeAction.ID));
@@ -369,6 +372,7 @@ extends ActionBarContributor {
         toolBarManager.add(new Separator());   
         toolBarManager.add(getAction(GEFActionConstants.MATCH_WIDTH));
         toolBarManager.add(getAction(GEFActionConstants.MATCH_HEIGHT));
+        toolBarManager.add(getAction(GEFActionConstants.MATCH_SIZE));
         toolBarManager.add(new Separator());
         toolBarManager.add(getAction(DefaultEditPartSizeAction.ID));
         toolBarManager.add(new GroupMarker(GROUP_TOOLBAR_END));

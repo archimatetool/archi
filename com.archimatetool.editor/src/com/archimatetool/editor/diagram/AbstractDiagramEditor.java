@@ -47,6 +47,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
+import org.eclipse.gef.ui.actions.MatchSizeAction;
 import org.eclipse.gef.ui.actions.MatchWidthAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
@@ -790,6 +791,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(action);
         action.setText(Messages.AbstractDiagramEditor_6); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_15);
+        getSelectionActions().add(action.getId());
+
+        action = new MatchSizeAction(this);
+        registry.registerAction(action);
+        action.setText(Messages.AbstractDiagramEditor_22); // Externalise string as it's internal to GEF
+        action.setToolTipText(Messages.AbstractDiagramEditor_23);
         getSelectionActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.LEFT);
