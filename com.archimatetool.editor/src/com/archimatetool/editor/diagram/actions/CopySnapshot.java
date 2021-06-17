@@ -540,6 +540,11 @@ public final class CopySnapshot {
                 String name = dmo.getArchimateElement().getName();
                 dmo.getArchimateElement().setName(name + " " + Messages.CopySnapshot_1); //$NON-NLS-1$
             }
+            
+            // Remove Profile references if pasting to different model
+            if(!isSourceAndTargetArchiMateModelSame()) {
+                dmo.getArchimateElement().getProfiles().clear();
+            }
         }
 
         // Add to Mapping
@@ -576,6 +581,11 @@ public final class CopySnapshot {
                     IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fOriginalToSnapshotComponentsMapping.getKey(snapshotConnection);
                     IArchimateRelationship relationship = originalDiagramConnection.getArchimateRelationship();
                     ((IDiagramModelArchimateConnection)newConnection).setArchimateRelationship(relationship);
+                }
+                
+                // Remove Profile references if pasting to different model
+                if(newConnection instanceof IDiagramModelArchimateConnection && !isSourceAndTargetArchiMateModelSame()) {
+                    ((IDiagramModelArchimateConnection)newConnection).getArchimateRelationship().getProfiles().clear();
                 }
             }
         }
