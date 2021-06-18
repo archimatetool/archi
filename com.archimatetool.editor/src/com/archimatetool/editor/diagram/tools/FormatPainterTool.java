@@ -253,14 +253,16 @@ public class FormatPainterTool extends AbstractTool {
             IIconic source = (IIconic)pf.getSourceComponent();
             IIconic target = (IIconic)targetComponent;
             
-            // Image Path
-            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, source.getImagePath()); //$NON-NLS-1$
-            if(cmd.canExecute()) {
-                result.add(cmd);
+            // Image Path - if source and target models are the same
+            if(source.getArchimateModel() == target.getArchimateModel()) {
+                Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, source.getImagePath()); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
             
             // Image position
-            cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
+            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
