@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.tools;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -141,7 +142,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Specializations Manager");
+        shell.setText(Messages.ProfilesManagerDialog_0);
     }
 
     @Override
@@ -149,8 +150,8 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-        setTitle("Manage Specializations");
-        setMessage(NLS.bind("Create and Edit Specializations in ''{0}''.", fArchimateModel.getName()));
+        setTitle(Messages.ProfilesManagerDialog_1);
+        setMessage(NLS.bind(Messages.ProfilesManagerDialog_2, fArchimateModel.getName()));
 
         Composite composite = (Composite)super.createDialogArea(parent);
 
@@ -159,7 +160,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(client);
         
         // New Action
-        fActionNew = new Action("New") {
+        fActionNew = new Action(Messages.ProfilesManagerDialog_3) {
             @Override
             public void run() {
                 createNewProfile();
@@ -172,7 +173,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         };
 
         // Delete Action
-        fActionDelete = new Action("Delete") {
+        fActionDelete = new Action(Messages.ProfilesManagerDialog_4) {
             @Override
             public void run() {
                 deleteSelectedProfiles();
@@ -191,7 +192,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         fActionDelete.setEnabled(false);
         
         // Choose Image Action
-        fActionChooseImage = new Action("Choose Image...") {
+        fActionChooseImage = new Action(Messages.ProfilesManagerDialog_5) {
             @Override
             public void run() {
                 chooseImage();
@@ -200,7 +201,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         fActionChooseImage.setEnabled(false);
         
         // Clear Image Action
-        fActionClearImage = new Action("Remove Image") {
+        fActionClearImage = new Action(Messages.ProfilesManagerDialog_6) {
             @Override
             public void run() {
                 clearImages();
@@ -263,19 +264,19 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
 
         // Name
         TableViewerColumn columnName = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
-        columnName.getColumn().setText("Name");
+        columnName.getColumn().setText(Messages.ProfilesManagerDialog_7);
         tableLayout.setColumnData(columnName.getColumn(), new ColumnWeightData(50, true));
         columnName.setEditingSupport(new NameEditingSupport(fTableViewer));
 
         // Restricted to Concept Type
         TableViewerColumn columnConceptType = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
-        columnConceptType.getColumn().setText("Restricted To");
+        columnConceptType.getColumn().setText(Messages.ProfilesManagerDialog_8);
         tableLayout.setColumnData(columnConceptType.getColumn(), new ColumnWeightData(35, true));
         columnConceptType.setEditingSupport(new ConceptTypeEditingSupport(fTableViewer));
         
         // Usage
         TableViewerColumn columnUsage = new TableViewerColumn(fTableViewer, SWT.NONE, 3);
-        columnUsage.getColumn().setText("Instances");
+        columnUsage.getColumn().setText(Messages.ProfilesManagerDialog_9);
         tableLayout.setColumnData(columnUsage.getColumn(), new ColumnWeightData(10, true));
 
         // Content Provider
@@ -349,7 +350,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         GridDataFactory.create(GridData.VERTICAL_ALIGN_BEGINNING).applyTo(client);
 
         fButtonNew = new Button(client, SWT.PUSH);
-        fButtonNew.setText("New");
+        fButtonNew.setText(Messages.ProfilesManagerDialog_10);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fButtonNew);
         fButtonNew.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -359,7 +360,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         });
 
         fButtonDelete = new Button(client, SWT.PUSH);
-        fButtonDelete.setText("Delete");
+        fButtonDelete.setText(Messages.ProfilesManagerDialog_11);
         fButtonDelete.setEnabled(false);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fButtonDelete);
         fButtonDelete.addSelectionListener(new SelectionAdapter() {
@@ -370,7 +371,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         });
         
         fImageButton = new Button(client, SWT.PUSH);
-        fImageButton.setText("Image...");
+        fImageButton.setText(Messages.ProfilesManagerDialog_12);
         fImageButton.setEnabled(false);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fImageButton);
         
@@ -446,7 +447,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      * Generate a new unique Specialization name
      */
     private String generateNewProfileName(String conceptType) {
-        String name = "Specialization" + " ";
+        String name = Messages.ProfilesManagerDialog_13 + " "; //$NON-NLS-1$
         String s;
         int newNameIndex = 1;
         do {
@@ -461,8 +462,8 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      */
     private void deleteSelectedProfiles() {
         if(MessageDialog.openQuestion(getShell(),
-                                    "Delete",
-                                    "Are you sure you want to delete these entries?")) {
+                                    Messages.ProfilesManagerDialog_14,
+                                    Messages.ProfilesManagerDialog_15)) {
             
             for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
                 fProfilesTemp.remove(((IProfile)o).getId());
@@ -597,7 +598,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     protected void okPressed() {
         super.okPressed();
 
-        CompoundCommand compoundCmd = new CompoundCommand("Change Specializations");
+        CompoundCommand compoundCmd = new CompoundCommand(Messages.ProfilesManagerDialog_16);
 
         // Iterate thru our temp list of Profiles
         for(IProfile profile : fProfilesTemp.values()) {
@@ -725,11 +726,8 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      * Concept Type Editor
      */
     private class ConceptTypeEditingSupport extends EditingSupport {
-        ComboBoxCellEditor cellEditor;
+        ComboBoxViewerCellEditor cellEditor;
         
-        Map<Integer, String> indexToClassMap; // Index position -> Class name
-        Map<String, Integer> classToIndexMap; // Class name -> Index position
-
         ConceptTypeEditingSupport(ColumnViewer viewer) {
             super(viewer);
         }
@@ -737,38 +735,47 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         @Override
         protected CellEditor getCellEditor(Object element) {
             if(cellEditor == null) {
-                Map<String, String> nameToClassMap = new TreeMap<>(); // Sorted friendly name -> Class name. TreeMap is sorted by key
-                indexToClassMap = new HashMap<>();
-                classToIndexMap = new HashMap<>();
-                
-                // Iterate through all Archimate Concept classes and add to map of friendly name -> Class name
-                // Friendly names have to be unique for this to work!
+                List<EClass> classList = new ArrayList<>();
                 
                 // Elements
                 for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-                    nameToClassMap.put(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), eClass.getName());
+                    classList.add(eClass);
                 }
                 
                 // Relations
                 for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-                    nameToClassMap.put(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), eClass.getName());
+                    classList.add(eClass);
                 }
                 
                 // Connectors
                 for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-                    nameToClassMap.put(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), eClass.getName());
+                    classList.add(eClass);
                 }
                 
-                // Map from Index to Class Name and from Class Name to Index
-                int i = 0;
-                for(String className : nameToClassMap.values()) {
-                    indexToClassMap.put(i, className);
-                    classToIndexMap.put(className, i++);
-                }
+                cellEditor = new ComboBoxViewerCellEditor((Composite)getViewer().getControl(), SWT.READ_ONLY);
                 
-                cellEditor = new ComboBoxCellEditor((Composite)getViewer().getControl(),
-                                                    nameToClassMap.keySet().toArray(String[]::new),
-                                                    SWT.READ_ONLY);
+                cellEditor.setContentProvider(new IStructuredContentProvider() {
+                    @Override
+                    public Object[] getElements(Object inputElement) {
+                        return classList.toArray();
+                    }
+                });
+                
+                cellEditor.setLabelProvider(new LabelProvider() {
+                    @Override
+                    public String getText(Object element) {
+                        return ArchiLabelProvider.INSTANCE.getDefaultName((EClass)element);
+                    }
+                });
+                
+                cellEditor.getViewer().setComparator(new ViewerComparator() {
+                    @Override
+                    public int compare(Viewer viewer, Object e1, Object e2) {
+                        return ArchiLabelProvider.INSTANCE.getDefaultName((EClass)e1).compareToIgnoreCase(ArchiLabelProvider.INSTANCE.getDefaultName((EClass)e2));
+                    }
+                });
+                
+                cellEditor.setInput(classList);
                 
                 // Ensure the combo drop down appears on single mouse click and tab traversal
                 cellEditor.setActivationStyle(ComboBoxCellEditor.DROP_DOWN_ON_MOUSE_ACTIVATION | ComboBoxCellEditor.DROP_DOWN_ON_TRAVERSE_ACTIVATION);
@@ -786,26 +793,23 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
 
         @Override
         protected Object getValue(Object element) {
-            // Return index of class name
+            // Return Class
             IProfile profile = (IProfile)element;
-            return classToIndexMap.get(profile.getConceptType());
+            return profile.getConceptClass();
         }
 
         @Override
         protected void setValue(Object element, Object value) {
-            // Check for -1 value. On Mac this happens if the Mod key is down when selecting the same item from the combo box
-            Integer index = (Integer)value;
-            if(index == -1) {
+            if(value == null) {
                 return;
             }
-
-            // Get class name from index
+            
             IProfile profile = (IProfile)element;
-            String conceptType = indexToClassMap.get(index);
+            EClass eClass = (EClass)value;
             
             // Don't allow a duplicate Profile name for the same concept type
-            if(isValidProfileNameAndType(profile.getName(), conceptType)) {
-                profile.setConceptType(conceptType);
+            if(isValidProfileNameAndType(profile.getName(), eClass.getName())) {
+                profile.setConceptType(eClass.getName());
                 getViewer().update(profile, null);
                 
                 // If concept type is a relation or connector remove image

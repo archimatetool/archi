@@ -86,9 +86,9 @@ public class SpecializationSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(Composite parent) {
         NONE_PROFILE = IArchimateFactory.eINSTANCE.createProfile();
-        NONE_PROFILE.setName("(none)");
+        NONE_PROFILE.setName(Messages.SpecializationSection_0);
         
-        createLabel(parent, "Specialization:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.SpecializationSection_1, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fComboViewer = new ComboViewer(new Combo(parent, SWT.READ_ONLY | SWT.BORDER));
         fComboViewer.getCombo().setVisibleItemCount(12);
@@ -244,7 +244,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
         SetProfileCommand(IArchimateConcept owner, IProfile profile) {
             this.owner = owner;
             newProfile = profile;
-            setLabel("Set Specialization");
+            setLabel(Messages.SpecializationSection_2);
         }
 
         @Override

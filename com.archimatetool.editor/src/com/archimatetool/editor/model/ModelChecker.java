@@ -295,13 +295,13 @@ public class ModelChecker {
             
             // Profile must exist in model
             if(profile.getArchimateModel() == null) {
-                messages.add("Profile is orphaned:" + name);
+                messages.add(Messages.ModelChecker_28 + name);
             }
             
             // Profile must have matching concept type
             EClass eClass = profile.getConceptClass(); 
             if(eClass == null || eClass != profilesObject.eClass()) {
-                messages.add("Profile has wrong concept type:" + name);
+                messages.add(Messages.ModelChecker_29 + name);
             }
         }
         

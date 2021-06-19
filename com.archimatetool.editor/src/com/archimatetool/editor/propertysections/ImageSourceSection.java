@@ -50,8 +50,8 @@ public class ImageSourceSection extends AbstractECorePropertySection {
     private Combo fImageSourceCombo;
     
     private String[] IMAGE_SOURCE_CHOICES = {
-            "From Specialization",
-            "Custom"
+            Messages.ImageSourceSection_0,
+            Messages.ImageSourceSection_1
     };
     
     @Override
@@ -68,7 +68,7 @@ public class ImageSourceSection extends AbstractECorePropertySection {
 
                 for(EObject selected : getEObjects()) {
                     if(isAlive(selected)) {
-                        Command cmd = new FeatureCommand("Image Source", (IFeatures)selected,
+                        Command cmd = new FeatureCommand(Messages.ImageSourceSection_2, (IFeatures)selected,
                                 IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE, mapFromComboToValue(), IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);

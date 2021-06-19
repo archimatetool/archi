@@ -48,6 +48,10 @@ public class Messages extends NLS {
 
     public static String ModelChecker_27;
 
+    public static String ModelChecker_28;
+
+    public static String ModelChecker_29;
+
     public static String ModelChecker_3;
 
     public static String ModelChecker_4;
