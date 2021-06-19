@@ -11,7 +11,6 @@ import com.archimatetool.editor.model.compatibility.handlers.ArchiMate2To3Handle
 import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandlerTests;
 import com.archimatetool.editor.model.compatibility.handlers.OutlineOpacityHandlerTests;
 import com.archimatetool.editor.model.impl.ArchiveManagerTests;
-import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 
 import junit.framework.TestSuite;
@@ -41,7 +40,6 @@ public class AllModelTests {
 
         // model.impl
         suite.addTest(ArchiveManagerTests.suite());
-        suite.addTest(ByteArrayStorageTests.suite());
 		suite.addTest(EditorModelManagerTests.suite());
 		
 		return suite;

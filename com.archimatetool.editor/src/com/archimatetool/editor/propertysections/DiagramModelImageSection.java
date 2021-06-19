@@ -166,21 +166,12 @@ public class DiagramModelImageSection extends AbstractDocumentationSection {
      * Set image path from selected image path from selected model
      */
     protected void setImagePath(IArchimateModel selectedModel, String imagePath) {
-        // Different models so copy the image bytes and set the image path
+        // Different models so copy the image bytes
         if(selectedModel != getFirstSelectedObject().getArchimateModel()) {
-            try {
-                IArchiveManager selectedArchiveManager = (IArchiveManager)selectedModel.getAdapter(IArchiveManager.class);
-                imagePath = getArchiveManager().copyImageBytes(selectedArchiveManager, imagePath);
-                doImagePathCommand(imagePath);
-            }
-            catch(IOException ex) {
-                showError(ex);
-            }
+            getArchiveManager().copyImageBytes(selectedModel, imagePath);
         }
-        // Same model so just set the image path
-        else {
-            doImagePathCommand(imagePath);
-        }
+        
+        doImagePathCommand(imagePath);
     }
     
     /**

@@ -22,6 +22,7 @@ import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.UUIDFactory;
@@ -73,12 +74,13 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             return null;
         }
         
-        // Ascertain if this is a zip file
-        boolean isArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
+        // Is this is a legacy archive file?
+        boolean isLegacyArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
-        Resource resource = ArchimateResourceFactory.createNewResource(isArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
+        // Create the Resource
+        Resource resource = ArchimateResourceFactory.createNewResource(isLegacyArchiveFormat ?
+                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
+                                                        URI.createFileURI(file.getAbsolutePath()));
 
         // Check model compatibility
         ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
@@ -115,10 +117,17 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         // Create New IDs for elements...
         UUIDFactory.generateNewIDs(canvasModel);
         
-        // Load the images from the template model's file now
-        if(isArchiveFormat) {
-            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-            archiveManager.loadImagesFromModelFile(file); 
+        // Convert from legacy format
+        if(isLegacyArchiveFormat) {
+            IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(templateModel);
+            archiveManager.convertImagesFromLegacyArchive(file);
+        }
+
+        // Add the images from the template model's file to the target model
+        for(IFeature feature : templateModel.getFeatures()) {
+            if(feature.getName().startsWith(IArchiveManager.imageFeaturePrefix)) {
+                model.getFeatures().putString(feature.getName(), feature.getValue());
+            }
         }
         
         file.delete();

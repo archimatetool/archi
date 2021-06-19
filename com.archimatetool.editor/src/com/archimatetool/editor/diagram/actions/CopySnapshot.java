@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,7 +25,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -728,6 +726,11 @@ public final class CopySnapshot {
 
         @Override
         public void execute() {
+            // Copy Image Bytes to target model if different model - do this first so target objects display image when pasted
+            if(!isSourceAndTargetArchiMateModelSame()) {
+                copyImageBytes();
+            }
+
             // Add top-level objects to diagram
             for(IDiagramModelObject dmo : topLevelObjects) {
                 targetDiagramModel.getChildren().add(dmo);
@@ -747,11 +750,6 @@ public final class CopySnapshot {
                         ((IDiagramModelArchimateConnection)dmc).addArchimateConceptToModel(null);
                     }
                 }
-            }
-            
-            // Copy Image Bytes to target model if different model
-            if(!isSourceAndTargetArchiMateModelSame()) {
-                copyImageBytes();
             }
             
             selectNewObjects();
@@ -784,7 +782,6 @@ public final class CopySnapshot {
          * Copy Image Bytes to target model for all canvas objects
          */
         private void copyImageBytes() {
-            IArchiveManager sourceArchiveManager = (IArchiveManager)fSourceArchimateModel.getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)targetDiagramModel.getAdapter(IArchiveManager.class);
 
             for(Iterator<EObject> iter = EcoreUtil.getAllContents(topLevelObjects); iter.hasNext();) {
@@ -794,14 +791,7 @@ public final class CopySnapshot {
                     IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)eObject;;
                     String imagePath = dmo.getImagePath();
                     if(imagePath != null) {
-                        try {
-                            imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
-                            dmo.setImagePath(imagePath);
-                        }
-                        catch(IOException ex) {
-                            ex.printStackTrace();
-                            Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
-                        }
+                        targetArchiveManager.copyImageBytes(fSourceArchimateModel, imagePath);
                     }
                 }
             }

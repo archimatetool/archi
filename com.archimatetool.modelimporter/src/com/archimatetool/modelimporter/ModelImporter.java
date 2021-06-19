@@ -178,13 +178,13 @@ public class ModelImporter {
             throw new IOException(NLS.bind(Messages.ModelImporter_2, file));
         }
         
-        // Ascertain if this is an archive file
-        boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
+        // Is this is a legacy archive file?
+        boolean isLegacyArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
         // Create the Resource
-        Resource resource = ArchimateResourceFactory.createNewResource(useArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
+        Resource resource = ArchimateResourceFactory.createNewResource(isLegacyArchiveFormat ?
+                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
+                                                        URI.createFileURI(file.getAbsolutePath()));
 
         ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
 
@@ -215,10 +215,11 @@ public class ModelImporter {
         model.setFile(file);
         model.setDefaults();
         
-        // We need to have an ArchiveManager for images in canvasses
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
-        model.setAdapter(IArchiveManager.class, archiveManager);
-        archiveManager.loadImages();
+        // Convert from legacy format
+        if(isLegacyArchiveFormat) {
+            IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+            archiveManager.convertImagesFromLegacyArchive(file);
+        }
         
         return model;
     }

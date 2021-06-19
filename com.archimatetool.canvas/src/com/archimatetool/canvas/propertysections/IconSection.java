@@ -37,7 +37,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IIconic;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.propertysections.DiagramModelImageSection;
@@ -228,14 +227,7 @@ public class IconSection extends DiagramModelImageSection {
         
         if(iconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)iconic.getAdapter(IArchiveManager.class);
-            
-            try {
-                fImage = archiveManager.createImage(iconic.getImagePath());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.logError("Could not create image!", ex); //$NON-NLS-1$
-            }
+            fImage = archiveManager.createImage(iconic.getImagePath());
         }
         
         fCanvas.redraw();

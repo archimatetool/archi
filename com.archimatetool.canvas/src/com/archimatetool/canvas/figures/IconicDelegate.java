@@ -11,7 +11,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
 import com.archimatetool.canvas.model.IIconic;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
 
@@ -21,7 +20,6 @@ import com.archimatetool.editor.ui.ImageFactory;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class IconicDelegate {
     
     /**
@@ -56,14 +54,7 @@ public class IconicDelegate {
         
         if(fIconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-
-            try {
-                fImage = archiveManager.createImage(fIconic.getImagePath());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.logError("Could not create image!", ex);
-            }
+            fImage = archiveManager.createImage(fIconic.getImagePath());
         }
     }
     
