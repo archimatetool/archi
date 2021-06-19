@@ -57,9 +57,9 @@ public class IconVisibleSection extends AbstractECorePropertySection {
     private Combo fIconVisibleCombo; // ArchiMate Draw2D icon
     
     private String[] VISIBLE_CHOICES = {
-            "If no image defined",
-            "Always",
-            "Never"
+            Messages.IconVisibleSection_1,
+            Messages.IconVisibleSection_2,
+            Messages.IconVisibleSection_3
     };
     
     @Override

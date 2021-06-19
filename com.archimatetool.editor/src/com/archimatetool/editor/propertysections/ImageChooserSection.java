@@ -116,7 +116,7 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
         IArchimateModelObject selected = getFirstSelectedObject();
         
         // Set Label depending on selection
-        fLabel.setText(selected instanceof IDiagramModelArchimateObject ? "Custom Image:" : "Image:");
+        fLabel.setText(selected instanceof IDiagramModelArchimateObject ? Messages.ImageChooserSection_0 : Messages.ImageChooserSection_1);
         
         // Locked
         fImageButton.setEnabled(!isLocked(getFirstSelectedObject()));

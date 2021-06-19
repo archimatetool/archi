@@ -89,12 +89,8 @@ public class IconicDelegate {
             }
         }
         
-        // If this has an image path...
-        if(fIconic.getImagePath() != null) {
-            return fIconic.getImagePath();
-        }
-        
-        return null;
+        // Return object's image path...
+        return fIconic.getImagePath();
     }
     
     /**
@@ -143,82 +139,84 @@ public class IconicDelegate {
      * Draw the icon
      */
     public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle bounds) {
-        if(fImage != null) {
-            Rectangle imageBounds = fImage.getBounds();
-            
-            // New Image size, possibly scaled
-            Rectangle newSize = getImageSize(imageBounds);
-            
-            int width = newSize.width;
-            int height = newSize.height;
-            
-            int x = bounds.x;
-            int y = bounds.y;
-            
-            switch(fIconic.getImagePosition()) {
-                case IIconic.ICON_POSITION_TOP_LEFT:
-                    x += leftOffset;
-                    y += topOffset;
-                    break;
-                case IIconic.ICON_POSITION_TOP_CENTRE:
-                    x = bounds.x + ((bounds.width - width) / 2);
-                    y += topOffset;
-                    break;
-                case IIconic.ICON_POSITION_TOP_RIGHT:
-                    x = (bounds.x + bounds.width) - width + rightOffset;
-                    y += topOffset;
-                    break;
-
-                case IIconic.ICON_POSITION_MIDDLE_LEFT:
-                    x += leftOffset;
-                    y = bounds.y + ((bounds.height - height) / 2);
-                    break;
-                case IIconic.ICON_POSITION_MIDDLE_CENTRE:
-                    x = bounds.x + ((bounds.width - width) / 2);
-                    y = bounds.y + ((bounds.height - height) / 2);
-                    break;
-                case IIconic.ICON_POSITION_MIDDLE_RIGHT:
-                    x = (bounds.x + bounds.width) - width + rightOffset;
-                    y = bounds.y + ((bounds.height - height) / 2);
-                    break;
-
-                case IIconic.ICON_POSITION_BOTTOM_LEFT:
-                    x += leftOffset;
-                    y = (bounds.y + bounds.height) - height + bottomOffset;
-                    break;
-                case IIconic.ICON_POSITION_BOTTOM_CENTRE:
-                    x = bounds.x + ((bounds.width - width) / 2);
-                    y = (bounds.y + bounds.height) - height + bottomOffset;
-                    break;
-                case IIconic.ICON_POSITION_BOTTOM_RIGHT:
-                    x = (bounds.x + bounds.width) - width + rightOffset;
-                    y = (bounds.y + bounds.height) - height + bottomOffset;
-                    break;
-
-                default:
-                    break;
-            }
-            
-            graphics.pushState();
-            
-            graphics.setAntialias(SWT.ON);
-            graphics.setInterpolation(SWT.HIGH);
-            graphics.setClip(bounds); // At zoom levels > 100 the image can be painted beyond the bounds
-            
-            // Ensure image is drawn in full alpha
-            graphics.setAlpha(255);
-            
-            // Original size
-            if(fMaxImageSize == MAX_IMAGESIZE) {
-                graphics.drawImage(fImage, x, y);
-            }
-            // Scaled size
-            else {
-                graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, width, height);
-            }
-            
-            graphics.popState();
+        if(fImage == null) {
+            return;
         }
+        
+        Rectangle imageBounds = fImage.getBounds();
+        
+        // New Image size, possibly scaled
+        Rectangle newSize = getImageSize(imageBounds);
+        
+        int width = newSize.width;
+        int height = newSize.height;
+        
+        int x = bounds.x;
+        int y = bounds.y;
+        
+        switch(fIconic.getImagePosition()) {
+            case IIconic.ICON_POSITION_TOP_LEFT:
+                x += leftOffset;
+                y += topOffset;
+                break;
+            case IIconic.ICON_POSITION_TOP_CENTRE:
+                x = bounds.x + ((bounds.width - width) / 2);
+                y += topOffset;
+                break;
+            case IIconic.ICON_POSITION_TOP_RIGHT:
+                x = (bounds.x + bounds.width) - width + rightOffset;
+                y += topOffset;
+                break;
+
+            case IIconic.ICON_POSITION_MIDDLE_LEFT:
+                x += leftOffset;
+                y = bounds.y + ((bounds.height - height) / 2);
+                break;
+            case IIconic.ICON_POSITION_MIDDLE_CENTRE:
+                x = bounds.x + ((bounds.width - width) / 2);
+                y = bounds.y + ((bounds.height - height) / 2);
+                break;
+            case IIconic.ICON_POSITION_MIDDLE_RIGHT:
+                x = (bounds.x + bounds.width) - width + rightOffset;
+                y = bounds.y + ((bounds.height - height) / 2);
+                break;
+
+            case IIconic.ICON_POSITION_BOTTOM_LEFT:
+                x += leftOffset;
+                y = (bounds.y + bounds.height) - height + bottomOffset;
+                break;
+            case IIconic.ICON_POSITION_BOTTOM_CENTRE:
+                x = bounds.x + ((bounds.width - width) / 2);
+                y = (bounds.y + bounds.height) - height + bottomOffset;
+                break;
+            case IIconic.ICON_POSITION_BOTTOM_RIGHT:
+                x = (bounds.x + bounds.width) - width + rightOffset;
+                y = (bounds.y + bounds.height) - height + bottomOffset;
+                break;
+
+            default:
+                break;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setAntialias(SWT.ON);
+        graphics.setInterpolation(SWT.HIGH);
+        graphics.setClip(bounds); // At zoom levels > 100 the image can be painted beyond the bounds
+        
+        // Ensure image is drawn in full alpha
+        graphics.setAlpha(255);
+        
+        // Original size
+        if(fMaxImageSize == MAX_IMAGESIZE) {
+            graphics.drawImage(fImage, x, y);
+        }
+        // Scaled size
+        else {
+            graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, width, height);
+        }
+        
+        graphics.popState();
     }
     
     /**
