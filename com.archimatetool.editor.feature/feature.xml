@@ -3,7 +3,7 @@
       id="com.archimatetool.editor.feature"
       label="Archi Editor"
       version="4.8.1.qualifier"
-      provider-name="Phillip Beauvoir">
+      provider-name="Archi">
 
    <description>
       Archi Editor
@@ -35,69 +35,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
    </license>
-
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.help"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.gef"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.zest"
-         version="0.0.0"/>
-
-   <requires>
-      <import plugin="org.eclipse.core.runtime" version="3.6.0" match="compatible"/>
-      <import plugin="org.eclipse.jface" version="3.6.0" match="compatible"/>
-      <import plugin="org.eclipse.e4.ui.css.core" version="0.10.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.ui.css.swt" version="0.11.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.help" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.6.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.forms" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.ui.workbench"/>
-      <import plugin="org.eclipse.e4.ui.model.workbench"/>
-      <import plugin="org.eclipse.core.runtime" version="3.11.0" match="compatible"/>
-      <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.forms" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.views" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.e4.ui.css.core" version="0.12.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.help.ui"/>
-      <import plugin="org.eclipse.gef"/>
-      <import plugin="org.eclipse.e4.core.contexts"/>
-      <import plugin="org.eclipse.e4.ui.css.swt.theme"/>
-      <import plugin="org.eclipse.equinox.p2.core"/>
-      <import plugin="org.eclipse.equinox.p2.engine"/>
-      <import plugin="org.eclipse.equinox.p2.metadata"/>
-      <import plugin="org.eclipse.equinox.p2.metadata.repository"/>
-      <import plugin="org.eclipse.equinox.p2.operations"/>
-      <import plugin="org.eclipse.equinox.p2.repository"/>
-      <import plugin="org.eclipse.equinox.p2.artifact.repository"/>
-      <import plugin="com.archimatetool.editor" version="4.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.equinox.http.jetty"/>
-      <import plugin="org.eclipse.help.webapp"/>
-      <import plugin="org.eclipse.zest.core"/>
-      <import plugin="org.eclipse.zest.layouts"/>
-      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.text" version="3.8.0" match="compatible"/>
-      <import plugin="org.eclipse.swt" version="3.107.0" match="compatible"/>
-      <import plugin="org.eclipse.jface" version="3.15.0" match="compatible"/>
-      <import plugin="org.eclipse.core.commands" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.common" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.preferences" version="3.7.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.14.0" match="compatible"/>
-   </requires>
 
    <plugin
          id="org.eclipse.ui.forms"
@@ -273,20 +210,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <plugin
          id="org.opengroup.archimate.xmlexchange.commandline"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.jface.text"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.text"
          download-size="0"
          install-size="0"
          version="0.0.0"
