@@ -26,6 +26,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -293,8 +294,8 @@ public class ModelChecker {
         for(IProfile profile : profilesObject.getProfiles()) {
             String name = " " + profile.getId(); //$NON-NLS-1$
             
-            // Profile must exist in model
-            if(profile.getArchimateModel() == null) {
+            // Profile must exist in this model
+            if(profile.getArchimateModel() != ((IArchimateModelObject)profilesObject).getArchimateModel()) {
                 messages.add(Messages.ModelChecker_28 + name);
             }
             

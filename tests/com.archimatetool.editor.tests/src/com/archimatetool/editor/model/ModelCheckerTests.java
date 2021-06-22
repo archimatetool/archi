@@ -210,7 +210,7 @@ public class ModelCheckerTests {
         
         messages = modelChecker.checkProfiles(element);
         assertEquals(1, messages.size());
-        assertTrue(messages.get(0).startsWith("Profile is orphaned"));
+        assertTrue(messages.get(0).startsWith("Profile reference is orphaned"));
         
         // Wrong concept type
         profile.setConceptType(IArchimatePackage.eINSTANCE.getArtifact().getName());
