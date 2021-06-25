@@ -6,7 +6,6 @@
 package com.archimatetool.canvas;
 
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 
@@ -14,7 +13,6 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.AbstractDiagramEditorActionBarContributor;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
-import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 
 
@@ -46,21 +44,5 @@ extends AbstractDiagramEditorActionBarContributor {
         editMenu.appendToGroup("lock", getAction(LockObjectAction.ID)); //$NON-NLS-1$
         
         return editMenu;
-    }
-    
-    @Override
-    protected IMenuManager createViewMenu(IMenuManager menuManager) {
-        IMenuManager viewMenu = super.createViewMenu(menuManager);
-        
-        IMenuManager subMenu = viewMenu.findMenuUsingPath("menu_position"); //$NON-NLS-1$
-        subMenu.add(getAction(ResetAspectRatioAction.ID));
-        
-        return viewMenu;
-    }
-    
-    @Override
-    public void contributeToToolBar(IToolBarManager toolBarManager) {
-        super.contributeToToolBar(toolBarManager);
-        toolBarManager.appendToGroup(GROUP_TOOLBAR_END, getAction(ResetAspectRatioAction.ID));
     }
 }

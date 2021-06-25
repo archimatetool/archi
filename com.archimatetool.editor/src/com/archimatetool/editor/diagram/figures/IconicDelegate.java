@@ -136,9 +136,21 @@ public class IconicDelegate {
     }
 
     /**
-     * Draw the icon
+     * Draw the icon image in the full figure bounds
+     * @param graphics Graphics context
+     * @param drawArea The area to draw the image in
      */
-    public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle bounds) {
+    public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle drawArea) {
+        drawIcon(graphics, drawArea, drawArea);
+    }
+    
+    /**
+     * Draw the icon image in a given area of the figure and specify full figure bounds in case of Fill draw
+     * @param graphics Graphics context
+     * @param figureBounds The bounds of the Figure
+     * @param drawArea The area to draw the image in (may be the same as figureBounds)
+     */
+    public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle figureBounds, org.eclipse.draw2d.geometry.Rectangle drawArea) {
         if(fImage == null) {
             return;
         }
@@ -151,8 +163,8 @@ public class IconicDelegate {
         int width = newSize.width;
         int height = newSize.height;
         
-        int x = bounds.x;
-        int y = bounds.y;
+        int x = drawArea.x;
+        int y = drawArea.y;
         
         switch(fIconic.getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
@@ -160,38 +172,38 @@ public class IconicDelegate {
                 y += topOffset;
                 break;
             case IIconic.ICON_POSITION_TOP_CENTRE:
-                x = bounds.x + ((bounds.width - width) / 2);
+                x = drawArea.x + ((drawArea.width - width) / 2);
                 y += topOffset;
                 break;
             case IIconic.ICON_POSITION_TOP_RIGHT:
-                x = (bounds.x + bounds.width) - width + rightOffset;
+                x = (drawArea.x + drawArea.width) - width + rightOffset;
                 y += topOffset;
                 break;
 
             case IIconic.ICON_POSITION_MIDDLE_LEFT:
                 x += leftOffset;
-                y = bounds.y + ((bounds.height - height) / 2);
+                y = drawArea.y + ((drawArea.height - height) / 2);
                 break;
             case IIconic.ICON_POSITION_MIDDLE_CENTRE:
-                x = bounds.x + ((bounds.width - width) / 2);
-                y = bounds.y + ((bounds.height - height) / 2);
+                x = drawArea.x + ((drawArea.width - width) / 2);
+                y = drawArea.y + ((drawArea.height - height) / 2);
                 break;
             case IIconic.ICON_POSITION_MIDDLE_RIGHT:
-                x = (bounds.x + bounds.width) - width + rightOffset;
-                y = bounds.y + ((bounds.height - height) / 2);
+                x = (drawArea.x + drawArea.width) - width + rightOffset;
+                y = drawArea.y + ((drawArea.height - height) / 2);
                 break;
 
             case IIconic.ICON_POSITION_BOTTOM_LEFT:
                 x += leftOffset;
-                y = (bounds.y + bounds.height) - height + bottomOffset;
+                y = (drawArea.y + drawArea.height) - height + bottomOffset;
                 break;
             case IIconic.ICON_POSITION_BOTTOM_CENTRE:
-                x = bounds.x + ((bounds.width - width) / 2);
-                y = (bounds.y + bounds.height) - height + bottomOffset;
+                x = drawArea.x + ((drawArea.width - width) / 2);
+                y = (drawArea.y + drawArea.height) - height + bottomOffset;
                 break;
             case IIconic.ICON_POSITION_BOTTOM_RIGHT:
-                x = (bounds.x + bounds.width) - width + rightOffset;
-                y = (bounds.y + bounds.height) - height + bottomOffset;
+                x = (drawArea.x + drawArea.width) - width + rightOffset;
+                y = (drawArea.y + drawArea.height) - height + bottomOffset;
                 break;
 
             default:
@@ -202,16 +214,35 @@ public class IconicDelegate {
         
         graphics.setAntialias(SWT.ON);
         graphics.setInterpolation(SWT.HIGH);
-        graphics.setClip(bounds); // At zoom levels > 100 the image can be painted beyond the bounds
+        graphics.setClip(drawArea); // At zoom levels > 100 the image can be painted beyond the bounds
         
         // Ensure image is drawn in full alpha
         graphics.setAlpha(255);
         
-        // Original size
-        if(fMaxImageSize == MAX_IMAGESIZE) {
+        // Fill
+        if(fIconic.getImagePosition() == IIconic.ICON_POSITION_FILL) {
+            graphics.setClip(figureBounds); // At zoom levels > 100 the image can be painted beyond the bounds
+
+            // Fill
+            // graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, figureBounds.x, figureBounds.y, figureBounds.width, figureBounds.height);
+            
+            // Cover Fill (algorithm from JB the maths wizard)
+            float imageRatio  = (float) imageBounds.width / imageBounds.height;
+            float figureRatio = (float) figureBounds.width / figureBounds.height;
+            int newWidth  = (int) (imageRatio < figureRatio ? figureBounds.width : figureBounds.height * imageRatio);
+            int newHeight = (int) (imageRatio < figureRatio ? figureBounds.width / imageRatio : figureBounds.height);                
+                            
+            // Image top-left corner
+            x = figureBounds.x - (newWidth / 2) + (figureBounds.width / 2);
+            y = figureBounds.y - (newHeight / 2) + (figureBounds.height / 2);
+            
+            graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, newWidth, newHeight);
+        }
+        // Full image size
+        else if(fMaxImageSize == MAX_IMAGESIZE) {
             graphics.drawImage(fImage, x, y);
         }
-        // Scaled size
+        // Scaled image size
         else {
             graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, x, y, width, height);
         }

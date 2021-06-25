@@ -78,10 +78,9 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
 
-        // Icon
-        // drawIconImage(graphics, bounds);
-        Rectangle iconArea = new Rectangle(bounds.x + FLANGE / 2, bounds.y + FLANGE / 2, bounds.width - FLANGE, bounds.height - FLANGE);
-        drawIconImage(graphics, iconArea, 0, 0, 0, 0);
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + FLANGE / 2, bounds.y + FLANGE / 2, bounds.width - FLANGE, bounds.height - FLANGE);
+        drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

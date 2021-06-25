@@ -7,10 +7,8 @@ package com.archimatetool.canvas;
 
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.jface.action.IMenuManager;
 
 import com.archimatetool.editor.diagram.AbstractDiagramEditorContextMenuProvider;
-import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 
 
 /**
@@ -31,13 +29,5 @@ public class CanvasEditorContextMenuProvider extends AbstractDiagramEditorContex
      */
     public CanvasEditorContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
         super(viewer, registry);
-    }
-    
-    @Override
-    public void buildContextMenu(IMenuManager menu) {
-        super.buildContextMenu(menu);
-        
-        IMenuManager subMenu = menu.findMenuUsingPath("menu_position"); //$NON-NLS-1$
-        subMenu.add(actionRegistry.getAction(ResetAspectRatioAction.ID));
     }
 }

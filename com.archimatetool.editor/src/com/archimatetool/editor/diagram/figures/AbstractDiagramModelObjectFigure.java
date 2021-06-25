@@ -247,21 +247,28 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
-     * If there is a delegate, draw the icon image in the given bounds
+     * If there is a delegate, draw the icon image in the given area
      */
-    public void drawIconImage(Graphics graphics, Rectangle bounds) {
+    public void drawIconImage(Graphics graphics, Rectangle drawArea) {
         if(hasIconImage()) {
-            getIconicDelegate().drawIcon(graphics, bounds.getCopy());
+            getIconicDelegate().drawIcon(graphics, drawArea); // Call this directly in case offsets are set elsewhere
         }
     }
     
     /**
-     * If there is a delegate, draw the icon image in the given bounds with given offsets
+     * If there is a delegate, draw the icon image in the given area with given offsets
      */
-    public void drawIconImage(Graphics graphics, Rectangle bounds, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
+    public void drawIconImage(Graphics graphics, Rectangle drawArea, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
+        drawIconImage(graphics, drawArea, drawArea, topOffset, rightOffset, bottomOffset, leftOffset);
+    }
+
+    /**
+     * If there is a delegate, draw the icon image in the given area with given offsets and pass full figure bounds
+     */
+    public void drawIconImage(Graphics graphics, Rectangle figureBounds, Rectangle drawArea, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
         if(hasIconImage()) {
             getIconicDelegate().setOffsets(topOffset, rightOffset, bottomOffset, leftOffset);
-            getIconicDelegate().drawIcon(graphics, bounds.getCopy());
+            getIconicDelegate().drawIcon(graphics, figureBounds, drawArea);
         }
     }
 
