@@ -5,14 +5,18 @@
  */
 package com.archimatetool.modelimporter;
 
+import java.io.IOException;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
@@ -93,6 +97,19 @@ abstract class AbstractImporter {
         else {
             IFolder targetParentFolder = getTargetModel().getDefaultFolderForObject(targetObject);
             addCommand(new AddObjectCommand(targetParentFolder, targetObject));
+        }
+    }
+    
+    /**
+     * Import the image bytes from the imported model's IDiagramModelImageProvider to the target model's IDiagramModelImageProvider
+     */
+    protected void importImageBytes(IDiagramModelImageProvider importedObject, IDiagramModelImageProvider targetObject) throws IOException {
+        String importedImagePath = importedObject.getImagePath();
+        if(importedImagePath != null) {
+            IArchiveManager importedArchiveManager = (IArchiveManager)getImportedModel().getAdapter(IArchiveManager.class);
+            IArchiveManager targetArchiveManager = (IArchiveManager)getTargetModel().getAdapter(IArchiveManager.class);
+            importedImagePath = targetArchiveManager.copyImageBytes(importedArchiveManager, importedImagePath);
+            targetObject.setImagePath(importedImagePath);
         }
     }
     

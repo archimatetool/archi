@@ -62,6 +62,12 @@ public class Messages extends NLS {
 
     public static String ModelImporter_6;
 
+    public static String ProfileImporter_0;
+
+    public static String ProfileImporter_1;
+
+    public static String ProfileImporter_2;
+
     public static String StatusDialog_0;
 
     public static String StatusDialog_1;
