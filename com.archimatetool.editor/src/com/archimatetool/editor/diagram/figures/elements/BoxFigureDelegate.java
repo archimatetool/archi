@@ -93,10 +93,9 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.drawPath(path);
         path.dispose();
 
-        // Icon
-        // getOwner().drawIconImage(graphics, bounds);
-        Rectangle iconArea = new Rectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
-        getOwner().drawIconImage(graphics, iconArea, 0, 0, 0, 0);
+        // Image icon
+        Rectangle imageArea = new Rectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

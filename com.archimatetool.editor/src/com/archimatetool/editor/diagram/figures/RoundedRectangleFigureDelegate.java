@@ -63,10 +63,9 @@ implements IRoundedRectangleFigure {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
 
-        // Icon
-        // getOwner().drawIconImage(graphics, bounds);
-        Rectangle iconArea = new Rectangle(bounds.x + 2, bounds.y + 2, bounds.width - 4, bounds.height - 4);
-        getOwner().drawIconImage(graphics, iconArea, 0, 0, 0, 0);
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + 2, bounds.y + 2, bounds.width - 4, bounds.height - 4);
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
         
         graphics.popState();
     }

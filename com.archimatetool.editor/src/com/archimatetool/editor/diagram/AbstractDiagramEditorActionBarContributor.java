@@ -257,6 +257,7 @@ extends ActionBarContributor {
         
         alignmentMenu.add(new Separator());
         alignmentMenu.add(getAction(DefaultEditPartSizeAction.ID));
+        alignmentMenu.add(getAction(ResetAspectRatioAction.ID));
         
         viewMenu.add(new Separator(GROUP_CONNECTIONS ));
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_7, "menu_connection_router"); //$NON-NLS-1$
@@ -371,6 +372,7 @@ extends ActionBarContributor {
         toolBarManager.add(getAction(GEFActionConstants.MATCH_HEIGHT));
         toolBarManager.add(new Separator());
         toolBarManager.add(getAction(DefaultEditPartSizeAction.ID));
+        toolBarManager.add(getAction(ResetAspectRatioAction.ID));
         toolBarManager.add(new GroupMarker(GROUP_TOOLBAR_END));
     }
 

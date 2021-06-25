@@ -95,11 +95,10 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
         graphics.drawRoundRectangle(rect, 30, 30);
         
-        // Icon
-        // drawIconImage(graphics, bounds);
-        Rectangle iconArea = new Rectangle(bounds.x + 3, bounds.y + 3, bounds.width - 6, bounds.height - height_indent - 6);
-        drawIconImage(graphics, iconArea, 0, 0, 0, 0);
-
+        // Image icon
+        Rectangle imageArea = new Rectangle(bounds.x + 3, bounds.y + 3, bounds.width - 6, bounds.height - height_indent - 6);
+        drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        
         graphics.popState();
     }
     

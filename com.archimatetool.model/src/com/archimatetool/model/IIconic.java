@@ -33,6 +33,7 @@ public interface IIconic extends IDiagramModelObject, IDiagramModelImageProvider
     int ICON_POSITION_BOTTOM_LEFT = 6;
     int ICON_POSITION_BOTTOM_CENTRE = 7;
     int ICON_POSITION_BOTTOM_RIGHT = 8;
+    int ICON_POSITION_FILL = 9;
     
     /**
      * Returns the value of the '<em><b>Image Position</b></em>' attribute.
@@ -56,5 +57,5 @@ public interface IIconic extends IDiagramModelObject, IDiagramModelImageProvider
      * @generated
      */
     void setImagePosition(int value);
-
+    
 } // IIconic
