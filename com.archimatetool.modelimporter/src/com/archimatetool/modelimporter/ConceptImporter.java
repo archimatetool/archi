@@ -5,11 +5,17 @@
  */
 package com.archimatetool.modelimporter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 
@@ -55,6 +61,10 @@ class ConceptImporter extends AbstractImporter {
             
             // Add to parent folder
             addToParentFolder(importedConcept, targetConcept);
+
+            // Because IArchimateConcept.getProfiles() are references to Profiles in the imported model, these have to be updated to the target model's Profiles
+            // Important - this has to called *after* addToParentFolder() because undo() will orphan the concept
+            addCommand(new UpdateProfilesCommand(importedConcept, targetConcept));
         }
         
         return targetConcept;
@@ -77,6 +87,68 @@ class ConceptImporter extends AbstractImporter {
     // ====================================================================================================
     // Commands
     // ====================================================================================================
+    
+    /**
+     * Because the imported object.getProfiles() list references Profiles in the imported model we can't just copy them into the target object.
+     * So we have to find the corresponding Profiles by their IDs in the target model and add those.
+     */
+    private class UpdateProfilesCommand extends Command {
+        private IProfiles importedObject;
+        private IProfiles targetObject;
+        private List<IProfile> oldProfiles;
+        private List<IProfile> newProfiles;
+
+        private UpdateProfilesCommand(IProfiles importedObject, IProfiles targetObject) {
+            this.importedObject = importedObject;
+            this.targetObject = targetObject;
+            oldProfiles = new ArrayList<>(targetObject.getProfiles());
+        }
+
+        @Override
+        public void execute() {
+            targetObject.getProfiles().clear();
+            
+            for(IProfile importedProfile : importedObject.getProfiles()) {
+                try {
+                    // Find Profile in target model by its ID
+                    // findObjectInTargetModel() can only be called in execute(), not redo()
+                    IProfile targetProfile = findObjectInTargetModel(importedProfile);
+                    if(targetProfile != null) {
+                        targetObject.getProfiles().add(targetProfile);
+                    }
+                    else {
+                        Logger.logError("Could not get referenced Profile!"); //$NON-NLS-1$
+                    }
+                }
+                catch(ImportException ex) {
+                    Logger.logError("Error getting referenced Profile!", ex); //$NON-NLS-1$
+                    ex.printStackTrace();
+                }
+            }
+            
+            newProfiles = new ArrayList<>(targetObject.getProfiles());
+        }
+
+        @Override
+        public void undo() {
+            targetObject.getProfiles().clear();
+            targetObject.getProfiles().addAll(oldProfiles);
+        }
+        
+        @Override
+        public void redo() {
+            targetObject.getProfiles().clear();
+            targetObject.getProfiles().addAll(newProfiles);
+        }
+        
+        @Override
+        public void dispose() {
+            importedObject = null;
+            targetObject = null;
+            oldProfiles = null;
+            newProfiles = null;
+        }
+    }
 
     private static class SetRelationshipEndsCommand extends Command {
         private IArchimateRelationship relationship;

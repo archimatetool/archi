@@ -40,16 +40,15 @@ import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
@@ -113,6 +112,10 @@ public class ModelImporter {
             else if(eObject instanceof IDiagramModel) {
                 new ViewImporter(this).importView((IDiagramModel)eObject);
             }
+            // Update Profiles
+            else if(eObject instanceof IProfile) {
+                new ProfileImporter(this).importProfile((IProfile)eObject);
+            }
         }
         
         // Check view connection ends are valid if we have done some commands and even if update is off
@@ -123,9 +126,6 @@ public class ModelImporter {
         // Run Commands
         CommandStack stack = (CommandStack)targetModel.getAdapter(CommandStack.class);
         stack.execute(compoundCommand);
-        
-        // Resolve Diagram Model References *after* the commands have run
-        resolveDiagramModelReferences();
         
         objectCache.clear();
         objectCache = null;
@@ -239,29 +239,6 @@ public class ModelImporter {
         return map;
     }
     
-    /**
-     * Resolve Diagram Model References *after* the import has happened.
-     * New and Updated Diagram Model References will be pointing to the DM in the imported model.
-     */
-    private void resolveDiagramModelReferences() throws ImportException {
-        for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelReference) {
-                IDiagramModelReference ref = (IDiagramModelReference)eObject;
-                IDiagramModel dm = ref.getReferencedModel(); 
-                if(dm.getArchimateModel() == getImportedModel()) { // This could be the dm in the imported model
-                    EObject targetDM = ArchimateModelUtils.getObjectByID(targetModel, dm.getId()); // Use its id to find the target dm
-                    if(targetDM instanceof IDiagramModel) {
-                        ref.setReferencedModel((IDiagramModel)targetDM);
-                    }
-                    else {
-                        throw new ImportException("Could not get referenced diagram model"); //$NON-NLS-1$
-                    }
-                }
-            }
-        }
-    }
-
     // ===================================================================================
     // Shared methods
     // ===================================================================================
@@ -277,6 +254,7 @@ public class ModelImporter {
 
     /**
      * Find an object in the target model based on the eObject's identifier and class
+     * Existing and newly added objects in the target model are added to the objectCache
      */
     @SuppressWarnings("unchecked")
     <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
@@ -362,7 +340,7 @@ public class ModelImporter {
         private UpdatePropertiesCommand(IProperties importedObject, IProperties targetObject) {
             this.importedObject = importedObject;
             this.targetObject = targetObject;
-            oldProperties = new ArrayList<>(targetObject.getProperties());;
+            oldProperties = new ArrayList<>(targetObject.getProperties());
         }
 
         @Override
