@@ -112,7 +112,8 @@ class ConceptImporter extends AbstractImporter {
                 try {
                     // Find Profile in target model by its ID
                     // findObjectInTargetModel() can only be called in execute(), not redo()
-                    IProfile targetProfile = findObjectInTargetModel(importedProfile);
+                	//IProfile targetProfile = findObjectInTargetModel(importedProfile);
+                    IProfile targetProfile = findProfileInTargetModel(importedProfile);
                     if(targetProfile != null) {
                         targetObject.getProfiles().add(targetProfile);
                     }

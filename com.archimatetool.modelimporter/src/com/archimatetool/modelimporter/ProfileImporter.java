@@ -28,11 +28,18 @@ class ProfileImporter extends AbstractImporter {
         // Do we have this profile given its ID?
         IProfile targetProfile = findObjectInTargetModel(importedProfile);
         
-        // We don't have it, so create a new Profile
+        // We don't have it, so lookup by name or create a new Profile
         if(targetProfile == null) {
-            addNewProfile(importedProfile);
+            // Do we have this profile given its name?
+            targetProfile = findProfileInTargetModel(importedProfile);
+            
+            // We really don't have it, so create a new profile
+        	if(targetProfile == null) {
+        		addNewProfile(importedProfile);
+        	}
         }
-        // Else update
+        // Else update (note: we update only when matched by ID, not by name)
+        // TODO: maybe also update profile when matched by ID as user is not able to distinguish both cases
         else if(shouldUpdate()) {
             updateProfile(importedProfile, targetProfile);
         }

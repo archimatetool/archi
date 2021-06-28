@@ -69,6 +69,9 @@ public class ModelImporter {
     // Keep a cache of objects in the target model for speed
     private Map<String, IIdentifier> objectCache;
     
+    // Keep a cache of profiles in the target model for speed
+    private Map<String, IProfile> profileCache;
+    
     // Status Messages
     private List<StatusMessage> statusMessages;
     
@@ -84,6 +87,8 @@ public class ModelImporter {
         this.targetModel = targetModel;
         
         objectCache = createObjectIDCache();
+        
+        profileCache = createProfileNameCache();
         
         statusMessages = new ArrayList<>();
         
@@ -239,6 +244,24 @@ public class ModelImporter {
         return map;
     }
     
+    /**
+     * Create a cache of profiles in the target model for speed
+     * TODO: should use a key composed of both name and concept type
+     */
+    private Map<String, IProfile> createProfileNameCache() {
+        HashMap<String, IProfile> map = new HashMap<String, IProfile>();
+        
+        for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IProfile) {
+                map.put(((IProfile)eObject).getName(), (IProfile)eObject);
+            }
+        }
+        
+        return map;
+    }
+    
+    
     // ===================================================================================
     // Shared methods
     // ===================================================================================
@@ -275,6 +298,31 @@ public class ModelImporter {
     }
     
     /**
+     * Find a profile in the target model based on the profile's name and class
+     * Existing and newly added objects in the target model are added to the objectCache
+     * TODO: also check allowed concept type
+     */
+    @SuppressWarnings("unchecked")
+    <T extends IProfile> T findProfileInTargetModel(T eObject) throws ImportException {
+        EObject foundObject = profileCache.get(eObject.getName());
+        
+        // Not found
+        if(foundObject == null) {
+            return null;
+        }
+        
+        // Not the right class, so that's an error we should report
+        if(foundObject.eClass() != eObject.eClass()) {
+            throw new ImportException("Found profile with same name but different class: " + eObject.getId()); //$NON-NLS-1$
+        } else if(!((IProfile)foundObject).getConceptType().contentEquals(((IProfile)eObject).getConceptType())) {
+        	throw new ImportException("Found profile with same name but different concept type: " + eObject.getId() + " " + ((IProfile)eObject).getConceptType() + " vs " + ((IProfile)foundObject).getConceptType()); //$NON-NLS-1$
+        }
+
+        // Found an element with this id and the class is the same
+        return (T)foundObject;
+    }
+    
+    /**
      * Create a new object based on class of a given object and set its data to that in the given object
      */
     @SuppressWarnings("unchecked")
@@ -292,6 +340,10 @@ public class ModelImporter {
         newObject.setId(eObject.getId());
         
         objectCache.put(newObject.getId(), newObject);
+        
+        if(newObject instanceof IProfile) {
+            profileCache.put(((IProfile)newObject).getName(), (IProfile)newObject);
+        }
         
         return (T)newObject;
     }

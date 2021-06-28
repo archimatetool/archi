@@ -19,6 +19,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 /**
@@ -44,6 +45,10 @@ abstract class AbstractImporter {
     
     protected <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
         return importer.findObjectInTargetModel(eObject);
+    }
+    
+    protected <T extends IProfile> T findProfileInTargetModel(T eObject) throws ImportException {
+        return importer.findProfileInTargetModel(eObject);
     }
     
     protected <T extends IArchimateModelObject> T cloneObject(T eObject) {
