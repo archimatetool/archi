@@ -20,11 +20,15 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.tools.ProfilesManagerDialog;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -90,7 +94,10 @@ public class SpecializationSection extends AbstractECorePropertySection {
         
         createLabel(parent, Messages.SpecializationSection_1, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fComboViewer = new ComboViewer(new Combo(parent, SWT.READ_ONLY | SWT.BORDER));
+        Composite comp = createComposite(parent, 2);
+        comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fComboViewer = new ComboViewer(new Combo(comp, SWT.READ_ONLY | SWT.BORDER));
         fComboViewer.getCombo().setVisibleItemCount(12);
         fComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         getWidgetFactory().adapt(fComboViewer.getControl(), true, true);
@@ -159,6 +166,22 @@ public class SpecializationSection extends AbstractECorePropertySection {
         });
         
         fComboViewer.setInput(""); //$NON-NLS-1$
+        
+        // Open Profiles Manager Dialog button
+        Button button = new Button(comp, SWT.PUSH);
+        button.setText(" ... "); //$NON-NLS-1$
+        button.setToolTipText(Messages.SpecializationSection_3);
+        button.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                IArchimateModelObject selected = getFirstSelectedObject();
+                if(selected != null && selected.getArchimateModel() != null) {
+                    ProfilesManagerDialog dialog = new ProfilesManagerDialog(getPart().getSite().getShell(), selected.getArchimateModel());
+                    dialog.setDefaultClass(selected.eClass());
+                    dialog.open();
+                }
+            }
+        });
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);

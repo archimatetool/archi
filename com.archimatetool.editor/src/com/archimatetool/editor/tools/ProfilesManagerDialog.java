@@ -111,6 +111,9 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     private Button fImageButton;
     private Canvas fImagePreview;
     private Image fPreviewImage;
+    
+    // Default class for new Profile
+    private EClass fDefaultClass = IArchimatePackage.eINSTANCE.getBusinessActor();
 
     public ProfilesManagerDialog(Shell parentShell, IArchimateModel model) {
         super(parentShell, "ProfilesManagerDialog"); //$NON-NLS-1$
@@ -337,6 +340,14 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     }
     
     /**
+     * Set the default class for a new Profile
+     * @param eClass
+     */
+    public void setDefaultClass(EClass eClass) {
+        fDefaultClass = eClass;
+    }
+    
+    /**
      * Create the button panel
      */
     private void createButtonPanel(Composite parent) {
@@ -434,7 +445,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      */
     private void createNewProfile() {
         IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
-        profile.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        profile.setConceptType(fDefaultClass.getName());
         profile.setName(generateNewProfileName(profile.getConceptType()));
         fProfilesTemp.put(profile.getId(), profile);
         
