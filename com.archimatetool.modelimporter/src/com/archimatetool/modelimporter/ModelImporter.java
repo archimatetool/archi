@@ -314,7 +314,6 @@ public class ModelImporter {
 	        	EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
 	        	if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
 	        		if (eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
-	        			System.out.println("updating "+targetObject+" : "+eStructuralFeature);
 	        			addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
 	        		}
 	        	}
