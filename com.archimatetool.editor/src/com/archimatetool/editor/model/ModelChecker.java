@@ -6,12 +6,14 @@
 package com.archimatetool.editor.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -39,6 +41,9 @@ import com.archimatetool.model.IIdentifier;
  */
 public class ModelChecker {
 
+    // If this is set in Program arguments then don't model check
+    private static boolean NO_MODELCHECK = Arrays.asList(Platform.getApplicationArgs()).contains("-noModelCheck"); //$NON-NLS-1$
+
     private IArchimateModel fModel;
     
     private List<String> fErrorMessages;
@@ -52,6 +57,11 @@ public class ModelChecker {
      */
     public boolean checkAll() {
         fErrorMessages = new ArrayList<String>();
+        
+        // Don't model check
+        if(NO_MODELCHECK) {
+            return true;
+        }
         
         // Instance count map
         Map<IArchimateConcept, Integer> dmcMap = new HashMap<IArchimateConcept, Integer>();
