@@ -73,6 +73,7 @@
             </activation>
             <modules>
                 <module>com.archimatetool.editor.product</module>
+                <module>com.archimatetool.editor.product/site</module>
             </modules>
         </profile>
     </profiles>
