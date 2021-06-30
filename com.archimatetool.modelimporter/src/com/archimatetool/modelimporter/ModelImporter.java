@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
@@ -300,16 +303,24 @@ public class ModelImporter {
      * Update target object with data from source object
      */
     void updateObject(EObject importedObject, EObject targetObject) {
-        // Name
-        if(importedObject instanceof INameable && targetObject instanceof INameable) {
-            addCommand(new EObjectFeatureCommand(null, targetObject, IArchimatePackage.Literals.NAMEABLE__NAME, ((INameable)importedObject).getName()));
+    	// Update all EAttribute (Name, Documentation, Access type, Influence streangth...) in a generic manner
+    	if (importedObject == null || targetObject == null) {
+    		return;
         }
-        
-        // Documentation
-        if(importedObject instanceof IDocumentable && targetObject instanceof IDocumentable) {
-            addCommand(new EObjectFeatureCommand(null, targetObject, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, ((IDocumentable)importedObject).getDocumentation()));
-        }
-        
+        else
+        {
+	        EClass eClass = importedObject.eClass();
+	        for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i) {
+	        	EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+	        	if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
+	        		if (eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
+	        			System.out.println("updating "+targetObject+" : "+eStructuralFeature);
+	        			addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
+	        		}
+	        	}
+	        }
+	    }
+    	
         // Properties
         if(importedObject instanceof IProperties  && targetObject instanceof IProperties) {
             addCommand(new UpdatePropertiesCommand((IProperties)importedObject, (IProperties)targetObject));
