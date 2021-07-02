@@ -67,7 +67,7 @@ public class ModelImporter {
     private IArchimateModel importedModel;
     private IArchimateModel targetModel;
     
-    // Keep a cache of objects in the target model for speed
+    // Keep a cache of objects in the target model
     private Map<String, IIdentifier> objectCache;
     
     // Status Messages
@@ -225,19 +225,35 @@ public class ModelImporter {
     }
     
     /**
-     * Create a cache of objects in the target model for speed
+     * Create a cache of objects in the target model
      */
     private Map<String, IIdentifier> createObjectIDCache() {
         HashMap<String, IIdentifier> map = new HashMap<String, IIdentifier>();
         
         for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IIdentifier) {
-                map.put(((IIdentifier)eObject).getId(), (IIdentifier)eObject);
+            String key = getObjectKey(eObject);
+            if(key != null) {
+                map.put(key, (IIdentifier)eObject);
             }
         }
         
         return map;
+    }
+    
+    /**
+     * @return Object's ID or or other Key for the cache
+     */
+    private String getObjectKey(EObject eObject) {
+        if(eObject instanceof IProfile) {
+            return ((IProfile)eObject).getConceptType() + ((IProfile)eObject).getName();
+        }
+        
+        if(eObject instanceof IIdentifier) {
+            return ((IIdentifier)eObject).getId();
+        }
+        
+        return null;
     }
     
     // ===================================================================================
@@ -259,7 +275,7 @@ public class ModelImporter {
      */
     @SuppressWarnings("unchecked")
     <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
-        EObject foundObject = objectCache.get(eObject.getId());
+        EObject foundObject = objectCache.get(getObjectKey(eObject));
         
         // Not found
         if(foundObject == null) {
@@ -292,7 +308,8 @@ public class ModelImporter {
         
         newObject.setId(eObject.getId());
         
-        objectCache.put(newObject.getId(), newObject);
+        // Update global object cache
+        objectCache.put(getObjectKey(newObject), newObject);
         
         return (T)newObject;
     }

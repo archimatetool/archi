@@ -8,7 +8,6 @@ package com.archimatetool.modelimporter;
 import java.io.IOException;
 
 import com.archimatetool.editor.model.commands.AddListMemberCommand;
-import com.archimatetool.editor.model.commands.RemoveListMemberCommand;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
@@ -25,10 +24,10 @@ class ProfileImporter extends AbstractImporter {
     }
     
     IProfile importProfile(IProfile importedProfile) throws ImportException, IOException {
-        // Do we have this profile given its ID?
+        // Do we have this profile given its Name and Class type?
         IProfile targetProfile = findObjectInTargetModel(importedProfile);
         
-        // We don't have it, so create a new Profile
+        // We don't have it, so create a new profile
         if(targetProfile == null) {
             addNewProfile(importedProfile);
         }
@@ -58,22 +57,15 @@ class ProfileImporter extends AbstractImporter {
     }
 
     /**
-     * Update the target profile by cloning the imported Profile, removing the target Profile and adding the clone
+     * Update the target profile
      */
     private void updateProfile(IProfile importedProfile, IProfile targetProfile) throws IOException {
-        // Clone the imported Profile
-        IProfile newProfile = cloneObject(importedProfile);
-        
-        // Remove the Target Profile
-        addCommand(new RemoveListMemberCommand<IProfile>(getTargetModel().getProfiles(), targetProfile));
-        
-        // Add the clone
-        addCommand(new AddListMemberCommand<IProfile>(getTargetModel().getProfiles(), newProfile));
+        updateObject(importedProfile, targetProfile);
         
         // Import any image bytes
-        importImageBytes(importedProfile, newProfile);
+        importImageBytes(importedProfile, targetProfile);
         
         // Log
-        logMessage(StatusMessageLevel.INFO, Messages.ProfileImporter_2, newProfile);
+        logMessage(StatusMessageLevel.INFO, Messages.ProfileImporter_2, importedProfile);
     }
 }
