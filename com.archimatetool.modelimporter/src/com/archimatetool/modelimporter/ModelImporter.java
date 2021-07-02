@@ -232,6 +232,13 @@ public class ModelImporter {
         
         for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
+            
+            // Put by identifier
+            if(eObject instanceof IIdentifier) {
+                map.put(((IIdentifier)eObject).getId(), (IIdentifier)eObject);
+            }
+
+            // Put by other key
             String key = getObjectKey(eObject);
             if(key != null) {
                 map.put(key, (IIdentifier)eObject);
@@ -242,15 +249,11 @@ public class ModelImporter {
     }
     
     /**
-     * @return Object's ID or or other Key for the cache
+     * @return Object's other Key for the cache (if any)
      */
     private String getObjectKey(EObject eObject) {
         if(eObject instanceof IProfile) {
             return ((IProfile)eObject).getConceptType() + ((IProfile)eObject).getName();
-        }
-        
-        if(eObject instanceof IIdentifier) {
-            return ((IIdentifier)eObject).getId();
         }
         
         return null;
@@ -275,7 +278,13 @@ public class ModelImporter {
      */
     @SuppressWarnings("unchecked")
     <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
-        EObject foundObject = objectCache.get(getObjectKey(eObject));
+        // Get by ID
+        EObject foundObject = objectCache.get(eObject.getId());
+        
+        // Try by other key
+        if(foundObject == null) {
+            foundObject = objectCache.get(getObjectKey(eObject));
+        }
         
         // Not found
         if(foundObject == null) {
@@ -309,7 +318,7 @@ public class ModelImporter {
         newObject.setId(eObject.getId());
         
         // Update global object cache
-        objectCache.put(getObjectKey(newObject), newObject);
+        objectCache.put(newObject.getId(), newObject);
         
         return (T)newObject;
     }
