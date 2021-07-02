@@ -11,10 +11,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFolder;
@@ -109,7 +111,7 @@ abstract class AbstractImporter {
             IArchiveManager importedArchiveManager = (IArchiveManager)getImportedModel().getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)getTargetModel().getAdapter(IArchiveManager.class);
             importedImagePath = targetArchiveManager.copyImageBytes(importedArchiveManager, importedImagePath);
-            targetObject.setImagePath(importedImagePath);
+            addCommand(new EObjectFeatureCommand(null, targetObject, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, importedImagePath));
         }
     }
     

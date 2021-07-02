@@ -349,10 +349,13 @@ public class ModelImporter {
         }
 
         for(EStructuralFeature eStructuralFeature : importedObject.eClass().getEAllStructuralFeatures()) {
-            if(eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
-                if(eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
-                    addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
-                }
+            if(eStructuralFeature instanceof EAttribute            // EAttribute
+                    && eStructuralFeature.isChangeable()           // Can change it
+                    && !eStructuralFeature.isDerived()             // Is not derived
+                    && !((EAttribute)eStructuralFeature).isID()    // Is not ID
+                    && eStructuralFeature != IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) // Is not Image Path - we will set this
+            {
+                addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
             }
         }
     }
