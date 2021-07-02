@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -349,9 +348,7 @@ public class ModelImporter {
             return;
         }
 
-        EClass eClass = importedObject.eClass();
-        for(int i = 0, size = eClass.getFeatureCount(); i < size; ++i) {
-            EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+        for(EStructuralFeature eStructuralFeature : importedObject.eClass().getEAllStructuralFeatures()) {
             if(eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
                 if(eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
                     addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));

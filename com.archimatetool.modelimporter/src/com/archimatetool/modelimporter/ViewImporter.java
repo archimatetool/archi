@@ -15,13 +15,8 @@ import java.util.Map.Entry;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.canvas.model.ICanvasModel;
-import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.diagram.commands.ConnectionRouterTypeCommand;
-import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
@@ -33,7 +28,6 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.ISketchModel;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 /**
@@ -65,7 +59,7 @@ class ViewImporter extends AbstractImporter {
         }
         // We have it so update it
         else if(shouldUpdate()) {
-            updateView();
+            updateObject(importedView, targetView);
             createChildren();
             addToParentFolder(importedView, targetView);
             logMessage(StatusMessageLevel.INFO, Messages.ViewImporter_1, targetView);
@@ -75,31 +69,6 @@ class ViewImporter extends AbstractImporter {
         }
         
         return targetView;
-    }
-    
-    private void updateView() {
-        updateObject(importedView, targetView);
-        
-        // Connection Router
-        addCommand(new ConnectionRouterTypeCommand(targetView, importedView.getConnectionRouterType()));
-        
-        // Sketch View
-        if(targetView instanceof ISketchModel) {
-            // Background
-            addCommand(new EObjectFeatureCommand(null, targetView, IArchimatePackage.Literals.SKETCH_MODEL__BACKGROUND,
-                    ((ISketchModel)importedView).getBackground()));
-        }
-        
-        // Canvas View
-        if(targetView instanceof ICanvasModel) {
-            // Hint title
-            addCommand(new EObjectFeatureCommand(null, targetView, ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE,
-                    ((ICanvasModel)importedView).getHintTitle()));
-            
-            // Hint content
-            addCommand(new EObjectFeatureCommand(null, targetView, ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT,
-                    ((ICanvasModel)importedView).getHintContent()));
-        }
     }
     
     /**
