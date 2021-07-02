@@ -78,13 +78,14 @@ public class SpecializationSection extends AbstractECorePropertySection {
     
     /**
      * Model that we are listening to changes on
+     * Store this model in case the selected object is deleted
      */
     private IArchimateModel fModel;
 
     /**
-     * Adapter to listen to Model's changes, basically an AdapterImpl
+     * Adapter to listen to Model's Profile changes
      */
-    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged);
+    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged, IProfile.class);
     
     
     @Override
@@ -192,7 +193,9 @@ public class SpecializationSection extends AbstractECorePropertySection {
         Object feature = msg.getFeature();
         
         // If model profiles changed or this concept's profile changed
-        if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES || feature == IArchimatePackage.Literals.PROFILES__PROFILES) {
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES
+                || feature == IArchimatePackage.Literals.PROFILES__PROFILES
+                || msg.getNotifier() instanceof IProfile) {
             update();
         }
     }
@@ -236,7 +239,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
         // Add our adapter to the parent model to listen to its profile changes so we can update the combo
         IArchimateModelObject selected = getFirstSelectedObject();
         if(selected != null && selected.getArchimateModel() != null && !selected.getArchimateModel().eAdapters().contains(eAdapter)) {
-            fModel = selected.getArchimateModel(); // Store the parent model in case the selected object is deleted
+            fModel = selected.getArchimateModel();
             fModel.eAdapters().add(eAdapter);
         }
     }

@@ -245,7 +245,6 @@ implements IDiagramModelObjectFigure {
     public void updateIconImage() {
         if(getIconicDelegate() != null) {
             getIconicDelegate().updateImage();
-            repaint();
         }
     }
     

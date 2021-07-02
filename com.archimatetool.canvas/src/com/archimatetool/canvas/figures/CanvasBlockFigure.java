@@ -103,6 +103,9 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         // Text Position
         fTextPositionDelegate.updateTextPosition();
 
+        // Icon Image
+        updateIconImage();
+
         // Repaint
         repaint();
     }
