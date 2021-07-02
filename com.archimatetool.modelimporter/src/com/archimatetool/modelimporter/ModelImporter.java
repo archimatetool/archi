@@ -43,12 +43,10 @@ import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -303,22 +301,8 @@ public class ModelImporter {
      * Update target object with data from source object
      */
     void updateObject(EObject importedObject, EObject targetObject) {
-    	// Update all EAttribute (Name, Documentation, Access type, Influence streangth...) in a generic manner
-    	if (importedObject == null || targetObject == null) {
-    		return;
-        }
-        else
-        {
-	        EClass eClass = importedObject.eClass();
-	        for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i) {
-	        	EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
-	        	if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
-	        		if (eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
-	        			addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
-	        		}
-	        	}
-	        }
-	    }
+    	// EAttributes
+        updateEObjectFeatures(importedObject, targetObject);
     	
         // Properties
         if(importedObject instanceof IProperties  && targetObject instanceof IProperties) {
@@ -328,6 +312,25 @@ public class ModelImporter {
         // Features
         if(importedObject instanceof IFeatures && targetObject instanceof IFeatures) {
             addCommand(new UpdateFeaturesCommand((IFeatures)importedObject, (IFeatures)targetObject));
+        }
+    }
+    
+    /**
+     * Update all EAttributes (Name, Documentation, Access type, Influence streangth...) in a generic manner
+     */
+    void updateEObjectFeatures(EObject importedObject, EObject targetObject) {
+        if(importedObject == null || targetObject == null) {
+            return;
+        }
+
+        EClass eClass = importedObject.eClass();
+        for(int i = 0, size = eClass.getFeatureCount(); i < size; ++i) {
+            EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+            if(eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) {
+                if(eStructuralFeature instanceof EAttribute && !((EAttribute)eStructuralFeature).isID()) {
+                    addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
+                }
+            }
         }
     }
     
