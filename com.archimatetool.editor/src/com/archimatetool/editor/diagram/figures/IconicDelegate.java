@@ -52,7 +52,6 @@ public class IconicDelegate {
     public IconicDelegate(IIconic owner, int maxSize) {
         fIconic = owner;
         fMaxImageSize = maxSize;
-        updateImage();
     }
     
     /**
