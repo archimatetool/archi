@@ -85,6 +85,9 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Alignment
         ((FlowPage)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         fTextPositionDelegate.updateTextPosition();
+
+        // Icon Image
+        updateIconImage();
         
         // Repaint
         repaint();

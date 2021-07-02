@@ -7,7 +7,6 @@ package com.archimatetool.editor.propertysections;
 
 import java.io.File;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -40,10 +39,13 @@ import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IIconic;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 
@@ -90,6 +92,16 @@ public class IconSection extends ImageChooserSection {
         Messages.IconSection_13
     };
     
+    /**
+     * Adapter to listen to Model's Profile changes
+     */
+    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged, IProfile.class);
+    
+    /**
+     * Model that we are listening to changes on
+     * Store this model in case the selected object is deleted
+     */
+    private IArchimateModel fModel;
     
     @Override
     protected void createControls(Composite parent) {
@@ -202,14 +214,16 @@ public class IconSection extends ImageChooserSection {
 
     @Override
     protected void notifyChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
         // Profile might have been added or removed from the underlying Archimate element which might affect the image
-        if(msg.getFeature() == IArchimatePackage.Literals.PROFILES__PROFILES) {
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES
+                || feature == IArchimatePackage.Literals.PROFILES__PROFILES
+                || msg.getNotifier() instanceof IProfile) {
             refreshPreviewImage();
         }
         
         if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
                     || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
                 refreshPreviewImage();
@@ -227,15 +241,17 @@ public class IconSection extends ImageChooserSection {
     protected void addAdapter() {
         super.addAdapter();
         
-        // Add adapter to listen to underlying ArchimateElement if there is one
-        
+        // Add our adapter to listen to underlying ArchimateElement if there is one
         IArchimateModelObject selected = getFirstSelectedObject();
-        Adapter adapter = getECoreAdapter();
-        
-        if(selected instanceof IDiagramModelArchimateObject && adapter != null) {
+        if(selected instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
-            if(!element.eAdapters().contains(adapter)) {
-                element.eAdapters().add(adapter);
+            if(!element.eAdapters().contains(eAdapter)) {
+                element.eAdapters().add(eAdapter);
+            }
+            // And the model itself
+            if(element.getArchimateModel() != null && !element.getArchimateModel().eAdapters().contains(eAdapter)) {
+                fModel = element.getArchimateModel();
+                fModel.eAdapters().add(eAdapter);
             }
         }
     }
@@ -244,14 +260,16 @@ public class IconSection extends ImageChooserSection {
     protected void removeAdapter() {
         super.removeAdapter();
         
-        // Remove adapter to underlying ArchimateElement if there is one
-
+        // Remove our adapter to underlying ArchimateElement if there is one
         IArchimateModelObject selected = getFirstSelectedObject();
-        Adapter adapter = getECoreAdapter();
-        
-        if(selected instanceof IDiagramModelArchimateObject && adapter != null) {
+        if(selected instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
-            element.eAdapters().remove(adapter);
+            element.eAdapters().remove(eAdapter);
+        }
+
+        // Remove our adapter from the model
+        if(fModel != null) {
+            fModel.eAdapters().remove(eAdapter);
         }
     }
     
@@ -299,5 +317,11 @@ public class IconSection extends ImageChooserSection {
             fImage.dispose();
             fImage = null;
         }
+    }
+    
+    @Override
+    public void dispose() {
+        super.dispose();
+        fModel = null;
     }
 }

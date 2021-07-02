@@ -90,6 +90,9 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
+
+        // Icon Image
+        updateIconImage();
         
         // Repaint
         repaint();

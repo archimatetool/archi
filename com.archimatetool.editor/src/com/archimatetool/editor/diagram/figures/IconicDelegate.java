@@ -35,6 +35,11 @@ public class IconicDelegate {
     private Image fImage;
     private int fMaxImageSize = MAX_IMAGESIZE;
     
+    /**
+     * Store current image path to optimise
+     */
+    private String fImagePath;
+    
     private int topOffset = 0;
     private int bottomOffset = 0;
     private int leftOffset = 0;
@@ -51,12 +56,21 @@ public class IconicDelegate {
     }
     
     /**
-     * Update the image with a new scaled image
+     * Update the image
      */
     public void updateImage() {
+        String imagePath = getImagePath();
+        
+        // If the same image path then do nothing
+        if(fImagePath != null && fImagePath.equals(imagePath)) {
+            return;
+        }
+        
+        // Store image path
+        fImagePath = imagePath;
+        
         disposeImage();
         
-        String imagePath = getImagePath();
         if(imagePath != null) {
             try {
                 IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);

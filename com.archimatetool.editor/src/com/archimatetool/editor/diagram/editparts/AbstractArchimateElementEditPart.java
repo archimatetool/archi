@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -13,9 +14,12 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
@@ -25,6 +29,17 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateElementEditPart extends AbstractConnectedEditPart {
+    
+    /**
+     * Listen to the models' Profile changes so we can update the image
+     */
+    private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IProfile.class);
+    
+    /**
+     * Model that we are listening to changes on
+     * Store this model in case the selected object is deleted
+     */
+    private IArchimateModel fModel;
     
     protected AbstractArchimateElementEditPart() {
     }
@@ -41,15 +56,24 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     @Override
     protected void addECoreAdapter() {
         super.addECoreAdapter();
-        // Listen to changes in Archimate Model
+        
+        // Listen to changes in Archimate Element
         getModel().getArchimateElement().eAdapters().add(getECoreAdapter());
+        
+        // Listen to changes in Archimate Model
+        fModel = getModel().getArchimateModel();
+        fModel.eAdapters().add(adapter);
     }
     
     @Override
     protected void removeECoreAdapter() {
         super.removeECoreAdapter();
-        // Unlisten to changes in Archimate Model
+        
+        // Unlisten to changes in Archimate Element
         getModel().getArchimateElement().eAdapters().remove(getECoreAdapter());
+        
+        // Unlisten to changes in Archimate Model
+        fModel.eAdapters().remove(adapter);
     }
     
     @Override
@@ -67,13 +91,6 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         // Archi Features
         if(IFeatures.isFeatureNotification(msg)) {
             refreshFigure();
-            getFigure().updateIconImage();
-            return;
-        }
-        
-        // Profile
-        if(feature == IArchimatePackage.Literals.PROFILES__PROFILES) {
-            getFigure().updateIconImage();
             return;
         }
 

@@ -114,6 +114,9 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
                 fTextPositionDelegate.updateTextPosition();
             }
         }
+
+        // Icon Image
+        updateIconImage();
         
         repaint(); // repaint when figure changes
     }
