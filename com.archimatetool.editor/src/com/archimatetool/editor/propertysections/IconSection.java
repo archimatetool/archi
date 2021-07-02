@@ -284,6 +284,7 @@ public class IconSection extends ImageChooserSection {
         
         // Use an IconicDelegate to create the image which may come from the object or via a profile image
         IconicDelegate iconicDelegate = new IconicDelegate((IIconic)getFirstSelectedObject());
+        iconicDelegate.updateImage();
         fImage = iconicDelegate.getImage();
         
         fCanvas.redraw();
