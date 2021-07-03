@@ -216,19 +216,16 @@ public class IconSection extends ImageChooserSection {
     protected void notifyChanged(Notification msg) {
         Object feature = msg.getFeature();
         
-        // Profile might have been added or removed from the underlying Archimate element which might affect the image
+        // Profile might have been added or removed from the Model or the underlying Archimate element which might affect the image
+        // Or Image Path or Source changed
         if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES
                 || feature == IArchimatePackage.Literals.PROFILES__PROFILES
-                || msg.getNotifier() instanceof IProfile) {
+                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
+                || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
             refreshPreviewImage();
         }
         
         if(msg.getNotifier() == getFirstSelectedObject()) {
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
-                    || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
-                refreshPreviewImage();
-            }
-            
             if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
                     || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION
                     || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
@@ -270,6 +267,7 @@ public class IconSection extends ImageChooserSection {
         // Remove our adapter from the model
         if(fModel != null) {
             fModel.eAdapters().remove(eAdapter);
+            fModel = null;
         }
     }
     
@@ -280,14 +278,17 @@ public class IconSection extends ImageChooserSection {
     }
     
     private void refreshPreviewImage() {
-        disposeImage();
-        
-        // Use an IconicDelegate to create the image which may come from the object or via a profile image
-        IconicDelegate iconicDelegate = new IconicDelegate((IIconic)getFirstSelectedObject());
-        iconicDelegate.updateImage();
-        fImage = iconicDelegate.getImage();
-        
-        fCanvas.redraw();
+        // Check also if the selected object has been orphaned in case the Properties View is still showing the object if it has the focus
+        if(isAlive(getFirstSelectedObject())) {
+            disposeImage();
+            
+            // Use an IconicDelegate to create the image which may come from the object or via a profile image
+            IconicDelegate iconicDelegate = new IconicDelegate((IIconic)getFirstSelectedObject());
+            iconicDelegate.updateImage();
+            fImage = iconicDelegate.getImage();
+            
+            fCanvas.redraw();
+        }
     }
     
     @Override
@@ -322,7 +323,9 @@ public class IconSection extends ImageChooserSection {
     
     @Override
     public void dispose() {
-        super.dispose();
+        super.dispose();  // super first
+        disposeImage();
+        eAdapter = null;
         fModel = null;
     }
 }

@@ -60,7 +60,7 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         // Listen to changes in Archimate Element
         getModel().getArchimateElement().eAdapters().add(getECoreAdapter());
         
-        // Listen to changes in Archimate Model
+        // Listen to changes in Archimate Model for Profile changes
         fModel = getModel().getArchimateModel();
         fModel.eAdapters().add(adapter);
     }
@@ -73,7 +73,10 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         getModel().getArchimateElement().eAdapters().remove(getECoreAdapter());
         
         // Unlisten to changes in Archimate Model
-        fModel.eAdapters().remove(adapter);
+        if(fModel != null) {
+            fModel.eAdapters().remove(adapter);
+            fModel = null;
+        }
     }
     
     @Override
@@ -88,8 +91,10 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
             return;
         }
 
-        // Archi Features
-        if(IFeatures.isFeatureNotification(msg)) {
+        // Archi Features and Profiles change, just refresh the figure
+        if(IFeatures.isFeatureNotification(msg)
+                || feature == IArchimatePackage.Literals.PROFILES__PROFILES
+                || feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES) {
             refreshFigure();
             return;
         }
