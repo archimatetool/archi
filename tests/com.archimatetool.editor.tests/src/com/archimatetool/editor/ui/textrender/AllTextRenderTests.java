@@ -17,6 +17,7 @@ public class AllTextRenderTests {
         suite.addTest(NameRendererTests.suite());
         suite.addTest(PropertiesRendererTests.suite());
         suite.addTest(RelationshipRendererTests.suite());
+        suite.addTest(SpecializationRendererTests.suite());
         suite.addTest(TextContentRendererTests.suite());
         suite.addTest(TextRendererTests.suite());
         suite.addTest(TypeRendererTests.suite());
