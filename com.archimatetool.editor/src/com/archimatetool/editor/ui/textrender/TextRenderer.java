@@ -41,6 +41,7 @@ public class TextRenderer {
         registerRenderer(new NameRenderer());
         registerRenderer(new DocumentationRenderer());
         registerRenderer(new TypeRenderer());
+        registerRenderer(new SpecializationRenderer());
         
         registerRenderer(new PropertiesRenderer());
 
