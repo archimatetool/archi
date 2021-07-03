@@ -251,12 +251,14 @@ public class SpecializationSection extends AbstractECorePropertySection {
         // Remove our adapter from the model
         if(fModel != null) {
             fModel.eAdapters().remove(eAdapter);
+            fModel = null;
         }
     }
     
     @Override
     public void dispose() {
         super.dispose(); // super first
+        eAdapter = null;
         fModel = null;
     }
 
