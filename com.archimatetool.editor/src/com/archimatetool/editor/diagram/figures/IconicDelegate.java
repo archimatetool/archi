@@ -73,7 +73,9 @@ public class IconicDelegate {
         if(imagePath != null) {
             try {
                 IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-                fImage = archiveManager.createImage(imagePath);
+                if(archiveManager != null) { // fIconic object can be orphaned at this point when importing another model
+                    fImage = archiveManager.createImage(imagePath);
+                }
             }
             catch(Exception ex) {
                 ex.printStackTrace();
