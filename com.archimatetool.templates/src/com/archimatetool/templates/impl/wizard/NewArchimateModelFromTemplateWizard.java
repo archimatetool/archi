@@ -8,6 +8,8 @@ package com.archimatetool.templates.impl.wizard;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -16,6 +18,7 @@ import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplate;
@@ -79,6 +82,10 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
             
             // New IDs
             UUIDFactory.generateNewIDs(model);
+            
+            // Add to a new Resource because with new IDs the IntrinsicIDToEObjectMap will no longer be valid
+            Resource resource = ArchimateResourceFactory.createNewResource(URI.createURI("tmp.archimate")); //$NON-NLS-1$
+            resource.getContents().add(model);
             
             // Edit in-place in Tree
             UIRequestManager.INSTANCE.fireRequestAsync(new TreeEditElementRequest(this, model));

@@ -12,6 +12,8 @@ import org.eclipse.core.expressions.EvaluationResult;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -34,6 +36,7 @@ import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.UUIDFactory;
 
 
@@ -96,6 +99,10 @@ public class NewModelWithCanvasExtensionContributionFactory extends ExtensionCon
                             
                             // New IDs
                             UUIDFactory.generateNewIDs(model);
+                            
+                            // Add to a new Resource because with new IDs the IntrinsicIDToEObjectMap will no longer be valid
+                            Resource resource = ArchimateResourceFactory.createNewResource(URI.createURI("tmp.archimate")); //$NON-NLS-1$
+                            resource.getContents().add(model);
                             
                             // Open Canvas
                             EditorManager.openDiagramEditor(model.getDefaultDiagramModel(), false);

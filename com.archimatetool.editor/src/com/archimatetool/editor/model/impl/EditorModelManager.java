@@ -152,6 +152,11 @@ implements IEditorModelManager {
     @Override
     public IArchimateModel createNewModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        
+        // Add the model to a Resource so we can use its IntrinsicIDToEObjectMap for object lookup
+        Resource resource = ArchimateResourceFactory.createNewResource(URI.createURI("new.archimate")); //$NON-NLS-1$
+        resource.getContents().add(model);
+        
         model.setName(Messages.EditorModelManager_0);
         model.setDefaults();
         
