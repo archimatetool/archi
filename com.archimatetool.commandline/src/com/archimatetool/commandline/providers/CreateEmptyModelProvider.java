@@ -7,12 +7,10 @@ package com.archimatetool.commandline.providers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.osgi.util.NLS;
 
@@ -23,7 +21,6 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -106,13 +103,7 @@ public class CreateEmptyModelProvider extends AbstractCommandLineProvider {
         model.setFile(null);
 
         // New IDs
-        model.setId(UUIDFactory.createID(model));
-        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IIdentifier) {
-                ((IIdentifier)eObject).setId(UUIDFactory.createID((IIdentifier)eObject));
-            }
-        }
+        UUIDFactory.generateNewIDs(model);
 
         logMessage(NLS.bind(Messages.CreateEmptyModelProvider_6, fileTemplate));
 
