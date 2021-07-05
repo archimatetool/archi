@@ -12,7 +12,7 @@
 
     <properties>
         <tycho-version>2.3.0</tycho-version>
-        <revision>4.8.1-SNAPSHOT</revision>
+        <revision>4.9.0-SNAPSHOT</revision>
     </properties>
     
     <repositories>

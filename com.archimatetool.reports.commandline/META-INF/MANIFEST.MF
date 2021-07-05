@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi HTML Reports Command Line
 Bundle-SymbolicName: com.archimatetool.reports.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 4.8.1.qualifier
+Bundle-Version: 4.9.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: com.archimatetool.reports,
  com.archimatetool.commandline
