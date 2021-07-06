@@ -13,6 +13,8 @@
     <properties>
         <tycho-version>2.3.0</tycho-version>
         <revision>4.9.0-SNAPSHOT</revision>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     
     <repositories>
