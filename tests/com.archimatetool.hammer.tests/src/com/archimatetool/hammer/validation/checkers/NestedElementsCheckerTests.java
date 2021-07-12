@@ -75,10 +75,9 @@ public class NestedElementsCheckerTests {
         //conn.setArchimateRelationship(relation2);
         //conn.connect(dmo1, dmo2);
         
-        // Also should not be OK because the first connection is there
+        // Should be OK because we have a valid relationship
         issues = checker.getIssues();
-        assertEquals(1, issues.size());
-        assertSame(dmo2, issues.get(0).getObject());
+        assertEquals(0, issues.size());
         
         // Remove the invalid relationship
         relation1.disconnect();

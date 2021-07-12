@@ -21,7 +21,9 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.ICompositionRelationship;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IRealizationRelationship;
@@ -56,17 +58,22 @@ public class NestedElementsChecker implements IChecker {
     List<IIssue> findWrongNestedElements() {
         List<IIssue> issues = new ArrayList<IIssue>();
         
+        // Iterate through all Views
         for(IArchimateDiagramModel dm : fViews) {
             for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
                 EObject eObject = iter.next();
                 
+                // If this is an Archimate diagram object...
                 if(eObject instanceof IDiagramModelArchimateObject) {
                     IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)eObject;
                     
+                    // Get its children
                     for(IDiagramModelObject dmoChild : parent.getChildren()) {
+                        // If the child is an Archimate diagram object...
                         if(dmoChild instanceof IDiagramModelArchimateObject) {
                             IDiagramModelArchimateObject child = (IDiagramModelArchimateObject)dmoChild;
                             
+                            // Check nested state
                             if(isNestedWithoutValidRelation(parent, child)) {
                                 String description =  NLS.bind(fDescription, new Object[] {
                                         child.getName(),
@@ -94,47 +101,53 @@ public class NestedElementsChecker implements IChecker {
             return false;
         }
         
-        // No relationships between parent and child
-        if(!hasParentChildRelationships(parentElement, childElement)) {
-            return true;
-        }
+        // Get all diagram connections between parent and child objects
+        List<IDiagramModelConnection> connections = new ArrayList<>(parent.getSourceConnections());
+        connections.addAll(parent.getTargetConnections());
         
-        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(parentElement)) {
-            // Check for non-nested type relationships
-            if((r.getTarget() == childElement || r.getSource() == childElement) && !isNestedTypeRelationship(r)) {
-                return true;
-            }
-            
-            // Specialization relationship needs a special check as it goes the other way around
-            if(r instanceof ISpecializationRelationship) {
-                if(r.getTarget() == childElement) {
+        for(IDiagramModelConnection connection : connections) {
+            // If this is an ArchiMate connection...
+            if(connection instanceof IDiagramModelArchimateConnection && (connection.getSource() == child || connection.getTarget() == child)) {
+                // Get its relationship
+                IArchimateRelationship relation = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship();
+                
+                // Check for non-nested type relationships
+                if(!isNestedTypeRelationship(relation)) {
+                    return true;
+                }
+
+                // Specialization relationship needs a special check as it goes the other way around
+                if(relation instanceof ISpecializationRelationship) {
+                    if(relation.getTarget() == childElement) {
+                        return true;
+                    }
+                }
+                // Else reversed nested
+                else if(relation.getSource() == childElement && isNestedTypeRelationship(relation)) {
                     return true;
                 }
             }
-            else if(r.getSource() == childElement && isNestedTypeRelationship(r)) {
-                return true;
+        }
+        
+        // Check for any nested type relationships in the model, return false if one is found
+        for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(parentElement)) {
+            if((relation.getTarget() == childElement || relation.getSource() == childElement) && isNestedTypeRelationship(relation)) {
+                return false;
             }
         }
         
-        return false;
+        return true;
     }
     
-    private boolean hasParentChildRelationships(IArchimateElement parentElement, IArchimateElement childElement) {
-        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(parentElement)) {
-            if(r.getTarget() == childElement || r.getSource() == childElement) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    private boolean isNestedTypeRelationship(IArchimateRelationship r) {
-        return r instanceof ICompositionRelationship
-                || r instanceof ISpecializationRelationship
-                || r instanceof IAggregationRelationship
-                || r instanceof IAssignmentRelationship
-                || r instanceof IRealizationRelationship
-                || r instanceof IAccessRelationship;
+    /**
+     * @return true if relation is a nested type relationship as defined in the ArchiMate spec
+     */
+    private boolean isNestedTypeRelationship(IArchimateRelationship relation) {
+        return relation instanceof ICompositionRelationship
+                || relation instanceof ISpecializationRelationship
+                || relation instanceof IAggregationRelationship
+                || relation instanceof IAssignmentRelationship
+                || relation instanceof IRealizationRelationship
+                || relation instanceof IAccessRelationship;
     }
 }
