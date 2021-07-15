@@ -115,6 +115,7 @@ public class ArchiveManagerTests {
         
         Image image = archiveManager.createImage(pathName);
         assertNotNull(image);
+        image.dispose();
     }
     
     @Test

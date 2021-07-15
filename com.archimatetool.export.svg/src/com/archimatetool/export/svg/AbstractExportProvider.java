@@ -57,6 +57,9 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         
         // Paint the figure onto the graphics instance
         figure.paint(graphicsAdaptor);
+        
+        // Dispose of this
+        graphicsAdaptor.dispose();
     }
     
     @Override

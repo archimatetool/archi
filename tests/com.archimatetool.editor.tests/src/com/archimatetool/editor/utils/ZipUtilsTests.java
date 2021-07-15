@@ -142,6 +142,8 @@ public class ZipUtilsTests {
 
         ZipUtils.addImageToZip(image, "img.png", zOut, SWT.IMAGE_PNG, null);
         
+        image.dispose();
+        
         zOut.flush();
         zOut.close();
 

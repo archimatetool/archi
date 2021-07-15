@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.swt.graphics.RGB;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,11 @@ public class FormatPainterInfoTests {
     @Before
     public void runBeforeEachTest() {
         info = new FormatPainterInfo();
+    }
+    
+    @After
+    public void runAfterEachTest() {
+        info.dispose();
     }
 
     // ---------------------------------------------------------------------------------------------

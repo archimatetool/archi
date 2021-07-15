@@ -172,6 +172,8 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         
         image = getPrivateImageField();
         assertEquals(new Rectangle(0, 0, 10, 10), image.getBounds());
+        
+        image.dispose();
     }
     
     @Test
@@ -184,6 +186,8 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         
         image = figure.getOriginalImage();
         assertEquals(new Rectangle(0, 0, 268, 268), image.getBounds());
+        
+        image.dispose();
     }
    
     private void addImage(File file) throws IOException {

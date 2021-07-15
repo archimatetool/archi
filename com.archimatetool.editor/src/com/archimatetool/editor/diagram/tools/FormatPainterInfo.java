@@ -156,4 +156,14 @@ public class FormatPainterInfo {
     private void fireUpdated() {
         listeners.firePropertyChange("FORMAT_PAINTER_UPDATED", false, true); //$NON-NLS-1$
     }
+    
+    void dispose() {
+        if(defaultCursor != null) {
+            defaultCursor.dispose();
+        }
+        
+        if(coloredCursor != null) {
+            coloredCursor.dispose();
+        }
+    }
 }
