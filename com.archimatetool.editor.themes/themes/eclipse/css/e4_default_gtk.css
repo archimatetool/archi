@@ -83,13 +83,6 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
 	background-color: COLOR-WIDGET-BACKGROUND #F6F5F4 100%;
 }
 
-.MToolControl.TrimStack {
-	frame-image:  url(./gtkTSFrame.png);
-	handle-image:  url(./gtkHandle.png);
-	frame-image-rotated:  url(./gtkTSFrame-rotated.png);
-	handle-image-rotated:  url(./gtkHandle-rotated.png);
-}
-
 .MPartStack {
 	swt-simple: false;
 }
