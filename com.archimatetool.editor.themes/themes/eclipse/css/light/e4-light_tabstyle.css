@@ -53,6 +53,7 @@ CTabItem:selected {
 
 CTabFolder.MArea {
 	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+	swt-shadow-visible: false;
 	padding: 0px;
 }
 
