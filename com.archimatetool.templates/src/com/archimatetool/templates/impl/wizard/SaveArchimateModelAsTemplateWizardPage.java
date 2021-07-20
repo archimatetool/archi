@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -198,15 +199,17 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fModelViewsTreeViewer.setInput(fModel.getFolder(FolderType.DIAGRAMS));
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
-        //gd.widthHint = 140;
+        gd.widthHint = 140;
         fModelViewsTreeViewer.getControl().setLayoutData(gd);
         fModelViewsTreeViewer.getControl().setEnabled(thumbsEnabled);
         
         fPreviewLabel = new Label(thumbContainer, SWT.BORDER);
+        fPreviewLabel.setBackground(ColorFactory.get(255, 255, 255));
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         gd.widthHint = 150;
         fPreviewLabel.setLayoutData(gd);
+        fPreviewLabel.setAlignment(SWT.CENTER);
         
         // Dispose of the image here not in the main dispose() method because if the help system is showing then 
         // the TrayDialog is resized and this label is asked to relayout.
@@ -220,14 +223,12 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fModelViewsTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                disposePreviewImage();
-
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(o instanceof IDiagramModel) {
                     TemplateUtils.createThumbnailPreviewImage((IDiagramModel)o, fPreviewLabel);
                 }
                 else {
-                    fPreviewLabel.setImage(null);
+                    disposePreviewImage();
                 }
             }
         });
@@ -326,8 +327,9 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
     }
     
     private void disposePreviewImage() {
-        if(fPreviewLabel != null && fPreviewLabel.getImage() != null && !fPreviewLabel.getImage().isDisposed()) {
+        if(fPreviewLabel != null && fPreviewLabel.getImage() != null) {
             fPreviewLabel.getImage().dispose();
+            fPreviewLabel.setImage(null);
         }
     }
     

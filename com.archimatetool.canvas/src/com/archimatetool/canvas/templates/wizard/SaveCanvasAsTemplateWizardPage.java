@@ -22,7 +22,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -32,6 +31,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -186,6 +186,8 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         label.setLayoutData(gd);
 
         fPreviewLabel = new Label(thumbsGroup, SWT.BORDER);
+        fPreviewLabel.setAlignment(SWT.CENTER);
+        fPreviewLabel.setBackground(ColorFactory.get(255, 255, 255));
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         gd.widthHint = 150;
@@ -200,20 +202,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
             }
         });
         
-        Display.getCurrent().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                TemplateUtils.createThumbnailPreviewImage(fCanvasModel, fPreviewLabel);
-            }
-        });
-        
+        // This will be called initially as well as on resize
         fPreviewLabel.addControlListener(new ControlAdapter() {
             int oldTime;
             
             @Override
             public void controlResized(ControlEvent e) {
-                if(e.time - oldTime > 10) {
-                    disposePreviewImage();
+                if(e.time - oldTime > 50) {
                     TemplateUtils.createThumbnailPreviewImage(fCanvasModel, fPreviewLabel);
                 }
                 oldTime = e.time;
@@ -288,7 +283,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     }
     
     private void disposePreviewImage() {
-        if(fPreviewLabel != null && fPreviewLabel.getImage() != null && !fPreviewLabel.getImage().isDisposed()) {
+        if(fPreviewLabel != null && fPreviewLabel.getImage() != null) {
             fPreviewLabel.getImage().dispose();
         }
     }

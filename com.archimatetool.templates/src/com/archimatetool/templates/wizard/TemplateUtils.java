@@ -32,10 +32,16 @@ public class TemplateUtils {
      * @param label
      */
     public static void createThumbnailPreviewImage(IDiagramModel diagramModel, Label label) {
+        // Dispose of old image
+        if(label.getImage() != null) { 
+            label.getImage().dispose();
+            label.setImage(null);
+        }
+
         Shell shell = new Shell();
         GraphicalViewer diagramViewer = DiagramUtils.createViewer(diagramModel, shell);
         
-        int margin = 5;
+        final int margin = 5;
         Rectangle bounds = DiagramUtils.getDiagramExtents(diagramViewer);
         bounds.expand(margin * 2, margin * 2);
         double ratio = Math.min(1, Math.min((double)label.getBounds().width / bounds.width,
