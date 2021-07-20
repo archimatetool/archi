@@ -424,10 +424,14 @@ public class DropinsPluginHandler {
         List<File> files = new ArrayList<File>();
         
         if(path != null) {
+            // Issue on OpenJDK if path is like C: or D: - no slash is added when creating File
+            String filterPath = dialog.getFilterPath() + File.separator;;
+
             for(String name : dialog.getFileNames()) {
-                String filterPath = dialog.getFilterPath();
-                filterPath += File.separator; // Issue on OpenJDK if path is like C: or D: - no slash is added when creating File
-                files.add(new File(filterPath, name));
+                File file = new File(filterPath, name);
+                if(file.exists()) {
+                    files.add(file);
+                }
             }
         }
         

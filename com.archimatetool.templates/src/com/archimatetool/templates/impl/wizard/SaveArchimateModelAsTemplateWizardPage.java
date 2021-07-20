@@ -291,7 +291,14 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
         dialog.setText(Messages.SaveArchimateModelAsTemplateWizardPage_11);
         dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        File file = new File(fFileTextField.getText());
+        dialog.setFileName(file.getName());
+        
+        // Does nothing on macOS 10.15+. On Windows will work after Eclipse 4.21
+        dialog.setOverwrite(false);
+        
         String path = dialog.open();
+        
         if(path != null) {
             // Only Windows adds the extension by default
             if(dialog.getFilterIndex() == 0 && !path.endsWith(ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
@@ -299,6 +306,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
             }
             return new File(path);
         }
+        
         return null;
     }
     

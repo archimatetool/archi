@@ -316,6 +316,9 @@ public class ExportAsImagePage extends WizardPage {
         
         dialog.setFilterExtensions(new String[] { extensions, "*.*" } ); //$NON-NLS-1$
         
+        // Does nothing on macOS 10.15+. On Windows will work after Eclipse 4.21
+        dialog.setOverwrite(false);
+        
         String path = dialog.open();
         if(path == null) {
             return null;

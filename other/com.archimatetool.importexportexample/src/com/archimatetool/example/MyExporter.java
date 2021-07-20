@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -105,8 +103,12 @@ public class MyExporter implements IModelExporter {
      */
     private File askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText(Messages.MyExporter_0);
+        dialog.setText("Export Model"); //$NON-NLS-1$
         dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
+
+        // Set to true for consistency on all OSs
+        dialog.setOverwrite(true);
+        
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -117,18 +119,6 @@ public class MyExporter implements IModelExporter {
             path += MY_EXTENSION;
         }
         
-        File file = new File(path);
-        
-        // Make sure the file does not already exist
-        if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    Messages.MyExporter_0,
-                    NLS.bind(Messages.MyExporter_1, file));
-            if(!result) {
-                return null;
-            }
-        }
-        
-        return file;
+        return new File(path);
     }
 }

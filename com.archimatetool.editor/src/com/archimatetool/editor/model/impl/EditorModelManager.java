@@ -530,6 +530,10 @@ implements IEditorModelManager {
         
         FileDialog dialog = new FileDialog(shell, SWT.SAVE);
         dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.*" } ); //$NON-NLS-1$
+        
+        // Set to true for consistency on all OSs
+        dialog.setOverwrite(true);
+        
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -548,16 +552,6 @@ implements IEditorModelManager {
                 MessageDialog.openWarning(shell,
                         Messages.EditorModelManager_8,
                         NLS.bind(Messages.EditorModelManager_9, file));
-                return null;
-            }
-        }
-        
-        // Make sure the file does not already exist
-        if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(shell,
-                    Messages.EditorModelManager_10,
-                    NLS.bind(Messages.EditorModelManager_11, file));
-            if(!result) {
                 return null;
             }
         }

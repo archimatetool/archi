@@ -25,7 +25,6 @@ import org.eclipse.equinox.p2.operations.UpdateOperation;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -180,19 +179,17 @@ public class P2InstallHandler {
         dialog.setFilterExtensions(new String[] { "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         
-        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-        if(path != null && PlatformUtils.isMac()) {
-            while(Display.getCurrent().readAndDispatch());
-        }
-        
         List<File> files = new ArrayList<File>();
         
         if(path != null) {
+            // Issue on OpenJDK if path is like C: or D: - no slash is added when creating File
+            String filterPath = dialog.getFilterPath() + File.separator;;
+
             for(String name : dialog.getFileNames()) {
-                String filterPath = dialog.getFilterPath();
-                filterPath += File.separator; // Issue on OpenJDK if path is like C: or D: - no slash is added when creating File
-                files.add(new File(filterPath, name));
+                File file = new File(filterPath, name);
+                if(file.exists()) {
+                    files.add(file);
+                }
             }
         }
         
