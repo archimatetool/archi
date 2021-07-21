@@ -11,10 +11,8 @@
     <name>Archi Tool</name>
 
     <properties>
-        <revision>4.9.0</revision>
-        <tycho-version>2.3.0</tycho-version>
-        <!-- To fix the Mac issue https://github.com/eclipse/tycho/issues/184 -->
-        <!-- tycho-version>2.5.0-SNAPSHOT</tycho-version -->
+        <revision>4.9.0-SNAPSHOT</revision>
+        <tycho-version>2.4.0</tycho-version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
@@ -26,15 +24,6 @@
             <url>https://download.eclipse.org/releases/2021-06</url>
         </repository>
     </repositories>
-
-    <!-- To fix the Mac issue https://github.com/eclipse/tycho/issues/184 -->
-    <!-- This can be removed for Tycho 2.5.0 final -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>tycho-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <!--Core modules -->
     <modules>
