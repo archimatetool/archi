@@ -95,7 +95,7 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                     bounds.setHeight(defaultSize.height);
                 }
                 
-                if(bounds.getWidth() != model.getBounds().getWidth() && bounds.getHeight() != model.getBounds().getHeight()) {
+                if(bounds.getWidth() != model.getBounds().getWidth() || bounds.getHeight() != model.getBounds().getHeight()) {
                     Command cmd = new SetConstraintObjectCommand(model, bounds);
                     command.add(cmd);
                 }
