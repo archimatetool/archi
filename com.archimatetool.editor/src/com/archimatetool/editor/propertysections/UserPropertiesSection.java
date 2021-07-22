@@ -256,6 +256,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Columns
         TableViewerColumn columnBlank = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(columnBlank.getColumn(), new ColumnWeightData(3, false));
+        columnBlank.getColumn().setWidth(38);
 
         TableViewerColumn columnKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
         columnKey.getColumn().setText(Messages.UserPropertiesSection_0);
