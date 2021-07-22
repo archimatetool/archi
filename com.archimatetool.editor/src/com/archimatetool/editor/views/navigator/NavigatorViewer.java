@@ -9,21 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.model.IArchimateConcept;
@@ -42,40 +37,16 @@ public class NavigatorViewer extends TreeViewer {
     
     private boolean fShowTargetElements = true;
     
-    /**
-     * Application Preferences Listener
-     */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty() == IPreferenceConstants.NAVIGATOR_TREE_FONT) {
-                UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, false);
-                refresh();
-            }
-        }
-    };
-
-    
     public NavigatorViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
-        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, false);
+        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, true);
         
         setContentProvider(new NavigatorViewerContentProvider());
         setLabelProvider(new NavigatorViewerLabelProvider());
         setAutoExpandLevel(3);
         
         setComparator(new ViewerComparator());
-        
-        // Listen to Preferences
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
-        
-        getTree().addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                Preferences.STORE.removePropertyChangeListener(prefsListener);
-            }
-        });
     }
     
     public Object getActualInput() {

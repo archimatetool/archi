@@ -72,10 +72,6 @@ public class TreeModelViewer extends TreeViewer {
      */
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
-    private Font fontItalic = FontFactory.getItalic(getTree().getFont());
-    private Font fontBold = FontFactory.getBold(getTree().getFont());;
-    
-    
     /**
      * Application Preferences Listener
      */
@@ -88,7 +84,7 @@ public class TreeModelViewer extends TreeViewer {
                     break;
 
                 case IPreferenceConstants.MODEL_TREE_FONT:
-                    setTreeFonts();
+                    ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
                     refresh();
                     break;
             }
@@ -98,9 +94,9 @@ public class TreeModelViewer extends TreeViewer {
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
-        // Fonts
-        setTreeFonts();
-
+        // Font
+        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, true);
+        
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
         
@@ -279,12 +275,6 @@ public class TreeModelViewer extends TreeViewer {
         return super.getSortedChildren(parentElementOrTreePath);
     }
     
-    private void setTreeFonts() {
-        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, false);
-        fontItalic = FontFactory.getItalic(getTree().getFont());
-        fontBold = FontFactory.getBold(getTree().getFont());
-    }
-    
     /**
      * If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it and return it
      * But let's keep a limit to its length
@@ -365,6 +355,9 @@ public class TreeModelViewer extends TreeViewer {
      * Label Provider
      */
     private class ModelTreeViewerLabelProvider extends CellLabelProvider {
+        private Font fontItalic;
+        private Font fontBold;
+        
         @Override
         public void update(ViewerCell cell) {
             cell.setText(getText(cell.getElement()));
@@ -373,6 +366,11 @@ public class TreeModelViewer extends TreeViewer {
             cell.setFont(getFont(cell.getElement()));
         }
         
+        private void resetFonts() {
+            fontItalic = null;
+            fontBold = null;
+        }
+
         private String getText(Object element) {
             // If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it
             String text = getAncestorFolderRenderText((IArchimateModelObject)element);
@@ -410,17 +408,39 @@ public class TreeModelViewer extends TreeViewer {
             // Show bold if using Search
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
-                return fontBold;
+                return getBoldFont();
             }
             
             // Italicise unused elements
             if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
                 if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
-                    return fontItalic;
+                    return getItalicFont();
                 }
             }
             
             return null;
+        }
+        
+        private Font getBoldFont() {
+            if(fontBold == null) {
+                fontBold = FontFactory.getBold(getTree().getFont());
+            }
+            return fontBold;
+        }
+        
+        private Font getItalicFont() {
+            if(fontItalic == null) {
+                // Because of timing issues we have to get the italic font from user prefs not from the tree
+                String fontDetails = Preferences.STORE.getString(IPreferenceConstants.MODEL_TREE_FONT);
+                if(StringUtils.isSet(fontDetails)) {
+                    Font font = FontFactory.get(fontDetails);
+                    fontItalic = FontFactory.getItalic(font);
+                }
+                else {
+                    fontItalic = FontFactory.getItalic(getTree().getFont());
+                }
+            }
+            return fontItalic;
         }
 
         private Color getForeground(Object element) {
