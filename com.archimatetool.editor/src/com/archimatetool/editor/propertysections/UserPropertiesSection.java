@@ -224,8 +224,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         Composite tableComp = createTableComposite(parent, SWT.NULL);
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
         
-        parent.setBackgroundMode(SWT.INHERIT_DEFAULT);
-        
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 
@@ -850,6 +848,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
 
             cellEditor.setItems(items);
+            
+            // Set font in case user changed it in preferences
+            cellEditor.getControl().setFont(getViewer().getControl().getFont());
+
             return cellEditor;
         }
 
@@ -895,6 +897,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
 
             cellEditor.setItems(items);
+            
+            // Set font in case user changed it in preferences
+            cellEditor.getControl().setFont(getViewer().getControl().getFont());
+            
             return cellEditor;
         }
 
