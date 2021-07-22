@@ -43,7 +43,7 @@ public final class FontFactory {
     
     /**
      * @param fontName
-     * @return A FOnt for the fontName or the default user font if null or exception occurs
+     * @return A Font for the fontName or the default user font if null or exception occurs
      */
     public static Font get(String fontName) {
         if(fontName == null) {
@@ -164,7 +164,9 @@ public final class FontFactory {
      * @return The italic variant of the given font
      */
     public static Font getItalic(Font font) {
-        return FontRegistry.getItalic(font.getFontData()[0].toString());
+        String fontName = font.getFontData()[0].toString();
+        get(fontName); // Have to ensure base font is registered
+        return FontRegistry.getItalic(fontName);
     }
     
     /**
@@ -172,6 +174,8 @@ public final class FontFactory {
      * @return The bold variant of the given font
      */
     public static Font getBold(Font font) {
-        return FontRegistry.getBold(font.getFontData()[0].toString());
+        String fontName = font.getFontData()[0].toString();
+        get(fontName); // Have to ensure base font is registered
+        return FontRegistry.getBold(fontName);
     }
 }

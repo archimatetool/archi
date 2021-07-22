@@ -20,6 +20,7 @@ public class AllUITests {
         suite.addTest(ArchiLabelProviderTests.suite());
         suite.addTest(ColorFactoryTests.suite());
         suite.addTest(FigureImagePreviewFactoryTests.suite());
+        suite.addTest(FontFactoryTests.suite());
         
         // factory
         suite.addTest(AllUIFactoryTests.suite());
