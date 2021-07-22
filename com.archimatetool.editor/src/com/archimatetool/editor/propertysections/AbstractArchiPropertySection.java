@@ -196,21 +196,14 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     
     /**
      * Create Composite control to hold a Table control with UpdatingTableColumnLayout
-     * @param parent
-     * @param style
+     * @param parent Parent composite
+     * @param style Style flags
      * @return Composite control
      */
     protected Composite createTableComposite(Composite parent, int style) {
         Composite tableComp = new Composite(parent, style);
-        
-        // This ensures a minumum and equal size and no horizontal size creep
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        gd.widthHint = 100;
-        gd.heightHint = 50;
-        tableComp.setLayoutData(gd);
-
+        tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
         tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
-        
         return tableComp;
     }
     
