@@ -67,8 +67,11 @@ public class FigureImagePreviewFactory {
             dmo.setName(provider.getDefaultName());
             dmo.setTextPosition(provider.getDefaultTextPosition());
             dmo.setTextAlignment(provider.getDefaultTextAlignment());
-            ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
+            
+            // Use inbuilt default colours
+            dmo.setFillColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultFillColor(dmo)));
+            dmo.setLineColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultLineColor(dmo)));
 
             GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
             editPart.setModel(dmo);
