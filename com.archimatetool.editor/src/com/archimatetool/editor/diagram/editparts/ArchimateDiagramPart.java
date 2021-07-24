@@ -45,7 +45,8 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
         Object feature = msg.getFeature();
         
         // Viewpoint changed
-        if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT &&
+                Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             refreshChildrenFigures();
         }
         else {

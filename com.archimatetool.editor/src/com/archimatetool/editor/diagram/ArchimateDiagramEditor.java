@@ -28,6 +28,7 @@ import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetLi
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -77,7 +78,11 @@ implements IArchimateDiagramEditor {
      */
     protected void setViewpoint() {
         setPaletteViewpoint();
-        getGraphicalViewer().setContents(getModel()); // refresh the model contents
+        
+        // If the preference is to hide elements then refresh the model contents
+        if(!Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+            getGraphicalViewer().setContents(getModel()); 
+        }
     }
     
     /**

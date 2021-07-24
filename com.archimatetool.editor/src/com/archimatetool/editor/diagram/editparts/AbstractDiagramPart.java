@@ -79,10 +79,6 @@ implements IEditPartFilterProvider {
                 if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
                     refreshVisuals();
                 }
-                // Viewpoint changed
-                else if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
-                    refreshChildrenFigures();
-                }
                 break;
 
             default:
