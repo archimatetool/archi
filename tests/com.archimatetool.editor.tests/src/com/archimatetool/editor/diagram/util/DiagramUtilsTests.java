@@ -152,11 +152,12 @@ public class DiagramUtilsTests {
         
         Shell shell = new Shell();
         GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
-        shell.dispose();
         
         Image img = DiagramUtils.createImage(viewer, 1, 0);
         assertNotNull(img);
+
         img.dispose();
+        shell.dispose();
     }
     
     @Test
