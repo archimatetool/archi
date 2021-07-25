@@ -88,8 +88,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             path.dispose();
             
             // Icon
-            getIconicDelegate().setTopOffset(0);
-            drawIconImage(graphics, bounds);
+            if(getIconicDelegate() != null) {
+                getIconicDelegate().setTopOffset(0);
+                drawIconImage(graphics, bounds);
+            }
         }
         else {
             tabWidth = (int)(bounds.width / INSET);

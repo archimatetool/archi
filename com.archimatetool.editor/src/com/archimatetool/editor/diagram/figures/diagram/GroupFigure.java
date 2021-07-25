@@ -103,8 +103,10 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             disposeGradientPattern(graphics, gradient);
             
             // Icon
-            getIconicDelegate().setTopOffset(tabHeight);
-            drawIconImage(graphics, bounds);
+            if(getIconicDelegate() != null) {
+                getIconicDelegate().setTopOffset(tabHeight);
+                drawIconImage(graphics, bounds);
+            }
 
             // Line
             graphics.setForegroundColor(getLineColor());

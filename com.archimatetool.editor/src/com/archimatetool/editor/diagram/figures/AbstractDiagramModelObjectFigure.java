@@ -393,8 +393,9 @@ implements IDiagramModelObjectFigure {
 
     @Override
     public void dispose() {
-        if(getIconicDelegate() != null) {
-            getIconicDelegate().dispose();
+        if(fIconicDelegate != null) {
+            fIconicDelegate.dispose();
+            fIconicDelegate = null;
         }
     }
 }

@@ -105,7 +105,7 @@ public class IconicDelegate {
         }
         
         // Return object's image path...
-        return fIconic.getImagePath();
+        return fIconic != null ? fIconic.getImagePath() : null;
     }
     
     /**
@@ -166,7 +166,7 @@ public class IconicDelegate {
      * @param drawArea The area to draw the image in (may be the same as figureBounds)
      */
     public void drawIcon(Graphics graphics, org.eclipse.draw2d.geometry.Rectangle figureBounds, org.eclipse.draw2d.geometry.Rectangle drawArea) {
-        if(fImage == null) {
+        if(fImage == null || fIconic == null) {
             return;
         }
         
