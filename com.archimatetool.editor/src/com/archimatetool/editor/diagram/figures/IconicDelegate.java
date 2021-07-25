@@ -229,15 +229,13 @@ public class IconicDelegate {
         
         graphics.setAntialias(SWT.ON);
         graphics.setInterpolation(SWT.HIGH);
-        graphics.setClip(drawArea); // At zoom levels > 100 the image can be painted beyond the bounds
+        graphics.setClip(figureBounds); // Don't paint the image beyond the figure's bounds
         
         // Ensure image is drawn in full alpha
         graphics.setAlpha(255);
         
         // Fill
         if(fIconic.getImagePosition() == IIconic.ICON_POSITION_FILL) {
-            graphics.setClip(figureBounds); // At zoom levels > 100 the image can be painted beyond the bounds
-
             // Fill
             // graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, figureBounds.x, figureBounds.y, figureBounds.width, figureBounds.height);
             
