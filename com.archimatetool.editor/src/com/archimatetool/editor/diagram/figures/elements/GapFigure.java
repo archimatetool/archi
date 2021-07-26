@@ -9,8 +9,10 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
-
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -18,22 +20,80 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  * @author Phillip Beauvoir
  */
-public class GapFigure
-extends DeliverableFigure {
+public class GapFigure extends DeliverableFigure {
     
     public GapFigure() {
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        int widthFraction = 3 * (rect.width / 10); // 3/10ths of width
+        int circleRadius = widthFraction;;
+        
+        // height < width
+        if(rect.height < rect.width) {
+            circleRadius = Math.min(rect.height / 2, widthFraction); // half height or 3/10ths
+        }
+
+        int xCenter = rect.x + rect.width / 2;
+        int yCenter = rect.y + rect.height / 2;
+        
+        Path path = new Path(null);
+        
+        path.addArc(xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2, 0, 360);
+        graphics.fillPath(path);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        graphics.drawPath(path);
+        
+        path.dispose();
+
+        graphics.drawLine(xCenter - (circleRadius + circleRadius / 2),
+                yCenter - circleRadius / 4,
+                xCenter + (circleRadius + circleRadius / 2),
+                yCenter - circleRadius / 4);
+        
+        graphics.drawLine(xCenter - (circleRadius + circleRadius / 2),
+                yCenter + circleRadius / 4,
+                xCenter + (circleRadius + circleRadius / 2),
+                yCenter + circleRadius / 4);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -59,7 +119,7 @@ extends DeliverableFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
     }
@@ -68,5 +128,4 @@ extends DeliverableFigure {
     protected int getIconOffset() {
         return 23;
     }
-
 }

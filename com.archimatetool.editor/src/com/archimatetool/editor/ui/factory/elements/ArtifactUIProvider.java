@@ -61,4 +61,8 @@ public class ArtifactUIProvider extends AbstractArchimateElementUIProvider {
         return false;
     }
 
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

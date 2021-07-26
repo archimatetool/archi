@@ -55,4 +55,9 @@ public class PlateauUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(224, 255, 224);
     }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

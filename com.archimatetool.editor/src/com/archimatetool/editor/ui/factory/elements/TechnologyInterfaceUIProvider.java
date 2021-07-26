@@ -24,7 +24,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyInterfaceUIProvider extends AbstractInterfaceUIProvider {
+public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public EClass providerFor() {
@@ -54,5 +54,10 @@ public class TechnologyInterfaceUIProvider extends AbstractInterfaceUIProvider {
     @Override
     public Color getDefaultColor() {
         return ColorFactory.get(201, 231, 183);
+    }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
     }
 }

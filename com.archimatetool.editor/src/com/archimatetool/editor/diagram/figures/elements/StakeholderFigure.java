@@ -11,6 +11,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+
 
 /**
  * Figure for a Stakeholder
@@ -19,11 +22,19 @@ import org.eclipse.swt.graphics.Path;
  */
 public class StakeholderFigure extends AbstractMotivationFigure {
     
+    private IFigureDelegate cylinderDelegate;
+    
     public StakeholderFigure() {
+        cylinderDelegate = new CylinderFigureDelegate(this);
     }
 
     @Override
     protected void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            return;
+        }
+        
         super.drawFigure(graphics);
         drawIcon(graphics);
     }
@@ -31,7 +42,7 @@ public class StakeholderFigure extends AbstractMotivationFigure {
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -53,6 +64,7 @@ public class StakeholderFigure extends AbstractMotivationFigure {
         path.lineTo(pt.x + 11, pt.y);
         
         graphics.drawPath(path);
+        
         path.dispose();
         
         graphics.drawOval(pt.x + 8, pt.y, 7, 7);
@@ -63,7 +75,7 @@ public class StakeholderFigure extends AbstractMotivationFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 21, bounds.y + 9);
     }
@@ -71,5 +83,10 @@ public class StakeholderFigure extends AbstractMotivationFigure {
     @Override
     protected int getIconOffset() {
         return 23;
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? null : cylinderDelegate;
     }
 }

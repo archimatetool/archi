@@ -9,9 +9,12 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -21,22 +24,79 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  */
 public class CollaborationFigure extends AbstractTextControlContainerFigure {
     
+    private IFigureDelegate rectangleDelegate;
+    
     public CollaborationFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
     }
 
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        
+        graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        int diameter;
+        int x1 = rect.x, x2;
+
+        // width < height or same
+        if(rect.width <= rect.height) {
+            diameter = (rect.width / 3) * 2;
+        }
+        // height < width
+        else {
+            diameter = Math.min(rect.height, (rect.width / 3) * 2); // minimum of height or 2/3 of width
+            x1 += (rect.width / 2) - (diameter * .75);
+        }
+        
+        x2 = x1 + diameter / 2;
+        int y = rect.y + (rect.height - diameter) / 2;
+        
+        graphics.fillOval(x1, y, diameter, diameter);
+        graphics.fillOval(x2, y, diameter, diameter);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        // Line
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawOval(x1, y, diameter, diameter);
+        graphics.drawOval(x2, y, diameter, diameter);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -60,9 +120,13 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 18, bounds.y + 7);
     }
 
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;
+    }
 }

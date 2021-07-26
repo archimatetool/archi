@@ -9,34 +9,115 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
- * Figure for a Resource
+ * Figure for a Capability
  * 
  * @author Phillip Beauvoir
  */
 public class CapabilityFigure extends AbstractTextControlContainerFigure {
     
+    private IFigureDelegate roundedRectangleDelegate;
+    
     public CapabilityFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rounded Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RoundedRectangleFigureDelegate(this, 19 - getTextControlMarginWidth()));
+        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this, 19 - getTextControlMarginWidth());
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = new Path(null);
+        
+        // block length
+        int blockLength = Math.min(rect.height / 3, rect.width / 3);
+        int figureLength = blockLength * 3;
+        
+        int xMargin = (rect.width - figureLength) / 2;
+        int yMargin = (rect.height - figureLength) / 2;
+        
+        path.moveTo(rect.x + xMargin, rect.y + yMargin + 3 * blockLength);
+        path.lineTo(rect.x + xMargin, rect.y + yMargin + 2 * blockLength);
+        path.lineTo(rect.x + xMargin + 1 * blockLength, rect.y + yMargin + 2 * blockLength);
+        path.lineTo(rect.x + xMargin + 1 * blockLength, rect.y + yMargin + 1 * blockLength);
+        path.lineTo(rect.x + xMargin + 2 * blockLength, rect.y + yMargin + 1 * blockLength);
+        path.lineTo(rect.x + xMargin + 2 * blockLength, rect.y + yMargin);
+        path.lineTo(rect.x + xMargin + 3 * blockLength, rect.y + yMargin);
+        path.lineTo(rect.x + xMargin + 3 * blockLength, rect.y + yMargin + 3 * blockLength);
+        path.close();
+        
+        graphics.fillPath(path);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        // Inner lines
+        
+        graphics.drawLine(rect.x + xMargin + 1 * blockLength,
+                rect.y + yMargin + 3 * blockLength,
+                rect.x + xMargin + 1 * blockLength,
+                rect.y + yMargin + 2 * blockLength);
+        
+        graphics.drawLine(rect.x + xMargin + 2 * blockLength,
+                rect.y + yMargin + 3 * blockLength,
+                rect.x + xMargin + 2 * blockLength,
+                rect.y + yMargin + 1 * blockLength);
+        
+        graphics.drawLine(rect.x + xMargin + 1 * blockLength,
+                rect.y + yMargin + 2 * blockLength,
+                rect.x + xMargin + 3 * blockLength,
+                rect.y + yMargin + 2 * blockLength);
+        
+        graphics.drawLine(rect.x + xMargin + 2 * blockLength,
+                rect.y + yMargin + 1 * blockLength,
+                rect.x + xMargin + 3 * blockLength,
+                rect.y + yMargin + 1 * blockLength);
+
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -63,9 +144,14 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.getRight().x - 17, bounds.y + 5);
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? roundedRectangleDelegate : null;
     }
 
 }

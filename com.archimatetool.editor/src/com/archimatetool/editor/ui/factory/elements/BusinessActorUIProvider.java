@@ -56,4 +56,8 @@ public class BusinessActorUIProvider extends AbstractArchimateElementUIProvider 
         return ColorFactory.get(255, 255, 181);
     }
 
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

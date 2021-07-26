@@ -12,7 +12,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -24,10 +26,13 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  */
 public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
 
+    private IFigureDelegate rectangleDelegate;
+    private IFigureDelegate boxDelegate;
+    
     public SystemSoftwareFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        boxDelegate = new BoxFigureDelegate(this, 20 - getTextControlMarginWidth());
     }
     
     @Override
@@ -39,7 +44,7 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -65,8 +70,18 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
-    }    
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds().getCopy();
+        return getDiagramModelObject().getType() == 0 ? new Point(bounds.x + bounds.width - 18, bounds.y + 8) : new Point(bounds.x + bounds.width - 31, bounds.y + 20);
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelObject().getType() == 0 ? rectangleDelegate : boxDelegate;
+    }
+
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
 }

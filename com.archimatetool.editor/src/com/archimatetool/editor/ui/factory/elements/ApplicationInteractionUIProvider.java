@@ -55,4 +55,9 @@ public class ApplicationInteractionUIProvider extends AbstractArchimateElementUI
     public Color getDefaultColor() {
         return ColorFactory.get(181, 255, 255);
     }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

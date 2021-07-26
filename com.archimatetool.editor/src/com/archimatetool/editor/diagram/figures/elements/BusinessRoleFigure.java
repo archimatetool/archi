@@ -12,7 +12,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -22,22 +24,28 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  */
 public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     
+    private IFigureDelegate rectangleDelegate;
+    private IFigureDelegate cylinderDelegate;
+    
     public BusinessRoleFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        cylinderDelegate = new CylinderFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        IFigureDelegate figureDelegate = getFigureDelegate();
+        figureDelegate.drawFigure(graphics);
+        if(figureDelegate == rectangleDelegate) {
+            drawIcon(graphics);
+        }
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -69,8 +77,13 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.getRight().x - 18, bounds.y + 7);
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : cylinderDelegate;
     }
 }

@@ -55,4 +55,9 @@ public class LocationUIProvider extends AbstractArchimateElementUIProvider {
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCATION);
     }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

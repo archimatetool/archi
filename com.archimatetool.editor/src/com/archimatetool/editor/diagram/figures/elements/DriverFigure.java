@@ -10,6 +10,9 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
+
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -19,19 +22,102 @@ import org.eclipse.swt.graphics.Path;
  */
 public class DriverFigure extends AbstractMotivationFigure {
     
+    private static final double BOTTOMLEFT_ANGLE_RADIAN = Math.toRadians(135.0d);
+    private static final double BOTTOMRIGHT_ANGLE_RADIAN = Math.toRadians(45.0d);
+    private static final double TOPLEFT_ANGLE_RADIAN = Math.toRadians(225.0d);
+    private static final double TOPRIGHT_ANGLE_RADIAN = Math.toRadians(315.0d);
+    
     public DriverFigure() {
     }
 
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        //rect.width--;
+        //rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        //setLineWidth(graphics, 1, rect);
+        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 20);
+        graphics.setLineWidth(lineWidth);
+
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = new Path(null);
+        
+        int radius = getRadius(rect);
+        int actualRadius = getRadius(rect) - Math.round(radius / 10.0f) - lineWidth / 2;
+        Point center = rect.getCenter();
+        
+        path.addArc((float)center.preciseX() - actualRadius, (float)center.preciseY() - actualRadius, (actualRadius * 2), (actualRadius * 2), 0, 360);
+        
+        graphics.fillPath(path);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        // Outline
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        graphics.setLineWidth(1);
+        
+        int topLeftX = (int)Math.round(center.x + radius * Math.cos(TOPLEFT_ANGLE_RADIAN));
+        int topLeftY = (int)Math.round(center.y + radius * Math.sin(TOPLEFT_ANGLE_RADIAN));
+        int bottomRightX = (int)Math.round(center.x + radius * Math.cos(BOTTOMRIGHT_ANGLE_RADIAN));
+        int bottomRightY = (int)Math.round(center.y + radius * Math.sin(BOTTOMRIGHT_ANGLE_RADIAN));
+        
+        graphics.drawLine(topLeftX, topLeftY, bottomRightX, bottomRightY);
+        graphics.drawLine(center.x - radius, center.y, center.x + radius, center.y);
+        
+        int bottomLeftX = (int)Math.round(center.x + radius * Math.cos(BOTTOMLEFT_ANGLE_RADIAN));
+        int bottomLeftY = (int)Math.round(center.y + radius * Math.sin(BOTTOMLEFT_ANGLE_RADIAN));
+        int topRightX = (int)Math.round(center.x + radius * Math.cos(TOPRIGHT_ANGLE_RADIAN));
+        int topRightY = (int)Math.round(center.y + radius * Math.sin(TOPRIGHT_ANGLE_RADIAN));
+        
+        graphics.drawLine(bottomLeftX, bottomLeftY, topRightX, topRightY);
+        graphics.drawLine(center.x, center.y - radius, center.x, center.y + radius);
+        
+        graphics.setBackgroundColor(getLineColor());
+        
+        radius = Math.round(radius / 4.0f);
+        graphics.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
+    private int getRadius(Rectangle rect) {
+        int r1 = rect.height / 2;
+        int r2 = rect.width / 2;
+        int radius = Math.min(r1, r2);
+        return radius - radius % 2;
+    }
+
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -79,7 +165,7 @@ public class DriverFigure extends AbstractMotivationFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 21, bounds.y + 6);
     }
@@ -88,5 +174,4 @@ public class DriverFigure extends AbstractMotivationFigure {
     protected int getIconOffset() {
         return 23;
     }
-
 }
