@@ -58,11 +58,6 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public Dimension getUserDefaultSize() {
-        return getDefaultSize();
-    }
-
-    @Override
     public Color getDefaultColor() {
         return ColorConstants.black;
     }

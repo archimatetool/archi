@@ -29,11 +29,12 @@ public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
     Color getDefaultLineColor();
     
     /**
-     * @return The default size width and height for this object
+     * @return The default size width and height for this object as set by the user or inbuilt
      */
     Dimension getDefaultSize();
     
     /**
+     * @deprecated Use {@link #getDefaultSize()}
      * @return The default size as set by the user for this object
      */
     Dimension getUserDefaultSize();

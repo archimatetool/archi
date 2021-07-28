@@ -119,6 +119,6 @@ public class FixDefaultSizesHandler implements ICompatibilityHandler {
         }
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
-        return provider != null ? provider.getUserDefaultSize() : new Dimension(120, 55);
+        return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
     }
 }

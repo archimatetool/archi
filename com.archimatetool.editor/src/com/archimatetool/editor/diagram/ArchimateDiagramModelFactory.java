@@ -50,7 +50,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Add new bounds with a default user size
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
-        Dimension size = provider.getUserDefaultSize();
+        Dimension size = provider.getDefaultSize();
         dmo.setBounds(0, 0, size.width, size.height);
         
         dmo.setTextPosition(provider.getDefaultTextPosition());
@@ -149,7 +149,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Add new bounds with a default user size
         if(object instanceof IDiagramModelObject) {
-            Dimension size = provider.getUserDefaultSize();
+            Dimension size = provider.getDefaultSize();
             ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
         }
 

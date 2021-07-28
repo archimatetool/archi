@@ -65,11 +65,6 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public Dimension getUserDefaultSize() {
-        return getDefaultSize();
-    }
-    
-    @Override
     public boolean hasAlternateFigure() {
         return true;
     }

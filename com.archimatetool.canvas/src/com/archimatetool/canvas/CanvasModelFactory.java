@@ -101,7 +101,7 @@ public class CanvasModelFactory implements ICreationFactory {
         
         // Add new bounds with a default user size
         if(object instanceof IDiagramModelObject) {
-            Dimension size = provider.getUserDefaultSize();
+            Dimension size = provider.getDefaultSize();
             ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
         }
         
