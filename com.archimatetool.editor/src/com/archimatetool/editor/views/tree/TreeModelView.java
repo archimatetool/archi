@@ -680,7 +680,13 @@ implements ITreeModelView, IUIRequestListener {
             // Expand and Select new node
             getViewer().expandToLevel(model.getFolder(FolderType.DIAGRAMS), 1);
             getViewer().setSelection(new StructuredSelection(model), true);
-        }
+            
+            // Search Filter soft reset on open model
+            if(propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED && 
+                    fSearchWidget != null && !fSearchWidget.isDisposed()) {
+                fSearchWidget.softReset();
+            }
+       }
         
         // Model removed
         else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
@@ -693,6 +699,11 @@ implements ITreeModelView, IUIRequestListener {
             
             // Check Drilldown state
             checkDrillDown();
+
+            // Search Filter soft reset
+            if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
+                fSearchWidget.softReset();
+            }
         }
         
         // Model dirty state, so update Actions and modified state of source (asterisk on model node)

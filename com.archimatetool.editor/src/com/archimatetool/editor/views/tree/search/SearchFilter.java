@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.views.tree.search;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -39,8 +39,8 @@ public class SearchFilter extends ViewerFilter {
     private boolean fFilterName;
     private boolean fFilterDocumentation;
 
-    private List<EClass> fObjectFilter = new ArrayList<EClass>();
-    private List<String> fPropertiesFilter = new ArrayList<String>();
+    private Set<EClass> fObjectFilter = new HashSet<EClass>();
+    private Set<String> fPropertiesFilter = new HashSet<String>();
 
     private boolean fShowAllFolders = false;
 
@@ -224,19 +224,19 @@ public class SearchFilter extends ViewerFilter {
         return !fPropertiesFilter.isEmpty();
     }
 
-    void setFilterOnName(boolean set) {
+    void setFilterOnName(boolean set, boolean doRefresh) {
         if(fFilterName != set) {
             fFilterName = set;
-            if(isFiltering()) {
+            if(isFiltering() && doRefresh) {
                 refresh();
             }
         }
     }
 
-    void setFilterOnDocumentation(boolean set) {
+    void setFilterOnDocumentation(boolean set, boolean doRefresh) {
         if(fFilterDocumentation != set) {
             fFilterDocumentation = set;
-            if(isFiltering()) {
+            if(isFiltering() && doRefresh) {
                 refresh();
             }
         }
@@ -267,6 +267,11 @@ public class SearchFilter extends ViewerFilter {
 
     void removePropertiesFilter(String key) {
         fPropertiesFilter.remove(key);
+        refresh();
+    }
+    
+    void resetPropertiesFilter() {
+        fPropertiesFilter.clear();
         refresh();
     }
 

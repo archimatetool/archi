@@ -172,17 +172,17 @@ public class SearchWidget extends Composite {
         fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-            	fSearchFilter.setFilterOnName(isChecked());
+            	fSearchFilter.setFilterOnName(isChecked(), true);
             };
         };
         fActionFilterName.setToolTipText(Messages.SearchWidget_1);
         fActionFilterName.setChecked(true);
-        fSearchFilter.setFilterOnName(true);
+        fSearchFilter.setFilterOnName(true, false);
         
         fActionFilterDoc = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-            	fSearchFilter.setFilterOnDocumentation(isChecked());
+            	fSearchFilter.setFilterOnDocumentation(isChecked(), true);
             }
         };
         fActionFilterDoc.setToolTipText(Messages.SearchWidget_3);
@@ -306,7 +306,14 @@ public class SearchWidget extends Composite {
 
         // Default to search on Name
         fActionFilterName.setChecked(true);
-        fSearchFilter.setFilterOnName(true);
+        fSearchFilter.setFilterOnName(true, false);
+    }
+    
+    public void softReset() {
+        // Clear & Reset Properties
+        fPropertiesMenu.removeAll();
+        populatePropertiesMenu(fPropertiesMenu);
+        fSearchFilter.resetPropertiesFilter();
     }
 
 	private IAction createObjectAction(final EClass eClass) {
