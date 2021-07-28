@@ -57,6 +57,22 @@ CTabItem:selected {
 	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
 }
 
+.MToolControl.TrimStack {
+	frame-image:  url(./winClassicTSFrame.png);
+	handle-image:  url(./winClassicHandle.png);
+	frame-image-rotated:  url(./winClassicTSFrame-rotated.png);
+	handle-image-rotated:  url(./winClassicHandle-rotated.png);
+	frame-cuts: 5px 1px 5px 16px;
+}
+
+.MToolBar.Draggable {
+	handle-image:  url(./dragHandle.png);
+}
+
+.MToolControl.Draggable {
+	handle-image:  url(./dragHandle.png);
+}
+
 .DragFeedback {
 	background-color: COLOR-WIDGET-NORMAL-SHADOW;
 }

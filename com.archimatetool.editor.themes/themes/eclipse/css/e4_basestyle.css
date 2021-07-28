@@ -21,3 +21,11 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/light/e4-light-drag-styling.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/light/archi-light-styling.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
+
+.MToolControl.TrimStack {
+	frame-image:  url(./winXPTSFrame.png);
+	handle-image:  url(./winXPHandle.png);
+	frame-image-rotated:  url(./winXPTSFrame-rotated.png);
+	handle-image-rotated:  url(./winXPHandle-rotated.png);
+	frame-cuts: 5px 1px 5px 16px;
+}
