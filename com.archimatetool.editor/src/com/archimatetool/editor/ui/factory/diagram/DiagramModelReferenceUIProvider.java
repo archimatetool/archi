@@ -66,7 +66,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Dimension getDefaultSize() {
-        return IGraphicalObjectUIProvider.DefaultRectangularSize;
+        return IGraphicalObjectUIProvider.defaultSize();
     }
 
     @Override

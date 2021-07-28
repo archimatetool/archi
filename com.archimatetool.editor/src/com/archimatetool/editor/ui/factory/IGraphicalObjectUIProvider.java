@@ -16,7 +16,12 @@ import org.eclipse.swt.graphics.Color;
  */
 public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
     
-    final Dimension DefaultRectangularSize = new Dimension(120, 55);
+    /**
+     * @return the base default size for a figure
+     */
+    static Dimension defaultSize() {
+        return new Dimension(120, 55);
+    }
     
     /**
      * @return The default colour to use for this object (usually a fill color)

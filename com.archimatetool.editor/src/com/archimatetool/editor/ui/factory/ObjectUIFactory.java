@@ -81,8 +81,8 @@ public class ObjectUIFactory {
         
         IObjectUIProvider provider = getProviderForClass(eClass);
         
-        // In two cases, a UIProvider needs an EObject instance to determine a feature rather than the Eclass provider
-        // (Default Size for alternate Interface Figure, and icon for DiagramModelReference). Maybe more in the future.
+        // In some cases, a UIProvider needs an EObject instance to determine a feature rather than the Eclass provider
+        // (Default Size for alternate figure, and icon for DiagramModelReference). Maybe more in the future.
         // So, make a new instance of the provider and add the eObject.
         // This is a much safer approach than allowing the instance to be set on the singleton Eclass provider
         if(provider != null) {

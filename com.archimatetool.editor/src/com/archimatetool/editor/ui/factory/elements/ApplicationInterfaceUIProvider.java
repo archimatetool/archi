@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.elements;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -59,5 +60,10 @@ public class ApplicationInterfaceUIProvider extends AbstractArchimateElementUIPr
     @Override
     public boolean hasAlternateFigure() {
         return true;
+    }
+    
+    @Override
+    protected Dimension getDefaultSizeForFigureType(int figureType) {
+        return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
 }

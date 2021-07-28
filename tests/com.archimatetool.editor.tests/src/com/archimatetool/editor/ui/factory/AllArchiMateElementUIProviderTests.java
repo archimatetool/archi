@@ -198,7 +198,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         }
         
         else {
-            assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getDefaultSize());
+            assertEquals(IGraphicalObjectUIProvider.defaultSize(), getProvider().getDefaultSize());
         }
     }
     
@@ -216,7 +216,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         // Default value in preferences
         Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
         Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-        assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getDefaultSize());
+        assertEquals(IGraphicalObjectUIProvider.defaultSize(), getProvider().getDefaultSize());
     }
 
     @Override
