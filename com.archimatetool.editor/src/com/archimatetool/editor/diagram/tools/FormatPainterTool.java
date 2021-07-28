@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
+import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectAlphaCommand;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectOutlineAlphaCommand;
@@ -27,6 +28,7 @@ import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -207,6 +209,14 @@ public class FormatPainterTool extends AbstractTool {
             Command cmd = new ConnectionTextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
                 result.add(cmd);
+            }
+            
+            // If a non-Archimate connection, connection line type
+            if(!(target instanceof IDiagramModelArchimateConnection)) {
+                cmd = new ConnectionLineTypeCommand(target, source.getType());
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
         }
         
