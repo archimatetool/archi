@@ -110,7 +110,9 @@ public class TextRendererTests {
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
         assertFalse(textRenderer.isSupportedObject(dmo));
 
-        assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection()));
+        IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        dmc.setArchimateRelationship(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        assertTrue(textRenderer.isSupportedObject(dmc));
 
         assertFalse(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createBusinessActor()));
         assertFalse(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createAssociationRelationship()));
