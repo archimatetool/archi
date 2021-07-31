@@ -100,12 +100,18 @@ public class TextRendererTests {
         assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelGroup()));
         assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelNote()));
         assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelReference()));
-        assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelReference()));
         assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelConnection()));
-        assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject()));
-        assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection()));
         assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createFolder()));
         
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        assertTrue(textRenderer.isSupportedObject(dmo));
+        
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
+        assertFalse(textRenderer.isSupportedObject(dmo));
+
+        assertTrue(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection()));
+
         assertFalse(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createBusinessActor()));
         assertFalse(textRenderer.isSupportedObject(IArchimateFactory.eINSTANCE.createAssociationRelationship()));
 

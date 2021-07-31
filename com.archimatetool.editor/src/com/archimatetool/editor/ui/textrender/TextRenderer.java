@@ -17,6 +17,7 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IJunction;
 
 /**
  * Render Text for display in Text controls in diagrams
@@ -169,7 +170,8 @@ public class TextRenderer {
      * @return true if the object has support for label expressions
      */
     public boolean isSupportedObject(Object object) {
-        return object instanceof IDiagramModelArchimateComponent 
+        return (object instanceof IDiagramModelArchimateComponent &&
+                     !(((IDiagramModelArchimateComponent)object).getArchimateConcept() instanceof IJunction))
                 || object instanceof IDiagramModelNote
                 || object instanceof IDiagramModelGroup
                 || object instanceof IDiagramModelReference
