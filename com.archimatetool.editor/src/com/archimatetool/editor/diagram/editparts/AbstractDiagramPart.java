@@ -30,6 +30,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFeature;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -58,7 +59,7 @@ implements IEditPartFilterProvider {
         Object feature = msg.getFeature();
         
         // Archi Features
-        if(feature == IArchimatePackage.Literals.FEATURES__FEATURES || msg.getNotifier() instanceof IFeature) {
+        if(IFeatures.isFeatureNotification(msg)) {
             refreshVisuals();
             return;
         }
