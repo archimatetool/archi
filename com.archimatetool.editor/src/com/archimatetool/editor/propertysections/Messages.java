@@ -171,6 +171,10 @@ public class Messages extends NLS {
 
     public static String InfluenceRelationshipSection_2;
 
+    public static String JunctionConnectionArrowsSection_0;
+
+    public static String JunctionConnectionArrowsSection_1;
+
     public static String JunctionTypeSection_0;
 
     public static String JunctionTypeSection_1;

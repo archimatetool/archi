@@ -458,6 +458,12 @@
                id="labelRendererSection"
                tab="label.tab">
          </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.JunctionConnectionArrowsSection"
+               filter="com.archimatetool.editor.propertysections.JunctionConnectionArrowsSection$Filter"
+               id="junctionArrowsSection"
+               tab="appearance.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

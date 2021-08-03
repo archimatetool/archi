@@ -23,11 +23,16 @@ public class TriggeringConnectionFigure extends AbstractArchimateConnectionFigur
         return new PolygonDecoration();
     }
     
+    private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
+
     public TriggeringConnectionFigure() {
     }
 
     @Override
-    protected void setFigureProperties() {
-        setTargetDecoration(createFigureTargetDecoration()); 
+    public void refreshVisuals() {
+        setTargetDecoration(usePlainJunctionTargetDecoration() ? null : fDecoratorTarget);
+        
+        // This last
+        super.refreshVisuals();
     }
 }

@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -54,6 +55,14 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     @Override
     protected void eCoreChanged(Notification msg) {
         Object feature = msg.getFeature();
+        
+        // Junction incoming connection arrow heads visible or hidden
+        if(IFeatures.isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS)) {
+            for(Object o : getTargetConnections()) {
+                ((EditPart)o).refresh();
+            }
+            return;
+        }
 
         // Archi Features
         if(IFeatures.isFeatureNotification(msg)) {
@@ -61,9 +70,11 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
             return;
         }
 
-        // Update Connection Anchors if Figure Type changes
+        // Update Connection Anchors and refresh figure if figure Type changes
         if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE && msg.getNotifier() == getModel()) {
             refreshConnectionAnchors();
+            refreshFigure();
+            return;
         }
 
         switch(msg.getEventType()) {

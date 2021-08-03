@@ -57,13 +57,15 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     
     @Override
     public void refreshVisuals() {
+        boolean usePlainArrowHeadOnJunction = usePlainJunctionTargetDecoration();
+        
         // Access type
         IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
             default:
                 setSourceDecoration(null);
-                setTargetDecoration(fDecoratorTarget); // arrow at target endpoint
+                setTargetDecoration(usePlainArrowHeadOnJunction ? null : fDecoratorTarget); // arrow at target endpoint
                 break;
 
             case IAccessRelationship.READ_ACCESS:
@@ -78,7 +80,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
 
             case IAccessRelationship.READ_WRITE_ACCESS:
                 setSourceDecoration(fDecoratorSource); // both arrows
-                setTargetDecoration(fDecoratorTarget);
+                setTargetDecoration(usePlainArrowHeadOnJunction ? null : fDecoratorTarget);
                 break;
         }
 

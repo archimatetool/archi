@@ -36,10 +36,6 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     private PolygonDecoration fArrowheadTargetHollow;
     
     @Override
-    protected void setFigureProperties() {
-    }
-    
-    @Override
     public void refreshVisuals() {
         super.refreshVisuals();
         

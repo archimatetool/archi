@@ -24,6 +24,10 @@ package com.archimatetool.model;
  * @generated
  */
 public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition {
+    
+    String FEATURE_HIDE_JUNCTION_ARROWS = "hideJunctionArrows"; //$NON-NLS-1$
+    boolean FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT = false;
+
     /**
      * Returns the value of the '<em><b>Archimate Element</b></em>' reference.
      * <!-- begin-user-doc -->

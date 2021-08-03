@@ -13,7 +13,6 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScaledGraphics;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
@@ -73,7 +72,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 	}
 	
 	protected void setFigureProperties() {
-		setTargetDecoration(new PolygonDecoration()); // arrow at target endpoint
 	}
 	
     @Override

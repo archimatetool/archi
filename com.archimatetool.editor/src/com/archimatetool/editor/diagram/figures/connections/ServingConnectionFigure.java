@@ -24,11 +24,16 @@ public class ServingConnectionFigure extends AbstractArchimateConnectionFigure {
         return new PolylineDecoration();
     }
     
+    private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
+    
     public ServingConnectionFigure() {
     }
 
     @Override
-    protected void setFigureProperties() {
-        setTargetDecoration(createFigureTargetDecoration()); // arrow at target endpoint 
+    public void refreshVisuals() {
+        setTargetDecoration(usePlainJunctionTargetDecoration() ? null : fDecoratorTarget);
+        
+        // This last
+        super.refreshVisuals();
     }
 }

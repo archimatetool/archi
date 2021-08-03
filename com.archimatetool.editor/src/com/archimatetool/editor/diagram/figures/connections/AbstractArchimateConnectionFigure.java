@@ -12,7 +12,10 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
@@ -79,4 +82,20 @@ extends AbstractDiagramConnectionFigure {
         return toolTipFigure;
     }
     
+    /**
+     * @return true if the option is set to hide incoming target connection arrows on a Junction
+     */
+    protected boolean usePlainJunctionTargetDecoration() {
+        IConnectable target = getModelConnection().getTarget();
+        
+        if(target instanceof IDiagramModelArchimateObject && ((IDiagramModelArchimateObject)target).getArchimateElement() instanceof IJunction) {
+            return target
+                   .getFeatures()
+                   .getBoolean(IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS,
+                           IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT);
+
+        }
+        
+        return false;
+    }
 }
