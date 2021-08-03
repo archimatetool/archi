@@ -16,6 +16,8 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.fop.svg.AbstractFOPTranscoder;
 import org.apache.fop.svg.PDFTranscoder;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.Element;
 
 
@@ -31,7 +33,7 @@ public class PDFExportProvider extends AbstractExportProvider {
     
     @Override
     public void export(String providerID, File file) throws Exception {
-        super.export(providerID, file);
+        initialiseGraphics();
         
         // Get the Element root from the SVGGraphics2D instance
         Element root = svgGraphics2D.getRoot();
@@ -67,5 +69,10 @@ public class PDFExportProvider extends AbstractExportProvider {
         outStream.close();
         
         tmp.delete();
+    }
+
+    @Override
+    public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
+        setFigure(figure);
     }
 }

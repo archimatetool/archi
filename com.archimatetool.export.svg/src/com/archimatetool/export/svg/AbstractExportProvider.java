@@ -15,7 +15,6 @@ import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,12 +33,11 @@ import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
  */
 public abstract class AbstractExportProvider implements IImageExportProvider {
     
-    protected IFigure figure;
+    private IFigure figure;
     protected SVGGraphics2D svgGraphics2D;
     protected Rectangle viewPortBounds;
     
-    @Override
-    public void export(String providerID, File file) throws Exception {
+    public void initialiseGraphics() throws Exception {
         // Ensure user fonts are loaded into AWT for Windows
         loadUserFontsIntoAWT();
         
@@ -62,8 +60,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         graphicsAdaptor.dispose();
     }
     
-    @Override
-    public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
+    protected void setFigure(IFigure figure) {
         this.figure = figure;
         
         // Get the outer bounds of the figure

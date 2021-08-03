@@ -7,10 +7,15 @@ package com.archimatetool.export.svg;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,8 +25,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.w3c.dom.Element;
+
+import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.model.IDiagramModel;
 
 
 
@@ -39,31 +48,107 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     
     @Override
     public void export(String providerID, File file) throws Exception {
-        super.export(providerID, file);
+        initialiseGraphics();
         
         // Get the Element root from the SVGGraphics2D instance
         Element root = svgGraphics2D.getRoot();
         
-        // And set some attributes on the root element
+        // And set some attributes on the root element from user options
         if(fSetViewboxButton.getSelection()) {
             setViewBoxAttribute(root, fSpinner1.getSelection(), fSpinner2.getSelection(), fSpinner3.getSelection(), fSpinner4.getSelection());
         }
         
         // Save the root element
-        Writer out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
-        svgGraphics2D.stream(root, out);
-        
-        // Close
-        svgGraphics2D.dispose();
-        out.close();
+        writeElementToFile(root, file);
         
         // Save Preferences
         savePreferences();
     }
+    
+    /**
+     * Save the diagram model image to file in SVG format
+     * @param diagramModel The diagram model 
+     * @param file The file to save to
+     * @param setViewBox if true sets the viewbox bounds to the bounds of the diagram
+     * @throws Exception
+     */
+    public void export(IDiagramModel diagramModel, File file, boolean setViewBox) throws Exception {
+        Element root = createElementForView(diagramModel, setViewBox);
+        writeElementToFile(root, file);
+    }
+    
+    /**
+     * Return the given diagram image to SVG string
+     * @param diagramModel The diagram model 
+     * @return a String of the SVG representation
+     * @param setViewBox if true sets the viewbox bounds to the bounds of the diagram
+     * @throws Exception
+     */
+    public String getSVGString(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
+        Element root = createElementForView(diagramModel, setViewBox);
+
+        // Write to stream
+        try(StringWriter out = new StringWriter()) {
+            svgGraphics2D.stream(root, out);
+            return out.toString();
+        }
+        finally {
+            svgGraphics2D.dispose();
+        }
+    }
+    
+    /**
+     * Create the DOM element for the given IDiagramModel
+     */
+    private Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
+        Shell shell = new Shell();
+        
+        try {
+            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, shell);
+            LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
+            IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+            setFigure(figure);
+        }
+        finally {
+            shell.dispose();
+        }
+
+        // Initialise
+        initialiseGraphics();
+
+        // Get the Element root from the SVGGraphics2D instance
+        Element root = svgGraphics2D.getRoot();
+
+        // Set the Viewbox
+        if(setViewBox) {
+            setViewBoxAttribute(root, 0, 0, viewPortBounds.width, viewPortBounds.height);
+        }
+        
+        return root;
+    }
+
+    /**
+     * Write the DOM element to file
+     */
+    private void writeElementToFile(Element root, File file) throws IOException {
+        // Make sure parent folder exists
+        File parent = file.getParentFile();
+        if(parent != null) {
+            parent.mkdirs();
+        }
+
+        // Write to stream using UTF-8
+        try(Writer out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8")) { //$NON-NLS-1$
+            svgGraphics2D.stream(root, out);
+        }
+        finally {
+            svgGraphics2D.dispose();
+        }
+    }
 
     @Override
     public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
-        super.init(adapter, container, figure);
+        setFigure(figure);
         
         container.setLayout(new GridLayout(8, false));
         container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
