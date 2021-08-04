@@ -31,7 +31,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -671,10 +670,8 @@ implements ITreeModelView, IUIRequestListener {
                 fDrillDownAdapter.goHome();
             }
             
-            TreePath[] expanded = getViewer().getExpandedTreePaths(); // save these to restore expanded state
-            getViewer().refresh();
-            getViewer().setExpandedTreePaths(expanded);
-            
+            getViewer().refreshTreePreservingExpandedNodes();
+
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
             
             // Expand and Select new node
@@ -690,10 +687,6 @@ implements ITreeModelView, IUIRequestListener {
         
         // Model removed
         else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
-            TreePath[] expanded = getViewer().getExpandedTreePaths(); // save these to restore expanded state
-            getViewer().refresh();
-            getViewer().setExpandedTreePaths(expanded);
-            
             // Clear Cut/Paste clipboard
             TreeModelCutAndPaste.INSTANCE.clear();
             
@@ -704,6 +697,8 @@ implements ITreeModelView, IUIRequestListener {
             if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
                 fSearchWidget.softReset();
             }
+
+            getViewer().refreshTreePreservingExpandedNodes();
         }
         
         // Model dirty state, so update Actions and modified state of source (asterisk on model node)
@@ -771,6 +766,12 @@ implements ITreeModelView, IUIRequestListener {
                     }
                 }
             }
+            // Model renamed
+            // This is too expensive in refreshing the whole tree
+            //else if(feature == IArchimatePackage.Literals.NAMEABLE__NAME && notifier instanceof IArchimateModel) {
+            //    getViewer().refreshTreePreservingExpandedNodes();
+            //    getViewer().setSelection(new StructuredSelection(notifier), true);
+            //}
             else {
                 super.eCoreChanged(msg);
             }

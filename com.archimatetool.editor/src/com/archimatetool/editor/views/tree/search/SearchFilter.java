@@ -11,7 +11,6 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -34,7 +33,7 @@ import com.archimatetool.model.IProperty;
 public class SearchFilter extends ViewerFilter {
     private TreeViewer fViewer;
     private String fSearchText = ""; //$NON-NLS-1$
-    private TreePath[] fExpanded;
+    private Object[] fExpanded;
 
     private boolean fFilterName;
     private boolean fFilterDocumentation;
@@ -287,13 +286,13 @@ public class SearchFilter extends ViewerFilter {
     }
 
     void saveState() {
-        fExpanded = fViewer.getExpandedTreePaths();
+        fExpanded = fViewer.getExpandedElements();
     }
 
     void restoreState() {
         IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection(); // first
         if(fExpanded != null) {
-            fViewer.setExpandedTreePaths(fExpanded);
+            fViewer.setExpandedElements(fExpanded);
         }
         fViewer.setSelection(selection, true);
     }

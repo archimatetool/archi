@@ -247,6 +247,21 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
+     * Refresh the tree and restore expanded tree nodes
+     */
+    void refreshTreePreservingExpandedNodes() {
+        try {
+            Object[] expanded = getExpandedElements();
+            getControl().setRedraw(false);
+            refresh();
+            setExpandedElements(expanded);
+        }
+        finally {
+            getControl().setRedraw(true);
+        }
+    }
+    
+    /**
      * Finds the widget which represents the given element.
      * @param element the element
      * @return the TreeItem or null
