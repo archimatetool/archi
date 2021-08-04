@@ -66,6 +66,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -333,6 +334,20 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                 
                 // Update Image Preview
                 updateImagePreview();
+            }
+        });
+        
+        /*
+         * Table Double-click
+         */
+        fTableViewer.getTable().addListener(SWT.MouseDoubleClick, (e) -> {
+            // Get Table item
+            Point pt = new Point(e.x, e.y);
+            TableItem item = fTableViewer.getTable().getItem(pt);
+            
+            // Double-click into empty table creates new Profile
+            if(item == null) {
+                createNewProfile();
             }
         });
 
