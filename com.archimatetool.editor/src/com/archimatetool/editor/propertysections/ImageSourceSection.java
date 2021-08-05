@@ -38,7 +38,8 @@ public class ImageSourceSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelArchimateObject;
+            return object instanceof IDiagramModelArchimateObject &&
+                    shouldExposeFeature((EObject)object, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE);
         }
 
         @Override
