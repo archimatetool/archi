@@ -8,6 +8,6 @@ provides.1.version = 13.0.0
 
 # Remove some junk produced by Tycho product build
 instructions.configure=\
-org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/eclipsec.exe);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/Archic.exe);\
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/artifacts.xml);\
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/readme/);
