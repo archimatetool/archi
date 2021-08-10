@@ -28,7 +28,7 @@ public class OutcomeFigure extends AbstractMotivationFigure {
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        if(((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0) {
+        if(getDiagramModelObject().getType() == 0) {
             super.drawFigure(graphics);
             drawIcon(graphics);
             return;
@@ -187,7 +187,11 @@ public class OutcomeFigure extends AbstractMotivationFigure {
     
     @Override
     protected int getIconOffset() {
-        return 27;
+        return getDiagramModelObject().getType() == 0 ? 27 : 0;
     }
-
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
 }
