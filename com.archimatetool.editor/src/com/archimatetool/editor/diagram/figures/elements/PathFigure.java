@@ -31,7 +31,13 @@ public class PathFigure extends CommunicationNetworkFigure {
         // Line dashes
         graphics.setLineStyle(SWT.LINE_CUSTOM);
         graphics.setLineDash(new float[] { graphics.getLineWidthFloat() * 2, graphics.getLineWidthFloat() });
-        super.drawHorizontalLine(graphics, rect, arrow);
+        
+        graphics.setLineCap(SWT.CAP_FLAT);
+        
+        graphics.drawLine(rect.x,
+                rect.y + rect.height / 2,
+                rect.x + rect.width,
+                rect.y + rect.height / 2);
     }
     
     /**

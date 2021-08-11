@@ -63,10 +63,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         graphics.setLineWidth(lineWidth);
         
-        graphics.setLineCap(SWT.CAP_ROUND);
         drawArrows(graphics, rect, arrowSize);
         
-        graphics.setLineCap(SWT.CAP_FLAT);
         drawHorizontalLine(graphics, rect, arrowSize);
         
         // Image Icon
@@ -76,6 +74,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     }
     
     protected void drawArrows(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+
         graphics.drawLine(rect.x + arrow.width,
                           rect.y + rect.height / 2 - arrow.height / 2,
                           rect.x,
@@ -98,6 +98,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     }
     
     protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+        
         graphics.drawLine(rect.x,
                           rect.y + rect.height / 2,
                           rect.x + rect.width,

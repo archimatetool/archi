@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
 
 
@@ -27,6 +28,8 @@ public class DistributionNetworkFigure extends CommunicationNetworkFigure {
     
     @Override
     protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+        
         graphics.drawLine(rect.x + arrow.height / 5,
                           rect.y + rect.height / 2 - arrow.height / 5,
                           rect.x + rect.width - arrow.height / 5,
