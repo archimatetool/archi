@@ -31,7 +31,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
     
     public DeviceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate = new BoxFigureDelegate(this, 20 - getTextControlMarginWidth());
+        fFigureDelegate = new BoxFigureDelegate(this);
     }
     
     @Override
@@ -139,10 +139,14 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 1 ? fFigureDelegate : null;
+        return getDiagramModelObject().getType() == 1 ? fFigureDelegate : null;
     }
     
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 1 ? 20 : 0;
+    }
+
     @Override
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();

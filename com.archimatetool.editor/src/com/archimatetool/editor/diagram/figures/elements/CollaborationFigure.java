@@ -28,7 +28,7 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
     
     public CollaborationFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
 
     @Override
@@ -123,6 +123,11 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 18, bounds.y + 7);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return 20;
     }
 
     @Override

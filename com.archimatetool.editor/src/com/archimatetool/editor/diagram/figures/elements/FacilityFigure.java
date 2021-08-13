@@ -28,7 +28,7 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
     
     public FacilityFigure() {
         super(TEXT_FLOW_CONTROL);
-        boxDelegate = new BoxFigureDelegate(this, 20 - getTextControlMarginWidth());
+        boxDelegate = new BoxFigureDelegate(this);
     }
     
     
@@ -158,6 +158,11 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
         return new Point(bounds.getRight().x - 34, bounds.y + 30);
     }
     
+    @Override
+    public int getIconOffset() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 20 : 0;
+    }
+
     @Override
     public IFigureDelegate getFigureDelegate() {
         return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? boxDelegate : null;

@@ -58,7 +58,7 @@ public class ArtifactUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public boolean hasIcon() {
-        return false;
+        return true;
     }
 
     @Override

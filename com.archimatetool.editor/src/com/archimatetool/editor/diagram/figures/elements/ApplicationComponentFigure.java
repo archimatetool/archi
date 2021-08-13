@@ -29,11 +29,11 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     
     protected static final int INDENT = 10;
     
-    protected IFigureDelegate fMainFigureDelegate;
+    protected IFigureDelegate rectangleDelegate;
     
     public ApplicationComponentFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -161,11 +161,15 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 15, bounds.y + 19);
     }
+    
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 1 ? 20 : 0;
+    }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 1 ? fMainFigureDelegate : null;
+        return getDiagramModelObject().getType() == 1 ? rectangleDelegate : null;
     }
     
     @Override

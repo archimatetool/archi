@@ -29,7 +29,7 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
     
     public CapabilityFigure() {
         super(TEXT_FLOW_CONTROL);
-        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this, 19 - getTextControlMarginWidth());
+        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -150,8 +150,17 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
     }
 
     @Override
-    public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? roundedRectangleDelegate : null;
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 19 : 0;
     }
 
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelObject().getType() == 0 ? roundedRectangleDelegate : null;
+    }
+
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
 }

@@ -30,7 +30,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
     
     public ResourceFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -203,6 +203,11 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.getRight().x - 20, bounds.y + 7);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 22 : 0;
     }
 
     @Override

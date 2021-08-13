@@ -28,7 +28,7 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
     
     public InterfaceFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -129,6 +129,11 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
         return new Point(bounds.x + bounds.width - 14, bounds.y + 8);
     }
     
+    @Override
+    public int getIconOffset() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 22 : 0;
+    }
+
     @Override
     public IFigureDelegate getFigureDelegate() {
         return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;

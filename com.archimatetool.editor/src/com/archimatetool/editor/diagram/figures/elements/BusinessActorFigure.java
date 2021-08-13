@@ -30,7 +30,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
     
     public BusinessActorFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = (new RectangleFigureDelegate(this, 17 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -145,7 +145,17 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
     }
 
     @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 17 : 0;
+    }
+    
+    @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;
+        return getDiagramModelObject().getType() == 0 ? rectangleDelegate : null;
+    }
+
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

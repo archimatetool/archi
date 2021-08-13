@@ -309,6 +309,13 @@ implements IDiagramModelObjectFigure {
     }
 
     /**
+     * @return The offset in pixels to adjust the text position if there is an inbuilt icon
+     */
+    public int getIconOffset() {
+        return 0;
+    }
+
+    /**
      * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting
      * @return the Pattern if a gradient should be applied or null if not
      */

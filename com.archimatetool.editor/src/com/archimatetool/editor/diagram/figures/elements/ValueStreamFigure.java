@@ -31,7 +31,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
     
     public ValueStreamFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this, 25 - getTextControlMarginWidth());
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -168,6 +168,11 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         return type == 0 ? fMainFigureDelegate : null;
     }
     
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 25 : 0;
+    }
+
     @Override
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();

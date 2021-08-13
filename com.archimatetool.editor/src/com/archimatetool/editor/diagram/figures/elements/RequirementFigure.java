@@ -72,14 +72,13 @@ public class RequirementFigure extends AbstractMotivationFigure {
     }
     
     @Override
-    protected int getIconOffset() {
-        return 22;
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 22 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelObject().getType() == 0 ? null : fAltFigureDelegate;
     }
     
     @Override

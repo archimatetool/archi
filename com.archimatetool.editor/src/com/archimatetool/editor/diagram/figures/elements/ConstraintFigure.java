@@ -74,14 +74,13 @@ public class ConstraintFigure extends AbstractMotivationFigure {
     }
 
     @Override
-    protected int getIconOffset() {
-        return 23;
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 23 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelObject().getType() == 0 ? null : fAltFigureDelegate;
     }
 
     @Override

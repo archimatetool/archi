@@ -31,7 +31,7 @@ public class EventFigure extends AbstractTextControlContainerFigure {
 
     public EventFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -142,13 +142,16 @@ public class EventFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fMainFigureDelegate : null;
+        return getDiagramModelObject().getType() == 0 ? fMainFigureDelegate : null;
     }
     
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 22 : 0;
+    }
+
     @Override
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
-
 }

@@ -35,7 +35,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
 
     public ArtifactFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
 
     @Override
@@ -152,7 +152,17 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
     }
 
     @Override
+    public int getIconOffset() {
+        return 22; // will also work for the right indent in the alternate figure
+    }
+    
+    @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? null : rectangleDelegate;
+        return getDiagramModelObject().getType() == 0 ? null : rectangleDelegate;
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

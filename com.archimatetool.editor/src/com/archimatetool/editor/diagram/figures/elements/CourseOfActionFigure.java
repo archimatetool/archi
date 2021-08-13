@@ -31,7 +31,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
     
     public CourseOfActionFigure() {
         super(TEXT_FLOW_CONTROL);
-        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this, 25 - getTextControlMarginWidth());
+        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -218,6 +218,11 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.getRight().x - 17, bounds.y + 3);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 25 : 0;
     }
 
     @Override

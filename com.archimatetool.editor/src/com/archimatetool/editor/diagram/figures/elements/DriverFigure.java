@@ -171,7 +171,7 @@ public class DriverFigure extends AbstractMotivationFigure {
     }
     
     @Override
-    protected int getIconOffset() {
+    public int getIconOffset() {
         return getDiagramModelObject().getType() == 0 ? 23 : 0;
     }
     

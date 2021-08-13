@@ -32,7 +32,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     public ServiceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
         fFigureDelegate2 = new ServiceFigureDelegate(this);
     }
     
@@ -40,8 +40,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         super.drawFigure(graphics);
         
-        int type = getDiagramModelObject().getType();
-        if(type == 0) {
+        if(getDiagramModelObject().getType() == 0) {
             drawIcon(graphics);
         }
     }
@@ -76,15 +75,19 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
+        return getDiagramModelObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
     
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new RoundedRectangleAnchor(this);
     }
-    
+
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 22 : 0;
+    }
+
     @Override
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();

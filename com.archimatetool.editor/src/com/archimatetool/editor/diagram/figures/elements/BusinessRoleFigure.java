@@ -29,7 +29,7 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     
     public BusinessRoleFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
         cylinderDelegate = new CylinderFigureDelegate(this);
     }
     
@@ -83,7 +83,17 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     }
     
     @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 20 : 0;
+    }
+    
+    @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : cylinderDelegate;
+        return getDiagramModelObject().getType() == 0 ? rectangleDelegate : cylinderDelegate;
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

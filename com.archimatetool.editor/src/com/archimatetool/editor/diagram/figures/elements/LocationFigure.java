@@ -29,7 +29,7 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
     
     public LocationFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 16 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -138,6 +138,11 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 10, bounds.y + 20);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 16 : 0;
     }
 
     @Override

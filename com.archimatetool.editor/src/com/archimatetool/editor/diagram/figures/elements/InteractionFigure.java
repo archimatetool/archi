@@ -33,7 +33,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
 
     public InteractionFigure() {
         super(TEXT_FLOW_CONTROL);
-        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        roundedRectangleDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -156,11 +156,21 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? new RoundedRectangleAnchor(this) : super.getDefaultConnectionAnchor();
+        return getDiagramModelObject().getType() == 0 ? new RoundedRectangleAnchor(this) : super.getDefaultConnectionAnchor();
     }
     
     @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 20 : 0;
+    }
+
+    @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? roundedRectangleDelegate : null;
+        return getDiagramModelObject().getType() == 0 ? roundedRectangleDelegate : null;
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

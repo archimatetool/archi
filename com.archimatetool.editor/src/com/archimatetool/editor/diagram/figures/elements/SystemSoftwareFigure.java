@@ -31,8 +31,8 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     
     public SystemSoftwareFigure() {
         super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
-        boxDelegate = new BoxFigureDelegate(this, 20 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
+        boxDelegate = new BoxFigureDelegate(this);
     }
     
     @Override
@@ -73,6 +73,11 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
         return getDiagramModelObject().getType() == 0 ? new Point(bounds.x + bounds.width - 18, bounds.y + 8) : new Point(bounds.x + bounds.width - 31, bounds.y + 20);
+    }
+    
+    @Override
+    public int getIconOffset() {
+        return 20;
     }
     
     @Override

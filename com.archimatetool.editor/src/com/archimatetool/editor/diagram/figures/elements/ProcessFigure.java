@@ -34,7 +34,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
 
     public ProcessFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
         fFigureDelegate2 = new ProcessFigureDelegate(this);
     }
 
@@ -100,16 +100,19 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
+        return getDiagramModelObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
 
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? new RoundedRectangleAnchor(this) : new ChopboxAnchor(this);
+        return getDiagramModelObject().getType() == 0 ? new RoundedRectangleAnchor(this) : new ChopboxAnchor(this);
     }
     
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelObject().getType() == 0 ? 20 : 0;
+    }
+
     @Override
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();

@@ -208,44 +208,43 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         return 5;
     }
     
-    protected int getIconOffset() {
-        return 0;
-    }
-
     /**
      * Calculate the Text Control Bounds or null if none.
      */
     protected Rectangle calculateTextControlBounds() {
-        // Delegate
+        // Check Delegate first
         if(getFigureDelegate() != null) {
-            return getFigureDelegate().calculateTextControlBounds();
+            Rectangle rect = getFigureDelegate().calculateTextControlBounds();
+            if(rect != null) {
+                return rect;
+            }
         }
         
-        // If there is no icon we don't need to do any offsets
-        if(getIconOffset() == 0) {
+        // We will adjust for any internal icons...
+        
+        // If there is no icon offset or the icon is not visible we don't need to do any offsets
+        if(getIconOffset() == 0 || !isIconVisible()) {
             return null;
         }
         
-        Rectangle bounds = getBounds().getCopy();
-
-        // Adjust for left/right margin
+        // Adjust for icon offset and left/right margins
         int iconOffset = getIconOffset() - getTextControlMarginWidth();
 
-        int textpos = ((ITextPosition)getDiagramModelObject()).getTextPosition();
-        int textAlignment = getDiagramModelObject().getTextAlignment();
-        
-        if(textpos == ITextPosition.TEXT_POSITION_TOP) {
+        Rectangle rect = getBounds().getCopy();
+
+        // Text position is Top
+        if(((ITextPosition)getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+            int textAlignment = getDiagramModelObject().getTextAlignment();
+
             if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
-                bounds.x += iconOffset;
-                bounds.width = bounds.width - (iconOffset * 2);
+                rect.x += iconOffset;
+                rect.width = rect.width - (iconOffset * 2);
             }
             else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
-                bounds.width -= iconOffset;
+                rect.width -= iconOffset;
             }
         }
         
-        return bounds;
+        return rect;
     }
-    
-
 }
