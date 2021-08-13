@@ -97,7 +97,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += TOP_MARGIN - 4;
+            bounds.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
         }
         
         return bounds;

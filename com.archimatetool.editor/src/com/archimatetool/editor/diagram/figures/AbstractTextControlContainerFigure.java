@@ -113,6 +113,11 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             if(fTextPositionDelegate != null) {
                 fTextPositionDelegate.updateTextPosition();
             }
+            
+            // Update Grid Layout
+            GridLayout layout = (GridLayout)getTextControl().getParent().getParent().getLayoutManager();
+            layout.marginWidth = getTextControlMarginWidth();
+            layout.marginHeight = getTextControlMarginHeight();
         }
 
         // Icon Image
@@ -178,12 +183,13 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         page.add(textFlow);
         
         Figure textWrapperFigure = new Figure();
+        
         GridLayout layout = new GridLayout();
         layout.marginWidth = getTextControlMarginWidth();
-        layout.marginHeight = 5;
+        layout.marginHeight = getTextControlMarginHeight();
         textWrapperFigure.setLayoutManager(layout);
-        GridData gd = new GridData(SWT.CENTER, SWT.TOP, true, true);
-        textWrapperFigure.add(page, gd);
+
+        textWrapperFigure.add(page, new GridData(SWT.CENTER, SWT.TOP, true, true));
         
         if(getDiagramModelObject() instanceof ITextPosition) {
             fTextPositionDelegate = new TextPositionDelegate(textWrapperFigure, page, (ITextPosition)getDiagramModelObject());
@@ -205,6 +211,13 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
      * @return the left and right margin width for text
      */
     protected int getTextControlMarginWidth() {
+        return 5;
+    }
+    
+    /**
+     * @return the top and bottom margin height for text
+     */
+    protected int getTextControlMarginHeight() {
         return 5;
     }
     

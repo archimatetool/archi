@@ -149,6 +149,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+            bounds.y += 5 - getTextControlMarginHeight();
             bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
         }
         
