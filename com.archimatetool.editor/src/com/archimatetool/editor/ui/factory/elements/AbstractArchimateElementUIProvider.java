@@ -34,7 +34,7 @@ implements IArchimateElementUIProvider {
     
     @Override
     public boolean hasAlternateFigure() {
-        return false;
+        return true;
     }
     
     @Override

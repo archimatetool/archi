@@ -55,9 +55,4 @@ public class DistributionNetworkUIProvider extends AbstractArchimateElementUIPro
     public Color getDefaultColor() {
         return ColorFactory.get(201, 231, 183);
     }
-    
-    @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
 }

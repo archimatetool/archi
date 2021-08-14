@@ -55,9 +55,4 @@ public class StakeholderUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(204, 204, 255);
     }
-    
-    @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
 }

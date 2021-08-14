@@ -58,11 +58,6 @@ public class BusinessActorUIProvider extends AbstractArchimateElementUIProvider 
     }
 
     @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
-    
-    @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
         return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }

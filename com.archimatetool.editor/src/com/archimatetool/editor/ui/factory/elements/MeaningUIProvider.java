@@ -61,4 +61,8 @@ public class MeaningUIProvider extends AbstractArchimateElementUIProvider {
         return false;
     }
 
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
+    }
 }

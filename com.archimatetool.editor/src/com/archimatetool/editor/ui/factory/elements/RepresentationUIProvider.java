@@ -61,4 +61,8 @@ public class RepresentationUIProvider extends AbstractArchimateElementUIProvider
         return false;
     }
 
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
+    }
 }

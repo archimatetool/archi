@@ -58,11 +58,6 @@ public class CourseOfActionUIProvider extends AbstractArchimateElementUIProvider
     }
 
     @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
-    
-    @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
         return figureType == 1 ? getDefaultSizeWithMinumumWidth(70) : super.getDefaultSizeForFigureType(figureType);
     }

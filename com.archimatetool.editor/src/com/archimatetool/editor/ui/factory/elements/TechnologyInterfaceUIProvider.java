@@ -5,15 +5,11 @@
  */
 package com.archimatetool.editor.ui.factory.elements;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
-import com.archimatetool.editor.diagram.figures.elements.InterfaceFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -25,18 +21,13 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIProvider {
+public class TechnologyInterfaceUIProvider extends AbstractInterfaceUIProvider {
 
     @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getTechnologyInterface();
     }
     
-    @Override
-    public EditPart createEditPart() {
-        return new ArchimateElementEditPart(InterfaceFigure.class);
-    }
-
     @Override
     public String getDefaultName() {
         return Messages.TechnologyInterfaceUIProvider_0;
@@ -55,15 +46,5 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
     @Override
     public Color getDefaultColor() {
         return ColorFactory.get(201, 231, 183);
-    }
-    
-    @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
-    
-    @Override
-    protected Dimension getDefaultSizeForFigureType(int figureType) {
-        return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
 }

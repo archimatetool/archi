@@ -60,4 +60,9 @@ public class ContractUIProvider extends AbstractArchimateElementUIProvider {
     public boolean hasIcon() {
         return false;
     }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
+    }
 }
