@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -22,7 +21,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class FacilityFigure extends AbstractTextControlContainerFigure {
+public class FacilityFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate boxDelegate;
     
@@ -160,11 +159,11 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public int getIconOffset() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? boxDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? boxDelegate : null;
     }
 }

@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
  * 
  * @author Phillip Beauvoir
  */
-public class MeaningFigure extends AbstractTextControlContainerFigure {
+public class MeaningFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     public MeaningFigure() {
         super(TEXT_FLOW_CONTROL);

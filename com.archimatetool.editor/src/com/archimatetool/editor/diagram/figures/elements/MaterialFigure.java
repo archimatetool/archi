@@ -15,7 +15,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -25,7 +24,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class MaterialFigure extends AbstractTextControlContainerFigure {
+public class MaterialFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate rectangleDelegate;
 
@@ -168,11 +167,11 @@ public class MaterialFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public int getIconOffset() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

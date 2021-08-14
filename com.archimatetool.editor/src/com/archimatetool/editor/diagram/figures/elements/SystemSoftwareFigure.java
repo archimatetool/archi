@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Path;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -24,7 +23,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
+public class SystemSoftwareFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     private IFigureDelegate rectangleDelegate;
     private IFigureDelegate boxDelegate;
@@ -72,7 +71,7 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return getDiagramModelObject().getType() == 0 ? new Point(bounds.x + bounds.width - 18, bounds.y + 8) : new Point(bounds.x + bounds.width - 31, bounds.y + 20);
+        return getDiagramModelArchimateObject().getType() == 0 ? new Point(bounds.x + bounds.width - 18, bounds.y + 8) : new Point(bounds.x + bounds.width - 31, bounds.y + 20);
     }
     
     @Override
@@ -82,11 +81,6 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? rectangleDelegate : boxDelegate;
-    }
-
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : boxDelegate;
     }
 }

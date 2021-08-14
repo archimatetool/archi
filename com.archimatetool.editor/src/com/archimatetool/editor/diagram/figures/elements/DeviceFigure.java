@@ -15,7 +15,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -23,7 +22,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class DeviceFigure extends AbstractTextControlContainerFigure {
+public class DeviceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int INDENT = 15;
 
@@ -139,17 +138,11 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 1 ? fFigureDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 1 ? fFigureDelegate : null;
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 1 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 1 ? 20 : 0;
     }
-
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
-    }
-
 }

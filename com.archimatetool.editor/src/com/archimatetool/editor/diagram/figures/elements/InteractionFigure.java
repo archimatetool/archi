@@ -17,7 +17,6 @@ import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -27,7 +26,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class InteractionFigure extends AbstractTextControlContainerFigure {
+public class InteractionFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate roundedRectangleDelegate;
 
@@ -156,21 +155,16 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        return getDiagramModelObject().getType() == 0 ? new RoundedRectangleAnchor(this) : super.getDefaultConnectionAnchor();
+        return getDiagramModelArchimateObject().getType() == 0 ? new RoundedRectangleAnchor(this) : super.getDefaultConnectionAnchor();
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? roundedRectangleDelegate : null;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? roundedRectangleDelegate : null;
     }
 }

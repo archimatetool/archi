@@ -15,7 +15,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -23,7 +22,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class CapabilityFigure extends AbstractTextControlContainerFigure {
+public class CapabilityFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate roundedRectangleDelegate;
     
@@ -151,16 +150,11 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 19 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? roundedRectangleDelegate : null;
-    }
-
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? roundedRectangleDelegate : null;
     }
 }

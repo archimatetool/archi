@@ -12,7 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -82,16 +81,11 @@ public class StakeholderFigure extends AbstractMotivationFigure {
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 23 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? null : cylinderDelegate;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? null : cylinderDelegate;
     }
 }

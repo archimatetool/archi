@@ -15,7 +15,6 @@ import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -25,7 +24,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ServiceFigure extends AbstractTextControlContainerFigure {
+public class ServiceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
@@ -40,7 +39,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         super.drawFigure(graphics);
         
-        if(getDiagramModelObject().getType() == 0) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
             drawIcon(graphics);
         }
     }
@@ -75,7 +74,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
+        return getDiagramModelArchimateObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
     
     @Override
@@ -85,11 +84,6 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 22 : 0;
-    }
-
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
 }

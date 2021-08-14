@@ -12,8 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
-
 
 /**
  * Gap Figure
@@ -27,7 +25,7 @@ public class GapFigure extends DeliverableFigure {
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        if(getDiagramModelObject().getType() == 0) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
             super.drawFigure(graphics);
             drawIcon(graphics);
             return;
@@ -126,11 +124,6 @@ public class GapFigure extends DeliverableFigure {
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 23 : 0;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
     }
 }

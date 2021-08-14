@@ -17,7 +17,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -25,7 +24,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ApplicationComponentFigure extends AbstractTextControlContainerFigure {
+public class ApplicationComponentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int INDENT = 10;
     
@@ -164,17 +163,12 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 1 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 1 ? 20 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 1 ? rectangleDelegate : null;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 1 ? rectangleDelegate : null;
     }
     
     @Override

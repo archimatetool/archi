@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -22,7 +21,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class CollaborationFigure extends AbstractTextControlContainerFigure {
+public class CollaborationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate rectangleDelegate;
     
@@ -132,6 +131,6 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

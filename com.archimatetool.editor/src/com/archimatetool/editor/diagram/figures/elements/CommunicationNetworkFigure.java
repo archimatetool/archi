@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.Path;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -26,7 +25,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure {
+public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private static final double ARROW_ANGLE = Math.cos(Math.toRadians(60));
 
@@ -167,6 +166,6 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return ((IDiagramModelArchimateObject)getDiagramModelObject()).getType() == 0 ? rectangleDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

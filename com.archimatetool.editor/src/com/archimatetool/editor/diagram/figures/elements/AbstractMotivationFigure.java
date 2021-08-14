@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure {
+public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int FLANGE = 10;
     

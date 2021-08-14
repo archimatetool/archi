@@ -23,7 +23,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class ProductFigure extends AbstractTextControlContainerFigure {
+public class ProductFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int TOP_MARGIN = 12;
 

@@ -22,7 +22,7 @@ import com.archimatetool.model.IIconic;
  * 
  * @author Phillip Beauvoir
  */
-public class ValueFigure extends AbstractTextControlContainerFigure {
+public class ValueFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     public ValueFigure() {
         super(TEXT_FLOW_CONTROL);

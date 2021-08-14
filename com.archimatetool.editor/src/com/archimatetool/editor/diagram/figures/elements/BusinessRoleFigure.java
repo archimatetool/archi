@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Path;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -22,7 +21,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
+public class BusinessRoleFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate rectangleDelegate;
     private IFigureDelegate cylinderDelegate;
@@ -84,16 +83,11 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? rectangleDelegate : cylinderDelegate;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : cylinderDelegate;
     }
 }

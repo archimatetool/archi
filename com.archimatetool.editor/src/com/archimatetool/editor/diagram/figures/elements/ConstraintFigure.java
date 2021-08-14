@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -75,17 +74,11 @@ public class ConstraintFigure extends AbstractMotivationFigure {
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelObject().getType() == 0 ? 23 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? null : fAltFigureDelegate;
     }
-
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
-    }
-
 }

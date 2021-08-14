@@ -16,7 +16,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IIconic;
 
 
@@ -27,7 +26,7 @@ import com.archimatetool.model.IIconic;
  * 
  * @author Phillip Beauvoir
  */
-public class ArtifactFigure extends AbstractTextControlContainerFigure {
+public class ArtifactFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     private static final int FOLD_HEIGHT = 18;
     
@@ -158,11 +157,6 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelObject().getType() == 0 ? null : rectangleDelegate;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 0 ? null : rectangleDelegate;
     }
 }
