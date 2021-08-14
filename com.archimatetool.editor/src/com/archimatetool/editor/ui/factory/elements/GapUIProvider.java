@@ -59,6 +59,7 @@ public class GapUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
-        return figureType == 1 ? getDefaultSizeWithMinumumWidth(96) : super.getDefaultSizeForFigureType(figureType);
+        return super.getDefaultSizeForFigureType(figureType);
+        //return figureType == 1 ? getDefaultSizeWithMinumumWidth(96) : super.getDefaultSizeForFigureType(figureType);
     }
 }

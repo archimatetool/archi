@@ -39,6 +39,8 @@ public class GoalFigure extends AbstractMotivationFigure {
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
+        
+        setFigurePositionFromTextPosition(rect);
 
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -127,6 +129,11 @@ public class GoalFigure extends AbstractMotivationFigure {
         return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
     }
     
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
+    }
+
     @Override
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;

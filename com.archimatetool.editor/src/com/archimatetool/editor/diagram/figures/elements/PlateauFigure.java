@@ -41,6 +41,8 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         Rectangle rect = getBounds().getCopy();
         
+        setFigurePositionFromTextPosition(rect);
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -113,6 +115,11 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
     @Override
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+    }
+
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
     }
 
     @Override

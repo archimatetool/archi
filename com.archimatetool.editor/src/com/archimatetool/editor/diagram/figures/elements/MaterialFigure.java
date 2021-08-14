@@ -50,6 +50,8 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
+        setFigurePositionFromTextPosition(rect);
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -168,6 +170,11 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
     @Override
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+    }
+
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
     }
 
     @Override

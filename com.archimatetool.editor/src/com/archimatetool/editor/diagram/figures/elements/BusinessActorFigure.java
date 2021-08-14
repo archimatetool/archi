@@ -49,6 +49,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
+        setFigurePositionFromTextPosition(rect);
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -148,6 +150,11 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
     }
     
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
+    }
+
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;

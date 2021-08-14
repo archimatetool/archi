@@ -48,6 +48,8 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
+        setFigurePositionFromTextPosition(rect);
+        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -157,6 +159,11 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         return new Point(bounds.getRight().x - 34, bounds.y + 30);
     }
     
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
+    }
+
     @Override
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;

@@ -46,6 +46,8 @@ public class DriverFigure extends AbstractMotivationFigure {
         //setLineWidth(graphics, 1, rect);
         int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 20);
         graphics.setLineWidth(lineWidth);
+        
+        setFigurePositionFromTextPosition(rect);
 
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -171,5 +173,10 @@ public class DriverFigure extends AbstractMotivationFigure {
     @Override
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
+    }
+
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
     }
 }

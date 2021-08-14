@@ -59,6 +59,7 @@ public class LocationUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
-        return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
+        return super.getDefaultSizeForFigureType(figureType);
+        //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
 }

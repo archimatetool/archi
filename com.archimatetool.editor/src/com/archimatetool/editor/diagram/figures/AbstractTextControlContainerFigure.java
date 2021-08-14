@@ -12,6 +12,7 @@ import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
@@ -200,7 +201,53 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         
         return textFlow;
     }
+    
+    /**
+     * Adjsut the figure's position in relation to the position of the text control
+     * @param rect the working area of the figure to modify
+     */
+    protected void setFigurePositionFromTextPosition(Rectangle rect) {
+        if(StringUtils.isSetAfterTrim(getText())) { // If there is text to display...
+            Dimension size = getTextControl().getSize();
+            int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+            int textAlignment = getDiagramModelObject().getTextAlignment();
+            
+            if(shouldConstrainFigureForTextPosition(textPosition)) {
+                switch(textPosition) {
+                    case ITextPosition.TEXT_POSITION_TOP:
+                        rect.y += size.height;
+                        // fall through
+                    case ITextPosition.TEXT_POSITION_BOTTOM:
+                        rect.height -= size.height;
+                        break;
+                        
+                    case ITextPosition.TEXT_POSITION_CENTRE:
+                        switch(textAlignment) {
+                            case ITextAlignment.TEXT_ALIGNMENT_LEFT:
+                                rect.x += size.width;
+                                // fall through
+                            case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
+                                rect.width -= size.width;
+                                break;
 
+                            default:
+                                break;
+                        }
+  
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
+    /**
+     * @return true if the figure size should be constrained by the position of the text
+     */
+    protected boolean shouldConstrainFigureForTextPosition(int textPosition) {
+        return true;
+    }
+    
     protected Label createLabelControl(Locator textLocator) {
         Label label = new Label(""); //$NON-NLS-1$
         add(label, textLocator);
@@ -211,14 +258,14 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
      * @return the left and right margin width for text
      */
     protected int getTextControlMarginWidth() {
-        return 5;
+        return 4;
     }
     
     /**
      * @return the top and bottom margin height for text
      */
     protected int getTextControlMarginHeight() {
-        return 5;
+        return 4;
     }
     
     /**

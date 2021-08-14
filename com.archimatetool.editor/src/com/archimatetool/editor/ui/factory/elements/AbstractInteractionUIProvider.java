@@ -27,6 +27,7 @@ public abstract class AbstractInteractionUIProvider extends AbstractArchimateEle
 
     @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
-        return figureType == 1 ? getDefaultSizeWithMinumumWidth(65) : super.getDefaultSizeForFigureType(figureType);
+        return super.getDefaultSizeForFigureType(figureType);
+        //return figureType == 1 ? getDefaultSizeWithMinumumWidth(65) : super.getDefaultSizeForFigureType(figureType);
     }
 }
