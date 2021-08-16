@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -21,6 +20,8 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 
+import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
+import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
@@ -106,7 +107,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_1);
         
         // Note
-        ToolEntry noteEntry = new CombinedTemplateCreationEntry(
+        ToolEntry noteEntry = new ExtCombinedTemplateCreationEntry(
                 Messages.ArchimateDiagramEditorPalette_2,
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
@@ -115,7 +116,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         group.add(noteEntry);
         
         // Group
-        ToolEntry groupEntry = new CombinedTemplateCreationEntry(
+        ToolEntry groupEntry = new ExtCombinedTemplateCreationEntry(
                 Messages.ArchimateDiagramEditorPalette_4,
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
@@ -225,7 +226,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     // --------------------------------------------------------------------------------------------
     
     private ToolEntry createElementCreationToolEntry(EClass eClass, String description) {
-        ToolEntry entry = new CombinedTemplateCreationEntry(
+        ToolEntry entry = new ExtCombinedTemplateCreationEntry(
                 ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
@@ -236,7 +237,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     }
     
     private ToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
-        ToolEntry entry = new ConnectionCreationToolEntry(
+        ToolEntry entry = new ExtConnectionCreationToolEntry(
                 ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),

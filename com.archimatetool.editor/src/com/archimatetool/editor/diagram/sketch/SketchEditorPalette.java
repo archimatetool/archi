@@ -26,6 +26,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
+import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
+import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -161,7 +163,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, int type, String name, String description,
                                                                           ImageDescriptor icon) {
-        ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
+        ConnectionCreationToolEntry entry = new ExtConnectionCreationToolEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass, type),
@@ -174,7 +176,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
 
     private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name, String description) {
-        return new CombinedTemplateCreationEntry(
+        return new ExtCombinedTemplateCreationEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass),
@@ -201,7 +203,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
            }
         };
 
-        return new CombinedTemplateCreationEntry(
+        return new ExtCombinedTemplateCreationEntry(
                 Messages.SketchEditorPalette_12,
                 null,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), color),

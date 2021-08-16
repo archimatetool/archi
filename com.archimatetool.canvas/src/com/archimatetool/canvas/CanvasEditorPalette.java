@@ -7,7 +7,6 @@ package com.archimatetool.canvas;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -27,6 +26,8 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
+import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
+import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -84,7 +85,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = new PaletteGroup(Messages.CanvasEditorPalette_1);
         add(group);
         
-        PaletteEntry entry = new CombinedTemplateCreationEntry(
+        PaletteEntry entry = new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_2,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelBlock()),
@@ -92,7 +93,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK));
         group.add(entry);
         
-        entry = new CombinedTemplateCreationEntry(
+        entry = new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_3,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
@@ -158,7 +159,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, int type, String name, String description,
                                                                           ImageDescriptor icon) {
-        ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
+        ConnectionCreationToolEntry entry = new ExtConnectionCreationToolEntry(
                 name,
                 description,
                 new CanvasModelFactory(eClass, type),
@@ -189,7 +190,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
            }
         };
         
-        return new CombinedTemplateCreationEntry(
+        return new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_9,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), color),
