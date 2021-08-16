@@ -202,8 +202,14 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      */
     protected Composite createTableComposite(Composite parent, int style) {
         Composite tableComp = new Composite(parent, style);
-        tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        GridData gd = new GridData(GridData.FILL_BOTH);
+        //gd.widthHint = 100; // This causes table columns to be squashed on Mac Silicon
+        gd.heightHint = 50; // Stop table height creep
+        tableComp.setLayoutData(gd);
+
         tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
+        
         return tableComp;
     }
     
