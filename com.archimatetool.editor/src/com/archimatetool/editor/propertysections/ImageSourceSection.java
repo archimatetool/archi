@@ -60,6 +60,7 @@ public class ImageSourceSection extends AbstractECorePropertySection {
         createLabel(parent, "Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
         fImageSourceCombo = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fImageSourceCombo, true, true);
         fImageSourceCombo.setItems(IMAGE_SOURCE_CHOICES);
         
         fImageSourceCombo.addSelectionListener(new SelectionAdapter() {

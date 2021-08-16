@@ -67,6 +67,7 @@ public class IconVisibleSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.IconVisibleSection_0 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
         fIconVisibleCombo = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fIconVisibleCombo, true, true);
         fIconVisibleCombo.setItems(VISIBLE_CHOICES);
         
         fIconVisibleCombo.addSelectionListener(new SelectionAdapter() {

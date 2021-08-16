@@ -169,7 +169,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
         fComboViewer.setInput(""); //$NON-NLS-1$
         
         // Open Profiles Manager Dialog button
-        Button button = new Button(comp, SWT.PUSH);
+        Button button = getWidgetFactory().createButton(comp, null, SWT.PUSH);
         button.setText(" ... "); //$NON-NLS-1$
         button.setToolTipText(Messages.SpecializationSection_3);
         button.addSelectionListener(new SelectionAdapter() {
