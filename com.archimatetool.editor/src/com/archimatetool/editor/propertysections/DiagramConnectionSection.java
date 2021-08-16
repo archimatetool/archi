@@ -82,10 +82,13 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.DiagramConnectionSection_6, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fComboTextPosition = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fComboTextPosition, true, true);
         fComboTextPosition.setItems(comboTextPositionItems);
+        
         GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
         gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
         fComboTextPosition.setLayoutData(gd);
+        
         fComboTextPosition.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -109,10 +112,13 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.DiagramConnectionSection_7, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fComboLineWidth = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fComboLineWidth, true, true);
         fComboLineWidth.setItems(comboLineWidthItems);
+        
         GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
         gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
         fComboLineWidth.setLayoutData(gd);
+        
         fComboLineWidth.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -135,7 +141,8 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     private void createDisplayNameControl(Composite parent) {
         createLabel(parent, Messages.DiagramConnectionSection_8 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
-        fButtonDisplayName = new Button(parent, SWT.CHECK);
+        fButtonDisplayName = getWidgetFactory().createButton(parent, null, SWT.CHECK);
+        
         fButtonDisplayName.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

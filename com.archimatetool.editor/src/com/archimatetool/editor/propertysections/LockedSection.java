@@ -52,7 +52,7 @@ public class LockedSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.LockedSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fButtonLocked = new Button(parent, SWT.CHECK);
+        fButtonLocked = getWidgetFactory().createButton(parent, null, SWT.CHECK);
         
         fButtonLocked.addSelectionListener(new SelectionAdapter() {
             @Override

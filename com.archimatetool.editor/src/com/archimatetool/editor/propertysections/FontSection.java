@@ -164,16 +164,14 @@ public class FontSection extends AbstractECorePropertySection {
     
     private void createFontControl(Composite parent) {
         createLabel(parent, Messages.FontSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
-        fFontChooser = new FontChooser(parent);
-        getWidgetFactory().adapt(fFontChooser.getControl(), true, true); // Need to do it this way for Mac
+        fFontChooser = new FontChooser(parent, getWidgetFactory());
         fFontChooser.addListener(fontListener);
     }
     
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.FontColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
-        fColorChooser = new ColorChooser(parent);
+        fColorChooser = new ColorChooser(parent, getWidgetFactory());
         fColorChooser.setDoShowPreferencesMenuItem(false);
-        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
         fColorChooser.addListener(colorListener);
     }
     

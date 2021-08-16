@@ -130,8 +130,7 @@ public class FillColorSection extends AbstractECorePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.FillColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fColorChooser = new ColorChooser(parent);
-        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
+        fColorChooser = new ColorChooser(parent, getWidgetFactory());
         fColorChooser.addListener(colorListener);
     }
     

@@ -20,6 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
@@ -106,7 +107,9 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
         
         for(int i = 0; i < fAlignmentButtons.length; i++) {
             fAlignmentButtons[i] = new Button(client, SWT.TOGGLE | SWT.FLAT);
-            getWidgetFactory().adapt(fAlignmentButtons[i], true, true); // Need to do it this way for Mac
+            if(!PlatformUtils.isLinux()) { // Doesn't show focus on Linux
+                getWidgetFactory().adapt(fAlignmentButtons[i], true, true);
+            }
             fAlignmentButtons[i].addSelectionListener(adapter);
         }
         
@@ -158,7 +161,9 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
         
         for(int i = 0; i < fPositionButtons.length; i++) {
             fPositionButtons[i] = new Button(client, SWT.TOGGLE | SWT.FLAT);
-            getWidgetFactory().adapt(fPositionButtons[i], true, true); // Need to do it this way for Mac
+            if(!PlatformUtils.isLinux()) { // Doesn't show focus on Linux
+                getWidgetFactory().adapt(fPositionButtons[i], true, true);
+            }
             fPositionButtons[i].addSelectionListener(adapter);
         }
         

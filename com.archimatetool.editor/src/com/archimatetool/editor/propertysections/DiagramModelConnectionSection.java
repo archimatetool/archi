@@ -71,7 +71,9 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
         
         // Combo
         fComboRouterType = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fComboRouterType, true, true);
         fComboRouterType.setItems(comboItems);
+        
         fComboRouterType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

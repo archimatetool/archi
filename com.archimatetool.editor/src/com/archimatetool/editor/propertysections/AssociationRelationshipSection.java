@@ -63,7 +63,7 @@ public class AssociationRelationshipSection extends AbstractECorePropertySection
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.AssociationRelationshipSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fButtonDirected = new Button(parent, SWT.CHECK);
+        fButtonDirected = getWidgetFactory().createButton(parent, null, SWT.CHECK);
         
         fButtonDirected.addSelectionListener(new SelectionAdapter() {
             @Override

@@ -69,6 +69,7 @@ public class AccessRelationshipSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.AccessRelationshipSection_4, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fComboType = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fComboType, true, true);
         fComboType.setItems(fComboTypeItems);
         fComboType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         

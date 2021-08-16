@@ -129,8 +129,7 @@ public class LineColorSection extends AbstractECorePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.LineColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fColorChooser = new ColorChooser(parent);
-        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
+        fColorChooser = new ColorChooser(parent, getWidgetFactory());
         fColorChooser.addListener(colorListener);
     }
     

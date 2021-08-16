@@ -65,6 +65,7 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
         // Combo
         fComboBackground = new Combo(parent, SWT.READ_ONLY);
         fComboBackground.setItems(ISketchEditor.BACKGROUNDS);
+        getWidgetFactory().adapt(fComboBackground, true, true);
         
         fComboBackground.addSelectionListener(new SelectionAdapter() {
             @Override

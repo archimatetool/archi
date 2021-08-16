@@ -90,7 +90,7 @@ public class BorderColorSection extends AbstractECorePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.BorderColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fColorChooser = new ColorChooser(parent);
+        fColorChooser = new ColorChooser(parent, getWidgetFactory());
         fColorChooser.setDoShowDefaultMenuItem(false);
         fColorChooser.setDoShowPreferencesMenuItem(false);
         
@@ -114,8 +114,6 @@ public class BorderColorSection extends AbstractECorePropertySection {
         };
         
         fColorChooser.addMenuAction(fNoBorderAction);
-        
-        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
         fColorChooser.addListener(colorListener);
     }
     

@@ -68,6 +68,7 @@ public class GradientSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.GradientSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fGradientCombo = new Combo(parent, SWT.READ_ONLY);
+        getWidgetFactory().adapt(fGradientCombo, true, true);
         fGradientCombo.setItems(GRADIENT_STYLES);
         
         fGradientCombo.addSelectionListener(new SelectionAdapter() {

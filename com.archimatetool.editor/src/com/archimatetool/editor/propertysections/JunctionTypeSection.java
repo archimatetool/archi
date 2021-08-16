@@ -63,9 +63,12 @@ public class JunctionTypeSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.JunctionTypeSection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        
         fComboType = new Combo(parent, SWT.READ_ONLY);
         fComboType.setItems(fComboTypeItems);
         fComboType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        getWidgetFactory().adapt(fComboType, true, true);
+        
         fComboType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

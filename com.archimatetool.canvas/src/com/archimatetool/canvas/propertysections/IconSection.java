@@ -167,8 +167,9 @@ public class IconSection extends DiagramModelImageSection {
 
         fComboPosition = new Combo(parent, SWT.READ_ONLY);
         fComboPosition.setItems(fComboPositionItems);
+        getWidgetFactory().adapt(fComboPosition, true, true);
         gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        fComboPosition.setLayoutData(gd);
+        fComboPosition.setLayoutData(gd); 
         fComboPosition.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

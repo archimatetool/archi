@@ -61,7 +61,7 @@ public class JunctionConnectionArrowsSection extends AbstractECorePropertySectio
     private void createHideArrowsControl(Composite parent) {
         createLabel(parent, Messages.JunctionConnectionArrowsSection_0 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
-        buttonHideArrowHeads = new Button(parent, SWT.CHECK);
+        buttonHideArrowHeads = getWidgetFactory().createButton(parent, null, SWT.CHECK);
         
         buttonHideArrowHeads.addSelectionListener(new SelectionAdapter() {
             @Override
