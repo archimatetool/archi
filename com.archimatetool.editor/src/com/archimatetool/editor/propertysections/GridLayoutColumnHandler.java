@@ -7,6 +7,8 @@ package com.archimatetool.editor.propertysections;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -20,8 +22,8 @@ import com.archimatetool.editor.preferences.Preferences;
  */
 public class GridLayoutColumnHandler {
     
-    public static void create(Composite parent, int maxColumns) {
-        new GridLayoutColumnHandler(parent, maxColumns).updateColumns();
+    public static GridLayoutColumnHandler create(Composite parent, int maxColumns) {
+        return new GridLayoutColumnHandler(parent, maxColumns);
     }
     
     private int maxColumns;
@@ -48,7 +50,15 @@ public class GridLayoutColumnHandler {
         Preferences.STORE.addPropertyChangeListener(listener);
     }
     
-    private void updateColumns() {
-        ((GridLayout)parent.getLayout()).numColumns = Preferences.STORE.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
+    public void updateColumns() {
+        // Set Grid Layout columns
+        int numColumns = Preferences.STORE.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
+        ((GridLayout)parent.getLayout()).numColumns = numColumns;
+        
+        // If there is more than one child composite set the width hint for the first child for the number of columns
+        if(parent.getChildren().length > 1) {
+            GridData gd = (GridData)parent.getChildren()[0].getLayoutData();
+            gd.widthHint = numColumns == 1 ? SWT.DEFAULT : ITabbedLayoutConstants.COMPOSITE_WIDTH;
+        }
     }
 }

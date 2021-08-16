@@ -148,14 +148,16 @@ public class FontSection extends AbstractECorePropertySection {
     @Override
     protected void createControls(final Composite parent) {
         ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
-        GridLayoutColumnHandler.create(parent, 2); // Allow setting 1 or 2 columns
         
-        Composite group1 = createComposite(parent, 2, true);
+        Composite group1 = createComposite(parent, 2, false);
         createFontControl(group1);
         
-        Composite group2 = createComposite(parent, 2, true);
+        Composite group2 = createComposite(parent, 2, false);
         createColorControl(group2);
         
+        // Allow setting 1 or 2 columns
+        GridLayoutColumnHandler.create(parent, 2).updateColumns();
+
         Preferences.STORE.addPropertyChangeListener(prefsListener);
 
         // Help

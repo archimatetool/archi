@@ -54,13 +54,15 @@ public class OpacitySection extends AbstractECorePropertySection {
     @Override
     protected void createControls(Composite parent) {
         ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
-        GridLayoutColumnHandler.create(parent, 2); // Allow setting 1 or 2 columns
         
-        Composite group1 = createComposite(parent, 2, true);
+        Composite group1 = createComposite(parent, 2, false);
         fFillSpinner = createSpinnerControl(group1, Messages.OpacitySection_0, 0);
         
-        Composite group2 = createComposite(parent, 2, true);
+        Composite group2 = createComposite(parent, 2, false);
         fOutlineSpinner = createSpinnerControl(group2, Messages.OutlineOpacitySection_0, 1);
+        
+        // Allow setting 1 or 2 columns
+        GridLayoutColumnHandler.create(parent, 2).updateColumns();
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);

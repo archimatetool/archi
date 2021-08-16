@@ -34,4 +34,9 @@ public interface ITabbedLayoutConstants {
      * Minimum Combo Width
      */
     int COMBO_WIDTH = 100;
+    
+    /**
+     * Width of Composite when using 2 column layout
+     */
+    int COMPOSITE_WIDTH = 280;
 }
