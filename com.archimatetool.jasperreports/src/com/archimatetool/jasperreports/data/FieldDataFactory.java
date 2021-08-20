@@ -17,6 +17,7 @@ import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfiles;
 
 
 
@@ -64,7 +65,15 @@ public class FieldDataFactory {
         }
         
         if(TYPE.equals(fieldName) && dataElement instanceof EObject) {
-            return ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            // Class name
+            String value = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            
+            // Profile Name
+            if(dataElement instanceof IProfiles && ((IProfiles)dataElement).getPrimaryProfile() != null) {
+                value += " (" + ((IProfiles)dataElement).getPrimaryProfile().getName() + ")";
+            }
+            
+            return value;
         }
         
         if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable) {
