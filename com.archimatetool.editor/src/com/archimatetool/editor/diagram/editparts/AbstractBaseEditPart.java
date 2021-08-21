@@ -146,7 +146,17 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
      * Refresh this figure and all child figures
      */
     protected void refreshChildrenFigures() {
+        // Refresh this
         refreshFigure();
+        
+        // Connections
+        for(Object editPart : getSourceConnections()) {
+            if(editPart instanceof DiagramConnectionEditPart) {
+                ((DiagramConnectionEditPart)editPart).refreshVisuals();
+            }
+        }
+        
+        // Children
         for(Object editPart : getChildren()) {
             if(editPart instanceof AbstractBaseEditPart) {
                 ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
