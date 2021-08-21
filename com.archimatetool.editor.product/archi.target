@@ -15,8 +15,6 @@
         <unit id="org.eclipse.equinox.p2.core.feature.feature.group" version="1.6.800.v20201106-1246"/>
         <unit id="org.eclipse.equinox.p2.extras.feature.feature.group" version="1.4.1000.v20201106-1246"/>
         <unit id="org.eclipse.equinox.sdk.feature.group" version="3.21.0.v20201128-0731"/>
-        <unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
-        <unit id="org.eclipse.zest.sdk.feature.group" version="1.7.0.201606061308"/>
     </location>
 </locations>
 </target>

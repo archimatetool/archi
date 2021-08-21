@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.eclipse.zest.core;singleton:=true
+Require-Bundle: org.eclipse.zest.layouts,org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",org.eclipse.draw2d;visibility:=reexport
+Bundle-Vendor: %Plugin.providerName
+Import-Package: com.ibm.icu.text;version="3.8.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.eclipse.zest.core.viewers,
+ org.eclipse.zest.core.viewers.internal;x-internal:=true,
+ org.eclipse.zest.core.widgets,
+ org.eclipse.zest.core.widgets.internal;x-internal:=true
+Bundle-Name: %Plugin.name
+Bundle-Version: 1.5.400.qualifier
+Bundle-Localization: plugin
+Automatic-Module-Name: org.eclipse.zest.core
+Bundle-ActivationPolicy: lazy

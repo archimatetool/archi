@@ -31,12 +31,14 @@
         <module>com.archimatetool.commandline</module>
         <module>com.archimatetool.csv</module>
         <module>com.archimatetool.csv.commandline</module>
+        <module>com.archimatetool.eclipse.feature</module>
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
         <module>com.archimatetool.editor.feature</module>
         <module>com.archimatetool.editor.launch.win32</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>
+        <module>com.archimatetool.gef.feature</module>
         <module>com.archimatetool.hammer</module>
         <module>com.archimatetool.help</module>
         <module>com.archimatetool.jasperreports</module>
@@ -50,6 +52,10 @@
         <module>com.archimatetool.templates</module>
         <module>com.archimatetool.widgets</module>
         <module>com.archimatetool.zest</module>
+        <module>org.eclipse.draw2d</module>
+        <module>org.eclipse.gef</module>
+        <module>org.eclipse.zest.core</module>
+        <module>org.eclipse.zest.layouts</module>
         <module>org.opengroup.archimate.xmlexchange</module>
         <module>org.opengroup.archimate.xmlexchange.commandline</module>
     </modules>
