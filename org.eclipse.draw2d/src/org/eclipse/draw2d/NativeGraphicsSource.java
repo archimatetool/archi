@@ -46,7 +46,18 @@ public final class NativeGraphicsSource implements GraphicsSource {
     @Override
     public Graphics getGraphics(Rectangle r) {
         canvas.redraw(r.x, r.y, r.width, r.height, false);
-        canvas.update();
+        
+        // NOTE from Phillipus - the bug only seems to affect Windows and only when dragging from
+        // a source that isn't the diagram (Model Tree, Table, File, etc).
+
+        // This is needed to avoid SWT/GEF bug 137786
+        // (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=137786) where drag over
+        // feedback (ie the drag feedback provided by the drag source) and drag under
+        // feedback (ie the feedback provided by the drop target) interfere with each
+        // other, causing flickering and more importantly ugly graphical artifacts.
+
+        // canvas.update();
+        
         return null;
     }
 

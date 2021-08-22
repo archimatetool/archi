@@ -15,14 +15,10 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.GraphicsSource;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
@@ -59,7 +55,6 @@ import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -79,7 +74,6 @@ import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -360,64 +354,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         viewer.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiFigureCanvas"); //$NON-NLS-1$ //$NON-NLS-2$
     }
     
-    @Override
-    protected void createGraphicalViewer(Composite parent) {
-        // NOTE from Phillipus - the bug only seems to affect Windows and only when dragging from
-        // a source that isn't the diagram (Model Tree, Table, File, etc).
-        // I can't remember where the following hack came from, as I didn't devise it.
-        if(!PlatformUtils.isWindows()) {
-            super.createGraphicalViewer(parent);
-            return;
-        }
-
-        // Hack: specialize the GraphicsSource to avoid calling the
-        // Canvas#update() method in the GraphicsSource#getGraphics(Rectangle) method.
-        // This hack is needed to avoid SWT/GEF bug 137786
-        // (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=137786) where drag over
-        // feedback (ie the drag feedback provided by the drag source) and drag under
-        // feedback (ie the feedback provided by the drop target) interfere with each
-        // other, causing flickering and more importantly ugly graphical artifacts.
-
-        // In order to be able to specialize the GraphicsSource, we need to specialize
-        // the LightWeightSystem, and to do that we need in turn to specialize the GraphicalViewer.
-        final GraphicalViewer viewer = new ScrollingGraphicalViewer() {
-            @Override
-            protected LightweightSystem createLightweightSystem() {
-                return new LightweightSystem() {
-                    @Override
-                    public void setControl(final Canvas c) {
-                        super.setControl(c);
-                        this.getUpdateManager().setGraphicsSource(new GraphicsSource() {
-                            @Override
-                            public Graphics getGraphics(Rectangle r) {
-                                c.redraw(r.x, r.y, r.width, r.height, false);
-                                // The actual hack is the following code line:
-                                // In original GEF code a call is made to the #update() method of the c Canvas.
-                                // But calling #update() at this point causes SWT to redraw the drag over
-                                // feedback which in turn causes GEF to redraw the drag under feedback etc.
-                                // The final result is flickering (because of constant erase and redraw) and graphical artifacts.
-                                // Commenting this line however seems to have no side effect (so far).
-                                //c.update();
-                                return null;
-                            }
-        
-                            @Override
-                            public void flushGraphics(Rectangle region) {
-                                // Nothing to do.
-                            }
-                        });
-                    }
-                };
-            }
-        };
-
-        viewer.createControl(parent);
-        setGraphicalViewer(viewer);
-        configureGraphicalViewer();
-        hookGraphicalViewer();
-        initializeGraphicalViewer();
-    }
-
     private void hookSelectionListener() {
         getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
@@ -904,9 +840,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Connection Router types
         action = new ConnectionRouterAction.BendPointConnectionRouterAction(this);
-        registry.registerAction(action);
-// Doesn't work with Connection to Connection
-//        action = new ConnectionRouterAction.ShortestPathConnectionRouterAction(this);
         registry.registerAction(action);
         action = new ConnectionRouterAction.ManhattanConnectionRouterAction(this);
         registry.registerAction(action);
