@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
-import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -104,9 +103,7 @@ implements IDiagramModelObjectFigure {
     protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
         graphics.setLineWidth(lineWidth);
         
-        // If we are exporting to image or printing this will be ExtendedSWTGraphics
-        // Otherwise it will be SWTGraphics
-        final double scale = graphics instanceof ExtendedSWTGraphics ? ((ExtendedSWTGraphics)graphics).getScale() : FigureUtils.getFigureScale(this);
+        final double scale = FigureUtils.getGraphicsScale(graphics);
         
         // If line width is 1 and scale is 100% and don't use offset then do nothing
         if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {

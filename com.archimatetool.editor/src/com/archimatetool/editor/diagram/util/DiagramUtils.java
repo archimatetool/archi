@@ -160,7 +160,7 @@ public final class DiagramUtils {
         
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale) );
         GC gc = new GC(image);
-        SWTGraphics graphics = new ExtendedSWTGraphics(gc);
+        SWTGraphics graphics = new SWTGraphics(gc);
         
         // If scaled, then scale now
         // Issue #621: SWTGraphics supports scale() so no need to use ScaledGraphics

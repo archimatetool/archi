@@ -18,7 +18,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.ITextPosition;
 
@@ -63,7 +62,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         setLineWidth(graphics, 1, bounds);
 
         // Scale line dashes below 1.0
-        double scale = Math.min(graphics instanceof ExtendedSWTGraphics ? ((ExtendedSWTGraphics)graphics).getScale() : FigureUtils.getFigureScale(this), 1.0);
+        double scale = Math.min(FigureUtils.getGraphicsScale(graphics), 1.0);
         
         graphics.setLineDash(new float[] { (float)(8 * scale), (float)(4 * scale) });
         

@@ -18,8 +18,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.printing.Printer;
 
-import com.archimatetool.editor.diagram.util.ExtendedSWTGraphics;
-
 /**
  * Implementation of draw2d's printing capabilities.
  * 
@@ -76,8 +74,7 @@ public abstract class PrintOperation {
 			g.dispose();
 			g = null;
 		}
-		//g = new SWTGraphics(printerGC);
-        g = new ExtendedSWTGraphics(printerGC); // Phillipus - use ExtendedSWTGraphics
+		g = new SWTGraphics(printerGC);
 		setupGraphicsForPage(g);
 		return g;
 	}
