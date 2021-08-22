@@ -82,13 +82,23 @@ public class ScalableFreeformRootEditPart extends FreeformGraphicalRootEditPart 
 
     private ScalableFreeformLayeredPane scaledLayers;
     private ZoomManager zoomManager;
+    
+    private boolean useScaledGraphics = true;
+
+    /**
+     * Constructor for ScalableFreeformRootEditPart
+     */
+    public ScalableFreeformRootEditPart(boolean useScaledGraphics) {
+        this.useScaledGraphics = useScaledGraphics;
+        zoomManager = createZoomManager((ScalableFigure) getScaledLayers(),
+                ((Viewport) getFigure()));
+    }
 
     /**
      * Constructor for ScalableFreeformRootEditPart
      */
     public ScalableFreeformRootEditPart() {
-        zoomManager = createZoomManager((ScalableFigure) getScaledLayers(),
-                ((Viewport) getFigure()));
+        this(true);
     }
 
     /**
@@ -121,7 +131,7 @@ public class ScalableFreeformRootEditPart extends FreeformGraphicalRootEditPart 
      * @return a new freeform layered pane containing the scalable layers
      */
     protected ScalableFreeformLayeredPane createScaledLayers() {
-        ScalableFreeformLayeredPane layers = new ScalableFreeformLayeredPane();
+        ScalableFreeformLayeredPane layers = new ScalableFreeformLayeredPane(useScaledGraphics);
         layers.add(createGridLayer(), GRID_LAYER);
         layers.add(getPrintableLayers(), PRINTABLE_LAYERS);
         layers.add(new FeedbackLayer(), SCALED_FEEDBACK_LAYER);

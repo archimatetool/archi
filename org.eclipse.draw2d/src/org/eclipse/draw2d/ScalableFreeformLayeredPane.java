@@ -21,6 +21,15 @@ public class ScalableFreeformLayeredPane extends FreeformLayeredPane implements
         ScalableFigure {
 
     private double scale = 1.0;
+    
+    private boolean useScaledGraphics = true;
+
+    public ScalableFreeformLayeredPane() {
+    }
+
+    public ScalableFreeformLayeredPane(boolean useScaledGraphics) {
+        this.useScaledGraphics = useScaledGraphics;
+    }
 
     /**
      * @see org.eclipse.draw2d.Figure#getClientArea()
@@ -56,7 +65,6 @@ public class ScalableFreeformLayeredPane extends FreeformLayeredPane implements
     /**
      * @see org.eclipse.draw2d.Figure#paintClientArea(Graphics)
      */
-    @SuppressWarnings("deprecation")
     @Override
     protected void paintClientArea(Graphics graphics) {
         if (getChildren().isEmpty())
@@ -64,15 +72,27 @@ public class ScalableFreeformLayeredPane extends FreeformLayeredPane implements
         if (scale == 1.0) {
             super.paintClientArea(graphics);
         } else {
-            ScaledGraphics g = new ScaledGraphics(graphics);
             boolean optimizeClip = getBorder() == null
                     || getBorder().isOpaque();
-            if (!optimizeClip)
-                g.clipRect(getBounds().getCropped(getInsets()));
-            g.scale(scale);
-            g.pushState();
-            paintChildren(g);
-            g.dispose();
+
+            if(useScaledGraphics) {
+                ScaledGraphics g = new ScaledGraphics(graphics);
+                if (!optimizeClip)
+                    g.clipRect(getBounds().getShrinked(getInsets()));
+                g.scale(scale);
+                g.pushState();
+                paintChildren(g);
+                g.dispose();
+            }
+            else {
+                if (!optimizeClip)
+                    graphics.clipRect(getBounds().getShrinked(getInsets()));
+                graphics.scale(scale);
+                graphics.pushState();
+                paintChildren(graphics);
+                graphics.popState();
+            }
+            
             graphics.restoreState();
         }
     }
