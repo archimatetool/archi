@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import org.eclipse.gef.archi.print.PrintGraphicalViewerOperation;
+import org.eclipse.gef.print.PrintGraphicalViewerOperation;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.SWT;
@@ -59,6 +59,7 @@ public class PrintDiagramAction extends WorkbenchPartAction {
             GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
             
             PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(new Printer(data), viewer);
+            op.setUseScaledGraphics(false); // this should stop font clipping
             op.setPrintMode(printMode);
             op.run(getWorkbenchPart().getTitle());
 
