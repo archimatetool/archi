@@ -35,6 +35,7 @@ import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.internal.InternalGEFPlugin;
 import org.eclipse.gef.palette.PaletteListener;
@@ -128,7 +129,6 @@ import com.archimatetool.editor.diagram.actions.ToggleGridVisibleAction;
 import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesAction;
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
-import com.archimatetool.editor.diagram.editparts.ExtendedScalableFreeformRootEditPart;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
@@ -309,7 +309,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Create the Root Edit Part
      */
     protected void createRootEditPart(GraphicalViewer viewer) {
-        viewer.setRootEditPart(new ExtendedScalableFreeformRootEditPart());
+        viewer.setRootEditPart(new ScalableFreeformRootEditPart(false));
     }
     
     @Override

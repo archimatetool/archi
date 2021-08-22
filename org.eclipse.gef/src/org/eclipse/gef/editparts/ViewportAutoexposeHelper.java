@@ -32,12 +32,11 @@ import org.eclipse.gef.GraphicalEditPart;
  * 
  * @author hudsonr
  */
-@SuppressWarnings("deprecation")
 public class ViewportAutoexposeHelper extends ViewportHelper implements
         AutoexposeHelper {
 
     /** defines the range where autoscroll is active inside a viewer */
-    private static final Insets DEFAULT_EXPOSE_THRESHOLD = new Insets(18);
+    private static final Insets DEFAULT_EXPOSE_THRESHOLD = new Insets(36);
 
     /** the last time an auto expose was performed */
     private long lastStepTime = 0;
@@ -45,6 +44,8 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
     /** The insets for this helper. */
     private Insets threshold;
 
+    private boolean continueOutside = false;
+    
     /**
      * Constructs a new helper on the given GraphicalEditPart. The editpart must
      * have a <code>Viewport</code> somewhere between its <i>contentsPane</i>
@@ -75,6 +76,24 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
     }
 
     /**
+     * Constructs a new helper on the given GraphicalEditPart. The editpart must
+     * have a <code>Viewport</code> somewhere between its <i>contentsPane</i>
+     * and its <i>figure</i> inclusively.
+     * 
+     * @param owner
+     *            the GraphicalEditPart that owns the Viewport
+     * @param threshold
+     *            the Expose Threshold to use when determing whether or not a
+     *            scroll should occur.
+     * @param continueOutside
+     *            if true sceolling will continue outside the viewport
+     */
+    public ViewportAutoexposeHelper(GraphicalEditPart owner, Insets threshold, boolean continueOutside) {
+        this(owner, threshold);
+        this.continueOutside = continueOutside;
+    }
+
+    /**
      * Returns <code>true</code> if the given point is inside the viewport, but
      * near its edge.
      * 
@@ -88,7 +107,7 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
         port.getClientArea(rect);
         port.translateToParent(rect);
         port.translateToAbsolute(rect);
-        return rect.contains(where) && !rect.crop(threshold).contains(where);
+        return rect.contains(where) && !rect.shrink(threshold).contains(where);
     }
 
     /**
@@ -98,6 +117,8 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
      * 
      * todo: investigate if we should allow auto expose when the pointer is
      * outside the viewport
+     * 
+     * Phillipus added option to allow auto expose when the pointer is outside!
      * 
      * @see org.eclipse.gef.AutoexposeHelper#step(org.eclipse.draw2d.geometry.Point)
      */
@@ -109,9 +130,9 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
         port.getClientArea(rect);
         port.translateToParent(rect);
         port.translateToAbsolute(rect);
-        if (!rect.contains(where) || rect.crop(threshold).contains(where))
+        if (!(continueOutside || rect.contains(where) ) || rect.shrink(threshold).contains(where))
             return false;
-
+        
         // set scroll offset (speed factor)
         int scrollOffset = 0;
 
@@ -129,7 +150,7 @@ public class ViewportAutoexposeHelper extends ViewportHelper implements
         if (scrollOffset == 0)
             return true;
 
-        rect.crop(threshold);
+        rect.shrink(threshold);
 
         int region = rect.getPosition(where);
         Point loc = port.getViewLocation();

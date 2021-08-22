@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.sketch;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.help.HelpSystem;
@@ -21,7 +22,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
 import com.archimatetool.editor.diagram.DiagramEditorFindReplaceProvider;
 import com.archimatetool.editor.diagram.actions.FindReplaceAction;
-import com.archimatetool.editor.diagram.editparts.ExtendedScalableFreeformRootEditPart;
 import com.archimatetool.editor.diagram.sketch.dnd.SketchDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -90,7 +90,7 @@ implements ISketchEditor {
         /*
          * Over-ride ExtendedScalableFreeformRootEditPart to set a background image
          */
-        RootEditPart rootPart = new ExtendedScalableFreeformRootEditPart() {
+        RootEditPart rootPart = new ScalableFreeformRootEditPart(false) {
             @Override
             protected void createLayers(LayeredPane layeredPane) {
                 // Insert Background Image behind other layers
