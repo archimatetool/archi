@@ -61,6 +61,7 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
         LightweightSystem lws = new LightweightSystem(fCanvas);
         
         fThumbnail = new ScrollableThumbnail((Viewport)fEditPart.getFigure());
+        fThumbnail.setUseScaledGraphics(false);
         fThumbnail.setSource(fEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
         fThumbnail.setBorder(new MarginBorder(3));
         lws.setContents(fThumbnail);
