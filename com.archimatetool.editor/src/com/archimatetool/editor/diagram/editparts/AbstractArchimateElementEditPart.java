@@ -56,9 +56,12 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     protected void eCoreChanged(Notification msg) {
         Object feature = msg.getFeature();
         
-        // Junction incoming connection arrow heads visible or hidden
+        // Junction connection arrow/blob heads visible or hidden
         if(IFeatures.isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS)) {
             for(Object o : getTargetConnections()) {
+                ((EditPart)o).refresh();
+            }
+            for(Object o : getSourceConnections()) {
                 ((EditPart)o).refresh();
             }
             return;

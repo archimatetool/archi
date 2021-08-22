@@ -74,18 +74,15 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
         return new BallEndpoint();
     }
     
+    private RotatableDecoration fDecoratorSource = createFigureSourceDecoration();
     private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
     
     public AssignmentConnectionFigure() {
     }
 
     @Override
-    protected void setFigureProperties() {
-        setSourceDecoration(createFigureSourceDecoration());
-    }
-    
-    @Override
     public void refreshVisuals() {
+        setSourceDecoration(usePlainJunctionSourceDecoration() ? null : fDecoratorSource);
         setTargetDecoration(usePlainJunctionTargetDecoration() ? null : fDecoratorTarget);
         
         // This last
