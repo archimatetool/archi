@@ -135,14 +135,24 @@ public class ScalableRootEditPart extends SimpleRootEditPart implements
     };
 
     private ZoomManager zoomManager;
+    
+    private boolean useScaledGraphics = true;
 
     /**
-     * Constructor for ScalableFreeformRootEditPart
+     * Constructor for ScalableRootEditPart
      */
-    public ScalableRootEditPart() {
+    public ScalableRootEditPart(boolean useScaledGraphics) {
+        this.useScaledGraphics = useScaledGraphics;
         zoomManager = createZoomManager(
                 (ScalableLayeredPane) getScaledLayers(),
                 ((Viewport) getFigure()));
+    }
+
+    /**
+     * Constructor for ScalableRootEditPart
+     */
+    public ScalableRootEditPart() {
+        this(true);
     }
 
     /**
@@ -230,7 +240,7 @@ public class ScalableRootEditPart extends SimpleRootEditPart implements
      *         layers
      */
     protected ScalableLayeredPane createScaledLayers() {
-        ScalableLayeredPane layers = new ScalableLayeredPane();
+        ScalableLayeredPane layers = new ScalableLayeredPane(useScaledGraphics);
         layers.add(createGridLayer(), GRID_LAYER);
         layers.add(getPrintableLayers(), PRINTABLE_LAYERS);
         layers.add(new FeedbackLayer(), SCALED_FEEDBACK_LAYER);
