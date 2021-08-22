@@ -343,7 +343,10 @@ public class SWTGraphics extends Graphics {
             sharedClipping = false;
 
             boolean previouslyApplied = (appliedState == currentState.relativeClip);
-            currentState.relativeClip = currentState.relativeClip.getCopy();
+            // Phillipus Fix: currentState.relativeClip can be null and lead to NPE
+            // See https://github.com/archimatetool/archi/issues/431
+            // currentState.relativeClip = currentState.relativeClip.getCopy();
+            currentState.relativeClip = currentState.relativeClip != null ? currentState.relativeClip.getCopy() : null;
             if (previouslyApplied) {
                 appliedState.relativeClip = currentState.relativeClip;
             }

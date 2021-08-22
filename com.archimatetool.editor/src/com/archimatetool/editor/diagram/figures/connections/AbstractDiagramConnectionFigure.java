@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -13,8 +12,6 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.ScaledGraphics;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
@@ -324,31 +321,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         graphics.clipPath(path);
         
-        // Monkey patch to fix NPE when connection is disabled when Viewpoint set
-        // If we set private field sharedClipping to false then SWTGraphics.checkSharedClipping() is not called
-        // See https://github.com/archimatetool/archi/issues/431
-        if(!isEnabled()) {
-            try {
-                Graphics graphicsCopy = graphics;
-                
-                // ScaledGraphics is a wrapper around SWTGraphics
-                if(graphics instanceof ScaledGraphics) {
-                    Field f = graphicsCopy.getClass().getDeclaredField("graphics"); //$NON-NLS-1$
-                    f.setAccessible(true);
-                    graphicsCopy = (Graphics)f.get(graphics);
-                }
-                
-                // Set the "sharedClipping" field of the SWTGraphics class (or ExtendedSWTGraphics class) to false
-                Field f = SWTGraphics.class.getDeclaredField("sharedClipping"); //$NON-NLS-1$
-                f.setAccessible(true);
-                f.set(graphicsCopy, false);
-            }
-            catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-                // Consume this exception as this only applies to SWTGraphics and ScaledGraphics
-                // SVG Image Export uses GraphicsToGraphics2DAdaptor and will throw a NoSuchFieldException
-            }
-        }
-
         super.paintFigure(graphics);
         
         path.dispose();
