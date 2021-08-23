@@ -5,7 +5,7 @@ html {
 
 html.model > body {
   background:#ddd;
-  padding: 10px;
+  padding: 0;
 }
 
 html.frame > body {
@@ -20,7 +20,7 @@ ul, li {
   cursor: default;
 }
 li.tree-element, ul{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 /* jQuery UI Layout style */
@@ -86,7 +86,144 @@ xmp {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-/* ALasql console */
+/* Alasql console */
 #myconsole td {
     white-space: pre-wrap;
+}
+
+/* Changing Navbar color can be done by uncommenting and adapting what follows */
+/*
+.navbar {
+    background-color: #017a54;
+}
+
+.navbar .navbar-nav>li>a:hover {
+    background-color: rgb(255 255 255 / 20%);
+}
+
+.navbar .navbar-nav>li>a:focus {
+    background-color: rgb(255 255 255 / 0%);
+}
+*/
+
+/* Image Zoom Slider */
+.root-panel-heading {
+	position: relative;
+}
+
+#btnZoomIn, #btnZoomOut {
+	cursor: pointer;
+	padding: 0;
+}
+
+#zoomSlider {
+	width: 150px;
+    position: absolute;
+    top: 50% !important;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+#zoomRange {
+	padding: 0;
+}
+
+/* Internet Explorer input range theming thanks to https://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+input[type=range]::-ms-track {
+    width: 300px;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    background: #777;
+    border-radius: 10px;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ddd;
+    border-radius: 10px;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #767676;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ccc;
+}
+
+
+/* Firefox input range theming thanks to https://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+input[type=range]{
+	background: transparent;
+}
+
+input[type=range]::-moz-range-track {
+    /*width: 300px;*/
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #767676;
+}
+
+
+/* Search Box */
+#tree-search {
+  width: 5px;
+  box-sizing: border-box;
+  border: transparent;
+  border-radius: 20px;
+  background-color: transparent;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRFU1NT9fX1lJSUXl5e1dXVfn5+c3Nz6urqv7+/tLS0iYmJqampn5+fysrK39/faWlp////Vi4ZywAAABF0Uk5T/////////////////////wAlrZliAAABLklEQVR42rSWWRbDIAhFHeOUtN3/ags1zaA4cHrKZ8JFRHwoXkwTvwGP1Qo0bYObAPwiLmbNAHBWFBZlD9j0JxflDViIObNHG/Do8PRHTJk0TezAhv7qloK0JJEBh+F8+U/hopIELOWfiZUCDOZD1RADOQKA75oq4cvVkcT+OdHnqqpQCITWAjnWVgGQUWz12lJuGwGoaWgBKzRVBcCypgUkOAoWgBX/L0CmxN40u6xwcIJ1cOzWYDffp3axsQOyvdkXiH9FKRFwPRHYZUaXMgPLeiW7QhbDRciyLXJaKheCuLbiVoqx1DVRyH26yb0hsuoOFEPsoz+BVE0MRlZNjGZcRQyHYkmMp2hBTIzdkzCTc/pLqOnBrk7/yZdAOq/q5NPBH1f7x7fGP4C3AAMAQrhzX9zhcGsAAAAASUVORK5CYII=);
+  background-size: 20px;
+  background-position: right 5px center; 
+  background-repeat: no-repeat;
+  padding: 5px 15px 5px 15px;
+  cursor: pointer;
+}
+
+#tree-search:focus {
+  width: 100%;
+  cursor: auto;
+  background-color: #FFF !important;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
+#tree-search.filtered {
+  background-color: #ddd;
+}
+
+/* To remove cross symbol in input field  */
+#tree-search::-ms-clear {
+   display: none;
+}
+
+#searchBox {
+    position: absolute;
+    top: 50% !important;
+    right: 0;
+    transform: translateY(-50%);
+	padding-right: 5px;
 }
