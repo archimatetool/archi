@@ -3,7 +3,11 @@ expandChildren(children) ::= <<
 	^if(c.ArchimateElement)^
 		<tr>
 		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td>
-		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^c.ArchimateConcept.Class.SimpleName^"> </a> </td>
+		    <td> <a href="../elements/^c.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^c.ArchimateConcept.Class.SimpleName^">
+		    ^if(c.ArchimateConcept.PrimaryProfile)^
+		    	(^c.ArchimateConcept.PrimaryProfile.Name^)
+		    ^endif^
+		    </a> </td>
 		</tr>
 	^elseif(c.ReferencedModel)^
 		<tr>
@@ -32,7 +36,11 @@ expandChildrenRel(children) ::= <<
 				^if(r.ArchimateConcept)^
 					<tr>
 						<td> <a href="../elements/^r.ArchimateConcept.Id^.html" target="element"> ^r.Name;format="xml-encode"^ </a> </td>
-						<td> <a href="../elements/^r.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^r.ArchimateConcept.Class.SimpleName^"></a> </td>
+						<td> <a href="../elements/^r.ArchimateConcept.Id^.html" target="element" class="i18n-elementtype-^r.ArchimateConcept.Class.SimpleName^">
+					    ^if(r.ArchimateConcept.PrimaryProfile)^
+					    	(^r.ArchimateConcept.PrimaryProfile.Name^)
+					    ^endif^
+						</a> </td>
 						<td> <a href="../elements/^r.ArchimateConcept.Source.Id^.html" target="element"> ^r.ArchimateConcept.Source.Name;format="xml-encode"^ </a> </td>
 						<td> <a href="../elements/^r.ArchimateConcept.Target.Id^.html" target="element"> ^r.ArchimateConcept.Target.Name;format="xml-encode"^ </a> </td>
 					</tr>
@@ -203,16 +211,23 @@ frame(element, map) ::= <<
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="documentation">
+						^if(element.PrimaryProfile)^
+							<br>
+							<b class="i18n-specialization"></b>
+								^element.PrimaryProfile.Name^
+					    ^endif^
 						^if(element.Source)^
 							<br>
 							<b class="i18n-relation-source"></b>
 								<a href="../elements/^element.Source.Id^.html" target="element">
 									^element.Source.Name;format="xml-encode"^
-								</a> <br>
+								</a>
+							<br>
 							<b class="i18n-relation-target"></b>
 								<a href="../elements/^element.Target.Id^.html" target="element">
 									^element.Target.Name;format="xml-encode"^
-								</a> <br>
+								</a>
+							<br>
 							<br>
 						^endif^
 						<div class="convertlinks documentation" style="white-space:pre-wrap">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</div>
