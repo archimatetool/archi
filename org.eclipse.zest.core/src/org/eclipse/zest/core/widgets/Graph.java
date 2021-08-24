@@ -112,7 +112,11 @@ public class Graph extends FigureCanvas implements IContainer {
     private ZestRootLayer zestRootLayer;
 
     private boolean hasPendingLayoutRequest;
-
+    
+    // Animation access added by Phillipus
+    private int animationTime = ANIMATION_TIME;
+    private boolean animationEnabled = false;
+    
     /**
      * Constructor for a Graph. This widget represents the root of the graph,
      * and can contain graph items such as graph nodes and graph connections.
@@ -499,6 +503,26 @@ public class Graph extends FigureCanvas implements IContainer {
                 });
         return figureUnderMouse;
 
+    }
+    
+    // //////////////////////////////////////////////////////////////////////////////////
+    // ANIMATION API added by Phillipus
+    // //////////////////////////////////////////////////////////////////////////////////
+    
+    public void setAnimationTime(int animationTime) {
+        this.animationTime = animationTime;
+    }
+    
+    public int getAnimationTime() {
+        return animationTime;
+    }
+    
+    public void setAnimationEnabled(boolean enabled) {
+        animationEnabled = enabled;
+    }
+
+    public boolean isAnimationEnabled() {
+        return animationEnabled;
     }
 
     // /////////////////////////////////////////////////////////////////////////////////
@@ -1158,13 +1182,13 @@ public class Graph extends FigureCanvas implements IContainer {
         LayoutEntity[] nodesToLayout = getNodesToLayout(getNodes());
 
         try {
-            if ((nodeStyle & ZestStyles.NODES_NO_LAYOUT_ANIMATION) == 0) {
+            if ((nodeStyle & ZestStyles.NODES_NO_LAYOUT_ANIMATION) == 0 && animationEnabled) {
                 Animation.markBegin();
             }
             layoutAlgorithm.applyLayout(nodesToLayout, connectionsToLayout, 0,
                     0, d.width, d.height, false, false);
-            if ((nodeStyle & ZestStyles.NODES_NO_LAYOUT_ANIMATION) == 0) {
-                Animation.run(ANIMATION_TIME);
+            if ((nodeStyle & ZestStyles.NODES_NO_LAYOUT_ANIMATION) == 0 && animationEnabled) {
+                Animation.run(animationTime);
             }
             getLightweightSystem().getUpdateManager().performUpdate();
 
