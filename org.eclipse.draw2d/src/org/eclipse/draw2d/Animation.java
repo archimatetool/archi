@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.swt.widgets.Display;
+
 /**
  * A utility for coordinating figure animations. During animation, multiple
  * <i>animators</i> are employed to capture the <em>initial</em> and
@@ -41,7 +43,6 @@ import java.util.Set;
  * @see LayoutAnimator
  * @since 3.2
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class Animation {
 
     static class AnimPair {
@@ -67,10 +68,10 @@ public class Animation {
     }
 
     private static final int DEFAULT_DELAY = 250;
-    private static Set figureAnimators;
-    private static Map finalStates;
+    private static Set<AnimPair> figureAnimators;
+    private static Map<AnimPair, Object> finalStates;
 
-    private static Map initialStates;
+    private static Map<AnimPair, Object> initialStates;
     private static final int PLAYBACK = 3;
     private static float progress;
     private static final int RECORD_FINAL = 2;
@@ -78,14 +79,14 @@ public class Animation {
     private static final int RECORD_INITIAL = 1;
     private static long startTime;
     private static int state;
-    private static Set toCapture;
+    private static Set<AnimPair> toCapture;
 
     private static UpdateManager updateManager;
 
     private static void capture() {
-        Iterator keys = figureAnimators.iterator();
+        Iterator<AnimPair> keys = figureAnimators.iterator();
         while (keys.hasNext()) {
-            AnimPair pair = (AnimPair) keys.next();
+            AnimPair pair = keys.next();
             if (toCapture.contains(pair))
                 pair.animator.capture(pair.figure);
             else
@@ -95,9 +96,9 @@ public class Animation {
 
     static void cleanup() {
         if (figureAnimators != null) {
-            Iterator keys = figureAnimators.iterator();
+            Iterator<AnimPair> keys = figureAnimators.iterator();
             while (keys.hasNext()) {
-                AnimPair pair = (AnimPair) keys.next();
+                AnimPair pair = keys.next();
                 pair.animator.tearDown(pair.figure);
             }
         }
@@ -128,7 +129,12 @@ public class Animation {
 
         while (progress != 0) {
             step();
-            updateManager.performUpdate();
+            
+            // Fix animation not working
+            // There might be a better fix, but this will have to do until one is found
+            // updateManager.performUpdate();
+            Display.getDefault().readAndDispatch();
+            
             if (progress == 1.0)
                 progress = 0;
             else {
@@ -142,7 +148,7 @@ public class Animation {
     }
 
     private static void findUpdateManager() {
-        AnimPair pair = (AnimPair) figureAnimators.iterator().next();
+        AnimPair pair = figureAnimators.iterator().next();
         updateManager = pair.figure.getUpdateManager();
     }
 
@@ -231,19 +237,19 @@ public class Animation {
     public static boolean markBegin() {
         if (state == 0) {
             state = RECORD_INITIAL;
-            initialStates = new HashMap();
-            finalStates = new HashMap();
-            figureAnimators = new HashSet();
-            toCapture = new HashSet();
+            initialStates = new HashMap<>();
+            finalStates = new HashMap<>();
+            figureAnimators = new HashSet<>();
+            toCapture = new HashSet<>();
             return true;
         }
         return false;
     }
 
     private static void notifyPlaybackStarting() {
-        Iterator keys = figureAnimators.iterator();
+        Iterator<AnimPair> keys = figureAnimators.iterator();
         while (keys.hasNext()) {
-            AnimPair pair = (AnimPair) keys.next();
+            AnimPair pair = keys.next();
             pair.animator.playbackStarting(pair.figure);
         }
     }
@@ -274,6 +280,13 @@ public class Animation {
      * @since 3.2
      */
     public static void run(int duration) {
+        // Because our fix calls Display.getDefault().readAndDispatch();
+        // run() can be called again whilst playing back
+        // This guards against that
+        if(state == PLAYBACK) {
+            return;
+        }
+
         if (state == 0)
             return;
         try {
@@ -285,9 +298,9 @@ public class Animation {
     }
 
     private static void step() {
-        Iterator iter = initialStates.keySet().iterator();
+        Iterator<AnimPair> iter = initialStates.keySet().iterator();
         while (iter.hasNext())
-            ((AnimPair) iter.next()).figure.revalidate();
+            iter.next().figure.revalidate();
     }
 
 }
