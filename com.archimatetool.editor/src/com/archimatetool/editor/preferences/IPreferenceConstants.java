@@ -125,6 +125,12 @@ public interface IPreferenceConstants {
     
     String SCALE_IMAGE_EXPORT = "scaleImageExport";
     
+    // Animation
+    String ANIMATE_VIEW = "animateView";
+    String ANIMATION_VIEW_TIME = "animationViewTime";
+    String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes";
+    String ANIMATE_VISUALISER_TIME = "animationVisualiserTime";
+
     // ======================================= Internal =======================================
     
     String GRID_VISIBLE = "gridVisible";

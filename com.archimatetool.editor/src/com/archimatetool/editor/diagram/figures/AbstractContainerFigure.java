@@ -15,6 +15,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -45,6 +46,9 @@ implements IContainerFigure {
         if(fMainFigure == null) {
             fMainFigure = new FreeformLayer();
             fMainFigure.setLayoutManager(new XYLayout());
+            
+            // Have to add this if we want Animation to work on figures
+            AnimationUtil.addFigureForAnimation(fMainFigure);
         }
         
         return fMainFigure;

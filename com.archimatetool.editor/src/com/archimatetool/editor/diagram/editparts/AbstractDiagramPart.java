@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.Animation;
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ConnectionLayer;
@@ -25,6 +26,7 @@ import org.eclipse.gef.SnapToHelper;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
@@ -78,7 +80,7 @@ implements IEditPartFilterProvider {
             case Notification.SET:
                 // Connection Router Type
                 if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
-                    refreshVisuals();
+                    setConnectionRouter(true);
                 }
                 break;
 
@@ -150,6 +152,9 @@ implements IEditPartFilterProvider {
         
         figure.setLayoutManager(new FreeformLayout());
         
+        // Have to add this if we want Animation to work on figures!
+        AnimationUtil.addFigureForAnimation(figure);
+        
         // Anti-aliasing
         setAntiAlias();
 
@@ -158,18 +163,21 @@ implements IEditPartFilterProvider {
     
     @Override
     public void refreshVisuals() {
-        // Set Connection Router type for the whole diagram
-        
+        setConnectionRouter(false);
+    }
+    
+    /**
+     * Set Connection Router type for the whole diagram
+     */
+    protected void setConnectionRouter(boolean withAnimation) {
+        // Animation
+        if(withAnimation && AnimationUtil.doAnimate()) {
+            Animation.markBegin();
+        }
+
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        
+
         switch(getModel().getConnectionRouterType()) {
-// Doesn't work with Connection to Connection
-//            case IDiagramModel.CONNECTION_ROUTER_SHORTEST_PATH:
-//                router = new FanRouter();
-//                router.setNextRouter(new ShortestPathConnectionRouter(getFigure()));
-//                cLayer.setConnectionRouter(router);
-//                break;
-                
             case IDiagramModel.CONNECTION_ROUTER_MANHATTAN:
                 cLayer.setConnectionRouter(new ManhattanConnectionRouter());
                 break;
@@ -180,6 +188,10 @@ implements IEditPartFilterProvider {
                 router.setNextRouter(new BendpointConnectionRouter());
                 cLayer.setConnectionRouter(router);
                 break;
+        }
+
+        if(withAnimation && AnimationUtil.doAnimate()) {
+            Animation.run(AnimationUtil.animationSpeed());
         }
     }
     

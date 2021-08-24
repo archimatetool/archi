@@ -12,7 +12,7 @@ import com.archimatetool.model.IDiagramModelBendpoint;
  * 
  * @author Phillip Beauvoir
  */
-public class DeleteBendpointCommand extends BendpointCommand {
+public class DeleteBendpointCommand extends BendpointCommand implements IAnimatableCommand {
     
     private IDiagramModelBendpoint fBendpoint;
 

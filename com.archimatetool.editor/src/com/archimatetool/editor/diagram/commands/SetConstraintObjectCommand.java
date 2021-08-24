@@ -31,7 +31,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class SetConstraintObjectCommand extends CompoundCommand {
+public class SetConstraintObjectCommand extends CompoundCommand implements IAnimatableCommand {
 
     private IDiagramModelObject fObject;
     private IBounds fNewPos, fOldPos;

@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -61,6 +62,9 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 	    fDiagramModelConnection = connection;
 	    
 	    setFigureProperties();
+        
+        // Have to add this if we want Animation to work!
+        AnimationUtil.addConnectionForRoutingAnimation(this);
 	}
 	
 	@Override

@@ -19,6 +19,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.diagram.util.AnimationUtil;
+
 
 /**
  * General Preferences Page
@@ -42,6 +44,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fScaleImagesButton;
     
     private Button fUseLabelExpressionsButton;
+    
+    private Button fDoAnimationViewButton;
+    private Spinner fAnimationViewTimeSpinner;
+    private Button fAnimateVisualiserNodesButton;
+    private Spinner fAnimationVisualiserTimeSpinner;
 
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -125,13 +132,49 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.GeneralPreferencePage_14);
         label.setLayoutData(createHorizontalGridData(2));
         
+        // -------------- Animation ----------------------------
+        
+        if(AnimationUtil.supportsAnimation()) {
+            Group animationGroup = new Group(client, SWT.NULL);
+            animationGroup.setText(Messages.GeneralPreferencePage_3);
+            animationGroup.setLayout(new GridLayout(4, true));
+            animationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            // Animate View
+            fDoAnimationViewButton = new Button(animationGroup, SWT.CHECK);
+            fDoAnimationViewButton.setText(Messages.GeneralPreferencePage_4);
+            fDoAnimationViewButton.setLayoutData(createHorizontalGridData(2));
+
+            // Animation View Speed
+            label = new Label(animationGroup, SWT.NULL);
+            label.setText(Messages.GeneralPreferencePage_8);
+
+            fAnimationViewTimeSpinner = new Spinner(animationGroup, SWT.BORDER);
+            fAnimationViewTimeSpinner.setMinimum(10);
+            fAnimationViewTimeSpinner.setMaximum(500);
+
+            // Animate Visualiser
+            fAnimateVisualiserNodesButton = new Button(animationGroup, SWT.CHECK);
+            fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_9);
+            fAnimateVisualiserNodesButton.setLayoutData(createHorizontalGridData(2));
+            
+            // Animation Visualiser Speed
+            label = new Label(animationGroup, SWT.NULL);
+            label.setText(Messages.GeneralPreferencePage_8);
+
+            fAnimationVisualiserTimeSpinner = new Spinner(animationGroup, SWT.BORDER);
+            fAnimationVisualiserTimeSpinner.setMinimum(10);
+            fAnimationVisualiserTimeSpinner.setMaximum(500);
+        }
+        
         setValues();
         
         return client;
     }
 
     private void setValues() {
-        setSpinnerValues();
+        fMRUSizeSpinner.setSelection(getPreferenceStore().getInt(MRU_MAX));
+        
         fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         
@@ -141,10 +184,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
 
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
-    }
-    
-    private void setSpinnerValues() {
-        fMRUSizeSpinner.setSelection(getPreferenceStore().getInt(MRU_MAX));
+        
+        if(AnimationUtil.supportsAnimation()) {
+            fDoAnimationViewButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VIEW));
+            fAnimationViewTimeSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_VIEW_TIME));
+            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
+            fAnimationVisualiserTimeSpinner.setSelection(getPreferenceStore().getInt(ANIMATE_VISUALISER_TIME));
+        }
     }
     
     @Override
@@ -159,6 +205,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
+        
+        if(AnimationUtil.supportsAnimation()) {
+            getPreferenceStore().setValue(ANIMATE_VIEW, fDoAnimationViewButton.getSelection());
+            getPreferenceStore().setValue(ANIMATION_VIEW_TIME, fAnimationViewTimeSpinner.getSelection());
+            getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
+            getPreferenceStore().setValue(ANIMATE_VISUALISER_TIME, fAnimationVisualiserTimeSpinner.getSelection());
+        }
         
         return true;
     }
@@ -175,6 +228,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
+        
+        if(AnimationUtil.supportsAnimation()) {
+            fDoAnimationViewButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VIEW));
+            fAnimationViewTimeSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATION_VIEW_TIME));
+            fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
+            fAnimationVisualiserTimeSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATE_VISUALISER_TIME));
+        }
         
         super.performDefaults();
     }

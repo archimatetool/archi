@@ -36,6 +36,7 @@ import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.Logger;
+import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.ModelChecker;
@@ -577,6 +578,9 @@ implements IEditorModelManager {
                     }
                 }
             });
+            
+            // Animate Commands
+            AnimationUtil.registerCommandStack(cmdStack);
         }
         
         model.setAdapter(CommandStack.class, cmdStack);

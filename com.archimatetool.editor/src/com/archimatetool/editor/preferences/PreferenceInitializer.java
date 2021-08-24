@@ -135,7 +135,12 @@ implements IPreferenceConstants {
         // Windows hi-res and Mac Retina use 200 zoom, Linux is 100
         store.setDefault(SCALE_IMAGE_EXPORT, (!PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) ? true : false);
         
-        
+        // Animation
+        store.setDefault(ANIMATE_VIEW, false);
+        store.setDefault(ANIMATION_VIEW_TIME, 200);
+        store.setDefault(ANIMATE_VISUALISER_NODES, false);
+        store.setDefault(ANIMATE_VISUALISER_TIME, 400);
+
         // ======================================= Internal =======================================
         
         store.setDefault(GRID_VISIBLE, false);
