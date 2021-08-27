@@ -50,6 +50,7 @@ public class TextRenderer {
         registerRenderer(new RelationshipRenderer());
         registerRenderer(new ViewpointRenderer());
         
+        registerRenderer(new IfRenderer());
         registerRenderer(new WordWrapRenderer());
     }
     
