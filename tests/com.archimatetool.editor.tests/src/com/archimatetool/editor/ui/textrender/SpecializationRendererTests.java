@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IProfile;
@@ -37,24 +38,13 @@ public class SpecializationRendererTests extends AbstractTextRendererTests {
     private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
     private IDiagramModelArchimateConnection dmc = TextRendererTests.createDiagramModelConnection();
     
-    private IProfile profile1, profile2;
+    private IProfile profile1, profile2, profile3;
     
     @Before
     public void runOnceBeforeEachTest() {
-        profile1 = IArchimateFactory.eINSTANCE.createProfile();
-        profile1.setName("Profile1");
-        profile1.setConceptType(dmo.getArchimateModel().eClass().getName());
-        
-        profile2 = IArchimateFactory.eINSTANCE.createProfile();
-        profile2.setName("Profile2");
-        profile2.setConceptType(dmo.getArchimateModel().eClass().getName());
-        
-        dmo.getArchimateModel().getProfiles().add(profile1);
-        dmo.getArchimateElement().getProfiles().add(profile1);
-        
-        dmc.getArchimateModel().getProfiles().add(profile2);
-        ((IDiagramModelArchimateObject)dmc.getSource()).getArchimateElement().getProfiles().add(profile2);
-        ((IDiagramModelArchimateObject)dmc.getTarget()).getArchimateElement().getProfiles().add(profile2);
+        profile1 = dmo.getArchimateConcept().getPrimaryProfile();
+        profile2 = ((IDiagramModelArchimateComponent)dmc.getSource()).getArchimateConcept().getPrimaryProfile();
+        profile3 = ((IDiagramModelArchimateComponent)dmc.getTarget()).getArchimateConcept().getPrimaryProfile();
     }
 
     @Override
@@ -77,7 +67,7 @@ public class SpecializationRendererTests extends AbstractTextRendererTests {
     @Test
     public void render_TargetSpecialization() {
         String result = renderer.render(dmc, "$target{specialization}");
-        assertEquals(profile2.getName(), result);
+        assertEquals(profile3.getName(), result);
     }
 
     @Test
@@ -100,7 +90,7 @@ public class SpecializationRendererTests extends AbstractTextRendererTests {
     @Test
     public void render_ConnectedTargetName() {
         String result = renderer.render(dmc.getSource(), "$assignment:target{specialization}");
-        assertEquals(profile2.getName(), result);
+        assertEquals(profile3.getName(), result);
     }
 
 }
