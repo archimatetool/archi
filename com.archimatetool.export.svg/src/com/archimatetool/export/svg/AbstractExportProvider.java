@@ -15,6 +15,10 @@ import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
+import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,6 +27,7 @@ import com.archimatetool.editor.diagram.IImageExportProvider;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
+import com.archimatetool.model.IDiagramModel;
 
 
 
@@ -134,6 +139,36 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         root.setAttributeNS(null, "viewBox", min_x + " " + min_y + " " + width + " " + height);  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
     
+    /**
+     * Create a DOM element for the given IDiagramModel
+     */
+    protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
+        Shell shell = new Shell();
+        
+        try {
+            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, shell);
+            LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
+            IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+            setFigure(figure);
+        }
+        finally {
+            shell.dispose();
+        }
+
+        // Initialise
+        initialiseGraphics();
+
+        // Get the Element root from the SVGGraphics2D instance
+        Element root = svgGraphics2D.getRoot();
+
+        // Set the Viewbox
+        if(setViewBox) {
+            setViewBoxAttribute(root, 0, 0, viewPortBounds.width, viewPortBounds.height);
+        }
+        
+        return root;
+    }
+
     /**
      * Load Windows fonts into AWT installed for the user, not "for all users" - we need to do this to register fonts for Windows
      */

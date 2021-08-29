@@ -13,9 +13,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,11 +22,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.w3c.dom.Element;
 
-import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -97,36 +92,6 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         }
     }
     
-    /**
-     * Create the DOM element for the given IDiagramModel
-     */
-    private Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
-        Shell shell = new Shell();
-        
-        try {
-            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, shell);
-            LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
-            IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-            setFigure(figure);
-        }
-        finally {
-            shell.dispose();
-        }
-
-        // Initialise
-        initialiseGraphics();
-
-        // Get the Element root from the SVGGraphics2D instance
-        Element root = svgGraphics2D.getRoot();
-
-        // Set the Viewbox
-        if(setViewBox) {
-            setViewBoxAttribute(root, 0, 0, viewPortBounds.width, viewPortBounds.height);
-        }
-        
-        return root;
-    }
-
     /**
      * Write the DOM element to file
      */

@@ -5,11 +5,12 @@
  */
 package com.archimatetool.export.svg;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.StringWriter;
 
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -20,6 +21,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.Element;
 
+import com.archimatetool.model.IDiagramModel;
+
 
 
 /**
@@ -27,9 +30,10 @@ import org.w3c.dom.Element;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class PDFExportProvider extends AbstractExportProvider {
     
-    public static final String PDF_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.pdf.imageExporter"; //$NON-NLS-1$
+    public static final String PDF_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.pdf.imageExporter";
     
     @Override
     public void export(String providerID, File file) throws Exception {
@@ -41,34 +45,52 @@ public class PDFExportProvider extends AbstractExportProvider {
         // And set some attributes on the root element
         setViewBoxAttribute(root, 0, 0, viewPortBounds.width, viewPortBounds.height);
         
-        // Save the root element to a temp file
-        File tmp = File.createTempFile("svg", null); //$NON-NLS-1$
-        tmp.deleteOnExit();
-        Writer out = new OutputStreamWriter(new FileOutputStream(tmp), "UTF-8"); //$NON-NLS-1$
-        svgGraphics2D.stream(root, out);
-        
-        // Close
-        svgGraphics2D.dispose();
-        out.close();
-        
+        // Save the root element
+        writeElementToFile(root, file);
+    }
+
+    /**
+     * Save the diagram model image to file in PDF format
+     * @param diagramModel The diagram model 
+     * @param file The file to save to
+     * @throws Exception
+     */
+    public void export(IDiagramModel diagramModel, File file) throws Exception {
+        Element root = createElementForView(diagramModel, true);
+        writeElementToFile(root, file);
+    }
+    
+    /**
+     * Write the DOM element to file
+     */
+    private void writeElementToFile(Element root, File file) throws Exception {
         // PDF Transcoder
-        TranscoderInput inputSVG = new TranscoderInput(tmp.toURI().toURL().toString());
-        
-        OutputStream outStream = new FileOutputStream(file);
-        TranscoderOutput outputPDF = new TranscoderOutput(outStream);   
-        
         PDFTranscoder transcoder = new PDFTranscoder();
-        
         transcoder.addTranscodingHint(AbstractFOPTranscoder.KEY_AUTO_FONTS, false); // Don't create font cache
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)viewPortBounds.width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)viewPortBounds.height);
+
+        String svgString;
         
-        transcoder.transcode(inputSVG, outputPDF);
+        // Get SVG as String
+        try(StringWriter out = new StringWriter()) {
+            svgGraphics2D.stream(root, out);
+            svgString = out.toString();
+        }
+        finally {
+            svgGraphics2D.dispose();
+        }
         
-        outStream.flush();
-        outStream.close();
-        
-        tmp.delete();
+        // Stream to PDF
+        try(OutputStream outStream = new FileOutputStream(file)) {
+            TranscoderOutput outputPDF = new TranscoderOutput(outStream);
+            
+            try(InputStream svgStringStream = new ByteArrayInputStream(svgString.getBytes("UTF-8"));) {
+                TranscoderInput inputSVG = new TranscoderInput(svgStringStream);
+                transcoder.transcode(inputSVG, outputPDF);
+                outStream.flush();
+            }
+        }
     }
 
     @Override
