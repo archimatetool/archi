@@ -59,7 +59,6 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IBounds;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -868,35 +867,46 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected void eCoreChanged(Notification msg) {
-        switch(msg.getEventType()) {
-            case Notification.ADD:
-            case Notification.ADD_MANY:
-            case Notification.REMOVE:
-            case Notification.REMOVE_MANY:
-            case Notification.MOVE:
-                refresh();
-                break;
-            case Notification.SET:
-                // Current component name change
-                if(msg.getNotifier() == fDrillDownManager.getCurrentConcept()) {
-                    updateLabel();
-                }
-                if(!(msg.getNewValue() instanceof IBounds)) { // Don't update on bounds change. This can cause a conflict with Undo/Redo animation
-                    super.eCoreChanged(msg);
-                }
-                break;
-
-            default:
-                break;
-        }
+        doRefresh(msg);
     }
     
     @Override
     protected void doRefreshFromNotifications(List<Notification> notifications) {
-        refresh();
+        for(Notification msg : notifications) {
+            if(doRefresh(msg)) {
+                break; // Only need to refresh once
+            }
+        }
+        
         super.doRefreshFromNotifications(notifications);
     }
-
+    
+    private boolean doRefresh(Notification msg) {
+        // Name change
+        if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            getViewer().update(msg.getNotifier(), null);
+            // Update label
+            if(msg.getNotifier() == fDrillDownManager.getCurrentConcept()) {
+                updateLabel();
+            }
+        }
+        // Requires a full refresh
+        else if(isRefreshEvent(msg)) {
+            refresh();
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean isRefreshEvent(Notification msg) {
+        if(msg.getNewValue() instanceof IArchimateConcept || msg.getOldValue() instanceof IArchimateConcept) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     // =================================================================================
     //                       Contextual Help support
     // =================================================================================
