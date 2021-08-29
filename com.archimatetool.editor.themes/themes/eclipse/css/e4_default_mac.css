@@ -65,18 +65,6 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
 	background-color: rgb(255, 255, 255);
 }
 
-.MToolControl.TrimStack {
-	frame-image: url(./macTSFrame.png);
-	handle-image: url(./macHandle.png);
-	frame-image-rotated: url(./macTSFrame-rotated.png);
-	handle-image-rotated: url(./macHandle-rotated.png);
-	frame-cuts: 5px 1px 5px 16px;
-}
-
-.MToolBar.Draggable {
-	handle-image: url(./macHandle.png);
-}
-
 .MPartStack {
 	swt-simple: false;
 	swt-unselected-tabs-color: rgb(255, 255, 255);

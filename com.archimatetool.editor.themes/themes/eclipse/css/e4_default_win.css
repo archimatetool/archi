@@ -58,13 +58,6 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
 	color: #F0F0F0;
 }
 
-.MToolControl.TrimStack {
-	frame-image:  url(./winTSFrame.png);
-	handle-image:  url(./winHandle.png);
-	frame-image-rotated:  url(./winTSFrame-rotated.png);
-	handle-image-rotated:  url(./winHandle-rotated.png);
-}
-
 .MPartStack {
 	swt-simple: true;
 }

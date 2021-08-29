@@ -24,14 +24,6 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/archi-light-styling.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
 
-.MToolControl.TrimStack {
-	frame-image:  url(./winXPTSFrame.png);
-	handle-image:  url(./winXPHandle.png);
-	frame-image-rotated:  url(./winXPTSFrame-rotated.png);
-	handle-image-rotated:  url(./winXPHandle-rotated.png);
-	frame-cuts: 5px 1px 5px 16px;
-}
-
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
 	color: '#COLOR-WIDGET-BACKGROUND';
 }
@@ -96,13 +88,6 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
 
 .MTrimBar#org-eclipse-ui-main-toolbar  {
 	background-color: COLOR-WIDGET-BACKGROUND '#COLOR-WIDGET-BACKGROUND' 100%;
-}
-
-.MToolControl.TrimStack {
-	frame-image:  url(./gtkTSFrame.png);
-	handle-image:  url(./gtkHandle.png);
-	frame-image-rotated:  url(./gtkTSFrame-rotated.png);
-	handle-image-rotated:  url(./gtkHandle-rotated.png);
 }
 
 .MPartStack {

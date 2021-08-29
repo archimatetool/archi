@@ -23,14 +23,6 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark-drag-styling.css");
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/archi-dark-styling.css");
 
-.MToolControl.TrimStack {
-    /*frame-image:  url(./gtkTSFrame.png);*/
-    handle-image:  url(./dragHandle.png);
-    /*frame-image-rotated:  url(./gtkTSFrame-rotated.png);*/
-    handle-image-rotated:  url(./dragHandle-rotated.png);
-    frame-cuts: 5px 1px 5px 16px;
-}
-
 CTabFolder Canvas {
     background-color: #2F2F2F;
     color: #CCC;

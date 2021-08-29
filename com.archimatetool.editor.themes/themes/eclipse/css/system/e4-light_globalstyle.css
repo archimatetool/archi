@@ -16,8 +16,8 @@
 
 Form {
 	/* Bug 465148: Additional styling for the Form */
-	color: '#COLOR-TITLE-BACKGROUND';
-	text-background-color:'#COLOR-TITLE-FOREGROUND';
+	color: '#COLOR-TITLE-FOREGROUND';
+	text-background-color:'#COLOR-TITLE-BACKGROUND-GRADIENT';
 
 	tb-toggle-hover-color: '#COLOR-TITLE-FOREGROUND-GRAD';
 	tb-toggle-color: '#COLOR-TITLE-FOREGROUND';

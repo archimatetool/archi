@@ -16,15 +16,6 @@
 
 /* ################################ CSS related to drag and drop ########################## */
 
-
-.MToolBar.Draggable {
-    handle-image:  url(./dragHandle.png);
-}
-
-.MToolControl.Draggable {
-    handle-image:  url(./dragHandle.png);
-}
-
 .DragFeedback {
 	background-color: COLOR-WIDGET-NORMAL-SHADOW;
 }
