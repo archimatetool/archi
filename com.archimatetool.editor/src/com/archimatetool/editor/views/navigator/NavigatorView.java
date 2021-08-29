@@ -374,38 +374,40 @@ implements INavigatorView, ISelectionListener {
     
     @Override
     protected void eCoreChanged(Notification msg) {
-        switch(msg.getEventType()) {
-            case Notification.ADD:
-            case Notification.ADD_MANY:
-            case Notification.REMOVE:
-            case Notification.REMOVE_MANY:
-            case Notification.MOVE:
-                getViewer().refresh();
-                break;
-                
-            case Notification.SET:
-                Object feature = msg.getFeature();
-
-                // Relationship/Connection changed - requires full refresh
-                if(feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__SOURCE ||
-                                            feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__TARGET) {
-                    getViewer().refresh();
-                }
-                else {
-                    super.eCoreChanged(msg);
-                }
-                break;
-
-            default:
-                super.eCoreChanged(msg);
-                break;
-        }
+        doRefresh(msg);
     }
     
     @Override
     protected void doRefreshFromNotifications(List<Notification> notifications) {
-        getViewer().refresh();
+        for(Notification msg : notifications) {
+            if(doRefresh(msg)) {
+                break; // Only need to refresh once
+            }
+        }
+        
         super.doRefreshFromNotifications(notifications);
+    }
+    
+    private boolean doRefresh(Notification msg) {
+        // Name change
+        if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            getViewer().update(msg.getNotifier(), null);
+        }
+        // Requires a full refresh
+        else if(isRefreshEvent(msg)) {
+            getViewer().refreshTreePreservingExpandedNodes();
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean isRefreshEvent(Notification msg) {
+        if(msg.getNewValue() instanceof IArchimateConcept || msg.getOldValue() instanceof IArchimateConcept) {
+            return true;
+        }
+        
+        return false;
     }
 
     // =================================================================================

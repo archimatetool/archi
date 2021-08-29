@@ -69,6 +69,21 @@ public class NavigatorViewer extends TreeViewer {
     }
     
     /**
+     * Refresh the tree and restore expanded tree nodes
+     */
+    void refreshTreePreservingExpandedNodes() {
+        try {
+            Object[] expanded = getExpandedElements();
+            getControl().setRedraw(false);
+            refresh();
+            setExpandedElements(expanded);
+        }
+        finally {
+            getControl().setRedraw(true);
+        }
+    }
+    
+    /**
      *  Content Provider
      */
     private class NavigatorViewerContentProvider implements ITreeContentProvider {
