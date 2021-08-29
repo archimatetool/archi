@@ -49,24 +49,12 @@
                id="hint.tab"
                label="%propertyTab.label">
          </propertyTab>
-         <propertyTab
-               afterTab="appearance.tab"
-               category="appearance.category"
-               id="image.tab"
-               label="%propertyTab.label.0">
-         </propertyTab>
       </propertyTabs>
    </extension>
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
             contributorId="com.archimatetool.editor">
-         <propertySection
-               class="com.archimatetool.canvas.propertysections.IconSection"
-               filter="com.archimatetool.canvas.propertysections.IconSection$Filter"
-               id="iconSection"
-               tab="image.tab">
-         </propertySection>
          <propertySection
                class="com.archimatetool.canvas.propertysections.HintContentSection"
                filter="com.archimatetool.canvas.propertysections.HintContentSection$Filter"

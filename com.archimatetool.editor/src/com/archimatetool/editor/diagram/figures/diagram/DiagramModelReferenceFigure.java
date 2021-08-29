@@ -31,7 +31,7 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
         super(diagramModelObject, TEXT_FLOW_CONTROL);
         
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
+        setFigureDelegate(new RectangleFigureDelegate(this));
     }
     
     @Override
@@ -44,6 +44,10 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         // Draw the icon depending on the diagramModelObject
         IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
 
@@ -59,6 +63,11 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 19, bounds.y + 6);
+    }
+    
+    @Override
+    public int getIconOffset() {
+        return 22;
     }
     
     @Override

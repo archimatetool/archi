@@ -74,4 +74,10 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The default Connection Anchor to use for this figure
      */
     ConnectionAnchor getDefaultConnectionAnchor();
+    
+    /**
+     * Update the Image in the user icon if there isone
+     */
+    void updateIconImage();
+
 }

@@ -5,13 +5,18 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -21,60 +26,62 @@ import com.archimatetool.editor.ui.ColorFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ArtifactFigure extends AbstractTextControlContainerFigure {
+public class ArtifactFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
-    protected static final int FOLD_HEIGHT = 18;
+    private static final int FOLD_HEIGHT = 18;
+    
+    protected IFigureDelegate rectangleDelegate;
 
     public ArtifactFigure() {
         super(TEXT_FLOW_CONTROL);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
 
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
-        
-        bounds.width--;
-        bounds.height--;
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        int lineWidth = 1;
-        setLineWidth(graphics, lineWidth, bounds);
-        
-        graphics.setAlpha(getAlpha());
+        setLineWidth(graphics, 1, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
 
-        // Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
-
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
-        float lineOffset = (float)lineWidth / 2;
-
         Path path1 = new Path(null);
-        path1.moveTo(bounds.x - lineOffset, bounds.y);
-        path1.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
-        path1.lineTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
-        path1.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
-        path1.lineTo(bounds.x, bounds.y + bounds.height);
-        path1.lineTo(bounds.x, bounds.y);
+        path1.moveTo(rect.x, rect.y);
+        path1.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
+        path1.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        path1.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path1.lineTo(rect.x, rect.y + rect.height);
+        path1.close();
         graphics.fillPath(path1);
         
         disposeGradientPattern(graphics, gradient);
-        
+
         // Fold
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         
         Path path2 = new Path(null);
-        path2.moveTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
-        path2.lineTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
-        path2.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
-        path2.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        path2.moveTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
+        path2.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        path2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
         graphics.fillPath(path2);
+        
         path2.dispose();
         
         // Lines
@@ -85,12 +92,71 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure {
         path1.dispose();
         
         Path path3 = new Path(null);
-        path3.moveTo(bounds.x + bounds.width, bounds.y + FOLD_HEIGHT);
-        path3.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
-        path3.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);
+        path3.moveTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        path3.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
+        path3.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
         graphics.drawPath(path3);
+        
         path3.dispose();
         
+        // Icon
+        // drawIconImage(graphics, bounds);
+        int rightOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_RIGHT ? -(FOLD_HEIGHT + 1) : 0;
+        //int rightOffset = -(FOLD_HEIGHT + 1);
+        drawIconImage(graphics, rect, 0, rightOffset, 0, 0);
+
         graphics.popState();
+    }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        
+        Point pt = getIconOrigin();
+        
+        Path path = new Path(null);
+        
+        path.moveTo(pt.x, pt.y);
+        path.lineTo(pt.x + 7, pt.y);
+        path.lineTo(pt.x + 12, pt.y + 5);
+        path.lineTo(pt.x + 12, pt.y + 15);
+        path.lineTo(pt.x, pt.y + 15);
+        path.lineTo(pt.x, pt.y - 0.5f);
+        
+        path.moveTo(pt.x + 7, pt.y);
+        path.lineTo(pt.x + 7, pt.y + 5);
+        path.lineTo(pt.x + 12, pt.y + 5);
+        
+        graphics.drawPath(path);
+        path.dispose();
+        
+        graphics.popState();
+    }
+    
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 16, bounds.y + 6);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return 22; // will also work for the right indent in the alternate figure
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? null : rectangleDelegate;
     }
 }

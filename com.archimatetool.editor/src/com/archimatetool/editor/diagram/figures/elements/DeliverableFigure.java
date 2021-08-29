@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
  * 
  * @author Phillip Beauvoir
  */
-public class DeliverableFigure extends AbstractTextControlContainerFigure {
+public class DeliverableFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     public DeliverableFigure() {
         super(TEXT_FLOW_CONTROL);
@@ -77,6 +77,10 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, 0, 0, -14, 0);
+
         graphics.popState();
     }
 }

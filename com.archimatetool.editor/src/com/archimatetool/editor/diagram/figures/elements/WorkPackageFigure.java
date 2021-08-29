@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class WorkPackageFigure extends AbstractTextControlContainerFigure {
+public class WorkPackageFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     public WorkPackageFigure() {
         super(TEXT_FLOW_CONTROL);

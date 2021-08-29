@@ -1,11 +1,11 @@
 expandFolder(folder, target) ::= <<
 <ul>
-	^folder.Folders:{f | <li class="tree-folder"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name;format="xml-encode"^ </span>
+	^folder.Folders:{f | <li class="tree-folder ^classesFromProperties(f)^"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name;format="xml-encode"^ </span>
 	^expandFolder(f, target)^
 	</li>}^
 	^folder.Elements:{e |
 		^if(e.Source)^
-			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^">
+			<li class="tree-element ^classesFromProperties(e)^"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^">
 				^if(e.Name.Empty)^
 					<span class="i18n-elementtype-^e.Class.SimpleName^"></span>
 				^else^
@@ -14,12 +14,19 @@ expandFolder(folder, target) ::= <<
 				(^e.Source.Name;format="xml-encode"^ - ^e.Target.Name;format="xml-encode"^) 
 			</a></li>
 		^else^
-			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^"> ^e.Name;format="xml-encode"^ </a></li>
+			<li class="tree-element ^classesFromProperties(e)^"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^"> ^e.Name;format="xml-encode"^ </a></li>
 		^endif^
 	}^
 </ul>
 >>
 
+classesFromProperties(object) ::= <<
+^object.Properties:{p | ^(p.Key)(p.Value)^ }^
+>>
+
+_hide_from_export_(value) ::= <<
+hide-^value;format="lower"^ 
+>>
 
 modelreport(model, strategyFolder, businessFolder, applicationFolder, technologyFolder, motivationFolder, implementationFolder, otherFolder, relationsFolder, viewsFolder) ::= <<
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -34,25 +41,25 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 	<script type="text/javascript" src="lib/jquery-ui-layout/js/jquery.layout-1.4.4.js"></script>
 	<link type="text/css" rel="stylesheet" href="lib/jquery-ui-layout/css/layout-default-1.4.4.css">
 	<!-- BOOTSTRAP -->
-	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap-3.3.2.min.css">
-	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme-3.3.2.min.css">
+	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.yeti.css">
 	<script type="text/javascript" src="lib/bootstrap/js/bootstrap-3.3.2.min.js"></script>
 	<!-- REPORT SPECIFIC -->
 	<link type="text/css" rel="stylesheet" href="css/model.css">
 	<link type="text/css" rel="stylesheet" href="css/i18n.css">
 	<script type="text/javascript" src="js/model.js"></script>
+	<script type="text/javascript" src="js/url-polyfill.min.js"></script>
 </head>
 
 <body>
 	<!-- "ui-layout-north" class set (topbar) -->
 	<div class="ui-layout-north">
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-inverse">
 			<div class="navbar-header">
 				<span class="navbar-brand">^model.Name;format="xml-encode"^</span>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#myModal" data-toggle="modal" class="btn go"><span class="i18n-about"></span></a></li>
+					<li><a href="#myModal" data-toggle="modal" class="go"><span class="i18n-about"></span></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -71,35 +78,35 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 					<b><a href="^model.Id^/elements/model.html" target="view">^model.Name;format="xml-encode"^</a></b>
 					<ul class="tree">
 					<!-- START OF STRINGTEMPLATE CODE -->
-						<li><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+						<li class="tree-folder"><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 							<ul>
-                                <li><span class="i18n-strategy"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+                                <li class="tree-folder ^classesFromProperties(strategyFolder)^"><span class="i18n-strategy"><i class="glyphicon glyphicon-triangle-right"></i> </span>
                                     ^expandFolder(strategyFolder, "element")^
                                 </li>
-								<li><span class="i18n-business_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(businessFolder)^"><span class="i18n-business_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(businessFolder, "element")^
 								</li>
-								<li><span class="i18n-application_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(applicationFolder)^"><span class="i18n-application_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(applicationFolder, "element")^
 								</li>
-								<li><span class="i18n-technology_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(technologyFolder)^"><span class="i18n-technology_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(technologyFolder, "element")^
 								</li>
-								<li><span class="i18n-motivation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(motivationFolder)^"><span class="i18n-motivation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(motivationFolder, "element")^
 								</li>
-								<li><span class="i18n-implementation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(implementationFolder)^"><span class="i18n-implementation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(implementationFolder, "element")^
 								</li>
-								<li><span class="i18n-connectors"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(otherFolder)^"><span class="i18n-connectors"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(otherFolder, "element")^
 								</li>
-								<li><span class="i18n-relations"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+								<li class="tree-folder ^classesFromProperties(relationsFolder)^"><span class="i18n-relations"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(relationsFolder, "element")^
 								</li>
 							</ul>
 						</li>
-						<li><span class="i18n-views"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+						<li class="tree-folder ^classesFromProperties(viewsFolder)^"><span class="i18n-views"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 							^expandFolder(viewsFolder, "view")^
 						</li>
 					<!-- END OF STRINGTEMPLATE CODE -->

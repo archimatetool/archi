@@ -15,7 +15,6 @@ import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -25,14 +24,14 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ServiceFigure extends AbstractTextControlContainerFigure {
+public class ServiceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
 
     public ServiceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
         fFigureDelegate2 = new ServiceFigureDelegate(this);
     }
     
@@ -40,8 +39,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         super.drawFigure(graphics);
         
-        int type = getDiagramModelObject().getType();
-        if(type == 0) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
             drawIcon(graphics);
         }
     }
@@ -50,6 +48,10 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -72,17 +74,16 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
+        return getDiagramModelArchimateObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
     
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new RoundedRectangleAnchor(this);
     }
-    
+
     @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
 }

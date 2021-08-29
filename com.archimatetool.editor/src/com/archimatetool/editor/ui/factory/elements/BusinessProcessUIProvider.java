@@ -6,13 +6,10 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
-import com.archimatetool.editor.diagram.figures.elements.ProcessFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -24,18 +21,13 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessProcessUIProvider extends AbstractArchimateElementUIProvider {
+public class BusinessProcessUIProvider extends AbstractProcessUIProvider {
 
     @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getBusinessProcess();
     }
     
-    @Override
-    public EditPart createEditPart() {
-        return new ArchimateElementEditPart(ProcessFigure.class);
-    }
-
     @Override
     public String getDefaultName() {
         return Messages.BusinessProcessUIProvider_0;
@@ -54,10 +46,5 @@ public class BusinessProcessUIProvider extends AbstractArchimateElementUIProvide
     @Override
     public Color getDefaultColor() {
         return ColorFactory.get(255, 255, 181);
-    }
-
-    @Override
-    public boolean hasAlternateFigure() {
-        return true;
     }
 }

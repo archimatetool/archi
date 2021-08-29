@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -34,6 +35,8 @@ import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IProperty;
@@ -52,6 +55,7 @@ import com.archimatetool.model.util.UUIDFactory;
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getFeatures <em>Features</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getProperties <em>Properties</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateConcept#getProfiles <em>Profiles</em>}</li>
  * </ul>
  *
  * @generated
@@ -136,6 +140,16 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      * @ordered
      */
     protected EList<IProperty> properties;
+
+    /**
+     * The cached value of the '{@link #getProfiles() <em>Profiles</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProfiles()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProfile> profiles;
 
     /**
      * Adapter Map for arbitrary objects
@@ -262,6 +276,25 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         return properties;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EList<IProfile> getProfiles() {
+        if (profiles == null) {
+            profiles = new EObjectEList<IProfile>(IProfile.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES);
+        }
+        return profiles;
+    }
+    
+    @Override
+    public IProfile getPrimaryProfile() {
+        // Return the first one
+        return profiles == null || getProfiles().isEmpty() ? null : getProfiles().get(0);
+    }
+
     @Override
     public EList<IArchimateRelationship> getSourceRelationships() {
         if(sourceRelationships == null) {
@@ -361,6 +394,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 return getDocumentation();
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
                 return getProperties();
+            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
+                return getProfiles();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -391,6 +426,10 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
+            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
+                getProfiles().clear();
+                getProfiles().addAll((Collection<? extends IProfile>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -418,6 +457,9 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
                 getProperties().clear();
                 return;
+            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
+                getProfiles().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -440,6 +482,8 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES:
                 return properties != null && !properties.isEmpty();
+            case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES:
+                return profiles != null && !profiles.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -486,6 +530,12 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
                 default: return -1;
             }
         }
+        if (baseClass == IProfiles.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES: return IArchimatePackage.PROFILES__PROFILES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -528,6 +578,12 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
         if (baseClass == IProperties.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.ARCHIMATE_CONCEPT__PROPERTIES;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProfiles.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROFILES__PROFILES: return IArchimatePackage.ARCHIMATE_CONCEPT__PROFILES;
                 default: return -1;
             }
         }

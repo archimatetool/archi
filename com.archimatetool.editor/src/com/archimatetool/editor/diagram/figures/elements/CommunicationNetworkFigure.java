@@ -7,11 +7,14 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
@@ -22,24 +25,100 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure {
+public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+    
+    private static final double ARROW_ANGLE = Math.cos(Math.toRadians(60));
 
+    private IFigureDelegate rectangleDelegate;
+    
     public CommunicationNetworkFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        Dimension arrowSize = getArrowSize(rect);
+        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 22);
+        rect.shrink(lineWidth, lineWidth);
+        arrowSize = getArrowSize(rect);
+        
+        graphics.setLineWidth(lineWidth);
+        
+        drawArrows(graphics, rect, arrowSize);
+        
+        drawHorizontalLine(graphics, rect, arrowSize);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
+    }
+    
+    protected void drawArrows(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+
+        graphics.drawLine(rect.x + arrow.width,
+                          rect.y + rect.height / 2 - arrow.height / 2,
+                          rect.x,
+                          rect.y + rect.height / 2);
+        
+        graphics.drawLine(rect.x,
+                          rect.y + rect.height / 2,
+                          rect.x + arrow.width,
+                          rect.y + rect.height / 2 + arrow.height / 2);
+        
+        graphics.drawLine(rect.x + rect.width - arrow.width,
+                          rect.y + rect.height / 2 - arrow.height / 2,
+                          rect.x + rect.width,
+                          rect.y + rect.height / 2);
+        
+        graphics.drawLine(rect.x + rect.width,
+                          rect.y + rect.height / 2,
+                          rect.x + rect.width - arrow.width,
+                          rect.y + rect.height / 2 + arrow.height / 2);
+    }
+    
+    protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+        
+        graphics.drawLine(rect.x,
+                          rect.y + rect.height / 2,
+                          rect.x + rect.width,
+                          rect.y + rect.height / 2);
+    }
+    
+    private Dimension getArrowSize(Rectangle rect) {
+        int width = (int)(rect.width / (1 + ARROW_ANGLE) / 2);
+        int size = Math.min(rect.height, width);
+        return new Dimension((int)(size * ARROW_ANGLE), size);
     }
     
     /**
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidthFloat(1);
@@ -80,4 +159,13 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         return new Point(bounds.x + bounds.width - 20, bounds.y + 14);
     }
 
+    @Override
+    public int getIconOffset() {
+        return 22;
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
+    }
 }

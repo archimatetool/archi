@@ -15,7 +15,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -25,13 +24,13 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class EventFigure extends AbstractTextControlContainerFigure {
+public class EventFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected IFigureDelegate fMainFigureDelegate;
 
     public EventFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -86,6 +85,9 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        drawIconImage(graphics, bounds);
+
         graphics.popState();
     }
 
@@ -93,6 +95,10 @@ public class EventFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -135,13 +141,11 @@ public class EventFigure extends AbstractTextControlContainerFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fMainFigureDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? fMainFigureDelegate : null;
     }
     
     @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
-
 }

@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -42,6 +41,10 @@ public class RequirementFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -68,19 +71,12 @@ public class RequirementFigure extends AbstractMotivationFigure {
     }
     
     @Override
-    protected int getIconOffset() {
-        return 22;
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? null : fAltFigureDelegate;
     }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
-    }
-
 }

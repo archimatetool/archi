@@ -55,5 +55,4 @@ public class ResourceUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(245, 222, 170);
     }
-
 }

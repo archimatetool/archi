@@ -23,11 +23,32 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='DiagramObject'"
  * @generated
  */
-public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition {
+public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent, ITextPosition, IIconic {
     
     String FEATURE_HIDE_JUNCTION_ARROWS = "hideJunctionArrows"; //$NON-NLS-1$
     boolean FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT = false;
 
+    String FEATURE_IMAGE_SOURCE = "imageSource"; //$NON-NLS-1$
+    int IMAGE_SOURCE_PROFILE = 0;
+    int IMAGE_SOURCE_CUSTOM = 1;
+    int FEATURE_IMAGE_SOURCE_DEFAULT = IMAGE_SOURCE_PROFILE;
+    
+    /**
+     * @return the value of FEATURE_IMAGE_SOURCE
+     */
+    int getImageSource();
+    
+    /**
+     * Set the value of feature FEATURE_IMAGE_SOURCE
+     * @param value the value
+     */
+    void setImageSource(int value);
+
+    /**
+     * @return true if the Profile's image should be used
+     */
+    boolean useProfileImage();
+    
     /**
      * Returns the value of the '<em><b>Archimate Element</b></em>' reference.
      * <!-- begin-user-doc -->

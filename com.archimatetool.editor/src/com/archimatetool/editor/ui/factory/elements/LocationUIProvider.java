@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.elements;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -54,5 +55,11 @@ public class LocationUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCATION);
+    }
+    
+    @Override
+    protected Dimension getDefaultSizeForFigureType(int figureType) {
+        return super.getDefaultSizeForFigureType(figureType);
+        //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
 }

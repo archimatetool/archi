@@ -10,8 +10,10 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
@@ -20,24 +22,97 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class LocationFigure extends AbstractTextControlContainerFigure {
+public class LocationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+    
+    private IFigureDelegate rectangleDelegate;
     
     public LocationFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 16 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        setFigurePositionFromTextPosition(rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = getFigurePath(rect);
+        graphics.fillPath(path);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        // Lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
+    }
+    
+    private Path getFigurePath(Rectangle rect) {
+        int figureWidth = 0;
+        int figureHeight = 0;
+        
+        // width < height or same
+        if(rect.width <= rect.height) {
+            figureWidth = rect.width;
+            figureHeight = rect.width;
+        }
+        // height < width
+        else {
+            figureHeight = rect.height;
+            figureWidth = rect.height;
+        }
+
+        int yMargin = (rect.height - figureHeight) / 2;
+        int xCenter = rect.x + rect.width / 2;
+        float diameter = (figureWidth  / 4) * 3;
+
+        Path path = new Path(null);
+        
+        path.addArc(xCenter - diameter / 2, rect.y + yMargin, diameter, diameter, -35, 250);
+        path.lineTo(xCenter, rect.y + rect.height - yMargin);
+        path.close();
+        
+        return path;
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -48,12 +123,11 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
         
         Path path = new Path(null);
         
-        path.moveTo(pt.x, pt.y);
         path.addArc(pt.x - 5, pt.y - 15, 10, 10, -20, 220);
         path.lineTo(pt.x, pt.y);
-        path.lineTo(pt.x + 4.8f, pt.y - 8.5f);
-        
+        path.close();
         graphics.drawPath(path);
+        
         path.dispose();
         
         graphics.popState();
@@ -62,9 +136,23 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 10, bounds.y + 20);
     }
 
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 16 : 0;
+    }
+
+    @Override
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
+    }
 }

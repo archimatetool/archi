@@ -24,6 +24,7 @@ import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
 
@@ -139,6 +140,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         alignmentMenu.add(new Separator());
         alignmentMenu.add(actionRegistry.getAction(DefaultEditPartSizeAction.ID));
+        alignmentMenu.add(actionRegistry.getAction(ResetAspectRatioAction.ID));
         
         menu.add(new Separator(GROUP_CONNECTIONS));
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_3, "menu_connection_router"); //$NON-NLS-1$

@@ -126,6 +126,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
+    public void testIconVisible() {
+        assertEquals(IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT, object.getIconVisibleState());
+        object.setIconVisibleState(IDiagramModelObject.ICON_VISIBLE_ALWAYS);
+        assertEquals(IDiagramModelObject.ICON_VISIBLE_ALWAYS, object.getIconVisibleState());
+    }
+    
+    @Test
     public void testGetDefaultTextAlignment() {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getTextAlignment());
     }

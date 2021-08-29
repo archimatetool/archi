@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -25,6 +26,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -32,6 +34,8 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 
 
 /**
@@ -97,6 +101,11 @@ public class ModelChecker {
             // Folder
             if(eObject instanceof IFolder) {
                 fErrorMessages.addAll(checkFolder((IFolder)eObject));
+            }
+            
+            // Profiles
+            if(eObject instanceof IProfiles) {
+                fErrorMessages.addAll(checkProfiles((IProfiles)eObject));
             }
         }
         
@@ -273,6 +282,27 @@ public class ModelChecker {
             if(!(eObject instanceof IArchimateConcept || eObject instanceof IDiagramModel)) {
                 String name = " (Folder: " + folder.getId() + " Object: " + ((IIdentifier)eObject).getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 messages.add(Messages.ModelChecker_25 + name);
+            }
+        }
+        
+        return messages;
+    }
+    
+    List<String> checkProfiles(IProfiles profilesObject) {
+        List<String> messages = new ArrayList<String>();
+        
+        for(IProfile profile : profilesObject.getProfiles()) {
+            String name = " " + profile.getId(); //$NON-NLS-1$
+            
+            // Profile must exist in this model
+            if(profile.getArchimateModel() != ((IArchimateModelObject)profilesObject).getArchimateModel()) {
+                messages.add(Messages.ModelChecker_28 + name);
+            }
+            
+            // Profile must have matching concept type
+            EClass eClass = profile.getConceptClass(); 
+            if(eClass == null || eClass != profilesObject.eClass()) {
+                messages.add(Messages.ModelChecker_29 + name);
             }
         }
         

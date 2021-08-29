@@ -42,6 +42,7 @@ public class TextRenderer {
         registerRenderer(new NameRenderer());
         registerRenderer(new DocumentationRenderer());
         registerRenderer(new TypeRenderer());
+        registerRenderer(new SpecializationRenderer());
         
         registerRenderer(new PropertiesRenderer());
 
@@ -49,6 +50,7 @@ public class TextRenderer {
         registerRenderer(new RelationshipRenderer());
         registerRenderer(new ViewpointRenderer());
         
+        registerRenderer(new IfRenderer());
         registerRenderer(new WordWrapRenderer());
     }
     

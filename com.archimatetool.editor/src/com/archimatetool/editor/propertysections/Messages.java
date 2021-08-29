@@ -157,6 +157,46 @@ public class Messages extends NLS {
 
     public static String GroupBorderTypeSection_1;
 
+    public static String IconSection_0;
+
+    public static String IconSection_1;
+
+    public static String IconSection_10;
+
+    public static String IconSection_11;
+
+    public static String IconSection_12;
+
+    public static String IconSection_13;
+
+    public static String IconSection_2;
+
+    public static String IconSection_3;
+
+    public static String IconSection_4;
+
+    public static String IconSection_5;
+
+    public static String IconSection_6;
+
+    public static String IconSection_7;
+
+    public static String IconSection_8;
+
+    public static String IconSection_9;
+
+    public static String IconVisibleSection_0;
+
+    public static String IconVisibleSection_1;
+
+    public static String IconVisibleSection_2;
+
+    public static String IconVisibleSection_3;
+
+    public static String ImageChooserSection_0;
+
+    public static String ImageChooserSection_1;
+
     public static String ImageManagerDialog_0;
 
     public static String ImageManagerDialog_1;
@@ -164,6 +204,12 @@ public class Messages extends NLS {
     public static String ImageManagerDialog_2;
 
     public static String ImageManagerDialog_3;
+
+    public static String ImageSourceSection_0;
+
+    public static String ImageSourceSection_1;
+
+    public static String ImageSourceSection_2;
 
     public static String InfluenceRelationshipSection_0;
 
@@ -218,6 +264,14 @@ public class Messages extends NLS {
     public static String SketchModelBackgroundSection_0;
 
     public static String SketchModelBackgroundSection_1;
+
+    public static String SpecializationSection_0;
+
+    public static String SpecializationSection_1;
+
+    public static String SpecializationSection_2;
+
+    public static String SpecializationSection_3;
 
     public static String TextAlignmentSection_0;
 

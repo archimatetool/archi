@@ -18,7 +18,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -29,7 +28,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class GroupingFigure extends AbstractTextControlContainerFigure {
+public class GroupingFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private static final int TOPBAR_HEIGHT = 18;
     private static final float INSET = 1.4f;
@@ -71,11 +70,9 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         
         Pattern gradient = applyGradientPattern(graphics, bounds);
         
-        int type = getDiagramModelObject().getType();
-        
         int[] mainRectangle;
         
-        if(type == 1) {
+        if(getDiagramModelArchimateObject().getType() == 1) {
             mainRectangle = new int[] {
                     bounds.x, bounds.y,
                     bounds.x + bounds.width, bounds.y,
@@ -86,12 +83,18 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             Path path = FigureUtils.createPathFromPoints(mainRectangle);
             graphics.fillPath(path);
             path.dispose();
+            
+            // Icon
+            if(getIconicDelegate() != null) {
+                getIconicDelegate().setTopOffset(0);
+                drawIconImage(graphics, bounds);
+            }
         }
         else {
             tabWidth = (int)(bounds.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
             
-            if(getDiagramModelObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+            if(getDiagramModelArchimateObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
                 int textWidth = FigureUtilities.getTextExtents(getText(), getFont()).width;
                 tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), bounds.width);
                 
@@ -124,6 +127,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
             graphics.fillPath(path);
             path.dispose();
             
+            // Icon
+            getIconicDelegate().setTopOffset(tabHeight);
+            drawIconImage(graphics, bounds);
+
             graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
             graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
@@ -145,6 +152,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+            bounds.y += 5 - getTextControlMarginHeight();
             bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
         }
         
@@ -163,9 +171,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
             
-            int type = getDiagramModelObject().getType();
-
-            if(type == 1) {
+            if(getDiagramModelArchimateObject().getType() == 1) {
                 return pt;
             }
             
@@ -182,11 +188,6 @@ public class GroupingFigure extends AbstractTextControlContainerFigure {
         };
     }
     
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
-    }
-
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new GroupingFigureConnectionAnchor(this);

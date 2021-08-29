@@ -57,6 +57,9 @@ implements IDiagramModelObjectFigure {
     // Delegate to do drawing
     private IFigureDelegate fFigureDelegate;
     
+    // Delegate to draw icon image
+    private IconicDelegate fIconicDelegate;
+    
     protected AbstractDiagramModelObjectFigure() {
     }
     
@@ -234,6 +237,83 @@ implements IDiagramModelObjectFigure {
     protected int getGradient() {
         return fDiagramModelObject.getGradient();
     }
+    
+    @Override
+    public void updateIconImage() {
+        if(getIconicDelegate() != null) {
+            getIconicDelegate().updateImage();
+        }
+    }
+    
+    /**
+     * If there is a delegate, draw the icon image in the given area
+     */
+    public void drawIconImage(Graphics graphics, Rectangle drawArea) {
+        if(hasIconImage()) {
+            getIconicDelegate().drawIcon(graphics, drawArea); // Call this directly in case offsets are set elsewhere
+        }
+    }
+    
+    /**
+     * If there is a delegate, draw the icon image in the given area with given offsets
+     */
+    public void drawIconImage(Graphics graphics, Rectangle drawArea, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
+        drawIconImage(graphics, drawArea, drawArea, topOffset, rightOffset, bottomOffset, leftOffset);
+    }
+
+    /**
+     * If there is a delegate, draw the icon image in the given area with given offsets and pass full figure bounds
+     */
+    public void drawIconImage(Graphics graphics, Rectangle figureBounds, Rectangle drawArea, int topOffset, int rightOffset, int bottomOffset, int leftOffset) {
+        if(hasIconImage()) {
+            getIconicDelegate().setOffsets(topOffset, rightOffset, bottomOffset, leftOffset);
+            getIconicDelegate().drawIcon(graphics, figureBounds, drawArea);
+        }
+    }
+
+    /**
+     * @return true if this has a delegate and an image to draw
+     */
+    public boolean hasIconImage() {
+        return getIconicDelegate() != null && getIconicDelegate().hasImage();
+    }
+    
+    /**
+     * Set the IconicDelegate if this figure draws icons
+     */
+    public void setIconicDelegate(IconicDelegate delegate) {
+        fIconicDelegate = delegate;
+    }
+    
+    /**
+     * @return The IconicDelegate if this figure draws icons, or null if not
+     */
+    public IconicDelegate getIconicDelegate() {
+        return fIconicDelegate;
+    }
+    
+    /**
+     * @return whether to show the small in-built icon - either the ArchiMate icon or the view reference icon
+     */
+    public boolean isIconVisible() {
+        switch(getDiagramModelObject().getIconVisibleState()) {
+            case IDiagramModelObject.ICON_VISIBLE_NEVER:
+                return false;
+
+            case IDiagramModelObject.ICON_VISIBLE_IF_NO_IMAGE_DEFINED:
+                return !hasIconImage();
+
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * @return The offset in pixels to adjust the text position if there is an inbuilt icon
+     */
+    public int getIconOffset() {
+        return 0;
+    }
 
     /**
      * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting
@@ -310,7 +390,7 @@ implements IDiagramModelObjectFigure {
     @Override
     public Dimension getDefaultSize() {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null ? provider.getUserDefaultSize() : IGraphicalObjectUIProvider.DefaultRectangularSize;
+        return provider != null ? provider.getDefaultSize() : IGraphicalObjectUIProvider.defaultSize();
     }
     
     @Override
@@ -320,5 +400,9 @@ implements IDiagramModelObjectFigure {
 
     @Override
     public void dispose() {
+        if(fIconicDelegate != null) {
+            fIconicDelegate.dispose();
+            fIconicDelegate = null;
+        }
     }
 }

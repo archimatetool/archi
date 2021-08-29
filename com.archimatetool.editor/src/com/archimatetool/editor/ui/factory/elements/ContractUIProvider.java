@@ -55,4 +55,14 @@ public class ContractUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(255, 255, 181);
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+    
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
+    }
 }

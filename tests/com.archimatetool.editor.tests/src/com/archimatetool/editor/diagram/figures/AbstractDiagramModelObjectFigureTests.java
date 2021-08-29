@@ -136,7 +136,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     @Test
     public void testGetDefaultSize() {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
-        assertEquals(provider.getUserDefaultSize(), abstractFigure.getDefaultSize());
+        assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
     }
 
     @Test

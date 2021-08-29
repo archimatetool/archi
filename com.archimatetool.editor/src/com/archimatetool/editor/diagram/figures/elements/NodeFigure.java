@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Path;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -22,22 +21,22 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class NodeFigure extends AbstractTextControlContainerFigure {
+public class NodeFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
     
     public NodeFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new BoxFigureDelegate(this, 0);
-        fFigureDelegate2 = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        fFigureDelegate1 = new BoxFigureDelegate(this);
+        fFigureDelegate2 = new RectangleFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
         super.drawFigure(graphics);
         
-        int type = getDiagramModelObject().getType();
+        int type = getDiagramModelArchimateObject().getType();
         if(type == 1) {
             drawIcon(graphics);
         }
@@ -47,6 +46,10 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -89,14 +92,12 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
     }
     
     @Override
-    public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 0 : 20;
     }
 
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? fFigureDelegate1 : fFigureDelegate2;
+    }
 }

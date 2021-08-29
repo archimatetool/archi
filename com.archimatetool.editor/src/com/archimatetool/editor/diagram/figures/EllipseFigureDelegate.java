@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
  */
 public class EllipseFigureDelegate extends AbstractFigureDelegate {
     
-    public EllipseFigureDelegate(IDiagramModelObjectFigure owner) {
+    public EllipseFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -47,12 +47,17 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         graphics.fillOval(bounds);
         
         disposeGradientPattern(graphics, gradient);
-        
+
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds);
         
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
+                bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+
         graphics.popState();
     }
 }

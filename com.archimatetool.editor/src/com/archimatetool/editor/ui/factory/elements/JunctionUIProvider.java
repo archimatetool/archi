@@ -58,11 +58,6 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public Dimension getUserDefaultSize() {
-        return getDefaultSize();
-    }
-
-    @Override
     public Color getDefaultColor() {
         return ColorConstants.black;
     }
@@ -73,5 +68,15 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
         return featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
                 featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName() ||
                         featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName(); 
+    }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
     }
 }

@@ -16,6 +16,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IProfile;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -48,6 +49,23 @@ public class FieldDataFactoryTests {
         model.setName("Pogo");
         Object o = FieldDataFactory.getFieldValue(model, FieldDataFactory.NAME);
         assertEquals("Pogo", o);
+    }
+
+    @Test
+    public void testGetFieldValue_Type() {
+        IBusinessActor ba = IArchimateFactory.eINSTANCE.createBusinessActor();
+        Object o = FieldDataFactory.getFieldValue(ba, FieldDataFactory.TYPE);
+        assertEquals("Business Actor", o);
+    }
+
+    @Test
+    public void testGetFieldValue_TypeWithProfileName() {
+        IBusinessActor ba = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setName("Oscar");
+        ba.getProfiles().add(profile);
+        Object o = FieldDataFactory.getFieldValue(ba, FieldDataFactory.TYPE);
+        assertEquals("Business Actor (Oscar)", o);
     }
 
     @Test

@@ -65,16 +65,6 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public Dimension getUserDefaultSize() {
-        return getDefaultSize();
-    }
-    
-    @Override
-    public boolean hasAlternateFigure() {
-        return true;
-    }
-    
-    @Override
     public int getDefaultTextAlignment() {
         return ITextAlignment.TEXT_ALIGNMENT_LEFT;
     }
@@ -82,5 +72,10 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public int getDefaultTextPosition() {
         return ITextPosition.TEXT_POSITION_TOP;
+    }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
     }
 }

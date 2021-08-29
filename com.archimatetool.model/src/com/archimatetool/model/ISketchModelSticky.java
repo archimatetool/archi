@@ -16,6 +16,6 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ISketchModelSticky extends IDiagramModelObject, IDiagramModelContainer, ITextContent, IProperties, ITextPosition {
+public interface ISketchModelSticky extends IDiagramModelObject, IDiagramModelContainer, ITextContent, IProperties, ITextPosition, IIconic {
 
 } // ISketchModelSticky

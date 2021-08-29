@@ -15,7 +15,6 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.IJunction;
-import com.archimatetool.model.impl.DiagramModelArchimateObject;
 
 
 
@@ -24,7 +23,7 @@ import com.archimatetool.model.impl.DiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class JunctionFigure extends AbstractDiagramModelObjectFigure {
+public class JunctionFigure extends AbstractDiagramModelObjectFigure implements IArchimateFigure {
     
     public JunctionFigure() {
     }
@@ -45,8 +44,7 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
         bounds.width--;
         bounds.height--;
         
-        String type = ((IJunction)((DiagramModelArchimateObject)getDiagramModelObject()).getArchimateElement()).getType();
-        switch(type) {
+        switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
                 graphics.setBackgroundColor(getFillColor());

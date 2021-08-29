@@ -7,20 +7,22 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
+import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ILockable;
 
 
@@ -59,43 +61,43 @@ public class DefaultEditPartSizeAction extends SelectionAction {
             return false;
         }
         
-        for(Object object : selected) {
-            if(!(object instanceof EditPart)) {
-                return false;
-            }
-        }
-
-        Command command = createDefaultSizeCommand(selected);
-        if(command == null) {
-            return false;
-        }
-        return command.canExecute();
+        return createDefaultSizeCommand(selected).canExecute();
     }
 
     private Command createDefaultSizeCommand(List<?> objects) {
         CompoundCommand command = new CompoundCommand();
         
         for(Object object : objects) {
-            if(object instanceof GraphicalEditPart) {
-                GraphicalEditPart part = (GraphicalEditPart)object;
-                if(part.getModel() instanceof IDiagramModelObject) {
-                    IDiagramModelObject model = (IDiagramModelObject)part.getModel();
+            if(object instanceof AbstractConnectedEditPart) {
+                AbstractConnectedEditPart editPart = (AbstractConnectedEditPart)object;
+                IDiagramModelObject model = editPart.getModel();
+                
+                // Locked
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                AbstractDiagramModelObjectFigure figure = (AbstractDiagramModelObjectFigure)editPart.getFigure();
+                IBounds bounds = model.getBounds().getCopy();
 
-                    if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                        continue;
-                    }
-                    
-                    IFigure figure = part.getFigure();
-                    if(figure instanceof IDiagramModelObjectFigure) {
-                        Dimension defaultSize = ((IDiagramModelObjectFigure)figure).getDefaultSize();
-                        IBounds bounds = model.getBounds().getCopy();
-                        if(bounds.getWidth() != defaultSize.width || bounds.getHeight() != defaultSize.height) {
-                            bounds.setWidth(defaultSize.width);
-                            bounds.setHeight(defaultSize.height);
-                            Command cmd = new SetConstraintObjectCommand(model, bounds);
-                            command.add(cmd);
-                        }
-                    }
+                // If the object has an icon image and set to image fill and isn't a container with childrem
+                if(model instanceof IIconic
+                        && ((IIconic)model).getImagePosition() == IIconic.ICON_POSITION_FILL
+                        && figure.hasIconImage()
+                        && !(model instanceof IDiagramModelContainer && !((IDiagramModelContainer)model).getChildren().isEmpty())) {
+                    Rectangle imageBounds = figure.getIconicDelegate().getImage().getBounds();
+                    bounds.setWidth(imageBounds.width);
+                    bounds.setHeight(imageBounds.height);
+                }
+                else {
+                    Dimension defaultSize = ((IDiagramModelObjectFigure)figure).getDefaultSize();
+                    bounds.setWidth(defaultSize.width);
+                    bounds.setHeight(defaultSize.height);
+                }
+                
+                if(bounds.getWidth() != model.getBounds().getWidth() || bounds.getHeight() != model.getBounds().getHeight()) {
+                    Command cmd = new SetConstraintObjectCommand(model, bounds);
+                    command.add(cmd);
                 }
             }
         }

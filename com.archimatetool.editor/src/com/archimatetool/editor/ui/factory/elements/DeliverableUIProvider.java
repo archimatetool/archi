@@ -55,4 +55,14 @@ public class DeliverableUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(255, 224, 224);
     }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
+    }
+
+    @Override
+    public boolean hasAlternateFigure() {
+        return false;
+    }
 }

@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure {
+public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int FLANGE = 10;
     
@@ -77,7 +77,11 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
-        
+
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + FLANGE / 2, bounds.y + FLANGE / 2, bounds.width - FLANGE, bounds.height - FLANGE);
+        drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+
         graphics.popState();
     }
 }

@@ -6,10 +6,12 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -127,4 +129,19 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         assertNotNull(copy.getArchimateElement());
         assertNotSame(copy.getArchimateElement(), object.getArchimateElement());
     }
+    
+    @Test
+    public void testSetImageSource() {
+        assertEquals(IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT, object.getImageSource());
+        object.setImageSource(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM);
+        assertEquals(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM, object.getImageSource());
+    }
+    
+    @Test
+    public void testUseProfileImage() {
+        assertTrue(object.useProfileImage());
+        object.setImageSource(IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM);
+        assertFalse(object.useProfileImage());
+    }
+    
 }

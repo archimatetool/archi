@@ -17,12 +17,14 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
@@ -290,6 +292,17 @@ public class TextRendererTests {
         addProperty(model, "k3", "model_v4"); // Dupe
         model.setDefaults();
         
+        // Profiles
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        profile1.setName("Profile 1");
+        profile1.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        model.getProfiles().add(profile1);
+        
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        profile2.setName("Profile 2");
+        profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        model.getProfiles().add(profile2);
+
         // Diagram Model
         IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setName("View Name");
@@ -315,6 +328,7 @@ public class TextRendererTests {
         addProperty(concept, "k2", "concept_v2");
         addProperty(concept, "k3", "concept_v3");
         addProperty(concept, "k3", "concept_v4"); // Dupe
+        concept.getProfiles().add(profile1);
         
         folder = model.getDefaultFolderForObject(concept);
         folder.setDocumentation("Concept Folder Documentation");
@@ -339,6 +353,17 @@ public class TextRendererTests {
         model.setPurpose("Model Purpose");
         model.setDefaults();
 
+        // Profiles
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        profile1.setName("Profile 3");
+        profile1.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        model.getProfiles().add(profile1);
+        
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        profile2.setName("Profile 4");
+        profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessRole().getName());
+        model.getProfiles().add(profile2);
+
         // Diagram Model
         IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setName("View Name");
@@ -353,6 +378,7 @@ public class TextRendererTests {
         IArchimateConcept sourceConcept = IArchimateFactory.eINSTANCE.createBusinessActor();
         sourceConcept.setName("Source Concept");
         sourceConcept.setDocumentation("Source Documentation");
+        sourceConcept.getProfiles().add(profile1);
         addProperty(sourceConcept, "k1", "sconcept_v1");
         addProperty(sourceConcept, "k2", "sconcept_v2");
         addProperty(sourceConcept, "k3", "sconcept_v3");
@@ -362,6 +388,7 @@ public class TextRendererTests {
         IArchimateConcept targetConcept = IArchimateFactory.eINSTANCE.createBusinessRole();
         targetConcept.setName("Target Concept");
         targetConcept.setDocumentation("Target Documentation");
+        targetConcept.getProfiles().add(profile2);
         addProperty(targetConcept, "k1", "tconcept_v1");
         addProperty(targetConcept, "k2", "tconcept_v2");
         addProperty(targetConcept, "k3", "tconcept_v3");

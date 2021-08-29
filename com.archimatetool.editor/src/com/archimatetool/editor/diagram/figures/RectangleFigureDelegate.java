@@ -9,9 +9,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.model.ITextAlignment;
-import com.archimatetool.model.ITextPosition;
-
 
 
 /**
@@ -21,17 +18,10 @@ import com.archimatetool.model.ITextPosition;
  */
 public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
-    protected int iconOffset;
-    
-    public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+    public RectangleFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
-    public RectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
-        super(owner);
-        this.iconOffset = iconOffset;
-    }
-
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
@@ -64,29 +54,10 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);
         
+        // Icon
+        // getOwner().drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds, 0, 0, 0, 0);
+        
         graphics.popState();
     }
-    
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
-        
-        if(getOwner().getDiagramModelObject() instanceof ITextPosition) {
-            int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
-            int textAlignment = getOwner().getDiagramModelObject().getTextAlignment();
-            
-            if(textpos == ITextPosition.TEXT_POSITION_TOP) {
-                if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
-                    bounds.x += iconOffset;
-                    bounds.width = bounds.width - (iconOffset * 2);
-                }
-                else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
-                    bounds.width -= iconOffset;
-                }
-            }
-        }
-
-        return bounds;
-    }
-
 }

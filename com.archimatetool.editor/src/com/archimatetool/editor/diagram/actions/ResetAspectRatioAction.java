@@ -8,18 +8,20 @@ package com.archimatetool.editor.diagram.actions;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
-import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
-import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigure;
+import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ILockable;
 
 
@@ -50,78 +52,87 @@ public class ResetAspectRatioAction extends SelectionAction {
     protected boolean calculateEnabled() {
         List<?> selected = getSelectedObjects();
         
-        // Quick checks
         if(selected.isEmpty()) {
             return false;
         }
         
-        for(Object object : selected) {
-            if(!(object instanceof EditPart)) {
-                return false;
-            }
-        }
-
-        Command command = createCommand(selected);
-        if(command == null) {
-            return false;
-        }
-        return command.canExecute();
+        return createCommand(selected).canExecute();
     }
 
     private Command createCommand(List<?> objects) {
         CompoundCommand result = new CompoundCommand();
         
         for(Object object : objects) {
-            if(object instanceof DiagramImageEditPart) {
-                DiagramImageEditPart part = (DiagramImageEditPart)object;
-                IDiagramModelObject model = part.getModel();
-
-                // Locked
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            if(object instanceof AbstractConnectedEditPart) {
+                AbstractConnectedEditPart editPart = (AbstractConnectedEditPart)object;
+                AbstractDiagramModelObjectFigure figure = (AbstractDiagramModelObjectFigure)editPart.getFigure();
+                IDiagramModelObject dmo = editPart.getModel();
+                
+                // Diagram Image object with image or Iconic type with image and Fill setting
+                if(!isDiagramObjectWithImage(dmo) && !isIconicWithImageFill(dmo, figure)) {
                     continue;
                 }
-
-                IBounds modelBounds = model.getBounds().getCopy();
+                
+                // Locked
+                if(dmo instanceof ILockable && ((ILockable)dmo).isLocked()) {
+                    continue;
+                }
+                
+                IBounds modelBounds = dmo.getBounds().getCopy();
                 int currentHeight = modelBounds.getHeight();
                 int currentWidth = modelBounds.getWidth();
-
-                // Already set to default height and width
-                if(currentHeight == -1 && currentWidth == -1) {
+                
+                // Sanity check
+                if(currentHeight < 1 || currentWidth < 1) {
                     continue;
                 }
-
-                // Get original default size
-                DiagramImageFigure figure = part.getFigure();
-                Dimension size = figure.getDefaultSize();
-
-                if(size.height == 0 || size.width == 0) {
-                    continue;
-                }
-
-                float originalRatio = ((float) size.height / (float) size.width);
+                
                 float currentRatio = ((float) currentHeight / (float) currentWidth);
+                float otherRatio = 0;
+                
+                // Image object type
+                if(dmo instanceof IDiagramModelImage) {
+                    // This will return the image's proper size (unsized) if there is an image, else the object's size
+                    Dimension size = figure.getDefaultSize();
+                    
+                    if(size.height == 0 || size.width == 0) {
+                        continue;
+                    }
 
-                // If the ratio is different within tolerance
-                if(Math.abs(originalRatio - currentRatio) > 0.01) {
-                    int width = currentWidth;
-                    int height = currentHeight;
-
+                    otherRatio = ((float) size.height / (float) size.width);
+                }
+                // Iconic and fill type is fill and has an image
+                else {
+                    Rectangle imageBounds = figure.getIconicDelegate().getImage().getBounds();
+                    otherRatio = ((float) imageBounds.height / (float) imageBounds.width);
+                }
+                
+                // If the ratio is different (within tolerance)
+                if(otherRatio != 0 && Math.abs(otherRatio - currentRatio) > 0.01) {
                     if(currentWidth < currentHeight) {
-                        width = (int) (currentHeight / originalRatio);
+                        currentWidth = (int) (currentHeight / otherRatio);
                     }
                     else {
-                        height = (int) (currentWidth * originalRatio);
+                        currentHeight = (int) (currentWidth * otherRatio);
                     }
 
-                    modelBounds.setWidth(width);
-                    modelBounds.setHeight(height);
+                    modelBounds.setWidth(currentWidth);
+                    modelBounds.setHeight(currentHeight);
 
-                    Command cmd = new SetConstraintObjectCommand(model, modelBounds);
+                    Command cmd = new SetConstraintObjectCommand(dmo, modelBounds);
                     result.add(cmd);
                 }
             }
         }
 
         return result.unwrap();
+    }
+    
+    private boolean isIconicWithImageFill(IDiagramModelObject dmo, AbstractDiagramModelObjectFigure figure) {
+        return dmo instanceof IIconic && ((IIconic)dmo).getImagePosition() == IIconic.ICON_POSITION_FILL && figure.hasIconImage();
+    }
+    
+    private boolean isDiagramObjectWithImage(IDiagramModelObject dmo) {
+        return dmo instanceof IDiagramModelImage && ((IDiagramModelImage)dmo).getImagePath() != null;
     }
 }

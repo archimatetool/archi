@@ -6,8 +6,10 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPart;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.figures.elements.InterfaceFigure;
 
 
 
@@ -19,35 +21,13 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public abstract class AbstractInterfaceUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
-    public Dimension getDefaultSize() {
-        // Square size
-        if(instance instanceof IDiagramModelArchimateObject) {
-            int figureType = ((IDiagramModelArchimateObject)instance).getType();
-            if(figureType == 1) {
-                return DefaultSquareSize;
-            }
-        }
-        
-        return super.getDefaultSize();
-    }
-    
-    @Override
-    public Dimension getUserDefaultSize() {
-        /*
-         * User default size needs to be converted to a square height/width for the alternate figure
-         */
-        Dimension userSize = super.getUserDefaultSize();
-        
-        if(getDefaultSize() == DefaultSquareSize) {
-            int length = Math.min(userSize.width, userSize.height);
-            userSize = new Dimension(length, length);
-        }
-        
-        return userSize;
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(InterfaceFigure.class);
     }
 
     @Override
-    public boolean hasAlternateFigure() {
-        return true;
+    protected Dimension getDefaultSizeForFigureType(int figureType) {
+        return super.getDefaultSizeForFigureType(figureType);
+        //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
 }

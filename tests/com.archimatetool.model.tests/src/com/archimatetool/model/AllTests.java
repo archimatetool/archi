@@ -5,8 +5,6 @@
  */
 package com.archimatetool.model;
 
-import junit.framework.TestSuite;
-
 import com.archimatetool.model.impl.AllArchimateElementTypeTests;
 import com.archimatetool.model.impl.AllArchimateRelationshipTypeTests;
 import com.archimatetool.model.impl.ArchimateDiagramModelTests;
@@ -22,9 +20,10 @@ import com.archimatetool.model.impl.DiagramModelGroupTests;
 import com.archimatetool.model.impl.DiagramModelImageTests;
 import com.archimatetool.model.impl.DiagramModelNoteTests;
 import com.archimatetool.model.impl.DiagramModelReferenceTests;
+import com.archimatetool.model.impl.FeaturesEListTests;
 import com.archimatetool.model.impl.FolderTests;
 import com.archimatetool.model.impl.MetadataTests;
-import com.archimatetool.model.impl.FeaturesEListTests;
+import com.archimatetool.model.impl.ProfileTests;
 import com.archimatetool.model.impl.PropertyTests;
 import com.archimatetool.model.impl.SketchModelActorTests;
 import com.archimatetool.model.impl.SketchModelStickyTests;
@@ -35,6 +34,8 @@ import com.archimatetool.model.util.RelationshipsMatrixTests;
 import com.archimatetool.model.util.UUIDFactoryTests;
 import com.archimatetool.model.viewpoints.ViewpointManagerTests;
 import com.archimatetool.model.viewpoints.ViewpointTests;
+
+import junit.framework.TestSuite;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -61,6 +62,7 @@ public class AllTests {
         suite.addTest(FolderTests.suite());
         suite.addTest(MetadataTests.suite());
         suite.addTest(FeaturesEListTests.suite());
+        suite.addTest(ProfileTests.suite());
         suite.addTest(PropertyTests.suite());
         
         suite.addTest(SketchModelTests.suite());

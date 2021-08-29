@@ -18,6 +18,8 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IProfile;
 
 
 @SuppressWarnings("nls")
@@ -107,5 +109,22 @@ public abstract class ArchimateConceptTests {
         assertEquals(0, concept.getTargetRelationships().size());
         concept.getTargetRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
         assertEquals(1, concept.getTargetRelationships().size());
+    }
+    
+    @Test
+    public void testGetProfiles() {
+        CommonTests.testList(concept.getProfiles(), IArchimatePackage.eINSTANCE.getProfile());
+    }
+    
+    @Test
+    public void testGetPrimaryProfile() {
+        assertNull(concept.getPrimaryProfile());
+        
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        
+        concept.getProfiles().add(profile1);
+        concept.getProfiles().add(profile2);
+        assertSame(profile1, concept.getPrimaryProfile());
     }
 }

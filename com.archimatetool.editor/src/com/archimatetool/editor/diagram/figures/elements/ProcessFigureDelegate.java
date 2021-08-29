@@ -10,8 +10,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -24,7 +24,7 @@ import com.archimatetool.model.ITextPosition;
  */
 public class ProcessFigureDelegate extends AbstractFigureDelegate {
 
-    public ProcessFigureDelegate(IDiagramModelObjectFigure owner) {
+    public ProcessFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -78,6 +78,11 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         path.dispose();
         
+        // Icon
+        // getOwner().drawIconImage(graphics, bounds);
+        getOwner().drawIconImage(graphics, bounds,
+                bounds.height / 5 + 1, (int)-(bounds.width * 0.2f), -(bounds.height / 5 + 1), 0);
+
         graphics.popState();
     }
     

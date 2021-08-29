@@ -7,8 +7,9 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.ITextPosition;
 
 /**
@@ -19,28 +20,48 @@ import com.archimatetool.model.ITextPosition;
 public class ContractFigure extends ObjectFigure {
     
     class ContractFigureDelegate extends ObjectFigureDelegate {
-        ContractFigureDelegate(IDiagramModelObjectFigure owner) {
+        ContractFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
         }
         
         @Override
         public void drawFigure(Graphics graphics) {
-            super.drawFigure(graphics);
-            
             graphics.pushState();
             
-            graphics.setAlpha(getAlpha());
-            
             Rectangle bounds = getBounds();
+            
             bounds.width--;
+            bounds.height--;
             
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, 1, bounds);
+
+            graphics.setAlpha(getAlpha());
             
-            // Line
+            if(!isEnabled()) {
+                setDisabledState(graphics);
+            }
+            
+            // Main Fill
+            graphics.setBackgroundColor(getFillColor());
+            
+            Pattern gradient = applyGradientPattern(graphics, bounds);
+            
+            graphics.fillRectangle(bounds);
+            
+            disposeGradientPattern(graphics, gradient);
+
+            // Outline
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
+
+            graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
             graphics.drawLine(bounds.x, bounds.getBottom().y - TOP_MARGIN, bounds.getRight().x, bounds.getBottom().y - TOP_MARGIN);
+            graphics.drawRectangle(bounds);
+            
+            // Icon
+            // getOwner().drawIconImage(graphics, bounds);
+            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
             
             graphics.popState();
         }
@@ -50,7 +71,7 @@ public class ContractFigure extends ObjectFigure {
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             if(textPosition == ITextPosition.TEXT_POSITION_BOTTOM) {
                 Rectangle bounds = getBounds();
-                bounds.y -= TOP_MARGIN - 4;
+                bounds.y -= TOP_MARGIN - getTextControlMarginHeight();
                 return bounds;
             }
             else {

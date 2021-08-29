@@ -7,11 +7,14 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
@@ -20,24 +23,138 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class ResourceFigure extends AbstractTextControlContainerFigure {
+public class ResourceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+    
+    private IFigureDelegate rectangleDelegate;
     
     public ResourceFigure() {
         super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = getFigurePath(rect);
+        graphics.fillPath(path);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        // Lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        Dimension nubSize = new Dimension(rect.width / 10, rect.height / 3);
+        
+        graphics.drawLine(rect.x + rect.width - nubSize.width,
+                rect.y + (rect.height - nubSize.height) / 2,
+                rect.x + rect.width - nubSize.width,
+                rect.y + (rect.height - nubSize.height) / 2 + nubSize.height);
+
+        
+        int lineTop = rect.y + rect.height / 5;
+        int lineBottom = rect.y + rect.height * 4 / 5;
+        int lineGap = rect.width / 6;
+        
+        graphics.drawLine(rect.x + lineGap, lineTop, rect.x + lineGap, lineBottom);
+        graphics.drawLine(rect.x + lineGap * 2, lineTop, rect.x + lineGap * 2, lineBottom);
+        graphics.drawLine(rect.x + lineGap * 3, lineTop, rect.x + lineGap * 3, lineBottom);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
-    
+
+    private Path getFigurePath(Rectangle rect) {
+        Dimension nubSize = new Dimension(rect.width / 10, rect.height / 3);
+        int arc1 = 5;
+        int arc2 = 3;
+        
+        Path path = new Path(null);
+        
+        path.moveTo(rect.x + arc1, rect.y);
+        path.lineTo(rect.x + rect.width - nubSize.width - arc1, rect.y);
+        
+        path.cubicTo(rect.x + rect.width - nubSize.width - arc1,
+                     rect.y,
+                     rect.x + rect.width - nubSize.width,
+                     rect.y,
+                     rect.x + rect.width - nubSize.width,
+                     rect.y + arc1);
+        
+        path.lineTo(rect.x + rect.width - nubSize.width, rect.y + (rect.height - nubSize.height) / 2);
+        path.lineTo(rect.x + rect.width - arc1, rect.y + (rect.height - nubSize.height) / 2);
+        
+        path.cubicTo(rect.x + rect.width - arc2,
+                     rect.y + (rect.height - nubSize.height) / 2,
+                     rect.x + rect.width,
+                     rect.y + (rect.height - nubSize.height) / 2,
+                     rect.x + rect.width,
+                     rect.y + (rect.height - nubSize.height) / 2 + arc2);
+        
+        path.lineTo(rect.x + rect.width, rect.y + (rect.height - nubSize.height) / 2 + nubSize.height - arc1);
+        
+        path.cubicTo(rect.x + rect.width,
+                     rect.y + (rect.height - nubSize.height) / 2 + nubSize.height - arc2,
+                     rect.x + rect.width,
+                     rect.y + (rect.height - nubSize.height) / 2 + nubSize.height,
+                     rect.x + rect.width - arc2,
+                     rect.y + (rect.height - nubSize.height) / 2 + nubSize.height);
+        
+        path.lineTo(rect.x + rect.width - nubSize.width, rect.y + (rect.height - nubSize.height) / 2 + nubSize.height);
+        path.lineTo(rect.x + rect.width - nubSize.width, rect.y + rect.height - arc1);
+        
+        path.cubicTo(rect.x + rect.width - nubSize.width,
+                     rect.y + rect.height - arc1,
+                     rect.x + rect.width - nubSize.width,
+                     rect.y + rect.height,
+                     rect.x + rect.width - nubSize.width - arc1,
+                     rect.y + rect.height);
+        
+        path.lineTo(rect.x + arc1, rect.y + rect.height);
+        path.cubicTo(rect.x + arc1, rect.y + rect.height, rect.x, rect.y + rect.height, rect.x, rect.y + rect.height - arc1);
+        path.lineTo(rect.x, rect.y + arc1);
+        path.cubicTo(rect.x, rect.y + arc1, rect.x, rect.y, rect.x + arc1, rect.y);
+        path.close();
+        
+        return path;
+    }
+
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -82,9 +199,18 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.getRight().x - 20, bounds.y + 7);
     }
 
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
+    }
 }

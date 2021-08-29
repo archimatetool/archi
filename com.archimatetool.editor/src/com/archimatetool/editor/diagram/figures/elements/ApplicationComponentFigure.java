@@ -17,7 +17,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -25,15 +24,15 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ApplicationComponentFigure extends AbstractTextControlContainerFigure {
+public class ApplicationComponentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int INDENT = 10;
     
-    protected IFigureDelegate fMainFigureDelegate;
+    protected IFigureDelegate rectangleDelegate;
     
     public ApplicationComponentFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -104,6 +103,10 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
         graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
         
+        // Icon
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, 0, 0, 0, INDENT * 2);
+
         graphics.popState();
     }
     
@@ -111,6 +114,10 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -153,16 +160,15 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 15, bounds.y + 19);
     }
+    
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 1 ? 20 : 0;
+    }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 1 ? fMainFigureDelegate : null;
-    }
-    
-    @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+        return getDiagramModelArchimateObject().getType() == 1 ? rectangleDelegate : null;
     }
     
     @Override

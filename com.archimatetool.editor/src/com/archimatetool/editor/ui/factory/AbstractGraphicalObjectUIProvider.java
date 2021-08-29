@@ -39,11 +39,14 @@ implements IGraphicalObjectUIProvider {
         return new Dimension(-1, -1);
     }
     
+    /**
+     * @deprecated Use {@link #getDefaultSize()}
+     */
     @Override
     public Dimension getUserDefaultSize() {
         return getDefaultSize();
     }
-    
+
     @Override
     public int getDefaultTextAlignment() {
         return ITextAlignment.TEXT_ALIGNMENT_CENTER;
@@ -52,5 +55,10 @@ implements IGraphicalObjectUIProvider {
     @Override
     public int getDefaultTextPosition() {
         return ITextPosition.TEXT_POSITION_TOP;
+    }
+    
+    @Override
+    public boolean hasIcon() {
+        return false;
     }
 }

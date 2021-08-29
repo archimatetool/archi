@@ -39,7 +39,7 @@ public class AddDiagramModelReferenceCommand extends Command {
         fReference.setReferencedModel(diagramModel);
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fReference);
-        Dimension size = provider.getUserDefaultSize();
+        Dimension size = provider.getDefaultSize();
         fReference.setBounds(x, y, size.width, size.height);
         
         fReference.setGradient(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_GRADIENT));

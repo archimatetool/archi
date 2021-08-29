@@ -21,7 +21,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class RepresentationFigure extends AbstractTextControlContainerFigure {
+public class RepresentationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int TOP_MARGIN = 12;
 
@@ -71,7 +71,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
-
+        
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -83,6 +83,10 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         // Line
         graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
         
+        // Icon
+        // drawIconImage(graphics, bounds);
+        drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
+
         graphics.popState();
     }
 
@@ -93,7 +97,7 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += TOP_MARGIN - 4;
+            bounds.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
         }
         
         return bounds;

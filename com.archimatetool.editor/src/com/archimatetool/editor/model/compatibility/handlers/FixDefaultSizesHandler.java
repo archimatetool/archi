@@ -114,11 +114,11 @@ public class FixDefaultSizesHandler implements ICompatibilityHandler {
         // Legacy size of ArchiMate figure
         if(dmo instanceof IDiagramModelArchimateObject) {
             if(!(((IDiagramModelArchimateObject)dmo).getArchimateElement() instanceof IJunction)) {
-                return new Dimension(120, 55);
+                return IGraphicalObjectUIProvider.defaultSize();
             }
         }
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
-        return provider != null ? provider.getUserDefaultSize() : new Dimension(120, 55);
+        return provider != null ? provider.getDefaultSize() : IGraphicalObjectUIProvider.defaultSize();
     }
 }

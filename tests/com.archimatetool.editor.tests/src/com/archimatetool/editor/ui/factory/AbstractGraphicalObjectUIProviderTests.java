@@ -48,12 +48,6 @@ public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObj
     }
     
     @Test
-    public void testGetUserDefaultSize() {
-        // User size defaults to default size
-        assertEquals(getProvider().getDefaultSize(), getProvider().getUserDefaultSize());
-    }
-
-    @Test
     public void testGetDefaultTextAlignment() {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, getProvider().getDefaultTextAlignment());
     }

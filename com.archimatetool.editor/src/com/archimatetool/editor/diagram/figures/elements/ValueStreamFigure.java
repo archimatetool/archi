@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IIconic;
 
 
 /**
@@ -24,13 +24,13 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ValueStreamFigure extends AbstractTextControlContainerFigure {
+public class ValueStreamFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     private IFigureDelegate fMainFigureDelegate;
     
     public ValueStreamFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this, 25 - getTextControlMarginWidth());
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
@@ -86,6 +86,31 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
+        // Icon
+        // drawIconImage(graphics, bounds);
+        
+        int top = 0, right = 0, left = 0, bottom = 0;
+        switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
+            case IIconic.ICON_POSITION_TOP_LEFT:
+            case IIconic.ICON_POSITION_BOTTOM_LEFT:
+                left = 10;
+                break;
+
+            case IIconic.ICON_POSITION_TOP_RIGHT:
+            case IIconic.ICON_POSITION_BOTTOM_RIGHT:
+                right = -indent;
+                break;
+
+            case IIconic.ICON_POSITION_MIDDLE_LEFT:
+                left = indent;
+                break;
+
+            case IIconic.ICON_POSITION_MIDDLE_RIGHT:
+                right = -10;
+                break;
+        }
+        drawIconImage(graphics, bounds, top, right, bottom, left);
+
         graphics.popState();
     }
     
@@ -93,6 +118,10 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -134,13 +163,11 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fMainFigureDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? fMainFigureDelegate : null;
     }
     
     @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 25 : 0;
     }
-
 }

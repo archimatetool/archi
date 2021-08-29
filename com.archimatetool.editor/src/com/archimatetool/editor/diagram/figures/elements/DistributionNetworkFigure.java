@@ -7,39 +7,49 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
-
-import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
 
 
 /**
- * Material Figure
+ * DistributionNetwork Figure
  * 
  * @author Phillip Beauvoir
  */
-public class DistributionNetworkFigure extends AbstractTextControlContainerFigure {
-
+public class DistributionNetworkFigure extends CommunicationNetworkFigure {
+    
     public DistributionNetworkFigure() {
-        super(TEXT_FLOW_CONTROL);
-        // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     @Override
-    protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+    protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+        
+        graphics.drawLine(rect.x + arrow.height / 5,
+                          rect.y + rect.height / 2 - arrow.height / 5,
+                          rect.x + rect.width - arrow.height / 5,
+                          rect.y + rect.height / 2 - arrow.height / 5);
+        
+        graphics.drawLine(rect.x + arrow.height / 5,
+                          rect.y + rect.height / 2 + arrow.height / 5,
+                          rect.x + rect.width - arrow.height / 5,
+                          rect.y + rect.height / 2 + arrow.height / 5);
     }
     
     /**
      * Draw the icon
      */
+    @Override
     protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
@@ -77,6 +87,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
     /**
      * @return The icon start position
      */
+    @Override
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 12);

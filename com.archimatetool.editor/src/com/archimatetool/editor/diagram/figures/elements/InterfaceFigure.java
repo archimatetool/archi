@@ -5,19 +5,15 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.EllipseFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -25,30 +21,89 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class InterfaceFigure extends AbstractTextControlContainerFigure {
+public class InterfaceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    protected IFigureDelegate fRectangleDelegate, fEllipseDelegate;
+    private IFigureDelegate rectangleDelegate;
     
     public InterfaceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fRectangleDelegate = new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
-        fEllipseDelegate = new EllipseFigureDelegate(this);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        
-        int type = getDiagramModelObject().getType();
-        if(type == 0) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
             drawIcon(graphics);
+            return;
         }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+        
+        setFigurePositionFromTextPosition(rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        
+        graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        int diameter;
+        int lineLength;
+        int x = rect.x, y = rect.y;
+
+        // width < height or same
+        if(rect.width <= rect.height) {
+            lineLength = rect.width / 3;
+            diameter = rect.width - lineLength;
+            x += rect.width - diameter;
+        }
+        // height < width
+        else {
+            diameter = Math.min(rect.height, (rect.width / 3) * 2); // minimum of height or 2/3 of width
+            lineLength = diameter / 2;
+            x += (rect.width / 2) - (diameter / 4);
+        }
+        
+        y += (rect.height / 2) - (diameter / 2);
+
+        graphics.fillOval(x, y, diameter, diameter);
+        
+        disposeGradientPattern(graphics, gradient);
+        
+        // Line
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawLine(x - lineLength, rect.y + rect.height / 2, x, rect.y + rect.height / 2);
+        graphics.drawOval(x, y, diameter, diameter);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -70,25 +125,23 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 14, bounds.y + 8);
     }
     
     @Override
-    public IFigureDelegate getFigureDelegate() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fRectangleDelegate : fEllipseDelegate;
-    }
-    
-    @Override
-    public ConnectionAnchor getDefaultConnectionAnchor() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? new ChopboxAnchor(this) : new EllipseAnchor(this);
+    protected int getTextControlMarginHeight() {
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
     }
 
     @Override
-    public IDiagramModelArchimateObject getDiagramModelObject() {
-        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

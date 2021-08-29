@@ -78,6 +78,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="Cloneable" abstract="true" interface="true">
     <eOperations name="getCopy" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Profile" eSuperTypes="#//ArchimateModelObject #//DiagramModelImageProvider #//Cloneable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="specialization" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conceptType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Profiles" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profiles" upperBound="-1"
+        eType="#//Profile" resolveProxies="false"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="FolderType">
     <eLiterals name="user"/>
     <eLiterals name="strategy" value="1" literal="strategy"/>
@@ -114,7 +123,7 @@
       interface="true" eSuperTypes="#//Adapter #//Nameable #//Identifier #//Features">
     <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelObject #//Cloneable #//Documentable #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelObject #//Cloneable #//Documentable #//Properties #//Profiles"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
       eSuperTypes="#//ArchimateConcept">
@@ -189,6 +198,13 @@
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" eType="#//Metadata"
         containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profiles" upperBound="-1"
+        eType="#//Profile" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="profile"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//ArchimateElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -307,7 +323,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModel" abstract="true" eSuperTypes="#//ArchimateModelObject #//DiagramModelContainer #//Documentable #//Properties">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionRouterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject #//TextPosition">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject #//TextPosition #//Iconic">
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedModel" eType="#//DiagramModel"
         resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -330,12 +346,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="255"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties #//TextPosition #//BorderType">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties #//TextPosition #//BorderType #//Iconic">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Group"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition #//Properties #//BorderType">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition #//Properties #//BorderType #//Iconic">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Note"/>
     </eAnnotations>
@@ -416,6 +432,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Lockable" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Iconic" abstract="true" interface="true"
+      eSuperTypes="#//DiagramModelObject #//DiagramModelImageProvider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="2"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateDiagramModel" eSuperTypes="#//DiagramModel">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="viewpoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
@@ -431,7 +452,7 @@
     </eOperations>
     <eOperations name="removeArchimateConceptFromModel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//DiagramModelArchimateComponent #//TextPosition">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//DiagramModelArchimateComponent #//TextPosition #//Iconic">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DiagramObject"/>
     </eAnnotations>
@@ -451,6 +472,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition #//Iconic"/>
   <eClassifiers xsi:type="ecore:EClass" name="SketchModelActor" eSuperTypes="#//DiagramModelObject #//Documentable #//Properties"/>
 </ecore:EPackage>

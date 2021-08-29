@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.canvas.propertysections;
+package com.archimatetool.editor.propertysections;
 
 import java.io.File;
 
@@ -35,26 +35,26 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IIconic;
-import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.propertysections.DiagramModelImageSection;
-import com.archimatetool.editor.propertysections.IObjectFilter;
-import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
-import com.archimatetool.editor.propertysections.ObjectFilter;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IIconic;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
 
 /**
- * Property Section for an Icon
+ * Property Section for an User Image Icon
  * 
  * @author Phillip Beauvoir
  */
-public class IconSection extends DiagramModelImageSection {
+public class IconSection extends ImageChooserSection {
     
     /**
      * Filter to show or reject this section depending on input value
@@ -62,7 +62,9 @@ public class IconSection extends DiagramModelImageSection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IIconic;
+            // Should be IIconic and exposes image path feature
+            return object instanceof IIconic && shouldExposeFeature((EObject)object,
+                    IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName());
         }
 
         @Override
@@ -87,8 +89,19 @@ public class IconSection extends DiagramModelImageSection {
         Messages.IconSection_6,
         Messages.IconSection_7,
         Messages.IconSection_8,
+        Messages.IconSection_13
     };
     
+    /**
+     * Adapter to listen to Model's Profile changes
+     */
+    private LightweightEContentAdapter eAdapter = new LightweightEContentAdapter(this::notifyChanged, IProfile.class);
+    
+    /**
+     * Model that we are listening to changes on
+     * Store this model in case the selected object is deleted
+     */
+    private IArchimateModel fModel;
     
     @Override
     protected void createControls(Composite parent) {
@@ -115,7 +128,7 @@ public class IconSection extends DiagramModelImageSection {
         fCanvas.addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event) {
-                if(!isLocked(getFirstSelectedObject())) {
+                if(fImageButton.isEnabled()) {
                     chooseImage();
                 }
             }
@@ -150,11 +163,9 @@ public class IconSection extends DiagramModelImageSection {
         target.addDropListener(new DropTargetAdapter() {
             @Override
             public void drop(DropTargetEvent event) {
-                if(event.data instanceof String[]) {
-                    if(!isLocked(getFirstSelectedObject())) {
-                        File file = new File(((String[])event.data)[0]);
-                        setImage(file);
-                    }
+                if(event.data instanceof String[] && fImageButton.isEnabled()) {
+                    File file = new File(((String[])event.data)[0]);
+                    setImage(file);
                 }
             }
         });
@@ -179,7 +190,7 @@ public class IconSection extends DiagramModelImageSection {
                     if(isAlive(iconic)) {
                         Command cmd = new EObjectFeatureCommand(Messages.IconSection_12,
                                 iconic,
-                                ICanvasPackage.Literals.ICONIC__IMAGE_POSITION,
+                                IArchimatePackage.Literals.ICONIC__IMAGE_POSITION,
                                 fComboPosition.getSelectionIndex());
                         
                         if(cmd.canExecute()) {
@@ -203,59 +214,103 @@ public class IconSection extends DiagramModelImageSection {
 
     @Override
     protected void notifyChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
+        // Profile might have been added or removed from the Model or the underlying Archimate element which might affect the image
+        // Or Image Path or Source changed
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES
+                || feature == IArchimatePackage.Literals.PROFILES__PROFILES
+                || feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH
+                || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
+            refreshPreviewImage();
+        }
+        
         if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) {
-                refreshPreviewImage();
+            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
+                    || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION
+                    || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
+                refreshButton();
             }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
-                    || feature == ICanvasPackage.Literals.ICONIC__IMAGE_POSITION) {
-                refreshButtons();
+        }
+    }
+    
+    @Override
+    protected void addAdapter() {
+        super.addAdapter();
+        
+        // Add our adapter to listen to underlying ArchimateElement if there is one
+        IArchimateModelObject selected = getFirstSelectedObject();
+        if(selected instanceof IDiagramModelArchimateObject) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+            if(!element.eAdapters().contains(eAdapter)) {
+                element.eAdapters().add(eAdapter);
             }
+            // And the model itself
+            if(element.getArchimateModel() != null && !element.getArchimateModel().eAdapters().contains(eAdapter)) {
+                fModel = element.getArchimateModel();
+                fModel.eAdapters().add(eAdapter);
+            }
+        }
+    }
+    
+    @Override
+    protected void removeAdapter() {
+        super.removeAdapter();
+        
+        // Remove our adapter to underlying ArchimateElement if there is one
+        IArchimateModelObject selected = getFirstSelectedObject();
+        if(selected instanceof IDiagramModelArchimateObject) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+            element.eAdapters().remove(eAdapter);
+        }
+
+        // Remove our adapter from the model
+        if(fModel != null) {
+            fModel.eAdapters().remove(eAdapter);
+            fModel = null;
         }
     }
     
     @Override
     protected void update() {
         refreshPreviewImage();
-        refreshButtons();
+        refreshButton();
     }
     
     private void refreshPreviewImage() {
-        disposeImage();
-        
-        IIconic iconic = (IIconic)getFirstSelectedObject();
-        
-        if(iconic.getImagePath() != null) {
-            IArchiveManager archiveManager = (IArchiveManager)iconic.getAdapter(IArchiveManager.class);
+        // Check also if the selected object has been orphaned in case the Properties View is still showing the object if it has the focus
+        if(isAlive(getFirstSelectedObject())) {
+            disposeImage();
             
-            try {
-                fImage = archiveManager.createImage(iconic.getImagePath());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.logError("Could not create image!", ex); //$NON-NLS-1$
-            }
+            // Use an IconicDelegate to create the image which may come from the object or via a profile image
+            IconicDelegate iconicDelegate = new IconicDelegate((IIconic)getFirstSelectedObject());
+            iconicDelegate.updateImage();
+            fImage = iconicDelegate.getImage();
+            
+            fCanvas.redraw();
         }
-        
-        fCanvas.redraw();
     }
     
     @Override
-    protected void refreshButtons() {
-        super.refreshButtons();
+    protected void refreshButton() {
+        super.refreshButton();
         
-        IIconic iconic = (IIconic)getFirstSelectedObject();
+        IArchimateModelObject selected = getFirstSelectedObject();
         
-        int position = iconic.getImagePosition();
-        if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_BOTTOM_RIGHT) {
+        // If this is an ArchiMate element and we are not using a custom image then disable this
+        if(selected instanceof IDiagramModelArchimateObject) {
+            int source = ((IDiagramModelArchimateObject)selected).getImageSource();
+            fImageButton.setEnabled(source == IDiagramModelArchimateObject.IMAGE_SOURCE_CUSTOM  && !isLocked(selected));
+        }
+        
+        int position = ((IIconic)selected).getImagePosition();
+        if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_FILL) {
             position = IIconic.ICON_POSITION_TOP_RIGHT;
         }
         
         if(!fIsExecutingCommand) {
             fComboPosition.select(position);
-            fComboPosition.setEnabled(!isLocked(iconic));
+            fComboPosition.setEnabled(!isLocked(selected));
         }
     }
     
@@ -264,5 +319,13 @@ public class IconSection extends DiagramModelImageSection {
             fImage.dispose();
             fImage = null;
         }
+    }
+    
+    @Override
+    public void dispose() {
+        super.dispose();  // super first
+        disposeImage();
+        eAdapter = null;
+        fModel = null;
     }
 }

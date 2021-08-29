@@ -23,14 +23,10 @@ implements IRoundedRectangleFigure {
 
     private Dimension fArc = new Dimension(20, 20);
     
-    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+    public RoundedRectangleFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
-    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
-        super(owner, iconOffset);
-    }
-
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
@@ -63,6 +59,10 @@ implements IRoundedRectangleFigure {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
 
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + 2, bounds.y + 2, bounds.width - 4, bounds.height - 4);
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        
         graphics.popState();
     }
     

@@ -231,6 +231,16 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         getFeatures().putInt(FEATURE_GRADIENT, type, FEATURE_GRADIENT_DEFAULT);
     }
 
+    @Override
+    public int getIconVisibleState() {
+        return getFeatures().getInt(FEATURE_ICON_VISIBLE, FEATURE_ICON_VISIBLE_DEFAULT);
+    }
+    
+    @Override
+    public void setIconVisibleState(int value) {
+        getFeatures().putInt(FEATURE_ICON_VISIBLE, value, FEATURE_ICON_VISIBLE_DEFAULT);
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

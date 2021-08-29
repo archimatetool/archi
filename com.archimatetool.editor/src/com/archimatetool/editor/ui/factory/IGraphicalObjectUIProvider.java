@@ -16,9 +16,12 @@ import org.eclipse.swt.graphics.Color;
  */
 public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
     
-    final Dimension DefaultRectangularSize = new Dimension(120, 55);
-    
-    final Dimension DefaultSquareSize = new Dimension(60, 60);
+    /**
+     * @return the base default size for a figure
+     */
+    static Dimension defaultSize() {
+        return new Dimension(120, 55);
+    }
     
     /**
      * @return The default colour to use for this object (usually a fill color)
@@ -31,11 +34,12 @@ public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
     Color getDefaultLineColor();
     
     /**
-     * @return The default size width and height for this object
+     * @return The default size width and height for this object as set by the user or inbuilt
      */
     Dimension getDefaultSize();
     
     /**
+     * @deprecated Use {@link #getDefaultSize()}
      * @return The default size as set by the user for this object
      */
     Dimension getUserDefaultSize();
@@ -49,4 +53,9 @@ public interface IGraphicalObjectUIProvider extends IObjectUIProvider {
      * @return The default text position
      */
     int getDefaultTextPosition();
+    
+    /**
+     * @return true if the figure for this object should have an icon in the top-right position
+     */
+    boolean hasIcon();
 }

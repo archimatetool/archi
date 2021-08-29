@@ -9,8 +9,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
@@ -22,12 +22,12 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class ObjectFigure extends AbstractTextControlContainerFigure {
+public class ObjectFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int TOP_MARGIN = 12;
     
     class ObjectFigureDelegate extends RectangleFigureDelegate {
-        ObjectFigureDelegate(IDiagramModelObjectFigure owner) {
+        ObjectFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
         }
         
@@ -65,6 +65,10 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
             graphics.drawRectangle(bounds);
             
+            // Icon
+            // getOwner().drawIconImage(graphics, bounds);
+            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, 0, 0);
+
             graphics.popState();
         }
         
@@ -75,7 +79,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             
             if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-                bounds.y += TOP_MARGIN - 4;
+                bounds.y += TOP_MARGIN - getTextControlMarginHeight();
             }
             
             return bounds;

@@ -230,6 +230,12 @@
                id="figure.tab"
                label="%propertyTab.label.3">
          </propertyTab>
+         <propertyTab
+               afterTab="appearance.tab"
+               category="appearance.category"
+               id="image.tab"
+               label="Image">
+         </propertyTab>
       </propertyTabs>
    </extension>
    <extension
@@ -463,6 +469,31 @@
                filter="com.archimatetool.editor.propertysections.JunctionConnectionArrowsSection$Filter"
                id="junctionArrowsSection"
                tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.IconSection"
+               filter="com.archimatetool.editor.propertysections.IconSection$Filter"
+               id="iconSection"
+               tab="image.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.IconVisibleSection"
+               filter="com.archimatetool.editor.propertysections.IconVisibleSection$Filter"
+               id="iconVisibleSection"
+               tab="image.tab">
+         </propertySection>
+         <propertySection
+               afterSection="iconVisibleSection"
+               class="com.archimatetool.editor.propertysections.ImageSourceSection"
+               filter="com.archimatetool.editor.propertysections.ImageSourceSection$Filter"
+               id="imageSourceSection"
+               tab="image.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.SpecializationSection"
+               filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
+               id="specializationSection"
+               tab="main.tab">
          </propertySection>
       </propertySections>
    </extension>
@@ -712,6 +743,11 @@
             id="com.archimatetool.editor.action.openPropertiesDialog"
             name="%command.name.17">
       </command>
+      <command
+            defaultHandler="com.archimatetool.editor.actions.ShowProfilesManagerHandler"
+            id="com.archimatetool.editor.action.openProfilesDialog"
+            name="Specializations Manager">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -842,12 +878,26 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:tools?after=com.archimatetool.action.generateView">
+         <separator
+               name="com.archimatetool.menu.separatorTools1"
+               visible="true">
+         </separator>
          <command
                commandId="com.archimatetool.editor.action.openPropertiesDialog"
                icon="img/prop_ps.png"
                label="%command.label.5"
                style="push">
          </command>
+         <command
+               commandId="com.archimatetool.editor.action.openProfilesDialog"
+               icon="img/specialization.png"
+               label="Specializations Manager"
+               style="push">
+         </command>
+         <separator
+               name="com.archimatetool.menu.separatorTools2"
+               visible="true">
+         </separator>
       </menuContribution>
    </extension>
    <extension

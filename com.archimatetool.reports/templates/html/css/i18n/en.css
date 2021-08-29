@@ -17,6 +17,7 @@
 :lang(en) .i18n-empty_element_message:after {content: "Select an element in the model tree or in a view to show its details here"}
 :lang(en) .i18n-relation-source:after {content: "Source:"}
 :lang(en) .i18n-relation-target:after {content: "Target:"}
+:lang(en) .i18n-specialization:after {content: "Specialization:"}
 
 /* ViewPoints (com.archimatetool.editor.model.viewpoints.IViewpoint) */
 :lang(en) .i18n-viewpoint-:after {content: "No Viewpoint"}
@@ -47,80 +48,80 @@
 
 
 /* Elements (Class.SimpleName from com.archimatetool.model) */
-:lang(en) .i18n-elementtype-ArchimateModel:after {content: "Model"}
-:lang(en) .i18n-elementtype-AccessRelationship:after {content: "Access"}
-:lang(en) .i18n-elementtype-AggregationRelationship:after {content: "Aggregation"}
-:lang(en) .i18n-elementtype-ApplicationCollaboration:after {content: "Application Collaboration"}
-:lang(en) .i18n-elementtype-ApplicationComponent:after {content: "Application Component"}
-:lang(en) .i18n-elementtype-ApplicationEvent:after {content: "Application Event"}
-:lang(en) .i18n-elementtype-ApplicationFunction:after {content: "Application Function"}
-:lang(en) .i18n-elementtype-ApplicationInteraction:after {content: "Application Interaction"}
-:lang(en) .i18n-elementtype-ApplicationInterface:after {content: "Application Interface"}
-:lang(en) .i18n-elementtype-ApplicationProcess:after {content: "Application Process"}
-:lang(en) .i18n-elementtype-ApplicationService:after {content: "Application Service"}
-:lang(en) .i18n-elementtype-Artifact:after {content: "Artifact"}
-:lang(en) .i18n-elementtype-Assessment:after {content: "Assessment"}
-:lang(en) .i18n-elementtype-AssignmentRelationship:after {content: "Assignment"}
-:lang(en) .i18n-elementtype-AssociationRelationship:after {content: "Association"}
-:lang(en) .i18n-elementtype-BusinessActor:after {content: "Business Actor"}
-:lang(en) .i18n-elementtype-BusinessCollaboration:after {content: "Business Collaboration"}
-:lang(en) .i18n-elementtype-BusinessEvent:after {content: "Business Event"}
-:lang(en) .i18n-elementtype-BusinessFunction:after {content: "Business Function"}
-:lang(en) .i18n-elementtype-BusinessInteraction:after {content: "Business Interaction"}
-:lang(en) .i18n-elementtype-BusinessInterface:after {content: "Business Interface"}
-:lang(en) .i18n-elementtype-BusinessObject:after {content: "Business Object"}
-:lang(en) .i18n-elementtype-BusinessProcess:after {content: "Business Process"}
-:lang(en) .i18n-elementtype-BusinessRole:after {content: "Business Role"}
-:lang(en) .i18n-elementtype-BusinessService:after {content: "Business Service"}
-:lang(en) .i18n-elementtype-Capability:after {content: "Capability"}
-:lang(en) .i18n-elementtype-CommunicationNetwork:after {content: "Communication Network"}
-:lang(en) .i18n-elementtype-CompositionRelationship:after {content: "Composition"}
-:lang(en) .i18n-elementtype-Constraint:after {content: "Constraint"}
-:lang(en) .i18n-elementtype-CourseOfAction:after {content: "Course of Action"}
-:lang(en) .i18n-elementtype-Contract:after {content: "Contract"}
-:lang(en) .i18n-elementtype-DataObject:after {content: "Data Object"}
-:lang(en) .i18n-elementtype-Deliverable:after {content: "Deliverable"}
-:lang(en) .i18n-elementtype-Device:after {content: "Device"}
-:lang(en) .i18n-elementtype-DistributionNetwork:after {content: "Distribution Network"}
-:lang(en) .i18n-elementtype-Driver:after {content: "Driver"}
-:lang(en) .i18n-elementtype-Equipment:after {content: "Equipment"}
-:lang(en) .i18n-elementtype-Facility:after {content: "Facility"}
-:lang(en) .i18n-elementtype-FlowRelationship:after {content: "Flow"}
-:lang(en) .i18n-elementtype-Gap:after {content: "Gap"}
-:lang(en) .i18n-elementtype-Goal:after {content: "Goal"}
-:lang(en) .i18n-elementtype-Grouping:after {content: "Grouping"}
-:lang(en) .i18n-elementtype-ImplementationEvent:after {content: "Implementation Event"}
-:lang(en) .i18n-elementtype-InfluenceRelationship:after {content: "Influence"}
-:lang(en) .i18n-elementtype-Junction:after {content: "Junction"}
-:lang(en) .i18n-elementtype-Location:after {content: "Location"}
-:lang(en) .i18n-elementtype-Material:after {content: "Material"}
-:lang(en) .i18n-elementtype-Meaning:after {content: "Meaning"}
-:lang(en) .i18n-elementtype-Node:after {content: "Node"}
-:lang(en) .i18n-elementtype-Outcome:after {content: "Outcome"}
-:lang(en) .i18n-elementtype-Path:after {content: "Path"}
-:lang(en) .i18n-elementtype-Plateau:after {content: "Plateau"}
-:lang(en) .i18n-elementtype-Principle:after {content: "Principle"}
-:lang(en) .i18n-elementtype-Product:after {content: "Product"}
-:lang(en) .i18n-elementtype-RealizationRelationship:after {content: "Realization"}
-:lang(en) .i18n-elementtype-Representation:after {content: "Representation"}
-:lang(en) .i18n-elementtype-Requirement:after {content: "Requirement"}
-:lang(en) .i18n-elementtype-Resource:after {content: "Resource"}
-:lang(en) .i18n-elementtype-ServingRelationship:after {content: "Serving"}
-:lang(en) .i18n-elementtype-SpecializationRelationship:after {content: "Specialization"}
-:lang(en) .i18n-elementtype-Stakeholder:after {content: "Stakeholder"}
-:lang(en) .i18n-elementtype-SystemSoftware:after {content: "System Software"}
-:lang(en) .i18n-elementtype-TechnologyCollaboration:after {content: "Technology Collaboration"}
-:lang(en) .i18n-elementtype-TechnologyEvent:after {content: "Technology Event"}
-:lang(en) .i18n-elementtype-TechnologyFunction:after {content: "Technology Function"}
-:lang(en) .i18n-elementtype-TechnologyInteraction:after {content: "Technology Interaction"}
-:lang(en) .i18n-elementtype-TechnologyInterface:after {content: "Technology Interface"}
-:lang(en) .i18n-elementtype-TechnologyObject:after {content: "Technology Object"}
-:lang(en) .i18n-elementtype-TechnologyProcess:after {content: "Technology Process"}
-:lang(en) .i18n-elementtype-TechnologyService:after {content: "Technology Service"}
-:lang(en) .i18n-elementtype-TriggeringRelationship:after {content: "Triggering"}
-:lang(en) .i18n-elementtype-Value:after {content: "Value"}
-:lang(en) .i18n-elementtype-ValueStream:after {content: "Value Stream"}
-:lang(en) .i18n-elementtype-WorkPackage:after {content: "Work Package"}
+:lang(en) .i18n-elementtype-ArchimateModel:before {content: "Model"}
+:lang(en) .i18n-elementtype-AccessRelationship:before {content: "Access"}
+:lang(en) .i18n-elementtype-AggregationRelationship:before {content: "Aggregation"}
+:lang(en) .i18n-elementtype-ApplicationCollaboration:before {content: "Application Collaboration"}
+:lang(en) .i18n-elementtype-ApplicationComponent:before {content: "Application Component"}
+:lang(en) .i18n-elementtype-ApplicationEvent:before {content: "Application Event"}
+:lang(en) .i18n-elementtype-ApplicationFunction:before {content: "Application Function"}
+:lang(en) .i18n-elementtype-ApplicationInteraction:before {content: "Application Interaction"}
+:lang(en) .i18n-elementtype-ApplicationInterface:before {content: "Application Interface"}
+:lang(en) .i18n-elementtype-ApplicationProcess:before {content: "Application Process"}
+:lang(en) .i18n-elementtype-ApplicationService:before {content: "Application Service"}
+:lang(en) .i18n-elementtype-Artifact:before {content: "Artifact"}
+:lang(en) .i18n-elementtype-Assessment:before {content: "Assessment"}
+:lang(en) .i18n-elementtype-AssignmentRelationship:before {content: "Assignment"}
+:lang(en) .i18n-elementtype-AssociationRelationship:before {content: "Association"}
+:lang(en) .i18n-elementtype-BusinessActor:before {content: "Business Actor"}
+:lang(en) .i18n-elementtype-BusinessCollaboration:before {content: "Business Collaboration"}
+:lang(en) .i18n-elementtype-BusinessEvent:before {content: "Business Event"}
+:lang(en) .i18n-elementtype-BusinessFunction:before {content: "Business Function"}
+:lang(en) .i18n-elementtype-BusinessInteraction:before {content: "Business Interaction"}
+:lang(en) .i18n-elementtype-BusinessInterface:before {content: "Business Interface"}
+:lang(en) .i18n-elementtype-BusinessObject:before {content: "Business Object"}
+:lang(en) .i18n-elementtype-BusinessProcess:before {content: "Business Process"}
+:lang(en) .i18n-elementtype-BusinessRole:before {content: "Business Role"}
+:lang(en) .i18n-elementtype-BusinessService:before {content: "Business Service"}
+:lang(en) .i18n-elementtype-Capability:before {content: "Capability"}
+:lang(en) .i18n-elementtype-CommunicationNetwork:before {content: "Communication Network"}
+:lang(en) .i18n-elementtype-CompositionRelationship:before {content: "Composition"}
+:lang(en) .i18n-elementtype-Constraint:before {content: "Constraint"}
+:lang(en) .i18n-elementtype-CourseOfAction:before {content: "Course of Action"}
+:lang(en) .i18n-elementtype-Contract:before {content: "Contract"}
+:lang(en) .i18n-elementtype-DataObject:before {content: "Data Object"}
+:lang(en) .i18n-elementtype-Deliverable:before {content: "Deliverable"}
+:lang(en) .i18n-elementtype-Device:before {content: "Device"}
+:lang(en) .i18n-elementtype-DistributionNetwork:before {content: "Distribution Network"}
+:lang(en) .i18n-elementtype-Driver:before {content: "Driver"}
+:lang(en) .i18n-elementtype-Equipment:before {content: "Equipment"}
+:lang(en) .i18n-elementtype-Facility:before {content: "Facility"}
+:lang(en) .i18n-elementtype-FlowRelationship:before {content: "Flow"}
+:lang(en) .i18n-elementtype-Gap:before {content: "Gap"}
+:lang(en) .i18n-elementtype-Goal:before {content: "Goal"}
+:lang(en) .i18n-elementtype-Grouping:before {content: "Grouping"}
+:lang(en) .i18n-elementtype-ImplementationEvent:before {content: "Implementation Event"}
+:lang(en) .i18n-elementtype-InfluenceRelationship:before {content: "Influence"}
+:lang(en) .i18n-elementtype-Junction:before {content: "Junction"}
+:lang(en) .i18n-elementtype-Location:before {content: "Location"}
+:lang(en) .i18n-elementtype-Material:before {content: "Material"}
+:lang(en) .i18n-elementtype-Meaning:before {content: "Meaning"}
+:lang(en) .i18n-elementtype-Node:before {content: "Node"}
+:lang(en) .i18n-elementtype-Outcome:before {content: "Outcome"}
+:lang(en) .i18n-elementtype-Path:before {content: "Path"}
+:lang(en) .i18n-elementtype-Plateau:before {content: "Plateau"}
+:lang(en) .i18n-elementtype-Principle:before {content: "Principle"}
+:lang(en) .i18n-elementtype-Product:before {content: "Product"}
+:lang(en) .i18n-elementtype-RealizationRelationship:before {content: "Realization"}
+:lang(en) .i18n-elementtype-Representation:before {content: "Representation"}
+:lang(en) .i18n-elementtype-Requirement:before {content: "Requirement"}
+:lang(en) .i18n-elementtype-Resource:before {content: "Resource"}
+:lang(en) .i18n-elementtype-ServingRelationship:before {content: "Serving"}
+:lang(en) .i18n-elementtype-SpecializationRelationship:before {content: "Specialization"}
+:lang(en) .i18n-elementtype-Stakeholder:before {content: "Stakeholder"}
+:lang(en) .i18n-elementtype-SystemSoftware:before {content: "System Software"}
+:lang(en) .i18n-elementtype-TechnologyCollaboration:before {content: "Technology Collaboration"}
+:lang(en) .i18n-elementtype-TechnologyEvent:before {content: "Technology Event"}
+:lang(en) .i18n-elementtype-TechnologyFunction:before {content: "Technology Function"}
+:lang(en) .i18n-elementtype-TechnologyInteraction:before {content: "Technology Interaction"}
+:lang(en) .i18n-elementtype-TechnologyInterface:before {content: "Technology Interface"}
+:lang(en) .i18n-elementtype-TechnologyObject:before {content: "Technology Object"}
+:lang(en) .i18n-elementtype-TechnologyProcess:before {content: "Technology Process"}
+:lang(en) .i18n-elementtype-TechnologyService:before {content: "Technology Service"}
+:lang(en) .i18n-elementtype-TriggeringRelationship:before {content: "Triggering"}
+:lang(en) .i18n-elementtype-Value:before {content: "Value"}
+:lang(en) .i18n-elementtype-ValueStream:before {content: "Value Stream"}
+:lang(en) .i18n-elementtype-WorkPackage:before {content: "Work Package"}
 
 /* Other Graphical Objects */
 :lang(en) .i18n-elementtype-DiagramModelGroup:after {content: "Group"}
@@ -152,7 +153,7 @@
 :lang(en) .i18n-close:after {content: "Close"}
 :lang(en) .i18n-about:after {content: "About"}
 :lang(en) .i18n-about-pluginname:after {content: "Archi HTML Report plugin"}
-:lang(en) .i18n-about-pluginversion:after {content: "Version 1.2.0"}
+:lang(en) .i18n-about-pluginversion:after {content: "Version 1.3.0"}
 :lang(en) .i18n-about-plugintext1:after {content: "This plugin has been developed by Jean-Baptiste Sarrodie, Quentin Varquet and Phil Beauvoir."}
 :lang(en) .i18n-about-plugintext2:after {content: "This document has been created using Archi®. Archi® is a free, open source, cross-platform tool to create ArchiMate models and is targeted toward all levels of Enterprise Architects and Modellers. It provides a low cost to entry solution to users who may be making their first steps in the ArchiMate modelling language, or who are looking for a free, cross-platform ArchiMate modelling tool for their company or institution and wish to engage with the language within a TOGAF® or other Enterprise Architecture framework."}
 :lang(en) .i18n-about-plugintext3:after {content: "is a registered trademark of Phillip Beauvoir."}

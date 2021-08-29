@@ -66,7 +66,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Dimension getDefaultSize() {
-        return IGraphicalObjectUIProvider.DefaultRectangularSize;
+        return IGraphicalObjectUIProvider.defaultSize();
     }
 
     @Override
@@ -77,5 +77,10 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     @Override
     public Color getDefaultColor() {
         return ColorFactory.get(220, 235, 235);
+    }
+    
+    @Override
+    public boolean hasIcon() {
+        return true;
     }
 }

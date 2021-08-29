@@ -10,8 +10,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -24,13 +24,10 @@ import com.archimatetool.model.ITextPosition;
  */
 public class BoxFigureDelegate extends AbstractFigureDelegate {
 
-    protected static final int FOLD_HEIGHT = 14;
+    private static final int EDGE_SIZE = 14;
     
-    protected int iconOffset;
-    
-    public BoxFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+    public BoxFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
-        this.iconOffset = iconOffset;
     }
     
     @Override
@@ -54,11 +51,11 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
 
         Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + FOLD_HEIGHT, bounds.y);
+        path.moveTo(bounds.x, bounds.y + EDGE_SIZE);
+        path.lineTo(bounds.x + EDGE_SIZE, bounds.y);
         path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
+        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - EDGE_SIZE);
+        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
         path.lineTo(bounds.x, bounds.y + bounds.height);
         graphics.fillPath(path);
         path.dispose();
@@ -68,7 +65,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         Pattern gradient = applyGradientPattern(graphics, bounds);
 
-        graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT);
+        graphics.fillRectangle(bounds.x, bounds.y + EDGE_SIZE, bounds.width - EDGE_SIZE, bounds.height - EDGE_SIZE);
 
         disposeGradientPattern(graphics, gradient);
 
@@ -78,51 +75,76 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         path = new Path(null);
         
-        path.moveTo(bounds.x, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + FOLD_HEIGHT, bounds.y);
+        path.moveTo(bounds.x, bounds.y + EDGE_SIZE);
+        path.lineTo(bounds.x + EDGE_SIZE, bounds.y);
         path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
+        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - EDGE_SIZE);
+        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
         path.lineTo(bounds.x, bounds.y + bounds.height);
-        path.lineTo(bounds.x, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
+        path.lineTo(bounds.x, bounds.y + EDGE_SIZE);
+        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + EDGE_SIZE);
         path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.moveTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + FOLD_HEIGHT);
-        path.lineTo(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y + bounds.height);
+        path.moveTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + EDGE_SIZE);
+        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
         
         graphics.drawPath(path);
         path.dispose();
-        
+
+        // Image icon
+        Rectangle imageArea = new Rectangle(bounds.x, bounds.y + EDGE_SIZE, bounds.width - EDGE_SIZE, bounds.height - EDGE_SIZE);
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+
         graphics.popState();
     }
     
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
-        int offset = FOLD_HEIGHT + 1;
-        
-        int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+        int textPosition = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
         int textAlignment = getOwner().getDiagramModelObject().getTextAlignment();
+        int iconOffset = getOwner().isIconVisible() ? getOwner().getIconOffset() : 0;
+        int edgeOffset = EDGE_SIZE + 1;
         
-        if(textpos == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += FOLD_HEIGHT;
+        // Text position
+        switch(textPosition) {
+            case ITextPosition.TEXT_POSITION_TOP:
+                rect.y += EDGE_SIZE;
+                break;
+
+            case ITextPosition.TEXT_POSITION_CENTRE:
+                rect.y += EDGE_SIZE / 2;
+                break;
             
-            if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
-                bounds.x += iconOffset;
-                bounds.width = bounds.width - (iconOffset * 2) - offset;
-            }
-            else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
-                bounds.width -= offset + iconOffset;
-            }
+            default:
+                break;
         }
-        else {
-            if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
-                bounds.width -= offset;
-            }
+        
+        // Text alignment
+        switch(textAlignment) {
+            case ITextAlignment.TEXT_ALIGNMENT_CENTER:
+                if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+                    rect.x += iconOffset;
+                    rect.width = rect.width - (iconOffset * 2) - edgeOffset;
+                }
+                else {
+                    rect.width -= edgeOffset;
+                }
+                break;
+
+            case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
+                if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+                    rect.width -= iconOffset + edgeOffset / 2;
+                }
+                else {
+                    rect.width -= edgeOffset;
+                }
+                break;
+
+            default:
+                break;
         }
 
-        return bounds;
+        return rect;
     }
-
 }

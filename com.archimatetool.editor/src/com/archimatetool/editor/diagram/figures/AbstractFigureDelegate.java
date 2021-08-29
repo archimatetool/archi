@@ -18,15 +18,15 @@ import org.eclipse.swt.graphics.Pattern;
  */
 public class AbstractFigureDelegate implements IFigureDelegate {
     
-    private IDiagramModelObjectFigure fOwner;
+    private AbstractDiagramModelObjectFigure fOwner;
     
     private boolean fIsEnabled = true;
     
-    protected AbstractFigureDelegate(IDiagramModelObjectFigure owner) {
+    protected AbstractFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         fOwner = owner;
     }
     
-    protected IDiagramModelObjectFigure getOwner() {
+    protected AbstractDiagramModelObjectFigure getOwner() {
         return fOwner;
     }
 
@@ -78,21 +78,21 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @return The owner's alpha fill transparency
      */
     protected int getAlpha() {
-        return ((AbstractDiagramModelObjectFigure)getOwner()).getAlpha();
+        return getOwner().getAlpha();
     }
 
     /**
      * @return The owner's alpha line transparency
      */
     protected int getLineAlpha() {
-        return ((AbstractDiagramModelObjectFigure)getOwner()).getLineAlpha();
+        return getOwner().getLineAlpha();
     }
     
     /**
      * @return The owner's gradient setting
      */
     protected int getGradient() {
-        return ((AbstractDiagramModelObjectFigure)getOwner()).getGradient();
+        return getOwner().getGradient();
     }
 
     /**
@@ -100,7 +100,7 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param graphics
      */
     protected void setDisabledState(Graphics graphics) {
-        ((AbstractDiagramModelObjectFigure)getOwner()).setDisabledState(graphics);
+        getOwner().setDisabledState(graphics);
     }
     
     /**
@@ -110,21 +110,21 @@ public class AbstractFigureDelegate implements IFigureDelegate {
      * @param bounds The bounds of the object
      */
     protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
-        ((AbstractDiagramModelObjectFigure)getOwner()).setLineWidth(graphics, lineWidth, bounds);
+        getOwner().setLineWidth(graphics, lineWidth, bounds);
     }
     
     /**
      * Apply a gradient to the given Graphics instance and bounds using current fill color, alpha and gradient settings
      */
     protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {
-        return ((AbstractDiagramModelObjectFigure)getOwner()).applyGradientPattern(graphics, bounds);
+        return getOwner().applyGradientPattern(graphics, bounds);
     }
     
     /**
      * Dispose the given gradient if not null
      */
     protected void disposeGradientPattern(Graphics graphics, Pattern gradient) {
-        ((AbstractDiagramModelObjectFigure)getOwner()).disposeGradientPattern(graphics, gradient);
+        getOwner().disposeGradientPattern(graphics, gradient);
     }
 
 }

@@ -10,8 +10,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 
 
@@ -26,7 +26,7 @@ public class ServiceFigureDelegate
 extends AbstractFigureDelegate
 implements IRoundedRectangleFigure {
 
-    public ServiceFigureDelegate(IDiagramModelObjectFigure owner) {
+    public ServiceFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -65,6 +65,10 @@ implements IRoundedRectangleFigure {
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
                 arc.width, arc.height);
         
+        // Image Icon
+        Rectangle imageArea = new Rectangle(bounds.x + arc.width / 6, bounds.y + arc.height / 6, bounds.width - arc.width / 3, bounds.height - arc.height / 3);
+        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+
         graphics.popState();
     }
     

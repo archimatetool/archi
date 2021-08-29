@@ -14,9 +14,11 @@ public class AllTextRenderTests {
         TestSuite suite = new TestSuite("com.archimatetool.editor.ui.textrender");
 
         suite.addTest(DocumentationRendererTests.suite());
+        suite.addTest(IfRendererTests.suite());
         suite.addTest(NameRendererTests.suite());
         suite.addTest(PropertiesRendererTests.suite());
         suite.addTest(RelationshipRendererTests.suite());
+        suite.addTest(SpecializationRendererTests.suite());
         suite.addTest(TextContentRendererTests.suite());
         suite.addTest(TextRendererTests.suite());
         suite.addTest(TypeRendererTests.suite());

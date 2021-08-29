@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 
 /**
@@ -24,14 +25,115 @@ public class PrincipleFigure extends AbstractMotivationFigure {
 
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        rect.width--;
+        rect.height--;
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = new Path(null);
+        
+        int divisions = 24;
+        int div1 = 8;
+        int div2 = 16;
+        
+        int fractionX = rect.width / divisions;
+        int fractionY = rect.height / divisions;
+        int corner = Math.min(fractionX, fractionY);
+        
+        path.moveTo(rect.x + corner, rect.y + corner);
+
+        path.cubicTo(rect.x + fractionX * div1,
+                     rect.y,
+                     rect.x + fractionX * div2,
+                     rect.y,
+                     rect.x + rect.width - corner,
+                     rect.y + corner);
+        
+        path.cubicTo(rect.x + rect.width,
+                     rect.y + fractionY * div1,
+                     rect.x + rect.width,
+                     rect.y + fractionY * div2,
+                     rect.x + rect.width - corner,
+                     rect.y + rect.height - corner);
+        
+        path.cubicTo(rect.x + fractionX * div2,
+                     rect.y + rect.height,
+                     rect.x + fractionX * div1,
+                     rect.y + rect.height,
+                     rect.x + corner,
+                     rect.y + rect.height - corner);
+   
+        path.cubicTo(rect.x,
+                     rect.y + fractionY * div2,
+                     rect.x,
+                     rect.y + fractionY * div1,
+                     rect.x + corner,
+                     rect.y + corner);
+        
+        path.close();
+        
+        graphics.fillPath(path);
+
+        disposeGradientPattern(graphics, gradient);
+        
+        // Lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        graphics.setBackgroundColor(getLineColor());
+
+        Point center = rect.getCenter();
+        int width = Math.max(1, Math.round((rect.height - 2.0f * graphics.getLineWidth()) / 20.0f));
+        
+        if(width >= rect.width / 2) {
+            width = Math.max(1, rect.width / 4);
+        }
+        
+        graphics.fillPolygon(new int[] { center.x - Math.round(width), rect.y + 3 * width, center.x + Math.round(width),
+                rect.y + 3 * width, center.x + Math.round(0.8f * width), rect.y + rect.height - 7 * width,
+                center.x - Math.round(0.8f * width), rect.y + rect.height - 7 * width} );
+        
+        graphics.fillPolygon(new int[] { center.x + Math.round(0.8f * width), rect.y + rect.height - 5 * width,
+                center.x - Math.round(0.8f * width), rect.y + rect.height - 5 * width, center.x - Math.round(0.8f * width),
+                rect.y + rect.height - 3 * width, center.x + Math.round(0.8F * width), rect.y + rect.height - 3 * width });
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
         graphics.pushState();
         
         graphics.setLineWidth(1);
@@ -65,14 +167,13 @@ public class PrincipleFigure extends AbstractMotivationFigure {
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
     }
     
     @Override
-    protected int getIconOffset() {
-        return 23;
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
     }
-
 }

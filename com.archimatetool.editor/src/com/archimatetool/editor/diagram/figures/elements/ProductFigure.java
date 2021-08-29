@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -22,7 +23,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class ProductFigure extends AbstractTextControlContainerFigure {
+public class ProductFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int TOP_MARGIN = 12;
 
@@ -71,6 +72,11 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 graphics.drawPath(path);
                 path.dispose();
                 
+                // Icon
+                // getOwner().drawIconImage(graphics, bounds);
+                int topOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_LEFT ? TOP_MARGIN : 0;
+                drawIconImage(graphics, bounds, topOffset, 0, 0, 0);
+
                 graphics.popState();
             }
 
@@ -81,7 +87,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
                 
                 if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-                    bounds.y += TOP_MARGIN - 4;
+                    bounds.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
                 }
                 
                 return bounds;
