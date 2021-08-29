@@ -65,7 +65,7 @@ dataFolders.push({id:"^folder.Id^", type:"^folder.Class.SimpleName^", name:decod
 ^folder.Elements:{c |
 	dataFoldersContent.push({folderid:"^folder.Id^", contentid:"^c.Id^", contenttype:"^c.Class.SimpleName^"\});
 	^if(c.Source)^
-		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
+		dataRelationships.push({id:"^c.Id^", type:"^c.Class.SimpleName^", specialization:decodeURL("^c.PrimaryProfile.Name;format="url-encode"^"), name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^"), sourceid:"^c.Source.Id^", targetid:"^c.Target.Id^"\});
 		^c.Properties:{p |
 			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
@@ -77,7 +77,7 @@ dataFolders.push({id:"^folder.Id^", type:"^folder.Class.SimpleName^", name:decod
 		^expandViewElementsForQuery(c, c.Children)^
 		^expandViewRelsForQuery(c, c.Children)^
 	^else^
-		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
+		dataElements.push({id:"^c.Id^", type:"^c.Class.SimpleName^", specialization:decodeURL("^c.PrimaryProfile.Name;format="url-encode"^"), name:decodeURL("^c.Name;format="url-encode"^"), documentation:decodeURL("^c.Documentation;format="url-encode"^")\});
 		^c.Properties:{p |
 			dataProperties.push({conceptid:"^c.Id^", propkey:decodeURL("^p.Key;format="url-encode"^"), propvalue:decodeURL("^p.Value;format="url-encode"^")\});
 		}^
@@ -143,8 +143,7 @@ frame(element, map) ::= <<
 	<!-- JQUERY (use 1.x branch to be compatible with IE 6/7/8) -->
 	<script type="text/javascript" src="../../lib/jquery/js/jquery-1.11.2.min.js"></script>
 	<!-- BOOTSTRAP -->
-	<link type="text/css" rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-3.3.2.min.css">
-	<link type="text/css" rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme-3.3.2.min.css">
+	<link type="text/css" rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.yeti.css">
 	<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap-3.3.2.min.js"></script>
 	<!-- REPORT SPECIFIC -->
 	<link type="text/css" rel="stylesheet" href="../../css/model.css">
