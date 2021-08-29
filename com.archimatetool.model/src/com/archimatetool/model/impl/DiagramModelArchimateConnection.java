@@ -91,19 +91,13 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     public void reconnect() {
         super.reconnect();
         
-        // Set the source/target in the Archimate model if need be
+        // Set the source/target in the Relationship
         if(source instanceof IDiagramModelArchimateComponent && target instanceof IDiagramModelArchimateComponent) {
             IArchimateConcept srcConcept = ((IDiagramModelArchimateComponent)source).getArchimateConcept();
             IArchimateConcept tgtConcept = ((IDiagramModelArchimateComponent)target).getArchimateConcept();
             
-            IArchimateRelationship relationship = getArchimateRelationship();
-            
-            if(relationship.getSource() != srcConcept) { //optimised
-                relationship.setSource(srcConcept); 
-            }
-            if(relationship.getTarget() != tgtConcept) { //optimised
-                relationship.setTarget(tgtConcept);
-            }
+            getArchimateRelationship().setSource(srcConcept); 
+            getArchimateRelationship().setTarget(tgtConcept);
         }
     }
 
@@ -200,8 +194,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         if(relationship != null) {
             IFolder folder = (IFolder)relationship.eContainer();
             if(folder != null) {
+                relationship.disconnect(); // Do this first so a notification is sent before removing from model
                 folder.getElements().remove(relationship);
-                relationship.disconnect();
             }
         }
     }
