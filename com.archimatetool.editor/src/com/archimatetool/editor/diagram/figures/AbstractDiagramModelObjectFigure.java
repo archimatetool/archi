@@ -317,12 +317,18 @@ implements IDiagramModelObjectFigure {
 
     /**
      * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting
+     * If a gradient is applied the alpha of graphics will be set to 255 so callers should set it back if needed after
+     * calling {@link #disposeGradientPattern(Graphics, Pattern)}
      * @return the Pattern if a gradient should be applied or null if not
      */
     protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {
         Pattern gradient = null;
         
+        // Apply gradient
         if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+            // Ensure graphics#alpha is 255
+            // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=575778
+            graphics.setAlpha(255);
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
