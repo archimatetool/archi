@@ -45,7 +45,9 @@ public class GroupEditPart extends PaletteEditPart {
     public IFigure createFigure() {
         Figure figure = new Figure();
         figure.setOpaque(true);
-        figure.setBackgroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+        // Added by Phillipus - use CSS theme defined color
+        // figure.setBackgroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+        figure.setBackgroundColor(PaletteColorUtil.PALETTE_BACKGROUND);
         return figure;
     }
 

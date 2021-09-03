@@ -340,8 +340,11 @@ public class DrawerFigure extends Figure {
         scrollpane.setLayoutManager(new OverlayScrollPaneLayout());
         scrollpane.setContents(new Figure());
         scrollpane.getContents().setOpaque(true);
+        // Added by Phillipus - use CSS theme defined color
+        //scrollpane.getContents().setBackgroundColor(
+        //        PaletteColorUtil.WIDGET_LIST_BACKGROUND);
         scrollpane.getContents().setBackgroundColor(
-                PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+                PaletteColorUtil.PALETTE_BACKGROUND);
     }
 
     IFigure buildTooltip() {

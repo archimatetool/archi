@@ -31,7 +31,13 @@ ThemesExtension { color-definition:
 	'#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR',
 	'#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR',
 	'#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR',
-	'#org-eclipse-ui-workbench-ACTIVE_TAB_SELECTED_TEXT_COLOR';
+	'#org-eclipse-ui-workbench-ACTIVE_TAB_SELECTED_TEXT_COLOR',
+	'#org-eclipse-gef-PALETTE_BACKGROUND'; /* Added by Archi for GEF Palette */
+}
+
+/* Added by Archi for GEF Palette */
+ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
+    color: #FFFFFF;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {

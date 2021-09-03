@@ -32,3 +32,11 @@ FigureCanvas.ArchiFigureCanvas,
 Graph.ArchiGraph {
     background-color: #FFFFFF;
 }
+
+ThemesExtension {
+    color-definition: '#org-eclipse-gef-PALETTE_BACKGROUND';
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
+    color: #FFFFFF;
+}

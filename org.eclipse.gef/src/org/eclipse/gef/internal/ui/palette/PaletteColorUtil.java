@@ -11,11 +11,14 @@
 
 package org.eclipse.gef.internal.ui.palette;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.themes.ColorDefinition;
+import org.eclipse.ui.internal.themes.IThemeRegistry;
 
 /**
  * A class to keep miscellaneous palette color utilities.
@@ -23,8 +26,24 @@ import org.eclipse.draw2d.FigureUtilities;
  * @author crevells
  * @since 3.4
  */
+@SuppressWarnings({"nls", "restriction"})
 public class PaletteColorUtil {
 
+    /**
+     * Added by Phillipus - get a theme color from the theme registry
+     */
+    private static Color getThemeColor(final String id, RGB defaultColor) {
+        IThemeRegistry reg = WorkbenchPlugin.getDefault().getThemeRegistry();
+        ColorDefinition colorDef = reg.findColor(id);
+        if(colorDef != null && colorDef.getValue() != null) {
+            defaultColor = colorDef.getValue();
+        }
+        
+        return new Color(defaultColor);
+    }
+    
+    public static final Color PALETTE_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_BACKGROUND", new RGB(255, 255, 255));
+    
     public static final Color WIDGET_BACKGROUND = ColorConstants.button;
 
     public static final Color WIDGET_NORMAL_SHADOW = ColorConstants.buttonDarker;

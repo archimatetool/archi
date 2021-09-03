@@ -60,7 +60,9 @@ public class ToolbarEditPart extends GroupEditPart {
 
         };
         figure.setOpaque(true);
-        figure.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+        // Added by Phillipus - use CSS theme defined color
+        // figure.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+        figure.setBackgroundColor(PaletteColorUtil.PALETTE_BACKGROUND);
         figure.setBorder(new MarginBorder(2, 1, 1, 1));
 
         return figure;

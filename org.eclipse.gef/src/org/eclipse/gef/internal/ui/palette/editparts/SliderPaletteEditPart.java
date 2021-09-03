@@ -14,7 +14,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ToolbarLayout;
-
+import org.eclipse.gef.internal.ui.palette.PaletteColorUtil;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.editparts.PaletteAnimator;
@@ -34,7 +34,9 @@ public class SliderPaletteEditPart extends PaletteEditPart {
         Figure figure = new Figure();
         figure.setOpaque(true);
         figure.setForegroundColor(ColorConstants.listForeground);
-        figure.setBackgroundColor(ColorConstants.listBackground);
+        // Added by Phillipus - use CSS theme defined color
+        // figure.setBackgroundColor(ColorConstants.listBackground);
+        figure.setBackgroundColor(PaletteColorUtil.PALETTE_BACKGROUND);
         return figure;
     }
 
