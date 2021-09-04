@@ -11,6 +11,7 @@
 
 package org.eclipse.gef.internal.ui.palette.editparts;
 
+import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -27,6 +28,11 @@ import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
  * @since 3.4
  */
 public class ToolbarEditPart extends GroupEditPart {
+
+    /**
+     * Added by Phillipus - more space!
+     */
+    private static final Border BORDER = new MarginBorder(4, 4, 4, 4);
 
     /**
      * Creates a new instance.
@@ -59,12 +65,17 @@ public class ToolbarEditPart extends GroupEditPart {
             }
 
         };
+        
         figure.setOpaque(true);
-        // Added by Phillipus - use CSS theme defined color
+        
+        // Added by Phillipus - use CSS theme defined color and our border
+        
         // figure.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
-        figure.setBackgroundColor(PaletteColorUtil.PALETTE_BACKGROUND);
-        figure.setBorder(new MarginBorder(2, 1, 1, 1));
+        // figure.setBorder(new MarginBorder(2, 1, 1, 1));
 
+        figure.setBackgroundColor(PaletteColorUtil.TOOLBAR_BACKGROUND);
+        figure.setBorder(BORDER);
+        
         return figure;
     }
 
@@ -78,4 +89,18 @@ public class ToolbarEditPart extends GroupEditPart {
         return true;
     }
 
+    /**
+     * Added by Phillipus 
+     * super{@link #refreshVisuals()} is redundant as {@link #getLayoutSetting()} returns PaletteViewerPreferences.LAYOUT_ICONS
+     * and so only the following code is needed, and we've set the border above
+     */
+    @Override
+    protected void refreshVisuals() {
+        if(getContentPane().getLayoutManager() == null) {
+            PaletteContainerFlowLayout flow = new PaletteContainerFlowLayout();
+            flow.setMajorSpacing(4);
+            flow.setMinorSpacing(4);
+            getContentPane().setLayoutManager(flow);
+        }
+    }
 }

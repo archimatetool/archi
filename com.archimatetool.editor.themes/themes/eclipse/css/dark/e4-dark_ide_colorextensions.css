@@ -47,12 +47,18 @@ ThemesExtension { color-definition:
     '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR',
     '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR',
     '#org-eclipse-ui-workbench-LINK_COLOR',
-    '#org-eclipse-gef-PALETTE_BACKGROUND'; /* Added by Archi for GEF Palette */
+    /* Added by Archi for GEF Palette */
+    '#org-eclipse-gef-PALETTE_BACKGROUND',
+    '#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND';
 }
 
 /* Added by Archi for GEF Palette */
 ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
-    color: #EEEEEE;
+    color: #F6F6f6;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {
+    color: #F0F0F0;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-DARK_BACKGROUND {

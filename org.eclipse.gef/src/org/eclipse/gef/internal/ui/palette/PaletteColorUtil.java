@@ -42,8 +42,12 @@ public class PaletteColorUtil {
         return new Color(defaultColor);
     }
     
+    // Added by Phillipus
     public static final Color PALETTE_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_BACKGROUND", new RGB(255, 255, 255));
     
+    // Added by Phillipus
+    public static final Color TOOLBAR_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND", new RGB(245, 245, 245));
+
     public static final Color WIDGET_BACKGROUND = ColorConstants.button;
 
     public static final Color WIDGET_NORMAL_SHADOW = ColorConstants.buttonDarker;
