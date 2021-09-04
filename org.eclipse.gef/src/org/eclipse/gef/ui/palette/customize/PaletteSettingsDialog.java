@@ -44,19 +44,18 @@ import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 /**
  * @author Pratik Shah
  */
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public class PaletteSettingsDialog extends Dialog {
 
     private PaletteViewerPreferences prefs;
     private Label fontName;
     private PageBook book;
     private Control columnsPanel, detailsPanel, iconsPanel, listPanel;
-    private HashMap widgets = new HashMap();
+    private HashMap<Integer, Button> widgets = new HashMap<>();
 
     /**
      * A HashMap to cache the various settings displayed in this dialog
      */
-    protected HashMap settings = new HashMap();
+    protected HashMap<String, Object> settings = new HashMap<>();
 
     /**
      * HashMap keys used for caching the various settings displayed in this
@@ -164,25 +163,25 @@ public class PaletteSettingsDialog extends Dialog {
      * @see #restoreSettings()
      */
     protected void cacheSettings() {
-        settings.put(CACHE_LAYOUT, new Integer(prefs.getLayoutSetting()));
+        settings.put(CACHE_LAYOUT, Integer.valueOf(prefs.getLayoutSetting()));
         settings.put(CACHE_COLLAPSE,
-                new Integer(prefs.getAutoCollapseSetting()));
+                Integer.valueOf(prefs.getAutoCollapseSetting()));
         settings.put(CACHE_FONT, prefs.getFontData());
         settings.put(
                 CACHE_DETAILS_ICON_SIZE,
-                new Boolean(prefs
+                Boolean.valueOf(prefs
                         .useLargeIcons(PaletteViewerPreferences.LAYOUT_DETAILS)));
         settings.put(
                 CACHE_ICONS_ICON_SIZE,
-                new Boolean(prefs
+                Boolean.valueOf(prefs
                         .useLargeIcons(PaletteViewerPreferences.LAYOUT_ICONS)));
         settings.put(
                 CACHE_COLUMNS_ICON_SIZE,
-                new Boolean(prefs
+                Boolean.valueOf(prefs
                         .useLargeIcons(PaletteViewerPreferences.LAYOUT_COLUMNS)));
         settings.put(
                 CACHE_LIST_ICON_SIZE,
-                new Boolean(prefs
+                Boolean.valueOf(prefs
                         .useLargeIcons(PaletteViewerPreferences.LAYOUT_LIST)));
     }
 
@@ -247,18 +246,18 @@ public class PaletteSettingsDialog extends Dialog {
         GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
         button.setLayoutData(data);
 
-        button.setData(new Integer(id));
+        button.setData(Integer.valueOf(id));
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 buttonPressed(((Integer) event.widget.getData()).intValue());
             }
         });
-        widgets.put(new Integer(id), button);
+        widgets.put(Integer.valueOf(id), button);
 
         if (descriptor != null) {
             button.setImage(new Image(parent.getDisplay(), descriptor
-                    .getImageData()));
+                    .getImageData(100)));
             button.addDisposeListener(new DisposeListener() {
                 @Override
                 public void widgetDisposed(DisposeEvent e) {
@@ -650,9 +649,12 @@ public class PaletteSettingsDialog extends Dialog {
         contents.setLayoutData(data);
         contents.setText(title);
 
-        createButton(contents, buttonId,
+        Button b = createButton(contents, buttonId,
                 PaletteMessages.SETTINGS_USE_LARGE_ICONS_LABEL, SWT.CHECK, null);
 
+        // Modified by Phillipus to disable this setting
+        b.setEnabled(false);
+        
         return contents;
     }
 
@@ -683,7 +685,7 @@ public class PaletteSettingsDialog extends Dialog {
      *         otherwise.
      */
     protected Widget getWidget(int id) {
-        Widget widget = (Widget) widgets.get(new Integer(id));
+        Widget widget = widgets.get(Integer.valueOf(id));
         if (widget == null) {
             widget = super.getButton(id);
         }

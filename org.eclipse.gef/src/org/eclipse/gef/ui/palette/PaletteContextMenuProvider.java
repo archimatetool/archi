@@ -64,9 +64,12 @@ public class PaletteContextMenuProvider extends ContextMenuProvider {
         }
         menu.appendToGroup(GEFActionConstants.GROUP_VIEW, new LayoutAction(
                 getPaletteViewer().getPaletteViewerPreferences()));
-        menu.appendToGroup(GEFActionConstants.GROUP_VIEW,
-                new ChangeIconSizeAction(getPaletteViewer()
-                        .getPaletteViewerPreferences()));
+        
+        // Added by Phillipus - we don't use large icons
+        //menu.appendToGroup(GEFActionConstants.GROUP_VIEW,
+        //        new ChangeIconSizeAction(getPaletteViewer()
+        //                .getPaletteViewerPreferences()));
+        
         if (getPaletteViewer().getCustomizer() != null) {
             menu.appendToGroup(GEFActionConstants.GROUP_REST,
                     new CustomizeAction(getPaletteViewer()));
