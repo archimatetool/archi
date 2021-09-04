@@ -16,6 +16,7 @@ import org.eclipse.zest.core.viewers.GraphViewer;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ColorFactory;
 
 
 
@@ -89,7 +90,10 @@ public class ZestGraphViewer extends GraphViewer {
         
         // Set CSS class name for Themes
         getGraphControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiGraph"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
+        
+        // Set background color in case theming is disabled
+        getGraphControl().setBackground(ColorFactory.get(255, 255, 255));
+   }
     
     void doApplyLayout() {
         super.applyLayout();
