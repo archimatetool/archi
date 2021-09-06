@@ -271,8 +271,6 @@ public class Messages extends NLS {
 
     public static String SpecializationSection_2;
 
-    public static String SpecializationSection_3;
-
     public static String TextAlignmentSection_0;
 
     public static String TextContentSection_0;
