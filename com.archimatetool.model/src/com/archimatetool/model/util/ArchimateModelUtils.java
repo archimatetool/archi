@@ -391,21 +391,35 @@ public class ArchimateModelUtils {
      * @return True if a profile exists in the model with the given name and concept type
      */
     public static boolean hasProfileByNameAndType(IArchimateModel model, String profileName, String conceptType) {
-        return hasProfileByNameAndType(model.getProfiles(), profileName, conceptType);
+        return getProfileByNameAndType(model, profileName, conceptType) != null;
     }
     
     /**
      * @return True if a profile exists in the given Collection of Profiles with the given name and concept type
      */
     public static boolean hasProfileByNameAndType(Collection<IProfile> profiles, String profileName, String conceptType) {
+        return getProfileByNameAndType(profiles, profileName, conceptType) != null;
+    }
+    
+    /**
+     * @return The first matching profile in the model with the given name and concept type
+     */
+    public static IProfile getProfileByNameAndType(IArchimateModel model, String profileName, String conceptType) {
+        return getProfileByNameAndType(model.getProfiles(), profileName, conceptType);
+    }
+    
+    /**
+     * @return The first matching profile in the given Collection of Profiles with the given name and concept type
+     */
+    public static IProfile getProfileByNameAndType(Collection<IProfile> profiles, String profileName, String conceptType) {
         for(IProfile p : profiles) {
             if(p.getName() != null && p.getName().equals(profileName)
                     && p.getConceptType() != null && p.getConceptType().equals(conceptType)) {
-                return true;
+                return p;
             }
         }
         
-        return false;
+        return null;
     }
     
     /**
