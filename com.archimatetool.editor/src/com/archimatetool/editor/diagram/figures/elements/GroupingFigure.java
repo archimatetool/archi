@@ -128,8 +128,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             path.dispose();
             
             // Icon
-            getIconicDelegate().setTopOffset(tabHeight);
-            drawIconImage(graphics, bounds);
+            if(getIconicDelegate() != null) {
+                getIconicDelegate().setTopOffset(tabHeight);
+                drawIconImage(graphics, bounds);
+            }
 
             graphics.setAlpha(getLineAlpha());
             graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);

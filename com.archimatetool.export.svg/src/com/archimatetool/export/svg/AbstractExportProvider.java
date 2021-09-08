@@ -42,7 +42,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     protected SVGGraphics2D svgGraphics2D;
     protected Rectangle viewPortBounds;
     
-    public void initialiseGraphics() throws Exception {
+    protected void initialiseGraphics() {
         // Ensure user fonts are loaded into AWT for Windows
         loadUserFontsIntoAWT();
         
@@ -142,22 +142,24 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     /**
      * Create a DOM element for the given IDiagramModel
      */
-    protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
+    protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) {
         Shell shell = new Shell();
         
         try {
+            // Create Draw2d figure
             GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, shell);
             LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
             IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
             setFigure(figure);
+
+            // Initialise
+            initialiseGraphics();
         }
         finally {
+            // Do this *after* creating the image
             shell.dispose();
         }
-
-        // Initialise
-        initialiseGraphics();
-
+        
         // Get the Element root from the SVGGraphics2D instance
         Element root = svgGraphics2D.getRoot();
 

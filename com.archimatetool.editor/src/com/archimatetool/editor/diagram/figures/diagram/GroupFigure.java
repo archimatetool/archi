@@ -131,8 +131,10 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             disposeGradientPattern(graphics, gradient);
             
             // Icon
-            getIconicDelegate().setTopOffset(0);
-            drawIconImage(graphics, bounds);
+            if(getIconicDelegate() != null) {
+                getIconicDelegate().setTopOffset(0);
+                drawIconImage(graphics, bounds);
+            }
 
             // Line
             graphics.setForegroundColor(getLineColor());
