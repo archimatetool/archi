@@ -83,21 +83,44 @@ public class ArchiveManagerTests {
 
     @Test
     public void testAddImageFromFile() throws Exception {
+        // Add a DiagramModelImage object
         IDiagramModelImage dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
         dm.getChildren().add(dmImage);
         
-        assertTrue(archiveManager.getLoadedImagePaths().isEmpty()); // should be empty
+        // Loaded images and image refs should be empty
+        assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
+        assertTrue(archiveManager.getImagePaths().isEmpty());
 
+        // Load an image from file
         File imgFile = new File(TestSupport.getTestDataFolder(), "/img/img1.png");
         String pathName = archiveManager.addImageFromFile(imgFile);
-        assertNotNull(pathName);
-        assertEquals(1, archiveManager.getLoadedImagePaths().size()); // should be added
         
+        // Path name should be set
+        assertNotNull(pathName);
+        
+        // Should be one loaded image
+        assertEquals(1, archiveManager.getLoadedImagePaths().size());
+        
+        // And no referenced image
+        assertTrue(archiveManager.getImagePaths().isEmpty());
+        
+        // Now set the image path
         dmImage.setImagePath(pathName);
         
-        assertEquals(1, archiveManager.getLoadedImagePaths().size()); // This should be the same
-        assertEquals(pathName, archiveManager.getLoadedImagePaths().get(0)); // This should be the same
-        assertEquals(pathName, archiveManager.getImagePaths().get(0)); // This should be set
+        // Should be one loaded image
+        assertEquals(1, archiveManager.getLoadedImagePaths().size());
+        assertTrue(archiveManager.getLoadedImagePaths().contains(pathName));
+        
+        // And one referenced image
+        assertEquals(1, archiveManager.getImagePaths().size());
+        assertTrue(archiveManager.getImagePaths().contains(pathName));
+        
+        // If we add the image again...
+        String pathName2 = archiveManager.addImageFromFile(imgFile);
+        
+        // Things should be the same
+        assertEquals(pathName, pathName2);
+        assertEquals(1, archiveManager.getLoadedImagePaths().size());
     }
     
     @Test
@@ -128,7 +151,7 @@ public class ArchiveManagerTests {
         dmImage.setImagePath(pathName);
         
         assertEquals(1, archiveManager.getImagePaths().size());
-        assertEquals(pathName, archiveManager.getImagePaths().get(0));
+        assertTrue(archiveManager.getImagePaths().contains(pathName));
     }
     
     @Test
@@ -143,27 +166,40 @@ public class ArchiveManagerTests {
     
     @Test
     public void testLoadImagesFromModelFile() throws Exception {
+        // File is null, returns false
         boolean result = archiveManager.loadImagesFromModelFile(null);
         assertFalse(result);
         
+        // File contains no images, returns false
         result = archiveManager.loadImagesFromModelFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         assertFalse(result);
         
+        // Loaded images is empty
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
         
+        // Load some images
         result = archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
         assertTrue(result);
         assertEquals(2, archiveManager.getLoadedImagePaths().size());
+        
+        // But should not be in use
+        assertEquals(0, archiveManager.getImagePaths().size());
     }
     
     @Test
-    public void testHasImages() {
+    public void testHasImages() throws IOException {
         assertFalse(archiveManager.hasImages());
         
         IDiagramModelImage dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
-        dmImage.setImagePath("somePath");
         dm.getChildren().add(dmImage);
         
+        // Not good enough to just set the image path, the matching image has to be loaded
+        dmImage.setImagePath("somePath");
+        assertFalse(archiveManager.hasImages());
+        
+        // So load the image
+        archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
+        dmImage.setImagePath(archiveManager.getLoadedImagePaths().iterator().next());
         assertTrue(archiveManager.hasImages());
     }    
     
@@ -183,7 +219,7 @@ public class ArchiveManagerTests {
         
         // Is an archive file
         archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        dmImage.setImagePath(archiveManager.getLoadedImagePaths().get(0));
+        dmImage.setImagePath(archiveManager.getLoadedImagePaths().iterator().next());
         
         archiveManager.saveModel();
         assertTrue(IArchiveManager.FACTORY.isArchiveFile(file));

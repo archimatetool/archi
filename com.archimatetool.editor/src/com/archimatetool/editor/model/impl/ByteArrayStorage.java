@@ -11,10 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -60,11 +58,11 @@ public class ByteArrayStorage {
     }
     
     Set<Entry<String, byte[]>> getEntrySet() {
-        return fdataTable.entrySet();
+        return Set.copyOf(fdataTable.entrySet());
     }
     
-    List<String> getEntryNames() {
-        return new ArrayList<>(fdataTable.keySet());
+    Set<String> getEntryNames() {
+        return Set.copyOf(fdataTable.keySet());
     }
 
     boolean hasEntries() {

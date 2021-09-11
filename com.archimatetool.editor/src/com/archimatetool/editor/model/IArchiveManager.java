@@ -7,7 +7,7 @@ package com.archimatetool.editor.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipFile;
 
 import org.eclipse.emf.common.util.URI;
@@ -140,17 +140,17 @@ public interface IArchiveManager {
     Image createImage(String imagePath) throws Exception;
 
     /**
-     * Get a live list of Image entry paths as used in the current state of the model.<p>
+     * Get a copy of the list of Image entry paths as used in the model.<p>
      * This will not include duplicates. The list is re-calculated each time.
      * 
      * @return A list of image path entries as used in the current state of the model
      */
-    List<String> getImagePaths();
+    Set<String> getImagePaths();
     
     /**
      * @return A copy of the list of image path entries for loaded image data. These may or may not be referenced in the model.
      */
-    List<String> getLoadedImagePaths();
+    Set<String> getLoadedImagePaths();
 
     /**
      * Save the Model and any images to an archive file
@@ -182,7 +182,7 @@ public interface IArchiveManager {
     boolean loadImagesFromModelFile(File file) throws IOException;
     
     /**
-     * @return True if the model currently has references to images
+     * @return True if the model currently has references to at least one image and the image is loaded
      */
     boolean hasImages();
     

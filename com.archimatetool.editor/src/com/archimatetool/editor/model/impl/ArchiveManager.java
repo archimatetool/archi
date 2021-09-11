@@ -14,11 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -113,7 +111,7 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     @Override
-    public List<String> getImagePaths() {
+    public Set<String> getImagePaths() {
         Set<String> set = new HashSet<>();
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
@@ -126,11 +124,11 @@ public class ArchiveManager implements IArchiveManager {
             }
         }
         
-        return new ArrayList<>(set);
+        return set;
     }
     
     @Override
-    public List<String> getLoadedImagePaths() {
+    public Set<String> getLoadedImagePaths() {
         return byteArrayStorage.getEntryNames();
     }
     
@@ -171,15 +169,28 @@ public class ArchiveManager implements IArchiveManager {
     
     @Override
     public boolean hasImages() {
+        // List of of actual images loaded
+        Set<String> loadedImagePaths = getLoadedImagePaths();
+        
+        // If no loaded images...
+        if(loadedImagePaths.isEmpty()) {
+            return false;
+        }
+        
+        // Iterate thru model and find instances of IDiagramModelImageProvider
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
+            
             if(element instanceof IDiagramModelImageProvider) {
                 String imagePath = ((IDiagramModelImageProvider)element).getImagePath();
-                if(imagePath != null) {
+                
+                // If it has an image path and it's loaded we have images
+                if(imagePath != null && loadedImagePaths.contains(imagePath)) {
                     return true;
                 }
             }
         }
+        
         return false;
     }
 
@@ -309,24 +320,14 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     private void saveImages(ZipOutputStream zOut) throws IOException {
-        List<String> added = new ArrayList<String>();
-        
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelImageProvider) {
-                IDiagramModelImageProvider imageProvider = (IDiagramModelImageProvider)eObject;
-                String imagePath = imageProvider.getImagePath();
-                if(imagePath != null && !added.contains(imagePath)) {
-                    byte[] bytes = byteArrayStorage.getEntry(imagePath);
-                    if(bytes != null) {
-                        ZipEntry zipEntry = new ZipEntry(imagePath);
-                        zipEntry.setTime(0); // Set time to zero for coArchi
-                        zOut.putNextEntry(zipEntry);
-                        zOut.write(bytes);
-                        zOut.closeEntry();
-                        added.add(imagePath);
-                    }
-                }
+        for(String imagePath : getImagePaths()) {
+            byte[] bytes = byteArrayStorage.getEntry(imagePath);
+            if(bytes != null) {
+                ZipEntry zipEntry = new ZipEntry(imagePath);
+                zipEntry.setTime(0); // Set time to zero for coArchi
+                zOut.putNextEntry(zipEntry);
+                zOut.write(bytes);
+                zOut.closeEntry();
             }
         }
     }
