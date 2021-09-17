@@ -6,6 +6,8 @@
 package com.archimatetool.editor.diagram.dialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -38,7 +40,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.dialog.NewNestedRelationDialog.NestedConnectionInfo;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -93,7 +94,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         
         void setSelected(NestedConnectionInfo selected) {
             for(NestedConnectionInfo info : validRelations) {
-                if((info.getEClass() == selected.getEClass()) && (info.getSourceObject() == selected.getSourceObject() || 
+                if((info.getRelationshipType() == selected.getRelationshipType()) && (info.getSourceObject() == selected.getSourceObject() || 
                         info.getTargetObject() == selected.getTargetObject())) {
                     int index = validRelations.indexOf(info);
                     selectedIndex = (index == -1) ? 0 : index;
@@ -111,9 +112,9 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
                 for(int i = 1; i < validRelations.size(); i++) {
                     NestedConnectionInfo info = validRelations.get(i);
                     
-                    String relationshipName = ArchiLabelProvider.INSTANCE.getDefaultName(info.getEClass());
+                    String relationshipName = ArchiLabelProvider.INSTANCE.getDefaultName(info.getRelationshipType());
                     String reverse = info.isReverse() ? Messages.NewNestedRelationsDialog_6 : ""; //$NON-NLS-1$
-                    String sentence = ArchiLabelProvider.INSTANCE.getRelationshipSentence(info.getEClass(), info.getSourceObject().getArchimateConcept(),
+                    String sentence = ArchiLabelProvider.INSTANCE.getRelationshipSentence(info.getRelationshipType(), info.getSourceObject().getArchimateConcept(),
                             info.getTargetObject().getArchimateConcept());
                     
                     names[i] = NLS.bind(Messages.NewNestedRelationsDialog_7, new Object[] { relationshipName, reverse, sentence });
@@ -124,16 +125,15 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         }
         
         private List<NestedConnectionInfo> createValidRelations(IDiagramModelArchimateObject sourceObject, IDiagramModelArchimateObject targetObject) {
-            List<NestedConnectionInfo> list1 = new ArrayList<NestedConnectionInfo>();
-            List<NestedConnectionInfo> list2 = new ArrayList<NestedConnectionInfo>();
+            List<NestedConnectionInfo> list = new ArrayList<NestedConnectionInfo>();
             
             // Entry for "none"
-            list1.add(new NestedConnectionInfo(sourceObject, targetObject, false, null));
+            list.add(new NestedConnectionInfo(sourceObject, targetObject, false, null));
             
             // Normal direction
             for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
                 if(ArchimateModelUtils.isValidRelationship(sourceObject.getArchimateElement(), targetObject.getArchimateElement(), eClass)) {
-                    list1.add(new NestedConnectionInfo(sourceObject, targetObject, false, eClass)); 
+                    list.add(new NestedConnectionInfo(sourceObject, targetObject, false, eClass)); 
                 }
             }
             
@@ -141,13 +141,19 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
                 // Reverse direction
                 if(ArchimateModelUtils.isValidRelationship(targetObject.getArchimateElement(), sourceObject.getArchimateElement(), eClass)) {
-                    list2.add(new NestedConnectionInfo(targetObject, sourceObject, true, eClass)); 
+                    list.add(new NestedConnectionInfo(targetObject, sourceObject, true, eClass)); 
                 }
             }
-
-            list1.addAll(list2); // This puts the reverse items at the end of the list
             
-            return list1;
+            Collections.sort(list, new Comparator<NestedConnectionInfo>() {
+                @Override
+                public int compare(NestedConnectionInfo info1, NestedConnectionInfo info2) {
+                    return ArchiLabelProvider.INSTANCE.getDefaultName(info1.getRelationshipType())
+                            .compareTo(ArchiLabelProvider.INSTANCE.getDefaultName(info2.getRelationshipType()));
+                }
+            });
+
+            return list;
         }
     }
 
@@ -220,7 +226,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         List<NestedConnectionInfo> list = new ArrayList<NestedConnectionInfo>();
         
         for(Mapping mapping : fMappings) {
-            if(mapping.getSelected().getEClass() != null) {
+            if(mapping.getSelected().getRelationshipType() != null) {
                 list.add(mapping.getSelected());
             }
         }
@@ -300,7 +306,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
                 if(columnIndex == 0) {
                     return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelected().getTargetObject());
                 }
-                return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelected().getEClass());
+                return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelected().getRelationshipType());
             }
 
             @Override

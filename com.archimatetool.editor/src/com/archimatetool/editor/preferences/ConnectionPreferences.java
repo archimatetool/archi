@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.preferences;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -56,10 +56,6 @@ public class ConnectionPreferences extends Preferences {
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getInfluenceRelationship(), 1 << 10);
     }
     
-    private static EClass[] fRelationClassesForNew = null;
-    private static EClass[] fRelationClassesForNewReverse = null;
-    private static EClass[] fRelationClassesForHiding = null;
-    
     /**
      * @return true if we should use nested connection logic
      */
@@ -92,53 +88,38 @@ public class ConnectionPreferences extends Preferences {
     /**
      * @return The list of relation classes to consider when creating new nested-type relations
      */
-    public static EClass[] getRelationsClassesForNewRelations() {
-        if(fRelationClassesForNew == null) {
-            fRelationClassesForNew = getRelationsClasses(NEW_RELATIONS_TYPES);
-        }
-        return fRelationClassesForNew;
+    public static Set<EClass> getRelationsClassesForNewRelations() {
+        return getRelationsClasses(NEW_RELATIONS_TYPES);
     }
 
     /**
      * @return The list of relation classes to consider when creating new reverse nested-type relations
      */
-    public static EClass[] getRelationsClassesForNewReverseRelations() {
-        if(fRelationClassesForNewReverse == null) {
-            fRelationClassesForNewReverse = getRelationsClasses(NEW_REVERSE_RELATIONS_TYPES);
-        }
-        return fRelationClassesForNewReverse;
+    public static Set<EClass> getRelationsClassesForNewReverseRelations() {
+        return getRelationsClasses(NEW_REVERSE_RELATIONS_TYPES);
     }
 
     /**
      * @return The list of relation classes to consider as a nested-type relation without explicit connections
      */
-    public static EClass[] getRelationsClassesForHiding() {
-        if(fRelationClassesForHiding == null) {
-            fRelationClassesForHiding = getRelationsClasses(HIDDEN_RELATIONS_TYPES);
-        }
-        return fRelationClassesForHiding;
+    public static Set<EClass> getRelationsClassesForHiding() {
+        return getRelationsClasses(HIDDEN_RELATIONS_TYPES);
     }
     
-    private static EClass[] getRelationsClasses(String type) {
+    /**
+     * @return relation classes for NEW_RELATIONS_TYPES, NEW_REVERSE_RELATIONS_TYPES or HIDDEN_RELATIONS_TYPES
+     */
+    private static Set<EClass> getRelationsClasses(String type) {
         int val = STORE.getInt(type);
         
-        List<EClass> list = new ArrayList<EClass>();
+        Set<EClass> set = new HashSet<>();
         
         for(Entry<EClass, Integer> entry : RELATION_KEYMAP.entrySet()) {
             if((entry.getValue() & val) != 0) {
-                list.add(entry.getKey());
+                set.add(entry.getKey());
             }
         }
         
-        return list.toArray(new EClass[list.size()]);   
-    }
-
-    /*
-     * Reset the cached values
-     */
-    static void reset() {
-        fRelationClassesForNew = null;
-        fRelationClassesForNewReverse = null;
-        fRelationClassesForHiding = null;
+        return set;   
     }
 }

@@ -221,9 +221,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingModelTreeElementButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER, fCreateRelationWhenMovingElement.getSelection());
         
-        // Refresh the connection preferences *before* setting (which sends a notification)
-        ConnectionPreferences.reset();
-
         int value = 0;
         for(Object checked :  fTableViewerNewRelations.getCheckedElements()) {
             value |= ConnectionPreferences.RELATION_KEYMAP.get(checked);

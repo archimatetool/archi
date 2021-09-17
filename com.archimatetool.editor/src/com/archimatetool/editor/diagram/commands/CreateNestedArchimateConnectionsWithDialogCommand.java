@@ -7,14 +7,15 @@ package com.archimatetool.editor.diagram.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 
+import com.archimatetool.editor.diagram.dialog.NestedConnectionInfo;
 import com.archimatetool.editor.diagram.dialog.NewNestedRelationDialog;
-import com.archimatetool.editor.diagram.dialog.NewNestedRelationDialog.NestedConnectionInfo;
 import com.archimatetool.editor.diagram.dialog.NewNestedRelationsDialog;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
@@ -28,6 +29,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IJunction;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
@@ -91,7 +93,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     /** 
      * Child Objects that don't have a relationship set with parent - ask user if they want one
      */
-    void createConnectionDialogCommands() {
+    private void createConnectionDialogCommands() {
         // Gather suitable child objects
         List<IDiagramModelArchimateObject> childObjectsForDialog = new ArrayList<IDiagramModelArchimateObject>();
         for(IDiagramModelArchimateObject childObject : fChildObjects) {
@@ -110,7 +112,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
                 NestedConnectionInfo selected = dialog.getSelected();
                 if(selected != null) {
                     Command cmd = new CreateRelationshipAndDiagramArchimateConnectionCommand(selected.getSourceObject(),
-                            selected.getTargetObject(), selected.getEClass());
+                            selected.getTargetObject(), selected.getRelationshipType());
                     add(cmd);
                 }
             }
@@ -124,7 +126,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
                 List<NestedConnectionInfo> selected = dialog.getSelected();
                 for(NestedConnectionInfo sel : selected) {
                     Command cmd = new CreateRelationshipAndDiagramArchimateConnectionCommand(sel.getSourceObject(),
-                            sel.getTargetObject(), sel.getEClass());
+                            sel.getTargetObject(), sel.getRelationshipType());
                     add(cmd);
                 }
             }
@@ -134,19 +136,20 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     /**
      * @return true if any new relation can/should be added between parent and child when adding a child element to a parent object
      */
-    boolean canAddNewRelationship(IDiagramModelArchimateObject parentObject, IDiagramModelArchimateObject childObject) {
+    private boolean canAddNewRelationship(IDiagramModelArchimateObject parentObject, IDiagramModelArchimateObject childObject) {
         IArchimateElement parentElement = parentObject.getArchimateElement();
         IArchimateElement childElement = childObject.getArchimateElement();
+        
+        Set<EClass> relationsClassesForNewRelations = ConnectionPreferences.getRelationsClassesForNewRelations();
+        Set<EClass> relationsClassesForNewReverseRelations = ConnectionPreferences.getRelationsClassesForNewReverseRelations();
         
         // Not if there is already a relationship of an allowed type between parent and child elements...
 
         // Normal direction
         for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
             if(relation.getTarget() == childElement) {
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
-                    if(relation.eClass() == eClass) {
-                        return false;
-                    }
+                if(relationsClassesForNewRelations.contains(relation.eClass())) {
+                    return false;
                 }
             }
         }
@@ -154,10 +157,13 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         // Reverse direction
         for(IArchimateRelationship relation : parentElement.getTargetRelationships()) {
             if(relation.getSource() == childElement) {
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
-                    if(relation.eClass() == eClass) {
-                        return false;
-                    }
+                // Specialization is reversed normal direction
+                if(relation instanceof ISpecializationRelationship && relationsClassesForNewRelations.contains(relation.eClass())) {
+                    return false;
+                }
+                
+                if(relationsClassesForNewReverseRelations.contains(relation.eClass())) {
+                    return false;
                 }
             }
         }
@@ -165,14 +171,14 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         // Check there is at least one valid relationship...
 
         // Normal direction
-        for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
+        for(EClass eClass : relationsClassesForNewRelations) {
             if(ArchimateModelUtils.isValidRelationship(parentElement, childElement, eClass)) {
                 return true;
             }
         }
         
         // Reverse direction
-        for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
+        for(EClass eClass : relationsClassesForNewReverseRelations) {
             if(ArchimateModelUtils.isValidRelationship(childElement, parentElement, eClass)) {
                 return true;
             }
@@ -288,7 +294,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     /**
      * Command to create Relationship and Connection
      */
-    static class CreateRelationshipAndDiagramArchimateConnectionCommand extends CompoundCommand {
+    private static class CreateRelationshipAndDiagramArchimateConnectionCommand extends CompoundCommand {
         
         CreateRelationshipAndDiagramArchimateConnectionCommand(IDiagramModelArchimateObject sourceObject,
                 IDiagramModelArchimateObject targetObject, EClass relationshipType) {
@@ -303,7 +309,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         }
     }
     
-    static class AddRelationshipCommand extends Command {
+    private static class AddRelationshipCommand extends Command {
         private IArchimateElement source;
         private IArchimateElement target;
         private IArchimateRelationship relationship;
@@ -346,7 +352,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     /**
      * Create New Connection Command based on existing relation
      */
-    static class CreateDiagramArchimateConnectionCommand extends Command {
+    private static class CreateDiagramArchimateConnectionCommand extends Command {
         IDiagramModelArchimateConnection connection;
         IDiagramModelArchimateComponent source;
         IDiagramModelArchimateComponent target;
