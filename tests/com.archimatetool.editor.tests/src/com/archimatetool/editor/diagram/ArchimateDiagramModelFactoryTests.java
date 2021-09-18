@@ -10,11 +10,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -40,9 +41,11 @@ public class ArchimateDiagramModelFactoryTests {
     public void testCreateDiagramModelArchimateObject() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessProcess();
         
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName(), 1);
-        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName(), "#ededed");
+        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        
+        store.setValue(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName(), 1);
+        store.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
+        store.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName(), "#ededed");
         
         IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         assertNotNull(dmo);
@@ -51,9 +54,9 @@ public class ArchimateDiagramModelFactoryTests {
         assertEquals(1, dmo.getType());
         assertEquals("#ededed", dmo.getFillColor());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName());
-        Preferences.STORE.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName());
+        store.setToDefault(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName());
+        store.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
+        store.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName());
     }
 
     @Test
@@ -65,8 +68,10 @@ public class ArchimateDiagramModelFactoryTests {
     
     @Test
     public void testGetNewObjectArchimateConnection() {
-        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#ababab");
+        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        
+        store.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
+        store.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#ababab");
         
         ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
         IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)factory.getNewObject();
@@ -74,8 +79,8 @@ public class ArchimateDiagramModelFactoryTests {
         assertEquals("#ababab", connection.getLineColor());
         assertEquals("", connection.getName());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+        store.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
+        store.setToDefault(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
     }
     
     @Test

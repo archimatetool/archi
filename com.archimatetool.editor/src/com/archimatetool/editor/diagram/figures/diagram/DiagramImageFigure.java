@@ -37,7 +37,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     private Color fBorderColor;
     
     // This is way faster than Draw2D re-drawing the original image at scale
-    boolean useScaledImage = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
+    boolean useScaledImage = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
     
     public DiagramImageFigure(IDiagramModelImage diagramModelImage) {
         super(diagramModelImage);

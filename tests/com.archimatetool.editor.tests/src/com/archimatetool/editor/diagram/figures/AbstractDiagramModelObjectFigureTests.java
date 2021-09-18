@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -109,7 +109,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testSetLineColor() {
-        Preferences.STORE.setValue(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR, false);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR, false);
         
         assertEquals(ColorFactory.getDefaultLineColor(diagramModelObject), abstractFigure.getLineColor());
         
@@ -122,9 +122,9 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testGetTooltip() {
-        Preferences.STORE.setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
         assertTrue(abstractFigure.getToolTip() instanceof ToolTipFigure);
-        Preferences.STORE.setValue(IPreferenceConstants.VIEW_TOOLTIPS, false);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.VIEW_TOOLTIPS, false);
         assertNull(abstractFigure.getToolTip());
     }
     

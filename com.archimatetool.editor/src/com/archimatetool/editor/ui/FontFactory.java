@@ -11,7 +11,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -77,7 +78,7 @@ public final class FontFactory {
         // We don't have it
         if(!FontRegistry.hasValueFor(DEFAULT_VIEW_FONT_NAME)) {
             // So check user prefs...
-            String fontDetails = Preferences.getDefaultViewFont();
+            String fontDetails = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_VIEW_FONT);
             if(StringUtils.isSet(fontDetails)) {
                 try {
                     // Put font details from user prefs
@@ -103,7 +104,7 @@ public final class FontFactory {
         FontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
 
         // Then set value as this will send property change
-        Preferences.setDefaultViewFont(fd.toString());
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DEFAULT_VIEW_FONT, fd.toString());
     }
     
     /**

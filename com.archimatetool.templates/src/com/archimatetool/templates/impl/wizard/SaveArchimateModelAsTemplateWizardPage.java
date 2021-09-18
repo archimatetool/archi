@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
@@ -102,7 +102,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         String defaultFileName = Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
         
         // Get last folder used
-        String lastFolderName = Preferences.STORE.getString(PREFS_LAST_FOLDER);
+        String lastFolderName = ArchiPlugin.PREFERENCES.getString(PREFS_LAST_FOLDER);
         File lastFolder = new File(lastFolderName);
         if(lastFolder.exists() && lastFolder.isDirectory()) {
             fFileTextField.setText(new File(lastFolder, defaultFileName).getPath());
@@ -345,7 +345,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         // Store current folder
         File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
         if(parentFile != null) {
-            Preferences.STORE.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+            ArchiPlugin.PREFERENCES.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
         }
     }
 

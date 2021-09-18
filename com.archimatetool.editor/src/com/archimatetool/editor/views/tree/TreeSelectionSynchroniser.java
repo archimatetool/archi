@@ -23,8 +23,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -114,7 +115,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     }
     
     private boolean doSync() {
-        return doSync && Preferences.doLinkView();
+        return doSync && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.LINK_VIEW);
     }
     
     /**

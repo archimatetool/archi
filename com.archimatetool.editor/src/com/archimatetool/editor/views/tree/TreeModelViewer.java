@@ -34,10 +34,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.UIUtils;
@@ -192,12 +192,12 @@ public class TreeModelViewer extends TreeViewer {
         fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
         
         // Listen to Preferences
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
         getTree().addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
-                Preferences.STORE.removePropertyChangeListener(prefsListener);
+                ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
             }
         });
     }
@@ -427,7 +427,7 @@ public class TreeModelViewer extends TreeViewer {
             }
             
             // Italicise unused elements
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
                 if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
                     return getItalicFont();
                 }
@@ -446,7 +446,7 @@ public class TreeModelViewer extends TreeViewer {
         private Font getItalicFont() {
             if(fontItalic == null) {
                 // Because of timing issues we have to get the italic font from user prefs not from the tree
-                String fontDetails = Preferences.STORE.getString(IPreferenceConstants.MODEL_TREE_FONT);
+                String fontDetails = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.MODEL_TREE_FONT);
                 if(StringUtils.isSet(fontDetails)) {
                     Font font = FontFactory.get(fontDetails);
                     fontItalic = FontFactory.getItalic(font);

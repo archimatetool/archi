@@ -102,7 +102,7 @@ public class CreateDiagramObjectCommand extends Command {
      * Edit name of new object if set in Preferences
      */
     protected void editNameOfNewObject() {
-        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
             EditPartViewer viewer = fParentEditPart.getViewer();
             if(viewer != null) {
                 EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fChild);

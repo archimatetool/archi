@@ -18,11 +18,11 @@ import org.eclipse.gef.commands.CommandStack;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -206,7 +206,7 @@ public class EditorModelManagerTests {
         File tmpFile = TestUtils.createTempFile(".archimate");
         model.setFile(tmpFile);
         
-        Preferences.STORE.setValue(IPreferenceConstants.BACKUP_ON_SAVE, false);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.BACKUP_ON_SAVE, false);
         
         boolean result = editorModelManager.saveModel(model);
         assertTrue(result);

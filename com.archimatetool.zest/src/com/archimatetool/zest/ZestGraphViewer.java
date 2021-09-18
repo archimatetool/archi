@@ -13,9 +13,9 @@ import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 
 
@@ -33,10 +33,10 @@ public class ZestGraphViewer extends GraphViewer {
     private IPropertyChangeListener prefsListener = event -> {
         if(AnimationUtil.supportsAnimation()) {
             if(IPreferenceConstants.ANIMATE_VISUALISER_NODES.equals(event.getProperty())) {
-                getGraphControl().setAnimationEnabled(Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
+                getGraphControl().setAnimationEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
             }
             else if(IPreferenceConstants.ANIMATE_VISUALISER_TIME.equals(event.getProperty())) {
-                getGraphControl().setAnimationTime(Preferences.STORE.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+                getGraphControl().setAnimationTime(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
             }
         }
     };
@@ -48,16 +48,16 @@ public class ZestGraphViewer extends GraphViewer {
         
         // Animate nodes
         if(AnimationUtil.supportsAnimation()) {
-            getGraphControl().setAnimationEnabled(Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
-            getGraphControl().setAnimationTime(Preferences.STORE.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+            getGraphControl().setAnimationEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
+            getGraphControl().setAnimationTime(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
         }
         
         // Preference listener
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
         // Un-Preference listener
         getGraphControl().addDisposeListener(e -> {
-            Preferences.STORE.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
         });
         
         // Mouse Wheel listener

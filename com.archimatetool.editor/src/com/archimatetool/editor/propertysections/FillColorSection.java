@@ -18,9 +18,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
@@ -85,7 +85,7 @@ public class FillColorSection extends AbstractECorePropertySection {
                         // If user pref to save color is set then save the value, otherwise save as null
                         String rgbValue = null;
 
-                        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                             Color color = ColorFactory.getDefaultFillColor(dmo);
                             rgbValue = ColorFactory.convertColorToString(color);
                         }
@@ -121,7 +121,7 @@ public class FillColorSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createColorControl(parent);
         
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -161,7 +161,7 @@ public class FillColorSection extends AbstractECorePropertySection {
         
         // If user pref is to save the color then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(lastSelected).getRGB());
         }
         fColorChooser.setIsDefaultColor(isDefaultColor);
@@ -180,6 +180,6 @@ public class FillColorSection extends AbstractECorePropertySection {
             fColorChooser.removeListener(colorListener);
         }
         
-        Preferences.STORE.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
     }
 }

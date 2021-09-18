@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -150,11 +150,11 @@ public class FloatingPalette {
     private void saveState(Shell shell) {
         Rectangle bounds = shell.getBounds();
         String s = "" + bounds.x + "," + bounds.y + "," + bounds.width + "," + bounds.height + "," + fPaletteState.isOpen; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-        Preferences.STORE.setValue("pallete_floater_state", s); //$NON-NLS-1$
+        ArchiPlugin.PREFERENCES.setValue("pallete_floater_state", s); //$NON-NLS-1$
     }
     
     private void loadState() {
-        String s = Preferences.STORE.getString("pallete_floater_state"); //$NON-NLS-1$
+        String s = ArchiPlugin.PREFERENCES.getString("pallete_floater_state"); //$NON-NLS-1$
         if(StringUtils.isSet(s)) {
             try {
                 String[] bits = s.split(","); //$NON-NLS-1$

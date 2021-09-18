@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -39,7 +40,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class ConnectionPreferences extends Preferences {
+public class ConnectionPreferences implements IPreferenceConstants {
     
     static Map<EClass, Integer> RELATION_KEYMAP = new LinkedHashMap<EClass, Integer>();
     static {
@@ -60,7 +61,7 @@ public class ConnectionPreferences extends Preferences {
      * @return true if we should use nested connection logic
      */
     public static boolean useNestedConnections() {
-        return STORE.getBoolean(USE_NESTED_CONNECTIONS);
+        return ArchiPlugin.PREFERENCES.getBoolean(USE_NESTED_CONNECTIONS);
     }
     
     /**
@@ -68,21 +69,21 @@ public class ConnectionPreferences extends Preferences {
      *         from the palette
      */
     public static boolean createRelationWhenAddingNewElement() {
-        return useNestedConnections() && STORE.getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER);
+        return useNestedConnections() && ArchiPlugin.PREFERENCES.getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER);
     }
     
     /**
      * @return true if we should offer to create a new relation when adding a child element from the model tree into a parent element
      */
     public static boolean createRelationWhenAddingModelTreeElement() {
-        return useNestedConnections() && STORE.getBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER);
+        return useNestedConnections() && ArchiPlugin.PREFERENCES.getBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER);
     }
     
     /**
      * @return true if we should offer to create a new relation when moving a child element into a parent element
      */
     public static boolean createRelationWhenMovingElement() {
-        return useNestedConnections() && STORE.getBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER);
+        return useNestedConnections() && ArchiPlugin.PREFERENCES.getBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER);
     }
     
     /**
@@ -110,7 +111,7 @@ public class ConnectionPreferences extends Preferences {
      * @return relation classes for NEW_RELATIONS_TYPES, NEW_REVERSE_RELATIONS_TYPES or HIDDEN_RELATIONS_TYPES
      */
     private static Set<EClass> getRelationsClasses(String type) {
-        int val = STORE.getInt(type);
+        int val = ArchiPlugin.PREFERENCES.getInt(type);
         
         Set<EClass> set = new HashSet<>();
         

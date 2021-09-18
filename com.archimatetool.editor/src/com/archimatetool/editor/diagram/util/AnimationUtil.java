@@ -16,9 +16,9 @@ import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.IAnimatableCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -37,11 +37,11 @@ public final class AnimationUtil {
     }
 
     public static boolean doAnimate() {
-       return Preferences.STORE.getBoolean(IPreferenceConstants.ANIMATE_VIEW);
+       return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VIEW);
     }
     
     public static int animationSpeed() {
-        return Preferences.STORE.getInt(IPreferenceConstants.ANIMATION_VIEW_TIME);
+        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATION_VIEW_TIME);
     }
 
     /**

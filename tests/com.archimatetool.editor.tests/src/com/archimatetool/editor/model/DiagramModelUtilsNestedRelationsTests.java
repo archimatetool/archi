@@ -12,8 +12,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -124,13 +124,13 @@ public class DiagramModelUtilsNestedRelationsTests {
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
         // Set prefs to say no
-        Preferences.STORE.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);
 
         connection.connect(dmo3, dmo4);
         assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
         // Set prefs to say yes
-        Preferences.STORE.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, true);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, true);
         
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         

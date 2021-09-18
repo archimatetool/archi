@@ -12,7 +12,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.actions.ArchiActionBarAdvisor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -32,7 +31,7 @@ extends WorkbenchWindowAdvisor {
         super(configurer);
         
         // Status Line
-        boolean doShowStatusLine = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_STATUS_LINE);
+        boolean doShowStatusLine = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_STATUS_LINE);
         configurer.setShowStatusLine(doShowStatusLine);
     }
 

@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
@@ -45,7 +44,7 @@ public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
     
     // Use line width offset handling
-    boolean useLineOffset = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
+    boolean useLineOffset = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
     
     private IDiagramModelObject fDiagramModelObject;
     
@@ -215,9 +214,9 @@ implements IDiagramModelObjectFigure {
     @Override
     public Color getLineColor() {
         // User preference to derive element line colour
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
             return ColorFactory.getDarkerColor(getFillColor(),
-                    Preferences.STORE.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
+                    ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
         }
         
         if(fLineColor == null) {
@@ -350,7 +349,7 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public IFigure getToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
+        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
             return null;
         }
         

@@ -98,7 +98,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         FontData getFontData() {
             // Get font data from Preferences store
             if(fontData == null) {
-                String fontDetails = Preferences.STORE.getString(prefsKey);
+                String fontDetails = ArchiPlugin.PREFERENCES.getString(prefsKey);
                 if(StringUtils.isSet(fontDetails)) {
                     fontData = new FontData(fontDetails);
                 }
@@ -117,7 +117,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         @Override
         void performOK() {
-            Preferences.STORE.setValue(prefsKey, getFontData().equals(getDefaultFontData()) ? "" : getFontData().toString()); //$NON-NLS-1$
+            ArchiPlugin.PREFERENCES.setValue(prefsKey, getFontData().equals(getDefaultFontData()) ? "" : getFontData().toString()); //$NON-NLS-1$
         }
     }
 
@@ -133,7 +133,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Label fFontPreviewLabel;
     
     public FontsPreferencePage() {
-        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+        setPreferenceStore(ArchiPlugin.PREFERENCES);
         setDescription(Messages.FontsPreferencePage_21);
     }
     

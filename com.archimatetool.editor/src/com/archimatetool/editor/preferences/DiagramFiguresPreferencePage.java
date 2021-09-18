@@ -71,7 +71,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             this.preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
             images[0] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
             images[1] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
-            chosenType = Preferences.STORE.getInt(preferenceKey);
+            chosenType = ArchiPlugin.PREFERENCES.getInt(preferenceKey);
         }
         
         Image getImage(int index) {
@@ -80,7 +80,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     public DiagramFiguresPreferencePage() {
-        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+        setPreferenceStore(ArchiPlugin.PREFERENCES);
     }
     
     @Override
@@ -251,7 +251,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         for(ImageChoice choice : fChoices) {
-            Preferences.STORE.setValue(choice.preferenceKey, choice.chosenType);
+            ArchiPlugin.PREFERENCES.setValue(choice.preferenceKey, choice.chosenType);
         }
 
         return true;

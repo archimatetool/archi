@@ -20,9 +20,9 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 
@@ -58,7 +58,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         List<File> list = new ArrayList<File>();
         
         for(int i = 0; i < getPreferencesMRUMax(); i++) {
-            String path = Preferences.STORE.getString(MRU_PREFS_KEY + i);
+            String path = ArchiPlugin.PREFERENCES.getString(MRU_PREFS_KEY + i);
             if(StringUtils.isSet(path)) {
                 list.add(new File(path));
             }
@@ -94,12 +94,12 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     private void saveList() {
         // Clear
         for(int i = 0; i < 50; i++) {
-            Preferences.STORE.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
+            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
         }
         
         // Save
         for(int i = 0; i < getMRUList().size(); i++) {
-            Preferences.STORE.setValue(MRU_PREFS_KEY + i, getMRUList().get(i).getAbsolutePath());
+            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, getMRUList().get(i).getAbsolutePath());
         }
     }
     
@@ -127,7 +127,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     }
     
     int getPreferencesMRUMax() {
-        int max = Preferences.STORE.getInt(IPreferenceConstants.MRU_MAX);
+        int max = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.MRU_MAX);
         if(max < 3) {
             max = 3;
         }

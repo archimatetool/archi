@@ -13,8 +13,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -70,7 +70,7 @@ public class ColorFactory {
      */
     public static void setDefaultColors(IDiagramModelComponent component) {
         // If user Prefs is to *not* save default colours in file
-        if(!Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             return;
         }
         
@@ -115,7 +115,7 @@ public class ColorFactory {
         
         if(eClass != null) {
             // User preference
-            String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
+            String value = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
             if(StringUtils.isSet(value)) {
                 return get(value);
             }
@@ -133,7 +133,7 @@ public class ColorFactory {
         
         if(eClass != null) {
             // Is there a value set in preferences? (This could be in a suppplied preference file)
-            String defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
+            String defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
             if(StringUtils.isSet(defaultValue)) {
                 return get(defaultValue);
             }
@@ -170,14 +170,14 @@ public class ColorFactory {
         if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
                 IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
             // User preference
-            String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+            String value = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
             if(StringUtils.isSet(value)) {
                 return get(value);
             }
         }
         else {
             // User preference
-            String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+            String value = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
             if(StringUtils.isSet(value)) {
                 return get(value);
             }
@@ -198,11 +198,11 @@ public class ColorFactory {
             String defaultValue = null;
             if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
                     IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
-                defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+                defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
             }
             // Element
             else {
-                defaultValue = Preferences.STORE.getDefaultString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+                defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
             }
             if(StringUtils.isSet(defaultValue)) {
                 return get(defaultValue);

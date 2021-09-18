@@ -8,8 +8,8 @@ package com.archimatetool.editor.diagram.actions;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.jface.action.Action;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -30,11 +30,11 @@ public class ToggleGridEnabledAction extends Action {
 
     @Override
     public boolean isChecked() {
-        return Preferences.isGridSnap();
+        return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.GRID_SNAP);
     }
 
     @Override
     public void run() {
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SNAP, !isChecked());
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.GRID_SNAP, !isChecked());
     }
 }

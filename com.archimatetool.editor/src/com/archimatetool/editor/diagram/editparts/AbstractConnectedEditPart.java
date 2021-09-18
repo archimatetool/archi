@@ -17,8 +17,8 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IFeature;
@@ -133,7 +133,7 @@ implements NodeEditPart {
     
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), connection, true);
     	}
     	
@@ -142,7 +142,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     		return new OrthogonalAnchor(getFigure(), connection, false);
     	}
     	
@@ -151,7 +151,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, true);
     	}
     	
@@ -160,7 +160,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, false);
     	}
     	

@@ -26,12 +26,12 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.LocalClipboard;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
@@ -453,7 +453,7 @@ public final class CopySnapshot {
         // Create new copies of Archimate concepts or not
         if(pasteSpecial) {
         	// Now decide what to do depending of preferences
-	        switch(Preferences.STORE.getInt(IPreferenceConstants.DIAGRAM_PASTE_SPECIAL_BEHAVIOR)) {
+	        switch(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DIAGRAM_PASTE_SPECIAL_BEHAVIOR)) {
 	        	case 0:
 	        		// Force by-ref
 	        		fDoCreateNewArchimateComponents = !isSourceAndTargetArchiMateModelSame();

@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -131,7 +131,7 @@ public final class UIUtils {
      * @param updateOnPreferencesChange if true then the font on the control is changed when prefences change
      */
     public static void setFontFromPreferences(Control control, String prefsKey, boolean updateOnPreferencesChange) {
-        String fontDetails = Preferences.STORE.getString(prefsKey);
+        String fontDetails = ArchiPlugin.PREFERENCES.getString(prefsKey);
 
         Font font = null;
        
@@ -185,10 +185,10 @@ public final class UIUtils {
             }
         };
         
-        Preferences.STORE.addPropertyChangeListener(listener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(listener);
         
         control.addDisposeListener((e) -> {
-            Preferences.STORE.removePropertyChangeListener(listener);
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(listener);
         });
     }
     

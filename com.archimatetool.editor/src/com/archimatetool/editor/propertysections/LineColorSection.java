@@ -18,9 +18,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
@@ -82,7 +82,7 @@ public class LineColorSection extends AbstractECorePropertySection {
                         // If user pref to save color is set then save the value, otherwise save as null
                         String rgbValue = null;
                         
-                        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                             Color color = ColorFactory.getDefaultLineColor(lineObject);
                             rgbValue = ColorFactory.convertColorToString(color);
                         }
@@ -120,7 +120,7 @@ public class LineColorSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createColorControl(parent);
         
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -167,14 +167,14 @@ public class LineColorSection extends AbstractECorePropertySection {
         
         // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(lineObject).getRGB());
         }
         fColorChooser.setIsDefaultColor(isDefaultColor);
         
         // If this is an element line disable some things
         if(lineObject instanceof IDiagramModelObject) {
-            boolean deriveElementLineColor = Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+            boolean deriveElementLineColor = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
             fColorChooser.setDoShowColorImage(!deriveElementLineColor);
             fColorChooser.getColorButton().setEnabled(!deriveElementLineColor);
             fColorChooser.setDoShowDefaultMenuItem(!deriveElementLineColor);
@@ -199,6 +199,6 @@ public class LineColorSection extends AbstractECorePropertySection {
             fColorChooser.removeListener(colorListener);
         }
         
-        Preferences.STORE.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
     }
 }

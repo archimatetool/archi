@@ -11,13 +11,14 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 
 
 
@@ -40,12 +41,18 @@ public class ArchiPlugin extends AbstractUIPlugin {
      * The shared instance
      */
     public static ArchiPlugin INSTANCE;
+    
+    /**
+     * The shared Preference store
+     */
+    public static IPreferenceStore PREFERENCES;
 
     /**
      * The constructor.
      */
     public ArchiPlugin() {
         INSTANCE = this;
+        PREFERENCES = getPreferenceStore();
     }
 
     /**
@@ -85,7 +92,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
      * @return The User data folder
      */ 
     public File getUserDataFolder() {
-        String path = Preferences.getUserDataFolder();
+        String path = PREFERENCES.getString(IPreferenceConstants.USER_DATA_FOLDER);
         return new File(path);
     }
     

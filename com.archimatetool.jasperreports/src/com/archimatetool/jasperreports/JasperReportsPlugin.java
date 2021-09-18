@@ -14,8 +14,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jasperreports.preferences.IJasperPreferenceConstants;
 
@@ -70,7 +70,7 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return Default JR user templates folder
      */
     public File getDefaultUserTemplatesFolder() {
-        File folder = new File(Preferences.STORE.getString(IPreferenceConstants.USER_DATA_FOLDER), "jasper-reports"); //$NON-NLS-1$
+        File folder = new File(ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.USER_DATA_FOLDER), "jasper-reports"); //$NON-NLS-1$
         folder.mkdirs();
         return folder;
     }

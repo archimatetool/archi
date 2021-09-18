@@ -26,9 +26,9 @@ import org.eclipse.gef.SnapToHelper;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFeature;
@@ -199,7 +199,7 @@ implements IEditPartFilterProvider {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
         
         // Anti-aliasing
-        cLayer.setAntialias(Preferences.useAntiAliasing() ? SWT.ON : SWT.DEFAULT);
+        cLayer.setAntialias(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANTI_ALIAS) ? SWT.ON : SWT.DEFAULT);
     }
     
     @SuppressWarnings("rawtypes")

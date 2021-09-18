@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 
 
@@ -51,7 +52,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Spinner fAnimationVisualiserTimeSpinner;
 
 	public GeneralPreferencePage() {
-		setPreferenceStore(Preferences.STORE);
+		setPreferenceStore(ArchiPlugin.PREFERENCES);
 	}
 	
     @Override

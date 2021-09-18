@@ -7,9 +7,9 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.IFigure;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
@@ -41,7 +41,7 @@ extends AbstractDiagramConnectionFigure {
         boolean enabled = true;
 
         // Set Enabled according to current Viewpoint
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModelConnection());
         }
         

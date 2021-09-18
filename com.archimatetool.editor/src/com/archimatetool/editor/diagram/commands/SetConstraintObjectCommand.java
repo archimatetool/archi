@@ -15,8 +15,8 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.osgi.util.NLS;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
@@ -108,7 +108,7 @@ public class SetConstraintObjectCommand extends CompoundCommand implements IAnim
      * If the option is set, move children in relation to new resize x, y
      */
     protected void createChildConstraintCommands() {
-        if(Preferences.STORE.getInt(IPreferenceConstants.DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) != 0 ||
+        if(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) != 0 ||
                 fRequest == null ||
                 !(fObject instanceof IDiagramModelContainer)) {
             return;

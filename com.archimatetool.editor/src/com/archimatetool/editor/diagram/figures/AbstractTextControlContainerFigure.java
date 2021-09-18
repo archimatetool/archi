@@ -19,8 +19,8 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
@@ -177,7 +177,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     protected TextFlow createTextFlowControl(Locator textLocator) {
         TextFlow textFlow = new TextFlow();
         
-        int wordWrapStyle = Preferences.STORE.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
+        int wordWrapStyle = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, wordWrapStyle));
         
         FlowPage page = new FlowPage();

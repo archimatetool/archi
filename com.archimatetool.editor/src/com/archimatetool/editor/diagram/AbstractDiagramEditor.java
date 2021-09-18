@@ -59,6 +59,7 @@ import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -129,7 +130,6 @@ import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
@@ -244,7 +244,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         setPartName(input.getName());
 
         // Listen to App Prefs changes
-        Preferences.STORE.addPropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(appPreferencesListener);
     }
 
     @Override
@@ -446,18 +446,20 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Apply grid Prefs
      */
     protected void applyUserGridPreferences() {
+        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        
         // Grid Spacing
-        int gridSize = Preferences.getGridSize();
+        int gridSize = store.getInt(IPreferenceConstants.GRID_SIZE);
         getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_SPACING, new Dimension(gridSize, gridSize));
         
         // Grid Visible
-        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, Preferences.isGridVisible());
+        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, store.getBoolean(IPreferenceConstants.GRID_VISIBLE));
         
         // Grid Enabled
-        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Preferences.isGridSnap());
+        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, store.getBoolean(IPreferenceConstants.GRID_SNAP));
 
         // Snap to Guidelines
-        getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, Preferences.doShowGuideLines());
+        getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, store.getBoolean(IPreferenceConstants.GRID_SHOW_GUIDELINES));
     }
 
     /**
@@ -467,7 +469,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     protected PaletteViewerProvider createPaletteViewerProvider() {
         // Ensure palette is showing or not
-        boolean showPalette = Preferences.doShowPalette();
+        boolean showPalette = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PALETTE_STATE);
         getPalettePreferences().setPaletteState(showPalette ? FlyoutPaletteComposite.STATE_PINNED_OPEN : FlyoutPaletteComposite.STATE_COLLAPSED);
 
         return new PaletteViewerProvider(getEditDomain()) {
@@ -1031,7 +1033,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.dispose();
         
         // Remove Preference listener
-        Preferences.STORE.removePropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(appPreferencesListener);
         
         // Remove eCore adapter listener objects
         eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);

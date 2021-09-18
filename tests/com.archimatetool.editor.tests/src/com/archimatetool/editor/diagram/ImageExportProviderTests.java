@@ -11,8 +11,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
@@ -24,10 +22,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 /**
  * ImageExportProviderTests
@@ -51,7 +51,7 @@ public class ImageExportProviderTests {
         shell = new Shell();
         
         // Set prefs to defaults
-        IPreferenceStore store = Preferences.STORE;
+        IPreferenceStore store = ArchiPlugin.PREFERENCES;
         store.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 0);
         
         rootFigure = new FreeformLayer();
@@ -120,15 +120,12 @@ public class ImageExportProviderTests {
         
         provider.savePreferences();
 
-        IPreferenceStore store = Preferences.STORE;
-        
-        assertEquals(345, store.getInt(ImageExportProvider.PREFS_IMAGE_SCALE));
+        assertEquals(345, ArchiPlugin.PREFERENCES.getInt(ImageExportProvider.PREFS_IMAGE_SCALE));
     }
     
     @Test
     public void testPreferencesWereLoaded() {
-        IPreferenceStore store = Preferences.STORE;
-        store.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
+        ArchiPlugin.PREFERENCES.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
         
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         

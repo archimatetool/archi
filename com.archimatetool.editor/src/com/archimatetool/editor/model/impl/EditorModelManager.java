@@ -44,7 +44,6 @@ import com.archimatetool.editor.model.compatibility.CompatibilityHandlerExceptio
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -206,7 +205,7 @@ implements IEditorModelManager {
         
         if(model != null) {
             // Open Views of newly opened model if set in Preferences up to a maximum for safety
-            if(Preferences.doOpenDiagramsOnLoad()) {
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.OPEN_DIAGRAMS_ON_LOAD)) {
                 int max = 0;
                 for(IDiagramModel dm : model.getDiagramModels()) {
                     if(max++ < 30) {
@@ -448,7 +447,7 @@ implements IEditorModelManager {
         File file = model.getFile();
         
         // Save backup (if set in Preferences)
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.BACKUP_ON_SAVE) && file.exists()) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.BACKUP_ON_SAVE) && file.exists()) {
             FileUtils.copyFile(file, new File(model.getFile().getAbsolutePath() + ".bak"), false); //$NON-NLS-1$
         }
         

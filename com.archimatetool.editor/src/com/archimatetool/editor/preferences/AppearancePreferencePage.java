@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.service.prefs.BackingStoreException;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -58,7 +59,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private ITheme currentTheme;
     
 	public AppearancePreferencePage() {
-		setPreferenceStore(Preferences.STORE);
+		setPreferenceStore(ArchiPlugin.PREFERENCES);
 		setDescription(Messages.AppearancePreferencePage_0);
 	}
 	

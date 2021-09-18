@@ -15,8 +15,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
@@ -209,7 +209,7 @@ public class TreeModelViewActionFactory {
                 sketchModel.setName(Messages.TreeModelViewActionFactory_3);
                 
                 // Defaults
-                int defaultBackground = Preferences.STORE.getInt(IPreferenceConstants.SKETCH_DEFAULT_BACKGROUND);
+                int defaultBackground = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.SKETCH_DEFAULT_BACKGROUND);
                 sketchModel.setBackground(defaultBackground);
                 
                 // Execute Command

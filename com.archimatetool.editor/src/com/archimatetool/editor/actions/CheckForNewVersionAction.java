@@ -22,7 +22,6 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -63,7 +62,7 @@ public class CheckForNewVersionAction extends Action {
     @Override
     public void run() {
         try {
-            String versionFile = Preferences.STORE.getString(IPreferenceConstants.UPDATE_URL);
+            String versionFile = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.UPDATE_URL);
             
             if(!StringUtils.isSet(versionFile)) {
                 return;
@@ -76,7 +75,7 @@ public class CheckForNewVersionAction extends Action {
             String thisVersion = ArchiPlugin.INSTANCE.getVersion();
             
             if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
-                String downloadURL = Preferences.STORE.getString(IPreferenceConstants.DOWNLOAD_URL);
+                String downloadURL = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DOWNLOAD_URL);
                 
                 // No download URL
                 if(!StringUtils.isSet(downloadURL)) {
@@ -119,7 +118,7 @@ public class CheckForNewVersionAction extends Action {
     
     @Override
     public boolean isEnabled() {
-        String versionFile = Preferences.STORE.getString(IPreferenceConstants.UPDATE_URL);
+        String versionFile = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.UPDATE_URL);
         return StringUtils.isSet(versionFile);
     }
     

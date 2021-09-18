@@ -11,8 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
@@ -34,7 +34,7 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
     private static Color DEFAULT_COLOR = ColorFactory.get(255, 199, 63);
     
     public static Color getFolderColor(FolderType type) {
-        String colorValue = Preferences.STORE.getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
+        String colorValue = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
         
         if(StringUtils.isSet(colorValue)) {
             return ColorFactory.get(colorValue);
@@ -44,7 +44,7 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
     }
     
     public static Color getDefaultFolderColor(FolderType type) {
-        String colorValue = Preferences.STORE.getDefaultString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
+        String colorValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
         
         if(StringUtils.isSet(colorValue)) {
             return ColorFactory.get(colorValue);

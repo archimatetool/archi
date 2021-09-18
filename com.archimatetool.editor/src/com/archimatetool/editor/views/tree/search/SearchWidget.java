@@ -34,10 +34,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.actions.AbstractDropDownAction;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
@@ -128,7 +128,7 @@ public class SearchWidget extends Composite {
         }
         
         // Use auto search
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
             fSearchText.addModifyListener(new ModifyListener() {
                 @Override
                 public void modifyText(ModifyEvent e) {

@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -56,7 +56,7 @@ public class ImageFactory {
      * If Preferences are set to not use a scaled device zoom then return 100
      */
     public static int getImageDeviceZoom() {
-        boolean scaleImages = Preferences.STORE.getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
+        boolean scaleImages = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
         int deviceZoom = getDeviceZoom();
         // If scaling prefs x2 is true and device zoom is 100 then return 200
         // Else return device zoom

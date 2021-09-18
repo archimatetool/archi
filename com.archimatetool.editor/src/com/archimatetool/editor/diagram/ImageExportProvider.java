@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram;
 import java.io.File;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -19,8 +18,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ImageFactory;
 
 
@@ -100,10 +99,8 @@ public class ImageExportProvider implements IImageExportProvider {
      * Load any user prefs
      */
     protected void loadPreferences() {
-        IPreferenceStore store = Preferences.STORE;
-        
         // Value of scale
-        int scale = store.getInt(PREFS_IMAGE_SCALE);
+        int scale = ArchiPlugin.PREFERENCES.getInt(PREFS_IMAGE_SCALE);
         if(scale < SCALE_MIN || scale > SCALE_MAX) {
             scale = 100;
         }
@@ -114,10 +111,8 @@ public class ImageExportProvider implements IImageExportProvider {
      * Save any user prefs
      */
     protected void savePreferences() {
-        IPreferenceStore store = Preferences.STORE;
-        
         // Value of scale
         int scale = fScaleSpinner.getSelection();
-        store.setValue(PREFS_IMAGE_SCALE, scale);
+        ArchiPlugin.PREFERENCES.setValue(PREFS_IMAGE_SCALE, scale);
     }
 }

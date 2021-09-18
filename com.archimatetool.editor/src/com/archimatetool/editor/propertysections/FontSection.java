@@ -19,11 +19,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.diagram.commands.FontCompoundCommand;
 import com.archimatetool.editor.diagram.commands.FontStyleCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.editor.ui.components.FontChooser;
@@ -158,7 +158,7 @@ public class FontSection extends AbstractECorePropertySection {
         // Allow setting 1 or 2 columns
         GridLayoutColumnHandler.create(parent, 2).updateColumns();
 
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -237,7 +237,7 @@ public class FontSection extends AbstractECorePropertySection {
             fColorChooser.removeListener(colorListener);
         }
         
-        Preferences.STORE.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
     }
 
 }

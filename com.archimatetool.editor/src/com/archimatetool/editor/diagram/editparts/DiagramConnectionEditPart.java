@@ -35,13 +35,13 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.osgi.util.NLS;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.policies.ManualBendpointEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelBendpoint;
@@ -207,7 +207,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             addECoreAdapter();
             
             // Listen to Prefs changes to set default Font
-            Preferences.STORE.addPropertyChangeListener(prefsListener);
+            ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         }
     }
     
@@ -219,7 +219,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             // Remove Listener to changes in Diagram Model Object
             removeECoreAdapter();
             
-            Preferences.STORE.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
         }
     }
     

@@ -38,7 +38,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IArchimateElement;
@@ -106,7 +105,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Prefs listener
         prefsListener = this::applicationPreferencesChanged;
-        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
     }
     
     private void hookSelectionListener() {
@@ -475,7 +474,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
         
         // Remove Prefs listener
-        Preferences.STORE.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
         
         // Update shell text
         getSite().getShell().setText(Platform.getProduct().getName());

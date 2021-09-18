@@ -28,6 +28,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 
 
@@ -51,7 +52,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private CheckboxTableViewer fTableViewerNewRelations, fTableViewerReversedRelations, fTableViewerHiddenRelations;
     
     public ConnectionsARMPreferencePage() {
-        setPreferenceStore(Preferences.STORE);
+        setPreferenceStore(ArchiPlugin.PREFERENCES);
         setDescription(Messages.ConnectionsARMPreferencePage_0);
     }
     

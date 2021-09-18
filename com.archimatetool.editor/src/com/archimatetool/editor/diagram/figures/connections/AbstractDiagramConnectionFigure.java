@@ -23,10 +23,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Path;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
@@ -93,7 +93,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         setLineWidth();
         
-        getFlowPage().setOpaque(Preferences.STORE.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
+        getFlowPage().setOpaque(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
         
         repaint(); // repaint when figure changes
     }
@@ -228,10 +228,13 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     @Override
     public IFigure getToolTip() {
-        if(super.getToolTip() == null && Preferences.doShowViewTooltips()) {
+        boolean doShowViewTooltips = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS);
+        
+        if(super.getToolTip() == null && doShowViewTooltips) {
             setToolTip(new ToolTipFigure());
         }
-        return Preferences.doShowViewTooltips() ? super.getToolTip() : null;
+        
+        return doShowViewTooltips ? super.getToolTip() : null;
     }
     
     /**
@@ -286,7 +289,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
 
         if(StringUtils.isSet(getConnectionLabel().getText()) && 
-                Preferences.STORE.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
+                ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
             clipTextLabel(graphics);
         }
         else {

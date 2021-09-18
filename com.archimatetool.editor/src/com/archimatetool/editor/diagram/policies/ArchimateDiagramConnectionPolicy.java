@@ -21,6 +21,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateConnectionWithDialogCommand;
 import com.archimatetool.editor.diagram.commands.CreateDiagramConnectionCommand;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
@@ -28,7 +29,6 @@ import com.archimatetool.editor.diagram.commands.ReconnectDiagramConnectionComma
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
@@ -155,7 +155,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                 super.execute();
                 
                 // Show message that it affected other Viewss
-                if(affectsOtherViews && Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_WARNING_ON_RECONNECT)) {
+                if(affectsOtherViews && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_WARNING_ON_RECONNECT)) {
                     boolean answer = MessageDialog.openQuestion(
                             Display.getDefault().getActiveShell(),
                             Messages.ArchimateDiagramConnectionPolicy_0,

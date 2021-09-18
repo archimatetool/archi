@@ -12,8 +12,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 /**
  * Handler that adjusts layout to show single or multi-column depending on user preference
@@ -44,15 +44,15 @@ public class GridLayoutColumnHandler {
         this.maxColumns = maxColumns;
         
         parent.addDisposeListener((e) -> {
-            Preferences.STORE.removePropertyChangeListener(listener);
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(listener);
         });
         
-        Preferences.STORE.addPropertyChangeListener(listener);
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(listener);
     }
     
     public void updateColumns() {
         // Set Grid Layout columns
-        int numColumns = Preferences.STORE.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
+        int numColumns = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
         ((GridLayout)parent.getLayout()).numColumns = numColumns;
         
         // If there is more than one child composite set the width hint for the first child for the number of columns

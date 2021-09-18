@@ -25,22 +25,21 @@
 
 package com.archimatetool.editor.diagram.figures.connections;
 
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.PolarPoint;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 /**
  * Implementation of a connection which can draw curved bendpoints
@@ -66,7 +65,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 
 	@Override
 	public Rectangle getBounds() {
-		if (Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
+		if (ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
 			return super.getBounds().getCopy().expand(10, 10);
 		else
 			return super.getBounds();
@@ -105,7 +104,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			Point next = bendpoints.getPoint(i + 1);
 			
 			// If line-curves are enabled draw bendpoints using ellipse approximation
-			if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
+			if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
 				// Switch to polar coordinates
 				PolarPoint prev_p = new PolarPoint(bp, prev);
 				PolarPoint next_p = new PolarPoint(bp, next);
@@ -179,7 +178,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		linepoints.addPoint(start);
 		
 		// If line-jumps are enabled, draw them using half circles
-		if (Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
+		if (ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
 			// Compute angle between line segment and horizontal line
 			PolarPoint end_p = new PolarPoint(start, end);
 			double angle = end_p.theta % Math.PI;

@@ -7,8 +7,8 @@ package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -39,12 +39,12 @@ implements IArchimateElementUIProvider {
     
     @Override
     public int getDefaultTextAlignment() {
-        return Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT);
+        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT);
     }
     
     @Override
     public int getDefaultTextPosition() {
-        return Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
+        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
     }
 
     @Override
@@ -63,8 +63,8 @@ implements IArchimateElementUIProvider {
      * @return The default figure size from Preferences
      */
     protected static Dimension getDefaultUserPreferenceSize() {
-        return new Dimension(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH),
-                             Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
+        return new Dimension(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH),
+                             ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
     }
 
     /**

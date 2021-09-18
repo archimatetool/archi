@@ -8,7 +8,8 @@ package com.archimatetool.editor.views.tree.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.TreeSelectionSynchroniser;
 
@@ -26,13 +27,13 @@ public class LinkToEditorAction extends Action {
     public LinkToEditorAction(TreeSelectionSynchroniser syncer) {
         super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED));
-        setChecked(Preferences.doLinkView());
+        setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.LINK_VIEW));
         this.syncer = syncer;
     }
     
     @Override
     public void run() {
-        Preferences.setLinkView(isChecked());
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.LINK_VIEW, isChecked());
         if(isChecked()) {
             syncer.updateSelection();
         }

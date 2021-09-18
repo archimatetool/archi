@@ -13,8 +13,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
@@ -70,14 +70,14 @@ public class ColorFactoryTests {
         Color color = ColorFactory.getUserDefaultFillColor(actor);
         assertNull(color);
         
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + actor.eClass().getName(), "#010203");
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + actor.eClass().getName(), "#010203");
         color = ColorFactory.getUserDefaultFillColor(actor);
         
         assertEquals(1, color.getRed());
         assertEquals(2, color.getGreen());
         assertEquals(3, color.getBlue());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + actor.eClass().getName());
+        ArchiPlugin.PREFERENCES.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + actor.eClass().getName());
     }
 
     @Test
@@ -101,14 +101,14 @@ public class ColorFactoryTests {
         Color color = ColorFactory.getUserDefaultLineColor(actor);
         assertNull(color);
         
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR, "#020304");
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR, "#020304");
         color = ColorFactory.getUserDefaultLineColor(actor);
         
         assertEquals(2, color.getRed());
         assertEquals(3, color.getGreen());
         assertEquals(4, color.getBlue());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+        ArchiPlugin.PREFERENCES.setToDefault(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
     }
 
     @Test
@@ -117,14 +117,14 @@ public class ColorFactoryTests {
         Color color = ColorFactory.getUserDefaultLineColor(relation);
         assertNull(color);
         
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#010203");
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#010203");
         color = ColorFactory.getUserDefaultLineColor(relation);
         
         assertEquals(1, color.getRed());
         assertEquals(2, color.getGreen());
         assertEquals(3, color.getBlue());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+        ArchiPlugin.PREFERENCES.setToDefault(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
     }
 
     @Test

@@ -20,10 +20,10 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.tests.TestData;
@@ -43,9 +43,9 @@ public class MRUMenuManagerTests {
     @Before
     public void runOnceBeforeEachTest() {
         // Clear prefs
-        Preferences.STORE.setToDefault(IPreferenceConstants.MRU_MAX);
+        ArchiPlugin.PREFERENCES.setToDefault(IPreferenceConstants.MRU_MAX);
         for(int i = 0; i < 50; i++) {
-            Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + i, "");
+            ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + i, "");
         }
 
         menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
@@ -59,8 +59,8 @@ public class MRUMenuManagerTests {
 
     @Test
     public void testListIsPopulated() {
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance now
         menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
@@ -118,8 +118,8 @@ public class MRUMenuManagerTests {
         assertTrue(menuManager.getItems()[1] instanceof ActionContributionItem);
         
         // Add some MRU files
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance
         menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
@@ -134,8 +134,8 @@ public class MRUMenuManagerTests {
     @Test
     public void testClearAll() {
         // Add some MRU files
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
-        Preferences.STORE.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "0", "someFile1");
+        ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance after 
         menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
@@ -159,13 +159,13 @@ public class MRUMenuManagerTests {
     public void testGetPreferencesMRUMax() {
         assertEquals(6, menuManager.getPreferencesMRUMax());
         
-        Preferences.STORE.setValue(IPreferenceConstants.MRU_MAX, 8);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.MRU_MAX, 8);
         assertEquals(8, menuManager.getPreferencesMRUMax());
         
-        Preferences.STORE.setValue(IPreferenceConstants.MRU_MAX, 2);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.MRU_MAX, 2);
         assertEquals(3, menuManager.getPreferencesMRUMax());
         
-        Preferences.STORE.setValue(IPreferenceConstants.MRU_MAX, 16);
+        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.MRU_MAX, 16);
         assertEquals(15, menuManager.getPreferencesMRUMax());
     }
     

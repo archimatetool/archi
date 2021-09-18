@@ -35,10 +35,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.diagram.ImageExportProviderManager;
 import com.archimatetool.editor.diagram.ImageExportProviderManager.ImageExportProviderInfo;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -131,7 +131,7 @@ public class ExportAsImagePage extends WizardPage {
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Get last folder
-        String lastFolder = Preferences.STORE.getString(PREFS_LAST_FOLDER);
+        String lastFolder = ArchiPlugin.PREFERENCES.getString(PREFS_LAST_FOLDER);
         if(StringUtils.isSet(lastFolder)) {
             File file = new File(lastFolder);
             fFileTextField.setText(new File(file, fName).getAbsolutePath());
@@ -177,7 +177,7 @@ public class ExportAsImagePage extends WizardPage {
 
         // Now set the combo and set to last user selected
         if(!fImageProviders.isEmpty()) {
-            String selectedProviderID = Preferences.STORE.getString(PREFS_LAST_PROVIDER);
+            String selectedProviderID = ArchiPlugin.PREFERENCES.getString(PREFS_LAST_PROVIDER);
             ImageExportProviderInfo provider = getImageProviderInfoFromID(selectedProviderID);
             if(provider == null) {
                 provider = fImageProviders.get(0);
@@ -350,11 +350,11 @@ public class ExportAsImagePage extends WizardPage {
         // Store current folder
         File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
         if(parentFile != null) {
-            Preferences.STORE.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+            ArchiPlugin.PREFERENCES.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
         }
         
         if(fSelectedProvider != null) {
-            Preferences.STORE.setValue(PREFS_LAST_PROVIDER, fSelectedProvider.getID());
+            ArchiPlugin.PREFERENCES.setValue(PREFS_LAST_PROVIDER, fSelectedProvider.getID());
         }
     }
     

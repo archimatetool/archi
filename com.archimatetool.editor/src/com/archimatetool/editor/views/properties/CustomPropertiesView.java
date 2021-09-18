@@ -22,7 +22,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -48,11 +47,11 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
         // Add an action to allow single column layouts
         IAction action = new Action(Messages.CustomPropertiesView_0, IAction.AS_CHECK_BOX) {};
         menuManager.add(action);
-        action.setChecked(Preferences.STORE.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN));
+        action.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN));
         
         action.addPropertyChangeListener(event -> {
             if(IAction.CHECKED.equals(event.getProperty())) {
-                Preferences.STORE.setValue(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN, action.isChecked());
+                ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN, action.isChecked());
                 
                 // Scroll bars need resizing
                 if(getCurrentPage() instanceof TabbedPropertySheetPage) {

@@ -15,7 +15,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -43,7 +43,7 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
             
             // Listen to Application Prefs changes
             prefsListener = this::applicationPreferencesChanged;
-            Preferences.STORE.addPropertyChangeListener(prefsListener);
+            ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
             removeECoreAdapter();
 
             // Remove Prefs listener
-            Preferences.STORE.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
         }
     }
 
