@@ -164,11 +164,10 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
-     * Set the fill color to that in the model, or failing that, as per default
+     * Reset the fill color
      */
     protected void setFillColor() {
-        String val = fDiagramModelObject.getFillColor();
-        fFillColor = ColorFactory.get(val);
+        fFillColor = null;
     }
     
     /**
@@ -177,8 +176,14 @@ implements IDiagramModelObjectFigure {
     @Override
     public Color getFillColor() {
         if(fFillColor == null) {
-            return ColorFactory.getDefaultFillColor(fDiagramModelObject);
+            fFillColor = ColorFactory.get(fDiagramModelObject.getFillColor());
+            
+            // Use default fill color
+            if(fFillColor == null) {
+                fFillColor = ColorFactory.getDefaultFillColor(fDiagramModelObject);
+            }
         }
+        
         return fFillColor;
     }
     
@@ -199,13 +204,11 @@ implements IDiagramModelObjectFigure {
         }
     }
     
-    
     /**
-     * Set the line color to that in the model, or failing that, as per default
+     * Reset the line color
      */
     protected void setLineColor() {
-        String val = fDiagramModelObject.getLineColor();
-        fLineColor = ColorFactory.get(val);
+        fLineColor = null;
     }
     
     /**
@@ -213,15 +216,22 @@ implements IDiagramModelObjectFigure {
      */
     @Override
     public Color getLineColor() {
-        // User preference to derive element line colour
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
-            return ColorFactory.getDarkerColor(getFillColor(),
-                    ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
+        if(fLineColor == null) {
+            // User preference to derive element line colour
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+                fLineColor = ColorFactory.getDarkerColor(getFillColor(),
+                        ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
+            }
+            else {
+                fLineColor = ColorFactory.get(fDiagramModelObject.getLineColor());
+                
+                // Use default line color
+                if(fLineColor == null) {
+                    fLineColor = ColorFactory.getDefaultLineColor(getDiagramModelObject());
+                }
+            }
         }
         
-        if(fLineColor == null) {
-            return ColorFactory.getDefaultLineColor(getDiagramModelObject());
-        }
         return fLineColor;
     }
     
