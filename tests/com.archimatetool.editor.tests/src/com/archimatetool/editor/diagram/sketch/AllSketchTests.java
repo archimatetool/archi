@@ -16,6 +16,7 @@ public class AllSketchTests {
 		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.sketch");
 		
 		suite.addTest(SketchEditPartFactoryTests.suite());
+		suite.addTest(SketchModelFactoryTests.suite());
 
         return suite;
 	}
