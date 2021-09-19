@@ -55,9 +55,6 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         
         createStickiesGroup();
         add(new PaletteSeparator("")); //$NON-NLS-1$
-        
-        createConnectionsGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
     }
 
     /**
@@ -100,30 +97,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 Messages.SketchEditorPalette_4,
                 Messages.SketchEditorPalette_5);
         group.add(groupEntry);
-    
-        return group;
-    }
-    
-    private PaletteContainer createStickiesGroup() {
-        PaletteContainer group = new PaletteToolbar(Messages.SketchEditorPalette_6);
-        add(group);
         
-        // Sticky Notes
-        group.add(createStickyEntry(255, 255, 181));
-        group.add(createStickyEntry(181, 255, 255));
-        group.add(createStickyEntry(201, 231, 183));
-        group.add(createStickyEntry(255, 196, 0));
-        group.add(createStickyEntry(255, 255, 0));
-        group.add(createStickyEntry(96, 255, 96));
-        group.add(createStickyEntry(127, 127, 255));
-        group.add(createStickyEntry(255, 255, 255));
-        
-        return group;
-    }
-    
-    private PaletteContainer createConnectionsGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_7);
-        add(group);
+        // Connections
         
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
@@ -156,7 +131,24 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 null,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
         group.add(entry);
-
+    
+        return group;
+    }
+    
+    private PaletteContainer createStickiesGroup() {
+        PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_6);
+        add(group);
+        
+        // Sticky Notes
+        group.add(createStickyEntry(255, 255, 181));
+        group.add(createStickyEntry(181, 255, 255));
+        group.add(createStickyEntry(201, 231, 183));
+        group.add(createStickyEntry(255, 196, 0));
+        group.add(createStickyEntry(255, 255, 0));
+        group.add(createStickyEntry(96, 255, 96));
+        group.add(createStickyEntry(127, 127, 255));
+        group.add(createStickyEntry(255, 255, 255));
+        
         return group;
     }
     
@@ -187,12 +179,12 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         ImageDescriptor id = new ImageDescriptor() {
             @Override
             public ImageData getImageData(int zoom) {
-                Image image = new Image(Display.getDefault(), 16, 14);
+                Image image = new Image(Display.getDefault(), 16, 16);
                 
                 GC gc = new GC(image);
                 gc.setBackground(new Color(r, g, b));
-                gc.fillRectangle(0, 0, 15, 13);
-                gc.drawRectangle(0, 0, 15, 13);
+                gc.fillRectangle(0, 0, 15, 15);
+                gc.drawRectangle(0, 0, 15, 15);
                 gc.dispose();
                 
                 ImageData id = image.getImageData(zoom);

@@ -137,7 +137,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     }
 
     private PaletteContainer createStickiesGroup() {
-        PaletteContainer group = new PaletteToolbar(Messages.CanvasEditorPalette_8);
+        PaletteContainer group = new PaletteGroup(Messages.CanvasEditorPalette_8);
         add(group);
         
         // Sticky Notes
