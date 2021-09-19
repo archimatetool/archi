@@ -10,11 +10,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.graphics.Color;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
@@ -42,7 +42,7 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
     @Override
     @Test
     public void testGetDefaultColor() {
-        assertEquals(ColorFactory.get(210, 215, 215), getProvider().getDefaultColor());
+        assertEquals(new Color(210, 215, 215), getProvider().getDefaultColor());
     }
     
     @Override

@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -27,6 +26,8 @@ import com.archimatetool.model.ITextAlignment;
  * @author Phillip Beauvoir
  */
 public class GroupUIProvider extends AbstractGraphicalObjectUIProvider {
+    
+    private static Color defaultColor = new Color(210, 215, 215);
 
     @Override
     public EClass providerFor() {
@@ -60,7 +61,7 @@ public class GroupUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(210, 215, 215);
+        return defaultColor;
     }
     
     @Override

@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -22,6 +23,15 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public abstract class AbstractArchimateElementUIProvider extends AbstractGraphicalObjectUIProvider
 implements IArchimateElementUIProvider {
+    
+    protected static Color defaultBusinessColor = new Color(255, 255, 181);
+    protected static Color defaultApplicationColor = new Color(181, 255, 255);
+    protected static Color defaultTechnologyColor = new Color(201, 231, 183);
+    
+    protected static Color defaultMotivationColor = new Color(204, 204, 255);
+    protected static Color defaultStrategyColor = new Color(245, 222, 170);
+    protected static Color defaultImplMigrationColor1 = new Color(255, 224, 224);
+    protected static Color defaultImplMigrationColor2 = new Color(224, 255, 224);
     
     protected AbstractArchimateElementUIProvider() {
     }

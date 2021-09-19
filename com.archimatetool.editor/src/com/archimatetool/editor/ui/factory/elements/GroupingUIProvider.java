@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.GroupingFigure;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
@@ -28,6 +27,8 @@ import com.archimatetool.model.ITextPosition;
  * @author Phillip Beauvoir
  */
 public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
+    
+    private static Color defaultColor = new Color(255, 255, 255);
 
     @Override
     public EClass providerFor() {
@@ -56,7 +57,7 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(255, 255, 255);
+        return defaultColor;
     }
     
     @Override

@@ -10,7 +10,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 
 
@@ -21,7 +20,7 @@ import com.archimatetool.editor.ui.IGraphicsIcon;
  */
 public class CanvasModelGraphicsIcon implements IGraphicsIcon {
     
-    private static Color blue = ColorFactory.get(200, 230, 247);
+    private static Color blue = new Color(200, 230, 247);
 
     @Override
     public void drawIcon(Graphics graphics, Point origin) {

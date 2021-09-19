@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -60,7 +59,7 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(255, 255, 255);
+        return new Color(255, 255, 255);
     }
     
     @Override

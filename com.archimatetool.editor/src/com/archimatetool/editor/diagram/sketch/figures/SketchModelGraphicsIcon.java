@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 
 
@@ -22,8 +21,8 @@ import com.archimatetool.editor.ui.IGraphicsIcon;
  */
 public class SketchModelGraphicsIcon implements IGraphicsIcon {
     
-    static Color color1 = ColorFactory.get(255, 247, 173);
-    static Color color2 = ColorFactory.get(255, 214, 123);
+    private static Color color1 = new Color(255, 247, 173);
+    private static Color color2 = new Color(255, 214, 123);
 
     @Override
     public void drawIcon(Graphics graphics, Point origin) {

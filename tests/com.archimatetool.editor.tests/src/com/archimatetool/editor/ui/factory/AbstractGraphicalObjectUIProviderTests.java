@@ -12,7 +12,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -39,7 +38,7 @@ public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObj
     @Test
     public void testGetDefaultLineColor() {
         Color color = getProvider().getDefaultLineColor();
-        assertEquals(ColorFactory.get(92, 92, 92), color);
+        assertEquals(new Color(92, 92, 92), color);
     }
 
     @Test

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -23,6 +22,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
@@ -31,7 +31,6 @@ import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -110,14 +109,14 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         add(group);
         
         // Sticky Notes
-        group.add(createStickyEntry(ColorFactory.get(255, 255, 181)));
-        group.add(createStickyEntry(ColorFactory.get(181, 255, 255)));
-        group.add(createStickyEntry(ColorFactory.get(201, 231, 183)));
-        group.add(createStickyEntry(ColorConstants.orange));
-        group.add(createStickyEntry(ColorConstants.yellow));
-        group.add(createStickyEntry(ColorConstants.lightGreen));
-        group.add(createStickyEntry(ColorConstants.lightBlue));
-        group.add(createStickyEntry(ColorConstants.white));
+        group.add(createStickyEntry(255, 255, 181));
+        group.add(createStickyEntry(181, 255, 255));
+        group.add(createStickyEntry(201, 231, 183));
+        group.add(createStickyEntry(255, 196, 0));
+        group.add(createStickyEntry(255, 255, 0));
+        group.add(createStickyEntry(96, 255, 96));
+        group.add(createStickyEntry(127, 127, 255));
+        group.add(createStickyEntry(255, 255, 255));
         
         return group;
     }
@@ -184,14 +183,14 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
     }
 
-    private PaletteEntry createStickyEntry(Color color) {
+    private PaletteEntry createStickyEntry(int r, int g, int b) {
         ImageDescriptor id = new ImageDescriptor() {
             @Override
             public ImageData getImageData(int zoom) {
                 Image image = new Image(Display.getDefault(), 16, 14);
                 
                 GC gc = new GC(image);
-                gc.setBackground(color);
+                gc.setBackground(new Color(r, g, b));
                 gc.fillRectangle(0, 0, 15, 13);
                 gc.drawRectangle(0, 0, 15, 13);
                 gc.dispose();
@@ -206,7 +205,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         return new ExtCombinedTemplateCreationEntry(
                 Messages.SketchEditorPalette_12,
                 null,
-                new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), color),
+                new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(r, g, b)),
                 id,
                 id);
     }

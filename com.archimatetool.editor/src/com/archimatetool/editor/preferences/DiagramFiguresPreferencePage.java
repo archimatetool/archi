@@ -36,7 +36,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FigureImagePreviewFactory;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
@@ -59,6 +58,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private final int itemWidth = 180;
     private final int itemHeight = 72;
+    
+    private Color hiliteColor = new Color(78, 178, 255);
     
     private class ImageChoice {
         String name;
@@ -158,7 +159,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fTableViewer.getTable().addListener(SWT.PaintItem, new Listener() {
-            Color hilite = ColorFactory.get(78, 178, 255);
             int alpha = 100;
             
             @Override
@@ -186,7 +186,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 
                 // Highlight rectangle
                 int highlight_x = ic.chosenType == 0 ? 20 : itemWidth + 20;
-                event.gc.setForeground(hilite);
+                event.gc.setForeground(hiliteColor);
                 event.gc.setAlpha(255);
                 event.gc.setLineWidth(2);
                 event.gc.drawRoundRectangle(event.x + highlight_x, event.y + 2, event.x + itemWidth - 39, itemHeight - 3,

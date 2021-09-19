@@ -9,6 +9,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -75,8 +76,8 @@ public class SketchModelFactory implements ICreationFactory {
             // Gradient
             sticky.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
 
-            if(fParam instanceof Color) {
-                String color = ColorFactory.convertColorToString((Color)fParam);
+            if(fParam instanceof RGB) {
+                String color = ColorFactory.convertRGBToString((RGB)fParam);
                 sticky.setFillColor(color);
                 
                 Color lineColor = ColorFactory.getDefaultLineColor(sticky);

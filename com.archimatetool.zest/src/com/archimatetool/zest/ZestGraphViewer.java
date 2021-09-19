@@ -10,13 +10,13 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ColorFactory;
 
 
 
@@ -92,7 +92,7 @@ public class ZestGraphViewer extends GraphViewer {
         getGraphControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiGraph"); //$NON-NLS-1$ //$NON-NLS-2$
         
         // Set background color in case theming is disabled
-        getGraphControl().setBackground(ColorFactory.get(255, 255, 255));
+        getGraphControl().setBackground(new Color(255, 255, 255));
    }
     
     void doApplyLayout() {

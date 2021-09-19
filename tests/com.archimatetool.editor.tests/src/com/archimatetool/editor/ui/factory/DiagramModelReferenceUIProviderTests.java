@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -47,7 +46,7 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
     @Test
     public void testGetDefaultColor() {
         Color color = getProvider().getDefaultColor();
-        assertEquals(ColorFactory.get(220, 235, 235), color);
+        assertEquals(new Color(220, 235, 235), color);
     }
     
     @Override

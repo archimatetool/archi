@@ -10,7 +10,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -22,7 +21,7 @@ import com.archimatetool.model.IArchimatePackage;
  * @author Phillip Beauvoir
  */
 public class ApplicationCollaborationUIProvider extends AbstractCollaborationUIProvider {
-
+    
     @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getApplicationCollaboration();
@@ -45,6 +44,6 @@ public class ApplicationCollaborationUIProvider extends AbstractCollaborationUIP
     
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(181, 255, 255);
+        return defaultApplicationColor;
     }
 }

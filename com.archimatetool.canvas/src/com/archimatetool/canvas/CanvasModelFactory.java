@@ -8,7 +8,7 @@ package com.archimatetool.canvas;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
@@ -62,8 +62,8 @@ public class CanvasModelFactory implements ICreationFactory {
         // Sticky
         if(object instanceof ICanvasModelSticky) {
             ICanvasModelSticky sticky = (ICanvasModelSticky)object;
-            if(fParam instanceof Color) {
-                String color = ColorFactory.convertColorToString((Color)fParam);
+            if(fParam instanceof RGB) {
+                String color = ColorFactory.convertRGBToString((RGB)fParam);
                 sticky.setFillColor(color);
             }
             sticky.setBorderColor("#C0C0C0"); //$NON-NLS-1$

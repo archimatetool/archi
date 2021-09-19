@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -27,6 +26,7 @@ import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PartInitException;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
@@ -57,6 +56,9 @@ public class StyledTextControl {
     
     private Cursor fHandCursor;
     private Cursor fCurrentCursor;
+    
+    private Color linkColor = new Color(0, 0, 255);
+    private Color linkColorDark = new Color(144, 255, 255);
     
     private List<LinkInfo> fLinkInfos;
     
@@ -173,7 +175,7 @@ public class StyledTextControl {
         for(LinkInfo info : fLinkInfos) {
             if(info.start >= lineOffset && info.end <= (lineOffset + lineLength)) {
                 StyleRange sr = new StyleRange(info.start, info.length,
-                        ThemeUtils.isDarkTheme() ? ColorFactory.get(144, 255, 255) : ColorConstants.blue,
+                        ThemeUtils.isDarkTheme() ? linkColorDark : linkColor,
                         null);
                 sr.underline = true;
                 list.add(sr);

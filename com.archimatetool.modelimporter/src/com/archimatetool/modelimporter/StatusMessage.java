@@ -9,10 +9,8 @@ import java.util.stream.Stream;
 
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.ColorFactory;
 
 /**
  * Status Message
@@ -23,19 +21,19 @@ class StatusMessage {
     
     enum StatusMessageLevel {
         
-        INFO(Messages.StatusMessage_0, new RGB(0, 0, 255)),
-        WARNING(Messages.StatusMessage_1, new RGB(255, 0, 0));
+        INFO(Messages.StatusMessage_0, new Color(0, 0, 255)),
+        WARNING(Messages.StatusMessage_1, new Color(255, 0, 0));
         
         private String text;
-        private RGB rgb;
+        private Color color;
         
-        StatusMessageLevel(String text, RGB rgb) {
+        StatusMessageLevel(String text, Color color) {
             this.text = text;
-            this.rgb = rgb;
+            this.color = color;
         }
 
         Color getColor() {
-            return ColorFactory.get(rgb);
+            return color;
         }
 
         String getText() {

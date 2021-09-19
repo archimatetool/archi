@@ -18,6 +18,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -31,7 +32,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -187,7 +187,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
 
         fPreviewLabel = new Label(thumbsGroup, SWT.BORDER);
         fPreviewLabel.setAlignment(SWT.CENTER);
-        fPreviewLabel.setBackground(ColorFactory.get(255, 255, 255));
+        fPreviewLabel.setBackground(new Color(255, 255, 255));
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         gd.widthHint = 150;

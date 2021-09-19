@@ -141,8 +141,8 @@ public class ColorFactory {
             // Use UI Provider
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
-                return ((IGraphicalObjectUIProvider)provider).getDefaultColor() == null ?
-                        ColorConstants.white : ((IGraphicalObjectUIProvider)provider).getDefaultColor();
+                Color color = ((IGraphicalObjectUIProvider)provider).getDefaultColor();
+                return color != null ? color : ColorConstants.white;
             }
         }
         
@@ -210,8 +210,8 @@ public class ColorFactory {
             
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
-                return ((IGraphicalObjectUIProvider)provider).getDefaultLineColor() == null ?
-                        ColorConstants.black : ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();
+                Color color = ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();
+                return color != null ? color : ColorConstants.black;
             }
         }
         

@@ -31,7 +31,7 @@ import com.archimatetool.model.IFolder;
 public class FolderUIProvider extends AbstractObjectUIProvider {
     
     // This is the actual color in the default icon
-    private static Color DEFAULT_COLOR = ColorFactory.get(255, 199, 63);
+    private static Color DEFAULT_COLOR = new Color(255, 199, 63);
     
     public static Color getFolderColor(FolderType type) {
         String colorValue = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.canvas;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -22,6 +21,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
@@ -30,7 +30,6 @@ import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -142,17 +141,17 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         add(group);
         
         // Sticky Notes
-        group.add(createStickyEntry(ColorConstants.white));
-        group.add(createStickyEntry(ColorFactory.get(255, 255, 149)));
-        group.add(createStickyEntry(ColorFactory.get(213, 255, 149)));
-        group.add(createStickyEntry(ColorFactory.get(198, 249, 198)));
-        group.add(createStickyEntry(ColorFactory.get(198, 249, 247)));
-        group.add(createStickyEntry(ColorFactory.get(198, 216, 250)));
-        group.add(createStickyEntry(ColorFactory.get(196, 196, 248)));
-        group.add(createStickyEntry(ColorFactory.get(238, 200, 251)));
-        group.add(createStickyEntry(ColorFactory.get(247, 196, 196)));
-        group.add(createStickyEntry(ColorFactory.get(248, 196, 145)));
-        group.add(createStickyEntry(ColorFactory.get(255, 160, 147)));
+        group.add(createStickyEntry(255, 255, 255));
+        group.add(createStickyEntry(255, 255, 149));
+        group.add(createStickyEntry(213, 255, 149));
+        group.add(createStickyEntry(198, 249, 198));
+        group.add(createStickyEntry(198, 249, 247));
+        group.add(createStickyEntry(198, 216, 250));
+        group.add(createStickyEntry(196, 196, 248));
+        group.add(createStickyEntry(238, 200, 251));
+        group.add(createStickyEntry(247, 196, 196));
+        group.add(createStickyEntry(248, 196, 145));
+        group.add(createStickyEntry(255, 160, 147));
         
         return group;
     }
@@ -171,14 +170,14 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         return entry;
     }
 
-    private PaletteEntry createStickyEntry(Color color) {
+    private PaletteEntry createStickyEntry(int r, int g, int b) {
         ImageDescriptor id = new ImageDescriptor() {
             @Override
             public ImageData getImageData(int zoom) {
                 Image image = new Image(Display.getCurrent(), 16, 16);
                 
                 GC gc = new GC(image);
-                gc.setBackground(color);
+                gc.setBackground(new Color(r, g, b));
                 gc.fillRectangle(0, 0, 15, 15);
                 gc.drawRectangle(0, 0, 15, 15);
                 gc.dispose();
@@ -193,7 +192,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         return new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_9,
                 null,
-                new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), color),
+                new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(r, g, b)),
                 id,
                 id);
     }

@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -31,7 +30,9 @@ import com.archimatetool.model.IDiagramModelReference;
  * @author Phillip Beauvoir
  */
 public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIProvider {
-
+    
+    private static Color defaultColor = new Color(220, 235, 235);
+    
     @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelReference();
@@ -76,7 +77,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(220, 235, 235);
+        return defaultColor;
     }
     
     @Override

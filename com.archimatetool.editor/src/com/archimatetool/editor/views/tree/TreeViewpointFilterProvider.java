@@ -19,7 +19,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
@@ -46,6 +45,8 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * Tree Viewer
      */
     private TreeModelViewer fViewer;
+    
+    private Color colorGrey = new Color(128, 128, 128);
     
     /**
      * Application Preferences Listener
@@ -180,12 +181,12 @@ public class TreeViewpointFilterProvider implements IPartListener {
                         IArchimateConcept source = ((IArchimateRelationship)element).getSource();
                         IArchimateConcept target = ((IArchimateRelationship)element).getTarget();
                         if(!viewpoint.isAllowedConcept(source.eClass()) || !viewpoint.isAllowedConcept(target.eClass())) {
-                            return ColorFactory.get(128, 128, 128);
+                            return colorGrey;
                         }
                     }
                     else if(element instanceof IArchimateElement) {
                         if(!viewpoint.isAllowedConcept(((IArchimateElement)element).eClass())) {
-                            return ColorFactory.get(128, 128, 128);
+                            return colorGrey;
                         }
                     }
                 }

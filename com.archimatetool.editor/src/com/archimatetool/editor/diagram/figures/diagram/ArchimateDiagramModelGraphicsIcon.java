@@ -9,7 +9,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 
 
@@ -20,9 +19,9 @@ import com.archimatetool.editor.ui.IGraphicsIcon;
  */
 public class ArchimateDiagramModelGraphicsIcon implements IGraphicsIcon {
     
-    private static Color blue1 = ColorFactory.get(20, 105, 171);
-    private static Color blue2 = ColorFactory.get(193, 232, 255);
-    private static Color blue3 = ColorFactory.get(220, 240, 250);
+    private static Color blue1 = new Color(20, 105, 171);
+    private static Color blue2 = new Color(193, 232, 255);
+    private static Color blue3 = new Color(220, 240, 250);
 
     @Override
     public void drawIcon(Graphics graphics, Point origin) {

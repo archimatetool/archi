@@ -10,7 +10,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -45,6 +44,6 @@ public class TechnologyFunctionUIProvider extends AbstractFunctionUIProvider {
     
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(201, 231, 183);
+        return defaultTechnologyColor;
     }
 }

@@ -9,11 +9,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.graphics.RGB;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.ICreationFactory;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -53,10 +53,10 @@ public class SketchModelFactoryTests {
     
     @Test
     public void testGetNewObjectSticky() {
-        ICreationFactory factory = new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), ColorFactory.get(201, 231, 183));
+        ICreationFactory factory = new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(0, 0, 0));
         ISketchModelSticky sticky = (ISketchModelSticky)factory.getNewObject();
         assertEquals("Sticky", sticky.getName());
-        assertEquals(ColorFactory.convertColorToString(ColorFactory.get(201, 231, 183)), sticky.getFillColor());
+        assertEquals("#000000", sticky.getFillColor());
     }
 
     @Test

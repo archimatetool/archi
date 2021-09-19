@@ -55,6 +55,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fFontColor;
     protected Color fLineColor;
     
+    private static Color TARGET_FEEDBACK_COLOR = new Color(0, 0, 255);
+    
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
 	@Override
@@ -280,7 +282,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     @Override
     public void paintFigure(Graphics graphics) {
         if(SHOW_TARGET_FEEDBACK) {
-            setForegroundColor(ColorFactory.get(0, 0, 255));
+            setForegroundColor(TARGET_FEEDBACK_COLOR);
             setLineWidth(getModelConnection().getLineWidth() + 1);
         }
         else {

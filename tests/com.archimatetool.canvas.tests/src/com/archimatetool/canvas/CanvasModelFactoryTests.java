@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.graphics.RGB;
 import org.junit.Test;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
@@ -19,7 +20,6 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.ArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
-import com.archimatetool.editor.ui.ColorFactory;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -41,9 +41,9 @@ public class CanvasModelFactoryTests {
     
     @Test
     public void testGetNewObjectCanvasSticky() {
-        ICreationFactory factory = new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), ColorFactory.get(201, 231, 183));
+        ICreationFactory factory = new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(0, 0, 0));
         ICanvasModelSticky sticky = (ICanvasModelSticky)factory.getNewObject();
-        assertEquals(ColorFactory.convertColorToString(ColorFactory.get(201, 231, 183)), sticky.getFillColor());
+        assertEquals("#000000", sticky.getFillColor());
         assertEquals("#C0C0C0", sticky.getBorderColor());
     }
 

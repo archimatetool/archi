@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.CommunicationNetworkFigure;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -53,6 +52,6 @@ public class CommunicationNetworkUIProvider extends AbstractArchimateElementUIPr
     
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(201, 231, 183);
+        return defaultTechnologyColor;
     }
 }
