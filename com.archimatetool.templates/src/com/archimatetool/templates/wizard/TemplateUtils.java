@@ -72,11 +72,9 @@ public class TemplateUtils {
 
         // Draw a border
         GC gc = new GC(image);
-        Color c = new Color(null, 64, 64, 64);
-        gc.setForeground(c);
+        gc.setForeground(new Color(64, 64, 64));
         gc.drawRectangle(0, 0, image.getBounds().width - 1, image.getBounds().height - 1);
         gc.dispose();
-        c.dispose();
 
         return image;
     }

@@ -488,12 +488,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             return;
         }
         
-        // Dispose of old one
-        Color oldColor = fColorsCache.get(object);
-        if(oldColor != null) {
-            oldColor.dispose();
-        }
-        
         fColorsCache.put(object, new Color(Display.getCurrent(), rgb));
         fImageRegistry.remove(getColorKey(object)); // remove from image registry so we can generate a new image
         fTreeViewer.update(object, null);
@@ -504,10 +498,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      * Reset the color cache to user or inbuilt defaults
      */
     private void resetColorsCache(boolean useInbuiltDefaults) {
-        for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
-            entry.getValue().dispose();
-        }
-
         fColorsCache.clear();
         
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
@@ -708,10 +698,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public void dispose() {
         super.dispose();
         
-        for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
-            entry.getValue().dispose();
-        }
-
         fColorsCache.clear();
         fColorsCache = null;
         

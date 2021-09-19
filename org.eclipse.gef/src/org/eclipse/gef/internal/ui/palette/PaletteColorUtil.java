@@ -58,16 +58,16 @@ public class PaletteColorUtil {
 
     public static final Color INFO_FOREGROUND = ColorConstants.tooltipForeground;
 
-    public static final Color ARROW_HOVER = new Color(null, 229, 229, 219);
+    public static final Color ARROW_HOVER = new Color(229, 229, 219);
 
-    private static final Color HOVER_COLOR = new Color(null, 252, 228, 179);
+    private static final Color HOVER_COLOR = new Color(252, 228, 179);
 
-    private static final Color SELECTED_COLOR = new Color(null, 207, 227, 250);
+    private static final Color SELECTED_COLOR = new Color(207, 227, 250);
 
-    private static final Color HOVER_COLOR_HICONTRAST = new Color(null, 0, 128,
+    private static final Color HOVER_COLOR_HICONTRAST = new Color(0, 128,
             0);
 
-    private static final Color SELECTED_COLOR_HICONTRAST = new Color(null, 128,
+    private static final Color SELECTED_COLOR_HICONTRAST = new Color(128,
             0, 128);
 
     public static final Color WIDGET_BACKGROUND_LIST_BACKGROUND_40 = FigureUtilities

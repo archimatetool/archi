@@ -70,15 +70,15 @@ import org.eclipse.zest.layouts.progress.ProgressListener;
 @SuppressWarnings({"rawtypes", "unchecked", "nls"})
 public class SimpleSWTExample {
 
-    private static final Color BLACK = new Color(Display.getDefault(), 0, 0, 0);
-    private static final Color NODE_NORMAL_COLOR = new Color(Display.getDefault(), 225, 225, 255);
-    private static final Color NODE_SELECTED_COLOR = new Color(Display.getDefault(), 255, 125, 125);
-    private static final Color NODE_ADJACENT_COLOR = new Color(Display.getDefault(), 255, 200, 125);
-    private static final Color BORDER_NORMAL_COLOR = new Color(Display.getDefault(), 0, 0, 0);
-    private static final Color BORDER_SELECTED_COLOR = new Color(Display.getDefault(), 255, 0, 0);
-    private static final Color BORDER_ADJACENT_COLOR = new Color(Display.getDefault(), 255, 128, 0);
-    private static final Color RELATIONSHIP_COLOR = new Color(Display.getDefault(), 192, 192, 225);
-    private static final Color RELATIONSHIP_HIGHLIGHT_COLOR = new Color(Display.getDefault(), 255, 200, 125);
+    private static final Color BLACK = new Color(0, 0, 0);
+    private static final Color NODE_NORMAL_COLOR = new Color(225, 225, 255);
+    private static final Color NODE_SELECTED_COLOR = new Color(255, 125, 125);
+    private static final Color NODE_ADJACENT_COLOR = new Color(255, 200, 125);
+    private static final Color BORDER_NORMAL_COLOR = new Color(0, 0, 0);
+    private static final Color BORDER_SELECTED_COLOR = new Color(255, 0, 0);
+    private static final Color BORDER_ADJACENT_COLOR = new Color(255, 128, 0);
+    private static final Color RELATIONSHIP_COLOR = new Color(192, 192, 225);
+    private static final Color RELATIONSHIP_HIGHLIGHT_COLOR = new Color(255, 200, 125);
 
     private static final String[] NAMES = new String[] { "Peggy", "Rob", "Ian", "Chris", "Simon", "Wendy", "Steven", "Kim", "Neil", "Dave", "John", "Suzanne", "Jody", "Casey", "Bjorn", "Peter", "Erin", "Lisa", "Jennie", "Liz", "Bert", "Ryan", "Nick", "Amy", "Lee", "Me", "You", "Max", "NCI", "OWL",
             "Ed", "Jamie", "Protege", "Matt", "Bryan", "Pete", "Sam", "Bob", "Katie", "Bill", "Josh", "Davor", "Ken", "Jacob", "Norm", "Jim", "Maya", "Jill", "Kit", "Jo", "Joe", "Andrew", "Charles", "Pat", "Patrick", "Jeremy", "Mike", "Michael", "Patricia", "Marg", "Terry", "Emily", "Ben", "Holly",
@@ -424,7 +424,7 @@ public class SimpleSWTExample {
         mainComposite.setLayoutData(mainGridData);
         mainComposite.addPaintListener(new GraphPaintListener());
 
-        mainComposite.setBackground(new Color(Display.getCurrent(), 255, 255, 255));
+        mainComposite.setBackground(new Color(255, 255, 255));
         mainComposite.setLayout(null);
 
         mainComposite.addMouseMoveListener(new MouseMoveListener() {

@@ -89,7 +89,6 @@ public class SnapFeedbackPolicy extends GraphicalEditPolicy {
                     Color localBackgroundColor = createMixedColor();
                     int fillColor = pData.getPixel(localBackgroundColor
                             .getRGB());
-                    localBackgroundColor.dispose();
                     ImageData iData = new ImageData(1, 1, 24, pData);
                     iData.setPixel(0, 0, fillColor);
                     iData.setAlpha(0, 0, 255 * opacity / FRAMES);

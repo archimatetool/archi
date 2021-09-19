@@ -209,8 +209,6 @@ public class GraphLabel extends CachedLabel {
         super.paint(graphics);
 
         graphics.popState();
-
-        lightenColor.dispose();
     }
 
     @Override

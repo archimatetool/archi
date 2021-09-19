@@ -90,9 +90,8 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         
         diagramModelObject.setFillColor("#010203");
         abstractFigure.setFillColor();
-        Color expected = new Color(null, 1, 2, 3);
+        Color expected = new Color(1, 2, 3);
         assertEquals(expected, abstractFigure.getFillColor());
-        expected.dispose();
     }
     
     @Test
@@ -101,9 +100,8 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         if(textControl != null) {
             diagramModelObject.setFontColor("#010203");
             abstractFigure.setFontColor();
-            Color expected = new Color(null, 1, 2, 3);
+            Color expected = new Color(1, 2, 3);
             assertEquals(expected, textControl.getForegroundColor());
-            expected.dispose();
         }
     }
     
@@ -115,9 +113,8 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         
         diagramModelObject.setLineColor("#010203");
         abstractFigure.setLineColor();
-        Color expected = new Color(null, 1, 2, 3);
+        Color expected = new Color(1, 2, 3);
         assertEquals(expected, abstractFigure.getLineColor());
-        expected.dispose();
     }
     
     @Test

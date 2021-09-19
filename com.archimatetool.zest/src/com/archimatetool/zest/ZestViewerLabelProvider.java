@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.ISelfStyleProvider;
 import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
@@ -58,8 +57,8 @@ import com.archimatetool.model.ITriggeringRelationship;
 public class ZestViewerLabelProvider
 implements IBaseLabelProvider, ISelfStyleProvider {
     
-    Color HIGHLIGHT_COLOR = new Color(Display.getDefault(), 255, 255, 255);
-    Color FOCUS_COLOR = new Color(Display.getDefault(), 200, 200, 255);
+    private Color HIGHLIGHT_COLOR = new Color(255, 255, 255);
+    private Color FOCUS_COLOR = new Color(200, 200, 255);
     
     private Object focusObject;
     
@@ -90,8 +89,6 @@ implements IBaseLabelProvider, ISelfStyleProvider {
 
     @Override
     public void dispose() {
-        HIGHLIGHT_COLOR.dispose();
-        FOCUS_COLOR.dispose();
     }
 
     @Override

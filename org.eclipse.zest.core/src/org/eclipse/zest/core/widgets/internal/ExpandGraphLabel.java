@@ -245,7 +245,6 @@ public class ExpandGraphLabel extends Figure implements ActionListener {
         // paint the border
         bounds.setSize(bounds.width - 1, bounds.height - 1);
         graphics.drawRoundRectangle(bounds, arcWidth, arcWidth);
-        lightenColor.dispose();
     }
 
 //    public Dimension getPreferredSize(int hint, int hint2) {

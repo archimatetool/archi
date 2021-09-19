@@ -129,11 +129,11 @@ public class Graph extends FigureCanvas implements IContainer {
         this.style = style;
         this.setBackground(ColorConstants.white);
 
-        LIGHT_BLUE = new Color(Display.getDefault(), 216, 228, 248);
-        LIGHT_BLUE_CYAN = new Color(Display.getDefault(), 213, 243, 255);
-        GREY_BLUE = new Color(Display.getDefault(), 139, 150, 171);
-        DARK_BLUE = new Color(Display.getDefault(), 1, 70, 122);
-        LIGHT_YELLOW = new Color(Display.getDefault(), 255, 255, 206);
+        LIGHT_BLUE = new Color(216, 228, 248);
+        LIGHT_BLUE_CYAN = new Color(213, 243, 255);
+        GREY_BLUE = new Color(139, 150, 171);
+        DARK_BLUE = new Color(1, 70, 122);
+        LIGHT_YELLOW = new Color(255, 255, 206);
 
         this.setViewport(new FreeformViewport());
 
@@ -820,22 +820,6 @@ public class Graph extends FigureCanvas implements IContainer {
             if (connection != null) {
                 connection.dispose();
             }
-        }
-
-        if (LIGHT_BLUE != null) {
-            LIGHT_BLUE.dispose();
-        }
-        if (LIGHT_BLUE_CYAN != null) {
-            LIGHT_BLUE_CYAN.dispose();
-        }
-        if (GREY_BLUE != null) {
-            GREY_BLUE.dispose();
-        }
-        if (DARK_BLUE != null) {
-            DARK_BLUE.dispose();
-        }
-        if (LIGHT_YELLOW != null) {
-            LIGHT_YELLOW.dispose();
         }
     }
 

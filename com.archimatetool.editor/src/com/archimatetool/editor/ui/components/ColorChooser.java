@@ -112,9 +112,6 @@ public class ColorChooser extends EventManager {
             if(fColorButton.getImage() != null) {
                 fColorButton.getImage().dispose();
             }
-            if(fColor != null) {
-                fColor.dispose();
-            }
         });
         
         fComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
@@ -274,9 +271,6 @@ public class ColorChooser extends EventManager {
         Display display = fColorButton.getDisplay();
         GC gc = new GC(fColorButton.getImage());
         
-        if(fColor != null) {
-            fColor.dispose();
-        }
         fColor = new Color(display, fColorValue);
         
         Rectangle r = fColorButton.getImage().getBounds();

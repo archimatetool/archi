@@ -138,34 +138,34 @@ public interface ColorConstants {
      * Misc. colors
      */
     /** One of the pre-defined colors */
-    Color white = new Color(null, 255, 255, 255);
+    Color white = new Color(255, 255, 255);
     /** One of the pre-defined colors */
-    Color lightGray = new Color(null, 192, 192, 192);
+    Color lightGray = new Color(192, 192, 192);
     /** One of the pre-defined colors */
-    Color gray = new Color(null, 128, 128, 128);
+    Color gray = new Color(128, 128, 128);
     /** One of the pre-defined colors */
-    Color darkGray = new Color(null, 64, 64, 64);
+    Color darkGray = new Color(64, 64, 64);
     /** One of the pre-defined colors */
-    Color black = new Color(null, 0, 0, 0);
+    Color black = new Color(0, 0, 0);
     /** One of the pre-defined colors */
-    Color red = new Color(null, 255, 0, 0);
+    Color red = new Color(255, 0, 0);
     /** One of the pre-defined colors */
-    Color orange = new Color(null, 255, 196, 0);
+    Color orange = new Color(255, 196, 0);
     /** One of the pre-defined colors */
-    Color yellow = new Color(null, 255, 255, 0);
+    Color yellow = new Color(255, 255, 0);
     /** One of the pre-defined colors */
-    Color green = new Color(null, 0, 255, 0);
+    Color green = new Color(0, 255, 0);
     /** One of the pre-defined colors */
-    Color lightGreen = new Color(null, 96, 255, 96);
+    Color lightGreen = new Color(96, 255, 96);
     /** One of the pre-defined colors */
-    Color darkGreen = new Color(null, 0, 127, 0);
+    Color darkGreen = new Color(0, 127, 0);
     /** One of the pre-defined colors */
-    Color cyan = new Color(null, 0, 255, 255);
+    Color cyan = new Color(0, 255, 255);
     /** One of the pre-defined colors */
-    Color lightBlue = new Color(null, 127, 127, 255);
+    Color lightBlue = new Color(127, 127, 255);
     /** One of the pre-defined colors */
-    Color blue = new Color(null, 0, 0, 255);
+    Color blue = new Color(0, 0, 255);
     /** One of the pre-defined colors */
-    Color darkBlue = new Color(null, 0, 0, 127);
+    Color darkBlue = new Color(0, 0, 127);
 
 }
