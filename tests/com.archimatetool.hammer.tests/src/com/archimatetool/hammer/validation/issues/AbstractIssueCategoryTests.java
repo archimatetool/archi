@@ -9,7 +9,10 @@ package com.archimatetool.hammer.validation.issues;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -19,6 +22,12 @@ public abstract class AbstractIssueCategoryTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AbstractIssueCategoryTests.class);
+    }
+    
+    @BeforeClass
+    public static void runOnceBeforeAllTests() {
+        // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()
+        TestUtils.ensureDefaultDisplay();
     }
     
     protected AbstractIssueCategory issueCategory;
@@ -39,5 +48,4 @@ public abstract class AbstractIssueCategoryTests {
     public void testGetImage() {
         assertNotNull(issueCategory.getImage());
     }
-    
 }

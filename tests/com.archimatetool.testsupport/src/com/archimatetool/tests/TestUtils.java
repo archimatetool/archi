@@ -13,6 +13,7 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
@@ -154,6 +155,18 @@ public class TestUtils {
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         if(page != null) {
             page.closeAllEditors(false);
+        }
+    }
+    
+
+    /*
+     * We need to call this in cases where Display.getDefault() has not yet been called yet.
+     * Some Eclipse methods assume that a current Display has been created.
+     * Note - Creating a new Shell() at some point in the sequence of tests will call Display.getDefault() but let's be explicit here.
+     */
+    public static void ensureDefaultDisplay() {
+        if(Display.getCurrent() == null) {
+            Display.getDefault();
         }
     }
 }
