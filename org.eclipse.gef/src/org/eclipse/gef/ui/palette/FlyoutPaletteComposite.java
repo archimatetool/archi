@@ -1125,6 +1125,13 @@ public class FlyoutPaletteComposite extends Composite {
                 return;
 
             Rectangle area = getClientArea();
+            
+            // Added by Phillipus
+            // On Mac opening a new diagram of a different type than one already open causes the arrow button not drawn
+            if(area.isEmpty()) {
+                return;
+            }
+            
             boolean buttonVisible = button.getVisible();
             Point titleSize = title.computeSize(-1, -1);
             Point buttonSize = buttonVisible ? button.computeSize(-1, -1)
