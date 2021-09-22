@@ -302,6 +302,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                 
                 for(String path : archiveManager.getImagePaths()) {
                     Image thumbnail = fImageCache.get(path);
+                    
+                    // Create image and cache it
                     if(thumbnail == null) {
                         try {
                             thumbnail = archiveManager.createImage(path);
@@ -315,10 +317,12 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                         }
                     }
                     
-                    GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
-                    item.setImage(thumbnail);
-                    item.setData("imagepath", path); //$NON-NLS-1$
-                    item.setData("model", model); //$NON-NLS-1$
+                    if(thumbnail != null) {
+                        GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
+                        item.setImage(thumbnail);
+                        item.setData("imagepath", path); //$NON-NLS-1$
+                        item.setData("model", model); //$NON-NLS-1$
+                    }
                 }
                 
                 fGallery.redraw(); // at some scale settings this is needed
