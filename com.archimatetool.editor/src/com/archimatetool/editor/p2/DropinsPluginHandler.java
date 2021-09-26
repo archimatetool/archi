@@ -66,6 +66,7 @@ public class DropinsPluginHandler {
     
     /**
      * The name of the magic file that denotes that the *.archiplugin or *.zip archive is an Archi plug-in
+     * It can also include meta information such as listing plug-ins to delete
      */
     static final String MAGIC_ENTRY = "archi-plugin"; //$NON-NLS-1$
     
@@ -179,8 +180,9 @@ public class DropinsPluginHandler {
             pluginsFolder.mkdirs();
 
             for(File file : tmpFolder.listFiles()) {
-                // Ignore the magic entry file
+                // Handle the magic file
                 if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
+                    handleMagicFile(file, pluginsFolder);
                     continue;
                 }
                 
@@ -237,6 +239,25 @@ public class DropinsPluginHandler {
         }
         
         return CONTINUE;
+    }
+    
+    /**
+     * Handle anything in the Magic file
+     */
+    private void handleMagicFile(File magicFile, File pluginsFolder) throws IOException {
+        for(String line : Files.readAllLines(magicFile.toPath())) {
+            // A plug-in to delete
+            if(line.startsWith("delete:")) { //$NON-NLS-1$
+                String pluginName = line.substring(7).strip();
+                
+                for(File pluginFile : pluginsFolder.listFiles()) {
+                    String targetPluginName = getPluginName(pluginFile.getName());
+                    if(targetPluginName.equals(pluginName)) {
+                        addFileToDeleteOnExit(pluginFile);
+                    }
+                }
+            }
+        }
     }
     
     /**
