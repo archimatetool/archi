@@ -142,9 +142,8 @@ public class SearchWidget extends Composite {
                     fKeyDelayTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            Display.getDefault().asyncExec(new Runnable() {
-                                @Override
-                                public void run() {
+                            Display.getDefault().asyncExec(() -> {
+                                if(!fSearchText.isDisposed()) {
                                     fSearchFilter.setSearchText(fSearchText.getText());
                                 }
                             });
