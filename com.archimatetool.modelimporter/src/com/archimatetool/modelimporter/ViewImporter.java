@@ -15,13 +15,8 @@ import java.util.Map.Entry;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.canvas.model.ICanvasModel;
-import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.diagram.commands.ConnectionRouterTypeCommand;
-import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
@@ -32,7 +27,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ISketchModel;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 /**
@@ -64,7 +59,7 @@ class ViewImporter extends AbstractImporter {
         }
         // We have it so update it
         else if(shouldUpdate()) {
-            updateView();
+            updateObject(importedView, targetView);
             createChildren();
             addToParentFolder(importedView, targetView);
             logMessage(StatusMessageLevel.INFO, Messages.ViewImporter_1, targetView);
@@ -74,31 +69,6 @@ class ViewImporter extends AbstractImporter {
         }
         
         return targetView;
-    }
-    
-    private void updateView() {
-        updateObject(importedView, targetView);
-        
-        // Connection Router
-        addCommand(new ConnectionRouterTypeCommand(targetView, importedView.getConnectionRouterType()));
-        
-        // Sketch View
-        if(targetView instanceof ISketchModel) {
-            // Background
-            addCommand(new EObjectFeatureCommand(null, targetView, IArchimatePackage.Literals.SKETCH_MODEL__BACKGROUND,
-                    ((ISketchModel)importedView).getBackground()));
-        }
-        
-        // Canvas View
-        if(targetView instanceof ICanvasModel) {
-            // Hint title
-            addCommand(new EObjectFeatureCommand(null, targetView, ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE,
-                    ((ICanvasModel)importedView).getHintTitle()));
-            
-            // Hint content
-            addCommand(new EObjectFeatureCommand(null, targetView, ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT,
-                    ((ICanvasModel)importedView).getHintContent()));
-        }
     }
     
     /**
@@ -197,24 +167,12 @@ class ViewImporter extends AbstractImporter {
         targetComponent.setArchimateConcept(targetConcept);
     }
     
-    /**
-     * Import an image bytes from imported model to target model
-     */
-    private void importImageBytes(IDiagramModelImageProvider importedObject, IDiagramModelImageProvider targetObject) throws IOException {
-        String importedImagePath = importedObject.getImagePath();
-        if(importedImagePath != null) {
-            IArchiveManager importedArchiveManager = (IArchiveManager)getImportedModel().getAdapter(IArchiveManager.class);
-            IArchiveManager targetArchiveManager = (IArchiveManager)getTargetModel().getAdapter(IArchiveManager.class);
-            importedImagePath = targetArchiveManager.copyImageBytes(importedArchiveManager, importedImagePath);
-            targetObject.setImagePath(importedImagePath);
-        }
-    }
     
     // ====================================================================================================
     // Commands
     // ====================================================================================================
 
-    private static class SetViewChildrenCommand extends Command {
+    private class SetViewChildrenCommand extends Command {
         private IDiagramModel view;
         private List<IDiagramModelObject> oldChildren;
         private List<IDiagramModelObject> newChildren;
@@ -227,14 +185,50 @@ class ViewImporter extends AbstractImporter {
         
         @Override
         public void execute() {
-            view.getChildren().clear();
-            view.getChildren().addAll(newChildren);
+            redo();
+            resolveDiagramModelReferences(); // Only do this once
         }
         
         @Override
         public void undo() {
             view.getChildren().clear();
             view.getChildren().addAll(oldChildren);
+        }
+        
+        @Override
+        public void redo() {
+            view.getChildren().clear();
+            view.getChildren().addAll(newChildren);
+        }
+        
+        // DiagramModelReference will be referencing DiagramModels in the imported model,
+        // So we have to find the corresponding DiagramModels by their IDs in the target model and reference those.
+        private void resolveDiagramModelReferences() {
+            for(Iterator<EObject> iter = view.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                if(eObject instanceof IDiagramModelReference) {
+                    IDiagramModelReference ref = (IDiagramModelReference)eObject;
+                    IDiagramModel dm = ref.getReferencedModel(); 
+                    
+                    if(dm.getArchimateModel() == getImportedModel()) {
+                        try {
+                            // Find DiagramModel in target model by its ID
+                            // findObjectInTargetModel() can only be called in execute(), not redo()
+                            IDiagramModel targetDM = findObjectInTargetModel(dm);
+                            if(targetDM != null) {
+                                ref.setReferencedModel(targetDM);
+                            }
+                            else {
+                                Logger.logError("Could not get referenced View!"); //$NON-NLS-1$
+                            }
+                        }
+                        catch(ImportException ex) {
+                            Logger.logError("Error getting referenced View!", ex); //$NON-NLS-1$
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
         
         @Override
