@@ -111,6 +111,15 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     @Override
+    public ImageData createImageData(String imagePath) {
+        if(byteArrayStorage.hasEntry(imagePath)) {
+            return new ImageData(byteArrayStorage.getInputStream(imagePath));
+        }
+        
+        return null;
+    }
+    
+    @Override
     public Set<String> getImagePaths() {
         Set<String> set = new HashSet<>();
         

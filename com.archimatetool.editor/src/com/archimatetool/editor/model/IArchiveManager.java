@@ -12,6 +12,7 @@ import java.util.zip.ZipFile;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 
 import com.archimatetool.editor.model.impl.ArchiveManager;
 import com.archimatetool.model.IArchimateModel;
@@ -138,6 +139,13 @@ public interface IArchiveManager {
      * @throws Exception
      */
     Image createImage(String imagePath) throws Exception;
+    
+    /**
+     * Create a new ImageData for this path entry
+     * @param imagePath The image imagePath
+     * @return The ImageData or null
+     */
+    ImageData createImageData(String imagePath);
 
     /**
      * Get a copy of the list of Image entry paths as used in the model.<p>
