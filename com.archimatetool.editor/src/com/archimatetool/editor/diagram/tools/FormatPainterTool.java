@@ -5,12 +5,15 @@
  */
 package com.archimatetool.editor.diagram.tools;
 
+import java.io.IOException;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
@@ -24,6 +27,7 @@ import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -253,16 +257,28 @@ public class FormatPainterTool extends AbstractTool {
             IIconic source = (IIconic)pf.getSourceComponent();
             IIconic target = (IIconic)targetComponent;
             
-            // Image Path - if source and target models are the same
-            if(source.getArchimateModel() == target.getArchimateModel()) {
-                Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, source.getImagePath()); //$NON-NLS-1$
-                if(cmd.canExecute()) {
-                    result.add(cmd);
+            // If we have an image path and the source and target models are different, copy the image bytes
+            String imagePath = source.getImagePath();
+            if(imagePath != null && source.getArchimateModel() != target.getArchimateModel()) {
+                IArchiveManager sourceArchiveManager = (IArchiveManager)source.getAdapter(IArchiveManager.class);
+                IArchiveManager targetArchiveManager = (IArchiveManager)target.getAdapter(IArchiveManager.class);
+                
+                try {
+                    imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                    Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
                 }
             }
             
+            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, imagePath); //$NON-NLS-1$
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+            
             // Image position
-            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
+            cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.ICONIC__IMAGE_POSITION, source.getImagePosition()); //$NON-NLS-1$
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
