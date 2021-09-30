@@ -23,6 +23,7 @@ openFile
 -Dosgi.configuration.area=&quot;@user.home/Library/Application Support/Archi4/.config&quot;
 -Dorg.eclipse.equinox.p2.reconciler.dropins.directory=&quot;%user.home%/Library/Application Support/Archi4/dropins&quot;
 -XstartOnFirstThread
+-Xdock:icon=../Resources/icon.icns
       </vmArgsMac>
       <vmArgsWin>-Dosgi.instance.area=@user.home/AppData/Roaming/Archi4
 -Dosgi.configuration.area=@user.home/AppData/Roaming/Archi4/.config
