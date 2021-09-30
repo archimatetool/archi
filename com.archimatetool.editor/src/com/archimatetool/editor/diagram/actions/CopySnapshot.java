@@ -49,6 +49,9 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -540,11 +543,6 @@ public final class CopySnapshot {
                 String name = dmo.getArchimateElement().getName();
                 dmo.getArchimateElement().setName(name + " " + Messages.CopySnapshot_1); //$NON-NLS-1$
             }
-            
-            // Remove Profile references if pasting to different model
-            if(!isSourceAndTargetArchiMateModelSame()) {
-                dmo.getArchimateElement().getProfiles().clear();
-            }
         }
 
         // Add to Mapping
@@ -581,11 +579,6 @@ public final class CopySnapshot {
                     IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fOriginalToSnapshotComponentsMapping.getKey(snapshotConnection);
                     IArchimateRelationship relationship = originalDiagramConnection.getArchimateRelationship();
                     ((IDiagramModelArchimateConnection)newConnection).setArchimateRelationship(relationship);
-                }
-                
-                // Remove Profile references if pasting to different model
-                if(newConnection instanceof IDiagramModelArchimateConnection && !isSourceAndTargetArchiMateModelSame()) {
-                    ((IDiagramModelArchimateConnection)newConnection).getArchimateRelationship().getProfiles().clear();
                 }
             }
         }
@@ -690,7 +683,7 @@ public final class CopySnapshot {
             if(object instanceof IDiagramModelObject) {
                 IDiagramModelObject dmo = (IDiagramModelObject)object;
                 
-                Point pt = new Point(dmo .getBounds().getX(), dmo.getBounds().getY());
+                Point pt = new Point(dmo.getBounds().getX(), dmo.getBounds().getY());
                 translateToAbsolute(dmo, pt);
                 
                 // If this object has a parent that is also selected, ignore it
@@ -724,6 +717,9 @@ public final class CopySnapshot {
         private GraphicalViewer viewer;
         private boolean doAddArchimateComponentToModel;
         
+        private List<IProfile> previousTargetModelProfiles;
+        private List<IProfile> newTargetModelProfiles;
+        
         PasteCommand(IDiagramModel targetDiagramModel, List<IDiagramModelObject> topLevelObjects,
                                 List<IDiagramModelConnection> connections, GraphicalViewer viewer, boolean doAddArchimateComponentToModel) {
             
@@ -738,33 +734,39 @@ public final class CopySnapshot {
 
         @Override
         public void execute() {
-            // Add top-level objects to diagram
-            for(IDiagramModelObject dmo : topLevelObjects) {
-                targetDiagramModel.getChildren().add(dmo);
+            // Pasting to a different model so handle these cases...
+            // NOTE - We need to copy any images *before* pasting the diagram objects so the image is displayed when pasting
+            if(!isSourceAndTargetArchiMateModelSame()) {
+                // Store a *copy* of the target model's Profiles
+                previousTargetModelProfiles = List.copyOf(targetDiagramModel.getArchimateModel().getProfiles());
+                newTargetModelProfiles = new ArrayList<>();
                 
-                // If it's an Archimate model type then add the Archimate model object and its children to a default folder
-                if(doAddArchimateComponentToModel) {
-                    addArchimateComponentsToModel(dmo);
-                }
-            }
-            
-            // Add relationships to model if necessary
-            if(doAddArchimateComponentToModel) {
-                for(IDiagramModelConnection dmc : connections) {
-                    // If it's an Archimate model type Add relationship to default folder
-                    // This action will assign an ID to the concept
-                    if(dmc instanceof IDiagramModelArchimateConnection) {
-                        ((IDiagramModelArchimateConnection)dmc).addArchimateConceptToModel(null);
+                for(Iterator<EObject> iter = EcoreUtil.getAllContents(topLevelObjects); iter.hasNext();) {
+                    EObject eObject = iter.next();
+                    
+                    // Copy image bytes
+                    if(eObject instanceof IDiagramModelImageProvider) {
+                        copyImageToTargetModel((IDiagramModelImageProvider)eObject);
+                    }
+
+                    // Copy Profiles
+                    if(eObject instanceof IDiagramModelArchimateComponent) {
+                        copyProfiles(((IDiagramModelArchimateComponent)eObject).getArchimateConcept());
                     }
                 }
             }
             
-            // Copy Image Bytes to target model if different model
-            if(!isSourceAndTargetArchiMateModelSame()) {
-                copyImageBytes();
+            copyObjects();
+        }
+        
+        @Override
+        public void redo() {
+            // Pasting to a different model so redo the target model's profiles
+            if(!isSourceAndTargetArchiMateModelSame() && !newTargetModelProfiles.isEmpty()) {
+                targetDiagramModel.getArchimateModel().getProfiles().addAll(newTargetModelProfiles);
             }
             
-            selectNewObjects();
+            copyObjects();
         }
         
         @Override
@@ -788,41 +790,88 @@ public final class CopySnapshot {
                     }
                 }
             }
+            
+            // Pasting to a different model so undo the target model's profiles if we have added any new ones
+            if(!isSourceAndTargetArchiMateModelSame() && !newTargetModelProfiles.isEmpty()) {
+                targetDiagramModel.getArchimateModel().getProfiles().clear();
+                targetDiagramModel.getArchimateModel().getProfiles().addAll(previousTargetModelProfiles);
+            }
+        }
+        
+        private void copyObjects() {
+            // Add top-level objects to diagram
+            for(IDiagramModelObject dmo : topLevelObjects) {
+                targetDiagramModel.getChildren().add(dmo);
+                
+                // If it's an Archimate model type then add the Archimate model object and its children to a default folder
+                if(doAddArchimateComponentToModel) {
+                    addArchimateComponentsToModel(dmo);
+                }
+            }
+            
+            // Add relationships to model if necessary
+            if(doAddArchimateComponentToModel) {
+                for(IDiagramModelConnection dmc : connections) {
+                    // If it's an Archimate model type Add relationship to default folder
+                    // This action will assign an ID to the concept
+                    if(dmc instanceof IDiagramModelArchimateConnection) {
+                        ((IDiagramModelArchimateConnection)dmc).addArchimateConceptToModel(null);
+                    }
+                }
+            }
+
+            // Select them
+            selectNewObjects();
         }
         
         /**
-         * Copy Image Bytes to target model for all canvas objects
+         * Copy Profiles or re-use existing ones in different target model
          */
-        private void copyImageBytes() {
+        private void copyProfiles(IProfiles profilesObject) {
+            for(IProfile profile : profilesObject.getProfiles()) {
+                // Does the target model have this profile by name and type?
+                IProfile targetProfile = ArchimateModelUtils.getProfileByNameAndType(targetDiagramModel.getArchimateModel(), profile.getName(), profile.getConceptType());
+                
+                // No, so add a copy of the snapshot's profile to the target model
+                if(targetProfile == null) {
+                    targetProfile = (IProfile)profile.getCopy();
+                    fTargetDiagramModel.getArchimateModel().getProfiles().add(targetProfile);
+                    newTargetModelProfiles.add(targetProfile);
+                    // And copy the Profile image, if any
+                    copyImageToTargetModel(profile);
+                }
+                
+                // Set the target profile in the concept
+                profilesObject.getProfiles().clear(); // we only support one profile
+                profilesObject.getProfiles().add(targetProfile);
+            }
+        }
+        
+        /**
+         * Copy image bytes to different target model
+         */
+        private void copyImageToTargetModel(IDiagramModelImageProvider imageProvider) {
             IArchiveManager sourceArchiveManager = (IArchiveManager)fSourceArchimateModel.getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)targetDiagramModel.getAdapter(IArchiveManager.class);
 
-            for(Iterator<EObject> iter = EcoreUtil.getAllContents(topLevelObjects); iter.hasNext();) {
-                EObject eObject = iter.next();
-                
-                if(eObject instanceof IDiagramModelImageProvider) {
-                    IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)eObject;;
-                    String imagePath = dmo.getImagePath();
-                    if(imagePath != null) {
-                        try {
-                            imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
-                            dmo.setImagePath(imagePath);
-                        }
-                        catch(IOException ex) {
-                            ex.printStackTrace();
-                            Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
-                        }
-                    }
+            String imagePath = imageProvider.getImagePath();
+            if(imagePath != null) {
+                try {
+                    imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
+                    imageProvider.setImagePath(imagePath);
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                    Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
                 }
             }
         }
         
         /**
-         * Recurse all objects and add to folder in model, thus assigning IDs
+         * Recurse all objects and add to folder in model
          */
         private void addArchimateComponentsToModel(IDiagramModelObject dmo) {
             // If it's an Archimate model type then add the Archimate model object to a default folder
-            // This action will assign an ID to the component
             if(dmo instanceof IDiagramModelArchimateObject) {
                 ((IDiagramModelArchimateObject)dmo).addArchimateConceptToModel(null);
             }
@@ -873,6 +922,8 @@ public final class CopySnapshot {
             topLevelObjects = null;
             connections = null;
             viewer = null;
+            previousTargetModelProfiles = null;
+            newTargetModelProfiles = null;
         }
     }
  }
