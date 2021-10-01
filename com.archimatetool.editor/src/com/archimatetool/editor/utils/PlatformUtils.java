@@ -47,10 +47,24 @@ public class PlatformUtils {
     }
 
     /**
-     * @return True if we're running on a 64-bit platform
+     * @return True if we're running on a x86 64bit-based architecture.
      */
-    public static boolean is64Bit() {
+    public static boolean isX86_64() {
         return Platform.getOSArch().equals(Platform.ARCH_X86_64);
+    }
+    
+    /**
+     * @return True if we're running on a AARCH64 bit-based architecture.
+     */
+    public static boolean isAarch64() {
+        return Platform.getOSArch().equals(Platform.ARCH_AARCH64);
+    }
+    
+    /**
+     * @return True if we're running on Apple Silicon
+     */
+    public static boolean isAppleSilicon() {
+        return isMac() && isAarch64();
     }
     
     /**

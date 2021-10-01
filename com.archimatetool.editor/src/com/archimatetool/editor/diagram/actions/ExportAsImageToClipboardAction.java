@@ -62,7 +62,7 @@ public class ExportAsImageToClipboardAction extends WorkbenchPartAction {
                     cb = new Clipboard(Display.getDefault());
                     
                     // Use different Transfer for Linux64
-                    Transfer transfer = (PlatformUtils.isLinux() && PlatformUtils.is64Bit()) ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
+                    Transfer transfer = PlatformUtils.isLinux() ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
                     
                     cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
                 }
