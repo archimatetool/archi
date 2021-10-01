@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
@@ -38,7 +39,7 @@ public class NavigatorViewer extends TreeViewer {
     private boolean fShowTargetElements = true;
     
     public NavigatorViewer(Composite parent, int style) {
-        super(parent, style | SWT.MULTI);
+        super(parent, style | SWT.MULTI | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
         
         UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, true);
         

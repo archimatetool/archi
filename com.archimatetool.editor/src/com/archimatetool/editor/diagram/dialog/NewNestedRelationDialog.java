@@ -42,6 +42,7 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -145,7 +146,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         List<NestedConnectionInfo> validRelations;
         
         RelationsTableViewer(Composite parent, int style) {
-            super(parent, SWT.FULL_SELECTION | style);
+            super(parent, SWT.FULL_SELECTION | style | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
             
             setColumns();
             

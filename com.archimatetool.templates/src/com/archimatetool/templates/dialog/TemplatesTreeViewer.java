@@ -12,10 +12,12 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 
@@ -33,7 +35,7 @@ public class TemplatesTreeViewer extends TreeViewer {
      * @param style
      */
     public TemplatesTreeViewer(Composite parent, int style) {
-        super(parent, style);
+        super(parent, style | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
         setContentProvider(new TemplatesTreeViewerContentProvider());
         setLabelProvider(new TemplatesTreeViewerLabelProvider());
         setComparator(new ViewerComparator());

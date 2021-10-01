@@ -386,7 +386,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
     private class ModelsViewer extends TableViewer {
         public ModelsViewer(Composite parent) {
-            super(parent, SWT.FULL_SELECTION);
+            super(parent, SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
             setColumns();
             setContentProvider(new ModelsViewerContentProvider());
             setLabelProvider(new ModelsViewerLabelProvider());

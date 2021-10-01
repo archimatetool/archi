@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Table;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
@@ -225,7 +226,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
         
         private class RelationsTableViewer extends TableViewer {
             RelationsTableViewer(Composite parent, int style) {
-                super(parent, SWT.FULL_SELECTION | style);
+                super(parent, SWT.FULL_SELECTION | style | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
                 
                 setColumns();
                 

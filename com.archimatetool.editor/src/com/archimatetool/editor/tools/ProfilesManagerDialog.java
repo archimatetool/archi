@@ -79,6 +79,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -239,7 +240,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         tableComp.setLayout(tableLayout);
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(tableComp);
 
-        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
+        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(fTableViewer.getControl());
 
         // Edit cell on single-click and add Tab key traversal
