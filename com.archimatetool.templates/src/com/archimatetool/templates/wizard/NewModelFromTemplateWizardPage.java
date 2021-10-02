@@ -45,7 +45,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.dialog.TemplateManagerDialog;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
@@ -156,7 +155,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         layout = new GridLayout();
         layout.marginWidth = 0;
         layout.marginHeight = 0;
-        layout.verticalSpacing = 0;
+        //layout.verticalSpacing = 0;
         galleryComposite.setLayout(layout);
         
         fGallery = new Gallery(galleryComposite, SWT.V_SCROLL | SWT.BORDER);
@@ -182,9 +181,6 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         final Scale scale = new Scale(galleryComposite, SWT.HORIZONTAL);
         gd = new GridData(SWT.END, SWT.NONE, false, false);
         gd.widthHint = 120;
-        if(PlatformUtils.isMac()) { // Mac clips height of slider
-            gd.heightHint = 20;
-        }
         scale.setLayoutData(gd);
         scale.setMaximum(480);
         scale.setMinimum(64);
