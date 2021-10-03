@@ -16,6 +16,10 @@ public class Messages extends NLS {
 
     public static String CSVImporter_12;
 
+    public static String CSVImporter_13;
+
+    public static String CSVImporter_14;
+
     public static String CSVImporter_2;
 
     public static String CSVImporter_3;

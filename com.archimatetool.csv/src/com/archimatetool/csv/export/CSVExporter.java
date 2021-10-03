@@ -30,6 +30,7 @@ import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IJunction;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperty;
 
 
@@ -324,6 +325,10 @@ public class CSVExporter implements CSVConstants {
         
         String purpose = normalise(fModel.getPurpose());
         sb.append(surroundWithQuotes(purpose));
+        sb.append(fDelimiter);
+        
+        // Specialization dummy entry
+        sb.append("\"\""); //$NON-NLS-1$
         
         return sb.toString();
     }
@@ -334,19 +339,29 @@ public class CSVExporter implements CSVConstants {
     String createElementRow(IArchimateElement element) {
         StringBuffer sb = new StringBuffer();
         
+        // ID
         String id = element.getId();
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
+        // Class
         sb.append(surroundWithQuotes(element.eClass().getName()));
         sb.append(fDelimiter);
         
+        // Name
         String name = normalise(element.getName());
         sb.append(surroundWithQuotes(name));
         sb.append(fDelimiter);
         
+        // Documentation
         String documentation = normalise(element.getDocumentation());
         sb.append(surroundWithQuotes(documentation));
+        sb.append(fDelimiter);
+        
+        // Specialization
+        IProfile profile = element.getPrimaryProfile();
+        String specialization = normalise(profile != null ? profile.getName() : ""); //$NON-NLS-1$
+        sb.append(surroundWithQuotes(specialization));
         
         return sb.toString();
     }
@@ -357,21 +372,26 @@ public class CSVExporter implements CSVConstants {
     String createRelationshipRow(IArchimateRelationship relationship) {
         StringBuffer sb = new StringBuffer();
         
+        // ID
         String id = relationship.getId();
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
+        // Class
         sb.append(surroundWithQuotes(relationship.eClass().getName()));
         sb.append(fDelimiter);
         
+        // Name
         String name = normalise(relationship.getName());
         sb.append(surroundWithQuotes(name));
         sb.append(fDelimiter);
         
+        // Documentation
         String documentation = normalise(relationship.getDocumentation());
         sb.append(surroundWithQuotes(documentation));
         sb.append(fDelimiter);
         
+        // Source
         if(relationship.getSource() != null) {
             String sourceID = relationship.getSource().getId();
             sb.append(surroundWithQuotes(sourceID));
@@ -381,6 +401,7 @@ public class CSVExporter implements CSVConstants {
         }
         sb.append(fDelimiter);
         
+        // Target
         if(relationship.getTarget() != null) {
             String targetID = relationship.getTarget().getId();
             sb.append(surroundWithQuotes(targetID));
@@ -388,6 +409,12 @@ public class CSVExporter implements CSVConstants {
         else {
             sb.append("\"\""); //$NON-NLS-1$
         }
+        sb.append(fDelimiter);
+        
+        // Specialization
+        IProfile profile = relationship.getPrimaryProfile();
+        String specialization = normalise(profile != null ? profile.getName() : ""); //$NON-NLS-1$
+        sb.append(surroundWithQuotes(specialization));
         
         return sb.toString();
     }

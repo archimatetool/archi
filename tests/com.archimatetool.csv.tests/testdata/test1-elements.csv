@@ -1,12 +1,12 @@
-"ID","Type","Name","Documentation"
+"ID","Type","Name","Documentation","Specialization"
 "862677a6","ArchimateModel","Test Model","This is the Purpose of the Model.
 It has a line break and ""some"" quotes.
-"
+",""
 "f00aa5b4","BusinessActor","Business Actor","This is the Business Actor
 Documentation
 Here """"
-"
-"d9fe8c17","BusinessInterface","Business Interface",""
+","Specialization1"
+"d9fe8c17","BusinessInterface","Business Interface","",""
 "f6a18059","BusinessRole","Business Role","Some more docs
 Here
-"
+",""

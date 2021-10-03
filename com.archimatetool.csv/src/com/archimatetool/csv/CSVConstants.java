@@ -20,11 +20,11 @@ public interface CSVConstants {
     String ARCHIMATE_MODEL_TYPE = "ArchimateModel";
     
     String[] MODEL_ELEMENTS_HEADER = {
-            "ID", "Type", "Name", "Documentation"
+            "ID", "Type", "Name", "Documentation", "Specialization"
     };
     
     String[] RELATIONSHIPS_HEADER = {
-        "ID", "Type", "Name", "Documentation", "Source", "Target"
+        "ID", "Type", "Name", "Documentation", "Source", "Target", "Specialization"
     };
 
     String[] PROPERTIES_HEADER = {

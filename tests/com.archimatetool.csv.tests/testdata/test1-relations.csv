@@ -1,8 +1,8 @@
-"ID","Type","Name","Documentation","Source","Target"
+"ID","Type","Name","Documentation","Source","Target","Specialization"
 "cdbfc933","AssignmentRelationship","Assignment relation","Assignment documentation
-Is here ""hello""","f00aa5b4","f6a18059"
+Is here ""hello""","f00aa5b4","f6a18059",""
 "5854f8a3","CompositionRelationship","Compo","Here it is
 again
 
 
-","f00aa5b4","d9fe8c17"
+","f00aa5b4","d9fe8c17",""

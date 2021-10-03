@@ -20,6 +20,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperty;
 
 import junit.framework.JUnit4TestAdapter;
@@ -126,19 +127,19 @@ public class CSVExporterTests {
 
     @Test
     public void testCreateModelRow() {
-        assertEquals("\"0a9d34ab\",\"ArchimateModel\",\"The Main Model\",\"This is the Documentation\"", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\",\"ArchimateModel\",\"The Main Model\",\"This is the Documentation\",\"\"", exporter.createModelRow());
     }
     
     @Test
     public void testCreateModelRowWithSemicolon() {
         exporter.setDelimiter(';');
-        assertEquals("\"0a9d34ab\";\"ArchimateModel\";\"The Main Model\";\"This is the Documentation\"", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\";\"ArchimateModel\";\"The Main Model\";\"This is the Documentation\";\"\"", exporter.createModelRow());
     }
     
     @Test
     public void testCreateModelRowWithTab() {
         exporter.setDelimiter('\t');
-        assertEquals("\"0a9d34ab\"\t\"ArchimateModel\"\t\"The Main Model\"\t\"This is the Documentation\"", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\"\t\"ArchimateModel\"\t\"The Main Model\"\t\"This is the Documentation\"\t\"\"", exporter.createModelRow());
     }
     
     @Test
@@ -148,7 +149,11 @@ public class CSVExporterTests {
         element.setName("The Main Man");
         element.setDocumentation("This is the Documentation");
         
-        assertEquals("\"a1234567\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"", exporter.createElementRow(element));
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setName("Profile");
+        element.getProfiles().add(profile);
+        
+        assertEquals("\"a1234567\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\",\"Profile\"", exporter.createElementRow(element));
     }
     
     @Test
@@ -159,7 +164,7 @@ public class CSVExporterTests {
         element.setDocumentation("This is the\r\nDocumentation");
         exporter.setStripNewLines(true);
         
-        assertEquals("\"d452fda\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"", exporter.createElementRow(element));
+        assertEquals("\"d452fda\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\",\"\"", exporter.createElementRow(element));
     }
 
     @Test
@@ -171,7 +176,7 @@ public class CSVExporterTests {
         
         exporter.setExcelCompatible(true);
         
-        assertEquals("\"=\"\"087dfa23\"\"\",\"BusinessActor\",\"=\"\"  The Main Man\"\"\",\"=\"\"0123\"\"\"", exporter.createElementRow(element));
+        assertEquals("\"=\"\"087dfa23\"\"\",\"BusinessActor\",\"=\"\"  The Main Man\"\"\",\"=\"\"0123\"\"\",\"\"", exporter.createElementRow(element));
     }
 
     @Test
@@ -188,7 +193,11 @@ public class CSVExporterTests {
         relation.setSource(elementSource);
         relation.setTarget(elementTarget);
         
-        assertEquals("\"56435fd6\",\"AccessRelationship\",\"My relation\",\"This is the Documentation\",\"cfde5463e\",\"b1234dff\"",
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setName("Profile");
+        relation.getProfiles().add(profile);
+        
+        assertEquals("\"56435fd6\",\"AccessRelationship\",\"My relation\",\"This is the Documentation\",\"cfde5463e\",\"b1234dff\",\"Profile\"",
                 exporter.createRelationshipRow(relation));
     }
     

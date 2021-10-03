@@ -1,10 +1,10 @@
-"ID","Type","Name","Documentation"
-"862677a6","ArchimateModel","Test Model changed","Model Documentation Changed"
+"ID","Type","Name","Documentation","Specialization"
+"862677a6","ArchimateModel","Test Model changed","Model Documentation Changed",""
 "f00aa5b4","BusinessActor","Name changed","This is the Business Actor
 Documentation
 Here """"
-"
-"d9fe8c17","BusinessInterface","Business Interface",""
+",""
+"d9fe8c17","BusinessInterface","Business Interface","",""
 "f6a18059","BusinessRole","Business Role","Some more docs
 Here
-"
+",""
