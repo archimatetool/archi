@@ -1,6 +1,8 @@
 HTML Help file authoring notes
 ------------------------------
 * Screenshots are based on the Archi application being sized to 1011x763 pixels
+* No plug-ins are installed!
+* -Dshowheap is off!
 * Images should be no wider than 700 pixels
 * If an image is sized differently to its original size then set both the height and width attributes of <img>
   in order to be sized properly in Word. Otherwise if an image is a 1:1 size you can omit both the width and height attributes
@@ -11,3 +13,31 @@ Edit the source HTML files in the com.archimatetool.help/help folder
 --------------------------------------------------------------------
 * Ensure that "contexts.xml" is up to date
 * Ensure that "toc.xml" is up to date and corresponds to com.archimatetool.build/html_contents.list
+
+
+
+Screenshots that could be updated at some point
+-----------------------------------------------
+
+canvas_details.html
+  canvas_example1.png
+  canvas_example2.png
+  canvas_example4.png
+  canvas_example5.png
+  
+canvas_getting_started.html
+  canvas_new_from_template.png
+  canvas_bmc2.png
+  
+canvas.html
+  canvas_bmc.png
+  
+sketch_view.html
+  sketch1.png
+
+validator.html
+  validator1.png
+  validator2.png
+
+view_reference.html
+  view_refs.png

@@ -15,15 +15,17 @@
     <h2>Export Model To CSV</h2>
     
     <p>You can export a model's data to CSV format (Comma Separated Values). The data is exported in three different files - "elements.csv", "relations.csv" and "properties.csv". All data objects are identified by unique identifiers so that a property will reference an element or relation in the other files.</p>
-    <p>This option is available from the "Export Model To  CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled.</p>
+    <p>This option is available from the "Export Model To CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled.</p>
     
     <img src="../Images/csv-export.png" alt="export-csv"/>
     <p class="caption">Exporting the model to CSV</p>
     
     <br/>
-    <p>The CSV field format for elements is - "ID", "Type", "Name", "Documentation"</p>
-    <p>The CSV field format for relations is - "ID","Type", "Name", "Documentation", "Source", "Target"</p>
+    <p>The CSV field format for elements is - "ID", "Type", "Name", "Documentation", "Specialization"</p>
+    <p>The CSV field format for relations is - "ID","Type", "Name", "Documentation", "Source", "Target", "Specialization"</p>
     <p>The CSV field format for properties is - "ID", "Key", "Value"</p>
+
+    <p><em>Note - the "Specialization" field is optional when importing.</em></p>
     
     <h3>Export Options</h3>
     <p><strong>Output Folder</strong><br/>
@@ -64,8 +66,8 @@
 
     <p>It is also possible to merge/update the imported CSV data into an existing model. If a model concept already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
     
-    <p style="font-style:italic;">"ID","Type","Name","Documentation"<br/>
-       "9240f5bf","BusinessActor","New Name","Additional Documentation" 
+    <p style="font-style:italic;">"ID","Type","Name","Documentation", "Specialization"<br/>
+       "9240f5bf","BusinessActor","New Name","Additional Documentation", "Specialization Name"
     </p>
 
     <p>You can import just one or two CSV files into an existing model. If you import just an "elements.csv" file then only elements will be imported. If you then import a "relations.csv" file that uses the corresponding concept IDs you can import just the relations. The same is true for the "properties.csv" file.</p>

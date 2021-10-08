@@ -12,7 +12,7 @@
 
     <h2>Element Appearance Properties</h2>
     
-    <p>Selecting an element in a View means that you can edit or view additional visual properties in the  Properties Window. Different visual settings can be applied to an element for each separate occurrence in a View. For example, the element "Application Service" may be coloured blue in one View, and grey in another View.</p>
+    <p>Selecting an element in a View means that you can edit or view additional visual properties in the Properties Window. Different visual settings can be applied to an element for each separate occurrence in a View. For example, the element "Application Service" may be coloured blue in one View, and grey in another View.</p>
     
     <br/>
     
@@ -82,35 +82,42 @@
     <img src="../Images/properties_figure.png"/>
     <p class="caption">Setting the "Figure" Properties for a Device</p>
     
-    <p>This tab is only available when an element is selected in a View and only for certain figures.</p>
-    
-    <p>Some elements can be represented by alternate figures. These are:</p>
-    
-    <ul>
-      <li>Application Component</li>
-      <li>Application Event</li>
-      <li>Application Interface</li>
-      <li>Application Process</li>
-      <li>Application Service</li>
-      <li>Business Event</li>
-      <li>Business Interface</li>
-      <li>Business Process</li>
-      <li>Business Service</li>
-      <li>Constraint</li>
-      <li>Device</li>
-      <li>Grouping</li>
-      <li>Implementation Event</li>
-      <li>Node</li>
-      <li>Requirement</li>
-      <li>Technology Event</li>
-      <li>Technology Interface</li>
-      <li>Technology Process</li>
-      <li>Technology Service</li>
-      <li>Value Stream</li>
-     </ul>
-    
+    <p>Select the figure to use for an ArchiMate element in a View. This tab is only available when an element is selected in a View and only for ArchiMate elements.</p>
+        
     <p>The default figure to use when creating new elements can be set in <a href="prefs_diagram.html">Preferences</a>.</p>
     
+    <p>&nbsp;</p>
+    
+    <p class="font12"><strong>The Image Tab</strong></p>
+    
+    <img src="../Images/properties_element_image.png"/>
+    <p class="caption">Image Properties for an Element</p>
+    
+    <p>An Image can be displayed for an ArchiMate element in a View either from its Specialization or from a custom image.</p>
+
+    <table>
+      <tr valign="top">
+        <td><strong>Show Icon:</strong></td>
+        <td>Whether to show the small icon for an ArchiMate figure. Options are "If no image defined", "Always", and "Never".</td>
+      </tr>
+      <tr valign="top">
+        <td><strong>Image:</strong></td>
+        <td>Select the source of the image. If the ArchiMate object is linked to a Specialization and you want to display the Specialization's image, choose "From Specialization". Choose "Custom" if you want to display an image not linked to a Specialization.</td>
+      </tr>
+      <tr valign="top">
+        <td><strong>Preview:</strong></td>
+        <td>A preview image that shows how the image will appear. Double-clicking the Preview box will launch the Image Chooser dialog window. You can also drag and drop an image file from the desktop onto the Preview box. Note - this is disabled if "From Specialization" is selected.</td>
+      </tr>
+      <tr valign="top">
+        <td><strong>Custom Image:</strong></td>
+        <td>Select a custom image for the object or clear the image. See "<a href="image_chooser.html">Adding Images to Objects</a>" for more details. Note - this is disabled if "From Specialization" is selected.</td>
+      </tr>
+      <tr valign="top">
+        <td><strong>Position:</strong></td>
+        <td>Sets the position of the image relative to the object.</td>
+      </tr>
+    </table>
+
     <p>&nbsp;</p>
 
 </body>

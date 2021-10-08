@@ -12,12 +12,14 @@
     
     <h2>Adding Images to Objects</h2>
     
-    <p>Canvas Blocks, Image place-holders and Stickies can contain images. The images in Blocks and Stickies are icons and are resized to a maximum width and height of 100 pixels. Images can be any size but we suggest that you keep them reasonably small so as not to consume too many resources.</p>
+    <p>ArchiMate objects, Canvas Blocks, Image objects and Stickies can contain images. The images in Blocks and Stickies are icons and are resized to a maximum width and height of 100 pixels. Images can be any size but we suggest that you keep them reasonably small so as not to consume too many resources.</p>
     
-    <p>To add an image to one of these objects, open the Properties window and select the object. Double-clicking the object on the Canvas will also open the Properties window. Find the Image tab in the Properties window and select the Image Chooser with the "Set Image..." option:</p>
+    <p>To add an image to one of these objects, open the Properties window and select the object. Double-clicking the object will also open the Properties window. Find the Image tab in the Properties window and select the Image Chooser with the "Image Choose..." button:</p>
     
     <img src="../Images/image_chooser.png" alt="image" />
     <p class="caption">Selecting the Image Chooser from the Properties window</p>
+
+    <p>Note - In order to set an image for an ArchiMate object you must first ensure that "Custom " is selected in the Image source dropdown.</p>
     
     <p>This will open the "My Images" Image Chooser dialog window:</p>
     
@@ -28,9 +30,11 @@
     
     <br/>
     
-    <div class="boxout"><img src="../Images/tip.png" class="tipImage" alt="tip"/>You can drag and drop Image files from the desktop to the Canvas.</div>
+    <div class="boxout"><img src="../Images/tip.png" class="tipImage" alt="tip"/>In Canvas Views, you can drag and drop Image files from the desktop to the Canvas.</div>
     
     <br/>
+
+    <p class="boxout"><img src="../Images/tip.png" class="tipImage" alt="tip"/><strong>Archi uses a different file format for "*.archimate" files when adding images.</strong><br/>Normally Archi saves "*.archimate" files as single plain text XML format files. However, when images are used the file format used is a binary archive file (zip format) that contains both the model's XML file and the image files. This is to keep all related files together.</p>
     
     <p><strong>Removing an image from an object</strong></p>
     

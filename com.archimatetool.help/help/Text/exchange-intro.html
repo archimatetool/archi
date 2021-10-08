@@ -11,12 +11,12 @@
 <body>
     <h1 class="pagebreak">The Open Group Exchange File Format</h1>
     
-    <p>The Open Group standard defines a standard file format that supports exchange of ArchiMate models between tools. The scope of the standard is restricted to the elements and the relationships of an ArchiMate model. It excludes features that are vendor-specific, although addresses how these can be accommodated. The exchange file format contains basic model information including:</p>
+    <p>The Open Group standard defines a standard file format that supports exchange of ArchiMate models between tools. The scope of the standard is restricted to the elements and the relationships of an ArchiMate model. It excludes features that are vendor-specific, although addresses how these can be accommodated. The exchange file format contains model information including:</p>
     
     <ul>
-        <li>Objects of all ArchiMate types with basic attributes</li>
+        <li>Objects of all ArchiMate concepts with basic attributes (properties)</li>
         <li>Relationship details between objects</li>
-        <li>Diagrammatic information (Phase 2)</li>
+        <li>Diagrammatic information</li>
     </ul>
     
     <p>The exchange file format is not intended as a persistent file format for the model itself, it is a mechanism to convey instance data from one tool to another . The data contained in the exchange file format is meant to be processed by an "ArchiMate aware" tool, thus ruling out standalone semantic inference. Once the instance data has been imported into an ArchiMate tool, that tool will probably save it in its own proprietary file format.</p>

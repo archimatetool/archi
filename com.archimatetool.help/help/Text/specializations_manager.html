@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Specializations Manager</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1 class="pagebreak">Specializations Manager</h1>
+    
+    <p>The Specializations Manager allows you to create, modify and delete specializations of ArchiMate concepts.</p>
+
+    <h2>Background</h2>
+    <p>The ArchiMate specification describes the use of specialization of elements and relationships:</p>
+
+    <blockquote>
+        <p>"Specialization is a simple and powerful way to define new elements or relationships based on the existing ones. Specialized elements inherit the properties of their generalized elements... Also, new graphical notation could be introduced for a specialized concept, but preferably with a resemblance to the notation of the generalized concept; e.g., by adding an icon or other graphical marker, or changing the existing icon. A specialized element or relationship strongly resembles a stereotype as it is used in UML. The stereotype notation with angled brackets may also be used to denote a specialized concept."</p>
+    </blockquote>
+  
+    <p>For more information see <a href="https://pubs.opengroup.org/architecture/archimate31-doc/chap15.html">Language Customization Mechanisms</a>.</p>
+
+    <br/>
+
+    <h2>Using the Specializations Manager</h2>
+
+    <p>The Specializations Manager is available from the main "Tools" menu and by clicking the "..." button to the right of an object's Specialization in the <a href="properties_window.html">Properties Window</a>.</p>
+    
+    <img src="../Images/specialization_manager.png"/>
+    <p class="caption">The Specializations Manager</p>
+
+    <br/>
+    
+    <h3>Creating a new Specialization</h3>
+    <p>To create a new specialization, click the "New" button or double-click in the table. Provide a name and select the concept type that the specialization will be restricted to. Note that you cannot have more than one specialization with the same name and concept type. If the specialization is used in a model, the number of instances is displayed in the "Instances" column.</p>
+
+    <h3>Deleting a Specialization</h3>
+    <p>To delete one or more specializations, select them in the table and press the "Delete" button. Any concepts that reference the deleted specialization will no longer reference it.</p>
+
+    <h3>Adding or removing an image for a Specialization</h3>
+    <p>Element specializations (except Junction) can also be associated with an image which will be displayed when the specialization Element is used in a View. Select an image for the object or clear the image from the "Image..." button or by double-clicking in the image preview box. See "<a href="image_chooser.html">Adding Images to Objects</a>" for more details.</p>
+
+    <h3>Applying a Specialization to an ArchiMate concept</h3>
+    <p>A Specialization can be applied to a concept by selecting it in its <a href="properties_element.html">Properties Window</a>.</p>
+
+    <p>&nbsp;</p>
+
+</body>
+</html>

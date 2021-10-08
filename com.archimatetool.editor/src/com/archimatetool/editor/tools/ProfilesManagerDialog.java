@@ -94,7 +94,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  */
 public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELP_ID = "com.archimatetool.help.profiles"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.ProfilesManagerDialog"; //$NON-NLS-1$
     
     private static final int IMAGE_SIZE = 100;
     

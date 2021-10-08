@@ -205,5 +205,9 @@
        <description>Import a Model into the Current Model</description>
        <topic href="help/Text/import-model.html" label="Import a Model into the Current Model"/>
     </context>
+    <context id="ProfilesManagerDialog">
+       <description>Manage specializations of concepts</description>
+       <topic href="help/Text/specializations_manager.html" label="Specializations Manager"/>
+    </context>
     
 </contexts>
