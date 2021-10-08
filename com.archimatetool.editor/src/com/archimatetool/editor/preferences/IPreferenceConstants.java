@@ -130,6 +130,8 @@ public interface IPreferenceConstants {
     String ANIMATION_VIEW_TIME = "animationViewTime";
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes";
     String ANIMATE_VISUALISER_TIME = "animationVisualiserTime";
+    
+    String EDGE_BROWSER = "edgeBrowser";
 
     // ======================================= Internal =======================================
     

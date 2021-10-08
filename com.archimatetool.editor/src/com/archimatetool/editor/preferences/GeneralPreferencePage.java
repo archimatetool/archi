@@ -21,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -43,6 +44,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fWarnOnDeleteButton;
     
     private Button fScaleImagesButton;
+    
+    private Button fUseEdgeBrowserButton;
     
     private Button fUseLabelExpressionsButton;
     
@@ -133,6 +136,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.GeneralPreferencePage_14);
         label.setLayoutData(createHorizontalGridData(2));
         
+        // Edge Browser on Windows
+        if(PlatformUtils.isWindows()) {
+            fUseEdgeBrowserButton = new Button(otherGroup, SWT.CHECK);
+            fUseEdgeBrowserButton.setText(Messages.GeneralPreferencePage_15);
+            fUseEdgeBrowserButton.setLayoutData(createHorizontalGridData(2));
+            label = new Label(otherGroup, SWT.NULL);
+            label.setText(Messages.GeneralPreferencePage_19);
+            label.setLayoutData(createHorizontalGridData(2));
+        }
+        
         // -------------- Animation ----------------------------
         
         if(AnimationUtil.supportsAnimation()) {
@@ -186,6 +199,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
         
+        if(fUseEdgeBrowserButton != null) {
+            fUseEdgeBrowserButton.setSelection(getPreferenceStore().getBoolean(EDGE_BROWSER));
+        }
+        
         if(AnimationUtil.supportsAnimation()) {
             fDoAnimationViewButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VIEW));
             fAnimationViewTimeSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_VIEW_TIME));
@@ -206,6 +223,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
+        
+        if(fUseEdgeBrowserButton != null) {
+            getPreferenceStore().setValue(EDGE_BROWSER, fUseEdgeBrowserButton.getSelection());
+        }
         
         if(AnimationUtil.supportsAnimation()) {
             getPreferenceStore().setValue(ANIMATE_VIEW, fDoAnimationViewButton.getSelection());
@@ -229,6 +250,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
+        
+        if(fUseEdgeBrowserButton != null) {
+            fUseEdgeBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(EDGE_BROWSER));
+        }
         
         if(AnimationUtil.supportsAnimation()) {
             fDoAnimationViewButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VIEW));

@@ -140,6 +140,9 @@ implements IPreferenceConstants {
         store.setDefault(ANIMATION_VIEW_TIME, 200);
         store.setDefault(ANIMATE_VISUALISER_NODES, false);
         store.setDefault(ANIMATE_VISUALISER_TIME, 400);
+        
+        // Edge Browser
+        store.setDefault(EDGE_BROWSER, false);
 
         // ======================================= Internal =======================================
         

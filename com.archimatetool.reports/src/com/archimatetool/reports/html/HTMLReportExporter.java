@@ -159,7 +159,7 @@ public class HTMLReportExporter {
                 File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html", monitor);  //$NON-NLS-1$//$NON-NLS-2$
                 
                 // Open it in internal Browser
-                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$
+                BrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
                 if(editor != null && editor.getBrowser() != null) {
                     editor.getBrowser().refresh();

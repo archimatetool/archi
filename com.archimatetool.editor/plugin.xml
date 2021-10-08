@@ -959,11 +959,9 @@
             id="com.archimatetool.editor.intro.config"
             introId="com.archimatetool.editor.intro">
          <presentation
-               home-page-id="root"
-               standby-page-id="standby">
+               home-page-id="root">
             <implementation
-                  kind="html"
-                  style="style.css">
+                  kind="html">
             </implementation>
          </presentation>
       </config>

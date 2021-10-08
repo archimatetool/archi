@@ -6,13 +6,14 @@
 package com.archimatetool.editor.browser;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -55,6 +56,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
             Label label = new Label(parent, SWT.NONE);
             label.setText(Messages.BrowserEditor_0);
             label.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+            label.setForeground(new Color(255, 45, 45));
             label.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
             return;
         }
@@ -75,15 +77,16 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
     protected Browser createBrowser(Composite parent) {
         Browser browser = null;
         try {
-            // On Eclipse 3.6 set this
-            if(isGTK()) {
-                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-            }
             browser = new Browser(parent, SWT.NONE);
             browser.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
         }
         catch(SWTError error) {
             error.printStackTrace();
+            
+            // Remove junk child controls that might be created with failed load
+            for(Control child : parent.getChildren()) {
+                child.dispose();
+            }
         }
         
         return browser;
@@ -131,10 +134,6 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
     @Override
     public boolean isSaveAsAllowed() {
         return false;
-    }
-    
-    private boolean isGTK() {
-        return Platform.WS_GTK.equals(Platform.getWS());
     }
     
     @Override

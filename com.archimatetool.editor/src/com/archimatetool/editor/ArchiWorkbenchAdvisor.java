@@ -15,6 +15,8 @@ import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.perspectives.MainPerspective;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -44,7 +46,12 @@ extends WorkbenchAdvisor
         // If System Property in VM arguments is "-Dshowheap=true" then Show Heap Widget
         PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_MEMORY_MONITOR,
                 "true".equals(System.getProperty("showheap")));
-
+        
+        // Edge Browser on Windows
+        if(PlatformUtils.isWindows() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.EDGE_BROWSER)) {
+            System.setProperty("org.eclipse.swt.browser.DefaultType", "edge");
+        }
+        
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);
     }

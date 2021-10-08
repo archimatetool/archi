@@ -259,11 +259,15 @@ public class Messages extends NLS {
 
     public static String GeneralPreferencePage_14;
 
+    public static String GeneralPreferencePage_15;
+
     public static String GeneralPreferencePage_16;
 
     public static String GeneralPreferencePage_17;
 
     public static String GeneralPreferencePage_18;
+
+    public static String GeneralPreferencePage_19;
 
     public static String GeneralPreferencePage_2;
 
