@@ -125,7 +125,7 @@ public class GenerateViewCommand extends Command {
         for(IDiagramModelObject dmoSource : dm.getChildren()) {
             IArchimateElement elementSource = ((IDiagramModelArchimateObject)dmoSource).getArchimateElement();
             
-            for(IArchimateRelationship relation : elementSource.getSourceRelationships()) {
+            for(IArchimateRelationship relation : List.copyOf(elementSource.getSourceRelationships())) { // work on a copy of the list
                 for(IDiagramModelObject dmoTarget : dm.getChildren()) {
                     IArchimateElement elementTarget = ((IDiagramModelArchimateObject)dmoTarget).getArchimateElement();
                     
@@ -152,14 +152,14 @@ public class GenerateViewCommand extends Command {
                 for(IDiagramModelObject dmo : dm.getChildren()) {
                     IArchimateElement element = ((IDiagramModelArchimateObject) dmo).getArchimateElement();
                     
-                    for(IArchimateRelationship relation : connection.getArchimateRelationship().getSourceRelationships()) {
+                    for(IArchimateRelationship relation : List.copyOf(connection.getArchimateRelationship().getSourceRelationships())) { // work on a copy of the list
                         if(relation.getTarget() == element) {
                             IDiagramModelArchimateConnection newConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
                             newConnection.connect(connection, dmo);
                         }
                     }
                     
-                    for(IArchimateRelationship relation : connection.getArchimateRelationship().getTargetRelationships()) {
+                    for(IArchimateRelationship relation : List.copyOf(connection.getArchimateRelationship().getTargetRelationships())) { // work on a copy of the list
                         if(relation.getSource() == element) {
                             IDiagramModelArchimateConnection newConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
                             newConnection.connect(dmo, connection);

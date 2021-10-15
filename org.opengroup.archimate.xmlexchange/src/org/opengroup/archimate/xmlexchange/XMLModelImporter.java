@@ -865,7 +865,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
      */
     private void addNestedConnections() {
         for(IDiagramModel dm : fModel.getDiagramModels()) { // All diagrams
-            for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) { // Contents of a diagram
+            for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) { // Contents of the diagram
                 EObject eObject = iter.next();
                 
                 if(eObject instanceof IDiagramModelArchimateObject) { // ArchiMate node
@@ -878,7 +878,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                             IArchimateElement childElement = child.getArchimateElement();
                             
                             // Parent -> Child
-                            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
+                            for(IArchimateRelationship relation : List.copyOf(parentElement.getSourceRelationships())) { // work on a copy of the list
                                 if(relation.getTarget() == childElement && !DiagramModelUtils.hasDiagramModelArchimateConnection(parent, child, relation)) {
                                     IDiagramModelArchimateConnection connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
                                     connection.connect(parent, child);
@@ -886,7 +886,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                             }
                             
                             // Child -> Parent
-                            for(IArchimateRelationship relation : childElement.getSourceRelationships()) {
+                            for(IArchimateRelationship relation : List.copyOf(childElement.getSourceRelationships())) { // work on a copy of the list
                                 if(relation.getTarget() == parentElement && !DiagramModelUtils.hasDiagramModelArchimateConnection(child, parent, relation)) {
                                     IDiagramModelArchimateConnection connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
                                     connection.connect(child, parent);
