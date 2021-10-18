@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: XML Exchange Command Line
 Bundle-SymbolicName: org.opengroup.archimate.xmlexchange.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.9.1.qualifier
 Bundle-Vendor: Phillip Beauvoir, The Open Group
 Require-Bundle: com.archimatetool.commandline,
  org.opengroup.archimate.xmlexchange
