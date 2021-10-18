@@ -252,9 +252,9 @@ public class ModelImporter {
      * @return Object's Key for lookup
      */
     private String getObjectKey(EObject eObject) {
-        // Profile uses Concept Type and Name
+        // Profile uses Concept Type and Name (case-insensitive)
         if(eObject instanceof IProfile) {
-            return ((IProfile)eObject).getConceptType() + ((IProfile)eObject).getName();
+            return ((IProfile)eObject).getConceptType() + ((IProfile)eObject).getName().toLowerCase();
         }
         // Else use ID
         else if(eObject instanceof IIdentifier) {

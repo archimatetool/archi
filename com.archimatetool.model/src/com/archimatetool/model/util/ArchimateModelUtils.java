@@ -413,7 +413,7 @@ public class ArchimateModelUtils {
      */
     public static IProfile getProfileByNameAndType(Collection<IProfile> profiles, String profileName, String conceptType) {
         for(IProfile p : profiles) {
-            if(p.getName() != null && p.getName().equals(profileName)
+            if(p.getName() != null && p.getName().equalsIgnoreCase(profileName)
                     && p.getConceptType() != null && p.getConceptType().equals(conceptType)) {
                 return p;
             }
@@ -484,5 +484,13 @@ public class ArchimateModelUtils {
         }
         
         return map;
+    }
+    
+    /**
+     * @return true if p1 matches p2 by same name and concept type
+     */
+    public static boolean isMatchingProfile(IProfile p1, IProfile p2) {
+        return p1.getName() != null && p1.getName().equalsIgnoreCase(p2.getName())
+                && p1.getConceptType() != null && p1.getConceptType().equals(p2.getConceptType());
     }
 }

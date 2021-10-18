@@ -741,8 +741,8 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
             IProfile profile = (IProfile)element;
             String name = (String)value;
             
-            // Don't allow a duplicate Profile name for the same concept type
-            if(isValidProfileNameAndType(name, profile.getConceptType())) {
+            // Allow the name to change case, but don't allow a duplicate Profile name for the same concept type
+            if(profile.getName().equalsIgnoreCase(name) || isValidProfileNameAndType(name, profile.getConceptType())) {
                 profile.setName((String)value);
                 fTableViewer.refresh(); // refresh the whole table so items are sorted
             }

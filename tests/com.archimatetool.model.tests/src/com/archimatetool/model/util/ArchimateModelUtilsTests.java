@@ -280,9 +280,13 @@ public class ArchimateModelUtilsTests {
         model.getProfiles().add(profile);
         
         assertTrue(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+        // Check case insensitive
+        assertTrue(ArchimateModelUtils.hasProfileByNameAndType(model, "ProFile", conceptType1));
         
         profile.setConceptType(conceptType2);
         assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, name1, conceptType1));
+        // Check case insensitive
+        assertFalse(ArchimateModelUtils.hasProfileByNameAndType(model, "ProFile", conceptType1));
         
         profile.setName(name2);
         profile.setConceptType(conceptType1);
@@ -364,5 +368,24 @@ public class ArchimateModelUtilsTests {
         assertEquals(2, map.get(profile).size());
         assertTrue(map.get(profile).contains(element1));
         assertTrue(map.get(profile).contains(element2));
+    }
+    
+    @Test
+    public void isMatchingProfile() {
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        profile1.setName("Oscar");
+        profile1.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        profile2.setName("OSCAR");
+        profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessActor().getName());
+        
+        assertTrue(ArchimateModelUtils.isMatchingProfile(profile1, profile2));
+        
+        profile2.setName("OSCAR2");
+        assertFalse(ArchimateModelUtils.isMatchingProfile(profile1, profile2));
+        
+        profile2.setName("OSCAR");
+        profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessRole().getName());
     }
 } 
