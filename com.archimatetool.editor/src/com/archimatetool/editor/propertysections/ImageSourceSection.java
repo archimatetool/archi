@@ -57,7 +57,7 @@ public class ImageSourceSection extends AbstractECorePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, "Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
+        createLabel(parent, Messages.ImageSourceSection_3, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fImageSourceCombo = new Combo(parent, SWT.READ_ONLY);
         getWidgetFactory().adapt(fImageSourceCombo, true, true);

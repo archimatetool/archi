@@ -234,7 +234,7 @@
                afterTab="appearance.tab"
                category="appearance.category"
                id="image.tab"
-               label="Image">
+               label="%propertyTab.label.5">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -746,7 +746,7 @@
       <command
             defaultHandler="com.archimatetool.editor.actions.ShowProfilesManagerHandler"
             id="com.archimatetool.editor.action.openProfilesDialog"
-            name="Specializations Manager">
+            name="%command.name.18">
       </command>
    </extension>
    <extension
@@ -891,7 +891,7 @@
          <command
                commandId="com.archimatetool.editor.action.openProfilesDialog"
                icon="img/specialization.png"
-               label="Specializations Manager"
+               label="%command.label.6"
                style="push">
          </command>
          <separator

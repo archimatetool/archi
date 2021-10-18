@@ -135,27 +135,27 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         int max = 10000;
         
         Label label = new Label(container, SWT.NONE);
-        label.setText(" min_x:"); //$NON-NLS-1$
+        label.setText(" " + Messages.SVGExportProvider_2); //$NON-NLS-1$
         fSpinner1 = new Spinner(container, SWT.BORDER);
         fSpinner1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner1.setMinimum(min);
         fSpinner1.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
-        label.setText(" min_y:"); //$NON-NLS-1$
+        label.setText(" " + Messages.SVGExportProvider_3); //$NON-NLS-1$
         fSpinner2 = new Spinner(container, SWT.BORDER);
         fSpinner2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner2.setMinimum(min);
         fSpinner2.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
-        label.setText(" width:"); //$NON-NLS-1$
+        label.setText(" " + Messages.SVGExportProvider_4); //$NON-NLS-1$
         fSpinner3 = new Spinner(container, SWT.BORDER);
         fSpinner3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner3.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
-        label.setText(" height:"); //$NON-NLS-1$
+        label.setText(" " + Messages.SVGExportProvider_5); //$NON-NLS-1$
         fSpinner4 = new Spinner(container, SWT.BORDER);
         fSpinner4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner4.setMaximum(max);
