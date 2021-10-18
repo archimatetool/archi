@@ -61,24 +61,21 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         Pattern gradient = applyGradientPattern(graphics, rect);
         
         int diameter;
-        int lineLength;
         int x = rect.x, y = rect.y;
 
         // width < height or same
         if(rect.width <= rect.height) {
-            lineLength = rect.width / 3;
-            diameter = rect.width - lineLength;
-            x += rect.width - diameter;
+            diameter = rect.width;
+            // 'x' is unchanged
+            y += (rect.height - diameter) / 2;
         }
         // height < width
         else {
-            diameter = Math.min(rect.height, (rect.width / 3) * 2); // minimum of height or 2/3 of width
-            lineLength = diameter / 2;
-            x += (rect.width / 2) - (diameter / 4);
+            diameter = rect.height;
+            x += (rect.width - diameter) / 2;
+            // 'y' is unchanged
         }
         
-        y += (rect.height / 2) - (diameter / 2);
-
         graphics.fillOval(x, y, diameter, diameter);
         
         disposeGradientPattern(graphics, gradient);
@@ -86,8 +83,6 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         // Line
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawLine(x - lineLength, rect.y + rect.height / 2, x, rect.y + rect.height / 2);
         graphics.drawOval(x, y, diameter, diameter);
         
         // Image Icon
