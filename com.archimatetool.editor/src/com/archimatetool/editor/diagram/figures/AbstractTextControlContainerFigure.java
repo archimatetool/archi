@@ -12,7 +12,6 @@ import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
@@ -208,7 +207,6 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
      */
     protected void setFigurePositionFromTextPosition(Rectangle rect) {
         if(StringUtils.isSetAfterTrim(getText())) { // If there is text to display...
-            Dimension size = getTextControl().getSize();
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             int textAlignment = getDiagramModelObject().getTextAlignment();
             int newIconSize = Math.min(rect.width, rect.height);
