@@ -46,6 +46,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         rect.width--;
         rect.height--;
         
+        Rectangle imageBounds = rect.getCopy();
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
@@ -98,7 +100,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
                           rect.y + rect.height / 2 - diameter / 4);
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }

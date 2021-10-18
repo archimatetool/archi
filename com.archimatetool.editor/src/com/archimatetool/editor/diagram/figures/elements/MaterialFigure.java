@@ -47,6 +47,8 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         rect.width--;
         rect.height--;
         
+        Rectangle imageBounds = rect.getCopy();
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
@@ -111,7 +113,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         path.dispose();
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }

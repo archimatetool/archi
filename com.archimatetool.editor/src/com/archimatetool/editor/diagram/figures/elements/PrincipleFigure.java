@@ -37,6 +37,8 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         rect.width--;
         rect.height--;
         
+        Rectangle imageBounds = rect.getCopy();
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
 
@@ -123,7 +125,7 @@ public class PrincipleFigure extends AbstractMotivationFigure {
                 rect.y + rect.height - 3 * width, center.x + Math.round(0.8F * width), rect.y + rect.height - 3 * width });
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
