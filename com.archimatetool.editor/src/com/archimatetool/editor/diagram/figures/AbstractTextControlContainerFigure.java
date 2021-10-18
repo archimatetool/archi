@@ -203,7 +203,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     }
     
     /**
-     * Adjsut the figure's position in relation to the position of the text control
+     * Adjust the figure's position in relation to the position of the text control
      * @param rect the working area of the figure to modify
      */
     protected void setFigurePositionFromTextPosition(Rectangle rect) {
@@ -211,32 +211,36 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             Dimension size = getTextControl().getSize();
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             int textAlignment = getDiagramModelObject().getTextAlignment();
+            int newIconSize = Math.min(rect.width, rect.height);
             
             if(shouldConstrainFigureForTextPosition(textPosition)) {
                 switch(textPosition) {
-                    case ITextPosition.TEXT_POSITION_TOP:
-                        rect.y += size.height;
-                        // fall through
-                    case ITextPosition.TEXT_POSITION_BOTTOM:
-                        rect.height -= size.height;
-                        break;
-                        
+                	case ITextPosition.TEXT_POSITION_TOP:
+                    	rect.y += rect.height - newIconSize;
+                    	break;
+                    // By default, icon will be on the (top) left which matches TEXT_POSITION_BOTTOM
                     case ITextPosition.TEXT_POSITION_CENTRE:
-                        switch(textAlignment) {
-                            case ITextAlignment.TEXT_ALIGNMENT_LEFT:
-                                rect.x += size.width;
-                                // fall through
-                            case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
-                                rect.width -= size.width;
-                                break;
-
-                            default:
-                                break;
-                        }
-  
+                    	rect.y += (rect.height - newIconSize) / 2;
+                    	break;
                     default:
                         break;
                 }
+                
+                switch(textAlignment) {
+                	// By default, icon will be on the (top) left which matches TEXT_ALIGNMENT_RIGHT
+	                case ITextAlignment.TEXT_ALIGNMENT_CENTER:
+	                	rect.x += (rect.width - newIconSize) / 2;
+	                	break;
+	                case ITextAlignment.TEXT_ALIGNMENT_LEFT:
+	                	rect.x += rect.width - newIconSize;
+	                    break;
+	                default:
+	                    break;
+	            }
+                
+                // In all cases
+                rect.height = newIconSize;
+            	rect.width = newIconSize;
             }
         }
     }
