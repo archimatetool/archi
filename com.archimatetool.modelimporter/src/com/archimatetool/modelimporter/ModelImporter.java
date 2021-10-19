@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -77,6 +78,13 @@ public class ModelImporter {
     // Undo/Redo commands
     private NonNotifyingCompoundCommand compoundCommand;
     
+    // Ecore attributes that should not be imported
+    private static Set<EAttribute> IGNORED_EATTRIBUTES = Set.of(
+            IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, // Image Path - we will set this
+            IArchimatePackage.Literals.ARCHIMATE_MODEL__FILE,                    // File path - definitely not!
+            IArchimatePackage.Literals.ARCHIMATE_MODEL__VERSION                  // Model version
+    );
+    
     public ModelImporter() {
     }
 
@@ -94,7 +102,6 @@ public class ModelImporter {
         // Upate root model object if the option is set
         if(updateAll) {
             updateObject(importedModel, targetModel);
-            addCommand(new EObjectFeatureCommand(null, targetModel, IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, importedModel.getPurpose()));
             logMessage(StatusMessageLevel.INFO, Messages.ModelImporter_3, targetModel);
         }
         
@@ -323,7 +330,7 @@ public class ModelImporter {
     }
     
     /**
-     * Update target object with data from source object
+     * Update target object with data from source object 
      */
     void updateObject(EObject importedObject, EObject targetObject) {
     	// EAttributes
@@ -349,11 +356,11 @@ public class ModelImporter {
         }
 
         for(EStructuralFeature eStructuralFeature : importedObject.eClass().getEAllStructuralFeatures()) {
-            if(eStructuralFeature instanceof EAttribute            // EAttribute
-                    && eStructuralFeature.isChangeable()           // Can change it
-                    && !eStructuralFeature.isDerived()             // Is not derived
-                    && !((EAttribute)eStructuralFeature).isID()    // Is not ID
-                    && eStructuralFeature != IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH) // Is not Image Path - we will set this
+            if(eStructuralFeature instanceof EAttribute                     // EAttribute
+                    && !IGNORED_EATTRIBUTES.contains(eStructuralFeature)    // Check ignored list
+                    && eStructuralFeature.isChangeable()                    // Can change it
+                    && !eStructuralFeature.isDerived()                      // Is not derived
+                    && !((EAttribute)eStructuralFeature).isID())            // Is not ID
             {
                 addCommand(new EObjectFeatureCommand(null, targetObject, eStructuralFeature, importedObject.eGet(eStructuralFeature)));
             }
