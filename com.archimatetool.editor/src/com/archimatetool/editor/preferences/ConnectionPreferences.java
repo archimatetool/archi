@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.preferences;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -43,18 +43,20 @@ import com.archimatetool.model.IArchimatePackage;
 public class ConnectionPreferences implements IPreferenceConstants {
     
     static Map<EClass, Integer> RELATION_KEYMAP = new LinkedHashMap<EClass, Integer>();
+    
+    // The order of these is based on the discussion at https://forum.archimatetool.com/index.php?topic=1117
     static {
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getCompositionRelationship(), 1 << 9);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAggregationRelationship(), 1 << 8);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAccessRelationship(), 1 << 1);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), 1 << 7);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getSpecializationRelationship(), 1 << 6);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getRealizationRelationship(), 1 << 5);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getServingRelationship(), 1 << 2);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getInfluenceRelationship(), 1 << 10);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getSpecializationRelationship(), 1 << 6);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssociationRelationship(), 1 << 0);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), 1 << 4);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getFlowRelationship(), 1 << 3);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getServingRelationship(), 1 << 2);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAccessRelationship(), 1 << 1);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssociationRelationship(), 1 << 0);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getInfluenceRelationship(), 1 << 10);
     }
     
     /**
@@ -113,7 +115,7 @@ public class ConnectionPreferences implements IPreferenceConstants {
     private static Set<EClass> getRelationsClasses(String type) {
         int val = ArchiPlugin.PREFERENCES.getInt(type);
         
-        Set<EClass> set = new HashSet<>();
+        Set<EClass> set = new LinkedHashSet<>();
         
         for(Entry<EClass, Integer> entry : RELATION_KEYMAP.entrySet()) {
             if((entry.getValue() & val) != 0) {

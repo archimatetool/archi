@@ -6,8 +6,6 @@
 package com.archimatetool.editor.diagram.dialog;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -146,14 +144,6 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
                 }
             }
             
-            Collections.sort(list, new Comparator<NestedConnectionInfo>() {
-                @Override
-                public int compare(NestedConnectionInfo info1, NestedConnectionInfo info2) {
-                    return ArchiLabelProvider.INSTANCE.getDefaultName(info1.getRelationshipType())
-                            .compareTo(ArchiLabelProvider.INSTANCE.getDefaultName(info2.getRelationshipType()));
-                }
-            });
-
             return list;
         }
     }
