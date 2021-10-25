@@ -52,7 +52,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 1.24); // Should match '3.1 / 2.5' (values used in getRadius() and getCenter())
         
         if(!isEnabled()) {
             setDisabledState(graphics);

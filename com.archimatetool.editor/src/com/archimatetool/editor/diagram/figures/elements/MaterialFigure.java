@@ -52,7 +52,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
         
         if(!isEnabled()) {
             setDisabledState(graphics);

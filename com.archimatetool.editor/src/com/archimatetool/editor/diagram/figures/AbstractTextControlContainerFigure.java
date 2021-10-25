@@ -203,43 +203,58 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     
     /**
      * Adjust the figure's position in relation to the position of the text control
+     * Assumes a square target working area.
      * @param rect the working area of the figure to modify
      */
     protected void setFigurePositionFromTextPosition(Rectangle rect) {
+    	setFigurePositionFromTextPosition(rect, 1);
+    }
+    
+    /**
+     * Adjust the figure's position in relation to the position of the text control
+     * @param rect the working area of the figure to modify
+     * @param ratio the width/height ratio of the target working area
+     */
+    protected void setFigurePositionFromTextPosition(Rectangle rect, double ratio) {
         if(StringUtils.isSetAfterTrim(getText())) { // If there is text to display...
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             int textAlignment = getDiagramModelObject().getTextAlignment();
-            int newIconSize = Math.min(rect.width, rect.height);
             
-            if(shouldConstrainFigureForTextPosition(textPosition)) {
-                switch(textPosition) {
-                	case ITextPosition.TEXT_POSITION_TOP:
-                    	rect.y += rect.height - newIconSize;
-                    	break;
-                    // By default, icon will be on the (top) left which matches TEXT_POSITION_BOTTOM
-                    case ITextPosition.TEXT_POSITION_CENTRE:
-                    	rect.y += (rect.height - newIconSize) / 2;
-                    	break;
-                    default:
-                        break;
-                }
-                
-                switch(textAlignment) {
-                	// By default, icon will be on the (top) left which matches TEXT_ALIGNMENT_RIGHT
+            // Try to fit an icon of the same height into rect. If not possible then use the same width.
+            Rectangle newIconPosition = rect.getCopy();
+            if((rect.height * ratio) <= rect.width) {
+            	// Same height, so some room on left/right
+            	newIconPosition.width = (int) (rect.height * ratio);
+            	
+            	switch(textAlignment) {
+	            	// By default, icon will be on the (top) left which matches TEXT_ALIGNMENT_RIGHT
 	                case ITextAlignment.TEXT_ALIGNMENT_CENTER:
-	                	rect.x += (rect.width - newIconSize) / 2;
+	                	newIconPosition.x += (rect.width - newIconPosition.width) / 2;
 	                	break;
 	                case ITextAlignment.TEXT_ALIGNMENT_LEFT:
-	                	rect.x += rect.width - newIconSize;
+	                	newIconPosition.x += rect.width - newIconPosition.width;
 	                    break;
 	                default:
 	                    break;
 	            }
-                
-                // In all cases
-                rect.height = newIconSize;
-            	rect.width = newIconSize;
+            } else {
+            	// Same width, so some room on top/below
+            	newIconPosition.height = (int) (rect.width / ratio);
+            	
+            	switch(textPosition) {
+	            	case ITextPosition.TEXT_POSITION_TOP:
+	            		newIconPosition.y += rect.height - newIconPosition.height;
+	                	break;
+	                // By default, icon will be on the (top) left which matches TEXT_POSITION_BOTTOM
+	                case ITextPosition.TEXT_POSITION_CENTRE:
+	                	newIconPosition.y += (rect.height - newIconPosition.height) / 2;
+	                	break;
+	                default:
+	                    break;
+	            }
             }
+                
+            rect.setBounds(newIconPosition);
         }
     }
     

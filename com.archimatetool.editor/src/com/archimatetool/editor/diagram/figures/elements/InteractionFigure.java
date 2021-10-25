@@ -54,7 +54,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
         
         if(!isEnabled()) {
             setDisabledState(graphics);
