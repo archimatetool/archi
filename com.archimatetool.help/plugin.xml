@@ -76,26 +76,26 @@
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
             id="com.archimatetool.help.cheatsheets"
-            name="Archi Cheat Sheets">
+            name="%cheatsheet.category.name">
       </category>
       <cheatsheet
             category="com.archimatetool.help.cheatsheets"
             composite="false"
-            contentFile="cheatsheets/new_model.xml"
+            contentFile="$nl$/cheatsheets/new_model.xml"
             id="com.archimatetool.help.cheatsheet1"
-            name="Create a New Model">
+            name="%cheatsheet.name.1">
          <description>
-            Create a new Model
+            %cheatsheet.desc.1
          </description>
       </cheatsheet>
       <cheatsheet
             category="com.archimatetool.help.cheatsheets"
             composite="false"
-            contentFile="cheatsheets/create_map_view.xml"
+            contentFile="$nl$/cheatsheets/create_map_view.xml"
             id="com.archimatetool.help.cheatsheet2"
-            name="Create a Map View">
+            name="%cheatsheet.name.2">
          <description>
-            Create a Map View
+            %cheatsheet.desc.2
          </description>
       </cheatsheet>
    </extension>

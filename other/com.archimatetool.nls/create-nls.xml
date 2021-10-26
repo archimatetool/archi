@@ -18,7 +18,7 @@
 	  	</description>
 		
 	    <property name="lang_code"					value="en"/>
-		<property name="nls_version"				value="4.0.0"/>
+		<property name="nls_version"				value="4.9.0"/>
         <property name="bundle_name"                value="Your Language Pack Name"/>
         <property name="bundle_vendor"              value="Your Name"/>
 	</target>
@@ -135,6 +135,9 @@
 				<include name="cheatsheets/" />
 				<include name="help/" />
 				<include name="hints/" />
+			    <include name="contexts.xml" />
+				<include name="toc_resources.xml" />
+                <include name="toc.xml" />
 			</fileset>
 		</copy>
 

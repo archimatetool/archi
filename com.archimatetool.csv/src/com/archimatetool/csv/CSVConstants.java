@@ -5,8 +5,6 @@
  */
 package com.archimatetool.csv;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,43 +12,47 @@ import java.util.List;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public interface CSVConstants {
     
-    String ARCHIMATE_MODEL_TYPE = "ArchimateModel";
+    String ARCHIMATE_MODEL_TYPE = "ArchimateModel"; //$NON-NLS-1$
     
+    @SuppressWarnings("nls")
     String[] MODEL_ELEMENTS_HEADER = {
             "ID", "Type", "Name", "Documentation", "Specialization"
     };
     
+    @SuppressWarnings("nls")
     String[] RELATIONSHIPS_HEADER = {
         "ID", "Type", "Name", "Documentation", "Source", "Target", "Specialization"
     };
 
+    @SuppressWarnings("nls")
     String[] PROPERTIES_HEADER = {
         "ID", "Key", "Value"
     };
     
-    String ELEMENTS_FILENAME = "elements";
-    String RELATIONS_FILENAME = "relations";
-    String PROPERTIES_FILENAME = "properties";
-    String FILE_EXTENSION = ".csv";
+    String ELEMENTS_FILENAME = "elements"; //$NON-NLS-1$
+    String RELATIONS_FILENAME = "relations"; //$NON-NLS-1$
+    String PROPERTIES_FILENAME = "properties"; //$NON-NLS-1$
+    String FILE_EXTENSION = ".csv"; //$NON-NLS-1$
     
-    String CRLF = "\r\n";
+    String CRLF = "\r\n"; //$NON-NLS-1$
     
     char[] DELIMITERS = { ',', ';', '\t' };
-    String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
+    String[] DELIMITER_NAMES = { Messages.CSVConstants_15, Messages.CSVConstants_16, Messages.CSVConstants_17 };
     
+    @SuppressWarnings("nls")
     String[] ENCODINGS = { "UTF-8", "UTF-8 BOM", "ANSI" };
     
-    String INFLUENCE_STRENGTH = "Influence_Strength";
+    String INFLUENCE_STRENGTH = Messages.CSVConstants_18;
     
-    String ACCESS_TYPE = "Access_Type";
-    List<String> ACCESS_TYPES = new ArrayList<String>(Arrays.asList(new String[] { "Write", "Read", "Access", "ReadWrite" }));
+    String ACCESS_TYPE = Messages.CSVConstants_19;
+    List<String> ACCESS_TYPES = 
+            List.of(Messages.CSVConstants_20, Messages.CSVConstants_21, Messages.CSVConstants_22, Messages.CSVConstants_23);
     
-    String ASSOCIATION_DIRECTED = "Directed";
+    String ASSOCIATION_DIRECTED = Messages.CSVConstants_24;
     
-    String JUNCTION_TYPE = "Junction_Type";
-    String JUNCTION_OR = "Or";
-    String JUNCTION_AND = "And";
+    String JUNCTION_TYPE = Messages.CSVConstants_25;
+    String JUNCTION_OR = Messages.CSVConstants_26;
+    String JUNCTION_AND = Messages.CSVConstants_27;
 }
