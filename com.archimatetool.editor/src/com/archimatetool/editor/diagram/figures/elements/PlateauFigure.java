@@ -41,6 +41,8 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         Rectangle rect = getBounds().getCopy();
         
+        Rectangle imageBounds = rect.getCopy();
+        
         setFigurePositionFromTextPosition(rect);
         
         if(!isEnabled()) {
@@ -73,7 +75,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
                 rect.y + yMargin + 1 * figureMaxSize / 4);
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }

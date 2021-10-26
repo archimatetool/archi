@@ -12,7 +12,6 @@ import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
@@ -203,41 +202,59 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     }
     
     /**
-     * Adjsut the figure's position in relation to the position of the text control
+     * Adjust the figure's position in relation to the position of the text control
+     * Assumes a square target working area.
      * @param rect the working area of the figure to modify
      */
     protected void setFigurePositionFromTextPosition(Rectangle rect) {
+    	setFigurePositionFromTextPosition(rect, 1);
+    }
+    
+    /**
+     * Adjust the figure's position in relation to the position of the text control
+     * @param rect the working area of the figure to modify
+     * @param ratio the width/height ratio of the target working area
+     */
+    protected void setFigurePositionFromTextPosition(Rectangle rect, double ratio) {
         if(StringUtils.isSetAfterTrim(getText())) { // If there is text to display...
-            Dimension size = getTextControl().getSize();
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             int textAlignment = getDiagramModelObject().getTextAlignment();
             
-            if(shouldConstrainFigureForTextPosition(textPosition)) {
-                switch(textPosition) {
-                    case ITextPosition.TEXT_POSITION_TOP:
-                        rect.y += size.height;
-                        // fall through
-                    case ITextPosition.TEXT_POSITION_BOTTOM:
-                        rect.height -= size.height;
-                        break;
-                        
-                    case ITextPosition.TEXT_POSITION_CENTRE:
-                        switch(textAlignment) {
-                            case ITextAlignment.TEXT_ALIGNMENT_LEFT:
-                                rect.x += size.width;
-                                // fall through
-                            case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
-                                rect.width -= size.width;
-                                break;
-
-                            default:
-                                break;
-                        }
-  
-                    default:
-                        break;
-                }
+            // Try to fit an icon of the same height into rect. If not possible then use the same width.
+            Rectangle newIconPosition = rect.getCopy();
+            if((rect.height * ratio) <= rect.width) {
+            	// Same height, so some room on left/right
+            	newIconPosition.width = (int) (rect.height * ratio);
+            	
+            	switch(textAlignment) {
+	            	// By default, icon will be on the (top) left which matches TEXT_ALIGNMENT_RIGHT
+	                case ITextAlignment.TEXT_ALIGNMENT_CENTER:
+	                	newIconPosition.x += (rect.width - newIconPosition.width) / 2;
+	                	break;
+	                case ITextAlignment.TEXT_ALIGNMENT_LEFT:
+	                	newIconPosition.x += rect.width - newIconPosition.width;
+	                    break;
+	                default:
+	                    break;
+	            }
+            } else {
+            	// Same width, so some room on top/below
+            	newIconPosition.height = (int) (rect.width / ratio);
+            	
+            	switch(textPosition) {
+	            	case ITextPosition.TEXT_POSITION_TOP:
+	            		newIconPosition.y += rect.height - newIconPosition.height;
+	                	break;
+	                // By default, icon will be on the (top) left which matches TEXT_POSITION_BOTTOM
+	                case ITextPosition.TEXT_POSITION_CENTRE:
+	                	newIconPosition.y += (rect.height - newIconPosition.height) / 2;
+	                	break;
+	                default:
+	                    break;
+	            }
             }
+                
+            rect.setBounds(newIconPosition);
         }
     }
     

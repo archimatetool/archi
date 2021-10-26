@@ -37,10 +37,12 @@ public class GapFigure extends DeliverableFigure {
         rect.width--;
         rect.height--;
         
+        Rectangle imageBounds = rect.getCopy();
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, rect);
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 5/3.0); // Should match 'widthFraction' formula
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -51,7 +53,7 @@ public class GapFigure extends DeliverableFigure {
         Pattern gradient = applyGradientPattern(graphics, rect);
         
         int widthFraction = 3 * (rect.width / 10); // 3/10ths of width
-        int circleRadius = widthFraction;;
+        int circleRadius = widthFraction;
         
         // height < width
         if(rect.height < rect.width) {
@@ -85,7 +87,7 @@ public class GapFigure extends DeliverableFigure {
                 yCenter + circleRadius / 4);
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
