@@ -56,6 +56,7 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -384,6 +385,10 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     private class ModelsViewer extends TableViewer {
         public ModelsViewer(Composite parent) {
             super(parent, SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+            
+            // Mac Silicon Item height
+            UIUtils.fixMacSiliconItemHeight(getTable());
+            
             setColumns();
             setContentProvider(new ModelsViewerContentProvider());
             setLabelProvider(new ModelsViewerLabelProvider());

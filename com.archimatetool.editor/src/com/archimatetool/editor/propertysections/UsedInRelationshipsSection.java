@@ -86,6 +86,9 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         
         // Font
         UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT, true);
+        
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(fTableViewer.getTable());
 
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);

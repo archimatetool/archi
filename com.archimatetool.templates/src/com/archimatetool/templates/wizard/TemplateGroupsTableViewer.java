@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
@@ -34,6 +35,9 @@ public class TemplateGroupsTableViewer extends TableViewer {
 
     public TemplateGroupsTableViewer(Composite parent, int style) {
         super(parent, SWT.FULL_SELECTION | style | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+        
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(getTable());
         
         setColumns();
         setContentProvider(new CategoriesTableViewerContentProvider());

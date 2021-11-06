@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
@@ -174,6 +175,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void createTable(Composite parent) {
         fTableViewer = new TableViewer(parent);
+        
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(fTableViewer.getTable());
         
         GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTableViewer.getTable());
         

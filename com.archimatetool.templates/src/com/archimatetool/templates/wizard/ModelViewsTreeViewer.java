@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
 
@@ -32,6 +33,10 @@ public class ModelViewsTreeViewer extends TreeViewer {
 
     public ModelViewsTreeViewer(Composite parent, int style) {
         super(parent, style | SWT.BORDER);
+        
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(getTree());
+        
         setContentProvider(new ModelViewsTreeViewerContentProvider());
         setLabelProvider(new ModelViewsTreeViewerLabelProvider());
         

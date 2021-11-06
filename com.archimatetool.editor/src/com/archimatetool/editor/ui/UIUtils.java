@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -239,4 +240,14 @@ public final class UIUtils {
         return text;
     }
 
+    
+    /**
+     * For some reason this will ensure that Table/Tree/List Item height is normal on Apple Silicon
+     * @param control
+     */
+    public static void fixMacSiliconItemHeight(Control control) {
+        if(PlatformUtils.isAppleSilicon()) {
+            control.setFont(control.getFont());
+        }
+    }
 }

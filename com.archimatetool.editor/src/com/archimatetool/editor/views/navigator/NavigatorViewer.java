@@ -43,6 +43,9 @@ public class NavigatorViewer extends TreeViewer {
         
         UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, true);
         
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(getTree());
+        
         setContentProvider(new NavigatorViewerContentProvider());
         setLabelProvider(new NavigatorViewerLabelProvider());
         setAutoExpandLevel(3);
