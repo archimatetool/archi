@@ -9,7 +9,6 @@
             name="%command.name">
       </command>
       <command
-            defaultHandler="com.archimatetool.hammer.ValidateHandler"
             id="com.archimatetool.hammer.command.validate"
             name="%command.name">
       </command>
@@ -95,11 +94,6 @@
       </perspectiveExtension>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="com.archimatetool.hammer.Startup"></startup>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="com.archimatetool.hammer.preferences.ValidatorPreferencePage"
@@ -112,6 +106,18 @@
       <initializer
             class="com.archimatetool.hammer.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.archimatetool.hammer.ValidateHandler"
+            commandId="com.archimatetool.hammer.command.validate">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
 
 </plugin>

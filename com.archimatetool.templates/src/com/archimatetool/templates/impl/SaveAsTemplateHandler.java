@@ -5,11 +5,13 @@
  */
 package com.archimatetool.templates.impl;
 
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.templates.impl.wizard.SaveArchimateModelAsTemplateWizard;
@@ -21,13 +23,15 @@ import com.archimatetool.templates.impl.wizard.SaveArchimateModelAsTemplateWizar
  * 
  * @author Phillip Beauvoir
  */
-public class SaveAsTemplateHandler extends AbstractModelSelectionHandler {
+public class SaveAsTemplateHandler extends AbstractHandler {
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        IArchimateModel model = getActiveArchimateModel();
+        IWorkbenchPart part = HandlerUtil.getActivePart(event);
+        IArchimateModel model = part != null ? part.getAdapter(IArchimateModel.class) : null;
+        
         if(model != null) {
-            WizardDialog dialog = new ExtendedWizardDialog(workbenchWindow.getShell(),
+            WizardDialog dialog = new ExtendedWizardDialog(HandlerUtil.getActiveShell(event),
                     new SaveArchimateModelAsTemplateWizard(model),
                     "SaveModelAsTemplateWizard"); //$NON-NLS-1$
             dialog.open();

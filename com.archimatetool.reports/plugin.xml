@@ -41,21 +41,33 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="com.archimatetool.reports.html.HTMLReportHandler"
             id="com.archimatetool.reports.command.HTML"
             name="%action.label">
       </command>
       <command
-            defaultHandler="com.archimatetool.reports.html.PreviewHTMLReportHandler"
             id="com.archimatetool.reports.command.PreviewHTML"
             name="Preview HTML Report">
       </command>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="com.archimatetool.reports.Startup">
-      </startup>
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.archimatetool.reports.html.HTMLReportHandler"
+            commandId="com.archimatetool.reports.command.HTML">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="com.archimatetool.reports.html.PreviewHTMLReportHandler"
+            commandId="com.archimatetool.reports.command.PreviewHTML">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
-
 </plugin>

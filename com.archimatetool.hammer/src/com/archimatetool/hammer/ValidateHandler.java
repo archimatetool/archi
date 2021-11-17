@@ -5,12 +5,12 @@
  */
 package com.archimatetool.hammer;
 
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.hammer.view.IValidatorView;
 
@@ -20,7 +20,7 @@ import com.archimatetool.hammer.view.IValidatorView;
  * 
  * @author Phillip Beauvoir
  */
-public class ValidateHandler extends AbstractModelSelectionHandler {
+public class ValidateHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -38,6 +38,5 @@ public class ValidateHandler extends AbstractModelSelectionHandler {
         
         return null;
     }
-
 
 }

@@ -9,7 +9,6 @@
             name="New Model From Template">
       </command>
       <command
-            defaultHandler="com.archimatetool.templates.impl.SaveAsTemplateHandler"
             id="com.archimatetool.templates.saveAsTemplate"
             name="Save As Template">
       </command>
@@ -47,9 +46,16 @@
       </menuContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="com.archimatetool.templates.Startup"></startup>
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.archimatetool.templates.impl.SaveAsTemplateHandler"
+            commandId="com.archimatetool.templates.saveAsTemplate">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
 
 </plugin>
