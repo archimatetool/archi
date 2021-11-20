@@ -48,7 +48,6 @@ import com.archimatetool.editor.diagram.util.ModelReferencedImage;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -503,12 +502,6 @@ public class HTMLReportExporter {
         }
         
         store.setValue(PREFS_LAST_FOLDER, folder.getAbsolutePath());
-        
-        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-        if(PlatformUtils.isMac()) {
-            while(Display.getCurrent().readAndDispatch());
-        }
         
         return folder;
     }

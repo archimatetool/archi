@@ -20,7 +20,6 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -47,12 +46,6 @@ implements IWorkbenchAction
         dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
-            // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-            // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-            if(PlatformUtils.isMac()) {
-                while(Display.getCurrent().readAndDispatch());
-            }
-            
             final File file = new File(path);
             
             // Check it's not already open

@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
 import com.archimatetool.editor.model.ISelectedModelImporter;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -57,13 +56,6 @@ public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { "*.csv", "*.txt", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
-        
-        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-        if(path != null && PlatformUtils.isMac()) {
-            while(Display.getCurrent().readAndDispatch());
-        }
-        
         return path != null ? new File(path) : null;
     }
 

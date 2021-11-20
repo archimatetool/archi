@@ -22,7 +22,6 @@ import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.commands.DeleteArchimateElementCommand;
 import com.archimatetool.editor.model.commands.DeleteArchimateRelationshipCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
@@ -116,12 +115,6 @@ public class DeleteFromModelAction extends SelectionAction {
             }
         }
         
-        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-        if(PlatformUtils.isMac()) {
-            while(Display.getCurrent().readAndDispatch());
-        }
-
         // Create commands
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(TEXT);
         

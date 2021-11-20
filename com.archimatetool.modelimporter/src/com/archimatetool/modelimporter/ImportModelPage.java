@@ -27,7 +27,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -171,12 +170,6 @@ public class ImportModelPage extends WizardPage implements IPreferenceConstants 
         dialog.setFileName(getFileName());
         
         String path = dialog.open();
-        
-        // TODO: Bug on Mac 10.12 and newer - Open dialog does not close straight away
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=527306
-        if(path != null && PlatformUtils.isMac()) {
-            while(Display.getCurrent().readAndDispatch());
-        }
         
         return path != null ? new File(path) : null;
     }
