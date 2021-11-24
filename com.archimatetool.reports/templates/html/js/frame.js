@@ -168,7 +168,7 @@ $(document).ready(function() {
 		parent.window.postMessage('view-id=' + viewId, '*');
 
 		// *** DIAGRAM ZOOM ***
-		initZoomSlider();
+		window.addEventListener('load', initZoomSlider);
 	}
 
 	function initZoomSlider() {
