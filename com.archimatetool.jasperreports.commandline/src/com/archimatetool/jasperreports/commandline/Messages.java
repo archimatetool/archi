@@ -32,6 +32,8 @@ public class Messages extends NLS {
 
     public static String JasperReportsProvider_2;
 
+    public static String JasperReportsProvider_20;
+
     public static String JasperReportsProvider_3;
 
     public static String JasperReportsProvider_4;

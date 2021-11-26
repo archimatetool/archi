@@ -86,7 +86,7 @@ public class JasperReportsProvider extends AbstractCommandLineProvider {
         }
         
         // Template file
-        File templateFile = new File(JasperReportsPlugin.INSTANCE.getJasperReportsFolder(), "Customizable Report/main.jrxml"); //$NON-NLS-1$
+        File templateFile = new File(JasperReportsPlugin.INSTANCE.getJasperReportsFolder(), Messages.JasperReportsProvider_20 + "/main.jrxml"); //$NON-NLS-1$
         String template = commandLine.getOptionValue(OPTION_JASPER_TEMPLATE);
         if(StringUtils.isSet(template)) {
             templateFile = new File(template);
