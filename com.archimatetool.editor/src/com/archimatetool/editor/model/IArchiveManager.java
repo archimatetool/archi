@@ -80,7 +80,7 @@ public interface IArchiveManager {
          * @return The path
          */
         public static String getArchiveFilePath(File file) {
-            String path = file.getPath();
+            String path = file.getAbsolutePath();
             // org.eclipse.emf.common.util.URI treats the # character as a separator
             path = path.replace("#", "%23");  //$NON-NLS-1$//$NON-NLS-2$
             return "archive:file:///" + path; //$NON-NLS-1$

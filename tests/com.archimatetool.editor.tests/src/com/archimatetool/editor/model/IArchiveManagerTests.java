@@ -63,7 +63,7 @@ public class IArchiveManagerTests {
         File file = new File("this#path/test.archimate");
         File file2 = new File("this%23path/test.archimate");
         
-        URI expectedURI = URI.createURI("archive:file:///" + file2.getPath() + "!/model.xml");
+        URI expectedURI = URI.createURI("archive:file:///" + file2.getAbsolutePath() + "!/model.xml");
         assertEquals(expectedURI, IArchiveManager.FACTORY.createArchiveModelURI(file));
     }
 
@@ -73,6 +73,6 @@ public class IArchiveManagerTests {
         File file = new File("this#path/test.archimate");
         File file2 = new File("this%23path/test.archimate");
         String path = IArchiveManager.FACTORY.getArchiveFilePath(file);
-        assertEquals("archive:file:///" + file2.getPath(), path);
+        assertEquals("archive:file:///" + file2.getAbsolutePath(), path);
     }
 }
