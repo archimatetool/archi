@@ -7,6 +7,7 @@ package com.archimatetool.editor.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -161,6 +162,31 @@ public class EditorModelManagerTests {
         assertEquals(1, editorModelManager.getModels().size());
     }
     
+    @Test
+    public void load() throws Exception {
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
+        
+        IArchimateModel model = editorModelManager.load(file);
+        assertNotNull(model);
+        
+        // File
+        assertEquals(file, model.getFile());
+        
+        // Has a Command Stack
+        assertTrue(model.getAdapter(CommandStack.class) instanceof CommandStack);
+
+        // Has an Archive Manager
+        assertTrue(model.getAdapter(IArchiveManager.class) instanceof IArchiveManager);
+        
+        // Is *not* registered
+        assertEquals(0, editorModelManager.getModels().size());
+        assertFalse(editorModelManager.getModels().contains(model));
+        
+        // Do it again, should *not* be the same
+        IArchimateModel model2 = editorModelManager.loadModel(file);
+        assertNotEquals(model2, model);
+    }
+
     @Test
     public void isModelLoaded_File() {
         File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;

@@ -71,7 +71,7 @@ public interface IEditorModelManager {
     void registerModel(IArchimateModel model);
     
     /**
-     * Open a model by loading it and opening it in the model tree
+     * Open a model by loading it and opening it in the Model Tree
      * @return The newly opened model or null if the file cannot be opened
      */
     IArchimateModel openModel(File file);
@@ -83,15 +83,22 @@ public interface IEditorModelManager {
     void openModel(IArchimateModel model);
     
     /**
-     * Load a model
-     * @param file
+     * Load a model and notify the UI. This is called to load the model and set it in the Model Tree and UI.
+     * @param file The file to load
      * @return The newly loaded model or null
      */
     IArchimateModel loadModel(File file);
     
     /**
-     * Close a model
-     * @param model
+     * Load a model but not in the UI. Will not send UI notifications or appear in the Models Tree.
+     * @param file The file to load
+     * @return The newly loaded model or null
+     */
+    IArchimateModel load(File file) throws IOException;
+    
+    /**
+     * Close a model in the UI and notify the UI.
+     * @param model The model
      * @return false if user cancels
      * @throws IOException
      */

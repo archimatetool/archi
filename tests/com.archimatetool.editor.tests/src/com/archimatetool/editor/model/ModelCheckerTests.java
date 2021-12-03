@@ -52,9 +52,9 @@ public class ModelCheckerTests {
     }
     
     @Test
-    public void checkAll() {
+    public void checkAll() throws Exception {
         File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
-        IArchimateModel model = new EditorModelManager().loadModel(file);
+        IArchimateModel model = new EditorModelManager().load(file);
         assertNotNull(model);
         ModelChecker modelChecker = new ModelChecker(model);
         assertTrue(modelChecker.checkAll());

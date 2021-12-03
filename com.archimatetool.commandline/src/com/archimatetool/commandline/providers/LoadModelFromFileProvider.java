@@ -55,7 +55,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
             String filePath = commandLine.getOptionValue(OPTION_LOAD_FILE_MODEL);
             File file = new File(filePath);
             
-            IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file);
+            IArchimateModel model = IEditorModelManager.INSTANCE.load(file);
             
             if(model == null) {
                 throw new IOException(Messages.LoadModelFromFileProvider_3);

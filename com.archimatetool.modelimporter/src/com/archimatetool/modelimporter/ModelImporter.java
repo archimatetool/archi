@@ -14,11 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -27,12 +25,9 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
-import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
-import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
-import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
@@ -51,7 +46,6 @@ import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 
@@ -89,7 +83,11 @@ public class ModelImporter {
     }
 
     public void doImport(File importedFile, IArchimateModel targetModel) throws IOException, ImportException {
-        importedModel = loadModel(importedFile);
+        if(!importedFile.exists()) {
+            throw new IOException(NLS.bind(Messages.ModelImporter_2, importedFile));
+        }
+        
+        importedModel = IEditorModelManager.INSTANCE.load(importedFile);
 
         this.targetModel = targetModel;
         
@@ -184,59 +182,6 @@ public class ModelImporter {
     }
     
     /**
-     * Load a model from file
-     */
-    private IArchimateModel loadModel(File file) throws IOException {
-        if(!file.exists()) {
-            throw new IOException(NLS.bind(Messages.ModelImporter_2, file));
-        }
-        
-        // Ascertain if this is an archive file
-        boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
-        
-        // Create the Resource
-        Resource resource = ArchimateResourceFactory.createNewResource(useArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
-
-        ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
-
-        try {
-            resource.load(null);
-        }
-        catch(IOException ex) {
-            // Error occured loading model. Was it a disaster?
-            try {
-                modelCompatibility.checkErrors();
-            }
-            // Incompatible
-            catch(IncompatibleModelException ex1) {
-                throw new IOException(NLS.bind(Messages.ModelImporter_0, file)
-                        + "\n" + ex1.getMessage()); //$NON-NLS-1$
-            }
-        }
-        
-        // And then fix any backward compatibility issues
-        try {
-            modelCompatibility.fixCompatibility();
-        }
-        catch(CompatibilityHandlerException ex) {
-        }
-        
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
-        
-        model.setFile(file);
-        model.setDefaults();
-        
-        // We need to have an ArchiveManager for images in canvasses
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
-        model.setAdapter(IArchiveManager.class, archiveManager);
-        archiveManager.loadImages();
-        
-        return model;
-    }
-    
-    /**
      * Create a cache of objects in the target model
      */
     private Map<String, IIdentifier> createObjectIDCache() {
@@ -253,7 +198,6 @@ public class ModelImporter {
         
         return map;
     }
-    
     
     /**
      * @return Object's Key for lookup

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.gef.commands.CommandStack;
@@ -52,7 +51,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ModelVersion;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.IModelContentListener;
 
 
@@ -253,13 +251,8 @@ implements IEditorModelManager {
             return model;
         }
         
-        // Ascertain if this is an archive file
-        boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
-        
         // Create the Resource
-        Resource resource = ArchimateResourceFactory.createNewResource(useArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
+        Resource resource = IArchiveManager.FACTORY.createResource(file);
 
         // Check model compatibility
         ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
@@ -332,9 +325,13 @@ implements IEditorModelManager {
         catch(CompatibilityHandlerException ex) {
         }
 
+        // Set file
         model.setFile(file);
+        
+        // Check defaults
         model.setDefaults();
         
+        // Add to list of open models
         getModels().add(model);
         
         // Register Ecore listener
@@ -351,6 +348,59 @@ implements IEditorModelManager {
 
         // This last
         firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
+        
+        return model;
+    }
+    
+    @Override
+    public IArchimateModel load(File file) throws IOException {
+        if(file == null || !file.exists()) {
+            return null;
+        }
+        
+        // Create the Resource
+        Resource resource = IArchiveManager.FACTORY.createResource(file);
+
+        // Check model compatibility
+        ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
+        
+        // Load the model file
+        try {
+            resource.load(null);
+        }
+        catch(IOException ex) {
+            // Error occured loading model. 
+            try {
+                modelCompatibility.checkErrors();
+            }
+            catch(IncompatibleModelException ex1) {
+                throw new IOException(NLS.bind(Messages.EditorModelManager_10, file) + "\n" + ex1.getMessage()); //$NON-NLS-1$
+            }
+        }
+        
+        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
+
+        // And then fix any backward compatibility issues
+        try {
+            modelCompatibility.fixCompatibility();
+        }
+        catch(CompatibilityHandlerException ex) {
+        }
+
+        // Set file
+        model.setFile(file);
+        
+        // Check defaults
+        model.setDefaults();
+        
+        // New Command Stack
+        CommandStack cmdStack = new CommandStack();
+        model.setAdapter(CommandStack.class, cmdStack);
+        
+        // New Archive Manager and load images
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+        model.setAdapter(IArchiveManager.class, archiveManager);
+        archiveManager.loadImages();
         
         return model;
     }

@@ -11,11 +11,13 @@ import java.util.Set;
 import java.util.zip.ZipFile;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
 import com.archimatetool.editor.model.impl.ArchiveManager;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 
 
 /**
@@ -61,6 +63,18 @@ public interface IArchiveManager {
             }
             
             return false;
+        }
+        
+        /**
+         * Create Resource from model file.
+         * The Resource will be different if the file is an archive file.
+         * @param file The model file
+         * @return A new Redource
+         */
+        public static Resource createResource(File file) {
+            return ArchimateResourceFactory.createNewResource(isArchiveFile(file) ?
+                                               createArchiveModelURI(file) :
+                                               URI.createFileURI(file.getAbsolutePath()));
         }
         
         /**

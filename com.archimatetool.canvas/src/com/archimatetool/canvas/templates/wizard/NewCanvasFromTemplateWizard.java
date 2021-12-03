@@ -8,7 +8,6 @@ package com.archimatetool.canvas.templates.wizard;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
@@ -23,7 +22,6 @@ import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
@@ -73,12 +71,8 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             return null;
         }
         
-        // Ascertain if this is a zip file
-        boolean isArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
-        
-        Resource resource = ArchimateResourceFactory.createNewResource(isArchiveFormat ?
-                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
-                                                       URI.createFileURI(file.getAbsolutePath()));
+        // Create the Resource
+        Resource resource = IArchiveManager.FACTORY.createResource(file);
 
         // Check model compatibility
         ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
@@ -116,7 +110,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         UUIDFactory.generateNewIDs(canvasModel);
         
         // Load the images from the template model's file now
-        if(isArchiveFormat) {
+        if(IArchiveManager.FACTORY.isArchiveFile(file)) {
             IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
             archiveManager.loadImagesFromModelFile(file); 
         }
