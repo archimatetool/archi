@@ -55,7 +55,21 @@
 		</copy>
 		
 		
-		<!-- com.archimatetool.csv -->
+        <!-- com.archimatetool.commandline -->
+        <property name="commandline.prj.src"        value="com.archimatetool.commandline"/>
+        <property name="commandline.prj.tgt"        value="${commandline.prj.src}.${lang_code}"/>
+        <property name="commandline.loc.src"        location="../../${commandline.prj.src}"/>
+        <property name="commandline.loc.tgt"        location="../../${main.dir}/${commandline.prj.tgt}"/>
+
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="${commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${commandline.loc.tgt}"/>
+        </antcall>
+
+
+        <!-- com.archimatetool.csv -->
 		<property name="csv.prj.src"    			value="com.archimatetool.csv"/>
 		<property name="csv.prj.tgt"    			value="${csv.prj.src}.${lang_code}"/>
 		<property name="csv.loc.src"    			location="../../${csv.prj.src}"/>
@@ -69,6 +83,20 @@
     	</antcall>
 		
 		
+        <!-- com.archimatetool.csv.commandline -->
+        <property name="csv.commandline.prj.src"    value="com.archimatetool.csv.commandline"/>
+        <property name="csv.commandline.prj.tgt"    value="${csv.commandline.prj.src}.${lang_code}"/>
+        <property name="csv.commandline.loc.src"    location="../../${csv.commandline.prj.src}"/>
+        <property name="csv.commandline.loc.tgt"    location="../../${main.dir}/${csv.commandline.prj.tgt}"/>
+
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${csv.commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="${csv.commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${csv.commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${csv.commandline.loc.tgt}"/>
+        </antcall>
+
+
 		<!-- com.archimatetool.editor -->
 		<property name="editor.prj.src"    			value="com.archimatetool.editor"/>
 		<property name="editor.prj.tgt"    			value="${editor.prj.src}.${lang_code}"/>
@@ -89,6 +117,20 @@
         </copy>
 
                 
+        <!-- com.archimatetool.editor.browser -->
+        <property name="editor.browser.prj.src"     value="com.archimatetool.editor.browser"/>
+        <property name="editor.browser.prj.tgt"     value="${editor.browser.prj.src}.${lang_code}"/>
+        <property name="editor.browser.loc.src"     location="../../${editor.browser.prj.src}"/>
+        <property name="editor.browser.loc.tgt"     location="../../${main.dir}/${editor.browser.prj.tgt}"/>
+
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${editor.browser.prj.src}"/>
+            <param name="prj.tgt"                   value="${editor.browser.prj.tgt}"/>
+            <param name="loc.src"                   value="${editor.browser.loc.src}"/>
+            <param name="loc.tgt"                   value="${editor.browser.loc.tgt}"/>
+        </antcall>
+
+
 		<!-- com.archimatetool.export.svg -->
 		<property name="svg.prj.src"    			value="com.archimatetool.export.svg"/>
 		<property name="svg.prj.tgt"    			value="${svg.prj.src}.${lang_code}"/>
@@ -162,6 +204,20 @@
 		</copy>
 		
 		
+        <!-- com.archimatetool.jasperreports.commandline -->
+        <property name="jasperreports.commandline.prj.src"      value="com.archimatetool.jasperreports.commandline"/>
+        <property name="jasperreports.commandline.prj.tgt"      value="${jasperreports.commandline.prj.src}.${lang_code}"/>
+        <property name="jasperreports.commandline.loc.src"      location="../../${jasperreports.commandline.prj.src}"/>
+        <property name="jasperreports.commandline.loc.tgt"      location="../../${main.dir}/${jasperreports.commandline.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${jasperreports.commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="${jasperreports.commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${jasperreports.commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${jasperreports.commandline.loc.tgt}"/>
+        </antcall>
+        
+        
 		<!-- com.archimatetool.model -->
 		<property name="model.prj.src"    			value="com.archimatetool.model"/>
 		<property name="model.prj.tgt"    			value="${model.prj.src}.${lang_code}"/>
@@ -181,6 +237,7 @@
             </fileset>
         </copy>
 		
+	    
         <!-- com.archimatetool.modelimporter -->
         <property name="modelimporter.prj.src"      value="com.archimatetool.modelimporter"/>
         <property name="modelimporter.prj.tgt"      value="${modelimporter.prj.src}.${lang_code}"/>
@@ -195,6 +252,20 @@
         </antcall>
 
 
+        <!-- com.archimatetool.modelimporter.commandline -->
+        <property name="modelimporter.commandline.prj.src"      value="com.archimatetool.modelimporter.commandline"/>
+        <property name="modelimporter.commandline.prj.tgt"      value="${modelimporter.commandline.prj.src}.${lang_code}"/>
+        <property name="modelimporter.commandline.loc.src"      location="../../${modelimporter.commandline.prj.src}"/>
+        <property name="modelimporter.commandline.loc.tgt"      location="../../${main.dir}/${modelimporter.commandline.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${modelimporter.commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="${modelimporter.commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${modelimporter.commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${modelimporter.commandline.loc.tgt}"/>
+        </antcall>
+        
+        
 		<!-- com.archimatetool.reports -->
 		<property name="reports.prj.src"    		value="com.archimatetool.reports"/>
 		<property name="reports.prj.tgt"    		value="${reports.prj.src}.${lang_code}"/>
@@ -209,6 +280,20 @@
     	</antcall>
 		
 
+        <!-- com.archimatetool.reports.commandline -->
+        <property name="reports.commandline.prj.src"      value="com.archimatetool.reports.commandline"/>
+        <property name="reports.commandline.prj.tgt"      value="${reports.commandline.prj.src}.${lang_code}"/>
+        <property name="reports.commandline.loc.src"      location="../../${reports.commandline.prj.src}"/>
+        <property name="reports.commandline.loc.tgt"      location="../../${main.dir}/${reports.commandline.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${reports.commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="${reports.commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${reports.commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${reports.commandline.loc.tgt}"/>
+        </antcall>
+        
+        
 		<!-- com.archimatetool.templates -->
 		<property name="templates.prj.src"    		value="com.archimatetool.templates"/>
 		<property name="templates.prj.tgt"    		value="${templates.prj.src}.${lang_code}"/>
@@ -254,6 +339,20 @@
             <param name="prj.tgt"                   value="${xmlexchange.prj.tgt}"/>
             <param name="loc.src"                   value="${xmlexchange.loc.src}"/>
             <param name="loc.tgt"                   value="${xmlexchange.loc.tgt}"/>
+        </antcall>
+
+	    
+	    <!-- org.opengroup.archimate.xmlexchange.commandline -->
+        <property name="xmlexchange.commandline.prj.src"      value="org.opengroup.archimate.xmlexchange.commandline"/>
+        <property name="xmlexchange.commandline.prj.tgt"      value="${xmlexchange.commandline.prj.src}.${lang_code}"/>
+        <property name="xmlexchange.commandline.loc.src"      location="../../${xmlexchange.commandline.prj.src}"/>
+        <property name="xmlexchange.commandline.loc.tgt"      location="../../${main.dir}/${xmlexchange.commandline.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${xmlexchange.commandline.prj.src}"/>
+            <param name="prj.tgt"                   value="$xmlexchange.commandline.prj.tgt}"/>
+            <param name="loc.src"                   value="${xmlexchange.commandline.loc.src}"/>
+            <param name="loc.tgt"                   value="${xmlexchange.commandline.loc.tgt}"/>
         </antcall>
             	
 	</target>
