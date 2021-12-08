@@ -3,18 +3,21 @@
 <target name="Archi">
 <locations>
     <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2021-09"/>
-        <unit id="org.eclipse.sdk.ide" version="4.21.0.I20210906-0500"/>
-        <unit id="org.eclipse.ecf.filetransfer.httpclient45.feature.feature.group" version="1.0.703.v20210512-0614"/>
-        <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.702.v20210409-2301"/>
+        <repository location="https://download.eclipse.org/releases/2021-12"/>
+        <unit id="org.eclipse.sdk.ide" version="4.22.0.I20211124-1800"/>
+        <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.6.1.v20211005-1944"/>
         <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.1.501.v20210409-2301"/>
         <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.14.1800.v20210618-0642"/>
         <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="1.1.401.v20210409-2301"/>
-        <unit id="org.eclipse.emf.sdk.feature.group" version="2.27.0.v20210816-1137"/>
-        <unit id="org.eclipse.equinox.core.feature.feature.group" version="1.13.300.v20210823-1805"/>
-        <unit id="org.eclipse.equinox.p2.core.feature.feature.group" version="1.6.1100.v20210830-0925"/>
-        <unit id="org.eclipse.equinox.p2.extras.feature.feature.group" version="1.4.1300.v20210830-0925"/>
-        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.100.v20210830-0925"/>
+        <unit id="org.eclipse.emf.sdk.feature.group" version="2.28.0.v20211110-0654"/>
+        <unit id="org.eclipse.equinox.core.feature.feature.group" version="1.13.400.v20211104-1730"/>
+        <unit id="org.eclipse.equinox.p2.core.feature.feature.group" version="1.6.1200.v20211104-1616"/>
+        <unit id="org.eclipse.equinox.p2.extras.feature.feature.group" version="1.4.1400.v20211104-1616"/>
+        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.200.v20211117-0650"/>
+    </location>
+    <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+        <repository location="https://download.eclipse.org/eclipse/updates/4.22"/>
+        <unit id="org.eclipse.ecf.filetransfer.httpclient45.feature.feature.group" version="1.0.703.v20210512-0614"/>
     </location>
 </locations>
 </target>
