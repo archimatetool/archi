@@ -43,7 +43,6 @@ import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
@@ -93,7 +92,7 @@ public class TreeModelViewer extends TreeViewer {
     };
 
     public TreeModelViewer(Composite parent, int style) {
-        super(parent, style | SWT.MULTI | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+        super(parent, style | SWT.MULTI);
         
         // Font
         UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, true);

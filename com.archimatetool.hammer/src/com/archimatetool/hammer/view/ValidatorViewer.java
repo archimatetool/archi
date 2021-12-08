@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.IIssueCategory;
 
@@ -61,7 +60,7 @@ public class ValidatorViewer extends TreeViewer {
     };
     
     public ValidatorViewer(Composite parent, int style) {
-        super(parent, style | SWT.MULTI | SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+        super(parent, style | SWT.MULTI | SWT.FULL_SELECTION);
         
         // Mac Silicon Item height
         UIUtils.fixMacSiliconItemHeight(getTree());

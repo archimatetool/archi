@@ -80,7 +80,6 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -241,7 +240,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         tableComp.setLayout(tableLayout);
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(tableComp);
 
-        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(fTableViewer.getControl());
         
         // Mac Silicon Item height

@@ -61,8 +61,8 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -204,8 +204,11 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         tableComp.setLayout(tableLayout);
         tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION | (PlatformUtils.isAppleSilicon() ? SWT.BORDER : SWT.NONE));
+        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
         fTableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+
+        // Mac Silicon Item height
+        UIUtils.fixMacSiliconItemHeight(fTableViewer.getTable());
 
         // Edit cell on double-click and add Tab key traversal
         TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
