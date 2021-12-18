@@ -42,7 +42,7 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     }
 
     public InputStream getBundleInputStream(String bundleFileName) throws IOException {
-        URL url = getBundle().getResource(bundleFileName);
+        URL url = getBundle().getEntry(bundleFileName);
         return url.openStream();
     }
 }
