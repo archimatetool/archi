@@ -17,6 +17,43 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Preferences;
+import org.eclipse.draw2d.ActionEvent;
+import org.eclipse.draw2d.ActionListener;
+import org.eclipse.draw2d.Border;
+import org.eclipse.draw2d.Button;
+import org.eclipse.draw2d.ButtonBorder;
+import org.eclipse.draw2d.Cursors;
+import org.eclipse.draw2d.FocusEvent;
+import org.eclipse.draw2d.FocusListener;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LightweightSystem;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.Triangle;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.gef.internal.GEFMessages;
+import org.eclipse.gef.internal.InternalImages;
+import org.eclipse.gef.internal.ui.palette.PaletteColorUtil;
+import org.eclipse.gef.ui.views.palette.PaletteView;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -44,22 +81,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tracker;
-
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
@@ -69,31 +90,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
-
-import org.eclipse.draw2d.ActionEvent;
-import org.eclipse.draw2d.ActionListener;
-import org.eclipse.draw2d.Border;
-import org.eclipse.draw2d.Button;
-import org.eclipse.draw2d.ButtonBorder;
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Cursors;
-import org.eclipse.draw2d.FocusEvent;
-import org.eclipse.draw2d.FocusListener;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.LightweightSystem;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.Triangle;
-import org.eclipse.draw2d.geometry.Dimension;
-
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.dnd.TemplateTransfer;
-import org.eclipse.gef.internal.GEFMessages;
-import org.eclipse.gef.internal.InternalImages;
-import org.eclipse.gef.internal.ui.palette.PaletteColorUtil;
-import org.eclipse.gef.ui.views.palette.PaletteView;
 
 /**
  * The FlyoutPaletteComposite is used to show a flyout palette alongside another
@@ -1178,7 +1174,10 @@ public class FlyoutPaletteComposite extends Composite {
             Label tooltip = new Label(getText());
             tooltip.setBorder(TOOL_TIP_BORDER);
             setToolTip(tooltip);
-            setForegroundColor(ColorConstants.listForeground);
+            
+            // Added by Phillipus
+            //setForegroundColor(ColorConstants.listForeground);
+            setForegroundColor(PaletteColorUtil.PALETTE_TITLE_LABEL_FOREGROUND);
         }
 
         @Override
@@ -1195,8 +1194,13 @@ public class FlyoutPaletteComposite extends Composite {
             graphics.pushState();
             org.eclipse.draw2d.geometry.Rectangle r = org.eclipse.draw2d.geometry.Rectangle.SINGLETON;
             r.setBounds(getBounds());
-            graphics.setForegroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
-            graphics.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+            
+            // Added by Phillipus
+            //graphics.setForegroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+            //graphics.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+            graphics.setForegroundColor(PaletteColorUtil.PALETTE_TITLE_LABEL_BACKGROUND_START);
+            graphics.setBackgroundColor(PaletteColorUtil.PALETTE_TITLE_LABEL_BACKGROUND_END);
+            
             graphics.fillGradient(r, true);
 
             // draw bottom border
@@ -1334,8 +1338,13 @@ public class FlyoutPaletteComposite extends Composite {
 
                 triangle = new Triangle();
                 triangle.setOutline(true);
-                triangle.setBackgroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
-                triangle.setForegroundColor(PaletteColorUtil.WIDGET_DARK_SHADOW);
+                
+                // Added by Phillipus
+                //triangle.setBackgroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+                //triangle.setForegroundColor(PaletteColorUtil.WIDGET_DARK_SHADOW);
+                triangle.setBackgroundColor(PaletteColorUtil.PALETTE_ARROW_BUTTON_BACKGROUND);
+                triangle.setForegroundColor(PaletteColorUtil.PALETTE_ARROW_BUTTON_FOREGROUND);
+                
                 setContents(triangle);
             }
 
@@ -1363,8 +1372,13 @@ public class FlyoutPaletteComposite extends Composite {
                 graphics.pushState();
                 org.eclipse.draw2d.geometry.Rectangle r = org.eclipse.draw2d.geometry.Rectangle.SINGLETON;
                 r.setBounds(getBounds());
-                graphics.setForegroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
-                graphics.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+                
+                // Added by Phillipus
+                //graphics.setForegroundColor(PaletteColorUtil.WIDGET_LIST_BACKGROUND);
+                //graphics.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
+                graphics.setForegroundColor(PaletteColorUtil.PALETTE_TITLE_LABEL_BACKGROUND_START);
+                graphics.setBackgroundColor(PaletteColorUtil.PALETTE_TITLE_LABEL_BACKGROUND_END);
+                
                 graphics.fillGradient(r, true);
                 graphics.popState();
 

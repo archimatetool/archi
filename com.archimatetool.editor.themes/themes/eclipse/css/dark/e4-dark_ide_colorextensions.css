@@ -47,19 +47,47 @@ ThemesExtension { color-definition:
     '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR',
     '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR',
     '#org-eclipse-ui-workbench-LINK_COLOR',
+    
     /* Added by Archi for GEF Palette */
     '#org-eclipse-gef-PALETTE_BACKGROUND',
-    '#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND';
+    '#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND',
+    '#org-eclipse-gef-PALETTE_TITLE_LABEL_FOREGROUND',
+    '#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_START',
+    '#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_END',
+    '#org-eclipse-gef-PALETTE_ARROW_BUTTON_BACKGROUND',
+    '#org-eclipse-gef-PALETTE_ARROW_BUTTON_FOREGROUND';
 }
 
 /* Added by Archi for GEF Palette */
 ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
-    color: #F6F6f6;
+    color: #e6e6e6;
 }
 
 ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {
-    color: #F0F0F0;
+    color: #d0d0d0;
 }
+
+ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_FOREGROUND {
+    color: #DDDDDD;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_START {
+    color: #515658;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_END {
+    color: #515658;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_ARROW_BUTTON_BACKGROUND {
+    color: #515658;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_ARROW_BUTTON_FOREGROUND {
+    color: #ffffff;
+}
+
+
 
 ColorDefinition#org-eclipse-ui-workbench-DARK_BACKGROUND {
 	color: #515658;
