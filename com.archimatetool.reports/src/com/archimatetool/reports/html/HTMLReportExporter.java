@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -43,8 +44,10 @@ import org.stringtemplate.v4.StringRenderer;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
+import com.archimatetool.editor.browser.IBrowserEditorInput;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
@@ -57,8 +60,10 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.ITextContent;
 import com.archimatetool.reports.ArchiReportsPlugin;
 
 
@@ -104,7 +109,11 @@ public class HTMLReportExporter {
     }
     
     public HTMLReportExporter(IArchimateModel model) {
-        fModel = model;
+        // Use a copy of the model
+        fModel = EcoreUtil.copy(model);
+        
+        // Clean the content
+        cleanContent();
     }
     
     public void export() throws Exception {
@@ -158,7 +167,10 @@ public class HTMLReportExporter {
                 File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html", monitor);  //$NON-NLS-1$//$NON-NLS-2$
                 
                 // Open it in internal Browser
-                BrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                IBrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                input.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.INTERNAL_BROWSER_JS_ENABLED));
+                input.setExternalHostsEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED));
+                
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
                 if(editor != null && editor.getBrowser() != null) {
                     editor.getBrowser().refresh();
@@ -533,5 +545,28 @@ public class HTMLReportExporter {
             }
         }
     }
-
+    
+    /**
+     * Remove any unwanted HTML content
+     */
+    private void cleanContent() {
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            
+            if(eObject instanceof ITextContent) {
+                ((ITextContent)eObject).setContent(getCleanContent(((ITextContent)eObject).getContent()));
+            }
+            else if(eObject instanceof IDocumentable) {
+                ((IDocumentable)eObject).setDocumentation(getCleanContent(((IDocumentable)eObject).getDocumentation()));
+            }
+        }
+    }
+    
+    private String getCleanContent(String content) {
+        if(content == null) {
+            return null;
+        }
+        
+        return content.replaceAll("\\<.*?\\>", ""); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 }

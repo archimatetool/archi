@@ -30,6 +30,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.LocationAdapter;
+import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.CLabel;
@@ -47,6 +49,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
+import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.IComponentSelectionListener;
@@ -204,6 +208,19 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         Browser browser = null;
         try {
             browser = new Browser(parent, SWT.NONE);
+            
+            // Don't allow external hosts if set
+            browser.addLocationListener(new LocationAdapter() {
+                @Override
+                public void changing(LocationEvent e) {
+                    if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED)) {
+                        e.doit = e.location != null &&
+                                (e.location.startsWith("file:") //$NON-NLS-1$
+                                || e.location.startsWith("data:") //$NON-NLS-1$
+                                || e.location.startsWith("about:")); //$NON-NLS-1$
+                    }
+                }
+            });
         }
         catch(SWTError error) {
         	error.printStackTrace();
@@ -252,6 +269,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
     
     private void showHintForSelected(Object source, Object selected) {
+        if(fBrowser == null) {
+            return;
+        }
+        
         if(fActionPinContent.isChecked()) {
             return;
         }
@@ -273,6 +294,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         else {
             actualObject = selected;
         }
+        
+        // Enable JS
+        fBrowser.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_JS_ENABLED));
         
         // This is a Hint Provider so this takes priority...
         if(actualObject instanceof IHelpHintProvider) {

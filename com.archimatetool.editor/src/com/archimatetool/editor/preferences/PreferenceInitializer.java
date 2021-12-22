@@ -143,6 +143,14 @@ implements IPreferenceConstants {
         
         // Edge Browser
         store.setDefault(EDGE_BROWSER, false);
+        
+        // Internal Browser
+        store.setDefault(INTERNAL_BROWSER_JS_ENABLED, true);
+        store.setDefault(INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED, true);
+
+        // Hints Browser
+        store.setDefault(HINTS_BROWSER_JS_ENABLED, false);
+        store.setDefault(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED, false);
 
         // ======================================= Internal =======================================
         

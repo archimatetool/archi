@@ -27,5 +27,5 @@ public interface IBrowserEditor extends IEditorPart {
      * Set new BrowserEditorInput
      * @param input
      */
-    void setBrowserEditorInput(BrowserEditorInput input);
+    void setBrowserEditorInput(IBrowserEditorInput input);
 }

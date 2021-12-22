@@ -18,6 +18,8 @@ public class BrowserEditorInput implements IBrowserEditorInput {
 
     private String url;
     private String title;
+    private boolean jsEnabled = true;
+    private boolean externalHostsEnabled = true;
 
     /**
      * Whether to persist and restore the Browser when closing the app
@@ -43,6 +45,26 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     @Override
     public void setPersistBrowser(boolean value) {
         fPersistBrowser = value;
+    }
+    
+    @Override
+    public void setJavascriptEnabled(boolean value) {
+        jsEnabled = value;
+    }
+    
+    @Override
+    public boolean getJavascriptEnabled() {
+        return jsEnabled;
+    }
+    
+    @Override
+    public void setExternalHostsEnabled(boolean value) {
+        externalHostsEnabled = value;
+    }
+    
+    @Override
+    public boolean getExternalHostsEnabled() {
+        return externalHostsEnabled;
     }
     
     @Override
