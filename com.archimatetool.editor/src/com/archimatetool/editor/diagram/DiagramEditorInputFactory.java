@@ -36,12 +36,14 @@ public class DiagramEditorInputFactory implements IElementFactory {
     public static final String TAG_VIEW_ID = "view_id"; //$NON-NLS-1$
     public static final String TAG_VIEW_FILE = "file"; //$NON-NLS-1$
     public static final String TAG_VIEW_NAME = "name"; //$NON-NLS-1$
+    public static final String TAG_VIEW_ZOOM = "zoom"; //$NON-NLS-1$
 
     @Override
     public IAdaptable createElement(IMemento memento) {
         String viewID = memento.getString(TAG_VIEW_ID);
         String fileName = memento.getString(TAG_VIEW_FILE);
         String viewName = memento.getString(TAG_VIEW_NAME);
+        String zoomLevel = memento.getString(TAG_VIEW_ZOOM);
 
         if(viewID != null && fileName != null) {
             File file = new File(fileName);
@@ -49,7 +51,9 @@ public class DiagramEditorInputFactory implements IElementFactory {
                 if(file.equals(model.getFile())) {
                     for(IDiagramModel diagramModel : model.getDiagramModels()) {
                         if(viewID.equals(diagramModel.getId())) {
-                            return new DiagramEditorInput(diagramModel);
+                            DiagramEditorInput input = new DiagramEditorInput(diagramModel);
+                            input.setZoomLevel(zoomLevel);
+                            return input;
                         }
                     }
                 }
@@ -70,10 +74,13 @@ public class DiagramEditorInputFactory implements IElementFactory {
         IDiagramModel diagramModel = input.getDiagramModel();
         if(diagramModel != null && diagramModel.getArchimateModel() != null) {
             memento.putString(TAG_VIEW_ID, diagramModel.getId());
+            memento.putString(TAG_VIEW_ZOOM, input.getZoomLevel());
+            
             String name = diagramModel.getName();
             if(name != null) {
                 memento.putString(TAG_VIEW_NAME, name);
             }
+            
             File file = diagramModel.getArchimateModel().getFile();
             if(file != null) {
                 memento.putString(TAG_VIEW_FILE, file.getAbsolutePath());

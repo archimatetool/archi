@@ -29,6 +29,11 @@ implements IEditorInput, IPersistableElement {
      */
     private IDiagramModel fModel;
     
+    /**
+     * Diagram zoom level
+     */
+    private String zoomLevel;
+    
     public DiagramEditorInput(IDiagramModel model) {
         fModel = model;
     }
@@ -37,6 +42,14 @@ implements IEditorInput, IPersistableElement {
         return fModel;
     }
     
+    public void setZoomLevel(String zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+    
+    public String getZoomLevel() {
+        return zoomLevel == null ? "100%" : zoomLevel; //$NON-NLS-1$
+    }
+
     @Override
     public boolean exists() {
         return false;

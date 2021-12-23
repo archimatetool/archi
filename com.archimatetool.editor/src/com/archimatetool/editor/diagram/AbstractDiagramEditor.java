@@ -32,6 +32,7 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.internal.InternalGEFPlugin;
 import org.eclipse.gef.palette.PaletteListener;
@@ -356,6 +357,19 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Set background color in case theming is disabled
         viewer.getControl().setBackground(new Color(255, 255, 255));
+
+        // Set zoom level from persisted level
+        ZoomManager zoomManager = (ZoomManager)getAdapter(ZoomManager.class);
+        String zoomLevel = ((DiagramEditorInput)getEditorInput()).getZoomLevel();
+        zoomManager.setZoomAsText(zoomLevel);
+
+        // Listen to zoom levels to store it in Editor Input
+        zoomManager.addZoomListener(new ZoomListener() {
+            @Override
+            public void zoomChanged(double zoom) {
+                ((DiagramEditorInput)getEditorInput()).setZoomLevel(zoomManager.getZoomAsText());
+            }
+        });
     }
     
     private void hookSelectionListener() {
