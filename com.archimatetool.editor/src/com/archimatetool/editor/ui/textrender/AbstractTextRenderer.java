@@ -5,7 +5,9 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -88,7 +90,7 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
         if(prefix.endsWith(":source") && object instanceof IConnectable) {
             prefix = prefix.replace(":source", "");
 
-            // Has at least one target connection that matches...
+            // Has at least one source connection that matches...
             for(IDiagramModelConnection connection : ((IConnectable)object).getTargetConnections()) {
                 IArchimateModelObject actualConnection = getActualObject(connection);
                 if(actualConnection.eClass().getName().toLowerCase().contains(prefix)) {
@@ -105,6 +107,28 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
                 IArchimateModelObject actualConnection = getActualObject(connection);
                 if(actualConnection.eClass().getName().toLowerCase().contains(prefix)) {
                     return getActualObject(connection.getTarget());
+                }
+            }
+        }
+        // Linked model source object from a connection
+        else if(prefix.endsWith(":msource") && actualObject instanceof IArchimateConcept) {
+            prefix = prefix.replace(":msource", "");
+            
+            // Has at least one source relation that matches...
+            for(IArchimateRelationship r : ((IArchimateConcept)actualObject).getTargetRelationships()) {
+                if(r.eClass().getName().toLowerCase().contains(prefix)) {
+                    return r.getSource();
+                }
+            }
+        }
+        // Linked model target object from a connection
+        else if(prefix.endsWith(":mtarget") && actualObject instanceof IArchimateConcept) {
+            prefix = prefix.replace(":mtarget", "");
+            
+                // Has at least one source relation that matches...
+            for(IArchimateRelationship r : ((IArchimateConcept)actualObject).getSourceRelationships()) {
+                if(r.eClass().getName().toLowerCase().contains(prefix)) {
+                    return r.getTarget();
                 }
             }
         }

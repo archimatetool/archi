@@ -34,7 +34,7 @@ public interface ITextRenderer {
      * For example $connection:source{name} $composition:target{name}
      * This is two non-capturing groups
      */
-    String connectionPrefixes = "(?:connection:|triggering:|access:|specialization:|composition:|assignment:|aggregation:|realization:|serving:|influence:|flow:|association:)(?:source|target)";
+    String connectionPrefixes = "(?:connection:|triggering:|access:|specialization:|composition:|assignment:|aggregation:|realization:|serving:|influence:|flow:|association:)(?:source|target|msource|mtarget)";
     
     /**
      * This consists of one capturing group choice (group 1) of either
