@@ -8,7 +8,6 @@ package com.archimatetool.editor.views.navigator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -23,6 +22,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 
 
@@ -52,18 +52,20 @@ public class NavigatorViewer extends TreeViewer {
         setComparator(new ViewerComparator());
     }
     
-    public Object getActualInput() {
-        return getActualInput(getInput());
-    }
-    
-    public Object getActualInput(Object input) {
+    /**
+     * @return The input object from the array
+     */
+    IArchimateModelObject getActualInput() {
+        Object input = getInput();
+        
         if(input instanceof Object[] && ((Object[])input).length == 1) {
             input = ((Object[])input)[0];
         }
-        return input;
+        
+        return input instanceof IArchimateModelObject ? (IArchimateModelObject)input : null;
     }
     
-    public void setShowTargetElements(boolean set) {
+    void setShowTargetElements(boolean set) {
         if(fShowTargetElements != set) {
             fShowTargetElements = set;
             refresh();
@@ -102,14 +104,12 @@ public class NavigatorViewer extends TreeViewer {
         @Override
         public Object[] getElements(Object parent) {
             if(parent instanceof Object[]) {
-                // Check if it was deleted
-                Object input = getActualInput(parent);
-                if(input instanceof EObject && ((EObject)input).eContainer() == null) {
-                    return new Object[0];
+                IArchimateModelObject input = getActualInput();
+                if(input != null && input.eContainer() != null) { // Check if it was deleted
+                    return (Object[])parent;
                 }
-                
-                return (Object[])parent;
             }
+            
             return new Object[0];
         }
 
@@ -159,8 +159,7 @@ public class NavigatorViewer extends TreeViewer {
     /**
      * Label Provider
      */
-    private class NavigatorViewerLabelProvider extends LabelProvider {
-        
+    private static class NavigatorViewerLabelProvider extends LabelProvider {
         @Override
         public String getText(Object element) {
             return ArchiLabelProvider.INSTANCE.getLabelNormalised(element);

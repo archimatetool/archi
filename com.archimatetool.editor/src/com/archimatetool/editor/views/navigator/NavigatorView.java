@@ -68,8 +68,6 @@ implements INavigatorView, ISelectionListener {
     
     private NavigatorDrillDownAdapter fDrillDownAdapter;
     
-    private IArchimateConcept fCurrentArchimateConcept;
-    
     private class NavigatorDrillDownAdapter extends DrillDownAdapter {
         public NavigatorDrillDownAdapter() {
             super(fTreeViewer);
@@ -77,17 +75,12 @@ implements INavigatorView, ISelectionListener {
         
         @Override
         public boolean canExpand(Object element) {
-            Object root = fTreeViewer.getActualInput();
-            element = fTreeViewer.getActualInput(element);
-            //return element != root && fTreeViewer.isExpandable(element);
-            return element != root;
+            return element != getViewerInput();
         }
 
         @Override
         public void goInto() {
-            IStructuredSelection sel = (IStructuredSelection)fTreeViewer.getSelection();
-            Object element = sel.getFirstElement();
-            goInto(new Object[] { element });
+            goInto(new Object[] { ((IStructuredSelection)fTreeViewer.getSelection()).getFirstElement() });
         }
     }
     
@@ -101,8 +94,6 @@ implements INavigatorView, ISelectionListener {
         
         fTreeViewer = new NavigatorViewer(parent, SWT.NULL);
         fTreeViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-        
-        fTreeViewer.setInput(IEditorModelManager.INSTANCE);
         
         /*
          * Listen to Double-click Action
@@ -279,18 +270,13 @@ implements INavigatorView, ISelectionListener {
     
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        if(part == this) {
-            return;
-        }
-        
-        if(fActionPinContent.isChecked()) {
+        if(part == this || fActionPinContent.isChecked()) {
             return;
         }
         
         // Don't reset if we select something in another Eclipse view
         if(selection instanceof IStructuredSelection && !selection.isEmpty()) {
-            Object object = ((IStructuredSelection)selection).getFirstElement();
-            setElement(object);
+            setElement(((IStructuredSelection)selection).getFirstElement());
         }
     }
     
@@ -311,25 +297,21 @@ implements INavigatorView, ISelectionListener {
             concept = ((IAdaptable)object).getAdapter(IArchimateConcept.class);
         }
         
-        if(concept != null) {
-            getViewer().setInput(new Object[] { concept }); // Need to use an array
-        }
-        else {
-            getViewer().setInput(null);
-        }
-        
-        fCurrentArchimateConcept = concept;
+        getViewer().setInput(new Object[] { concept }); // Need to use an array
     }
     
     private void reset() {
         fDrillDownAdapter.reset();
         getViewer().setInput(null);
-        fCurrentArchimateConcept = null;
     }
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        return fCurrentArchimateConcept != null ? fCurrentArchimateConcept.getArchimateModel() : null;
+        return getViewerInput() != null ? getViewerInput().getArchimateModel() : null;
+    }
+    
+    private IArchimateModelObject getViewerInput() {
+        return getViewer() != null && getViewer().getActualInput() != null ? getViewer().getActualInput() : null;
     }
 
     @Override
@@ -339,7 +321,6 @@ implements INavigatorView, ISelectionListener {
         // Unregister selection listener
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
         
-        fCurrentArchimateConcept = null;
         fTreeViewer = null;
     }
     
@@ -349,18 +330,14 @@ implements INavigatorView, ISelectionListener {
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String propertyName = evt.getPropertyName();
-        Object newValue = evt.getNewValue();
-        
         // Model Closed
-        if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
-            Object input = getViewer().getActualInput();
-            if(input instanceof IArchimateModelObject && ((IArchimateModelObject)input).getArchimateModel() == newValue) {
+        if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+            if(getActiveArchimateModel() == evt.getNewValue()) {
                 reset();
             }
         }
         // Command Stack - update Actions
-        else if(propertyName == IEditorModelManager.COMMAND_STACK_CHANGED) {
+        else if(evt.getPropertyName() == IEditorModelManager.COMMAND_STACK_CHANGED) {
             updateActions();
         }
         else {
