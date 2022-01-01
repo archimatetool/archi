@@ -550,6 +550,9 @@ public class HTMLReportExporter {
      * Remove any unwanted HTML content
      */
     private void cleanContent() {
+        // Model Purpose
+        fModel.setPurpose(getCleanContent(fModel.getPurpose()));
+
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             
