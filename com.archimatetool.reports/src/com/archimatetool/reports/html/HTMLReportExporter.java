@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -60,10 +59,8 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.ITextContent;
 import com.archimatetool.reports.ArchiReportsPlugin;
 
 
@@ -109,11 +106,7 @@ public class HTMLReportExporter {
     }
     
     public HTMLReportExporter(IArchimateModel model) {
-        // Use a copy of the model
-        fModel = EcoreUtil.copy(model);
-        
-        // Clean the content
-        cleanContent();
+        fModel = model;
     }
     
     public void export() throws Exception {
@@ -545,31 +538,5 @@ public class HTMLReportExporter {
             }
         }
     }
-    
-    /**
-     * Remove any unwanted HTML content
-     */
-    private void cleanContent() {
-        // Model Purpose
-        fModel.setPurpose(getCleanContent(fModel.getPurpose()));
 
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            
-            if(eObject instanceof ITextContent) {
-                ((ITextContent)eObject).setContent(getCleanContent(((ITextContent)eObject).getContent()));
-            }
-            else if(eObject instanceof IDocumentable) {
-                ((IDocumentable)eObject).setDocumentation(getCleanContent(((IDocumentable)eObject).getDocumentation()));
-            }
-        }
-    }
-    
-    private String getCleanContent(String content) {
-        if(content == null) {
-            return null;
-        }
-        
-        return content.replaceAll("\\<.*?\\>", ""); //$NON-NLS-1$ //$NON-NLS-2$
-    }
 }

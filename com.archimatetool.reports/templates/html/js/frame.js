@@ -15,6 +15,10 @@ function createLinks(text) {
           .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>');
 }
 
+function stripScriptTags(text) {
+	return text.replace(/<script.*?>|<\/script.*?>/g, '');
+}
+
 // Hints URLs
 var hints = {
 // Hints for viewpoints
@@ -141,6 +145,11 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
+	// Strip script tags
+    $('.documentation').each(function() {
+        $(this).html(stripScriptTags($(this).text()));
+    });
+
 	// Create links in this class
     $('.convertlinks').each(function() {
         $(this).html(createLinks($(this).text()));
