@@ -15,7 +15,7 @@ function createLinks(text) {
           .replace(/mailto:(\S+)/g, '<a href="mailto:$1">$1</a>');
 }
 
-function stripScriptTags(text) {
+function removeScriptTags(text) {
 	return text.replace(/<script.*?>|<\/script.*?>/g, '');
 }
 
@@ -145,9 +145,9 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	// Strip script tags
+	// Remove any script tags first
     $('.documentation').each(function() {
-        $(this).html(stripScriptTags($(this).text()));
+        $(this).text(removeScriptTags($(this).text()));
     });
 
 	// Create links in this class
