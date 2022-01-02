@@ -46,7 +46,6 @@ import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.browser.IBrowserEditorInput;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
@@ -161,8 +160,6 @@ public class HTMLReportExporter {
                 
                 // Open it in internal Browser
                 IBrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-                input.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.INTERNAL_BROWSER_JS_ENABLED));
-                input.setExternalHostsEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED));
                 
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
                 if(editor != null && editor.getBrowser() != null) {

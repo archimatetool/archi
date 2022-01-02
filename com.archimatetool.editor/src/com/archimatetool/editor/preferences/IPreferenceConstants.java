@@ -133,9 +133,6 @@ public interface IPreferenceConstants {
     
     String EDGE_BROWSER = "edgeBrowser";
     
-    String INTERNAL_BROWSER_JS_ENABLED = "browserJSEnabled";
-    String INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED = "browserExternalHostsEnabled";
-
     String HINTS_BROWSER_JS_ENABLED = "hintsJSEnabled";
     String HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED = "hintsExternalHostsEnabled";
 

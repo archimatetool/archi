@@ -47,9 +47,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fUseEdgeBrowserButton;
     
-    private Button fEnableJSInternalBrowserButton;
-    private Button fEnableExternalHostsInternalBrowserButton;
-    
     private Button fEnableJSHintsButton;
     private Button fEnableExternalHostsHintsButton;
 
@@ -142,44 +139,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.GeneralPreferencePage_14);
         label.setLayoutData(createHorizontalGridData(2));
         
+        // Internal Browser
+        Group browserGroup = new Group(client, SWT.NULL);
+        browserGroup.setText(Messages.GeneralPreferencePage_19);
+        browserGroup.setLayout(new GridLayout(1, false));
+        browserGroup.setLayoutData(createHorizontalGridData(2));
+
         // Edge Browser on Windows
         if(PlatformUtils.isWindows()) {
-            // Internal Browser
-            Group browserGroup = new Group(client, SWT.NULL);
-            browserGroup.setText(Messages.GeneralPreferencePage_19);
-            browserGroup.setLayout(new GridLayout(2, false));
-            browserGroup.setLayoutData(createHorizontalGridData(2));
-
             fUseEdgeBrowserButton = new Button(browserGroup, SWT.CHECK);
             fUseEdgeBrowserButton.setText(Messages.GeneralPreferencePage_15);
-            fUseEdgeBrowserButton.setLayoutData(createHorizontalGridData(2));
         }
         
-        Group browserGroup2 = new Group(client, SWT.NULL);
-        browserGroup2.setText(Messages.GeneralPreferencePage_20);
-        browserGroup2.setLayout(new GridLayout(1, false));
-        browserGroup2.setLayoutData(createHorizontalGridData(1));
-
-        fEnableJSInternalBrowserButton = new Button(browserGroup2, SWT.CHECK);
-        fEnableJSInternalBrowserButton.setText(Messages.GeneralPreferencePage_21);
-        fEnableJSInternalBrowserButton.setLayoutData(createHorizontalGridData(1));
-        
-        fEnableExternalHostsInternalBrowserButton = new Button(browserGroup2, SWT.CHECK);
-        fEnableExternalHostsInternalBrowserButton.setText(Messages.GeneralPreferencePage_22);
-        fEnableExternalHostsInternalBrowserButton.setLayoutData(createHorizontalGridData(1));
-        
-        Group browserGroup3 = new Group(client, SWT.NULL);
-        browserGroup3.setText(Messages.GeneralPreferencePage_23);
-        browserGroup3.setLayout(new GridLayout(1, false));
-        browserGroup3.setLayoutData(createHorizontalGridData(1));
-
-        fEnableJSHintsButton = new Button(browserGroup3, SWT.CHECK);
+        fEnableJSHintsButton = new Button(browserGroup, SWT.CHECK);
         fEnableJSHintsButton.setText(Messages.GeneralPreferencePage_21);
-        fEnableJSHintsButton.setLayoutData(createHorizontalGridData(1));
         
-        fEnableExternalHostsHintsButton = new Button(browserGroup3, SWT.CHECK);
+        fEnableExternalHostsHintsButton = new Button(browserGroup, SWT.CHECK);
         fEnableExternalHostsHintsButton.setText(Messages.GeneralPreferencePage_22);
-        fEnableExternalHostsHintsButton.setLayoutData(createHorizontalGridData(1));
 
         // -------------- Animation ----------------------------
         
@@ -239,9 +215,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getBoolean(EDGE_BROWSER));
         }
         
-        fEnableJSInternalBrowserButton.setSelection(getPreferenceStore().getBoolean(INTERNAL_BROWSER_JS_ENABLED));
-        fEnableExternalHostsInternalBrowserButton.setSelection(getPreferenceStore().getBoolean(INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED));
-        
         fEnableJSHintsButton.setSelection(getPreferenceStore().getBoolean(HINTS_BROWSER_JS_ENABLED));
         fEnableExternalHostsHintsButton.setSelection(getPreferenceStore().getBoolean(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED));
 
@@ -269,9 +242,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(fUseEdgeBrowserButton != null) {
             getPreferenceStore().setValue(EDGE_BROWSER, fUseEdgeBrowserButton.getSelection());
         }
-        
-        getPreferenceStore().setValue(INTERNAL_BROWSER_JS_ENABLED, fEnableJSInternalBrowserButton.getSelection());
-        getPreferenceStore().setValue(INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED, fEnableExternalHostsInternalBrowserButton.getSelection());
         
         getPreferenceStore().setValue(HINTS_BROWSER_JS_ENABLED, fEnableJSHintsButton.getSelection());
         getPreferenceStore().setValue(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED, fEnableExternalHostsHintsButton.getSelection());
@@ -302,9 +272,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(fUseEdgeBrowserButton != null) {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(EDGE_BROWSER));
         }
-        
-        fEnableJSInternalBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(INTERNAL_BROWSER_JS_ENABLED));
-        fEnableExternalHostsInternalBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(INTERNAL_BROWSER_EXTERNAL_HOSTS_ENABLED));
         
         fEnableJSHintsButton.setSelection(getPreferenceStore().getDefaultBoolean(HINTS_BROWSER_JS_ENABLED));
         fEnableExternalHostsHintsButton.setSelection(getPreferenceStore().getDefaultBoolean(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED));
