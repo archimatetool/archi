@@ -192,7 +192,7 @@
 		<band height="45">
 			<printWhenExpression><![CDATA[$F{name} != null]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Normal" x="0" y="30" width="515" height="15" uuid="38784cb9-ab24-4fac-9438-ab7792b48648"/>
+				<reportElement style="Purpose" x="0" y="30" width="515" height="15" uuid="38784cb9-ab24-4fac-9438-ab7792b48648"/>
 				<textFieldExpression><![CDATA[$F{purpose}]]></textFieldExpression>
 			</textField>
 			<textField>
