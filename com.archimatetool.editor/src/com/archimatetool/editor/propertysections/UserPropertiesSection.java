@@ -303,6 +303,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         // Toolbar
         ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.VERTICAL);
+        getWidgetFactory().adapt(toolBar);
         GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).applyTo(toolBar);
 
         ToolBarManager toolBarmanager = new ToolBarManager(toolBar);
