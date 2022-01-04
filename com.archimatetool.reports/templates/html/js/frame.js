@@ -16,7 +16,7 @@ function createLinks(text) {
 }
 
 function removeScriptTags(text) {
-	return text.replace(/<script.*?>|<\/script.*?>/g, '');
+	return text.replace(/<script.*?>|<\/script.*?>/gi, '');
 }
 
 // Hints URLs
