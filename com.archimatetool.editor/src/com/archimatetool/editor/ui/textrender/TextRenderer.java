@@ -122,7 +122,7 @@ public class TextRenderer {
             
         } while((!resultSet.contains(result)));
 
-        return result;
+        return renderEscapedCharacters(result);
     }
 
     /**
@@ -186,5 +186,12 @@ public class TextRenderer {
      */
     private String renderNewLines(String result) {
         return result.replace("\\n", "\n");
+    }
+    
+    /**
+     * Remove escapement of chars other than newline
+     */
+    private String renderEscapedCharacters(String result) {
+    	return result.replace("\\:", ":").replace("\\\\", "\\");
     }
 }
