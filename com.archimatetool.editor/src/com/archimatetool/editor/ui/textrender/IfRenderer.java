@@ -20,7 +20,7 @@ public class IfRenderer extends AbstractTextRenderer {
 
     private static final String startOfExpression = "\\$" + allPrefixesGroup + "\\{";
     private static final String notStartOfExpression = "(?!" + startOfExpression + ")";
-    private static final String acceptedChar = "[^:\\}]";
+    private static final String acceptedChar = "(?:[^:\\}\\\\]|\\\\:|\\\\\\\\)";
     private static final String textWithoutExpressions = "(?:\\\\:|" + notStartOfExpression + acceptedChar + ")*";
     
     private static final Pattern IF_THEN_ELSE_PATTERN = Pattern.compile("\\$\\{if:(?<IF>" + textWithoutExpressions + "):(?<THEN>"
