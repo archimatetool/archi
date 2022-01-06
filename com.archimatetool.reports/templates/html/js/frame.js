@@ -143,7 +143,7 @@ $(document).ready(function() {
 
 	// Create links in this class
     $('.convertlinks').each(function() {
-        $(this).html(createLinks($(this).text()));
+        $(this).html(createLinks($(this).html()));
     });
 
 	// Replace Hint URL
