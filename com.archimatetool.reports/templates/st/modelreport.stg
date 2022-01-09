@@ -21,10 +21,10 @@ expandFolder(folder, target) ::= <<
 >>
 
 classesFromProperties(object) ::= <<
-^object.Properties:{p | ^(p.Key)(p.Value)^ }^
+^object.Properties:{p | ^(["IGNORE_ERROR_", p.Key])(p.Value)^ }^
 >>
 
-_hide_from_export_(value) ::= <<
+IGNORE_ERROR__hide_from_export_(value) ::= <<
 hide-^value;format="lower"^ 
 >>
 
@@ -78,7 +78,7 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 					<b><a href="^model.Id^/elements/model.html" target="view">^model.Name;format="xml-encode"^</a></b>
 					<ul class="tree">
 					<!-- START OF STRINGTEMPLATE CODE -->
-						<li class="tree-folder"><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+						<li class="tree-folder sorted"><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 							<ul>
                                 <li class="tree-folder ^classesFromProperties(strategyFolder)^"><span class="i18n-strategy"><i class="glyphicon glyphicon-triangle-right"></i> </span>
                                     ^expandFolder(strategyFolder, "element")^
