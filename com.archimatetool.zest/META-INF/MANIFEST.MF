@@ -7,7 +7,6 @@ Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help.ui,
@@ -15,6 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.core,
  org.eclipse.zest.layouts
 Bundle-Activator: com.archimatetool.zest.ArchiZestPlugin
-Bundle-ClassPath: com.archimatetool.zest.jar
 Export-Package: com.archimatetool.zest
 Automatic-Module-Name: com.archimatetool.zest
