@@ -139,4 +139,16 @@ public class IfRendererTests extends AbstractTextRendererTests {
         String result = textRenderer.renderWithExpression(dmo, "${if:${property:k8}:${name}:${type}}");
         assertEquals("Business Actor", result);
     }
+    
+    @Test
+    public void render_EscapeColon1() {
+        String result = textRenderer.renderWithExpression(dmo, "${if:not\\:Empty:Is\\:OK:Not\\:Shown}");
+        assertEquals("Is:OK", result);
+    }
+
+    @Test
+    public void render_EscapeColon2() {
+        String result = textRenderer.renderWithExpression(dmo, "${if::Not\\:Shown:Is\\:KO}");
+        assertEquals("Is:KO", result);
+    }
 }
