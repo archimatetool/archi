@@ -97,13 +97,6 @@ public class ArchiPlugin extends AbstractUIPlugin {
     }
     
     /**
-     * @return The assets folder
-     */
-    public File getAssetsFolder() {
-        return new File(getPluginFolder(), "assets"); //$NON-NLS-1$
-    }
-    
-    /**
      * @return The Workspace folder
      */
     public File getWorkspaceFolder() {

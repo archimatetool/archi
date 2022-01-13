@@ -5,10 +5,9 @@
  */
 package com.archimatetool.editor.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.net.URL;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -200,10 +199,10 @@ public class AboutDialog extends TrayDialog {
         checkNewVersionButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
-            File file = new File(ArchiPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
-            if(file.exists()) {
-                try {
-                    String content = new String(Files.readAllBytes(Paths.get(file.getPath())));
+            URL url = ArchiPlugin.INSTANCE.getBundle().getEntry("LICENSE.txt"); //$NON-NLS-1$
+            if(url != null) {
+                try(InputStream in = url.openStream()) {
+                    String content = new String(in.readAllBytes());
                     licenseText.setText(content);
                 }
                 catch(IOException ex) {
