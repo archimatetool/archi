@@ -6,6 +6,7 @@ Bundle-Version: 4.9.2.qualifier
 Bundle-Activator: com.archimatetool.editor.ArchiPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
+Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gef;visibility:=reexport,
  org.eclipse.help.ui,
@@ -28,6 +29,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.equinox.p2.repository,
  org.eclipse.equinox.p2.artifact.repository
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: com.archimatetool.editor.jar
 Export-Package: .,
  com.archimatetool.editor,
  com.archimatetool.editor.actions,
