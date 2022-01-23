@@ -102,7 +102,7 @@ public abstract class AbstractFindReplaceProvider implements IFindReplaceProvide
         toFind = Pattern.quote(toFind);
 
         if(!isCaseSensitive()) {
-            toFind = "(?i:" + toFind + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            toFind = "(?iu:" + toFind + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         return oldString.replaceAll(toFind, toReplaceWith);
@@ -123,9 +123,9 @@ public abstract class AbstractFindReplaceProvider implements IFindReplaceProvide
         // (?s) = Ignore line-breaks, .* = contain string
         searchString = "(?s).*" + searchString + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
         
-        // Ignore case
+        // Ignore case and unicode
         if(!isCaseSensitive()) {
-            searchString = "(?i:" + searchString + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            searchString = "(?iu:" + searchString + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         return searchString;

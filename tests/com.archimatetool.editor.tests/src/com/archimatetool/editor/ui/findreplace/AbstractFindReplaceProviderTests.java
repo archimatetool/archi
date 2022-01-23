@@ -109,10 +109,10 @@ public abstract class AbstractFindReplaceProviderTests {
     public void testGetSearchStringPattern() {
         String searchString = "Hello ( C \\ *. World";
         
-        assertEquals("(?i:(?s).*\\Q" + searchString + "\\E.*)", provider.getSearchStringPattern(searchString));
+        assertEquals("(?iu:(?s).*\\Q" + searchString + "\\E.*)", provider.getSearchStringPattern(searchString));
         
         provider.setParameter(IFindReplaceProvider.PARAM_WHOLE_WORD, true);
-        assertEquals("(?i:(?s).*\\b\\Q" + searchString + "\\E\\b.*)", provider.getSearchStringPattern(searchString));
+        assertEquals("(?iu:(?s).*\\b\\Q" + searchString + "\\E\\b.*)", provider.getSearchStringPattern(searchString));
         
         provider.setParameter(IFindReplaceProvider.PARAM_CASE_SENSITIVE, true);
         assertEquals("(?s).*\\b\\Q" + searchString + "\\E\\b.*", provider.getSearchStringPattern(searchString));
