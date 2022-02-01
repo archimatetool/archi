@@ -33,6 +33,7 @@ import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextAlignment;
 
 
@@ -139,15 +140,40 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 
         switch(position) {
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE:
-                locator = new ArchiConnectionEndpointLocator(this, false);
+                locator = new ArchiConnectionEndpointLocator(this, false, 4);
                 setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE:
-                locator = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
+                locator = new ArchiConnectionMiddleLocator(this, ConnectionLocator.MIDDLE, 0);
                 setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_CENTER); // Text align center
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET:
-                locator = new ArchiConnectionEndpointLocator(this, true);
+                locator = new ArchiConnectionEndpointLocator(this, true, 4);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
+                break;
+
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE_CENTER:
+                locator = new ArchiConnectionEndpointLocator(this, false, 0);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
+                break;
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE_ABOVE:
+                locator = new ArchiConnectionEndpointLocator(this, false, -4);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
+                break;
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE_ABOVE:
+                locator = new ArchiConnectionMiddleLocator(this, ConnectionLocator.MIDDLE, -12);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_CENTER); // Text align center
+                break;
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE_BELOW:
+                locator = new ArchiConnectionMiddleLocator(this, ConnectionLocator.MIDDLE, 12);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_CENTER); // Text align center
+                break;
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET_CENTER:
+                locator = new ArchiConnectionEndpointLocator(this, true, 0);
+                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
+                break;
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET_ABOVE:
+                locator = new ArchiConnectionEndpointLocator(this, true, -4);
                 setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
                 break;
         }

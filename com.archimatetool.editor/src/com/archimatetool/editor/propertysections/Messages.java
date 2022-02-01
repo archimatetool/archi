@@ -107,6 +107,18 @@ public class Messages extends NLS {
 
     public static String DiagramConnectionSection_8;
 
+    public static String DiagramConnectionSection_9;
+
+    public static String DiagramConnectionSection_10;
+
+    public static String DiagramConnectionSection_11;
+
+    public static String DiagramConnectionSection_12;
+
+    public static String DiagramConnectionSection_13;
+
+    public static String DiagramConnectionSection_14;
+
     public static String DiagramFigureTypeSection_0;
 
     public static String DiagramModelConnectionSection_0;

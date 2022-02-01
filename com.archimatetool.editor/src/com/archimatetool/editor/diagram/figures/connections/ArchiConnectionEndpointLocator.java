@@ -29,7 +29,7 @@ import org.eclipse.draw2d.geometry.Transposer;
 public class ArchiConnectionEndpointLocator implements Locator {
 
 	private boolean end;
-	private Connection conn;
+	private AbstractDiagramConnectionFigure conn;
 	private int uDistance;
 	private int vDistance;
 	private static Rectangle figureBounds;
@@ -52,13 +52,13 @@ public class ArchiConnectionEndpointLocator implements Locator {
 	 *            <code>true</code> is location is relative to end point
 	 * @since 2.0
 	 */
-	public ArchiConnectionEndpointLocator(Connection c, boolean isEnd) {
-			end = isEnd;
-			conn = c;
-			uDistance = 14;
-			vDistance = 4;
-			figureBounds = new Rectangle();
-		}
+	public ArchiConnectionEndpointLocator(AbstractDiagramConnectionFigure c, boolean isEnd, int vDistance) {
+        this.end = isEnd;
+        this.conn = c;
+		this.uDistance = 10;
+		this.vDistance = vDistance;
+		figureBounds = new Rectangle();
+	}
 
 	/*
 	 * This method is used to calculate the "quadrant" value of a connection

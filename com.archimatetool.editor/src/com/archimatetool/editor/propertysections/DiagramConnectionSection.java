@@ -59,7 +59,13 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     public static final String[] comboTextPositionItems = {
             Messages.DiagramConnectionSection_0,
             Messages.DiagramConnectionSection_1,
-            Messages.DiagramConnectionSection_2
+            Messages.DiagramConnectionSection_2,
+            Messages.DiagramConnectionSection_9,
+            Messages.DiagramConnectionSection_10,
+            Messages.DiagramConnectionSection_11,
+            Messages.DiagramConnectionSection_12,
+            Messages.DiagramConnectionSection_13,
+            Messages.DiagramConnectionSection_14
     };
     
     public static final String[] comboLineWidthItems = {

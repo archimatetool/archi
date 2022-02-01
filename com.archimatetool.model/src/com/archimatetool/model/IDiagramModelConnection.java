@@ -32,20 +32,50 @@ import org.eclipse.emf.common.util.EList;
 public interface IDiagramModelConnection extends IConnectable, IFontAttribute, IProperties, IDocumentable, ILineObject {
     
     /**
-     * Text Position at source
+     * Text Position at source (below or right of the connector line)
      */
     int CONNECTION_TEXT_POSITION_SOURCE = 0;
 
     /**
-     * Text Position at middle
+     * Text Position at middle (over the connector line)
      */
     int CONNECTION_TEXT_POSITION_MIDDLE = 1;
     
     /**
-     * Text Position at target
+     * Text Position at target (below or right of the connector line)
      */
     int CONNECTION_TEXT_POSITION_TARGET = 2;
-    
+
+    /**
+     * Text Position at source (over the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_SOURCE_CENTER = 3;
+
+    /**
+     * Text Position at source (above or left of the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_SOURCE_ABOVE = 4;
+
+    /**
+     * Text Position at middle (below or right of the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_MIDDLE_BELOW = 5;
+
+    /**
+     * Text Position at middle (above or left of the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_MIDDLE_ABOVE = 6;
+
+    /**
+     * Text Position at target (over the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_TARGET_CENTER = 7;
+
+    /**
+     * Text Position at target (above or left of the connector line)
+     */
+    int CONNECTION_TEXT_POSITION_TARGET_ABOVE = 8;
+
     /**
      * Line Styles
      */
