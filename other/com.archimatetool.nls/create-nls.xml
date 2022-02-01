@@ -1,209 +1,180 @@
 <project name="Create NLS projects" default="run" basedir=".">
-  	
-	<description>
+
+    <description>
 		Create NLS language pack projects from source projects
   	</description>
-	
-	<!-- Default/Start Target -->
-	<target name="run" depends="init_user, init_main, create_archi_projects" />
-	
-	<!-- USER MUST SET THESE VALUES -->
-	<target name="init_user">
-		<description>
-		    Edit the following values:
-			"lang_code" shold be one of the language codes such as fr, de, nl, ru
-			"nls_version" should be the version of the language packs
-		    "bundle_name" should be your language pack name like "German Langauage Pack"
-		    "bundle_vendor" should be your name like "Acme Company", "Fred Bloggs", or "Acme University"
-	  	</description>
-		
-	    <property name="lang_code"					value="en"/>
-		<property name="nls_version"				value="4.9.0"/>
-        <property name="bundle_name"                value="Your Language Pack Name"/>
-        <property name="bundle_vendor"              value="Your Name"/>
-	</target>
-	
-	
-	
-	<target name="init_main">
-		<property name="main.dir"    				value="nls"/>
-		<property name="project.dir"    			value="project"/>
-	</target>
-	
-    
-	<target name="create_archi_projects">
-		
-		<!-- com.archimatetool.canvas -->
-    	<antcall target="create_archi_project">
-    		<param name="prj.src"  					value="com.archimatetool.canvas"/>
-    	    <param name="file1"                     value="help/"/>
-    	    <param name="file2"                     value="templates/"/>
-    	</antcall>
-		
-	    
-        <!-- com.archimatetool.commandline -->
+
+    <property name="main.dir"     value="nls" />
+    <property name="project.dir"  value="project" />
+
+    <!-- YOU MUST SET THE FOLLOWING PROPERTY VALUES -->
+
+    <!-- The language code, such as fr, de, nl, ru -->
+    <property name="lang_code"       value="en" />
+        
+    <!-- The version of the language pack -->
+    <property name="nls_version"     value="4.9.0" />
+        
+    <!-- Language pack name like "German Language Pack" -->
+    <property name="bundle_name"     value="Your Language Pack Name" />
+        
+    <!-- Vendor name like "Acme Company", "Fred Bloggs", or "Acme University" -->
+    <property name="bundle_vendor"   value="Your Name" />
+
+    <target name="run">
+
+        <!-- com.archimatetool.canvas -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.commandline"/>
+            <param name="prj.src" value="com.archimatetool.canvas" />
+            <param name="file1"   value="help/" />
+            <param name="file2"   value="templates/" />
         </antcall>
 
+        <!-- com.archimatetool.commandline -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.commandline" />
+        </antcall>
 
         <!-- com.archimatetool.csv -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.csv"/>
+            <param name="prj.src" value="com.archimatetool.csv" />
         </antcall>
-		
-		
+
         <!-- com.archimatetool.csv.commandline -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.csv.commandline"/>
+            <param name="prj.src" value="com.archimatetool.csv.commandline" />
         </antcall>
 
-
-		<!-- com.archimatetool.editor -->
+        <!-- com.archimatetool.editor -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.editor"/>
-            <param name="file1"                     value="intro/"/>
+            <param name="prj.src" value="com.archimatetool.editor" />
+            <param name="file1"   value="intro/" />
         </antcall>
 
-                
         <!-- com.archimatetool.editor.browser -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.editor.browser"/>
+            <param name="prj.src" value="com.archimatetool.editor.browser" />
         </antcall>
 
-
-		<!-- com.archimatetool.export.svg -->
+        <!-- com.archimatetool.export.svg -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.export.svg"/>
+            <param name="prj.src" value="com.archimatetool.export.svg" />
         </antcall>
-
 
         <!-- com.archimatetool.hammer -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.hammer"/>
-        </antcall>
-        
-	    
-		<!-- com.archimatetool.help -->
-        <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.help"/>
-            <param name="file1"                     value="cheatsheets/"/>
-            <param name="file2"                     value="help/"/>
-            <param name="file3"                     value="hints/"/>
-            <param name="file4"                     value="contexts.xml"/>
-            <param name="file5"                     value="toc.xml"/>
-            <param name="file6"                     value="toc_resources.xml"/>
-        </antcall>
-		
-		
-		<!-- com.archimatetool.jasperreports -->
-        <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.jasperreports"/>
-            <param name="file1"                     value="reports/"/>
-        </antcall>
-		
-		
-        <!-- com.archimatetool.jasperreports.commandline -->
-        <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.jasperreports.commandline"/>
-        </antcall>
-        
-        
-		<!-- com.archimatetool.model -->
-        <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.model"/>
-            <param name="file1"                     value="model/viewpoints.xml"/>
-        </antcall>
-		
-	    
-        <!-- com.archimatetool.modelimporter -->
-        <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.modelimporter"/>
+            <param name="prj.src" value="com.archimatetool.hammer" />
         </antcall>
 
+        <!-- com.archimatetool.help -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.help" />
+            <param name="file1"   value="cheatsheets/" />
+            <param name="file2"   value="help/" />
+            <param name="file3"   value="hints/" />
+            <param name="file4"   value="contexts.xml" />
+            <param name="file5"   value="toc.xml" />
+            <param name="file6"   value="toc_resources.xml" />
+        </antcall>
+
+        <!-- com.archimatetool.jasperreports -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.jasperreports" />
+            <param name="file1"   value="reports/" />
+        </antcall>
+
+        <!-- com.archimatetool.jasperreports.commandline -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.jasperreports.commandline" />
+        </antcall>
+
+        <!-- com.archimatetool.model -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.model" />
+            <param name="file1"   value="model/viewpoints.xml" />
+        </antcall>
+
+        <!-- com.archimatetool.modelimporter -->
+        <antcall target="create_archi_project">
+            <param name="prj.src" value="com.archimatetool.modelimporter" />
+        </antcall>
 
         <!-- com.archimatetool.modelimporter.commandline -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.modelimporter.commandline"/>
+            <param name="prj.src" value="com.archimatetool.modelimporter.commandline" />
         </antcall>
-        
-        
-		<!-- com.archimatetool.reports -->
+
+        <!-- com.archimatetool.reports -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.reports"/>
+            <param name="prj.src" value="com.archimatetool.reports" />
         </antcall>
-		
 
         <!-- com.archimatetool.reports.commandline -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.reports.commandline"/>
+            <param name="prj.src" value="com.archimatetool.reports.commandline" />
         </antcall>
-        
-        
-		<!-- com.archimatetool.templates -->
+
+        <!-- com.archimatetool.templates -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.templates"/>
-            <param name="file1"                     value="templates/"/>
+            <param name="prj.src" value="com.archimatetool.templates" />
+            <param name="file1"   value="templates/" />
         </antcall>
 
-
-		<!-- com.archimatetool.zest -->
+        <!-- com.archimatetool.zest -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="com.archimatetool.zest"/>
+            <param name="prj.src" value="com.archimatetool.zest" />
         </antcall>
 
-
-		<!-- org.opengroup.archimate.xmlexchange -->
+        <!-- org.opengroup.archimate.xmlexchange -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="org.opengroup.archimate.xmlexchange"/>
+            <param name="prj.src" value="org.opengroup.archimate.xmlexchange" />
         </antcall>
 
-	    
-	    <!-- org.opengroup.archimate.xmlexchange.commandline -->
+        <!-- org.opengroup.archimate.xmlexchange.commandline -->
         <antcall target="create_archi_project">
-            <param name="prj.src"                   value="org.opengroup.archimate.xmlexchange.commandline"/>
+            <param name="prj.src" value="org.opengroup.archimate.xmlexchange.commandline" />
         </antcall>
-            	
-	</target>
-	
-    
+
+    </target>
+
+
     <!-- Create target Archi NLS Project -->
     <target name="create_archi_project">
-        <property name="prj.tgt"             value="${prj.src}.${lang_code}"/>
-        <property name="loc.src"             location="../../${prj.src}"/>
-        <property name="loc.tgt"             location="../../${main.dir}/${prj.tgt}"/>
-        
+        <property name="prj.tgt"   value="${prj.src}.${lang_code}" />
+        <property name="loc.src"   location="../../${prj.src}" />
+        <property name="loc.tgt"   location="../../${main.dir}/${prj.tgt}" />
+
         <!-- Copy files -->
-        <copy tofile="${loc.tgt}/.project"          file="${project.dir}/project" overwrite="true"/>
-        <copy tofile="${loc.tgt}/.classpath"        file="${project.dir}/classpath" overwrite="true"/>
-        <copy todir="${loc.tgt}"                    file="${project.dir}/build.properties" overwrite="true"/>
-        <copy todir="${loc.tgt}/META-INF"           file="${project.dir}/MANIFEST.MF" overwrite="true"/>
-        
+        <copy tofile="${loc.tgt}/.project" file="${project.dir}/project" overwrite="true" />
+        <copy tofile="${loc.tgt}/.classpath" file="${project.dir}/classpath" overwrite="true" />
+        <copy todir="${loc.tgt}" file="${project.dir}/build.properties" overwrite="true" />
+        <copy todir="${loc.tgt}/META-INF" file="${project.dir}/MANIFEST.MF" overwrite="true" />
+
         <!--Replace the token in the .project file -->
-        <replace file="${loc.tgt}/.project" token="!project-name!" value="${prj.src}.${lang_code}"/>
-        
+        <replace file="${loc.tgt}/.project" token="!project-name!" value="${prj.src}.${lang_code}" />
+
         <!--Replace the tokens in the build.properties files -->
         <replace file="${loc.tgt}/build.properties">
-            <replacefilter token="_xx"                      value="_${lang_code}"/>
-            <replacefilter token="!jar-name!"               value="${prj.tgt}.jar"/>
+            <replacefilter token="_xx" value="_${lang_code}" />
+            <replacefilter token="!jar-name!" value="${prj.tgt}.jar" />
         </replace>
-        
+
         <!--Replace the tokens in the MANIFEST.MF file -->
         <replace file="${loc.tgt}/META-INF/MANIFEST.MF">
-            <replacefilter token="!bundle-name!"            value="${bundle_name}"/>
-            <replacefilter token="!bundle-vendor!"          value="${bundle_vendor}"/>
-            <replacefilter token="!bundle-symbolicname!"    value="${prj.tgt}"/>
-            <replacefilter token="!bundle-classpath!"       value="${prj.tgt}.jar"/>
-            <replacefilter token="!fragment-host!"          value="${prj.src}"/>
-            <replacefilter token="!nls-version!"            value="${nls_version}"/>
+            <replacefilter token="!bundle-name!" value="${bundle_name}" />
+            <replacefilter token="!bundle-vendor!" value="${bundle_vendor}" />
+            <replacefilter token="!bundle-symbolicname!" value="${prj.tgt}" />
+            <replacefilter token="!bundle-classpath!" value="${prj.tgt}.jar" />
+            <replacefilter token="!fragment-host!" value="${prj.src}" />
+            <replacefilter token="!nls-version!" value="${nls_version}" />
         </replace>
-        
+
         <!-- Copy properties files -->
         <antcall target="copy_properties_files">
-            <param name="in.dir"                            value="${loc.src}"/>
-            <param name="out.dir"                           value="${loc.tgt}"/>
+            <param name="in.dir"  value="${loc.src}" />
+            <param name="out.dir" value="${loc.tgt}" />
         </antcall>
-        
+
         <!-- Copy other files -->
         <copy todir="${loc.tgt}/nl/${lang_code}">
             <fileset dir="${loc.src}">
@@ -218,17 +189,17 @@
             </fileset>
         </copy>
     </target>
-	
-	
-	<!-- Copy *.properties files in src folder and rename them to *._xx.properties -->
-	<target name="copy_properties_files">
-		<copy todir="${out.dir}">
-			<fileset dir="${in.dir}">
-				<include name="src/**/*.properties" />
-				<include name="plugin.properties" />
-			</fileset>
-			<mapper type="glob" from="*.properties" to="*_${lang_code}.properties"/>
-		</copy>
-	</target>
+
+
+    <!-- Copy *.properties files in src folder and rename them to *._xx.properties -->
+    <target name="copy_properties_files">
+        <copy todir="${out.dir}">
+            <fileset dir="${in.dir}">
+                <include name="src/**/*.properties" />
+                <include name="plugin.properties" />
+            </fileset>
+            <mapper type="glob" from="*.properties" to="*_${lang_code}.properties" />
+        </copy>
+    </target>
 
 </project>
