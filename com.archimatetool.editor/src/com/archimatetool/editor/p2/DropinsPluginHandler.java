@@ -429,7 +429,8 @@ public class DropinsPluginHandler {
      * If the bundle is in one of the "dropins" folders return its file (jar or folder), else return null
      */
     File getDropinsBundleFile(Bundle bundle) throws IOException {
-        File bundleFile = FileLocator.getBundleFile(bundle);
+        // Normalise the file with File#getCanonicalFile() in case it has ".." in the path (on Mac). If it does, File#equals(File) doesn't work
+        File bundleFile = FileLocator.getBundleFile(bundle).getCanonicalFile();
         File parentFolder = bundleFile.getParentFile();
         
         return (parentFolder.equals(getUserDropinsFolder())
