@@ -84,7 +84,9 @@ extends Command {
         // If it's a circular connection, add some bendpoints
         if(fConnection.getSource() == fConnection.getTarget()) {
             Command cmd = createBendPointsForCircularConnectionCommand(fConnection);
-            cmd.execute();
+            if(cmd != null) {
+                cmd.execute();
+            }
         }
     }
 
