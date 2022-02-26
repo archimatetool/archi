@@ -313,7 +313,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
         
         CreateNewDiagramObjectCommand cmd1 = new CreateNewDiagramObjectCommand(parent,
-                getFactory().getElementType(), location);
+                getFactory().getElementType(), location, viewer);
         Command cmd2 = new CreateNewConnectionCommand(sourceDiagramModelComponent, cmd1.getNewObject(),
                 getFactory().getRelationshipType());
         cmd.add(cmd1);
@@ -567,10 +567,12 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         private IDiagramModelContainer fParent;
         private IDiagramModelArchimateObject fChild;
         private EClass fTemplate;
+        private EditPartViewer fViewer;
 
-        CreateNewDiagramObjectCommand(IDiagramModelContainer parent, EClass type, Point location) {
+        CreateNewDiagramObjectCommand(IDiagramModelContainer parent, EClass type, Point location, EditPartViewer viewer) {
             fParent = parent;
             fTemplate = type;
+            fViewer = viewer;
 
             // Create this now
             fChild = (IDiagramModelArchimateObject)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
@@ -586,6 +588,19 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         @Override
         public void execute() {
             redo();
+            
+            // Select EditPart and edit name
+            if(fViewer != null && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
+                EditPart editPart = (EditPart)fViewer.getEditPartRegistry().get(fChild);
+                if(editPart != null) {
+                    // Async this otherwise the edit label is not aligned
+                    Display.getCurrent().asyncExec(() -> {
+                        fViewer.select(editPart);
+                        Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+                        editPart.performRequest(directEditRequest);
+                    });
+                }
+            }                
         }
 
         @Override
@@ -605,6 +620,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             fParent = null;
             fChild = null;
             fTemplate = null;
+            fViewer = null;
         }
     }
     

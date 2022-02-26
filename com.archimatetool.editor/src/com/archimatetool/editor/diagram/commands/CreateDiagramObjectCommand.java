@@ -53,13 +53,8 @@ public class CreateDiagramObjectCommand extends Command {
     public void execute() {
         addChild();
         
-        // Edit Name on thread
-        Display.getCurrent().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                editNameOfNewObject();
-            }
-        });
+        // Edit Name
+        editNameOfNewObject();
     }
     
     protected void addChild() {
@@ -107,8 +102,11 @@ public class CreateDiagramObjectCommand extends Command {
             if(viewer != null) {
                 EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fChild);
                 if(editPart != null) {
-                    Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
-                    editPart.performRequest(directEditRequest);
+                    // Async this
+                    Display.getCurrent().asyncExec(() -> {
+                        Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+                        editPart.performRequest(directEditRequest);
+                    });
                 }
             }
         }

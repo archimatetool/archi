@@ -6,6 +6,8 @@
 package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateConnectionRequest;
@@ -88,6 +90,9 @@ extends Command {
                 cmd.execute();
             }
         }
+        
+        // Select connection edit part
+        selectConnection();
     }
 
     @Override
@@ -106,6 +111,19 @@ extends Command {
      */
     protected IDiagramModelConnection createNewConnection() {
         return (IDiagramModelConnection)fRequest.getNewObject();
+    }
+    
+    /**
+     * Select the connection
+     */
+    protected void selectConnection() {
+        if(fRequest.getSourceEditPart() != null && fRequest.getSourceEditPart().getViewer() != null) {
+            EditPartViewer viewer = fRequest.getSourceEditPart().getViewer();
+            EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fConnection);
+            if(editPart != null) {
+                viewer.select(editPart);
+            }
+        }
     }
     
     /**

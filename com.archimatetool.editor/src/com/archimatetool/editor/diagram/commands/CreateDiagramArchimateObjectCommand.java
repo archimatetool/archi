@@ -12,7 +12,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -42,32 +41,16 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
     public void execute() {
         addChild();
         
-        // Create Nested Relation as well if prefs and both types are Archimate
-        if(ConnectionPreferences.createRelationWhenAddingNewElement() &&
-                                    fParent instanceof IDiagramModelArchimateObject && fChild instanceof IDiagramModelArchimateObject) {
-            // We need to have this on a thread.  There has been a case of the odd glitch causing a NPE.
-            Display.getCurrent().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)fParent,
-                                                            (IDiagramModelArchimateObject)fChild);
-                    subCommand.add(cmd);
-                    subCommand.execute();
-
-                    // Edit name on this thread
-                    editNameOfNewObject();
-                }
-            });
+        // Create Nested Connection/Relation as well if prefs and parent is an ArchiMate object
+        if(ConnectionPreferences.createRelationWhenAddingNewElement() && fParent instanceof IDiagramModelArchimateObject) {
+            Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)fParent,
+                    (IDiagramModelArchimateObject)fChild);
+            subCommand.add(cmd);
+            subCommand.execute();
         }
-        else {
-            // Edit name on a new thread
-            Display.getCurrent().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    editNameOfNewObject();
-                }
-            });
-        }
+        
+        // Edit name
+        editNameOfNewObject();
     }
     
     @Override
