@@ -13,7 +13,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -26,12 +25,7 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateConnectionFigure
-extends AbstractDiagramConnectionFigure {
-    
-    @Override
-    public IDiagramModelArchimateConnection getModelConnection() {
-        return (IDiagramModelArchimateConnection)super.getModelConnection();
-    }
+extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
     
     @Override
     public void refreshVisuals() {
@@ -68,7 +62,7 @@ extends AbstractDiagramConnectionFigure {
             return null;
         }
         
-        IArchimateRelationship relation = getModelConnection().getArchimateRelationship();
+        IArchimateRelationship relation = getDiagramModelArchimateConnection().getArchimateRelationship();
         
         String text = ArchiLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);

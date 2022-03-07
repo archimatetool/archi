@@ -47,7 +47,7 @@ public class AssociationConnectionFigure extends AbstractArchimateConnectionFigu
     @Override
     public void refreshVisuals() {
         // Access type
-        IAssociationRelationship relation = (IAssociationRelationship)getModelConnection().getArchimateRelationship();
+        IAssociationRelationship relation = (IAssociationRelationship)getDiagramModelArchimateConnection().getArchimateRelationship();
         
         if(relation.isDirected()) {
             setTargetDecoration(fDecoratorTarget); // half-arrow at target endpoint
