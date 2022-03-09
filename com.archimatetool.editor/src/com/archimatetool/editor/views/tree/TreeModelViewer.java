@@ -239,7 +239,8 @@ public class TreeModelViewer extends TreeViewer {
                 if(!getControl().isDisposed()) { // check inside run loop
                     try {
                         getControl().setRedraw(false);
-                        refresh(element);
+                        // If element is not visible in case of drill-down then refresh the whole tree
+                        refresh(element != null ? (findItem(element) != null ? element : null) : null);
                     }
                     finally {
                         getControl().setRedraw(true);
