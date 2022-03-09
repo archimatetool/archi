@@ -210,19 +210,22 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void saveState(IMemento memento) {
-        // Reset drill-down
-        if(fDrillDownAdapter.canGoHome()) {
-            try {
-                getViewer().getControl().setRedraw(false);
-                fDrillDownAdapter.goHome();
+        // saveState() is called periodically by Eclipse so only do this when closing the workbench
+        if(PlatformUI.getWorkbench().isClosing()) {
+            // Reset drill-down
+            if(fDrillDownAdapter.canGoHome()) {
+                try {
+                    getViewer().getControl().setRedraw(false);
+                    fDrillDownAdapter.goHome();
+                }
+                finally {
+                    getViewer().getControl().setRedraw(true);
+                }
             }
-            finally {
-                getViewer().getControl().setRedraw(true);
-            }
+            
+            // Save expanded tree state
+            TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
         }
-        
-        // Save expanded tree state
-        TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
     }
     
     /**
