@@ -1,5 +1,7 @@
 package com.archimatetool.editor.diagram.policies.snaptogrid;
 
+import org.eclipse.draw2d.geometry.Dimension;
+
 /**
  * snap-to-grid patch by Jean-Baptiste Sarrodie (aka Jaiguru)
  * 
@@ -34,6 +36,9 @@ public class ExtendedBendpointCreationHandle extends BendpointCreationHandle {
 
 	public ExtendedBendpointCreationHandle(ConnectionEditPart owner, int index, int locatorIndex) {
 	    super(owner, index, locatorIndex);
+	    
+	    // Make the handle one pixel bigger
+	    setPreferredSize(new Dimension(DEFAULT_HANDLE_SIZE - 1, DEFAULT_HANDLE_SIZE - 1));
     }
 
     /**
