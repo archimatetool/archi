@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +45,8 @@ import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -64,6 +67,7 @@ public class SearchWidget extends Composite {
     private IAction fActionFilterDoc;
     
     private MenuManager fPropertiesMenu;
+    private MenuManager fSpecializationsMenu;
     
     private List<IAction> fObjectActions = new ArrayList<IAction>();
     
@@ -204,64 +208,69 @@ public class SearchWidget extends Composite {
         // Properties
         fPropertiesMenu = new MenuManager(Messages.SearchWidget_5);
         dropDownAction.add(fPropertiesMenu);
-        populatePropertiesMenu(fPropertiesMenu);
+        populatePropertiesMenu();
+        
+        // Specializations
+        fSpecializationsMenu = new MenuManager(Messages.SearchWidget_16);
+        dropDownAction.add(fSpecializationsMenu);
+        populateSpecializationsMenu();
         
         dropDownAction.add(new Separator());
         
         MenuManager strategyMenu = new MenuManager(Messages.SearchWidget_15);
         dropDownAction.add(strategyMenu);
         for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
-            strategyMenu.add(createObjectAction(eClass));
+            strategyMenu.add(createConceptAction(eClass));
         }
         
         MenuManager businessMenu = new MenuManager(Messages.SearchWidget_6);
         dropDownAction.add(businessMenu);
         for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-            businessMenu.add(createObjectAction(eClass));
+            businessMenu.add(createConceptAction(eClass));
         }
         
         MenuManager applicationMenu = new MenuManager(Messages.SearchWidget_7);
         dropDownAction.add(applicationMenu);
         for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-            applicationMenu.add(createObjectAction(eClass));
+            applicationMenu.add(createConceptAction(eClass));
         }
         
         MenuManager technologyPhysicalMenu = new MenuManager(Messages.SearchWidget_8);
         dropDownAction.add(technologyPhysicalMenu);
         for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            technologyPhysicalMenu.add(createObjectAction(eClass));
+            technologyPhysicalMenu.add(createConceptAction(eClass));
         }
         technologyPhysicalMenu.add(new Separator());
         for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
-            technologyPhysicalMenu.add(createObjectAction(eClass));
+            technologyPhysicalMenu.add(createConceptAction(eClass));
         }
         
         MenuManager motivationMenu = new MenuManager(Messages.SearchWidget_9);
         dropDownAction.add(motivationMenu);
         for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-            motivationMenu.add(createObjectAction(eClass));
+            motivationMenu.add(createConceptAction(eClass));
         }
 
         MenuManager implementationMenu = new MenuManager(Messages.SearchWidget_10);
         dropDownAction.add(implementationMenu);
         for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
-            implementationMenu.add(createObjectAction(eClass));
+            implementationMenu.add(createConceptAction(eClass));
         }
 
         MenuManager otherMenu = new MenuManager(Messages.SearchWidget_14);
         dropDownAction.add(otherMenu);
         for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
-            otherMenu.add(createObjectAction(eClass));
+            otherMenu.add(createConceptAction(eClass));
         }
         otherMenu.add(new Separator());
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-            otherMenu.add(createObjectAction(eClass));
+            otherMenu.add(createConceptAction(eClass));
         }
 
         MenuManager relationsMenu = new MenuManager(Messages.SearchWidget_11);
         dropDownAction.add(relationsMenu);
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            relationsMenu.add(createObjectAction(eClass));
+            relationsMenu.add(createConceptAction(eClass));
         }
         
         dropDownAction.add(new Separator());
@@ -299,7 +308,11 @@ public class SearchWidget extends Composite {
 
         // Clear & Reset Properties sub-menus
         fPropertiesMenu.removeAll();
-        populatePropertiesMenu(fPropertiesMenu);
+        populatePropertiesMenu();
+        
+        // Clear & Reset Specializations sub-menus
+        fSpecializationsMenu.removeAll();
+        populateSpecializationsMenu();
 
         fSearchFilter.resetFilters();
 
@@ -311,19 +324,20 @@ public class SearchWidget extends Composite {
     public void softReset() {
         // Clear & Reset Properties
         fPropertiesMenu.removeAll();
-        populatePropertiesMenu(fPropertiesMenu);
+        populatePropertiesMenu();
+        populateSpecializationsMenu();
         fSearchFilter.resetPropertiesFilter();
     }
 
-	private IAction createObjectAction(final EClass eClass) {
+	private IAction createConceptAction(final EClass eClass) {
         IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
                 if(isChecked()) {
-                    fSearchFilter.addObjectFilter(eClass);
+                    fSearchFilter.addConceptFilter(eClass);
                 }
                 else {
-                    fSearchFilter.removeObjectFilter(eClass);
+                    fSearchFilter.removeConceptFilter(eClass);
                 }
             }
             
@@ -338,7 +352,7 @@ public class SearchWidget extends Composite {
         return action;
     }
 
-	private void populatePropertiesMenu(MenuManager propertiesMenu) {
+	private void populatePropertiesMenu() {
 	    // Models that are loaded are the ones in the Models Tree
 	    Set<String> set = new HashSet<String>();
 
@@ -348,11 +362,11 @@ public class SearchWidget extends Composite {
 	    
 	    List<String> list = new ArrayList<String>(set);
 	    
-	    // Sort alphapetically
+	    // Sort alphabetically
 	    Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
-                return s1.toLowerCase().compareTo(s2.toLowerCase());
+                return s1.compareToIgnoreCase(s2);
             }
         });
 
@@ -369,10 +383,10 @@ public class SearchWidget extends Composite {
 	            }
 	        };
 
-	        propertiesMenu.add(action);
+	        fPropertiesMenu.add(action);
 	    }
 
-	    propertiesMenu.update(true);
+	    fPropertiesMenu.update(true);
 	}
 
     private void getAllUniquePropertyKeysForModel(IArchimateModel model, Set<String> set) {
@@ -385,5 +399,59 @@ public class SearchWidget extends Composite {
             	}
             }
         }
+    }
+    
+    private void populateSpecializationsMenu() {
+        // Models that are loaded are the ones in the Models Tree
+        List<IProfile> profiles = new ArrayList<>();
+
+        for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+            for(Entry<IProfile, List<IProfiles>> entry : ArchimateModelUtils.findProfilesUsage(model).entrySet()) {
+                if(!hasProfile(profiles, entry.getKey())) {
+                    profiles.add(entry.getKey());
+                }
+            }
+        }
+        
+        // Sort alphabetically
+        Collections.sort(profiles, new Comparator<IProfile>() {
+            @Override
+            public int compare(IProfile p1, IProfile p2) {
+                return p1.getName().compareToIgnoreCase(p2.getName());
+            }
+        });
+
+        for(final IProfile profile : profiles) {
+            IAction action = new Action(profile.getName(), IAction.AS_CHECK_BOX) {
+                @Override
+                public void run() {
+                    if(isChecked()) {
+                        fSearchFilter.addSpecializationsFilter(profile);
+                    }
+                    else {
+                        fSearchFilter.removeSpecializationsFilter(profile);
+                    }
+                }
+                
+                @Override
+                public ImageDescriptor getImageDescriptor() {
+                    return ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass());
+                }
+            };
+
+            fSpecializationsMenu.add(action);
+        }
+
+        fSpecializationsMenu.update(true);
+    }
+    
+    private boolean hasProfile(List<IProfile> profiles, IProfile profile) {
+        for(IProfile p : profiles) {
+            if(ArchimateModelUtils.isMatchingProfile(p, profile)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

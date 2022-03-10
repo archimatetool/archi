@@ -17,12 +17,15 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 /**
@@ -38,8 +41,9 @@ public class SearchFilter extends ViewerFilter {
     private boolean fFilterName;
     private boolean fFilterDocumentation;
 
-    private Set<EClass> fObjectFilter = new HashSet<EClass>();
-    private Set<String> fPropertiesFilter = new HashSet<String>();
+    private Set<EClass> fConceptsFilter = new HashSet<>();
+    private Set<String> fPropertiesFilter = new HashSet<>();
+    private Set<IProfile> fSpecializationsFilter = new HashSet<>();
 
     private boolean fShowAllFolders = false;
 
@@ -58,31 +62,28 @@ public class SearchFilter extends ViewerFilter {
     }
 
     private void refresh() {
-        Display.getCurrent().asyncExec(new Runnable() {
-            @Override
-            public void run() {
+        Display.getCurrent().asyncExec(() -> {
+            try {
                 fViewer.getTree().setRedraw(false);
 
-                try {
-                    // If we do this first fViewer.refresh() is then faster
-                    if(!isFiltering()) {
-                        restoreState();
-                    }
-                    
-                    // This has to be called before expandAll
-                    fViewer.refresh();
-                    
-                    // If we have something to show expand all nodes
-                    if(isFiltering()) {
-                        fViewer.expandAll();
-                    }
-                    else {
-                        restoreState(); // Yes, do call this again.
-                    }
+                // If we do this first fViewer.refresh() is then faster
+                if(!isFiltering()) {
+                    restoreState();
                 }
-                finally {
-                    fViewer.getTree().setRedraw(true);
+                
+                // This has to be called before expandAll
+                fViewer.refresh();
+                
+                // If we have something to show expand all nodes
+                if(isFiltering()) {
+                    fViewer.expandAll();
                 }
+                else {
+                    restoreState(); // Yes, do call this again.
+                }
+            }
+            finally {
+                fViewer.getTree().setRedraw(true);
             }
         });
     }
@@ -91,6 +92,7 @@ public class SearchFilter extends ViewerFilter {
         if(isFiltering()) {
             restoreState();
         }
+        
         fSearchText = ""; //$NON-NLS-1$
         resetFilters();
         fExpanded = null;
@@ -104,8 +106,10 @@ public class SearchFilter extends ViewerFilter {
     private void reset() {
         fFilterName = false;
         fFilterDocumentation = false;
-        fObjectFilter.clear();
+        
+        fConceptsFilter.clear();
         fPropertiesFilter.clear();
+        fSpecializationsFilter.clear();
     }
 
     @Override
@@ -114,19 +118,18 @@ public class SearchFilter extends ViewerFilter {
             return true;
         }
 
-        return isElementVisible(parentElement, element);
+        return isElementVisible(element);
     }
 
     /**
      * Query whether element is to be shown (or any children) when filtering
      * This will also query child elements of element if it's a container
      * @param element Any element including containers
-     * @return
      */
-    private boolean isElementVisible(Object parentElement, Object element) {
+    private boolean isElementVisible(Object element) {
         if(element instanceof IFolderContainer) {
             for(IFolder folder : ((IFolderContainer)element).getFolders()) {
-                if(isElementVisible(parentElement, folder)) {
+                if(isElementVisible(folder)) {
                     return true;
                 }
             }
@@ -134,7 +137,7 @@ public class SearchFilter extends ViewerFilter {
 
         if(element instanceof IFolder) {
             for(Object o : ((IFolder)element).getElements()) {
-                if(isElementVisible(parentElement, o)) {
+                if(isElementVisible(o)) {
                     return true;
                 }
             }
@@ -150,83 +153,112 @@ public class SearchFilter extends ViewerFilter {
     /**
      * Query whether element matches filter criteria when filtering on node/leaf elements
      * @param element Any element, children will not be queried.
-     * @return
+     * @return true if the element should be shown
      */
     public boolean matchesFilter(Object element) {
-        // EObject Type filter - do this first as the master filter
-        if(isObjectFiltered(element)) {
-            return false;
+        boolean show = true;
+        
+        // Concept or Specialization
+        if(isFilteringConcepts() || isFilteringSpecializations()) {
+            show &= shouldShowConcept(element) || shouldShowSpecialization(element);
         }
+        
+        // Name or Documentation or Property
+        if(isFilteringName() || isFilteringDocumentation() || isFilteringPropertyKeys()) {
+            show &= (isFilteringName() && shouldShowObjectWithName(element))
+                    || (isFilteringDocumentation() && shouldShowObjectWithDocumentation(element))
+                    || (isFilteringPropertyKeys() && shouldShowProperty(element));
+        }
+        
+        return show;
+    }
+    
+    private boolean shouldShowConcept(Object element) {
+        return fConceptsFilter.contains(((EObject)element).eClass());
+    }
 
-        boolean textSearchResult = false;
-        boolean propertyKeyResult = false;
+    private boolean shouldShowObjectWithName(Object element) {
+        if(element instanceof INameable) {
+            String name = StringUtils.safeString(((INameable)element).getName());
 
-        // Properties Key filter
-        if(isFilteringPropertyKeys() && element instanceof IProperties) {
-            for(IProperty property : ((IProperties)element).getProperties()) {
-                if(fPropertiesFilter.contains(property.getKey())) {
-                    propertyKeyResult = true;
-                    if(hasSearchText() && property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
-                        textSearchResult = true;
+            // Normalise in case of multi-line text
+            name = StringUtils.normaliseNewLineCharacters(name);
+
+            return name.toLowerCase().contains(fSearchText.toLowerCase());
+        }
+        
+        return false;
+    }
+
+    private boolean shouldShowObjectWithDocumentation(Object element) {
+        if(element instanceof IDocumentable) {
+            String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
+            return text.toLowerCase().contains(fSearchText.toLowerCase());
+        }
+        
+        return false;
+    }
+
+    private boolean shouldShowSpecialization(Object element) {
+        if(element instanceof IArchimateConcept) {
+            for(IProfile profile : ((IArchimateConcept)element).getProfiles()) {
+                for(IProfile p : fSpecializationsFilter) {
+                    // Could be marching Profile name/class in different models
+                    if(ArchimateModelUtils.isMatchingProfile(p, profile)) {
+                        return true;
                     }
                 }
             }
         }
-
-        // If has search Text and no text found yet
-        if(hasSearchText()) {
-            // Name...
-            if(fFilterName && !textSearchResult && element instanceof INameable) {
-                String name = StringUtils.safeString(((INameable)element).getName());
-                
-                // Normalise in case of multi-line text
-                name = StringUtils.normaliseNewLineCharacters(name);
-                
-                if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
-                    textSearchResult = true;
-                }
-            }
-
-            // Then Documentation
-            if(fFilterDocumentation && !textSearchResult && element instanceof IDocumentable) {
-                String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
-                if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
-                    textSearchResult = true;
-                }
-            }
-        }
-
-        if((hasSearchText())) {
-            return textSearchResult;
-        }
-
-        if(isFilteringPropertyKeys()) {
-            return propertyKeyResult;
-        }
-
-        return !isObjectFiltered(element);
+        
+        return false;
     }
+    
+    private boolean shouldShowProperty(Object element) {
+        if(element instanceof IProperties) {
+            for(IProperty property : ((IProperties)element).getProperties()) {
+                if(fPropertiesFilter.contains(property.getKey())) {
+                    return hasSearchText() ? property.getValue().toLowerCase().contains(fSearchText.toLowerCase()) : true;
+                }
+            }
+        }
 
-    private boolean isObjectFiltered(Object element) {
-        return !fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass());
+        return false;
     }
 
     public boolean isFiltering() {
-        return hasSearchText() || !fObjectFilter.isEmpty() || !fPropertiesFilter.isEmpty();
+        return isFilteringName() || isFilteringDocumentation() || isFilteringConcepts() || isFilteringPropertyKeys() || isFilteringSpecializations();
+    }
+
+    private boolean isFilteringName() {
+        return fFilterName && hasSearchText();
+    }
+    
+    private boolean isFilteringDocumentation() {
+        return fFilterDocumentation && hasSearchText();
+    }
+    
+    private boolean isFilteringConcepts() {
+        return !fConceptsFilter.isEmpty();
+    }
+    
+    private boolean isFilteringPropertyKeys() {
+        return !fPropertiesFilter.isEmpty();
+    }
+
+    private boolean isFilteringSpecializations() {
+        return !fSpecializationsFilter.isEmpty();
     }
 
     private boolean hasSearchText() {
         return fSearchText.length() > 0;
     }
 
-    private boolean isFilteringPropertyKeys() {
-        return !fPropertiesFilter.isEmpty();
-    }
-
     void setFilterOnName(boolean set, boolean doRefresh) {
         if(fFilterName != set) {
             fFilterName = set;
-            if(isFiltering() && doRefresh) {
+            
+            if(doRefresh) {
                 refresh();
             }
         }
@@ -235,23 +267,25 @@ public class SearchFilter extends ViewerFilter {
     void setFilterOnDocumentation(boolean set, boolean doRefresh) {
         if(fFilterDocumentation != set) {
             fFilterDocumentation = set;
-            if(isFiltering() && doRefresh) {
+            
+            if(doRefresh) {
                 refresh();
             }
         }
     }
 
-    void addObjectFilter(EClass eClass) {
+    void addConceptFilter(EClass eClass) {
         // Fresh filter
         if(!isFiltering()) {
             saveState();
         }
-        fObjectFilter.add(eClass);
+        
+        fConceptsFilter.add(eClass);
         refresh();
     }
 
-    void removeObjectFilter(EClass eClass) {
-        fObjectFilter.remove(eClass);
+    void removeConceptFilter(EClass eClass) {
+        fConceptsFilter.remove(eClass);
         refresh();
     }
 
@@ -260,6 +294,7 @@ public class SearchFilter extends ViewerFilter {
         if(!isFiltering()) {
             saveState();
         }
+        
         fPropertiesFilter.add(key);
         refresh();
     }
@@ -271,6 +306,26 @@ public class SearchFilter extends ViewerFilter {
     
     void resetPropertiesFilter() {
         fPropertiesFilter.clear();
+        refresh();
+    }
+
+    void addSpecializationsFilter(IProfile profile) {
+        // Fresh filter
+        if(!isFiltering()) {
+            saveState();
+        }
+        
+        fSpecializationsFilter.add(profile);
+        refresh();
+    }
+
+    void removeSpecializationsFilter(IProfile profile) {
+        fSpecializationsFilter.remove(profile);
+        refresh();
+    }
+    
+    void resetSpecializationsFilter() {
+        fSpecializationsFilter.clear();
         refresh();
     }
 
@@ -291,9 +346,11 @@ public class SearchFilter extends ViewerFilter {
 
     void restoreState() {
         IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection(); // first
+        
         if(fExpanded != null) {
             fViewer.setExpandedElements(fExpanded);
         }
+        
         fViewer.setSelection(selection, true);
     }
 }
