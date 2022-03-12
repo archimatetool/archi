@@ -546,13 +546,18 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             }
             
             /*
-             * Double-click on Format Painter
+             * Double-click
              */
             @Override
             public void mouseDoubleClick(MouseEvent e) {
+                // Format Painter reset
                 ToolEntry toolEntry = findToolEntryAt(viewer, new Point(e.x, e.y));
                 if(toolEntry instanceof FormatPainterToolEntry) {
                     FormatPainterInfo.INSTANCE.reset();
+                }
+                // Set Tool Entry sticky
+                else {
+                    toolEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
                 }
             }
         });
