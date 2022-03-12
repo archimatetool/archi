@@ -197,6 +197,11 @@ public class ArchimateModelUtils {
             return null;
         }
         
+        // If the model is a member of a Resource use its method which is quicker because of the IntrinsicIDToEObjectMap
+        if(model.eResource() != null) {
+            return model.eResource().getEObject(id);
+        }
+        
         if(id.equals(model.getId())) {
             return model;
         }

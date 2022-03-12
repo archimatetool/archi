@@ -15,8 +15,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateConcept;
@@ -141,8 +143,15 @@ public class ArchimateModelUtilsTests {
     public void testGetObjectByID() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         
+        // Add the model to a Resource so we can use its IntrinsicIDToEObjectMap for object lookup
+        Resource resource = ArchimateResourceFactory.createNewResource(URI.createURI("tmp.archimate"));
+        resource.getContents().add(model);
+        
         EObject element = ArchimateModelUtils.getObjectByID(model, null);
         assertNull(element);
+        
+        element = ArchimateModelUtils.getObjectByID(model, model.getId());
+        assertSame(model, element);
         
         IArchimateElement newElement1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
         model.getDefaultFolderForObject(newElement1).getElements().add(newElement1);
@@ -152,6 +161,15 @@ public class ArchimateModelUtilsTests {
         element = ArchimateModelUtils.getObjectByID(model, newElement1.getId());
         assertSame(newElement1, element);
         
+        element = ArchimateModelUtils.getObjectByID(model, newElement2.getId());
+        assertSame(newElement2, element);
+        
+        // Changing id should still work
+        newElement1.setId("id-100");
+        element = ArchimateModelUtils.getObjectByID(model, newElement1.getId());
+        assertSame(newElement1, element);
+        
+        newElement2.setId("id-101");
         element = ArchimateModelUtils.getObjectByID(model, newElement2.getId());
         assertSame(newElement2, element);
     }

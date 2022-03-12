@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.gef.commands.CommandStack;
@@ -51,6 +52,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.IModelContentListener;
 
 
@@ -150,6 +152,11 @@ implements IEditorModelManager {
     @Override
     public IArchimateModel createNewModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        
+        // Add the model to a Resource so we can use its IntrinsicIDToEObjectMap for object lookup
+        Resource resource = ArchimateResourceFactory.createNewResource(URI.createURI("new.archimate")); //$NON-NLS-1$
+        resource.getContents().add(model);
+        
         model.setName(Messages.EditorModelManager_0);
         model.setDefaults();
         
