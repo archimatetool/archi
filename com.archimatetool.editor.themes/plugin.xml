@@ -9,15 +9,6 @@
             label="Basic">
       </theme>
 		
-        <stylesheet
-            uri="themes/archi/css/basic.css">
-            <osgiresourcelocator
-                uri="platform:/plugin/com.archimatetool.editor.themes/themes/archi/images/">
-            </osgiresourcelocator>
-            <themeid
-                refid="com.archimatetool.editor.theme.basic">
-            </themeid>
-        </stylesheet>
     </extension>
    
 	<extension
