@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.eclipse.feature"
       label="Eclipse Required Plug-ins"
-      version="4.9.2.qualifier"
+      version="4.9.3.qualifier"
       provider-name="Archi">
 
    <description>

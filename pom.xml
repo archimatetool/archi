@@ -11,7 +11,7 @@
     <name>Archi Tool</name>
 
     <properties>
-        <revision>4.9.2-SNAPSHOT</revision>
+        <revision>4.9.3-SNAPSHOT</revision>
         <tycho-version>2.7.0</tycho-version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
