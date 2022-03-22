@@ -11,6 +11,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateConnectionRequest;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -121,7 +122,10 @@ extends Command {
             EditPartViewer viewer = fRequest.getSourceEditPart().getViewer();
             EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fConnection);
             if(editPart != null) {
-                viewer.select(editPart);
+                // Async this so that the Properties view can catch up
+                Display.getCurrent().asyncExec(() -> {
+                    viewer.select(editPart);
+                });
             }
         }
     }
