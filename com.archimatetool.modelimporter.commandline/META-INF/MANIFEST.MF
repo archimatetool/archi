@@ -4,7 +4,7 @@ Bundle-Name: Archi Model Importer Command Line
 Bundle-SymbolicName: com.archimatetool.modelimporter.commandline;singleton:=true
 Bundle-Localization: plugin
 Bundle-Version: 4.9.3.qualifier
-Bundle-Vendor: Phillip Beauvoir & Jean-Baptiste Sarrodie
+Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.commandline,
  com.archimatetool.modelimporter
 Bundle-ActivationPolicy: lazy

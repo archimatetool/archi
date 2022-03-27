@@ -4,7 +4,7 @@ Bundle-Name: JUnit Tests for Archi Model Importer
 Bundle-SymbolicName: com.archimatetool.modelimporter.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.modelimporter
-Bundle-Vendor: Phillip Beauvoir & Jean-Baptiste Sarrodie
+Bundle-Vendor: Archi
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Archi Model
 Bundle-SymbolicName: com.archimatetool.model;singleton:=true
 Bundle-Version: 4.9.3.qualifier
-Bundle-Vendor: %providerName
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.model,

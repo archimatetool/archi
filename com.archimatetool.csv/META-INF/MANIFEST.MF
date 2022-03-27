@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %Bundle-Name
+Bundle-Name: CSV Export
 Bundle-SymbolicName: com.archimatetool.csv;singleton:=true
 Bundle-Version: 4.9.3.qualifier
-Bundle-Vendor: %Bundle-Vendor
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.core.runtime,

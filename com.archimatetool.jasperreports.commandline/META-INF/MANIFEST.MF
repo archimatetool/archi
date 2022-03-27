@@ -4,7 +4,7 @@ Bundle-Name: Jasper Reports Command Line
 Bundle-SymbolicName: com.archimatetool.jasperreports.commandline;singleton:=true
 Bundle-Localization: plugin
 Bundle-Version: 4.9.3.qualifier
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.commandline,
  com.archimatetool.jasperreports
 Bundle-ActivationPolicy: lazy

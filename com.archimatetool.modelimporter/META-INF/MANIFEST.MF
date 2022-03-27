@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Model Importer
 Bundle-SymbolicName: com.archimatetool.modelimporter;singleton:=true
 Bundle-Version: 4.9.3.qualifier
-Bundle-Vendor: Phillip Beauvoir & Jean-Baptiste Sarrodie
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.core.runtime,
