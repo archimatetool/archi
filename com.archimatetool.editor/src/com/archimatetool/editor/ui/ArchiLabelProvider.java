@@ -5,6 +5,13 @@
  */
 package com.archimatetool.editor.ui;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -12,6 +19,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -35,6 +43,27 @@ public class ArchiLabelProvider {
     
     public static ArchiLabelProvider INSTANCE = new ArchiLabelProvider();
 
+    private Set<IArchiLabelProvider> providers = new HashSet<>();
+    
+    private ArchiLabelProvider() {
+        // Register any label providers
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+        
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(IArchiLabelProvider.EXTENSIONPOINT_ID)) {
+            try {
+                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+                IArchiLabelProvider provider = (IArchiLabelProvider)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+                if(id != null && provider != null) {
+                    providers.add(provider);
+                }
+            } 
+            catch(CoreException ex) {
+                Logger.logError("Cannot register Provider", ex); //$NON-NLS-1$
+                ex.printStackTrace();
+            } 
+        }
+    }
+    
     /**
      * @return A name for an object.<br>
      *         This will be the element's name if of type INameable or a default name as specified in its ElementUIProvider.
@@ -56,6 +85,16 @@ public class ArchiLabelProvider {
         // It's blank. Get a default name from its eClass
         if(!StringUtils.isSet(name) && object instanceof EObject) {
             name = getDefaultName(((EObject)object).eClass());
+        }
+        
+        // Try registered providers
+        if(name == null) {
+            for(IArchiLabelProvider provider : providers) {
+                name = provider.getLabel(object);
+                if(name != null) {
+                    break;
+                }
+            }
         }
         
         return StringUtils.safeString(name);
@@ -110,6 +149,14 @@ public class ArchiLabelProvider {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
             if(provider != null) {
                 return provider.getImage();
+            }
+        }
+        
+        // Try providers
+        for(IArchiLabelProvider provider : providers) {
+            Image image = provider.getImage(object);
+            if(image != null) {
+                return image;
             }
         }
         
