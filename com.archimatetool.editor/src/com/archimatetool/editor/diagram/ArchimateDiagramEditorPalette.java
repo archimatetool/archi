@@ -40,16 +40,16 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private IViewpoint fViewpoint;
     
-    List<PaletteEntry> fEntries = new ArrayList<PaletteEntry>();
+    private List<PaletteEntry> fEntries = new ArrayList<PaletteEntry>();
     
     public ArchimateDiagramEditorPalette() {
         add(createToolsGroup());
         
-        // Relations group will be inserted before this
-        add(new PaletteSeparator("relations")); //$NON-NLS-1$
+        add(createArchimateRelationsGroup());
+        add(new PaletteSeparator());
         
         add(createExtrasGroup());
-        add(new PaletteSeparator("extras")); //$NON-NLS-1$
+        add(new PaletteSeparator());
     }
 
     /**
@@ -59,15 +59,12 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     public void setViewpoint(IViewpoint viewpoint) {
         fViewpoint = viewpoint;
         
-        // Remove 'em all
+        // Remove Archimate Element Groups
         for(PaletteEntry entry : fEntries) {
             remove(entry);
         }
 
-        // Re-Create Archimate Relations Group
-        createArchimateRelationsGroup();
-        
-        // Re-Create Archimate Groups
+        // Create Archimate Element Groups
         createArchimateElementGroups();
     }
     
@@ -107,10 +104,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     /**
      * Relations Types
      */
-    private void createArchimateRelationsGroup() {
+    private PaletteGroup createArchimateRelationsGroup() {
         PaletteGroup group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_13);
-        add(1, group);
-        fEntries.add(group);
         
         // Magic Connector
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
@@ -135,12 +130,17 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             ToolEntry entry = createElementCreationToolEntry(eClass, null);
             group.add(entry);
         }
+        
+        return group;
     }
     
     /**
      * Create the Archimate Element groups
      */
     private void createArchimateElementGroups() {
+        // Clear cache
+        fEntries.clear();
+
         createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_17, ArchimateModelUtils.getOtherClasses());
         createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_16, ArchimateModelUtils.getStrategyClasses());
         createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_8, ArchimateModelUtils.getBusinessClasses());
@@ -158,7 +158,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = null;
         
         for(EClass eClass : types) {
-            if(isAllowedElement(eClass)) {
+            if(isAllowedConcept(eClass)) {
                 if(group == null) {
                     group = new PaletteGroup(title);
                     add(group);
@@ -177,13 +177,19 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
     }
     
-    private boolean isAllowedElement(EClass eClass) {
+    private boolean isAllowedConcept(EClass eClass) {
         // Preference to show all pallette elements regardless of Viewpoint
         if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
             return true;
         }
         
         return fViewpoint == null || (fViewpoint != null && fViewpoint.isAllowedConcept(eClass));
+    }
+    
+    @Override
+    public void dispose() {
+        super.dispose();
+        fEntries = null;
     }
     
     // --------------------------------------------------------------------------------------------

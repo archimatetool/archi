@@ -93,9 +93,10 @@ public abstract class AbstractPaletteRoot extends PaletteRoot {
         return stack;
     }
     
-    void dispose() {
+    public void dispose() {
         if(formatPainterEntry != null) {
             formatPainterEntry.dispose();
+            formatPainterEntry = null;
         }
     }
 }
