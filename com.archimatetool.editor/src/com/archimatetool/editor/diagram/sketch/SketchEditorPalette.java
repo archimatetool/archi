@@ -12,10 +12,6 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteSeparator;
-import org.eclipse.gef.palette.PaletteStack;
-import org.eclipse.gef.palette.PaletteToolbar;
-import org.eclipse.gef.palette.PanningSelectionToolEntry;
-import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -28,8 +24,6 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
 import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
-import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
-import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -44,47 +38,17 @@ import com.archimatetool.model.IDiagramModelConnection;
  */
 public class SketchEditorPalette extends AbstractPaletteRoot {
     
-    private FormatPainterToolEntry formatPainterEntry;
-    
     public SketchEditorPalette() {
-        createControlsGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
+        add(createToolsGroup());
         
-        createElementsGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
+        add(createElementsGroup());
+        add(new PaletteSeparator());
         
-        createStickiesGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
-    }
-
-    /**
-     * Create a Group of Controls
-     */
-    private PaletteContainer createControlsGroup() {
-        PaletteContainer group = new PaletteToolbar(Messages.SketchEditorPalette_0);
-        add(group);
-        
-        // The selection tool
-        ToolEntry tool = new PanningSelectionToolEntry();
-        tool.setToolClass(PanningSelectionExtendedTool.class);
-        group.add(tool);
-
-        // Use selection tool as default entry
-        setDefaultEntry(tool);
-
-        PaletteStack stack = createMarqueeSelectionStack();
-        group.add(stack);
-        
-        // Format Painter
-        formatPainterEntry = new FormatPainterToolEntry();
-        group.add(formatPainterEntry);
-
-        return group;
+        add(createStickiesGroup());
     }
 
     private PaletteContainer createElementsGroup() {
         PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_1);
-        add(group);
         
         // Actor
         PaletteEntry groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
@@ -137,7 +101,6 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     
     private PaletteContainer createStickiesGroup() {
         PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_6);
-        add(group);
         
         // Sticky Notes
         group.add(createStickyEntry(255, 255, 181));
@@ -200,9 +163,5 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(r, g, b)),
                 id,
                 id);
-    }
-    
-    void dispose() {
-        formatPainterEntry.dispose();
     }
 }

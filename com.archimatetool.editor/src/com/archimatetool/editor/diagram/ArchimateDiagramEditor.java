@@ -22,14 +22,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
-import com.archimatetool.editor.diagram.actions.FindReplaceAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -46,17 +44,6 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  */
 public class ArchimateDiagramEditor extends AbstractDiagramEditor
 implements IArchimateDiagramEditor {
-    
-    /**
-     * Palette
-     */
-    private ArchimateDiagramEditorPalette fPalette;
-    
-    /**
-     * Find/Replace Provider
-     */
-    private DiagramEditorFindReplaceProvider fFindReplaceProvider;
-    
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
@@ -100,11 +87,11 @@ implements IArchimateDiagramEditor {
     
     @Override
     public ArchimateDiagramEditorPalette getPaletteRoot() {
-        if(fPalette == null) {
-            fPalette = new ArchimateDiagramEditorPalette();
+        if(fPaletteRoot == null) {
+            fPaletteRoot = new ArchimateDiagramEditorPalette();
             setPaletteViewpoint();
         }
-        return fPalette;
+        return (ArchimateDiagramEditorPalette)fPaletteRoot;
     }
 
     @Override
@@ -194,10 +181,6 @@ implements IArchimateDiagramEditor {
             registry.registerAction(action);
         }
         
-        // Find/Replace
-        action = new FindReplaceAction(getEditorSite().getWorkbenchWindow());
-        registry.registerAction(action);
-        
         // Generate View For
         action = new GenerateViewAction(this);
         registry.registerAction(action);
@@ -212,28 +195,6 @@ implements IArchimateDiagramEditor {
         }
         else {
             super.notifyChanged(msg);
-        }
-    }
-    
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Object getAdapter(Class adapter) {
-        // Find/Replace Provider
-        if(adapter == IFindReplaceProvider.class) {
-            if(fFindReplaceProvider == null) {
-                fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
-            }
-            return fFindReplaceProvider;
-        }
-
-        return super.getAdapter(adapter);
-    }
-    
-    @Override
-    public void dispose() {
-        super.dispose();
-        if(fPalette != null) {
-            fPalette.dispose();
         }
     }
     

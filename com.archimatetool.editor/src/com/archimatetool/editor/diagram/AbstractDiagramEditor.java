@@ -102,6 +102,7 @@ import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
+import com.archimatetool.editor.diagram.actions.FindReplaceAction;
 import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
@@ -132,6 +133,7 @@ import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
@@ -181,6 +183,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Listen to ecore changes for model/view name change
      */
     private LightweightAdapter eCoreAdapter = new LightweightAdapter(this::notifyChanged);
+    
+    /**
+     * Find/Replace Provider
+     */
+    private DiagramEditorFindReplaceProvider fFindReplaceProvider;
+    
+    /**
+     * Palette Root
+     */
+    protected AbstractPaletteRoot fPaletteRoot;
     
     /**
      * Application Preference changed
@@ -921,6 +933,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new SelectElementInTreeAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        
+        // Find/Replace
+        action = new FindReplaceAction(getEditorSite().getWorkbenchWindow());
+        registry.registerAction(action);
     }
     
     /**
@@ -1019,6 +1035,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             return getModel();
         }
 
+        // Find/Replace Provider
+        if(adapter == IFindReplaceProvider.class) {
+            if(fFindReplaceProvider == null) {
+                fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
+            }
+            return fFindReplaceProvider;
+        }
+        
         return super.getAdapter(adapter);
     }
     
@@ -1058,6 +1082,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             }
         }
 
+        if(fPaletteRoot != null) {
+            fPaletteRoot.dispose();
+        }
+        
         // Can now be garbage collected
         fDiagramModel = null;
     }

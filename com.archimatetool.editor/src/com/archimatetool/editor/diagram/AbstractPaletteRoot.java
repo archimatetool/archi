@@ -6,9 +6,16 @@
 package com.archimatetool.editor.diagram;
 
 import org.eclipse.gef.palette.MarqueeToolEntry;
+import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteStack;
+import org.eclipse.gef.palette.PaletteToolbar;
+import org.eclipse.gef.palette.PanningSelectionToolEntry;
+import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.MarqueeSelectionTool;
+
+import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
+import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 
 
 /**
@@ -16,7 +23,36 @@ import org.eclipse.gef.tools.MarqueeSelectionTool;
  * 
  * @author Phillip Beauvoir
  */
-public class AbstractPaletteRoot extends PaletteRoot {
+public abstract class AbstractPaletteRoot extends PaletteRoot {
+    
+    /**
+     * The Format Painter Tool Entry created by sub-classes
+     */
+    private FormatPainterToolEntry formatPainterEntry;
+    
+    /**
+     * Create a Group of Tools
+     */
+    protected PaletteContainer createToolsGroup() {
+        PaletteContainer group = new PaletteToolbar(Messages.AbstractPaletteRoot_8);
+        
+        // The selection tool
+        ToolEntry tool = new PanningSelectionToolEntry();
+        tool.setToolClass(PanningSelectionExtendedTool.class);
+        group.add(tool);
+
+        // Use selection tool as default entry
+        setDefaultEntry(tool);
+        
+        // Marquee Selection Stack
+        group.add(createMarqueeSelectionStack());
+        
+        // Format Painter
+        formatPainterEntry = new FormatPainterToolEntry();
+        group.add(formatPainterEntry);
+
+        return group;
+    }
     
     /**
      * Create a PaletteStack containing the Marquee selection tools
@@ -55,5 +91,11 @@ public class AbstractPaletteRoot extends PaletteRoot {
         stack.add(marquee);
         
         return stack;
+    }
+    
+    void dispose() {
+        if(formatPainterEntry != null) {
+            formatPainterEntry.dispose();
+        }
     }
 }

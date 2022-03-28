@@ -14,19 +14,14 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteSeparator;
-import org.eclipse.gef.palette.PaletteStack;
-import org.eclipse.gef.palette.PaletteToolbar;
-import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
-import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
-import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -43,15 +38,18 @@ import com.archimatetool.model.viewpoints.IViewpoint;
  */
 public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
-    private FormatPainterToolEntry formatPainterEntry;
-    
     private IViewpoint fViewpoint;
     
     List<PaletteEntry> fEntries = new ArrayList<PaletteEntry>();
     
     public ArchimateDiagramEditorPalette() {
-        createControlsGroup();
-        createExtrasGroup();
+        add(createToolsGroup());
+        
+        // Relations group will be inserted before this
+        add(new PaletteSeparator("relations")); //$NON-NLS-1$
+        
+        add(createExtrasGroup());
+        add(new PaletteSeparator("extras")); //$NON-NLS-1$
     }
 
     /**
@@ -76,34 +74,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     /**
      * Create a Group of Controls
      */
-    private void createControlsGroup() {
-        PaletteContainer group = new PaletteToolbar(Messages.ArchimateDiagramEditorPalette_0);
-        
-        // The selection tool
-        ToolEntry tool = new PanningSelectionToolEntry();
-        tool.setToolClass(PanningSelectionExtendedTool.class);
-        group.add(tool);
-
-        // Use selection tool as default entry
-        setDefaultEntry(tool);
-        
-        PaletteStack stack = createMarqueeSelectionStack();
-        group.add(stack);
-        
-        // Format Painter
-        formatPainterEntry = new FormatPainterToolEntry();
-        group.add(formatPainterEntry);
-        
-        add(group);
-        
-        // Relations group will be inserted before this
-        add(new PaletteSeparator("relations")); //$NON-NLS-1$
-    }
-
-    /**
-     * Create a Group of Controls
-     */
-    private void createExtrasGroup() {
+    private PaletteContainer createExtrasGroup() {
         PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_1);
         
         // Note
@@ -130,9 +101,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_7);
         group.add(entry);
         
-        add(group);
-        
-        add(new PaletteSeparator("extras")); //$NON-NLS-1$
+        return group;
     }
 
     /**
@@ -214,11 +183,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             return true;
         }
         
-        return fViewpoint == null || fViewpoint != null && fViewpoint.isAllowedConcept(eClass);
-    }
-    
-    public void dispose() {
-        formatPainterEntry.dispose();
+        return fViewpoint == null || (fViewpoint != null && fViewpoint.isAllowedConcept(eClass));
     }
     
     // --------------------------------------------------------------------------------------------

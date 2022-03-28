@@ -11,10 +11,6 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteSeparator;
-import org.eclipse.gef.palette.PaletteStack;
-import org.eclipse.gef.palette.PaletteToolbar;
-import org.eclipse.gef.palette.PanningSelectionToolEntry;
-import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -28,8 +24,6 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
 import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
-import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
-import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -42,44 +36,15 @@ import com.archimatetool.model.IDiagramModelConnection;
  */
 public class CanvasEditorPalette extends AbstractPaletteRoot {
     
-    private FormatPainterToolEntry formatPainterEntry;
-    
     public CanvasEditorPalette() {
-        createControlsGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
+        add(createToolsGroup());
         
         createElementsGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
+        add(new PaletteSeparator());
 
         createStickiesGroup();
-        add(new PaletteSeparator("")); //$NON-NLS-1$
     }
 
-    /**
-     * Create a Group of Controls
-     */
-    private PaletteContainer createControlsGroup() {
-        PaletteContainer group = new PaletteToolbar(Messages.CanvasEditorPalette_0);
-        add(group);
-        
-        // The selection tool
-        ToolEntry tool = new PanningSelectionToolEntry();
-        tool.setToolClass(PanningSelectionExtendedTool.class);
-        group.add(tool);
-
-        // Use selection tool as default entry
-        setDefaultEntry(tool);
-
-        PaletteStack stack = createMarqueeSelectionStack();
-        group.add(stack);
-        
-        // Format Painter
-        formatPainterEntry = new FormatPainterToolEntry();
-        group.add(formatPainterEntry);
-
-        return group;
-    }
-    
     private PaletteContainer createElementsGroup() {
         PaletteContainer group = new PaletteGroup(Messages.CanvasEditorPalette_1);
         add(group);
@@ -195,9 +160,5 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(r, g, b)),
                 id,
                 id);
-    }
-    
-    void dispose() {
-        formatPainterEntry.dispose();
     }
 }

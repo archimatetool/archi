@@ -15,8 +15,6 @@ public class Messages extends NLS {
 
     public static String CanvasEditorActionBarContributor_0;
 
-    public static String CanvasEditorPalette_0;
-
     public static String CanvasEditorPalette_1;
 
     public static String CanvasEditorPalette_2;

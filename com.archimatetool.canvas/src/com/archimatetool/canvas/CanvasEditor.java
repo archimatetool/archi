@@ -6,11 +6,8 @@
 package com.archimatetool.canvas;
 
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -20,9 +17,6 @@ import com.archimatetool.canvas.dnd.FileTransferDropTargetListener;
 import com.archimatetool.canvas.dnd.URLTransferDropTargetListener;
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
 import com.archimatetool.editor.diagram.AbstractDiagramEditor;
-import com.archimatetool.editor.diagram.DiagramEditorFindReplaceProvider;
-import com.archimatetool.editor.diagram.actions.FindReplaceAction;
-import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 
 
 
@@ -34,16 +28,6 @@ import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 public class CanvasEditor extends AbstractDiagramEditor
 implements ICanvasEditor {
     
-    /**
-     * Palette
-     */
-    private CanvasEditorPalette fPalette;
-    
-    /**
-     * Find/Replace Provider
-     */
-    private DiagramEditorFindReplaceProvider fFindReplaceProvider;
-
     @Override
     public void doCreatePartControl(Composite parent) {
         // Register Help Context
@@ -51,11 +35,11 @@ implements ICanvasEditor {
     }
     
     @Override
-    public PaletteRoot getPaletteRoot() {
-        if(fPalette == null) {
-            fPalette = new CanvasEditorPalette();
+    public CanvasEditorPalette getPaletteRoot() {
+        if(fPaletteRoot == null) {
+            fPaletteRoot = new CanvasEditorPalette();
         }
-        return fPalette;
+        return (CanvasEditorPalette)fPaletteRoot;
     }
 
     @Override
@@ -89,40 +73,7 @@ implements ICanvasEditor {
         viewer.setContextMenu(provider);
         getSite().registerContextMenu(CanvasEditorContextMenuProvider.ID, provider, viewer);
     }
-    
-    @Override
-    protected void createActions(GraphicalViewer viewer) {
-        super.createActions(viewer);
-        
-        ActionRegistry registry = getActionRegistry();
 
-        // Find/Replace
-        IAction action = new FindReplaceAction(getEditorSite().getWorkbenchWindow());
-        registry.registerAction(action);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Object getAdapter(Class adapter) {
-        // Find/Replace Provider
-        if(adapter == IFindReplaceProvider.class) {
-            if(fFindReplaceProvider == null) {
-                fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
-            }
-            return fFindReplaceProvider;
-        }
-
-        return super.getAdapter(adapter);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        if(fPalette != null) {
-            fPalette.dispose();
-        }
-    }
-    
     // =================================================================================
     //                       Contextual Help support
     // =================================================================================
