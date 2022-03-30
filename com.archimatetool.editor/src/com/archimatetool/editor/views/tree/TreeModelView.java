@@ -629,9 +629,6 @@ implements ITreeModelView, IUIRequestListener {
     public void dispose() {
         super.dispose();
 
-        // Remove Selection Sync
-        fSynchroniser.dispose();
-        
         // Remove UI Request Listener
         UIRequestManager.INSTANCE.removeListener(this);
         
@@ -651,6 +648,24 @@ implements ITreeModelView, IUIRequestListener {
         fFindReplaceProvider = null;
         fSearchFilter = null;
         fSynchroniser = null;
+        fParentComposite = null;
+        fDrillDownAdapter = null;
+        fSearchWidget = null;
+        
+        fActionFindReplace = null;
+        fActionProperties = null;
+        fActionDuplicate = null;
+        fActionCut = null;
+        fActionPaste = null;
+        fActionGenerateView = null;
+        fActionToggleSearchField = null;
+        fActionCollapseSelected = null;
+        fActionExpandSelected = null;
+        fActionLinkToEditor = null;
+        fActionOpenDiagram = null;
+        fActionCloseModel = null;
+        fActionSaveModel = null;
+        fActionDelete = null;
         
         // Clear Cut/Paste clipboard
         TreeModelCutAndPaste.INSTANCE.clear();

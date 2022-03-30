@@ -201,6 +201,7 @@ public class TreeModelViewer extends TreeViewer {
             @Override
             public void widgetDisposed(DisposeEvent e) {
                 ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+                fViewpointFilterProvider = null;
             }
         });
     }
