@@ -54,6 +54,7 @@ import com.archimatetool.editor.actions.OpenModelAction;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.IUIRequestListener;
@@ -347,9 +348,18 @@ implements ITreeModelView, IUIRequestListener {
                     hideSearchWidget();
                 }
             };
+            
+            @Override
+            public String getToolTipText() {
+                return Messages.TreeModelView_0;
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return ThemeUtils.isDarkTheme() ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH_LIGHT) :
+                                                  IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH);
+            }
         };
-        fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
-        fActionToggleSearchField.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH));
         
         fActionCollapseSelected = new Action(Messages.TreeModelView_3) {
             @Override

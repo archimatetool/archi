@@ -174,6 +174,7 @@ public interface IArchiImages {
     String ICON_PIN = IMGPATH + "pin.png";
     String ICON_PLUS = IMGPATH + "plus.png";
     String ICON_SEARCH = IMGPATH + "search.png";
+    String ICON_SEARCH_LIGHT = IMGPATH + "search_light.png";
     String ICON_SKETCH = IMGPATH + "sketch.png";
     String ICON_SMALL_X = IMGPATH + "smallx.png";
     String ICON_SORT = IMGPATH + "alphab_sort_co.png";

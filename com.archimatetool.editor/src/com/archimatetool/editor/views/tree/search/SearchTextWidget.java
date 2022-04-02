@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -74,7 +75,8 @@ public class SearchTextWidget extends Composite {
         setLayout(layout);
         
         Label label = new Label(this, SWT.NULL);
-        label.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_SEARCH));
+        label.setImage(ThemeUtils.isDarkTheme() ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_SEARCH_LIGHT) : 
+                                                  IArchiImages.ImageFactory.getImage(IArchiImages.ICON_SEARCH));
         GridData gd = new GridData(SWT.NONE, SWT.FILL, false, true);
         label.setLayoutData(gd);
         
