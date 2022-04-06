@@ -14,8 +14,8 @@ import com.archimatetool.model.IArchimateModel;
 
 
 /**
- * Global Action for current selection in either the Tree Model View or an Editor.
- * This is the Action counterpart of AbstractModelSelectionHandler<br>
+ * Global Action for current selection in either the Tree Model View or an Editor
+ * in order to update toolbar/menu item state and get current model
  * 
  * @author Phillip Beauvoir
  */

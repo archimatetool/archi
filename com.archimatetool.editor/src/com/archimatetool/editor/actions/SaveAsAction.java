@@ -22,7 +22,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class SaveAsAction extends AbstractModelSelectionAction {
+public class SaveAsAction extends AbstractModelAction {
     
     public SaveAsAction(IWorkbenchWindow window) {
         super(Messages.SaveAsAction_0, window);

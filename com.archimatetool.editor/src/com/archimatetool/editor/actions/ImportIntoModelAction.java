@@ -19,7 +19,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ImportIntoModelAction extends AbstractModelSelectionAction {
+public class ImportIntoModelAction extends AbstractModelAction {
     
     private ISelectedModelImporter fImporter;
 

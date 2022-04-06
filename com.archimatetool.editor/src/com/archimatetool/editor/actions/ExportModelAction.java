@@ -19,7 +19,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportModelAction extends AbstractModelSelectionAction {
+public class ExportModelAction extends AbstractModelAction {
     
     private IModelExporter fExporter;
 
