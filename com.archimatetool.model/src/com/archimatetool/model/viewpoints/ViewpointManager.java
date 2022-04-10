@@ -225,9 +225,7 @@ public class ViewpointManager {
     }
     
     private void addConcept(Viewpoint vp, EClass eClass) {
-        if(!vp.getClassList().contains(eClass)) {
-            vp.getClassList().add(eClass);
-        }
+        vp.getClassList().add(eClass);
     }
     
 }

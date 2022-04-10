@@ -5,8 +5,10 @@
  */
 package com.archimatetool.model.viewpoints;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -20,13 +22,12 @@ import com.archimatetool.model.IArchimatePackage;
  */
 class Viewpoint implements IViewpoint {
     
-    private List<EClass> classList = new ArrayList<EClass>();
+    private Set<EClass> classList = new HashSet<EClass>();
 
-    private static List<EClass> defaultList = new ArrayList<EClass>();
-    static {
-        defaultList.add(IArchimatePackage.eINSTANCE.getJunction());
-        defaultList.add(IArchimatePackage.eINSTANCE.getGrouping());
-    }
+    // Default elements in a Viewpoint are Junction and Grouping
+    private static Set<EClass> defaultList = Stream.of(IArchimatePackage.eINSTANCE.getJunction(),
+                                                       IArchimatePackage.eINSTANCE.getGrouping())
+                                                       .collect(Collectors.toCollection(HashSet::new));
     
     private String id;
     private String name;
@@ -36,7 +37,7 @@ class Viewpoint implements IViewpoint {
         this.name = name;
     }
     
-    List<EClass> getClassList() {
+    Set<EClass> getClassList() {
         return classList;
     }
     
