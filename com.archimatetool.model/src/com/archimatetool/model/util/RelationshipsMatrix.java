@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
@@ -65,13 +67,13 @@ public class RelationshipsMatrix {
 
     public static class TargetMatrix {
         EClass targetClass;
-        List<EClass> relationships = new ArrayList<EClass>();
+        Set<EClass> relationships = new LinkedHashSet<>();
         
         public EClass getTargetClass() {
             return targetClass;
         }
         
-        public List<EClass> getRelationships() {
+        public Set<EClass> getRelationships() {
             return relationships;
         }
     }
