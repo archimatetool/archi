@@ -48,6 +48,10 @@
                             <archiveFileName>Archi</archiveFileName>
                         </product>
                     </products>
+                    <!-- This should be set to "repository" from Eclipse 4.24 onwards to support PGP signing of plug-ins -->
+                    <!-- Because the target platform's artifact metadata doesn't contain the pgp keys but the repository's artifact metadata does -->
+                    <!-- See https://www.eclipse.org/tycho/sitedocs/tycho-p2/tycho-p2-director-plugin/materialize-products-mojo.html#source -->
+                    <source>targetPlatform</source>
                 </configuration>
             </plugin>
 
@@ -58,6 +62,8 @@
                 <configuration>
                     <!-- Don't create a zip archive of the p2 repository as well as the "repository" directory -->
                     <skipArchive>true</skipArchive>
+                    <!-- This should be set to true from Eclipse 4.24 onwards to support PGP signing of plug-ins -->
+                    <includeAllDependencies>false</includeAllDependencies>
                 </configuration>
             </plugin>
             
