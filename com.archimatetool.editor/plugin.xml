@@ -114,7 +114,7 @@
       </page>
       <page
             class="com.archimatetool.editor.preferences.GeneralPreferencePage"
-            id="com.archimatetool.editor.prefsGeneral"
+            id="org.eclipse.ui.preferencePages.Workbench"
             name="%prefsGeneral">
          <keywordReference
                id="keywords.prefsGeneral">
@@ -1355,6 +1355,19 @@
             </adapt>
          </with>
       </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activityPatternBinding
+            activityId="com.archimatetool.editor.activity"
+            isEqualityPattern="true"
+            pattern="org.eclipse.equinox.security.ui/org.eclipse.equinox.security.ui.category">
+      </activityPatternBinding>
+      <activity
+            description="Bogus Activity so we can remove certain UI features such as preferences pages"
+            id="com.archimatetool.editor.activity"
+            name="Archi Activity">
+      </activity>
    </extension>
 
 </plugin>

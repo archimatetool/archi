@@ -6,6 +6,7 @@
 package com.archimatetool.editor;
 
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
@@ -54,6 +55,12 @@ extends WorkbenchAdvisor
         
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);
+    }
+    
+    @Override
+    public void postStartup() {
+        PreferenceManager pm = PlatformUI.getWorkbench().getPreferenceManager();
+        pm.remove("org.eclipse.equinox.security.ui.category");
     }
     
     @Override
