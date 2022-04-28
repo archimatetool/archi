@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
@@ -830,31 +831,37 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        Set<Object> refreshElements = new HashSet<Object>();
-        Set<Object> updateElements = new HashSet<Object>();
+        Set<EObject> refreshElements = new HashSet<>();
+        Set<EObject> updateElements = new HashSet<>();
         
         for(Notification msg : notifications) {
             // Get parent nodes to refresh
-            Object parent = getParentToRefreshFromNotification(msg);
+            EObject parent = getParentToRefreshFromNotification(msg);
             if(parent != null) {
                 refreshElements.add(parent);
             }
             
             // Get elements to update
-            Set<Object> elements = getElementsToUpdateFromNotification(msg);
-            for(Object object : elements) {
-                updateElements.add(object);
+            updateElements.addAll(getElementsToUpdateFromNotification(msg));
+        }
+        
+        // Optimise refresh by refreshing only ancestors
+        for(EObject object : new HashSet<>(refreshElements)) {
+            for(EObject parent = object.eContainer(); parent != null; parent = parent.eContainer()) {
+                if(refreshElements.contains(parent)) {
+                    refreshElements.remove(object);
+                }
             }
         }
         
         try {
             getViewer().getControl().setRedraw(false);
 
-            for(Object object : refreshElements) {
+            for(EObject object : refreshElements) {
                 getViewer().refresh(object);
             }
 
-            for(Object object : updateElements) {
+            for(EObject object : updateElements) {
                 getViewer().update(object, null);
             }
         }

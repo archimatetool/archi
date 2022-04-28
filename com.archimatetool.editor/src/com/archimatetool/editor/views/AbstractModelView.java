@@ -294,7 +294,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             getViewer().getControl().setRedraw(false);
 
             // Update affected element node(s)
-            Set<Object> elements = getElementsToUpdateFromNotification(msg);
+            Set<EObject> elements = getElementsToUpdateFromNotification(msg);
             getViewer().update(elements.toArray(), null);
 
             // Refresh parent node
@@ -320,7 +320,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * @return The parent folder to refresh when one of its children is added/removed/set
      */
-    protected Object getParentToRefreshFromNotification(Notification msg) {
+    protected EObject getParentToRefreshFromNotification(Notification msg) {
         int type = msg.getEventType();
         EObject element = null;
         
@@ -387,8 +387,8 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * @return All the tree element nodes that may need updating when a change occurs
      */
-    protected Set<Object> getElementsToUpdateFromNotification(Notification msg) {
-        Set<Object> list = new HashSet<Object>();
+    protected Set<EObject> getElementsToUpdateFromNotification(Notification msg) {
+        Set<EObject> list = new HashSet<>();
         
         // If notifier is a folder ignore
         if(msg.getNotifier() instanceof IFolder) {
@@ -397,16 +397,16 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         int type = msg.getEventType();
         
-        Object element = null;
+        EObject element = null;
         
         if(type == Notification.REMOVE) {
-            element = msg.getOldValue();
+            element = (EObject)msg.getOldValue();
         }
         else if(type == Notification.ADD) {
-            element = msg.getNewValue();
+            element = (EObject)msg.getNewValue();
         }
         else if(type == Notification.SET) {
-            element = msg.getNotifier();
+            element = (EObject)msg.getNotifier();
         }
         
         // If it's a diagram object or a diagram dig in and treat it separately
@@ -436,7 +436,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * Find all elements contained in Diagram or Diagram objects including any child objects
      */
-    private void getDiagramElementsToUpdate(Set<Object> list, IDiagramModelContainer container) {
+    private void getDiagramElementsToUpdate(Set<EObject> list, IDiagramModelContainer container) {
         // ArchiMate element
         if(container instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)container).getArchimateElement();
@@ -456,7 +456,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Find all relationships to update from given element
      * TODO: A3 Does this need to be for all concepts?
      */
-    private void getRelationshipsToUpdate(Set<Object> list, IArchimateElement element) {
+    private void getRelationshipsToUpdate(Set<EObject> list, IArchimateElement element) {
         for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
             list.add(relation);
         }
