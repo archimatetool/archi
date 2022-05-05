@@ -11,9 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -22,6 +25,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public final class FileUtils  {
 	
     /**
@@ -36,13 +40,13 @@ public final class FileUtils  {
 	 * @param file The File in question
 	 * @return The extension part of the filename including the "." or "" if no extension
 	 */
-	public static String getFileExtension(File file) {
+    public static String getFileExtension(File file) {
 		String fileName = file.getName();
 		int i = fileName.lastIndexOf('.');
 		if(i > 0 && i < fileName.length() - 1) {
 			return fileName.substring(i).toLowerCase();
 		}
-		return ""; //$NON-NLS-1$
+		return "";
 	}
 	
 	/**
@@ -102,7 +106,7 @@ public final class FileUtils  {
 	 */
 	public static void copyFiles(File[] files, File destFolder, IProgressMonitor progressMonitor) throws IOException {
 	    if(!destFolder.isDirectory()) {
-            throw new IOException("Parent folder should be directory"); //$NON-NLS-1$
+            throw new IOException("Parent folder should be directory");
         }
 	    
 	    if(progressMonitor != null) {
@@ -131,7 +135,7 @@ public final class FileUtils  {
      */
     public static void moveFiles(File[] files, File destFolder, IProgressMonitor progressMonitor) throws IOException {
         if(!destFolder.isDirectory()) {
-            throw new IOException("Parent folder should be directory"); //$NON-NLS-1$
+            throw new IOException("Parent folder should be directory");
         }
         
         if(progressMonitor != null) {
@@ -160,17 +164,17 @@ public final class FileUtils  {
 	 */
 	public static void copyFolder(File srcFolder, File destFolder, IProgressMonitor progressMonitor) throws IOException {
 	    if(srcFolder.equals(destFolder)) {
-	        throw new IOException("Source and target folders cannot be the same."); //$NON-NLS-1$
+	        throw new IOException("Source and target folders cannot be the same.");
 	    }
 	    
         if(!srcFolder.exists()) {
-            throw new IOException("Source folder does not exist"); //$NON-NLS-1$
+            throw new IOException("Source folder does not exist");
         }
 
         // Check that destFolder is not a child of srcFolder
 	    for(File dest = destFolder.getParentFile(); dest != null; dest = dest.getParentFile()) {
 	        if(dest.equals(srcFolder)) {
-	            throw new IOException("The destination folder cannot be a subfolder of the source folder."); //$NON-NLS-1$
+	            throw new IOException("The destination folder cannot be a subfolder of the source folder.");
 	        }
 	    }
 	        
@@ -182,7 +186,7 @@ public final class FileUtils  {
 	        if(progressMonitor != null) {
 	            progressMonitor.subTask(srcFile.getName());
 	            if(progressMonitor.isCanceled()) {
-                    throw new IOException("User cancelled."); //$NON-NLS-1$
+                    throw new IOException("User cancelled.");
 	            }
 	        }
 	        if(srcFile.isDirectory()) {
@@ -216,14 +220,14 @@ public final class FileUtils  {
 	            String name = getFileNameWithoutExtension(srcFile);
 	            String ext = getFileExtension(srcFile);
 	            do {
-	                destFile = new File(destFile.getParentFile(), name + "(" + i++ + ")" + ext); //$NON-NLS-1$ //$NON-NLS-2$
+	                destFile = new File(destFile.getParentFile(), name + "(" + i++ + ")" + ext);
 	            }
 	            while(destFile.exists());
 	        }
 	    }
 	    else {
 	        if(srcFile.equals(destFile)) {
-	            throw new IOException("Source and Target Files cannot be the same"); //$NON-NLS-1$
+	            throw new IOException("Source and Target Files cannot be the same");
 	        }
 	    }
 	    
@@ -270,7 +274,7 @@ public final class FileUtils  {
 	    // File parent = afolder.getParentFile();
 	    File parent = new File(afolder.getAbsolutePath()).getParentFile();
 	    if(parent == null) {
-	        throw new IOException("Cannot delete root folder"); //$NON-NLS-1$
+	        throw new IOException("Cannot delete root folder");
 	    }
 	    
 	    if(afolder.exists() && afolder.isDirectory()) {
@@ -326,15 +330,15 @@ public final class FileUtils  {
     public static String getRelativePath(File path, File basePath) {
         try {
             String dir = path.toURL().toExternalForm();
-            String baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/"); //$NON-NLS-1$
+            String baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/");
             StringBuffer result = new StringBuffer();
             while (dir.indexOf(baseDir) == -1) {
                 basePath = basePath.getParentFile();
                 if(basePath == null) {
                     return path.getName();
                 }
-                baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/"); //$NON-NLS-1$
-                result.append("../"); //$NON-NLS-1$
+                baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/");
+                result.append("../");
             }
             if (dir.indexOf(baseDir) == 0) {
                 String delta = dir.substring(baseDir.length());
@@ -388,7 +392,7 @@ public final class FileUtils  {
         
         do {
             fFileNameCounter++;
-            tmpFile = new File(folder, prefix + Integer.toString(fFileNameCounter) + "." + suffix); //$NON-NLS-1$
+            tmpFile = new File(folder, prefix + Integer.toString(fFileNameCounter) + "." + suffix);
 
         } while(tmpFile.exists());
         
@@ -402,9 +406,29 @@ public final class FileUtils  {
      */
     public static String getValidFileName(String name) {
         if(!StringUtils.isSet(name)) {
-            return "untitled"; //$NON-NLS-1$
+            return "untitled";
         }
-        return name.replaceAll("[^a-zA-Z0-9]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+        return name.replaceAll("[^a-zA-Z0-9]", "_");
+    }
+    
+    /**
+     * Check if a folder is empty
+     * @param folder
+     * @return true if the folder is empty
+     */
+    public static boolean isFolderEmpty(File folder) {
+        if(!(folder != null && folder.exists() && folder.isDirectory())) {
+            return true;
+        }
+        
+        // A lazy stream is faster than folder.list()
+        try(Stream<Path> entries = Files.list(folder.toPath())
+                                        .filter(path -> !path.endsWith(".DS_Store"))) { // Ignore Mac file
+            return entries.findFirst().isEmpty();
+        }
+        catch(IOException ex) {
+            return true;
+        }
     }
 }
 

@@ -31,6 +31,7 @@ import junit.framework.JUnit4TestAdapter;
  *
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class FileUtilsTests {
 
     /**
@@ -71,9 +72,9 @@ public class FileUtilsTests {
      */
     @Test
     public void getFileExtension1() {
-        File file = new File("test/file.TXT"); //$NON-NLS-1$
+        File file = new File("test/file.TXT");
         String ext = FileUtils.getFileExtension(file);
-        assertEquals("Wrong file extension", ".txt", ext); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Wrong file extension", ".txt", ext);
     }
     
     /**
@@ -81,9 +82,9 @@ public class FileUtilsTests {
      */
     @Test
     public void getFileExtension2() {
-        File file = new File("test/file"); //$NON-NLS-1$
+        File file = new File("test/file");
         String ext = FileUtils.getFileExtension(file);
-        assertEquals("Wrong file extension", "", ext); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Wrong file extension", "", ext);
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -93,9 +94,9 @@ public class FileUtilsTests {
      */
     @Test
     public void getFileNameWithoutExtension1() {
-        File file = new File("test/File.txt"); //$NON-NLS-1$
+        File file = new File("test/File.txt");
         String name = FileUtils.getFileNameWithoutExtension(file);
-        assertEquals("Wrong file extension", "File", name); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Wrong file extension", "File", name);
     }
     
     /**
@@ -103,9 +104,9 @@ public class FileUtilsTests {
      */
     @Test
     public void getFileNameWithoutExtension2() {
-        File file = new File("test/File"); //$NON-NLS-1$
+        File file = new File("test/File");
         String name = FileUtils.getFileNameWithoutExtension(file);
-        assertEquals("Wrong file extension", "File", name); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Wrong file extension", "File", name);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -116,10 +117,10 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_SameFolder() {
         try {
-            File folderSrc = TestUtils.createTempFolder("src"); //$NON-NLS-1$
+            File folderSrc = TestUtils.createTempFolder("src");
             FileUtils.copyFolder(folderSrc, folderSrc);
             // Shouldn't reach here
-            fail("Should have thrown an Exception"); //$NON-NLS-1$
+            fail("Should have thrown an Exception");
         }
         catch(IOException ex) {
             assertTrue(true);
@@ -132,11 +133,11 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_SubFolder() {
         try {
-            File folderSrc = TestUtils.createTempFolder("src"); //$NON-NLS-1$
-            File folderDest = TestUtils.createTempFolder("src/dest"); //$NON-NLS-1$
+            File folderSrc = TestUtils.createTempFolder("src");
+            File folderDest = TestUtils.createTempFolder("src/dest");
             FileUtils.copyFolder(folderSrc, folderDest);
             // Shouldn't reach here
-            fail("Should have thrown an Exception"); //$NON-NLS-1$
+            fail("Should have thrown an Exception");
         }
         catch(IOException ex) {
             assertTrue(true);
@@ -149,7 +150,7 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_FilesValid() throws Exception {
         File folderSrc = TestSupport.getTestDataFolder();
-        File folderTgt = TestUtils.createTempFolder("tgt"); //$NON-NLS-1$
+        File folderTgt = TestUtils.createTempFolder("tgt");
         FileUtils.copyFolder(folderSrc, folderTgt);
         
         TestSupport.checkSourceAndTargetFolderSame(folderSrc, folderTgt);
@@ -161,12 +162,12 @@ public class FileUtilsTests {
      */
     @Test
     public void copyFolder_NotExists() {
-        File folderSrc = new File("absolutely_bogus/"); //$NON-NLS-1$
-        File folderTgt = TestUtils.createTempFolder("tgt"); //$NON-NLS-1$
+        File folderSrc = new File("absolutely_bogus/");
+        File folderTgt = TestUtils.createTempFolder("tgt");
         try {
             FileUtils.copyFolder(folderSrc, folderTgt);
             // Shouldn't reach here
-            fail("Should have thrown an Exception"); //$NON-NLS-1$
+            fail("Should have thrown an Exception");
         } catch(Exception ex) {
             assertTrue(true);
         }
@@ -180,10 +181,10 @@ public class FileUtilsTests {
     @Test
     public void copyFile_SameFile() {
         try {
-            File fileSrc = TestUtils.createTempFile(".txt"); //$NON-NLS-1$
+            File fileSrc = TestUtils.createTempFile(".txt");
             FileUtils.copyFile(fileSrc, fileSrc, false);
             // Shouldn't reach here
-            fail("Should have thrown an Exception"); //$NON-NLS-1$
+            fail("Should have thrown an Exception");
         }
         catch(IOException ex) {
             assertTrue(true);
@@ -195,8 +196,8 @@ public class FileUtilsTests {
      */
     @Test
     public void copyFile_FileValid() throws Exception {
-        File fileSrc = new File(TestSupport.getTestDataFolder(), "filetest/readme.txt"); //$NON-NLS-1$
-        File fileTgt = TestUtils.createTempFile(".txt"); //$NON-NLS-1$
+        File fileSrc = new File(TestSupport.getTestDataFolder(), "filetest/readme.txt");
+        File fileTgt = TestUtils.createTempFile(".txt");
         FileUtils.copyFile(fileSrc, fileTgt, false);
         
         TestSupport.checkSourceAndTargetFileSame(fileSrc, fileTgt);
@@ -208,12 +209,12 @@ public class FileUtilsTests {
      */
     @Test
     public void copyFile_NotExists() throws Exception {
-        File fileSrc = new File("absolutely_bogus.txt"); //$NON-NLS-1$
-        File fileTgt = TestUtils.createTempFile(".txt"); //$NON-NLS-1$
+        File fileSrc = new File("absolutely_bogus.txt");
+        File fileTgt = TestUtils.createTempFile(".txt");
         try {
             FileUtils.copyFile(fileSrc, fileTgt, false);
             // Shouldn't reach here
-            fail("Should have thrown an Exception"); //$NON-NLS-1$
+            fail("Should have thrown an Exception");
         } catch(Exception ex) {
             assertTrue(true);
         }
@@ -223,28 +224,28 @@ public class FileUtilsTests {
 
     @Test
     public void moveFile() throws Exception {
-        File folderSrc = TestUtils.createTempFolder("src"); //$NON-NLS-1$
-        File srcFile = new File(folderSrc, "temp.xml"); //$NON-NLS-1$
+        File folderSrc = TestUtils.createTempFolder("src");
+        File srcFile = new File(folderSrc, "temp.xml");
         
-        File folderTgt = TestUtils.createTempFolder("tgt"); //$NON-NLS-1$
-        File tgtFile = new File(folderTgt, "temp.xml"); //$NON-NLS-1$
+        File folderTgt = TestUtils.createTempFolder("tgt");
+        File tgtFile = new File(folderTgt, "temp.xml");
         
-        FileUtils.copyFile(new File(TestSupport.getTestDataFolder(), "filetest/readme.txt"), srcFile, false); //$NON-NLS-1$
-        assertTrue("Test Source File should exist", srcFile.exists()); //$NON-NLS-1$
+        FileUtils.copyFile(new File(TestSupport.getTestDataFolder(), "filetest/readme.txt"), srcFile, false);
+        assertTrue("Test Source File should exist", srcFile.exists());
         
         FileUtils.moveFile(srcFile, tgtFile);
-        assertFalse("Source File should not exist", srcFile.exists()); //$NON-NLS-1$
-        assertTrue("Target File should exist", tgtFile.exists()); //$NON-NLS-1$
+        assertFalse("Source File should not exist", srcFile.exists());
+        assertTrue("Target File should exist", tgtFile.exists());
     }
     
     // ---------------------------------------------------------------------------------------------
     
     @Test
     public void deleteFolder() throws Exception {
-        File folder = TestUtils.createTempFolder("delete_folder"); //$NON-NLS-1$
-        FileUtils.copyFolder(new File(TestSupport.getTestDataFolder(), "filetest/testfolder"), folder, null); //$NON-NLS-1$
+        File folder = TestUtils.createTempFolder("delete_folder");
+        FileUtils.copyFolder(new File(TestSupport.getTestDataFolder(), "filetest/testfolder"), folder, null);
         FileUtils.deleteFolder(folder);
-        assertFalse("Deleted Folder should not exist", folder.exists()); //$NON-NLS-1$
+        assertFalse("Deleted Folder should not exist", folder.exists());
     }
     
     /**
@@ -252,11 +253,11 @@ public class FileUtilsTests {
      */
     @Test
     public void deleteFolder_IfFile() throws Exception {
-        File file = TestUtils.createTempFile(".del"); //$NON-NLS-1$
-        assertTrue("Test File should exist", file.exists()); //$NON-NLS-1$
+        File file = TestUtils.createTempFile(".del");
+        assertTrue("Test File should exist", file.exists());
         
         FileUtils.deleteFolder(file);
-        assertTrue("File should exist", file.exists()); //$NON-NLS-1$
+        assertTrue("File should exist", file.exists());
     }
     
     /**
@@ -264,12 +265,12 @@ public class FileUtilsTests {
      */
     @Test
     public void deleteFolder_NotExists() {
-        File folderSrc = new File("/aFolder/absolutely_bogus/"); //$NON-NLS-1$
+        File folderSrc = new File("/aFolder/absolutely_bogus/");
         try {
             FileUtils.deleteFolder(folderSrc);
             assertTrue(true);
         } catch(IOException ex) {
-            fail("Shouldn't throw Exception"); //$NON-NLS-1$
+            fail("Shouldn't throw Exception");
         }
     }
 
@@ -277,29 +278,29 @@ public class FileUtilsTests {
     
     @Test
     public void testSortFiles() throws Exception {
-        File folder = TestUtils.createTempFolder("sort_folder"); //$NON-NLS-1$
+        File folder = TestUtils.createTempFolder("sort_folder");
         
-        File file1 = new File(folder, "d.txt"); file1.createNewFile(); //$NON-NLS-1$
-        File file2 = new File(folder, "a.txt"); file2.createNewFile(); //$NON-NLS-1$
-        File file3 = new File(folder, "b.txt"); file3.createNewFile(); //$NON-NLS-1$
-        File file4 = new File(folder, "c.txt"); file4.createNewFile(); //$NON-NLS-1$
+        File file1 = new File(folder, "d.txt"); file1.createNewFile();
+        File file2 = new File(folder, "a.txt"); file2.createNewFile();
+        File file3 = new File(folder, "b.txt"); file3.createNewFile();
+        File file4 = new File(folder, "c.txt"); file4.createNewFile();
         
-        File folder1 = new File(folder, "/d"); folder1.mkdir(); //$NON-NLS-1$
-        File folder2 = new File(folder, "/a"); folder2.mkdir(); //$NON-NLS-1$
-        File folder3 = new File(folder, "/b"); folder3.mkdir(); //$NON-NLS-1$
-        File folder4 = new File(folder, "/c"); folder4.mkdir(); //$NON-NLS-1$
+        File folder1 = new File(folder, "/d"); folder1.mkdir();
+        File folder2 = new File(folder, "/a"); folder2.mkdir();
+        File folder3 = new File(folder, "/b"); folder3.mkdir();
+        File folder4 = new File(folder, "/c"); folder4.mkdir();
         
         File[] sorted = FileUtils.sortFiles(folder.listFiles());
         
-        assertEquals("Folder not in correct position", folder2, sorted[0]); //$NON-NLS-1$
-        assertEquals("Folder not in correct position", folder3, sorted[1]); //$NON-NLS-1$
-        assertEquals("Folder not in correct position", folder4, sorted[2]); //$NON-NLS-1$
-        assertEquals("Folder not in correct position", folder1, sorted[3]); //$NON-NLS-1$
+        assertEquals("Folder not in correct position", folder2, sorted[0]);
+        assertEquals("Folder not in correct position", folder3, sorted[1]);
+        assertEquals("Folder not in correct position", folder4, sorted[2]);
+        assertEquals("Folder not in correct position", folder1, sorted[3]);
         
-        assertEquals("File not in correct position", file2, sorted[4]); //$NON-NLS-1$
-        assertEquals("File not in correct position", file3, sorted[5]); //$NON-NLS-1$
-        assertEquals("File not in correct position", file4, sorted[6]); //$NON-NLS-1$
-        assertEquals("File not in correct position", file1, sorted[7]); //$NON-NLS-1$
+        assertEquals("File not in correct position", file2, sorted[4]);
+        assertEquals("File not in correct position", file3, sorted[5]);
+        assertEquals("File not in correct position", file4, sorted[6]);
+        assertEquals("File not in correct position", file1, sorted[7]);
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -309,10 +310,10 @@ public class FileUtilsTests {
      */
     @Test
     public void testGetRelativePath1() {
-        File rootFolder = new File("c:/rootfolder"); //$NON-NLS-1$
-        File file = new File("C:/rootfolder/dir/file.txt"); //$NON-NLS-1$
+        File rootFolder = new File("c:/rootfolder");
+        File file = new File("C:/rootfolder/dir/file.txt");
         String path = FileUtils.getRelativePath(rootFolder, file);
-        assertFalse("Relative Path is wrong: " + path, path.startsWith("/")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertFalse("Relative Path is wrong: " + path, path.startsWith("/"));
     }
 
     /**
@@ -320,10 +321,10 @@ public class FileUtilsTests {
      */
     @Test
     public void testGetRelativePath2() {
-        File rootFolder = new File("/RootFolder"); //$NON-NLS-1$
-        File file = new File("/RootFolder/Dir/FileHere.txt"); //$NON-NLS-1$
+        File rootFolder = new File("/RootFolder");
+        File file = new File("/RootFolder/Dir/FileHere.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue("Relative Path is wrong: " + path, path.equals("Dir/FileHere.txt")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("Relative Path is wrong: " + path, path.equals("Dir/FileHere.txt"));
     }
     
     /**
@@ -331,12 +332,25 @@ public class FileUtilsTests {
      */
     @Test
     public void testGetRelativePath3() {
-        File rootFolder = new File("/rootfolder"); //$NON-NLS-1$
-        File file = new File("/anotherfolder/dir/file.txt"); //$NON-NLS-1$
+        File rootFolder = new File("/rootfolder");
+        File file = new File("/anotherfolder/dir/file.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue("Absolute Path is wrong: " + path, path.startsWith("../")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("Absolute Path is wrong: " + path, path.startsWith("../"));
     }
 
     // ---------------------------------------------------------------------------------------------
+    
+    
+    @Test
+    public void testIsFolderEmpty() throws IOException {
+        File folder = TestUtils.createTempFolder("folder");
+        assertTrue(FileUtils.isFolderEmpty(folder));
+        
+        new File(folder, ".DS_Store").createNewFile();
+        assertTrue(FileUtils.isFolderEmpty(folder));
+        
+        new File(folder, "afile.txt").createNewFile();
+        assertFalse(FileUtils.isFolderEmpty(folder));
+    }
     
 }
