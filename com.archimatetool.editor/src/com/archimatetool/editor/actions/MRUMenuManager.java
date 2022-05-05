@@ -33,16 +33,17 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class MRUMenuManager extends MenuManager implements PropertyChangeListener {
     
-    static final String MRU_PREFS_KEY = "MRU"; //$NON-NLS-1$
+    static final String MRU_PREFS_KEY = "MRU";
     
     private List<File> fMRUList;
     
     private IWorkbenchWindow fWindow;
     
     public MRUMenuManager(IWorkbenchWindow window) {
-        super(Messages.MRUMenuManager_0, "open_recent_menu"); //$NON-NLS-1$
+        super(Messages.MRUMenuManager_0, "open_recent_menu");
         
         fWindow = window;
         
@@ -94,7 +95,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     private void saveList() {
         // Clear
         for(int i = 0; i < 50; i++) {
-            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
+            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, "");
         }
         
         // Save
@@ -150,7 +151,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
             String pathPart = file.getParent();
             if(pathPart != null && pathPart.length() > maxLength) {
                 pathPart = pathPart.substring(0, maxLength - 3);
-                pathPart += "..." + File.separator; //$NON-NLS-1$
+                pathPart += "..." + File.separator;
                 path = pathPart += file.getName();
             }
         }
@@ -182,10 +183,19 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
      * Don't show temp files
      */
     boolean isTempFile(File file) {
-        final File tmpDir = new File(System.getProperty("java.io.tmpdir")); //$NON-NLS-1$
+        if(file.getName().startsWith("~")) {
+            return true;
+        }
         
-        return file != null && 
-                (file.getName().startsWith("~") || tmpDir.equals(file.getParentFile())); //$NON-NLS-1$
+        // File is in temp folder
+        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+        for(File parent = file.getParentFile(); parent != null; parent = parent.getParentFile()) {
+            if(tmpDir.equals(parent)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     @Override

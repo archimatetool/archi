@@ -211,6 +211,19 @@ public class MRUMenuManagerTests {
     }
     
     @Test
+    public void testIsTempFileInTempSubFolder() {
+        File tmpFolder = new File(System.getProperty("java.io.tmpdir"));
+        
+        // File in sub dir
+        File file = new File(tmpFolder, "folder/folder/file.txt");
+        assertTrue(menuManager.isTempFile(file));
+        
+        // Top
+        file = new File(tmpFolder, "file.txt");
+        assertTrue(menuManager.isTempFile(file));
+    }
+
+    @Test
     public void testIsNotTempFile() {
         // Normal file
         File file = new File("newfile.archimate");
