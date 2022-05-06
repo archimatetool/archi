@@ -196,16 +196,9 @@ public class MRUMenuManagerTests {
     }
     
     @Test
-    public void testIsTempFileWithTilde() {
-        // File with "~" as first character
-        File file = new File("~newfile.archimate");
-        assertTrue(menuManager.isTempFile(file));
-    }
-    
-    @Test
     public void testIsTempFileInTempFolder() throws IOException {
         // File in temp dir
-        File file = File.createTempFile("archimodel", null);
+        File file = File.createTempFile("~architemplate", null);
         assertTrue(menuManager.isTempFile(file));
         file.delete();
     }

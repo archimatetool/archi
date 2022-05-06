@@ -183,19 +183,9 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
      * Don't show temp files
      */
     boolean isTempFile(File file) {
-        if(file.getName().startsWith("~")) {
-            return true;
-        }
-        
         // File is in temp folder
         File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-        for(File parent = file.getParentFile(); parent != null; parent = parent.getParentFile()) {
-            if(tmpDir.equals(parent)) {
-                return true;
-            }
-        }
-        
-        return false;
+        return file.getPath().startsWith(tmpDir.getPath());
     }
     
     @Override
