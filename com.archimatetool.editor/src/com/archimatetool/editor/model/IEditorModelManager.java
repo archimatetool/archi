@@ -97,12 +97,21 @@ public interface IEditorModelManager {
     IArchimateModel load(File file) throws IOException;
     
     /**
-     * Close a model in the UI and notify the UI.
+     * Close a model in the UI and notify the UI. Will ask the user to save the model if it's dirty.
      * @param model The model
      * @return false if user cancels
      * @throws IOException
      */
     boolean closeModel(IArchimateModel model) throws IOException;
+    
+    /**
+     * Close a model in the UI and notify the UI.
+     * @param model The model
+     * @param askSave if true will ask the user to save the model if it's dirty
+     * @return true if successful
+     * @throws IOException
+     */
+    boolean closeModel(IArchimateModel model, boolean askSave) throws IOException;
     
     /**
      * Save model asking user for file name if needed

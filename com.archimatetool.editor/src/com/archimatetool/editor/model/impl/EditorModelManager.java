@@ -407,12 +407,17 @@ implements IEditorModelManager {
     
     @Override
     public boolean closeModel(IArchimateModel model) throws IOException {
+        return closeModel(model, true);
+    }
+    
+    @Override
+    public boolean closeModel(IArchimateModel model, boolean askSaveModel) throws IOException {
         if(model == null) {
             return true;
         }
         
         // Check if model needs saving
-        if(PlatformUI.isWorkbenchRunning() && isModelDirty(model)) {
+        if(PlatformUI.isWorkbenchRunning() && isModelDirty(model) && askSaveModel) {
             boolean result = askSaveModel(model);
             if(!result) {
                 return false;
