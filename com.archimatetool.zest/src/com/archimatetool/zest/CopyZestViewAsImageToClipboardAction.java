@@ -9,18 +9,14 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.ImageTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.ClipboardImageTransfer;
 import com.archimatetool.editor.ui.ImageFactory;
-import com.archimatetool.editor.ui.PngTransfer;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -35,27 +31,19 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
     public CopyZestViewAsImageToClipboardAction(ZestGraphViewer graphViewer) {
         super(Messages.CopyZestViewAsImageToClipboardAction_0);
         fGraphViewer = graphViewer;
+        setToolTipText(getText());
     }
 
     @Override
     public void run() {
-        
         BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
             @Override
             public void run() {
                 Image image = null;
-                Clipboard cb = null;
-                
                 try {
                     image = DiagramUtils.createImage(fGraphViewer.getGraphControl().getContents(), 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
-                            
-                    cb = new Clipboard(Display.getDefault());
-                    
-                    // Use different Transfer for Linux64
-                    Transfer transfer = PlatformUtils.isLinux() ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
-                    
-                    cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
+                    ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
                     Logger.log(IStatus.ERROR, "Error exporting image", ex); //$NON-NLS-1$
@@ -66,21 +54,11 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                                     (ex.getMessage() == null ? ex.toString() : ex.getMessage()));
                 }
                 finally {
-                    if(image != null && !image.isDisposed()) {
+                    if(image != null) {
                         image.dispose();
-                    }
-                    
-                    if(cb != null) {
-                        cb.dispose(); // If memory is low this will crash the JVM
                     }
                 }
             }
         });
     }
-    
-    @Override
-    public String getToolTipText() {
-        return getText();
-    }
-
 }
