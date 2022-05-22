@@ -8,6 +8,7 @@ package com.archimatetool.editor.actions;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,8 +185,14 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
      */
     boolean isTempFile(File file) {
         // File is in temp folder
-        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-        return file.getPath().startsWith(tmpDir.getPath());
+        try {
+            File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+            return file.getCanonicalPath().startsWith(tmpDir.getCanonicalPath());
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     @Override
