@@ -854,9 +854,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             cellEditor.setItems(items);
             
-            // Set font in case user changed it in preferences
-            cellEditor.getControl().setFont(getViewer().getControl().getFont());
-
             return cellEditor;
         }
 
@@ -902,9 +899,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
 
             cellEditor.setItems(items);
-            
-            // Set font in case user changed it in preferences
-            cellEditor.getControl().setFont(getViewer().getControl().getFont());
             
             return cellEditor;
         }

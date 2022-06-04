@@ -42,4 +42,10 @@ public class StringComboBoxCellEditor extends ComboBoxCellEditor {
         CCombo combobox = (CCombo)getControl();
         combobox.setEditable(val);
     }
+    
+    @Override
+    public void activate() {
+        // Set font from parent in case user changed it in preferences
+        getControl().setFont(getControl().getParent().getFont());
+    }
 }
