@@ -18,6 +18,7 @@ import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IJunction;
+import com.archimatetool.model.util.Logger;
 
 /**
  * Render Text for display in Text controls in diagrams
@@ -106,21 +107,27 @@ public class TextRenderer {
         
         final int MAX_RECURSION = 10; // Max recursion level
         
-        do {
-            // Add to result set
-            resultSet.add(result);
-            
-            // Check for max recursion
-            if(resultSet.size() == MAX_RECURSION) {
-                return "*** Recursion Error in Label Expression ***";
-            }
-
-            // Iterate through all registered renderers
-            for(ITextRenderer r : renderers) {
-                result = r.render(object, result);
-            }
-            
-        } while((!resultSet.contains(result)));
+        try {
+            do {
+                // Add to result set
+                resultSet.add(result);
+                
+                // Check for max recursion
+                if(resultSet.size() == MAX_RECURSION) {
+                    return "*** Recursion Error in Label Expression ***";
+                }
+    
+                // Iterate through all registered renderers
+                for(ITextRenderer r : renderers) {
+                    result = r.render(object, result);
+                }
+                
+            } while((!resultSet.contains(result)));
+        }
+        catch(Throwable t) { // Catch all errors so that we can continue working in case we can't open a diagram
+            Logger.logError("Error in Label Expression", t);
+            return "*** Error in Label Expression ***";
+        }
 
         return renderEscapedCharacters(result);
     }
