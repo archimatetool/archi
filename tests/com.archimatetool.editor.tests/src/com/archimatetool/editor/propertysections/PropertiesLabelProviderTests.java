@@ -15,6 +15,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
@@ -29,6 +30,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -41,6 +43,12 @@ public class PropertiesLabelProviderTests {
         return new JUnit4TestAdapter(PropertiesLabelProviderTests.class);
     }
     
+    @BeforeClass
+    public static void runOnceBeforeAllTests() {
+        // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()
+        TestUtils.ensureDefaultDisplay();
+    }
+
     PropertiesLabelProvider provider;
     
     @Before
