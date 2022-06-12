@@ -17,7 +17,6 @@ import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.util.Logger;
 
 
 /**
@@ -108,10 +107,6 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      */
     @Override
     public IArchimateRelationship getArchimateRelationship() {
-        if(fRelationship == null) {
-            Logger.logError("getArchimateRelationship() returning null", new Throwable()); //$NON-NLS-1$
-        }
-        
         return fRelationship;
     }
 
@@ -122,18 +117,16 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      */
     @Override
     public void setArchimateRelationship(IArchimateRelationship relationship) {
-        if(relationship == null) {
-            Logger.logError("setArchimateRelationship() setting null", new Throwable()); //$NON-NLS-1$
-        }
-
-        // If we already have a concept we *must* remove it from the referenced list first
+        // If we already have a relationship we *must* remove it from the referenced list first
         if(fRelationship != null) {
             ((ArchimateRelationship)fRelationship).diagramConnections.remove(this);
         }
         
+        if(relationship != null) {
+            ((ArchimateRelationship)relationship).diagramConnections.add(this);
+        }
+
         fRelationship = relationship;
-        
-        ((ArchimateRelationship)fRelationship).diagramConnections.add(this);
     }
 
     /**

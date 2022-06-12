@@ -28,7 +28,6 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
-import com.archimatetool.model.util.Logger;
 
 
 /**
@@ -277,10 +276,6 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      */
     @Override
     public IArchimateElement getArchimateElement() {
-        if(fArchimateElement == null) {
-            Logger.logError("getArchimateElement() returning null", new Throwable()); //$NON-NLS-1$
-        }
-        
         return fArchimateElement;
     }
 
@@ -291,18 +286,17 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      */
     @Override
     public void setArchimateElement(IArchimateElement archimateElement) {
-        if(archimateElement == null) {
-            Logger.logError("setArchimateElement() setting null", new Throwable()); //$NON-NLS-1$
-        }
-        
-        // If we already have a concept we *must* remove it from the referenced list first
+        // If we already have an element we *must* remove it from the referenced list first
         if(fArchimateElement != null) {
             ((ArchimateElement)fArchimateElement).diagramObjects.remove(this);
         }
         
+        // Add it to diagram objects
+        if(archimateElement != null) {
+            ((ArchimateElement)archimateElement).diagramObjects.add(this);
+        }
+
         fArchimateElement = archimateElement;
-        
-        ((ArchimateElement)fArchimateElement).diagramObjects.add(this);
     }
     
     @Override
