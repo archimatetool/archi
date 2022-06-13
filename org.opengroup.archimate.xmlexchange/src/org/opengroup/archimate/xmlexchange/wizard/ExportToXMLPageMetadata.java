@@ -35,12 +35,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -193,18 +191,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
             }
         });
 
-        // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
-        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) { //$NON-NLS-1$ //$NON-NLS-2$
-            Display.getCurrent().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    fTableViewer.setInput(""); //$NON-NLS-1$
-                }
-            });
-        }
-        else {
-            fTableViewer.setInput(""); //$NON-NLS-1$
-        }
+        fTableViewer.setInput(""); //$NON-NLS-1$
     }
     
     Map<String, String> getMetadata() {

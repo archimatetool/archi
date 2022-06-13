@@ -35,7 +35,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
@@ -54,7 +53,6 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.ViewManager;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.hammer.IHammerImages;
 import com.archimatetool.hammer.validation.Validator;
@@ -129,18 +127,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         selectionChanged(getSite().getWorkbenchWindow().getPartService().getActivePart(),
                 getSite().getWorkbenchWindow().getSelectionService().getSelection());
         
-        // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
-        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {  //$NON-NLS-1$//$NON-NLS-2$
-            Display.getCurrent().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    validateModel();
-                }
-            });
-        }
-        else {
-            validateModel();
-        }
+        validateModel();
     }
     
     /**
