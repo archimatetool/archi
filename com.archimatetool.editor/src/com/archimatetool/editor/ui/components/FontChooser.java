@@ -222,6 +222,7 @@ public class FontChooser extends EventManager {
      */
     public void chooseFont() {
         FontDialog dialog = new FontDialog(getControl().getShell());
+        dialog.setEffectsVisible(false); // Don't allow underline/strikeout on Windows. See https://github.com/archimatetool/archi/issues/851
         dialog.setText(Messages.FontChooser_3);
         dialog.setFontList(new FontData[] { fFontData } );        
         dialog.setRGB(fFontRGB);

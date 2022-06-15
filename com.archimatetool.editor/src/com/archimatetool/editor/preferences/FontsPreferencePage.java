@@ -387,6 +387,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private FontData openFontDialog(FontInfo fontInfo) {
         FontDialog dialog = new FontDialog(fTableViewer.getControl().getShell());
+        dialog.setEffectsVisible(false); // Don't allow underline/strikeout on Windows. See https://github.com/archimatetool/archi/issues/851
         dialog.setText(Messages.FontsPreferencePage_3);
         dialog.setFontList(new FontData[] { fontInfo.getFontData() });
         return dialog.open();

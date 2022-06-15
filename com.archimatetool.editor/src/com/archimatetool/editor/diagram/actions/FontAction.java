@@ -87,6 +87,7 @@ public class FontAction extends SelectionAction {
 
         FontDialog dialog = new FontDialog(getWorkbenchPart().getSite().getShell());
         dialog.setText(Messages.FontAction_1);
+        dialog.setEffectsVisible(false); // Don't allow underline/strikeout on Windows. See https://github.com/archimatetool/archi/issues/851
         dialog.setFontList(new FontData[] { fontData } );
         dialog.setRGB(ColorFactory.convertStringToRGB(rgbValue));
 
