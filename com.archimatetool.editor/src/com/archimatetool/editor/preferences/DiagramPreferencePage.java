@@ -37,6 +37,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewTooltipsButton;
     
     private Button fPaletteStateButton;
+    
+    private Button fShowSpecializationsPaletteButton;
         
     private Button fViewpointsFilterModelTreeButton;
     private Button fViewpointsHidePaletteElementsButton;
@@ -111,6 +113,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fEditNameOnNewObjectButton.setLayoutData(gd);
+        
+        fShowSpecializationsPaletteButton = new Button(viewGroup, SWT.CHECK);
+        fShowSpecializationsPaletteButton.setText(Messages.DiagramPreferencePage_9);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fShowSpecializationsPaletteButton.setLayoutData(gd);
         
         // -------------- Viewpoints ----------------------------
 
@@ -204,6 +212,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
+        fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
@@ -235,6 +244,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
+        getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_PALETTE, fShowSpecializationsPaletteButton.getSelection());
         
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
@@ -267,6 +277,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
+        fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));

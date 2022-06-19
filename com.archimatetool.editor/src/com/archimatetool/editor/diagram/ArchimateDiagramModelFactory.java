@@ -16,6 +16,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
@@ -25,6 +26,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -81,6 +83,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
     }
     
     private EClass fTemplate;
+    private IProfile fProfile;
     
     /**
      * Constructor for creating a new Ecore type model
@@ -90,6 +93,11 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         fTemplate = template;
     }
     
+    public ArchimateDiagramModelFactory(EClass template, IProfile profile) {
+        fTemplate = template;
+        fProfile = profile;
+    }
+
     @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof IArchimateDiagramEditor;
@@ -101,7 +109,14 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             return null;
         }
         
+        boolean isSpecialization =  fProfile != null && fProfile.getArchimateModel() != null;
+        
         EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
+        
+        // Add Profile to Concept if set
+        if(object instanceof IArchimateConcept && isSpecialization) {
+            ((IArchimateConcept)object).getProfiles().add(fProfile);
+        }
         
         // Connection created from Relationship Template
         if(object instanceof IArchimateRelationship) {
@@ -111,7 +126,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Archimate Diagram Object created from Archimate Element Template
         else if(object instanceof IArchimateElement) {
             IArchimateElement element = (IArchimateElement)object;
-            element.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+            element.setName(isSpecialization ? fProfile.getName() : ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             return createDiagramModelArchimateObject(element);
         }
         

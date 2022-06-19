@@ -49,7 +49,11 @@ implements IArchimateDiagramEditor {
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
         // Hide/Show Palette elements on Viewpoint
         if(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS == event.getProperty()) {
-            setPaletteViewpoint();
+            getPaletteRoot().updateViewpoint();
+        }
+        // Hide/Show Specialization Palette elements
+        else if(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_PALETTE == event.getProperty()) {
+            getPaletteRoot().updateSpecializations();
         }
         // Hide/Show Diagram Elements on Viewpoint
         else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS == event.getProperty()) {
@@ -64,19 +68,12 @@ implements IArchimateDiagramEditor {
      * Set Viewpoint to current Viewpoint in model
      */
     protected void setViewpoint() {
-        setPaletteViewpoint();
+        getPaletteRoot().updateViewpoint();
         
         // If the preference is to hide elements then refresh the model contents
         if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             getGraphicalViewer().setContents(getModel()); 
         }
-    }
-    
-    /**
-     * Set Palette to current Viewpoint in model
-     */
-    protected void setPaletteViewpoint() {
-        getPaletteRoot().setViewpoint(ViewpointManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
     }
     
     @Override
@@ -88,8 +85,7 @@ implements IArchimateDiagramEditor {
     @Override
     public ArchimateDiagramEditorPalette getPaletteRoot() {
         if(fPaletteRoot == null) {
-            fPaletteRoot = new ArchimateDiagramEditorPalette();
-            setPaletteViewpoint();
+            fPaletteRoot = new ArchimateDiagramEditorPalette(getModel());
         }
         return (ArchimateDiagramEditorPalette)fPaletteRoot;
     }

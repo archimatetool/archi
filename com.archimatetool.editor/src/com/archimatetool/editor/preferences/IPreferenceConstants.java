@@ -79,6 +79,7 @@ public interface IPreferenceConstants {
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject";
     String PALETTE_STATE = "palette_state";
     String VIEW_TOOLTIPS = "viewTooltips";
+    String SHOW_SPECIALIZATIONS_IN_PALETTE = "showSpecializationsInPalette";
 
     String DIAGRAM_OBJECT_RESIZE_BEHAVIOUR = "resizeBehaviour"; 
     String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior";
