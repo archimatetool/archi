@@ -8,7 +8,7 @@ package com.archimatetool.jasperreports;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -164,13 +164,6 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         
         fComboLocale = new ComboViewer(new Combo(fieldContainer, SWT.READ_ONLY | SWT.BORDER));
         fComboLocale.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fComboLocale.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                Locale locale = (Locale)((IStructuredSelection)event.getSelection()).getFirstElement();
-                fSelectedLocale = locale;
-            }
-        });
         
         fComboLocale.setContentProvider(new IStructuredContentProvider() {
             @Override
@@ -183,17 +176,18 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
             
             @Override
             public Object[] getElements(Object inputElement) {
-                Locale locales[] = Locale.getAvailableLocales();
-
-                Comparator<Locale> localeComparator = new Comparator<Locale>() {
-                    @Override
-                    public int compare(Locale locale1, Locale locale2) {
-                        return locale1.toString().compareTo(locale2.toString());
-                    }
-                };
-                Arrays.sort(locales, localeComparator);
+                List<Locale> locales = new ArrayList<>(Arrays.asList(Locale.getAvailableLocales()));
                 
-                return locales;
+                // In case we have specified a custom user locale on the command line, add it to the list
+                if(Locale.getDefault() != null && !locales.contains(Locale.getDefault())) {
+                    locales.add(Locale.getDefault());
+                }
+
+                Collections.sort(locales, (Locale locale1, Locale locale2) -> {
+                    return locale1.toLanguageTag().compareTo(locale2.toLanguageTag());
+                });
+                
+                return locales.toArray();
             }
         });
         
@@ -204,8 +198,18 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
             }
         });
         
+        // Set input to anything
         fComboLocale.setInput(""); //$NON-NLS-1$
-        fComboLocale.setSelection(new StructuredSelection(fSelectedLocale));
+        
+        // Set selected locale
+        if(fSelectedLocale != null)  {
+            fComboLocale.setSelection(new StructuredSelection(fSelectedLocale));
+        }
+
+        // Listen to selections *after* setting the selection
+        fComboLocale.addSelectionChangedListener(event -> {
+            fSelectedLocale = (Locale)((IStructuredSelection)event.getSelection()).getFirstElement();
+        });
     }
     
     public File getMainTemplateFile() {
