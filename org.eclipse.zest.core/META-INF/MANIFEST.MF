@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.zest.core;singleton:=true
 Require-Bundle: org.eclipse.zest.layouts,org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",org.eclipse.draw2d;visibility:=reexport
 Bundle-Vendor: %Plugin.providerName
-Import-Package: com.ibm.icu.text;version="3.8.1"
+Import-Package: com.ibm.icu.text
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.zest.core.viewers,
  org.eclipse.zest.core.viewers.internal;x-internal:=true,
