@@ -14,13 +14,15 @@ import org.eclipse.jface.preference.IPreferenceStore;
  * 
  * @author Phillip Beauvoir
  */
-public class PreferenceInitializer extends AbstractPreferenceInitializer
-implements IPreferenceConstants {
+@SuppressWarnings("nls")
+public class PreferenceInitializer extends AbstractPreferenceInitializer implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
 		IPreferenceStore store = ArchiZestPlugin.INSTANCE.getPreferenceStore();
         
 		store.setDefault(VISUALISER_DEPTH, 0);
+		store.setDefault(VISUALISER_ELEMENTS, "");
+		store.setDefault(VISUALISER_RELATIONSHIPS, "");
     }
 }

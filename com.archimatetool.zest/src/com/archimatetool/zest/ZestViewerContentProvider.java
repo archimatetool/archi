@@ -5,8 +5,9 @@
  */
 package com.archimatetool.zest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.Viewer;
@@ -33,8 +34,8 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
-    private EClass fElementClass;
-    private EClass fRelationshipClass;
+    private Set<EClass> fElementClasses = new LinkedHashSet<>();
+    private Set<EClass> fRelationshipClasses = new LinkedHashSet<>();
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
@@ -46,20 +47,42 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         return fViewpoint;
     }
     
-    public void setElementFilter(EClass elementClass) {
-        fElementClass = elementClass;
+    public void addElementFilter(EClass elementClass) {
+        if(elementClass == null) {
+            fElementClasses.clear();
+        }
+        else {
+            fElementClasses.add(elementClass);
+        }
     }
     
-    public EClass getElementFilter() {
-        return fElementClass;
+    public void removeElementFilter(EClass elementClass) {
+        if(elementClass != null) {
+            fElementClasses.remove(elementClass);
+        }
     }
     
-    public void setRelationshipFilter(EClass relationshipClass) {
-        fRelationshipClass = relationshipClass;
+    public Set<EClass> getElementFilters() {
+        return fElementClasses;
     }
     
-    public EClass getRelationshipFilter() {
-        return fRelationshipClass;
+    public void addRelationshipFilter(EClass relationshipClass) {
+        if(relationshipClass == null) {
+            fRelationshipClasses.clear();
+        }
+        else {
+            fRelationshipClasses.add(relationshipClass);
+        }
+    }
+    
+    public void removeRelationshipFilter(EClass relationshipClass) {
+        if(relationshipClass != null) {
+            fRelationshipClasses.remove(relationshipClass);
+        }
+    }
+
+    public Set<EClass> getRelationshipFilters() {
+        return fRelationshipClasses;
     }
     
     public void setDirection(int direction) {
@@ -105,8 +128,8 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
             // Element - Get its relationships
             if(archimateConcept instanceof IArchimateElement) {
-                List<IArchimateRelationship> mainList = new ArrayList<IArchimateRelationship>();
-                getRelations(mainList, new ArrayList<IArchimateConcept>(), archimateConcept, 0);
+                Set<IArchimateRelationship> mainList = new HashSet<>();
+                getRelations(mainList, new HashSet<IArchimateConcept>(), archimateConcept, 0);
                 return mainList.toArray();
             }
         }
@@ -117,7 +140,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     /**
      * Get all relations from source and target of concept and add to list, no more than DEPTH
      */
-    private void getRelations(List<IArchimateRelationship> mainList, List<IArchimateConcept> checkList, IArchimateConcept concept, int count) {
+    private void getRelations(Set<IArchimateRelationship> mainList, Set<IArchimateConcept> checkList, IArchimateConcept concept, int count) {
         if(checkList.contains(concept)) {
             return;
         }
@@ -130,22 +153,20 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         
         count++;
         
-        List<IArchimateRelationship> allRelationships = ArchimateModelUtils.getAllRelationshipsForConcept(concept);
-        
-        for(IArchimateRelationship relationship : allRelationships) {
+        for(IArchimateRelationship relationship : ArchimateModelUtils.getAllRelationshipsForConcept(concept)) {
             IArchimateConcept other = relationship.getSource().equals(concept) ? relationship.getTarget() : relationship.getSource();
             int direction = relationship.getSource().equals(concept) ? DIR_OUT : DIR_IN;
 
-            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
+            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && isVisible(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
-                    // If the other concept is an element and is filtered
-                    if(other instanceof IArchimateElement && !isFilteredByElement((IArchimateElement)other)) {
+                    // If the other concept is an element and is selected to beshown
+                    if(other instanceof IArchimateElement && isVisible((IArchimateElement)other)) {
                         mainList.add(relationship);
                     }
                 }
             }
 
-            if(fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
+            if(fViewpoint.isAllowedConcept(other.eClass()) && isVisible(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     getRelations(mainList, checkList, other, count);
                 }
@@ -169,18 +190,19 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         return null;
     }
     
-    private boolean isFilteredByElement(IArchimateElement element) {
-        if(fElementClass == null) {
-            return false;
+    private boolean isVisible(IArchimateElement element) {
+        if(fElementClasses.isEmpty()) {
+            return true;
         }
-        return fElementClass != element.eClass();
+        
+        return fElementClasses.contains(element.eClass());
     }
 
-	private boolean isFilteredByRelationship(IArchimateRelationship relation) {
-		if(fRelationshipClass == null){
-			return false;
-		}
-		return fRelationshipClass != relation.eClass();
+	private boolean isVisible(IArchimateRelationship relation) {
+	    if(fRelationshipClasses.isEmpty()) {
+            return true;
+        }
+        
+        return fRelationshipClasses.contains(relation.eClass());
 	}
-
 }

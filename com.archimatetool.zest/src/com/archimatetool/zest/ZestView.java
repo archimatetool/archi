@@ -90,6 +90,7 @@ implements IZestView, ISelectionListener {
     private List<IAction> fViewpointActions;
     
     private List<IAction> fRelationshipActions;
+    private IAction fNoneRelationshipAction;
 
     private List<IAction> fAllElementActions;
     private IAction fNoneElementAction;
@@ -217,12 +218,39 @@ implements IZestView, ISelectionListener {
         String text = ArchiLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentConcept());
         text = StringUtils.escapeAmpersandsInText(text);
         
+        // Viewpoint
         String viewPointName = getContentProvider().getViewpointFilter().getName();
-        String elementName = getElementFilterName(getContentProvider().getElementFilter());
-       	String relationshipName = getRelationshipFilterName(getContentProvider().getRelationshipFilter());
-
+        
+        // Filtered elements
+        String elements;
+        if(getContentProvider().getElementFilters().isEmpty()) {
+            elements = Messages.ZestView_7;
+        }
+        else {
+            elements = "["; //$NON-NLS-1$
+            for(EClass eClass : getContentProvider().getElementFilters()) {
+                elements += getFilterName(eClass) + ", "; //$NON-NLS-1$
+            }
+            elements = elements.replaceAll(", $", ""); // Remove trailing comma //$NON-NLS-1$ //$NON-NLS-2$
+            elements += "]"; //$NON-NLS-1$
+        }
+       	
+        // Filtered relations
+        String relations;
+        if(getContentProvider().getRelationshipFilters().isEmpty()) {
+            relations = Messages.ZestView_7;
+        }
+        else {
+            relations = "["; //$NON-NLS-1$
+            for(EClass eClass : getContentProvider().getRelationshipFilters()) {
+                relations += getFilterName(eClass) + ", "; //$NON-NLS-1$
+            }
+            relations = relations.replaceAll(", $", ""); // Remove trailing comma //$NON-NLS-1$ //$NON-NLS-2$
+            relations += "]"; //$NON-NLS-1$
+        }
+        
         fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    Messages.ZestView_9 + ": " + elementName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Messages.ZestView_9 + ": " + elements + ", " + Messages.ZestView_6 + ": " + relations + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
@@ -280,12 +308,8 @@ implements IZestView, ISelectionListener {
 		menuManager.add(fActionExportImageToFile);
     }
 
-    private String getRelationshipFilterName(EClass relationClass) {
-        return relationClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(relationClass);
-    }
-
-    private String getElementFilterName(EClass elementClass) {
-        return elementClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(elementClass);
+    private String getFilterName(EClass eClass) {
+        return eClass == null ? Messages.ZestView_7 : ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
     }
 
     @Override
@@ -481,19 +505,24 @@ implements IZestView, ISelectionListener {
         // Other
         fOtherElementActions = createElementActionsGroup(ArchimateModelUtils.getOtherClasses());
 
-        // Get selected element from prefs
-        String elementsID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENT);
-        EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(elementsID);
-        getContentProvider().setElementFilter(elementClass);
-
-        // Set Checked
-        if(elementClass == null) {
+        // Get selected elements from prefs
+        String elementPrefs = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENTS);
+        
+        // All
+        if("".equals(elementPrefs)) { //$NON-NLS-1$
             fNoneElementAction.setChecked(true);
         }
+        // Elements
         else {
-            for(IAction a : fAllElementActions) {
-                if(a.getId().equals(elementClass.getName())) {
-                    a.setChecked(true);
+            for(String s : elementPrefs.split(" ")) { //$NON-NLS-1$
+                EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(s);
+                if(elementClass != null) {
+                    getContentProvider().addElementFilter(elementClass);
+                    for(IAction a : fAllElementActions) {
+                        if(a.getId().equals(elementClass.getName())) {
+                            a.setChecked(true);
+                        }
+                    }
                 }
             }
         }
@@ -517,28 +546,42 @@ implements IZestView, ISelectionListener {
     private IAction createElementAction(final EClass elementClass) {
         String id = elementClass == null ? "none" : elementClass.getName(); //$NON-NLS-1$
 
-        IAction act = new Action(getElementFilterName(elementClass), IAction.AS_RADIO_BUTTON) {
+        IAction act = new Action(getFilterName(elementClass), IAction.AS_CHECK_BOX) {
 
             @Override
             public void run() {
                 // Set element filter
-                getContentProvider().setElementFilter(elementClass);
-                // Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ELEMENT, id);
-
+                if(isChecked()) {
+                    getContentProvider().addElementFilter(elementClass);
+                }
+                else {
+                    getContentProvider().removeElementFilter(elementClass);
+                }
+                
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
                 IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
-
-                // Uncheck all other actions
-                for(IAction a : fAllElementActions) {
-                    if(a != this) {
-                        a.setChecked(false);
+                
+                // If this is "All" uncheck all other actions and ensure "All" is always checked
+                if(elementClass == null) {
+                    for(IAction a : fAllElementActions) {
+                        a.setChecked(a == this);
                     }
                 }
+                // Else set "All" checked if no filters
+                else {
+                    fNoneElementAction.setChecked(getContentProvider().getElementFilters().isEmpty());
+                }
+
+                // Save to Preferences
+                String elements = ""; //$NON-NLS-1$
+                for(EClass eClass : getContentProvider().getElementFilters()) {
+                    elements += eClass.getName() + " "; //$NON-NLS-1$
+                }
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ELEMENTS, elements);
             }
         };
 
@@ -548,29 +591,39 @@ implements IZestView, ISelectionListener {
     }
 
     private void createRelationshipsActions() {
-        // Get relationship from prefs
-        String relationshipID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIP);
-        EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(relationshipID);
-        getContentProvider().setRelationshipFilter(eClass);
-
-        // Relationship actions, first the "None" relationship
         fRelationshipActions = new ArrayList<IAction>();
-        IAction action = createRelationshipMenuAction(null);
-        if(eClass == null) {
-            action.setChecked(true);
-        }
-        fRelationshipActions.add(action);
+
+        // The "All" option
+        fNoneRelationshipAction = createRelationshipMenuAction(null);
+        fRelationshipActions.add(fNoneRelationshipAction);
 
         // Then get all relationships and sort them
-        ArrayList<EClass> actionList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
-        actionList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
-        for(EClass rel : actionList) {
-            action = createRelationshipMenuAction(rel);
-            fRelationshipActions.add(action);
-
-            // Set checked
-            if(eClass != null && rel.getName().equals(eClass.getName())) {
-                action.setChecked(true);
+        ArrayList<EClass> list = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
+        list.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        
+        for(EClass rel : list) {
+            fRelationshipActions.add(createRelationshipMenuAction(rel));
+        }
+        
+        // Get selected relationships from prefs
+        String relationsPrefs = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIPS);
+        
+        // All
+        if("".equals(relationsPrefs)) { //$NON-NLS-1$
+            fNoneRelationshipAction.setChecked(true);
+        }
+        // Relations
+        else {
+            for(String s : relationsPrefs.split(" ")) { //$NON-NLS-1$
+                EClass relationClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(s);
+                if(relationClass != null) {
+                    getContentProvider().addRelationshipFilter(relationClass);
+                    for(IAction a : fRelationshipActions) {
+                        if(a.getId().equals(relationClass.getName())) {
+                            a.setChecked(true);
+                        }
+                    }
+                }
             }
         }
     }
@@ -578,14 +631,17 @@ implements IZestView, ISelectionListener {
     private IAction createRelationshipMenuAction(final EClass relationClass) {
         String id = relationClass == null ? "none" : relationClass.getName(); //$NON-NLS-1$
 
-        IAction act = new Action(getRelationshipFilterName(relationClass), IAction.AS_RADIO_BUTTON) {
+        IAction act = new Action(getFilterName(relationClass), IAction.AS_CHECK_BOX) {
 
             @Override
             public void run() {
-                // Set relationship filter
-                getContentProvider().setRelationshipFilter(relationClass);
-                // Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIP, id);
+                // Set element filter
+                if(isChecked()) {
+                    getContentProvider().addRelationshipFilter(relationClass);
+                }
+                else {
+                    getContentProvider().removeElementFilter(relationClass);
+                }
 
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
@@ -593,8 +649,25 @@ implements IZestView, ISelectionListener {
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
+                
+                // If this is "All" uncheck all other actions and ensure "All" is always checked
+                if(relationClass == null) {
+                    for(IAction a : fRelationshipActions) {
+                        a.setChecked(a == this);
+                    }
+                }
+                // Else set "All" checked if no filters
+                else {
+                    fNoneRelationshipAction.setChecked(getContentProvider().getRelationshipFilters().isEmpty());
+                }
+                
+                // Save to Preferences
+                String relations = ""; //$NON-NLS-1$
+                for(EClass eClass : getContentProvider().getRelationshipFilters()) {
+                    relations += eClass.getName() + " "; //$NON-NLS-1$
+                }
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIPS, relations);
             }
-
         };
 
         act.setId(id);

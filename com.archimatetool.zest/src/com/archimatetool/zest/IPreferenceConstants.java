@@ -18,7 +18,7 @@ public interface IPreferenceConstants {
     String VISUALISER_DEPTH = "visualiserDepth"; //$NON-NLS-1$
     String VISUALISER_VIEWPOINT = "visualiserViewpoint"; //$NON-NLS-1$
     String VISUALISER_DIRECTION = "visualiserDirection"; //$NON-NLS-1$
-    String VISUALISER_RELATIONSHIP = "visualiserRelationship"; //$NON-NLS-1$
-    String VISUALISER_ELEMENT = "visualiserElement"; //$NON-NLS-1$
+    String VISUALISER_RELATIONSHIPS = "visualiserRelationships"; //$NON-NLS-1$
+    String VISUALISER_ELEMENTS = "visualiserElements"; //$NON-NLS-1$
     
 }

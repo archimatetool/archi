@@ -5,11 +5,13 @@
  */
 package com.archimatetool.zest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.EClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -76,28 +78,37 @@ public class ZestViewerContentProviderTests {
     }
 
     @Test
-    public void testSetElementFilter() {
-        // default element
-        EClass defaultElement = null;
-        assertTrue(provider.getElementFilter() == defaultElement);
-        // test with a Business Function
-        provider.setElementFilter(IArchimatePackage.eINSTANCE.getBusinessFunction());
-        assertSame(provider.getElementFilter(), IArchimatePackage.eINSTANCE.getBusinessFunction());
-        // back to default
-        provider.setElementFilter(defaultElement);
+    public void testAddElementFilter() {
+        // Default is "All" so empty list
+        assertTrue(provider.getElementFilters().isEmpty());
+
+        // Add some
+        provider.addElementFilter(IArchimatePackage.eINSTANCE.getBusinessActor());
+        provider.addElementFilter(IArchimatePackage.eINSTANCE.getBusinessFunction());
+        assertEquals(2, provider.getElementFilters().size());
+        assertTrue(provider.getElementFilters().contains((IArchimatePackage.eINSTANCE.getBusinessActor())));
+        assertTrue(provider.getElementFilters().contains((IArchimatePackage.eINSTANCE.getBusinessFunction())));
+        
+        // Back to default
+        provider.addElementFilter(null);
+        assertTrue(provider.getElementFilters().isEmpty());
     }
 
     @Test
-    public void testSetRelationshipFilter() {
-        // Default Relationship
-        EClass defaultRelationship = null;
-        assertTrue(provider.getRelationshipFilter() == defaultRelationship);
+    public void testAddRelationshipFilter() {
+        // Default is "All" so empty list
+        assertTrue(provider.getRelationshipFilters().isEmpty());
         
-        provider.setRelationshipFilter(IArchimatePackage.eINSTANCE.getCompositionRelationship());
-        assertSame(provider.getRelationshipFilter(), IArchimatePackage.eINSTANCE.getCompositionRelationship());
+        // Add some
+        provider.addRelationshipFilter(IArchimatePackage.eINSTANCE.getCompositionRelationship());
+        provider.addRelationshipFilter(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
+        assertEquals(2, provider.getRelationshipFilters().size());
+        assertTrue(provider.getRelationshipFilters().contains((IArchimatePackage.eINSTANCE.getCompositionRelationship())));
+        assertTrue(provider.getRelationshipFilters().contains((IArchimatePackage.eINSTANCE.getAssignmentRelationship())));
         
         // Back to default
-        provider.setRelationshipFilter(defaultRelationship);
+        provider.addRelationshipFilter(null);
+        assertTrue(provider.getRelationshipFilters().isEmpty());
     }
 
     @Test
