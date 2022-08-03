@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.draw2d.text;
 
-import com.ibm.icu.text.Bidi;
-
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.draw2d
 Bundle-Version: 3.10.200.qualifier
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
-Import-Package: com.ibm.icu.text
 Export-Package: org.eclipse.draw2d,
  org.eclipse.draw2d.graph,
  org.eclipse.draw2d.geometry,

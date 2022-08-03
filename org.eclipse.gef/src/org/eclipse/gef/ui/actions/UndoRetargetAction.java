@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.gef.ui.actions;
 
-import com.ibm.icu.text.MessageFormat;
+import java.text.MessageFormat;
 
+import org.eclipse.gef.internal.GEFMessages;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.LabelRetargetAction;
-
-import org.eclipse.gef.internal.GEFMessages;
 
 /**
  * @author Eric Bordeau

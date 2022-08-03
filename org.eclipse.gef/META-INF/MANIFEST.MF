@@ -6,7 +6,6 @@ Bundle-Version: 3.11.100.qualifier
 Bundle-Activator: org.eclipse.gef.internal.InternalGEFPlugin
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
-Import-Package: com.ibm.icu.text
 Export-Package: org.eclipse.gef,
  org.eclipse.gef.commands,
  org.eclipse.gef.dnd,

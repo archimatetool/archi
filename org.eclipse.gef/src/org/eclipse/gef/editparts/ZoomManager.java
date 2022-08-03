@@ -10,18 +10,14 @@
  *******************************************************************************/
 package org.eclipse.gef.editparts;
 
-import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.NumberFormat;
-
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Display;
-
 import org.eclipse.core.runtime.Assert;
-
 import org.eclipse.draw2d.FreeformFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ScalableFigure;
@@ -30,8 +26,8 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-
 import org.eclipse.gef.SharedMessages;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Manage the primary zoom function in a graphical viewer. This class is used by
