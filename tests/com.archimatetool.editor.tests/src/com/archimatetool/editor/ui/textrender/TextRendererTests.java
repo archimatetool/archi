@@ -58,6 +58,20 @@ public class TextRendererTests {
         object.getFeatures().putString(TextRenderer.FEATURE_NAME, "expression");
         assertTrue(textRenderer.hasFormatExpression(object));
     }
+    
+    @Test
+    public void hasFormatExpression_ForDiagramObjectWithArchiMateConcept() {
+        IArchimateConcept concept = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateConcept(concept);
+        
+        assertFalse(textRenderer.hasFormatExpression(dmo));
+
+        // Underlying concept has expression
+        concept.getFeatures().putString(TextRenderer.FEATURE_NAME, "expression");
+        
+        assertTrue(textRenderer.hasFormatExpression(dmo));
+    }
 
     @Test
     public void getFormatExpression_DefaultNull() {

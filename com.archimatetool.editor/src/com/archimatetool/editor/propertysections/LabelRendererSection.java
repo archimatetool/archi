@@ -11,6 +11,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.FeatureCommand;
@@ -60,11 +61,12 @@ public class LabelRendererSection extends AbstractECorePropertySection {
         }
     }
     
-    private PropertySectionTextControl fTextRender;
+    protected Label fLabel;
+    protected PropertySectionTextControl fTextRender;
 
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, Messages.LabelRendererSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        fLabel = createLabel(parent, Messages.LabelRendererSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         styledTextControl.setMessage(Messages.LabelRendererSection_1);

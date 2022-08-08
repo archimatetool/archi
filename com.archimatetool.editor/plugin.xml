@@ -391,6 +391,13 @@
                id="labelRendererSection"
                tab="label.tab">
          </propertySection>
+         <propertySection
+               afterSection="labelRendererSection"
+               class="com.archimatetool.editor.propertysections.LabelRendererSection2"
+               filter="com.archimatetool.editor.propertysections.LabelRendererSection2$Filter"
+               id="labelRendererSection2"
+               tab="label.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

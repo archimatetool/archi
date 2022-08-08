@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -143,7 +144,15 @@ public class TextRenderer {
      * @return the object's text expression or null if not present
      */
     public String getFormatExpression(IArchimateModelObject object) {
-        return object.getFeatures().getString(FEATURE_NAME, null);
+        String expression = object.getFeatures().getString(FEATURE_NAME, null);
+        
+        // If the expression is not set on the object and this is a concept, then get the concept's expression
+        if(!StringUtils.isSet(expression) && object instanceof IDiagramModelArchimateComponent) {
+            IArchimateConcept concept = ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+            expression = concept.getFeatures().getString(FEATURE_NAME, null);
+        }
+        
+        return expression;
     }
     
     /**
