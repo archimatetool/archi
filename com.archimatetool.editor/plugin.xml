@@ -240,6 +240,7 @@
       </propertyTabs>
    </extension>
    <extension
+         id="main"
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
             contributorId="com.archimatetool.editor">
@@ -286,29 +287,10 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.DiagramModelConnectionSection"
-               filter="com.archimatetool.editor.propertysections.DiagramModelConnectionSection$Filter"
-               id="diagramModelConnectionSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
                class="com.archimatetool.editor.propertysections.DiagramConnectionNameDocumentationSection"
                filter="com.archimatetool.editor.propertysections.DiagramConnectionNameDocumentationSection$Filter"
                id="connectionNameSection"
                tab="main.tab">
-         </propertySection>
-         <propertySection
-               class="com.archimatetool.editor.propertysections.DiagramConnectionSection"
-               filter="com.archimatetool.editor.propertysections.DiagramConnectionSection$Filter"
-               id="connectionAppearanceSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="connectionAppearanceSection"
-               class="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection"
-               filter="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection$Filter"
-               id="connectionTypeSection"
-               tab="appearance.tab">
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.GroupSection"
@@ -323,60 +305,6 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.UsedInViewsSection"
-               filter="com.archimatetool.editor.propertysections.UsedInViewsSection$Filter"
-               id="usedInViewsSection"
-               tab="analysis.tab">
-         </propertySection>
-         <propertySection
-               afterSection="usedInViewsSection"
-               class="com.archimatetool.editor.propertysections.UsedInRelationshipsSection"
-               filter="com.archimatetool.editor.propertysections.UsedInRelationshipsSection$Filter"
-               id="usedInRelationshipsSection"
-               tab="analysis.tab">
-         </propertySection>
-         <propertySection
-               class="com.archimatetool.editor.propertysections.FillColorSection"
-               filter="com.archimatetool.editor.propertysections.FillColorSection$Filter"
-               id="fillColorSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="connectionAppearanceSection"
-               class="com.archimatetool.editor.propertysections.LineColorSection"
-               filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
-               id="lineColorSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="anySection"
-               class="com.archimatetool.editor.propertysections.FontSection"
-               filter="com.archimatetool.editor.propertysections.FontSection$Filter"
-               id="fontSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="lineColorSection"
-               class="com.archimatetool.editor.propertysections.TextAlignmentSection"
-               filter="com.archimatetool.editor.propertysections.TextAlignmentSection$Filter"
-               id="textAlignmentSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="textPositionSection"
-               class="com.archimatetool.editor.propertysections.OpacitySection"
-               filter="com.archimatetool.editor.propertysections.OpacitySection$Filter"
-               id="opacitySection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="lineColorSection"
-               class="com.archimatetool.editor.propertysections.GradientSection"
-               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
-               id="gradientSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
                class="com.archimatetool.editor.propertysections.FolderSection"
                filter="com.archimatetool.editor.propertysections.FolderSection$Filter"
                id="folderSection"
@@ -389,29 +317,10 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               afterSection="diagramModelSection"
-               class="com.archimatetool.editor.propertysections.SketchModelBackgroundSection"
-               filter="com.archimatetool.editor.propertysections.SketchModelBackgroundSection$Filter"
-               id="sketchModelBackgroundSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
                class="com.archimatetool.editor.propertysections.SketchStickyNameSection"
                filter="com.archimatetool.editor.propertysections.SketchStickyNameSection$Filter"
                id="nameSection"
                tab="main.tab">
-         </propertySection>
-         <propertySection
-               class="com.archimatetool.editor.propertysections.DiagramFigureTypeSection"
-               filter="com.archimatetool.editor.propertysections.DiagramFigureTypeSection$Filter"
-               id="diagramFigureTypeSection"
-               tab="figure.tab">
-         </propertySection>
-         <propertySection
-               class="com.archimatetool.editor.propertysections.UserPropertiesSection"
-               filter="com.archimatetool.editor.propertysections.UserPropertiesSection$Filter"
-               id="userPropertiesSection"
-               tab="properties.tab">
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.ViewpointSection"
@@ -424,13 +333,6 @@
                filter="com.archimatetool.editor.propertysections.LockedSection$Filter"
                id="lockedSection"
                tab="main.tab">
-         </propertySection>
-         <propertySection
-               afterSection="fillColorSection"
-               class="com.archimatetool.editor.propertysections.BorderColorSection"
-               filter="com.archimatetool.editor.propertysections.BorderColorSection$Filter"
-               id="borderColorSection"
-               tab="appearance.tab">
          </propertySection>
          <propertySection
                afterSection="lockedSection"
@@ -446,10 +348,81 @@
                tab="main.tab">
          </propertySection>
          <propertySection
+               class="com.archimatetool.editor.propertysections.SpecializationSection"
+               filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
+               id="specializationSection"
+               tab="main.tab">
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         id="other"
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="com.archimatetool.editor">
+         <propertySection
+               class="com.archimatetool.editor.propertysections.UsedInViewsSection"
+               filter="com.archimatetool.editor.propertysections.UsedInViewsSection$Filter"
+               id="usedInViewsSection"
+               tab="analysis.tab">
+         </propertySection>
+         <propertySection
+               afterSection="usedInViewsSection"
+               class="com.archimatetool.editor.propertysections.UsedInRelationshipsSection"
+               filter="com.archimatetool.editor.propertysections.UsedInRelationshipsSection$Filter"
+               id="usedInRelationshipsSection"
+               tab="analysis.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.DiagramFigureTypeSection"
+               filter="com.archimatetool.editor.propertysections.DiagramFigureTypeSection$Filter"
+               id="diagramFigureTypeSection"
+               tab="figure.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.UserPropertiesSection"
+               filter="com.archimatetool.editor.propertysections.UserPropertiesSection$Filter"
+               id="userPropertiesSection"
+               tab="properties.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.LabelRendererSection"
+               filter="com.archimatetool.editor.propertysections.LabelRendererSection$Filter"
+               id="labelRendererSection"
+               tab="label.tab">
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         id="appearance"
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="com.archimatetool.editor">
+         <propertySection
+               class="com.archimatetool.editor.propertysections.FillColorSection"
+               filter="com.archimatetool.editor.propertysections.FillColorSection$Filter"
+               id="fillColorSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="connectionAppearanceSection"
+               class="com.archimatetool.editor.propertysections.LineColorSection"
+               filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
+               id="lineColorSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="iconColorSection"
+               class="com.archimatetool.editor.propertysections.GradientSection"
+               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
+               id="gradientSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                afterSection="gradientSection"
-               class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
-               filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
-               id="noteBorderTypeSection"
+               class="com.archimatetool.editor.propertysections.TextAlignmentSection"
+               filter="com.archimatetool.editor.propertysections.TextAlignmentSection$Filter"
+               id="textAlignmentSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -460,10 +433,58 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.LabelRendererSection"
-               filter="com.archimatetool.editor.propertysections.LabelRendererSection$Filter"
-               id="labelRendererSection"
-               tab="label.tab">
+               class="com.archimatetool.editor.propertysections.DiagramModelConnectionSection"
+               filter="com.archimatetool.editor.propertysections.DiagramModelConnectionSection$Filter"
+               id="diagramModelConnectionSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.DiagramConnectionSection"
+               filter="com.archimatetool.editor.propertysections.DiagramConnectionSection$Filter"
+               id="connectionAppearanceSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="connectionAppearanceSection"
+               class="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection"
+               filter="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection$Filter"
+               id="connectionTypeSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="fillColorSection"
+               class="com.archimatetool.editor.propertysections.BorderColorSection"
+               filter="com.archimatetool.editor.propertysections.BorderColorSection$Filter"
+               id="borderColorSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="anySection"
+               class="com.archimatetool.editor.propertysections.FontSection"
+               filter="com.archimatetool.editor.propertysections.FontSection$Filter"
+               id="fontSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="fontSection"
+               class="com.archimatetool.editor.propertysections.OpacitySection"
+               filter="com.archimatetool.editor.propertysections.OpacitySection$Filter"
+               id="opacitySection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="gradientSection"
+               class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
+               filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
+               id="noteBorderTypeSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="diagramModelConnectionSection"
+               class="com.archimatetool.editor.propertysections.SketchModelBackgroundSection"
+               filter="com.archimatetool.editor.propertysections.SketchModelBackgroundSection$Filter"
+               id="sketchModelBackgroundSection"
+               tab="appearance.tab">
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.JunctionConnectionArrowsSection"
@@ -471,6 +492,13 @@
                id="junctionArrowsSection"
                tab="appearance.tab">
          </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         id="image"
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="com.archimatetool.editor">
          <propertySection
                class="com.archimatetool.editor.propertysections.IconSection"
                filter="com.archimatetool.editor.propertysections.IconSection$Filter"
@@ -489,12 +517,6 @@
                filter="com.archimatetool.editor.propertysections.ImageSourceSection$Filter"
                id="imageSourceSection"
                tab="image.tab">
-         </propertySection>
-         <propertySection
-               class="com.archimatetool.editor.propertysections.SpecializationSection"
-               filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
-               id="specializationSection"
-               tab="main.tab">
          </propertySection>
       </propertySections>
    </extension>
