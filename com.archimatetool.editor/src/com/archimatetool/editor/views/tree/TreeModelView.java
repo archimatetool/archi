@@ -32,6 +32,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -62,6 +64,7 @@ import com.archimatetool.editor.ui.services.IUIRequestListener;
 import com.archimatetool.editor.ui.services.UIRequest;
 import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.ui.services.ViewManager;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.CloseModelAction;
 import com.archimatetool.editor.views.tree.actions.CutAction;
@@ -189,6 +192,7 @@ implements ITreeModelView, IUIRequestListener {
         hookContextMenu();
         registerGlobalActions();
         makeLocalToolBar();
+        makeLocalMenuActions();
         
         // Drag support
         new TreeModelViewerDragDropHandler(fTreeViewer);
@@ -567,6 +571,61 @@ implements ITreeModelView, IUIRequestListener {
         
         manager.add(fActionToggleSearchField);
         manager.add(fActionLinkToEditor);
+    }
+    
+    /**
+     * Make local toolbar actions
+     */
+    private void makeLocalMenuActions() {
+        IActionBars actionBars = getViewSite().getActionBars();
+        
+        // Local menu items go here
+        IMenuManager manager = actionBars.getMenuManager();
+        
+        // Folder type filter
+        class FolderFilter extends ViewerFilter {
+            FolderType type;
+            
+            FolderFilter(FolderType type) {
+                this.type = type;
+            }
+            
+            @Override
+            public boolean select(Viewer viewer, Object parentElement, Object element) {
+                return element instanceof IFolder ? ((IFolder)element).getType() != type : true;
+            }
+        }
+        
+        // Filter folder action
+        class FolderFilterAction extends Action {
+            ViewerFilter filter;
+            
+            FolderFilterAction(FolderType type) {
+                setText(StringUtils.escapeAmpersandsInText(type.getLabel()));
+                setChecked(true);
+                filter = new FolderFilter(type);
+            }
+            
+            @Override
+            public void run() {
+                if(isChecked()) {
+                    getViewer().removeFilter(filter);
+                }
+                else {
+                    getViewer().addFilter(filter);
+                }
+            }
+        }
+        
+        manager.add(new FolderFilterAction(FolderType.STRATEGY));
+        manager.add(new FolderFilterAction(FolderType.BUSINESS));
+        manager.add(new FolderFilterAction(FolderType.APPLICATION));
+        manager.add(new FolderFilterAction(FolderType.TECHNOLOGY));
+        manager.add(new FolderFilterAction(FolderType.MOTIVATION));
+        manager.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
+        manager.add(new FolderFilterAction(FolderType.OTHER));
+        manager.add(new FolderFilterAction(FolderType.RELATIONS));
+        manager.add(new FolderFilterAction(FolderType.DIAGRAMS));
     }
     
     /**
