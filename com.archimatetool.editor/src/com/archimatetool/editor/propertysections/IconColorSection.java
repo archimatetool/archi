@@ -15,7 +15,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.commands.FeatureCommand;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
@@ -62,6 +64,13 @@ public class IconColorSection extends AbstractECorePropertySection {
             RGB rgb = fColorChooser.getColorValue();
             newColor = ColorFactory.convertRGBToString(rgb);
         }
+        // Default color
+        else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
+            // If user pref to save color in model file is set then save the default value
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                newColor = ColorFactory.convertColorToString(ColorFactory.getDefaultIconColor());
+            }
+        }
             
         CompoundCommand result = new CompoundCommand();
         
@@ -78,9 +87,21 @@ public class IconColorSection extends AbstractECorePropertySection {
         executeCommand(result.unwrap());
     };
     
+    /**
+     * Listen to default icon colour change in Prefs
+     */
+    private IPropertyChangeListener prefsListener = (event) -> {
+        if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ICON_COLOR) ||
+                event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) { // This will affect the "Default" menu in color chooser
+            update();
+        }
+    };
+    
     @Override
     protected void createControls(Composite parent) {
         createColorControl(parent);
+        
+        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -89,7 +110,6 @@ public class IconColorSection extends AbstractECorePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.IconColorSection_1, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         fColorChooser = new ColorChooser(parent, getWidgetFactory());
-        fColorChooser.setDoShowPreferencesMenuItem(false);
         fColorChooser.addListener(colorListener);
     }
     
@@ -115,12 +135,18 @@ public class IconColorSection extends AbstractECorePropertySection {
         String colorValue = lastSelected.getIconColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb == null) {
-            rgb = new RGB(0, 0, 0);
+            rgb = ColorFactory.getDefaultIconColor().getRGB();
         }
         
         fColorChooser.setColorValue(rgb);
-        fColorChooser.setIsDefaultColor(IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT.equals(colorValue));
         fColorChooser.setEnabled(!isLocked(lastSelected));
+        
+        // If user pref is to save the color then it's a different meaning of default
+        boolean isDefaultColor = (colorValue == IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT);
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            isDefaultColor = (colorValue != IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT) && rgb.equals(ColorFactory.getDefaultIconColor().getRGB());
+        }
+        fColorChooser.setIsDefaultColor(isDefaultColor);
     }
     
     @Override
@@ -135,5 +161,7 @@ public class IconColorSection extends AbstractECorePropertySection {
         if(fColorChooser != null) {
             fColorChooser.removeListener(colorListener);
         }
+        
+        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
     }
 }

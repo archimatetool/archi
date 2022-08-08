@@ -201,7 +201,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                                 }),
                             
                             DEFAULT_ELEMENT_LINE_COLOR,
-                            DEFAULT_CONNECTION_LINE_COLOR
+                            DEFAULT_CONNECTION_LINE_COLOR,
+                            DEFAULT_ICON_COLOR
                     };
                 }
                 
@@ -244,8 +245,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     if(s.equals(DEFAULT_ELEMENT_LINE_COLOR)) {
                         return Messages.ColoursPreferencePage_11;
                     }
-                    if(s.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
+                    else if(s.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
                         return Messages.ColoursPreferencePage_12;
+                    }
+                    else if(s.equals(DEFAULT_ICON_COLOR)) {
+                        return Messages.ColoursPreferencePage_24;
                     }
                     return s;
                 }
@@ -468,6 +472,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         else if(object.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
             defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship()).getRGB();
         }
+        // Icon color
+        else if(object.equals(DEFAULT_ICON_COLOR)) {
+            defaultRGB = ColorFactory.getInbuiltDefaultIconColor().getRGB();
+        }
         // Fill color
         else if(object instanceof EClass) {
             EClass eClass = (EClass)object;
@@ -536,6 +544,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 fColorsCache.put(folderType, new Color(color.getDevice(), color.getRGB()));
             }
         }
+        
+        // Icon colour
+        color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultIconColor() : ColorFactory.getDefaultIconColor();
+        fColorsCache.put(DEFAULT_ICON_COLOR, color);
     }
     
     @Override
@@ -625,6 +637,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(StringUtils.isSet(value)) {
             setColor(key, ColorFactory.convertStringToRGB(value));
         }
+        
+        // Icon Color
+        key = DEFAULT_ICON_COLOR;
+        value = store.getString(key);
+        if(StringUtils.isSet(value)) {
+            setColor(key, ColorFactory.convertStringToRGB(value));
+        }
     }
     
     /**
@@ -671,6 +690,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 // Line color
                 colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship());
                 key = DEFAULT_CONNECTION_LINE_COLOR;
+            }
+            // Icon colour
+            else if(entry.getKey().equals(DEFAULT_ICON_COLOR)) {
+                colorDefault = ColorFactory.getInbuiltDefaultIconColor();
+                key = DEFAULT_ICON_COLOR;
             }
             // Folders
             else if(entry.getKey() instanceof FolderType) {

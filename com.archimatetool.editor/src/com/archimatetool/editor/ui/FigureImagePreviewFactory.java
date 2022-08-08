@@ -77,6 +77,7 @@ public class FigureImagePreviewFactory {
             // Use inbuilt default colours
             dmo.setFillColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultFillColor(dmo)));
             dmo.setLineColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultLineColor(dmo)));
+            dmo.setIconColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultIconColor()));
 
             GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
             editPart.setModel(dmo);

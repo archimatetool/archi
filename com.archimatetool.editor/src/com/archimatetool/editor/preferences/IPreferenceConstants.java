@@ -26,6 +26,7 @@ public interface IPreferenceConstants {
     
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor";
     String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor";
+    String DEFAULT_ICON_COLOR = "defaultIconColor";
     String DEFAULT_FILL_COLOR_PREFIX = "defaultFillColour_";
     String FOLDER_COLOUR_PREFIX = "folderColour_";
 

@@ -333,7 +333,11 @@ implements IDiagramModelObjectFigure {
         }
         
         String val = fDiagramModelObject.getIconColor();
-        return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
+        if(StringUtils.isSet(val)) {
+            return ColorFactory.get(val);
+        }
+        
+        return ColorFactory.getDefaultIconColor();
     }
 
     /**

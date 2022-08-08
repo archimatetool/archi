@@ -80,6 +80,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(event.getProperty()) ||
                 event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ||
                 event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
+                event.getProperty().equals(IPreferenceConstants.DEFAULT_ICON_COLOR) ||
                 event.getProperty().startsWith(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
             
             refreshFigure();

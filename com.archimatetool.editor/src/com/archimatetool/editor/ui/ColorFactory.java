@@ -21,6 +21,7 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
@@ -89,6 +90,14 @@ public class ColorFactory {
             Color lineColor = getDefaultLineColor(lo);
             if(lineColor != null) {
                 lo.setLineColor(convertColorToString(lineColor));
+            }
+        }
+
+        // Icon color
+        if(component instanceof IDiagramModelArchimateObject) {
+            Color iconColor = getDefaultIconColor();
+            if(iconColor != null) {
+                ((IDiagramModelObject)component).setIconColor(convertColorToString(iconColor));
             }
         }
     }
@@ -223,7 +232,46 @@ public class ColorFactory {
         
         return ColorConstants.black;
     }
+    
+    ///-------------------------------------------------------------------------
+    
+    /**
+     * @return The default icon color as set by the user
+     */
+    public static Color getDefaultIconColor() {
+        Color color = getUserDefaultIconColor();
+        if(color == null) {
+            color = getInbuiltDefaultIconColor();
+        }
+        return color;
+    }
 
+    /**
+     * @return The default icon color as set by the user or null
+     */
+    public static Color getUserDefaultIconColor() {
+        String value = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_ICON_COLOR);
+        return StringUtils.isSet(value) ? get(value) : null;
+    }
+
+    /**
+     * @return The in-built default icon color (black)
+     */
+    public static Color getInbuiltDefaultIconColor() {
+        // Is there a default value set in preferences? (This could be in a suppplied preference file)
+        String defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_ICON_COLOR);
+        if(StringUtils.isSet(defaultValue)) {
+            Color c = get(defaultValue);
+            if(c != null) {
+                return c;
+            }
+        }
+        
+        return get(0, 0, 0);
+    }
+
+    ///-------------------------------------------------------------------------
+    
     /*
      * Get at the EClass for an Object
      */
