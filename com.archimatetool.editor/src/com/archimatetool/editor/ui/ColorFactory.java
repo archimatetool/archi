@@ -135,7 +135,10 @@ public class ColorFactory {
             // Is there a value set in preferences? (This could be in a suppplied preference file)
             String defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
             if(StringUtils.isSet(defaultValue)) {
-                return get(defaultValue);
+                Color c = get(defaultValue);
+                if(c != null) {
+                    return c;
+                }
             }
             
             // Use UI Provider
@@ -205,7 +208,10 @@ public class ColorFactory {
                 defaultValue = ArchiPlugin.PREFERENCES.getDefaultString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
             }
             if(StringUtils.isSet(defaultValue)) {
-                return get(defaultValue);
+                Color c = get(defaultValue);
+                if(c != null) {
+                    return c;
+                }
             }
             
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
