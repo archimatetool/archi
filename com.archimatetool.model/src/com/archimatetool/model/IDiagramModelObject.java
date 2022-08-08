@@ -38,6 +38,9 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     int ICON_VISIBLE_NEVER = 2;
     int FEATURE_ICON_VISIBLE_DEFAULT = ICON_VISIBLE_IF_NO_IMAGE_DEFINED;
     
+    String FEATURE_ICON_COLOR = "iconColor"; //$NON-NLS-1$
+    String FEATURE_ICON_COLOR_DEFAULT = ""; //$NON-NLS-1$
+    
     /**
      * @return the value of FEATURE_LINE_ALPHA
      */
@@ -70,6 +73,17 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @param visible the value
      */
     void setIconVisibleState(int value);
+    
+    /**
+     * @return The icon color feature FEATURE_ICON_COLOR
+     */
+    String getIconColor();
+    
+    /**
+     * Set the value of feature FEATURE_ICON_COLOR
+     * @param iconColor
+     */
+    void setIconColor(String iconColor);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

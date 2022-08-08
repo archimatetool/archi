@@ -241,6 +241,16 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         getFeatures().putInt(FEATURE_ICON_VISIBLE, value, FEATURE_ICON_VISIBLE_DEFAULT);
     }
     
+    @Override
+    public String getIconColor() {
+        return getFeatures().getString(FEATURE_ICON_COLOR, FEATURE_ICON_COLOR_DEFAULT);
+    }
+    
+    @Override
+    public void setIconColor(String iconColor) {
+        getFeatures().putString(FEATURE_ICON_COLOR, iconColor, FEATURE_ICON_COLOR_DEFAULT);
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

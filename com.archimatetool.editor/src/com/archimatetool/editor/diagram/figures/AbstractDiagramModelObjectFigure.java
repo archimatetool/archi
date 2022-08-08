@@ -323,6 +323,18 @@ implements IDiagramModelObjectFigure {
     public int getIconOffset() {
         return 0;
     }
+    
+    /**
+     * @return The inbuilt icon color
+     */
+    public Color getIconColor() {
+        if(!isEnabled()) {
+            return ColorConstants.gray;
+        }
+        
+        String val = fDiagramModelObject.getIconColor();
+        return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
+    }
 
     /**
      * Apply a gradient pattern to the given Graphics instance and bounds using the current fill color, alpha and gradient setting

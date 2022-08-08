@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -52,7 +51,7 @@ public class DistributionNetworkFigure extends CommunicationNetworkFigure {
         
         graphics.pushState();
         
-        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        graphics.setForegroundColor(getIconColor());
         graphics.setLineWidthFloat(1.5f);
         
         Point pt = getIconOrigin();

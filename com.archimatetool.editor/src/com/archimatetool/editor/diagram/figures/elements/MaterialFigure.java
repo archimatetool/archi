@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -128,7 +127,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         
         graphics.pushState();
         
-        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        graphics.setForegroundColor(getIconColor());
         graphics.setLineWidthFloat(1.2f);
         Point pt = getIconOrigin();
         

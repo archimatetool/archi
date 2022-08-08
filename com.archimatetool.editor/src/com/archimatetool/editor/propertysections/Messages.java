@@ -157,6 +157,10 @@ public class Messages extends NLS {
 
     public static String GroupBorderTypeSection_1;
 
+    public static String IconColorSection_0;
+
+    public static String IconColorSection_1;
+
     public static String IconSection_0;
 
     public static String IconSection_1;

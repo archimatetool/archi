@@ -405,10 +405,17 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="connectionAppearanceSection"
+               afterSection="fillColorSection"
                class="com.archimatetool.editor.propertysections.LineColorSection"
                filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
                id="lineColorSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="lineColorSection"
+               class="com.archimatetool.editor.propertysections.IconColorSection"
+               filter="com.archimatetool.editor.propertysections.IconColorSection$Filter"
+               id="iconColorSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -459,7 +466,7 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="anySection"
+               afterSection="textAlignmentSection"
                class="com.archimatetool.editor.propertysections.FontSection"
                filter="com.archimatetool.editor.propertysections.FontSection$Filter"
                id="fontSection"

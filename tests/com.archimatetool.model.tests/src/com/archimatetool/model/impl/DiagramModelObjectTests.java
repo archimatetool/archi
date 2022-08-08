@@ -133,6 +133,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
+    public void testIconColor() {
+        assertEquals(IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT, object.getIconColor());
+        object.setIconColor("#ffffff");
+        assertEquals("#ffffff", object.getIconColor());
+    }
+    
+    @Test
     public void testGetDefaultTextAlignment() {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getTextAlignment());
     }

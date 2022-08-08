@@ -209,10 +209,17 @@ public class FormatPainterTool extends AbstractTool {
                 result.add(cmd);
             }
             
-            // Icon Visibility, but paste only if the target object has an icon
+            // Icon Visibility and Color, but paste only if the target object has an icon
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(target);
             if(provider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)provider).hasIcon()) {
+                // Icon visible
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_ICON_VISIBLE, source.getIconVisibleState(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
+
+                // Icon color
+                cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_ICON_COLOR, source.getIconColor(), IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT); //$NON-NLS-1$
                 if(cmd.canExecute()) {
                     result.add(cmd);
                 }
