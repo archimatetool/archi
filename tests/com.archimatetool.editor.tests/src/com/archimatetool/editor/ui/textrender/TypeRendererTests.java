@@ -9,9 +9,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelReference;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -71,8 +73,11 @@ public class TypeRendererTests extends AbstractTextRendererTests {
 
     @Test
     public void render_Type_Reference() {
-        String result = renderer.render(IArchimateFactory.eINSTANCE.createDiagramModelReference(), "${type}");
-        assertEquals("View Reference", result);
+        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        IDiagramModelReference ref = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        ref.setReferencedModel(dm);
+        String result = renderer.render(ref, "${type}");
+        assertEquals("View", result);
     }
     
     @Test

@@ -11,10 +11,11 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 
 /**
- * Name renderer
+ * Abstract Text Renderer
  * 
  * @author Phillip Beauvoir
  */
@@ -24,11 +25,18 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
     /**
      * Get the actual object that this represents
      * If it's an IDiagramModelArchimateComponent return the referenced IArchimateConcept
+     * If it's an IDiagramModelReference return the referenced IDiagramModel
      * @param object The object
-     * @return object itself or the IArchimateConcept
+     * @return object itself or the underlying object
      */
     protected IArchimateModelObject getActualObject(IArchimateModelObject object) {
-        return object instanceof IDiagramModelArchimateComponent ? ((IDiagramModelArchimateComponent)object).getArchimateConcept() : object;
+        if(object instanceof IDiagramModelArchimateComponent) {
+            return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+        }
+        if(object instanceof IDiagramModelReference) {
+            return ((IDiagramModelReference)object).getReferencedModel();
+        }
+        return object;
     }
     
     /**
