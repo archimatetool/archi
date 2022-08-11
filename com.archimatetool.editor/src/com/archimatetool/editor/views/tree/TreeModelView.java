@@ -617,15 +617,18 @@ implements ITreeModelView, IUIRequestListener {
             }
         }
         
-        manager.add(new FolderFilterAction(FolderType.STRATEGY));
-        manager.add(new FolderFilterAction(FolderType.BUSINESS));
-        manager.add(new FolderFilterAction(FolderType.APPLICATION));
-        manager.add(new FolderFilterAction(FolderType.TECHNOLOGY));
-        manager.add(new FolderFilterAction(FolderType.MOTIVATION));
-        manager.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
-        manager.add(new FolderFilterAction(FolderType.OTHER));
-        manager.add(new FolderFilterAction(FolderType.RELATIONS));
-        manager.add(new FolderFilterAction(FolderType.DIAGRAMS));
+        MenuManager filterMenu = new MenuManager(Messages.TreeModelView_5);
+        manager.add(filterMenu);
+        
+        filterMenu.add(new FolderFilterAction(FolderType.STRATEGY));
+        filterMenu.add(new FolderFilterAction(FolderType.BUSINESS));
+        filterMenu.add(new FolderFilterAction(FolderType.APPLICATION));
+        filterMenu.add(new FolderFilterAction(FolderType.TECHNOLOGY));
+        filterMenu.add(new FolderFilterAction(FolderType.MOTIVATION));
+        filterMenu.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
+        filterMenu.add(new FolderFilterAction(FolderType.OTHER));
+        filterMenu.add(new FolderFilterAction(FolderType.RELATIONS));
+        filterMenu.add(new FolderFilterAction(FolderType.DIAGRAMS));
     }
     
     /**

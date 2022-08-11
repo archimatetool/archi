@@ -23,6 +23,8 @@ public class Messages extends NLS {
 
     public static String TreeModelView_4;
 
+    public static String TreeModelView_5;
+
     public static String TreeModelViewerDragDropHandler_0;
     static {
         // initialize resource bundle
