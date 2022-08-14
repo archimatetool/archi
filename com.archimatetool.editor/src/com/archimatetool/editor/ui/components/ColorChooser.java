@@ -27,7 +27,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -68,14 +67,13 @@ public class ColorChooser extends EventManager {
     private Button fColorButton;
     private Button fMenuButton;
     
-    private Color fColor;
     private RGB fColorValue;
     
     private boolean fIsDefaultColor;
     
     protected boolean fDoShowDefaultMenuItem = true;
     protected boolean fDoShowPreferencesMenuItem = true;
-    protected boolean fDoShowColorImage = true;;
+    protected boolean fDoShowColorImage = true;
     
     private List<IAction> fExtraActionsList = new ArrayList<IAction>();
     
@@ -97,9 +95,6 @@ public class ColorChooser extends EventManager {
         fColorButton = new Button(fComposite, SWT.FLAT);
         
         GridDataFactory.create(SWT.NONE).hint(60, SWT.DEFAULT).applyTo(fColorButton);
-        
-        Image image = ImageFactory.getAutoScaledImage(new Image(Display.getCurrent(), 40, 15));
-        fColorButton.setImage(image);
         
         fColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -230,8 +225,10 @@ public class ColorChooser extends EventManager {
      *            The new color.
      */
     public void setColorValue(RGB rgb) {
-        fColorValue = rgb;
-        updateColorImage();
+        if(rgb != null && !rgb.equals(fColorValue)) {
+            fColorValue = rgb;
+            updateColorImage();
+        }
     }
 
     /**
@@ -255,7 +252,7 @@ public class ColorChooser extends EventManager {
         colorDialog.setRGB(fColorValue);
         
         RGB newColor = colorDialog.open();
-        if(newColor != null) {
+        if(newColor != null && !newColor.equals(fColorValue)) {
             RGB oldValue = fColorValue;
             fColorValue = newColor;
             fireActionListenerEvent(PROP_COLORCHANGE, oldValue, newColor);
@@ -269,29 +266,39 @@ public class ColorChooser extends EventManager {
      */
     protected void updateColorImage() {
         Display display = fColorButton.getDisplay();
-        GC gc = new GC(fColorButton.getImage());
+        final int width = 40;
+        final int height = 15;
         
-        fColor = new Color(display, fColorValue);
-        
-        Rectangle r = fColorButton.getImage().getBounds();
+        // Draw the color rectangle onto an Image
+        Image image = new Image(display, width, height);
+        GC gc = new GC(image);
         
         if(fDoShowColorImage) {
-            gc.setBackground(fColor);
-            gc.fillRectangle(0, 0, r.width, r.height);            
+            Color color = new Color(display, fColorValue);
+            gc.setBackground(color);
+            gc.fillRectangle(0, 0, width, height);            
         }
         else {
             gc.setAntialias(SWT.ON);
             gc.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
-            gc.fillRectangle(0, 0, r.width, r.height);            
-            gc.drawLine(0, 1, r.width - 1, r.height - 2);
+            gc.fillRectangle(0, 0, width, height);            
+            gc.drawLine(0, 1, width - 1, height - 2);
         }
         
         gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-        gc.drawRectangle(0, 0, r.width - 1, r.height - 1);
+        gc.drawRectangle(0, 0, width - 1, height - 1);
 
         gc.dispose();
         
-        fColorButton.setImage(fColorButton.getImage()); // have to explicitly set this on Mac
+        // Dispose of previous button's image (after setting the new one to be on the safe side)
+        Image oldImage = fColorButton.getImage();
+
+        // Replace with autoscaled image (this is needed on Linux)
+        fColorButton.setImage(ImageFactory.getAutoScaledImage(image));
+
+        if(oldImage != null) {
+            oldImage.dispose();
+        }
     }
     
     /**
