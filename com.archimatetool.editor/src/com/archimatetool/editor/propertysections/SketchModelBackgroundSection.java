@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -20,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.ISketchModel;
 
 
@@ -37,6 +39,16 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
+        @Override
+        public boolean select(Object object) {
+            // Don't show this section on a View Reference
+            if(object instanceof IAdaptable && ((IAdaptable)object).getAdapter(IDiagramModelReference.class) != null) {
+                return false;
+            }
+            
+            return super.select(object);
+        }
+        
         @Override
         public boolean isRequiredType(Object object) {
             return object instanceof ISketchModel;
@@ -60,7 +72,7 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
     
     private void createBackgroundControl(Composite parent) {
         // Label
-        createLabel(parent, Messages.SketchModelBackgroundSection_0, ITabbedLayoutConstants.BIG_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.SketchModelBackgroundSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         // Combo
         fComboBackground = new Combo(parent, SWT.READ_ONLY);

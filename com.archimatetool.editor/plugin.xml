@@ -342,12 +342,6 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.DiagramModelReferenceSection"
-               filter="com.archimatetool.editor.propertysections.DiagramModelReferenceSection$Filter"
-               id="diagramModelReferenceSection"
-               tab="main.tab">
-         </propertySection>
-         <propertySection
                class="com.archimatetool.editor.propertysections.SpecializationSection"
                filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
                id="specializationSection"

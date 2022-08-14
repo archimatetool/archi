@@ -36,7 +36,7 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
         super.addECoreAdapter();
         
         // Listen to referenced model
-        IDiagramModel ref = ((IDiagramModelReference)getModel()).getReferencedModel();
+        IDiagramModel ref = getModel().getReferencedModel();
         if(ref != null) {
             ref.eAdapters().add(getECoreAdapter());
         }
@@ -47,7 +47,7 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
         super.removeECoreAdapter();
         
         // Unlisten to referenced model
-        IDiagramModel ref = ((IDiagramModelReference)getModel()).getReferencedModel();
+        IDiagramModel ref = getModel().getReferencedModel();
         if(ref != null) {
             ref.eAdapters().remove(getECoreAdapter());
         }
@@ -75,6 +75,11 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
     protected void refreshFigure() {
         getFigure().refreshVisuals();
     }
+    
+    @Override
+    public IDiagramModelReference getModel() {
+        return (IDiagramModelReference)super.getModel();
+    }
 
     @Override
     public void performRequest(Request request) {
@@ -84,7 +89,7 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
         // Open Diagram if not in Full Screen Mode
         if(request.getType() == RequestConstants.REQ_OPEN) {
             if(!isInFullScreenMode()) {
-                EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
+                EditorManager.openDiagramEditor(getModel().getReferencedModel());
             }
         }
         else if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
@@ -104,5 +109,18 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
     protected DirectEditManager createDirectEditManager() {
         //return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
         return new MultiLineTextDirectEditManager(this, true);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Object getAdapter(Class adapter) {
+        // Referenced Diagram Model - show Name, Documentation, Properties
+        if(getModel() != null && getModel().getReferencedModel() != null
+                && adapter.isInstance(getModel().getReferencedModel())      // adapter is instance of IDiagramModel
+                && !adapter.isInstance(getModel())) {                       // adapter is not instance of IDiagramModelReference
+            return getModel().getReferencedModel();
+        }
+        
+        return super.getAdapter(adapter);
     }
 }

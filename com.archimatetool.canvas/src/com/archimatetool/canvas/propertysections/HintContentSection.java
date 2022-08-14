@@ -5,6 +5,7 @@
  */
 package com.archimatetool.canvas.propertysections;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -24,6 +25,7 @@ import com.archimatetool.editor.propertysections.ObjectFilter;
 import com.archimatetool.editor.propertysections.PropertySectionTextControl;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelReference;
 
 
 
@@ -40,6 +42,16 @@ public class HintContentSection extends AbstractECorePropertySection {
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
+        @Override
+        public boolean select(Object object) {
+            // Don't show this section on a View Reference
+            if(object instanceof IAdaptable && ((IAdaptable)object).getAdapter(IDiagramModelReference.class) != null) {
+                return false;
+            }
+            
+            return super.select(object);
+        }
+
         @Override
         public boolean isRequiredType(Object object) {
             return object instanceof IHintProvider;

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -21,6 +22,7 @@ import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.commands.ConnectionRouterTypeCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelReference;
 
 
 
@@ -37,6 +39,16 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
+        @Override
+        public boolean select(Object object) {
+            // Don't show this section on a View Reference
+            if(object instanceof IAdaptable && ((IAdaptable)object).getAdapter(IDiagramModelReference.class) != null) {
+                return false;
+            }
+            
+            return super.select(object);
+        }
+
         @Override
         public boolean isRequiredType(Object object) {
             return object instanceof IDiagramModel;
@@ -67,7 +79,7 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
     
     private void createRouterTypeControl(Composite parent) {
         // Label
-        createLabel(parent, Messages.DiagramModelConnectionSection_0, ITabbedLayoutConstants.BIG_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.DiagramModelConnectionSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         // Combo
         fComboRouterType = new Combo(parent, SWT.READ_ONLY);
