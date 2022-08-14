@@ -21,6 +21,7 @@ public class AllUITests {
         suite.addTest(ColorFactoryTests.suite());
         suite.addTest(FigureImagePreviewFactoryTests.suite());
         suite.addTest(FontFactoryTests.suite());
+        suite.addTest(ImageFactoryTests.suite());
         
         // factory
         suite.addTest(AllUIFactoryTests.suite());

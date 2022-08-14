@@ -13,12 +13,13 @@ import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -35,6 +36,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public class ImageFactory {
     
     private AbstractUIPlugin fPlugin;
@@ -46,8 +48,11 @@ public class ImageFactory {
         // Note - Not sure if we need this any more...but just in case
         Display.getDefault();
         
-        String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
-        return deviceZoom == null ? 100 : Integer.parseInt(deviceZoom);
+        return DPIUtil.getDeviceZoom();
+        
+        // Alternate method which I suppose is the official way
+        //String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
+        //return deviceZoom == null ? 100 : Integer.parseInt(deviceZoom);
     }
 
     /**
@@ -184,20 +189,16 @@ public class ImageFactory {
     }
     
     /**
-     * @param image The image to scale
+     * Create an autoscaled image dependent on device zoom
+     * As of now, this is only needed on Linux 200%
+     * @param image The image to scale. This original image is disposed.
      * @return an autoscaled image depending on current device zoom
      */
     public static Image getAutoScaledImage(Image image) {
-        final ImageData imageData = image.getImageData(getDeviceZoom());
+        ImageData imageData = image.getImageData(getDeviceZoom());
+        Device imageDevice = image.getDevice();
         image.dispose();
-        
-        return new Image(Display.getCurrent(), new ImageDataProvider() {
-            @SuppressWarnings("restriction")
-            @Override
-            public ImageData getImageData(int zoom) {
-                return org.eclipse.swt.internal.DPIUtil.autoScaleImageData(Display.getCurrent(), imageData, zoom, getDeviceZoom());
-            }
-        });
+        return new Image(imageDevice, new DPIUtil.AutoScaleImageDataProvider(imageDevice, imageData, getDeviceZoom()));
     }
 
     /**
@@ -368,7 +369,7 @@ public class ImageFactory {
     }
     
     /**
-     * Calculate a new relative image size so that wither the width or height will be no bigger than maxSize
+     * Calculate a new relative image size so that either the width or height will be no bigger than maxSize
      * @param source the Image source
      * @param maxSize the maximum width or size. 
      * @return The new scaled size
