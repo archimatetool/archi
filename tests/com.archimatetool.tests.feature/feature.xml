@@ -40,28 +40,122 @@ OTHER DEALINGS IN THE SOFTWARE.
          id="org.eclipse.rcp"
          version="0.0.0"/>
 
-   <requires>
-      <import plugin="com.archimatetool.canvas"/>
-      <import plugin="com.archimatetool.commandline"/>
-      <import plugin="com.archimatetool.csv"/>
-      <import plugin="com.archimatetool.editor"/>
-      <import plugin="com.archimatetool.export.svg"/>
-      <import plugin="com.archimatetool.hammer"/>
-      <import plugin="com.archimatetool.help"/>
-      <import plugin="com.archimatetool.jasperreports"/>
-      <import plugin="com.archimatetool.jdom"/>
-      <import plugin="com.archimatetool.model"/>
-      <import plugin="com.archimatetool.reports"/>
-      <import plugin="com.archimatetool.zest"/>
-      <import plugin="org.opengroup.archimate.xmlexchange"/>
-      <import plugin="org.junit"/>
-   </requires>
-
    <plugin
          id="com.archimatetool.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.canvas.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.commandline.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.csv.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.editor.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.export.svg.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.hammer.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.help.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.jasperreports.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.jdom.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.model.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.modelimporter.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
+   <plugin
+         id="com.archimatetool.reports.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.zest.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengroup.archimate.xmlexchange.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
