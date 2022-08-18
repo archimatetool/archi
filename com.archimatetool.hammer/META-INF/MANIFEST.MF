@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.archimatetool.hammer;singleton:=true
 Bundle-Localization: plugin
 Bundle-Version: 4.10.0.qualifier
 Bundle-Vendor: Archi
+Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help.ui,

@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.archimatetool.jdom
 Bundle-Version: 4.10.0.qualifier
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
+Eclipse-ExtensibleAPI: true
 Export-Package: com.archimatetool.jdom,
  org.jaxen,
  org.jaxen.dom,

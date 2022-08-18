@@ -6,6 +6,7 @@ Bundle-Version: 4.10.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
+Eclipse-ExtensibleAPI: true
 Export-Package: com.archimatetool.model,
  com.archimatetool.model.impl,
  com.archimatetool.model.util,

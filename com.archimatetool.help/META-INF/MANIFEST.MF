@@ -7,6 +7,7 @@ Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
+Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.equinox.http.jetty,

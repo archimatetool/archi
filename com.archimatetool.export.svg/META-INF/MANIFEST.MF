@@ -7,6 +7,7 @@ Bundle-Activator: com.archimatetool.export.svg.ExportSVGPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
+Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.archimatetool.editor
