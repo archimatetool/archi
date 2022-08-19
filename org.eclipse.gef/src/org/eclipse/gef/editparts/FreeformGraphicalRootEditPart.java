@@ -82,7 +82,6 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
  * </table>
  * 
  */
-@SuppressWarnings("rawtypes")
 public class FreeformGraphicalRootEditPart extends SimpleRootEditPart implements
         LayerConstants, LayerManager {
 
@@ -155,9 +154,9 @@ public class FreeformGraphicalRootEditPart extends SimpleRootEditPart implements
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if (adapter == AutoexposeHelper.class)
-            return new ViewportAutoexposeHelper(this);
+            return adapter.cast(new ViewportAutoexposeHelper(this));
         return super.getAdapter(adapter);
     }
 

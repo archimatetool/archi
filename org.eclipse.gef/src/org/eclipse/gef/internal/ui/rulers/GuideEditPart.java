@@ -162,9 +162,9 @@ public class GuideEditPart extends AbstractGraphicalEditPart {
     }
 
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == AccessibleHandleProvider.class) {
-            return new AccessibleHandleProvider() {
+            return key.cast(new AccessibleHandleProvider() {
                 @Override
                 public List getAccessibleHandleLocations() {
                     List result = new ArrayList();
@@ -173,7 +173,7 @@ public class GuideEditPart extends AbstractGraphicalEditPart {
                     result.add(pt);
                     return result;
                 }
-            };
+            });
         }
         return super.getAdapter(key);
     }

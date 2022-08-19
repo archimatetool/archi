@@ -66,9 +66,9 @@ public abstract class SelectionHandlesEditPolicy extends SelectionEditPolicy
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
      */
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == AccessibleHandleProvider.class)
-            return new AccessibleHandleProvider() {
+            return key.cast(new AccessibleHandleProvider() {
                 @Override
                 public List getAccessibleHandleLocations() {
                     List result = new ArrayList();
@@ -82,7 +82,7 @@ public abstract class SelectionHandlesEditPolicy extends SelectionEditPolicy
                     }
                     return result;
                 }
-            };
+            });
         return null;
     }
 

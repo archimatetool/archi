@@ -662,7 +662,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         IAction action;
         
         // Zoom Manager tweaking
-        ZoomManager zoomManager = (ZoomManager)getAdapter(ZoomManager.class);
+        ZoomManager zoomManager = getAdapter(ZoomManager.class);
         double[] zoomLevels = { .25, .5, .75, 1, 1.5, 2, 3, 4, 6, 8 };
         zoomManager.setZoomLevels(zoomLevels);
         List<String> zoomContributionLevels = new ArrayList<String>();
@@ -996,28 +996,27 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return ArchiPlugin.PLUGIN_ID;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         /*
          * Return the Zoom Manager
          */
         if(adapter == ZoomManager.class && getGraphicalViewer() != null) {
-            return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+            return adapter.cast(getGraphicalViewer().getProperty(ZoomManager.class.toString()));
         }
 
         /*
          * Return the singleton Outline Page
          */
         if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null) {
-            return new OverviewOutlinePage(this);
+            return adapter.cast(new OverviewOutlinePage(this));
         }
         
         /*
          * Return the Property Sheet Page
          */
         if(adapter == IPropertySheetPage.class) {
-            return new TabbedPropertySheetPage(this);
+            return adapter.cast(new TabbedPropertySheetPage(this));
         }
 
         /*
@@ -1025,14 +1024,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
          * DO NOT REMOVE! SaveAction requires this
          */
         if(adapter == IArchimateModel.class && getModel() != null) {
-            return getModel().getArchimateModel();
+            return adapter.cast(getModel().getArchimateModel());
         }
         
         /*
          * Return the Diagram Model
          */
         if(adapter == IDiagramModel.class) {
-            return getModel();
+            return adapter.cast(getModel());
         }
 
         // Find/Replace Provider
@@ -1040,7 +1039,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             if(fFindReplaceProvider == null) {
                 fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
             }
-            return fFindReplaceProvider;
+            return adapter.cast(fFindReplaceProvider);
         }
         
         return super.getAdapter(adapter);

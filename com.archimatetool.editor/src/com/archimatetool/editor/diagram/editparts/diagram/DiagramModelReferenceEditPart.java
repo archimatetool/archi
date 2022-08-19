@@ -111,14 +111,13 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
         return new MultiLineTextDirectEditManager(this, true);
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         // Referenced Diagram Model - show Name, Documentation, Properties
         if(getModel() != null && getModel().getReferencedModel() != null
                 && adapter.isInstance(getModel().getReferencedModel())      // adapter is instance of IDiagramModel
                 && !adapter.isInstance(getModel())) {                       // adapter is not instance of IDiagramModelReference
-            return getModel().getReferencedModel();
+            return adapter.cast(getModel().getReferencedModel());
         }
         
         return super.getAdapter(adapter);

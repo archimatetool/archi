@@ -138,9 +138,9 @@ public abstract class AbstractConnectionEditPart extends
      * @return the adapter
      */
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if (adapter == AccessibleAnchorProvider.class)
-            return new DefaultAccessibleAnchorProvider();
+            return adapter.cast(new DefaultAccessibleAnchorProvider());
         return super.getAdapter(adapter);
     }
 

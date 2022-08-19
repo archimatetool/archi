@@ -36,7 +36,7 @@ import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
  * @author Pratik Shah
  * @since 3.0
  */
-@SuppressWarnings({"rawtypes", "deprecation"})
+@SuppressWarnings("deprecation")
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor {
 
     private PaletteViewerProvider provider;
@@ -103,13 +103,13 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor {
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     @Override
-    public Object getAdapter(Class type) {
+    public <T> T getAdapter(Class<T> type) {
         if (type == PalettePage.class) {
             if (splitter == null) {
                 page = createPalettePage();
-                return page;
+                return type.cast(page);
             }
-            return createPalettePage();
+            return type.cast(createPalettePage());
         }
         return super.getAdapter(type);
     }

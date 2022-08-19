@@ -98,11 +98,10 @@ implements NodeEditPart {
         }
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if(getModel() != null && getModel().getArchimateRelationship() != null && adapter.isInstance(getModel().getArchimateRelationship())) {
-            return getModel().getArchimateRelationship();
+            return adapter.cast(getModel().getArchimateRelationship());
         }
 
         return super.getAdapter(adapter);

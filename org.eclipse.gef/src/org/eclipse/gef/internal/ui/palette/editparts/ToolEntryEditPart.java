@@ -46,7 +46,7 @@ import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.editparts.IPinnableEditPart;
 import org.eclipse.gef.ui.palette.editparts.PaletteEditPart;
 
-@SuppressWarnings({"rawtypes", "deprecation"})
+@SuppressWarnings("deprecation")
 public class ToolEntryEditPart extends PaletteEditPart {
 
     class MenuTimer implements Runnable {
@@ -344,14 +344,14 @@ public class ToolEntryEditPart extends PaletteEditPart {
     }
 
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == IPinnableEditPart.class) {
             if ((getParent() instanceof PinnablePaletteStackEditPart)
                     && ((PinnablePaletteStackEditPart) getParent())
                             .canBePinned()
                     && ((PaletteStack) getParent().getModel()).getActiveEntry()
                             .equals(getModel())) {
-                return getParent();
+                return key.cast(getParent());
             }
         }
         return super.getAdapter(key);

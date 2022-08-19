@@ -191,11 +191,10 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         return isLocked() ? new SelectEditPartTracker(this) : super.getDragTracker(request);
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if(getModel() != null && adapter.isInstance(getModel())) {
-            return getModel();
+            return adapter.cast(getModel());
         }
         return super.getAdapter(adapter);
     }

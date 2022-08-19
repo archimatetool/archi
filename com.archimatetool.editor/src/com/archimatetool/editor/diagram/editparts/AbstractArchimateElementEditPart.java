@@ -161,11 +161,10 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if(getModel() != null && getModel().getArchimateElement() != null && adapter.isInstance(getModel().getArchimateElement())) {
-            return getModel().getArchimateElement();
+            return adapter.cast(getModel().getArchimateElement());
         }
 
         return super.getAdapter(adapter);

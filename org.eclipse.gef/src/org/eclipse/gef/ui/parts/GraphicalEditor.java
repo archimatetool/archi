@@ -231,23 +231,23 @@ public abstract class GraphicalEditor extends EditorPart implements
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     @Override
-    public Object getAdapter(Class type) {
+    public <T> T getAdapter(Class<T> type) {
         if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-            return new UndoablePropertySheetPage(getCommandStack(),
+            return type.cast(new UndoablePropertySheetPage(getCommandStack(),
                     getActionRegistry().getAction(ActionFactory.UNDO.getId()),
-                    getActionRegistry().getAction(ActionFactory.REDO.getId()));
+                    getActionRegistry().getAction(ActionFactory.REDO.getId())));
         }
         if (type == GraphicalViewer.class)
-            return getGraphicalViewer();
+            return type.cast(getGraphicalViewer());
         if (type == CommandStack.class)
-            return getCommandStack();
+            return type.cast(getCommandStack());
         if (type == ActionRegistry.class)
-            return getActionRegistry();
+            return type.cast(getActionRegistry());
         if (type == EditPart.class && getGraphicalViewer() != null)
-            return getGraphicalViewer().getRootEditPart();
+            return type.cast(getGraphicalViewer().getRootEditPart());
         if (type == IFigure.class && getGraphicalViewer() != null)
-            return ((GraphicalEditPart) getGraphicalViewer().getRootEditPart())
-                    .getFigure();
+            return type.cast(((GraphicalEditPart) getGraphicalViewer().getRootEditPart())
+                    .getFigure());
         return super.getAdapter(type);
     }
 

@@ -72,13 +72,12 @@ public class RulerRootEditPart extends SimpleRootEditPart {
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if (adapter == AutoexposeHelper.class) {
             if (((RulerEditPart) getContents()).isHorizontal())
-                return new ViewportAutoexposeHelper(this, HORIZONTAL_THRESHOLD);
-            return new ViewportAutoexposeHelper(this, VERTICAL_THRESHOLD);
+                return adapter.cast(new ViewportAutoexposeHelper(this, HORIZONTAL_THRESHOLD));
+            return adapter.cast(new ViewportAutoexposeHelper(this, VERTICAL_THRESHOLD));
         }
         return super.getAdapter(adapter);
     }

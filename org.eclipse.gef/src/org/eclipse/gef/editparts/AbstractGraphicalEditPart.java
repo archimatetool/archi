@@ -467,12 +467,12 @@ public abstract class AbstractGraphicalEditPart extends AbstractEditPart
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
      */
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == AccessibleHandleProvider.class)
-            return new MergedAccessibleHandles(getEditPolicyIterator());
+            return key.cast(new MergedAccessibleHandles(getEditPolicyIterator()));
 
         if (key == AccessibleAnchorProvider.class)
-            return new DefaultAccessibleAnchorProvider();
+            return key.cast(new DefaultAccessibleAnchorProvider());
 
         return super.getAdapter(key);
     }

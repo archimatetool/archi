@@ -44,7 +44,6 @@ import org.eclipse.gef.ui.palette.editparts.PaletteEditPart;
  * 
  * @author Pratik Shah
  */
-@SuppressWarnings("rawtypes")
 public class DrawerEditPart extends PaletteEditPart implements
         IPinnableEditPart {
 
@@ -92,16 +91,16 @@ public class DrawerEditPart extends PaletteEditPart implements
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
      */
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == ExposeHelper.class) {
             ViewportExposeHelper helper = new ViewportExposeHelper(this);
             helper.setMinimumFrameCount(6);
             helper.setMargin(new Insets(PaletteScrollBar.BUTTON_HEIGHT, 0,
                     PaletteScrollBar.BUTTON_HEIGHT, 0));
-            return helper;
+            return key.cast(helper);
         }
         if (key == MouseWheelHelper.class)
-            return new ViewportMouseWheelHelper(this);
+            return key.cast(new ViewportMouseWheelHelper(this));
         return super.getAdapter(key);
     }
 

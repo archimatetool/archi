@@ -366,11 +366,10 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         return (ZoomManager)getViewer().getProperty(ZoomManager.class.toString());
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if(getModel() != null && adapter.isInstance(getModel())) {
-            return getModel();
+            return adapter.cast(getModel());
         }
         return super.getAdapter(adapter);
     }

@@ -31,7 +31,6 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
  * @author Pratik Shah
  * @since 3.0
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class PaletteViewerPage extends Page implements PalettePage, IAdaptable {
 
     /**
@@ -81,14 +80,14 @@ public class PaletteViewerPage extends Page implements PalettePage, IAdaptable {
      * @see IAdaptable#getAdapter(java.lang.Class)
      */
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if (adapter == EditPart.class && viewer != null)
-            return viewer.getEditPartRegistry().get(viewer.getPaletteRoot());
+            return adapter.cast(viewer.getEditPartRegistry().get(viewer.getPaletteRoot()));
         if (adapter == IFigure.class && viewer != null) {
             Object obj = viewer.getEditPartRegistry().get(
                     viewer.getPaletteRoot());
             if (obj instanceof GraphicalEditPart)
-                return ((GraphicalEditPart) obj).getFigure();
+                return adapter.cast(((GraphicalEditPart) obj).getFigure());
         }
         return null;
     }

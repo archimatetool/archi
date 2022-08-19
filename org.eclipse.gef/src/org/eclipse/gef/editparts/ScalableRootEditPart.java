@@ -259,11 +259,10 @@ public class ScalableRootEditPart extends SimpleRootEditPart implements
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class key) {
+    public <T> T getAdapter(Class<T> key) {
         if (key == AutoexposeHelper.class)
-            return new ViewportAutoexposeHelper(this);
+            return key.cast(new ViewportAutoexposeHelper(this));
         return super.getAdapter(key);
     }
 

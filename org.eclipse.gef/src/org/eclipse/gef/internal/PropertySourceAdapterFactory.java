@@ -19,11 +19,10 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import org.eclipse.gef.editparts.AbstractEditPart;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class PropertySourceAdapterFactory implements IAdapterFactory {
 
     @Override
-    public Object getAdapter(Object adaptableObject, Class adapterType) {
+    public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
         AbstractEditPart part = (AbstractEditPart) adaptableObject;
         Object model = part.getModel();
         // model can be null
@@ -32,12 +31,12 @@ public class PropertySourceAdapterFactory implements IAdapterFactory {
         }
         // check if model is already of the desired adapter type
         if (adapterType.isInstance(model)) {
-            return model;
+            adapterType.cast(model);
         }
         // check if model is adaptable and does provide an adapter of the
         // desired type
         if (model instanceof IAdaptable) {
-            Object adapter = ((IAdaptable) model).getAdapter(adapterType);
+            T adapter = ((IAdaptable) model).getAdapter(adapterType);
             if (adapter != null) {
                 return adapter;
             }
@@ -47,7 +46,7 @@ public class PropertySourceAdapterFactory implements IAdapterFactory {
     }
 
     @Override
-    public Class[] getAdapterList() {
+    public Class<?>[] getAdapterList() {
         return new Class[] { IPropertySource.class };
     }
 

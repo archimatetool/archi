@@ -380,14 +380,13 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         return false;
     }
     
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         /*
          * Return the PropertySheet Page
          */
         if(adapter == IPropertySheetPage.class) {
-            return new TabbedPropertySheetPage(this);
+            return adapter.cast(new TabbedPropertySheetPage(this));
         }
         
         return super.getAdapter(adapter);

@@ -109,11 +109,10 @@ public class GroupEditPart extends AbstractConnectedEditPart {
         return new MultiLineTextDirectEditManager(this, true);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         if(adapter == SnapToHelper.class) {
-            return new SnapEditPartAdapter(this).getSnapToHelper();
+            return adapter.cast(new SnapEditPartAdapter(this).getSnapToHelper());
         }
         
         return super.getAdapter(adapter);
