@@ -10,10 +10,10 @@
       <programArgs>-cleanConfig
 --launcher.defaultAction
 openFile
---add-modules=ALL-SYSTEM
       </programArgs>
       <vmArgs>-Dosgi.requiredJavaVersion=11
 -Declipse.p2.data.area=@config.dir/.p2
+--add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsLin>-Dosgi.instance.area=@user.home/.archi4
 -Dosgi.configuration.area=@user.home/.archi4/.config
