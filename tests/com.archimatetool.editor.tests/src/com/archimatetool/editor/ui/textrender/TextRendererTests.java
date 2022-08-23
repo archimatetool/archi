@@ -139,17 +139,19 @@ public class TextRendererTests {
     }
 
     @Test
-    public void render_InfiniteLoop() {
+    public void ensureNoRecursionInDocumentation() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        group.setName("${name} Name");
-        assertEquals("*** Recursion Error in Label Expression ***", textRenderer.renderWithExpression(group, "${name}"));
+        group.setDocumentation("Documentation ${documentation} ${doc}");
+        String result = textRenderer.renderWithExpression(group, "${documentation}");
+        assertEquals("Documentation {documentation} {doc}", result);
     }
-
+    
     @Test
-    public void render_NonInfiniteLoop() {
+    public void ensureNoRecursionInName() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        group.setName("${name}");
-        assertEquals("${name}", textRenderer.renderWithExpression(group, "${name}"));
+        group.setName("Name ${name}");
+        String result = textRenderer.renderWithExpression(group, "${name}");
+        assertEquals("Name {name}", result);
     }
 
     @Test

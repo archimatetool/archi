@@ -33,6 +33,9 @@ public class NameRenderer extends AbstractTextRenderer {
                 replacement = refObject.getName();
             }
             
+            // Remove recursive name expressions
+            replacement = replacement.replaceAll("\\$\\{name\\}", "{name}");
+            
             text = text.replace(matcher.group(), replacement);
         }
         

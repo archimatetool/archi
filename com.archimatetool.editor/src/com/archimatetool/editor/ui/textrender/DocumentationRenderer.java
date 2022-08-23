@@ -40,6 +40,10 @@ public class DocumentationRenderer extends AbstractTextRenderer {
             else if(refObject instanceof IArchimateModel) {
                 replacement = ((IArchimateModel)refObject).getPurpose();
             }
+
+            // Remove recursive documentation expressions
+            replacement = replacement.replaceAll("\\$\\{documentation\\}", "{documentation}")
+                                     .replaceAll("\\$\\{doc\\}", "{doc}");
             
             text = text.replace(matcher.group(), replacement);
         }
