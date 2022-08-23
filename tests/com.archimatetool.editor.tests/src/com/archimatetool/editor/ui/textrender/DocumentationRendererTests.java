@@ -55,17 +55,6 @@ public class DocumentationRendererTests extends AbstractTextRendererTests {
     }
 
     @Test
-    public void render_DocumentationExpressionReplaced() {
-        dmo.getArchimateConcept().setDocumentation("${documentation}");
-        String result = renderer.render(dmo, "${documentation}");
-        assertEquals("{documentation}", result);
-        
-        dmo.getArchimateConcept().setDocumentation("${doc}");
-        result = renderer.render(dmo, "${documentation}");
-        assertEquals("{doc}", result);
-    }
-
-    @Test
     public void render_ModelDocumentation() {
         String result = renderer.render(dmo, "$model{documentation}");
         assertEquals("Model Purpose", result);

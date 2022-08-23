@@ -49,13 +49,6 @@ public class NameRendererTests extends AbstractTextRendererTests {
     }
     
     @Test
-    public void render_NameExpressionReplaced() {
-        dmo.setName("${name}");
-        String result = renderer.render(dmo, "${name}");
-        assertEquals("{name}", result);
-    }
-
-    @Test
     public void render_ModelName() {
         String result = renderer.render(dmo, "$model{name}");
         assertEquals("Model Name", result);
