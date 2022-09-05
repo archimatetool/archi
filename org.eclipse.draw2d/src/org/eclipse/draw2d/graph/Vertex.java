@@ -29,7 +29,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author Whitney Sorenson
  * @since 3.0
  */
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 class Vertex extends Point {
 
     // constants for the vertex type
@@ -106,7 +106,7 @@ class Vertex extends Point {
         }
         if (!paths.contains(path))
             paths.add(path);
-        cachedCosines.put(path, new Double(start.cosine(end)));
+        cachedCosines.put(path, Double.valueOf(start.cosine(end)));
     }
 
     /**

@@ -199,7 +199,6 @@ public class SnapToGuides extends SnapToHelper {
      *            the integer indicating which side is being snapped
      * @return a correction amount or getThreshold() if no correction was made
      */
-    @SuppressWarnings("deprecation")
     protected double getCorrectionFor(int[] guides, double value,
             Map extendedData, boolean vert, int side) {
         double resultMag = getThreshold();
@@ -212,9 +211,9 @@ public class SnapToGuides extends SnapToHelper {
             magnitude = Math.abs(value - offset);
             if (magnitude < resultMag) {
                 extendedData.put(vert ? KEY_VERTICAL_GUIDE
-                        : KEY_HORIZONTAL_GUIDE, new Integer(guides[i]));
+                        : KEY_HORIZONTAL_GUIDE, Integer.valueOf(guides[i]));
                 extendedData.put(vert ? KEY_VERTICAL_ANCHOR
-                        : KEY_HORIZONTAL_ANCHOR, new Integer(side));
+                        : KEY_HORIZONTAL_ANCHOR, Integer.valueOf(side));
                 resultMag = magnitude;
                 result = offset - value;
             }

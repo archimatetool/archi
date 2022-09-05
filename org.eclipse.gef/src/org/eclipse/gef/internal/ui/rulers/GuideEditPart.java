@@ -42,7 +42,7 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
  * @author Pratik Shah
  * @since 3.0
  */
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class GuideEditPart extends AbstractGraphicalEditPart {
 
     public static final int MIN_DISTANCE_BW_GUIDES = 5;
@@ -112,7 +112,7 @@ public class GuideEditPart extends AbstractGraphicalEditPart {
         guideLineFig = createGuideLineFigure();
         getGuideLayer().add(getGuideLineFigure());
         getGuideLayer().setConstraint(getGuideLineFigure(),
-                new Boolean(isHorizontal()));
+                Boolean.valueOf(isHorizontal()));
         return new GuideFigure(isHorizontal());
     }
 
@@ -300,7 +300,7 @@ public class GuideEditPart extends AbstractGraphicalEditPart {
 
     public void updateLocationOfFigures(int position) {
         getRulerEditPart().setLayoutConstraint(this, getFigure(),
-                new Integer(position));
+                Integer.valueOf(position));
         Point guideFeedbackLocation = getGuideLineFigure().getBounds()
                 .getLocation();
         if (isHorizontal()) {

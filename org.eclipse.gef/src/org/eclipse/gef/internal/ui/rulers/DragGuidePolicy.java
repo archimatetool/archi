@@ -208,7 +208,6 @@ public class DragGuidePolicy extends GraphicalEditPolicy {
             ((EditPart) i.next()).showSourceFeedback(req);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void showSourceFeedback(Request request) {
         if (!dragInProgress) {
@@ -216,7 +215,7 @@ public class DragGuidePolicy extends GraphicalEditPolicy {
             // add the placeholder guide figure to the ruler
             getHostFigure().getParent().add(getDummyGuideFigure(), 0);
             ((GraphicalEditPart) getHost().getParent()).setLayoutConstraint(
-                    getHost(), getDummyGuideFigure(), new Integer(
+                    getHost(), getDummyGuideFigure(), Integer.valueOf(
                             getGuideEditPart().getZoomedPosition()));
             getDummyGuideFigure().setBounds(getHostFigure().getBounds());
             getDummyGuideFigure().validate();
@@ -224,7 +223,7 @@ public class DragGuidePolicy extends GraphicalEditPolicy {
             getGuideEditPart().getGuideLayer().add(getDummyLineFigure(), 0);
             getGuideEditPart().getGuideLayer().setConstraint(
                     getDummyLineFigure(),
-                    new Boolean(getGuideEditPart().isHorizontal()));
+                    Boolean.valueOf(getGuideEditPart().isHorizontal()));
             getDummyLineFigure().setBounds(
                     getGuideEditPart().getGuideLineFigure().getBounds());
             getDummyLineFigure().validate();

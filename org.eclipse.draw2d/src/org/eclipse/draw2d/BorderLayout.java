@@ -17,29 +17,28 @@ import org.eclipse.draw2d.geometry.Rectangle;
 /**
  * @author Pratik Shah
  */
-@SuppressWarnings("deprecation")
 public class BorderLayout extends AbstractHintLayout {
 
     /**
      * Constant to be used as a constraint for child figures
      */
-    public static final Integer CENTER = new Integer(PositionConstants.CENTER);
+    public static final Integer CENTER = Integer.valueOf(PositionConstants.CENTER);
     /**
      * Constant to be used as a constraint for child figures
      */
-    public static final Integer TOP = new Integer(PositionConstants.TOP);
+    public static final Integer TOP = Integer.valueOf(PositionConstants.TOP);
     /**
      * Constant to be used as a constraint for child figures
      */
-    public static final Integer BOTTOM = new Integer(PositionConstants.BOTTOM);
+    public static final Integer BOTTOM = Integer.valueOf(PositionConstants.BOTTOM);
     /**
      * Constant to be used as a constraint for child figures
      */
-    public static final Integer LEFT = new Integer(PositionConstants.LEFT);
+    public static final Integer LEFT = Integer.valueOf(PositionConstants.LEFT);
     /**
      * Constant to be used as a constraint for child figures
      */
-    public static final Integer RIGHT = new Integer(PositionConstants.RIGHT);
+    public static final Integer RIGHT = Integer.valueOf(PositionConstants.RIGHT);
 
     private IFigure center, left, top, bottom, right;
     private int vGap = 0, hGap = 0;

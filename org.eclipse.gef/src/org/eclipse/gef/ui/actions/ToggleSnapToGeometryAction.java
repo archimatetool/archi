@@ -60,11 +60,10 @@ public class ToggleSnapToGeometryAction extends Action {
     /**
      * @see org.eclipse.jface.action.IAction#run()
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         diagramViewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
-                new Boolean(!isChecked()));
+                Boolean.valueOf(!isChecked()));
     }
 
 }

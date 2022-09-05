@@ -61,14 +61,13 @@ public class ToggleGridAction extends Action {
     /**
      * @see org.eclipse.jface.action.IAction#run()
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         boolean val = !isChecked();
         diagramViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
-                new Boolean(val));
+                Boolean.valueOf(val));
         diagramViewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
-                new Boolean(val));
+                Boolean.valueOf(val));
     }
 
 }

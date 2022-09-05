@@ -42,7 +42,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
  * 
  * @author hudsonr
  */
-@SuppressWarnings({"rawtypes", "deprecation"})
+@SuppressWarnings("rawtypes")
 public class ResizeTracker extends SimpleDragTracker {
 
     /**
@@ -69,8 +69,7 @@ public class ResizeTracker extends SimpleDragTracker {
     /**
      * The maximum flag used by this class.
      */
-    protected static final int MAX_FLAG = new Integer(FLAG_TARGET_FEEDBACK)
-            .intValue();
+    protected static final int MAX_FLAG = FLAG_TARGET_FEEDBACK;
 
     private int direction;
     private GraphicalEditPart owner;

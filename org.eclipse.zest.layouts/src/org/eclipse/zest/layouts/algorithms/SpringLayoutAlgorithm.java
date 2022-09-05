@@ -336,9 +336,8 @@ public class SpringLayoutAlgorithm extends ContinuousLayoutAlgorithm {
         return sprRandom;
     }
 
-    @SuppressWarnings("deprecation")
     public void setWeight(String relType, double weight) {
-        relTypeToWeightMap.put(relType, new Double(weight));
+        relTypeToWeightMap.put(relType, Double.valueOf(weight));
     }
 
     public double getWeight(String relType) {
@@ -416,7 +415,6 @@ public class SpringLayoutAlgorithm extends ContinuousLayoutAlgorithm {
      *             If <code>sr</code> is null
      * @see SimpleRelation
      */
-    @SuppressWarnings("deprecation")
     private void addRelation(InternalRelationship layoutRelationship) {
         if (layoutRelationship == null) {
             throw new IllegalArgumentException("The arguments can not be null!"); //$NON-NLS-1$
@@ -431,13 +429,13 @@ public class SpringLayoutAlgorithm extends ContinuousLayoutAlgorithm {
                 Integer count = (Integer) srcDestToNumRelsMap.get(key);
                 Double avgWeight = (Double) srcDestToRelsAvgWeightMap.get(key);
                 if (count == null) {
-                    count = new Integer(1);
-                    avgWeight = new Double(weight);
+                    count = Integer.valueOf(1);
+                    avgWeight = Double.valueOf(weight);
                 } else {
                     int newCount = count.intValue() + 1;
                     double newAverage = (avgWeight.doubleValue() * count.doubleValue() + weight) / newCount;
-                    avgWeight = new Double(newAverage);
-                    count = new Integer(newCount);
+                    avgWeight = Double.valueOf(newAverage);
+                    count = Integer.valueOf(newCount);
                 }
                 srcDestToNumRelsMap.put(key, count);
                 srcDestToRelsAvgWeightMap.put(key, avgWeight);

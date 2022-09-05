@@ -233,12 +233,11 @@ public class DrawerEditPart extends PaletteEditPart implements
     /**
      * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#restoreState(org.eclipse.ui.IMemento)
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void restoreState(IMemento memento) {
-        setExpanded(new Boolean(memento.getString(PROPERTY_EXPANSION_STATE))
+        setExpanded(Boolean.valueOf(memento.getString(PROPERTY_EXPANSION_STATE))
                 .booleanValue());
-        setPinnedOpen(new Boolean(memento.getString(PROPERTY_PINNED_STATE))
+        setPinnedOpen(Boolean.valueOf(memento.getString(PROPERTY_PINNED_STATE))
                 .booleanValue());
         RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
                 .getVerticalRangeModel();
@@ -256,13 +255,12 @@ public class DrawerEditPart extends PaletteEditPart implements
     /**
      * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#saveState(org.eclipse.ui.IMemento)
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void saveState(IMemento memento) {
         memento.putString(PROPERTY_EXPANSION_STATE,
-                new Boolean(isExpanded()).toString());
+                Boolean.valueOf(isExpanded()).toString());
         memento.putString(PROPERTY_PINNED_STATE,
-                new Boolean(isPinnedOpen()).toString());
+                Boolean.valueOf(isPinnedOpen()).toString());
         RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
                 .getVerticalRangeModel();
         memento.putInteger(RangeModel.PROPERTY_MINIMUM, rModel.getMinimum());

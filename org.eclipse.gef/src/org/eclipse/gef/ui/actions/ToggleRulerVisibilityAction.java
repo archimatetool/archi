@@ -62,11 +62,10 @@ public class ToggleRulerVisibilityAction extends Action {
     /**
      * @see org.eclipse.jface.action.IAction#run()
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         diagramViewer.setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY,
-                new Boolean(!isChecked()));
+                Boolean.valueOf(!isChecked()));
     }
 
 }

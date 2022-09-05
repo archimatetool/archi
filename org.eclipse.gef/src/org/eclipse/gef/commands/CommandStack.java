@@ -74,8 +74,7 @@ public class CommandStack {
      * }
      * </PRE>
      */
-    @SuppressWarnings("deprecation")
-    public static final int POST_MASK = new Integer(POST_EXECUTE | POST_UNDO
+    public static final int POST_MASK = Integer.valueOf(POST_EXECUTE | POST_UNDO
             | POST_REDO | POST_FLUSH | POST_MARK_SAVE).intValue();
 
     /**
@@ -124,8 +123,7 @@ public class CommandStack {
      * 
      * @since 3.7 Had package visibility before.
      */
-    @SuppressWarnings("deprecation")
-    public static final int PRE_MASK = new Integer(PRE_EXECUTE | PRE_UNDO
+    public static final int PRE_MASK = Integer.valueOf(PRE_EXECUTE | PRE_UNDO
             | PRE_REDO | PRE_FLUSH | PRE_MARK_SAVE).intValue();
 
     private List eventListeners = new ArrayList();

@@ -76,7 +76,7 @@ import org.eclipse.gef.util.EditPartUtilities;
  * @author pshah
  * @author anyssen
  */
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MarqueeSelectionTool extends AbstractTool {
 
     class MarqueeRectangleFigure extends Figure {
@@ -143,16 +143,14 @@ public class MarqueeSelectionTool extends AbstractTool {
      * 
      * @since 3.7
      */
-    public static final int BEHAVIOR_CONNECTIONS_CONTAINED = new Integer(6)
-            .intValue();
+    public static final int BEHAVIOR_CONNECTIONS_CONTAINED = 6;
 
     /**
      * This behavior selects connections that intersect the marquee rectangle.
      * 
      * @since 3.1
      */
-    public static final int BEHAVIOR_CONNECTIONS_TOUCHED = new Integer(2)
-            .intValue();
+    public static final int BEHAVIOR_CONNECTIONS_TOUCHED = 2;
 
     /**
      * This behavior selects nodes completely encompassed by the marquee
@@ -160,8 +158,7 @@ public class MarqueeSelectionTool extends AbstractTool {
      * 
      * @since 3.1
      */
-    public static final int BEHAVIOR_NODES_CONTAINED = new Integer(1)
-            .intValue();
+    public static final int BEHAVIOR_NODES_CONTAINED = 1;
 
     /**
      * This behavior selects nodes completely encompassed by the marquee
@@ -169,23 +166,21 @@ public class MarqueeSelectionTool extends AbstractTool {
      * 
      * @since 3.7
      */
-    public static final int BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS = new Integer(
-            3).intValue();
+    public static final int BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS = 3;
 
     /**
      * This behavior selects nodes that intersect the marquee rectangle.
      * 
      * @since 3.7
      */
-    public static final int BEHAVIOR_NODES_TOUCHED = new Integer(4).intValue();
+    public static final int BEHAVIOR_NODES_TOUCHED = 4;
 
     /**
      * This behavior selects nodes that intersect the marquee rectangle.
      * 
      * @since 3.7
      */
-    public static final int BEHAVIOR_NODES_TOUCHED_AND_RELATED_CONNECTIONS = new Integer(
-            5).intValue();
+    public static final int BEHAVIOR_NODES_TOUCHED_AND_RELATED_CONNECTIONS = 5;
 
     /**
      * This behavior selects nodes completely encompassed by the marquee

@@ -85,7 +85,6 @@ public abstract class AbstractGraphicalEditPart extends AbstractEditPart
         /**
          * @see AccessibleEditPart#getChildren(AccessibleControlEvent)
          */
-        @SuppressWarnings("deprecation")
         @Override
         public void getChildren(AccessibleControlEvent e) {
             List list = AbstractGraphicalEditPart.this.getChildren();
@@ -96,7 +95,7 @@ public abstract class AbstractGraphicalEditPart extends AbstractEditPart
                         .getAdapter(AccessibleEditPart.class);
                 if (access == null)
                     return; // fail if any children aren't accessible.
-                children[i] = new Integer(access.getAccessibleID());
+                children[i] = Integer.valueOf(access.getAccessibleID());
             }
             e.children = children;
         }
