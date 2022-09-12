@@ -74,8 +74,7 @@ public class CommandStack {
      * }
      * </PRE>
      */
-    public static final int POST_MASK = Integer.valueOf(POST_EXECUTE | POST_UNDO
-            | POST_REDO | POST_FLUSH | POST_MARK_SAVE).intValue();
+    public static final int POST_MASK = POST_EXECUTE | POST_UNDO | POST_REDO | POST_FLUSH | POST_MARK_SAVE;
 
     /**
      * Constant indicating notification prior to executing a command.
@@ -123,8 +122,7 @@ public class CommandStack {
      * 
      * @since 3.7 Had package visibility before.
      */
-    public static final int PRE_MASK = Integer.valueOf(PRE_EXECUTE | PRE_UNDO
-            | PRE_REDO | PRE_FLUSH | PRE_MARK_SAVE).intValue();
+    public static final int PRE_MASK = PRE_EXECUTE | PRE_UNDO | PRE_REDO | PRE_FLUSH | PRE_MARK_SAVE;
 
     private List eventListeners = new ArrayList();
 
