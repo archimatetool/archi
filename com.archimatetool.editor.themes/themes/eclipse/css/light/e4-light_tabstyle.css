@@ -28,7 +28,6 @@
 	swt-inner-keyline-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR';
 	swt-tab-outline: '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR';
 	padding: 0px;
-	swt-shadow-visible: false;
 	color: '#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR';
 	swt-draw-custom-tab-content-background: true;
 }
@@ -39,7 +38,6 @@
 	swt-outer-keyline-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR';
 	swt-inner-keyline-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR';
 	swt-tab-outline: '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR';
-	swt-shadow-visible: false;
 	swt-draw-custom-tab-content-background: true;
 }
 
@@ -53,13 +51,9 @@ CTabItem:selected {
 
 CTabFolder.MArea {
 	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-	swt-shadow-visible: false;
 	padding: 0px;
 }
 
-CTabFolder.MArea .MPartStack, CTabFolder.MArea .MPartStack.active {
-	swt-shadow-visible: false;
-}
 
 .MPartStack.active.noFocus > CTabItem:selected {
 	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';

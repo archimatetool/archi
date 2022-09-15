@@ -13,7 +13,6 @@
 .MPartStack {
     swt-simple: true; /* not curved tabs */
     padding: 0px;
-    swt-shadow-visible: false;
 }
 
 TabbedPropertyTitle > CLabel {

@@ -80,7 +80,6 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
 
 .MPartStack.active {
 	swt-tab-outline: rgb(180, 180, 180);
-	swt-shadow-visible: false;
 	swt-outer-keyline-color: rgb(180, 180, 180);
 }
 
