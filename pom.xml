@@ -21,7 +21,7 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.23</url>
+            <url>https://download.eclipse.org/eclipse/updates/4.25</url>
         </repository>
     </repositories>
 
