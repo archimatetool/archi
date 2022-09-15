@@ -770,6 +770,11 @@
             id="com.archimatetool.editor.action.openProfilesDialog"
             name="%command.name.18">
       </command>
+      <command
+            defaultHandler="com.archimatetool.editor.actions.OpenDataFolderHandler"
+            id="com.archimatetool.editor.action.openDataFolder"
+            name="%command.name.19">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -882,6 +887,11 @@
          <command
                commandId="com.archimatetool.editor.pluginManager"
                label="%command.label.3"
+               style="push">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.openDataFolder"
+               label="%command.label.7"
                style="push">
          </command>
       </menuContribution>
