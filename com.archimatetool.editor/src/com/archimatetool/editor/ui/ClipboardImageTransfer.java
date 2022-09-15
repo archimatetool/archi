@@ -23,6 +23,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
  * SWT bug pasted image is blank or parts missin on Windows. See https://github.com/eclipse-platform/eclipse.platform.swt/issues/143
  * 
  * For the Linux bug we use PNGTransfer (taken from https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960#c13)
+ * Update: Linux is fixed in Eclipse 4.24 - see https://github.com/eclipse-platform/eclipse.platform.swt/issues/146
  * 
  * For the Windows bug we use two ByteArrayTransfer instances - the usual ImageTransfer and our BMPTransfer.
  * The BMPTransfer instance fixes the issue for apps like Inkscape and Viso.
@@ -39,10 +40,10 @@ public class ClipboardImageTransfer extends ByteArrayTransfer {
             if(PlatformUtils.isWindows()) {
                 cb.setContents(new Object[] { imageData, imageData }, new Transfer[] { ImageTransfer.getInstance(), BMPTransfer });
             }
-            // Linux
-            else if(PlatformUtils.isLinux()) {
-                cb.setContents(new Object[] { imageData }, new Transfer[] { PNGTransfer });
-            }
+            // Linux Clipboard is fixed in Eclipse 4.24
+            //else if(PlatformUtils.isLinux()) {
+            //    cb.setContents(new Object[] { imageData }, new Transfer[] { PNGTransfer });
+            //}
             // Mac and everything else
             else {
                 cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
@@ -53,14 +54,14 @@ public class ClipboardImageTransfer extends ByteArrayTransfer {
         }
     }
     
-    private static final String IMAGE_PNG = "image/png";
-    private static final String IMAGE_BMP = "image/bmp";
+    static final String IMAGE_PNG = "image/png";
+    static final String IMAGE_BMP = "image/bmp";
 
-    private static final int PNG_ID = registerType(IMAGE_PNG);
-    private static final int BMP_ID = registerType(IMAGE_BMP);
+    static final int PNG_ID = registerType(IMAGE_PNG);
+    static final int BMP_ID = registerType(IMAGE_BMP);
 
-    private static ClipboardImageTransfer PNGTransfer = new ClipboardImageTransfer(IMAGE_PNG, PNG_ID, SWT.IMAGE_PNG);
-    private static ClipboardImageTransfer BMPTransfer = new ClipboardImageTransfer(IMAGE_BMP, BMP_ID, SWT.IMAGE_BMP);
+    static ClipboardImageTransfer PNGTransfer = new ClipboardImageTransfer(IMAGE_PNG, PNG_ID, SWT.IMAGE_PNG);
+    static ClipboardImageTransfer BMPTransfer = new ClipboardImageTransfer(IMAGE_BMP, BMP_ID, SWT.IMAGE_BMP);
 
     private String typeName;
     private int type;
