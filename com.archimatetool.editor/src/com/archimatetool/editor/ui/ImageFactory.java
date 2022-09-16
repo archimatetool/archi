@@ -70,11 +70,11 @@ public class ImageFactory {
     }
     
     /**
-     * @return The zoom level for creating objects such as cursors.
-     * Windows and Linux Wayland uses device zoom
+     * @return The zoom level for creating cursors.
+     * Windows and Linux Wayland use the device zoom
      * Mac and Linux X11 uses 100
      */
-    public static int getLogicalDeviceZoom() {
+    public static int getCursorDeviceZoom() {
         return PlatformUtils.isWindows() || PlatformUtils.isLinuxWayland() ? getDeviceZoom() : 100;
     }
     

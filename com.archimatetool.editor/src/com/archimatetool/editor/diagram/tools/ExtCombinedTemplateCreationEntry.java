@@ -26,7 +26,7 @@ public class ExtCombinedTemplateCreationEntry extends CombinedTemplateCreationEn
     
     private static Cursor cursorAdd = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_ADD).getImageData(ImageFactory.getLogicalDeviceZoom()),
+            IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_IMG_ADD).getImageData(ImageFactory.getCursorDeviceZoom()),
             0,
             0);
     

@@ -106,7 +106,7 @@ public class FormatPainterInfo {
     
     private Cursor getDefaultCursor() {
         if(defaultCursor == null) {
-            ImageData id = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getLogicalDeviceZoom());
+            ImageData id = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getCursorDeviceZoom());
             defaultCursor = new Cursor(null, id, 0, id.height - 1);
         }
         
@@ -125,7 +125,7 @@ public class FormatPainterInfo {
             coloredCursor.dispose();
         }
         
-        ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER).getImageData(ImageFactory.getLogicalDeviceZoom());
+        ImageData cursorImageData = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FORMAT_PAINTER).getImageData(ImageFactory.getCursorDeviceZoom());
 
         if(pf.getCursorColor() != null) {
             PaletteData pData = cursorImageData.palette;

@@ -26,13 +26,13 @@ public class ExtConnectionCreationToolEntry extends ConnectionCreationToolEntry 
     
     private static Cursor cursorAdd = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_ADD_CONNECTION).getImageData(ImageFactory.getLogicalDeviceZoom()),
+            IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_IMG_ADD_CONNECTION).getImageData(ImageFactory.getCursorDeviceZoom()),
             0,
             0);
 
     private static Cursor cursorAddNot = new Cursor(
             null,
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_ADD_NOT_CONNECTION).getImageData(ImageFactory.getLogicalDeviceZoom()),
+            IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_IMG_ADD_NOT_CONNECTION).getImageData(ImageFactory.getCursorDeviceZoom()),
             0,
             0);
     
