@@ -204,7 +204,7 @@
     </viewpoint>
 
     <viewpoint id="capability">
-        <name xml:lang="en">Capability</name>
+        <name xml:lang="en">Capability Map</name>
         
         <concept>Capability</concept>
         <concept>Outcome</concept>
@@ -237,7 +237,7 @@
     </viewpoint>
 
     <viewpoint id="resource">
-        <name xml:lang="en">Resource</name>
+        <name xml:lang="en">Resource Map</name>
         
         <concept>Capability</concept>
         <concept>Resource</concept>
