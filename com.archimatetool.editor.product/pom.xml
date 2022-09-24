@@ -62,8 +62,9 @@
                 <configuration>
                     <!-- Don't create a zip archive of the p2 repository as well as the "repository" directory -->
                     <skipArchive>true</skipArchive>
-                    <!-- This should be set to true from Eclipse 4.24 onwards to support PGP signing of plug-ins -->
-                    <includeAllDependencies>false</includeAllDependencies>
+                    <!-- This should be set to true to support PGP signing of plug-ins -->
+                    <!-- And to include dependent plug-ins -->
+                    <includeAllDependencies>true</includeAllDependencies>
                 </configuration>
             </plugin>
             
