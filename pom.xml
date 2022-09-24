@@ -81,6 +81,7 @@
             </activation>
             <modules>
                 <module>com.archimatetool.editor.product</module>
+                <module>com.archimatetool.editor.site</module>
             </modules>
         </profile>
     </profiles>
