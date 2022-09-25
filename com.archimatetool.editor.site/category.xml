@@ -2,6 +2,4 @@
 <site>
    <feature id="com.archimatetool.editor.feature"/>
    <feature id="com.archimatetool.gef.feature"/>
-   <bundle id="com.archimatetool.editor.tests"/>
-   <bundle id="com.archimatetool.testsupport"/>
 </site>
