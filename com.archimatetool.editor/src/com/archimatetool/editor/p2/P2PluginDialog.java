@@ -162,7 +162,12 @@ public class P2PluginDialog extends ExtendedTitleAreaDialog {
             public int compare(Viewer viewer, Object e1, Object e2) {
                 IInstallableUnit u1 = (IInstallableUnit)e1;
                 IInstallableUnit u2 = (IInstallableUnit)e2;
-                return u1.getProperty(IInstallableUnit.PROP_NAME, null).compareToIgnoreCase(u2.getProperty(IInstallableUnit.PROP_NAME, null));
+                String name1 = u1.getProperty(IInstallableUnit.PROP_NAME, null);
+                String name2 = u2.getProperty(IInstallableUnit.PROP_NAME, null);
+                if(name1 != null && name2 != null) {
+                    return name1.compareToIgnoreCase(name2);
+                }
+                return 0;
             }
         });
         

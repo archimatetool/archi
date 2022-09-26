@@ -43,7 +43,7 @@ import com.archimatetool.editor.ArchiPlugin;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class P2Handler {
     
     private ProvisioningSession provisioningSession;
@@ -104,7 +104,7 @@ public class P2Handler {
         IQueryResult<IInstallableUnit> queryResult = profile.query(query, null);
 
         for(IInstallableUnit feature : queryResult) {
-            if(!isInternalFeature(feature)) {
+            if(isArchiFeature(feature)) {
                 list.add(feature);
             }
         }
@@ -112,12 +112,24 @@ public class P2Handler {
         return list;
     }
     
-    // TODO Externalise the list of internal features, or keep a record of external ones
-    private boolean isInternalFeature(IInstallableUnit feature) {
+    /**
+     * If the feature starts with id
+     */
+    private boolean isArchiFeature(IInstallableUnit feature) {
         String id = feature.getId();
+        if(id == null) {
+            return false;
+        }
         
-        if(id.startsWith("org.eclipse") || id.startsWith("org.opengroup") || id.startsWith("com.archimatetool.editor")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            return true;
+        final String[] featurePrefixes = {
+                "com.archimatetool",
+                "org.archicontribs"
+        };
+        
+        for(String prefix : featurePrefixes) {
+            if(id.startsWith(prefix)) {
+                return true;
+            }
         }
         
         return false;
