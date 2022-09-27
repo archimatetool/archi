@@ -5,11 +5,14 @@
  */
 package com.archimatetool.commandline;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
+import org.eclipse.gef.commands.CommandStack;
 import org.junit.Test;
 
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 
@@ -27,6 +30,9 @@ public class CommandLineStateTests {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         CommandLineState.setModel(model);
         assertSame(model, CommandLineState.getModel());
+        
+        assertNotNull(model.getAdapter(IArchiveManager.class));
+        assertNotNull(model.getAdapter(CommandStack.class));
 
         CommandLineState.setModel(null);
         assertNull(CommandLineState.getModel());
