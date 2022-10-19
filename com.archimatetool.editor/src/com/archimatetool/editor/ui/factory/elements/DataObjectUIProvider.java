@@ -54,14 +54,4 @@ public class DataObjectUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
-    
-    @Override
-    public boolean hasIcon() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAlternateFigure() {
-        return false;
-    }
 }

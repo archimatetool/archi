@@ -54,14 +54,4 @@ public class RepresentationUIProvider extends AbstractArchimateElementUIProvider
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
-    
-    @Override
-    public boolean hasIcon() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAlternateFigure() {
-        return false;
-    }
 }
