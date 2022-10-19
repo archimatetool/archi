@@ -61,11 +61,11 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorConstants.black;
     }
-    
+     
     @Override
     public boolean shouldExposeFeature(String featureName) {
         // Junctions don't expose all UI features
-        return featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
+        return /*featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() || */
                 featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName() ||
                         featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName(); 
     }
