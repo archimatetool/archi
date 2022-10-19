@@ -156,6 +156,6 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? null : rectangleDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

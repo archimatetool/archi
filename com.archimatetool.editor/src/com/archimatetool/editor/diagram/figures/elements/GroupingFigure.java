@@ -72,7 +72,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         int[] mainRectangle;
         
-        if(getDiagramModelArchimateObject().getType() == 1) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
             mainRectangle = new int[] {
                     bounds.x, bounds.y,
                     bounds.x + bounds.width, bounds.y,
@@ -146,6 +146,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         graphics.drawPolygon(mainRectangle);
         
         graphics.popState();
+        
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            drawIcon(graphics);
+        }
     }
     
     @Override
@@ -173,7 +177,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
             
-            if(getDiagramModelArchimateObject().getType() == 1) {
+            if(getDiagramModelArchimateObject().getType() == 0) {
                 return pt;
             }
             
@@ -194,4 +198,33 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new GroupingFigureConnectionAnchor(this);
     }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        
+        // TODO...
+        
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.getRight().x - 20, bounds.y + 6);
+    }
+
 }

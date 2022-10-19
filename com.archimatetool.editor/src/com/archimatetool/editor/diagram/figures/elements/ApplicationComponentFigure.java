@@ -162,12 +162,12 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 1 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 1 ? rectangleDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
     
     @Override
