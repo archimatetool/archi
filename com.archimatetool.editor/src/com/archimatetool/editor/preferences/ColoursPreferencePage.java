@@ -460,13 +460,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void resetColorToInbuiltDefault(Object object) {
         RGB defaultRGB = null;
 
-        // Element line color
+        // Element line color - use any ArchiMate eClass as there is only one line color pref
         if(object.equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateElement()).getRGB();
+            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor()).getRGB();
         }
-        // Connection line color
+        // Connection line color - use this eClass as there is only one line color pref
         else if(object.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship()).getRGB();
+            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getDiagramModelConnection()).getRGB();
         }
         // Fill color
         else if(object instanceof EClass) {
@@ -519,13 +519,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
         fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
         
-        // Element line color
-        eClass = IArchimatePackage.eINSTANCE.getArchimateElement();
+        // Element line color - use any ArchiMate eClass as there is only one line color pref
+        eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
         fColorsCache.put(DEFAULT_ELEMENT_LINE_COLOR, new Color(color.getDevice(), color.getRGB()));
 
-        // Connection line color
-        eClass = IArchimatePackage.eINSTANCE.getArchimateRelationship();
+        // Connection line color - use this eClass as there is only one line color pref
+        eClass = IArchimatePackage.eINSTANCE.getDiagramModelConnection();
         color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
         fColorsCache.put(DEFAULT_CONNECTION_LINE_COLOR, new Color(color.getDevice(), color.getRGB()));
         
@@ -660,16 +660,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             Color colorDefault;
             String key;
             
-            // Element line
+            // Element line color - use any ArchiMate eClass as there is only one line color pref
             if(entry.getKey().equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-                // Outline color
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateElement());
+                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor());
                 key = DEFAULT_ELEMENT_LINE_COLOR;
             }
-            // Connection line
+            // Connection line color - use this eClass as there is only one line color pref
             else if(entry.getKey().equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-                // Line color
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getArchimateRelationship());
+                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getDiagramModelConnection());
                 key = DEFAULT_CONNECTION_LINE_COLOR;
             }
             // Folders
