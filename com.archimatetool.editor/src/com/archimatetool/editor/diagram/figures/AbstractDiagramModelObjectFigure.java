@@ -133,7 +133,7 @@ implements IDiagramModelObjectFigure {
      */
     protected void setDisabledState(Graphics graphics) {
         //graphics.setLineStyle(SWT.LINE_DASH);
-        graphics.setLineDash(new int[] { 4, 3 });
+        //graphics.setLineDash(new int[] { 4, 3 });
     }
 
     /**
