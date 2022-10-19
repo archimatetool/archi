@@ -52,7 +52,7 @@ public class DeliverableUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor1;
+        return defaultImplMigrationColor;
     }
     
     @Override

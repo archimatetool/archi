@@ -53,7 +53,7 @@ public class PlateauUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor2;
+        return defaultImplMigrationColor;
     }
     
     @Override

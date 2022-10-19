@@ -52,7 +52,7 @@ public class WorkPackageUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor1;
+        return defaultImplMigrationColor;
     }
     
     @Override
