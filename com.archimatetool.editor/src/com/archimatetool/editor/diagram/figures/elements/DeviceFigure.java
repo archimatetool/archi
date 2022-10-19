@@ -26,11 +26,11 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
     
     protected static final int INDENT = 15;
 
-    protected IFigureDelegate fFigureDelegate;
+    protected IFigureDelegate figureDelegate;
     
     public DeviceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate = new RectangleFigureDelegate(this);
+        figureDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -138,7 +138,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? fFigureDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
     
     @Override

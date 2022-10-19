@@ -10,6 +10,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
 /**
@@ -19,6 +21,9 @@ import com.archimatetool.model.ITextPosition;
  */
 public class ContractFigure extends ObjectFigure {
     
+    private IFigureDelegate rectangleDelegate;
+    private IFigureDelegate contractDelegate;
+
     class ContractFigureDelegate extends ObjectFigureDelegate {
         ContractFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
@@ -78,12 +83,15 @@ public class ContractFigure extends ObjectFigure {
                 return super.calculateTextControlBounds();
             }
         }
-
     }
 
     public ContractFigure() {
-        super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new ContractFigureDelegate(this));
+        rectangleDelegate = new RectangleFigureDelegate(this);
+        contractDelegate = new ContractFigureDelegate(this);
     }
-    
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : contractDelegate;
+    }
 }

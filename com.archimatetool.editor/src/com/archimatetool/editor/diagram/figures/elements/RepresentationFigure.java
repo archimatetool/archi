@@ -6,11 +6,14 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -24,13 +27,22 @@ import com.archimatetool.model.ITextPosition;
 public class RepresentationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
     protected static final int TOP_MARGIN = 12;
+    
+    private IFigureDelegate rectangleDelegate;
 
     public RepresentationFigure() {
         super(TEXT_FLOW_CONTROL);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
@@ -92,6 +104,10 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure imp
 
     @Override
     public Rectangle calculateTextControlBounds() {
+        if(getFigureDelegate() != null) {
+            return super.calculateTextControlBounds();
+        }
+        
         Rectangle bounds = getBounds().getCopy();
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
@@ -101,5 +117,43 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure imp
         }
         
         return bounds;
+    }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        // TODO - Draw icon...
+
+        //Point pt = getIconOrigin();
+        
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds().getCopy();
+        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

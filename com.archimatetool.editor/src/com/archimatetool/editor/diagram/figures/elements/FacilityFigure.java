@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
 /**
@@ -22,11 +23,11 @@ import com.archimatetool.editor.diagram.figures.IFigureDelegate;
  */
 public class FacilityFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    private IFigureDelegate boxDelegate;
+    private IFigureDelegate figureDelegate;
     
     public FacilityFigure() {
         super(TEXT_FLOW_CONTROL);
-        boxDelegate = new BoxFigureDelegate(this);
+        figureDelegate = new RectangleFigureDelegate(this);
     }
     
     
@@ -157,7 +158,7 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 34, bounds.y + 30);
+        return new Point(bounds.getRight().x - 20, bounds.y + 17);
     }
     
     @Override
@@ -172,6 +173,6 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? boxDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
 }

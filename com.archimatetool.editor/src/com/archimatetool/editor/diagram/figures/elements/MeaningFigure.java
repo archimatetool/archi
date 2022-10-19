@@ -6,11 +6,10 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
-
-import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 
 
 
@@ -20,14 +19,19 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
  * 
  * @author Phillip Beauvoir
  */
-public class MeaningFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
-
+public class MeaningFigure extends AbstractMotivationFigure {
+    
     public MeaningFigure() {
-        super(TEXT_FLOW_CONTROL);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
@@ -99,4 +103,38 @@ public class MeaningFigure extends AbstractTextControlContainerFigure implements
 
         graphics.popState();
     }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        // TODO - Draw icon...
+
+        //Point pt = getIconOrigin();
+        
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds().getCopy();
+        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+    }
+
 }

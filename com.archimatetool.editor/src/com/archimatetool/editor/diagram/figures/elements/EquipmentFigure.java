@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.PolarPoint;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
 /**
@@ -25,11 +26,11 @@ import com.archimatetool.editor.diagram.figures.PolarPoint;
  */
 public class EquipmentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    private IFigureDelegate boxDelegate;
+    private IFigureDelegate figureDelegate;
     
     public EquipmentFigure() {
         super(TEXT_FLOW_CONTROL);
-        boxDelegate = new BoxFigureDelegate(this);
+        figureDelegate = new RectangleFigureDelegate(this);
     }
     
     
@@ -233,7 +234,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 31, bounds.y + 30);
+        return new Point(bounds.x + bounds.width - 19, bounds.y + 17);
     }
     
     @Override
@@ -248,6 +249,6 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? boxDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
 }

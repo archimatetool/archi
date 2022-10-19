@@ -11,6 +11,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
 /**
@@ -20,13 +21,12 @@ import com.archimatetool.editor.diagram.figures.IFigureDelegate;
  */
 public class PlateauFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    private IFigureDelegate boxDelegate;
+    private IFigureDelegate rectangleDelegate;
     
     public PlateauFigure() {
         super(TEXT_FLOW_CONTROL);
-        boxDelegate = new BoxFigureDelegate(this);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
-    
     
     @Override
     protected void drawFigure(Graphics graphics) {
@@ -110,12 +110,12 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 34, bounds.y + 29);
+        return new Point(bounds.x + bounds.width - 21, bounds.y + 13);
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
     }
 
     @Override
@@ -125,6 +125,6 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? boxDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }
