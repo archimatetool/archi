@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -157,9 +158,17 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         Rectangle bounds = getBounds().getCopy();
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        int textAlignment = getDiagramModelObject().getTextAlignment();
+        
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
             bounds.y += 5 - getTextControlMarginHeight();
             bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
+            
+            // Adjust for icon
+            if(getIconOffset() != 0 && isIconVisible() && textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
+                int iconOffset = getIconOffset() - getTextControlMarginWidth();
+                bounds.width -= iconOffset;
+            }
         }
         
         return bounds;
@@ -214,7 +223,8 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         Point pt = getIconOrigin();
         
-        // TODO...
+        graphics.drawRectangle(pt.x, pt.y, 6, 3);
+        graphics.drawRectangle(pt.x, pt.y + 3, 13, 7);
         
         graphics.popState();
     }
@@ -224,7 +234,11 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 20, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
     }
-
+    
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
+    }
 }

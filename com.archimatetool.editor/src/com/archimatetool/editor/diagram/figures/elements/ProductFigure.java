@@ -124,9 +124,10 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        
+        graphics.drawRectangle(pt.x, pt.y, 13, 10);
+        graphics.drawRectangle(pt.x, pt.y, 6, 3);
         
         graphics.popState();
     }
@@ -136,17 +137,16 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : productDelegate;
     }
-
 }

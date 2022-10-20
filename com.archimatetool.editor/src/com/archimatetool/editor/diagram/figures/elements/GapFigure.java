@@ -11,15 +11,23 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+
 
 /**
  * Gap Figure
  * 
  * @author Phillip Beauvoir
  */
-public class GapFigure extends DeliverableFigure {
+public class GapFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+    
+    private IFigureDelegate rectangleDelegate;
     
     public GapFigure() {
+        super(TEXT_FLOW_CONTROL);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -129,7 +137,12 @@ public class GapFigure extends DeliverableFigure {
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
     }
-    
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
+    }
+
     @Override
     protected int getTextControlMarginHeight() {
         return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;

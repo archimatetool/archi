@@ -116,9 +116,9 @@ public class ValueFigure extends AbstractMotivationFigure {
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        
+        graphics.drawOval(pt.x, pt.y, 14, 9);
         
         graphics.popState();
     }
@@ -128,12 +128,11 @@ public class ValueFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 7);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 21 : 0;
     }
-
 }

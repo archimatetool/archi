@@ -121,9 +121,10 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        
+        graphics.drawRectangle(pt.x, pt.y, 13, 10);
+        graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
         
         graphics.popState();
     }
@@ -133,7 +134,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
     }
     
     @Override

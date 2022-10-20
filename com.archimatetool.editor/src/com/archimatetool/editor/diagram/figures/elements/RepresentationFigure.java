@@ -11,9 +11,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -24,15 +21,11 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
-public class RepresentationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+public class RepresentationFigure extends DeliverableFigure {
     
     protected static final int TOP_MARGIN = 12;
     
-    private IFigureDelegate rectangleDelegate;
-
     public RepresentationFigure() {
-        super(TEXT_FLOW_CONTROL);
-        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -54,41 +47,23 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure imp
         int lineWidth = 1;
         setLineWidth(graphics, lineWidth, bounds);
 
-        int offset = 6;
-        int curve_y = bounds.y + bounds.height - offset;
-        
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
+        Path path = getFigurePath(6, bounds, (float)lineWidth / 2);
+        
         // Main Fill
-        Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x, curve_y - 1);
-        
-        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset,
-                bounds.x + bounds.width / 2 + 1, curve_y);
-        
-        path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 1,
-                bounds.x + bounds.width, curve_y);
-        
-        path.lineTo(bounds.x + bounds.width, bounds.y);
-        
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, bounds);
-        
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        float lineOffset = (float)lineWidth / 2;
-        path.lineTo(bounds.x - lineOffset, bounds.y);
         graphics.drawPath(path);
         path.dispose();
         
@@ -122,38 +97,22 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure imp
     /**
      * Draw the icon
      */
-    private void drawIcon(Graphics graphics) {
+    @Override
+    protected void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
+        
+        super.drawIcon(graphics);
         
         graphics.pushState();
         
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        graphics.drawLine(pt.x, pt.y + 3, pt.x + 14, pt.y + 3);
         
         graphics.popState();
-    }
-
-    /**
-     * @return The icon start position
-     */
-    private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
-    }
-
-    @Override
-    public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
-    }
-    
-    @Override
-    public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

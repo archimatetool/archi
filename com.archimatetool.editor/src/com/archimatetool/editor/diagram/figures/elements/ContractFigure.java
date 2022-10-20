@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -88,6 +89,29 @@ public class ContractFigure extends ObjectFigure {
     public ContractFigure() {
         rectangleDelegate = new RectangleFigureDelegate(this);
         contractDelegate = new ContractFigureDelegate(this);
+    }
+
+    /**
+     * Draw the icon
+     */
+    @Override
+    protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        
+        graphics.drawRectangle(pt.x, pt.y, 13, 10);
+        graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
+        graphics.drawLine(pt.x, pt.y + 7, pt.x + 13, pt.y + 7);
+        
+        graphics.popState();
     }
 
     @Override

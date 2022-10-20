@@ -117,10 +117,29 @@ public class MeaningFigure extends AbstractMotivationFigure {
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 11);
         
+        Path path = new Path(null);
+        path.addArc(rect.x, rect.y, rect.width/3 * 2, rect.height/3 * 2, 60, 149);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x + rect.width/3 - 1, rect.y, rect.width/3 * 2, rect.height/3 * 2, -38, 157);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x, rect.y + rect.height / 3, rect.width/5 * 3, rect.height/3 * 2 - 1, -41, -171);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x + rect.width/3, rect.y + rect.height/4, rect.width/5 * 3, rect.height/3 * 2, 7, -136);
+        graphics.drawPath(path);
+        path.dispose();
+
         graphics.popState();
     }
 
@@ -129,12 +148,12 @@ public class MeaningFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
     }
 
 }
