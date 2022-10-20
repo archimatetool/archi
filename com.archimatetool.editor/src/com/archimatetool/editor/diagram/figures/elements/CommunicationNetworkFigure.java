@@ -6,10 +6,8 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -26,8 +24,6 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  */
 public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    private static final double ARROW_ANGLE = Math.cos(Math.toRadians(60));
-
     private IFigureDelegate rectangleDelegate;
     
     public CommunicationNetworkFigure() {
@@ -54,16 +50,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         
-        Dimension arrowSize = getArrowSize(rect);
-        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 22);
-        rect.shrink(lineWidth, lineWidth);
-        arrowSize = getArrowSize(rect);
         
-        graphics.setLineWidth(lineWidth);
-        
-        drawArrows(graphics, rect, arrowSize);
-        
-        drawHorizontalLine(graphics, rect, arrowSize);
+        // TODO...
         
         // Image Icon
         drawIconImage(graphics, rect, 0, 0, 0, 0);
@@ -71,49 +59,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         graphics.popState();
     }
     
-    protected void drawArrows(Graphics graphics, Rectangle rect, Dimension arrow) {
-        graphics.setLineCap(SWT.CAP_ROUND);
-
-        graphics.drawLine(rect.x + arrow.width,
-                          rect.y + rect.height / 2 - arrow.height / 2,
-                          rect.x,
-                          rect.y + rect.height / 2);
-        
-        graphics.drawLine(rect.x,
-                          rect.y + rect.height / 2,
-                          rect.x + arrow.width,
-                          rect.y + rect.height / 2 + arrow.height / 2);
-        
-        graphics.drawLine(rect.x + rect.width - arrow.width,
-                          rect.y + rect.height / 2 - arrow.height / 2,
-                          rect.x + rect.width,
-                          rect.y + rect.height / 2);
-        
-        graphics.drawLine(rect.x + rect.width,
-                          rect.y + rect.height / 2,
-                          rect.x + rect.width - arrow.width,
-                          rect.y + rect.height / 2 + arrow.height / 2);
-    }
-    
-    protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
-        graphics.setLineCap(SWT.CAP_ROUND);
-        
-        graphics.drawLine(rect.x,
-                          rect.y + rect.height / 2,
-                          rect.x + rect.width,
-                          rect.y + rect.height / 2);
-    }
-    
-    private Dimension getArrowSize(Rectangle rect) {
-        int width = (int)(rect.width / (1 + ARROW_ANGLE) / 2);
-        int size = Math.min(rect.height, width);
-        return new Dimension((int)(size * ARROW_ANGLE), size);
-    }
-    
-    /**
-     * Draw the icon
-     */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
         }
@@ -153,14 +99,14 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     /**
      * @return The icon start position
      */
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 14);
     }
 
     @Override
     public int getIconOffset() {
-        return 22;
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
     }
 
     @Override

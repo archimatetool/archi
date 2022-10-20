@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.Path;
  * 
  * @author Phillip Beauvoir
  */
-public class PathFigure extends CommunicationNetworkFigure {
+public class PathFigure extends DistributionNetworkFigure {
     
     public PathFigure() {
     }
@@ -37,6 +37,11 @@ public class PathFigure extends CommunicationNetworkFigure {
                 rect.y + rect.height / 2,
                 rect.x + rect.width,
                 rect.y + rect.height / 2);
+    }
+    
+    @Override
+    protected void fillSection(Graphics graphics, Rectangle rect, Dimension arrowSize) {
+        // No fill
     }
     
     /**
@@ -88,8 +93,7 @@ public class PathFigure extends CommunicationNetworkFigure {
     /**
      * @return The icon start position
      */
-    @Override
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 12);
     }
