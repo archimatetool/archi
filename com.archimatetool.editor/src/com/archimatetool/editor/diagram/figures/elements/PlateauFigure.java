@@ -42,7 +42,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         Rectangle imageBounds = rect.getCopy();
         
-        setFigurePositionFromTextPosition(rect, 5/3.0);
+        setFigurePositionFromTextPosition(rect, 5/3.5);
         
         if(!isEnabled()) {
             setDisabledState(graphics);

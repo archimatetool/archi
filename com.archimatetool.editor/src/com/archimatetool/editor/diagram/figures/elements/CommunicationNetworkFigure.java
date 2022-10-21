@@ -42,7 +42,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         Rectangle rect = getBounds().getCopy();
         Rectangle imageBounds = rect.getCopy();
         
-        setFigurePositionFromTextPosition(rect, 5/3.0);
+        setFigurePositionFromTextPosition(rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
