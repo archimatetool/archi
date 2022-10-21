@@ -54,7 +54,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         Rectangle imageBounds = rect.getCopy();
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 5/3.0);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
