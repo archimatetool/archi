@@ -22,4 +22,4 @@ All developer resources are here:
 
 ## Contributing code to Archi
 
-Please see [How can I contribute code to Archi?](https://github.com/Phillipus/archi/wiki/How-can-I-contribute-code-to-Archi%3F)
+Please see [How can I contribute code to Archi?](https://github.com/archimatetool/archi/wiki/How-can-I-contribute-code-to-Archi%3F)
