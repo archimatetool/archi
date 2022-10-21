@@ -9,6 +9,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -61,13 +62,55 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setBackgroundColor(getLineColor());
         
-        // TODO
+        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 10);
+        graphics.setLineWidth(lineWidth);
         
+        Path path = new Path(null);
+        
+        int radius = getRadius(rect);
+        int actualRadius = getRadius(rect) - Math.round(radius / 10.0f) - lineWidth / 2;
+        Point center = rect.getCenter();
+        
+        // Semi-circle
+        path.addArc((float)center.preciseX() - actualRadius,
+                    (float)center.preciseY() - actualRadius,
+                    actualRadius * 2,
+                    actualRadius * 2,
+                    320,
+                    315);
+        
+        // Line
+        path.moveTo(center.x, center.y + actualRadius);
+        path.lineTo(center.x + radius, center.y + actualRadius);
+        
+        graphics.drawPath(path);
+        path.dispose();
+        
+        // Triangle
+        path = new Path(null);
+        
+        path.moveTo(center.x + radius, center.y + actualRadius - lineWidth);
+        path.lineTo(center.x + radius + lineWidth, center.y + actualRadius);
+        path.lineTo(center.x + radius, center.y + actualRadius + lineWidth);
+        
+        path.close();
+        
+        graphics.fillPath(path);
+        path.dispose();
+
         // Image Icon
         drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
+    }
+    
+    private int getRadius(Rectangle rect) {
+        int r1 = rect.height / 2;
+        int r2 = rect.width / 3;
+        int radius = Math.min(r1, r2);
+        return radius - radius % 2;
     }
     
     /**
@@ -82,10 +125,36 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         graphics.setLineWidth(1);
         graphics.setForegroundColor(getIconColor());
+        graphics.setBackgroundColor(getIconColor());
         
-        // TODO - Draw icon...
-
-        //Point pt = getIconOrigin();
+        Point pt = getIconOrigin();
+        
+        float circleWidth = 9;
+        float circleHalf = circleWidth / 2;
+        
+        Path path = new Path(null);
+        
+        // Circle
+        path.addArc(pt.x, pt.y, circleWidth, circleWidth, 320, 315);
+        
+        // Line
+        path.moveTo(pt.x + circleHalf, pt.y + circleWidth);
+        path.lineTo(pt.x + 10, pt.y + circleWidth);
+        
+        graphics.drawPath(path);
+        path.dispose();
+        
+        // Triangle
+        path = new Path(null);
+        
+        path.moveTo(pt.x + 10, pt.y + circleWidth - 2);
+        path.lineTo(pt.x + 12, pt.y + circleWidth);
+        path.lineTo(pt.x + 10, pt.y + circleWidth + 2);
+        
+        path.close();
+        
+        graphics.fillPath(path);
+        path.dispose();
         
         graphics.popState();
     }
@@ -95,22 +164,16 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 13);
+        return new Point(bounds.x + bounds.width - 17, bounds.y + 6);
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
-    }
-
-    @Override
-    protected int getTextControlMarginHeight() {
-        return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 18 : 0;
     }
 
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
-
 }

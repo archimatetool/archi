@@ -15,8 +15,6 @@ import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
-
-
 /**
  * Communication Network Figure
  * 
@@ -42,6 +40,9 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
+        Rectangle imageBounds = rect.getCopy();
+        
+        setFigurePositionFromTextPosition(rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -49,12 +50,61 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setBackgroundColor(getLineColor());
         
+        int figureMaxSize = Math.min(rect.width, rect.height);
+        float blobDiameter = (int)Math.max(10, (Math.sqrt(rect.width * rect.height) / 7d));
+        float blobRadius = blobDiameter / 2;
         
-        // TODO...
+        int lineWidth = (int)blobDiameter / 4;
+        graphics.setLineWidth(lineWidth);
+        
+        float heightOffset = figureMaxSize / 4;
+        float widthOffset = figureMaxSize / 3;
+        
+        Point center = rect.getCenter();
+        float x = center.x - widthOffset;
+        float y = center.y - heightOffset;
+        float w = widthOffset * 2;
+        float h = heightOffset * 2;
+        float indent = w / 5;
+        
+        // Circles
+        Path path = new Path(null);
+        
+        path.addArc(x, y + h - blobDiameter,
+                blobDiameter, blobDiameter, 0, 360);
+    
+        path.addArc(x + w - indent - blobDiameter, y + h - blobDiameter,
+                blobDiameter, blobDiameter, 0, 360);
+    
+        path.addArc(x + indent, y,
+                blobDiameter, blobDiameter, 0, 360);
+    
+        path.addArc(x + w - blobDiameter, y,
+                blobDiameter, blobDiameter, 0, 360);
+    
+        graphics.fillPath(path);
+        path.dispose();
+        
+        // Lines
+        path = new Path(null);
+        
+        float x1 = x + blobRadius;
+        float y1 = y + h - blobRadius;
+        float x2 = x1 + w - indent - blobDiameter;
+        
+        path.moveTo(x1, y1);
+        path.lineTo(x2, y1);
+        path.lineTo(x + w - blobRadius, y + blobRadius);
+        path.lineTo(x + indent + blobRadius, y + blobRadius);
+        path.lineTo(x1, y1);
+        
+        graphics.drawPath(path);
+        path.dispose();
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }

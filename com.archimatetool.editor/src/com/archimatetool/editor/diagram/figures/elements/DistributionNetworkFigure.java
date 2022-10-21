@@ -53,7 +53,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         }
         
         // Calculate line width depending on size
-        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 22);
+        int lineWidth = (int)Math.max(4, Math.sqrt(rect.width * rect.height) / 42);
 
         // Shrink the arrow size area depending on line width
         Dimension arrowSize = getArrowSize(rect);
