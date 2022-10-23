@@ -88,11 +88,11 @@ public class P2Handler {
     /**
      * Remove installed plug-ins when a feature has been uninstalled
      * 
-     * To enable garbage collection, add this to Archi.ini (actually add it to archi.product Program Arguments):
+     * There is an option to enable garbage collection by adding this to Archi.ini but I don't think it's needed:
      * -profileProperties org.eclipse.update.install.features=true
      * 
      * There is some default garbage collection done when another feature is uninstalled but there is always something left behind
-     * So this could be called at startup.
+     * so this could be called at startup.
      * 
      * See https://wiki.eclipse.org/Equinox/p2/FAQ#But_why_aren.27t_uninstalled_bundles.2Ffeatures_immediately_removed.3F
      */
