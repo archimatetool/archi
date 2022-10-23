@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.equinox.p2.metadata.repository,
  org.eclipse.equinox.p2.operations,
  org.eclipse.equinox.p2.repository,
- org.eclipse.equinox.p2.artifact.repository
+ org.eclipse.equinox.p2.artifact.repository,
+ org.eclipse.equinox.p2.garbagecollector
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.editor.jar
 Export-Package: .,

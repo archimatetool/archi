@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.internal.p2.core.Activator;
+import org.eclipse.equinox.internal.p2.garbagecollector.GarbageCollector;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.IProvisioningAgentProvider;
 import org.eclipse.equinox.p2.core.ProvisionException;
@@ -54,7 +55,7 @@ public class P2Handler {
     private static P2Handler instance;
     
     public static P2Handler getInstance() {
-        if (instance==null) {
+        if (instance == null) {
             instance = new P2Handler();
         }
         return instance;
@@ -82,6 +83,23 @@ public class P2Handler {
     public IStatus uninstall(Collection<IInstallableUnit> toUninstall, IProgressMonitor monitor) throws ProvisionException {
         UninstallOperation operation = new UninstallOperation(getProvisioningSession(), toUninstall);
         return performOperation(operation, monitor);
+    }
+    
+    /**
+     * Remove installed plug-ins when a feature has been uninstalled
+     * 
+     * To enable garbage collection, add this to Archi.ini (actually add it to archi.product Program Arguments):
+     * -profileProperties org.eclipse.update.install.features=true
+     * 
+     * There is some default garbage collection done when another feature is uninstalled but there is always something left behind
+     * So this could be called at startup.
+     * 
+     * See https://wiki.eclipse.org/Equinox/p2/FAQ#But_why_aren.27t_uninstalled_bundles.2Ffeatures_immediately_removed.3F
+     */
+    public void garbageCollect() throws ProvisionException {
+        IProfile profile = getDefaultProfile();
+        GarbageCollector gc = (GarbageCollector) getProvisioningAgent().getService(GarbageCollector.SERVICE_NAME);
+        gc.runGC(profile);
     }
 
     public boolean isInstalled(URI uri, IProgressMonitor monitor) throws ProvisionException, OperationCanceledException {
