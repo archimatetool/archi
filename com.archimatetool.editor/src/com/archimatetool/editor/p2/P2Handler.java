@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.p2;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +47,7 @@ import com.archimatetool.editor.ArchiPlugin;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings({"restriction"})
+@SuppressWarnings({"restriction", "nls"})
 public class P2Handler {
     
     private ProvisioningSession provisioningSession;
@@ -102,6 +103,29 @@ public class P2Handler {
         IProfile profile = getDefaultProfile();
         GarbageCollector gc = (GarbageCollector) getProvisioningAgent().getService(GarbageCollector.SERVICE_NAME);
         gc.runGC(profile);
+    }
+    
+    /**
+     * Delete all old 1234567890.profile.gz files except for the latest one
+     * These are in .p2/org.eclipse.equinox.p2.engine/profileRegistry/DefaultProfile.profile
+     * This can be called when exiting the app
+     */
+    public void cleanProfileRegistry() throws ProvisionException {
+        File p2Folder = P2.getP2Location();
+        if(p2Folder == null) {
+            return;
+        }
+        
+        IProfile profile = getDefaultProfile();
+        File profileFolder = new File(p2Folder, "org.eclipse.equinox.p2.engine/profileRegistry/" + profile.getProfileId() + ".profile");
+
+        // Get all the timestamps for the profile
+        for(long ts : getProfileRegistry().listProfileTimestamps(profile.getProfileId())) {
+            if(ts < profile.getTimestamp()) { // Don't delete latest one
+                File file = new File(profileFolder, ts + ".profile.gz");
+                file.delete();
+            }
+        }
     }
 
     public boolean isInstalled(URI uri, IProgressMonitor monitor) throws ProvisionException, OperationCanceledException {

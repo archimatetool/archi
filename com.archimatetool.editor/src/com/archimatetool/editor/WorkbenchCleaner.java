@@ -6,11 +6,9 @@
 package com.archimatetool.editor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.p2.core.IAgentLocation;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.SWT;
@@ -156,7 +154,7 @@ public class WorkbenchCleaner {
 
         // Clean config area using this method if using dropins
         if(P2.USE_DROPINS) {
-            File p2Folder = getP2Location(); // Get this before running the shutdown hook
+            File p2Folder = P2.getP2Location(); // Get this before running the shutdown hook
 
             Runnable runnable = (() -> {
                 // Delete config files
@@ -196,39 +194,6 @@ public class WorkbenchCleaner {
      */
     private static File getLocationAsFile(Location location) {
         return location == null ? null : new File(location.getURL().getPath());
-    }
-    
-    /**
-     * Get the location of the "p2" folder as set in "eclipse.p2.data.area" in Archi.ini, or if not set there, in config.ini
-     * Found a clue in https://git.eclipse.org/c/oomph/org.eclipse.oomph.git/tree/plugins/org.eclipse.oomph.p2.core/src/org/eclipse/oomph/p2/internal/core/ProvisioningAgentProvider.java
-     */
-    private static File getP2Location() {
-        // We can either get the IAgentLocation as a public static field
-        @SuppressWarnings("restriction")
-        IAgentLocation agentDataLocation = org.eclipse.equinox.internal.p2.core.Activator.agentDataLocation;
-        if(agentDataLocation != null) {
-            // Normalise the uri in case it has ".." in the path. If it does File#equals(File) doesn't work
-            try {
-                return new File(agentDataLocation.getRootLocation()).getCanonicalFile();
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            // Alternate method
-            //return Paths.get(agentDataLocation.getRootLocation()).normalize().toFile();
-        }
-        
-        // Or like this...
-//        @SuppressWarnings("restriction")
-//        BundleContext context = org.eclipse.equinox.internal.p2.core.Activator.getContext();
-//        ServiceReference<IAgentLocation> serviceReference = context.getServiceReference(IAgentLocation.class);
-//        IAgentLocation agentDataLocation = context.getService(serviceReference);
-//        context.ungetService(serviceReference); // have to do this I think
-//        if(agentDataLocation != null) {
-//            return new File(agentDataLocation.getRootLocation()).getCanonicalFile();
-//        }
-        
-        return null;
     }
     
     private static void delete(File file) {
