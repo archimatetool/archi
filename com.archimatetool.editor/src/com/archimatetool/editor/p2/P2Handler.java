@@ -22,7 +22,9 @@ import org.eclipse.equinox.p2.core.IProvisioningAgentProvider;
 import org.eclipse.equinox.p2.core.ProvisionException;
 import org.eclipse.equinox.p2.engine.IProfile;
 import org.eclipse.equinox.p2.engine.IProfileRegistry;
+import org.eclipse.equinox.p2.engine.query.UserVisibleRootQuery;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
+import org.eclipse.equinox.p2.metadata.MetadataFactory.InstallableUnitDescription;
 import org.eclipse.equinox.p2.operations.InstallOperation;
 import org.eclipse.equinox.p2.operations.ProfileChangeOperation;
 import org.eclipse.equinox.p2.operations.ProvisioningJob;
@@ -44,7 +46,7 @@ import com.archimatetool.editor.ArchiPlugin;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings({"restriction", "nls"})
+@SuppressWarnings({"restriction"})
 public class P2Handler {
     
     private ProvisioningSession provisioningSession;
@@ -113,44 +115,25 @@ public class P2Handler {
         return false;
     }
     
-    List<IInstallableUnit> getInstalledFeatures() throws ProvisionException {
-        IProfile profile = getDefaultProfile();
-
+    public List<IInstallableUnit> getInstalledFeatures() throws ProvisionException {
         ArrayList<IInstallableUnit> list = new ArrayList<IInstallableUnit>();
         
+        IProfile profile = getDefaultProfile();
+
         IQuery<IInstallableUnit> query = QueryUtil.createIUGroupQuery();
         IQueryResult<IInstallableUnit> queryResult = profile.query(query, null);
-
-        for(IInstallableUnit feature : queryResult) {
-            if(isArchiFeature(feature)) {
-                list.add(feature);
+        
+        // This is another way to get just the root features
+        //IQueryResult<IInstallableUnit> queryResult = profile.query(new UserVisibleRootQuery(), null);
+        
+        for(IInstallableUnit iu : queryResult) {
+            // Show root features (visible to the user) but not products
+            if(UserVisibleRootQuery.isUserVisible(iu, profile) && iu.getProperty(InstallableUnitDescription.PROP_TYPE_PRODUCT) == null) {
+                list.add(iu);
             }
         }
         
         return list;
-    }
-    
-    /**
-     * If the feature starts with id
-     */
-    private boolean isArchiFeature(IInstallableUnit feature) {
-        String id = feature.getId();
-        if(id == null) {
-            return false;
-        }
-        
-        final String[] featurePrefixes = {
-                "com.archimatetool",
-                "org.archicontribs"
-        };
-        
-        for(String prefix : featurePrefixes) {
-            if(id.startsWith(prefix)) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     private Set<IInstallableUnit> getGroupInstallableUnits(URI uri, IProgressMonitor monitor) throws ProvisionException, OperationCanceledException {
@@ -248,9 +231,13 @@ public class P2Handler {
         return artifactRepositoryManager;
     }
     
+    private IProfileRegistry getProfileRegistry() throws ProvisionException {
+        return (IProfileRegistry) getProvisioningAgent().getService(IProfileRegistry.SERVICE_NAME);
+    }
+    
     private IProfile getDefaultProfile() throws ProvisionException {
-        IProfileRegistry service = (IProfileRegistry) getProvisioningAgent().getService(IProfileRegistry.SERVICE_NAME);
-        IProfile profile = service.getProfile(IProfileRegistry.SELF);
+        IProfileRegistry registry = getProfileRegistry();
+        IProfile profile = registry.getProfile(IProfileRegistry.SELF);
         
         if(profile == null) {
             throw new ProvisionException("Unable to access p2 profile - This is not possible when starting the application from the IDE!"); //$NON-NLS-1$
