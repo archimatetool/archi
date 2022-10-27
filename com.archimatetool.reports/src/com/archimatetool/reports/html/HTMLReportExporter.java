@@ -49,6 +49,7 @@ import com.archimatetool.editor.diagram.util.ModelReferencedImage;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -158,12 +159,21 @@ public class HTMLReportExporter {
             try {
                 File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html", monitor);  //$NON-NLS-1$//$NON-NLS-2$
                 
+                // Bug on Mac Ventura - https://github.com/eclipse-platform/eclipse.platform.swt/issues/452
+                // So open it in external Browser
+                if(PlatformUtils.isMac() && PlatformUtils.isX86_64() && PlatformUtils.compareOSVersion("13.0") >= 0) { //$NON-NLS-1$
+                    IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+                    IWebBrowser browser = support.getExternalBrowser();
+                    // This method supports network URLs
+                    browser.openURL(new URL("file", null, file.getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                }
                 // Open it in internal Browser
-                IBrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-                
-                IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
-                if(editor != null && editor.getBrowser() != null) {
-                    editor.getBrowser().refresh();
+                else {
+                    IBrowserEditorInput input = new BrowserEditorInput("file:///" + file.getPath(), Messages.HTMLReportExporter_0 + " " + fModel.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                    IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
+                    if(editor != null && editor.getBrowser() != null) {
+                        editor.getBrowser().refresh();
+                    }
                 }
             }
             catch(Exception ex) {  // Catch OOM and SWT exceptions
