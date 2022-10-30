@@ -81,14 +81,17 @@ public class ModelImporter {
     
     public ModelImporter() {
     }
-
+    
     public void doImport(File importedFile, IArchimateModel targetModel) throws IOException, ImportException {
         if(!importedFile.exists()) {
             throw new IOException(NLS.bind(Messages.ModelImporter_2, importedFile));
         }
         
-        importedModel = IEditorModelManager.INSTANCE.load(importedFile);
-
+        doImport(IEditorModelManager.INSTANCE.load(importedFile), targetModel);
+    }
+    
+    public void doImport(IArchimateModel importedModel, IArchimateModel targetModel) throws IOException, ImportException {
+        this.importedModel = importedModel;
         this.targetModel = targetModel;
         
         objectCache = createObjectIDCache();
@@ -143,7 +146,7 @@ public class ModelImporter {
         importedModel = null;
         this.targetModel = null;
     }
-    
+
     protected IArchimateModel getImportedModel() {
         return importedModel;
     }
