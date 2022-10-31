@@ -144,8 +144,9 @@ public class SelectionTool extends TargetingTool {
         if (cachedHandlePart == null)
             return null;
         EditPart part = (EditPart) cachedHandlePart.get();
-        if (cachedHandlePart.isEnqueued())
-            return null;
+        // Phillipus - this doesn't really do anything
+        //if (cachedHandlePart.isEnqueued())
+        //    return null;
         return part;
     }
 

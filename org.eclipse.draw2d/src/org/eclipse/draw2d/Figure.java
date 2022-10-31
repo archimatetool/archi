@@ -35,17 +35,18 @@ import org.eclipse.draw2d.geometry.Translatable;
 /**
  * The base implementation for graphical figures.
  */
-@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class Figure implements IFigure {
 
     private static final Rectangle PRIVATE_RECT = new Rectangle();
     private static final Point PRIVATE_POINT = new Point();
-    private static final int FLAG_VALID = new Integer(1).intValue(),
-            FLAG_OPAQUE = new Integer(1 << 1).intValue(),
-            FLAG_VISIBLE = new Integer(1 << 2).intValue(),
-            FLAG_FOCUSABLE = new Integer(1 << 3).intValue(),
-            FLAG_ENABLED = new Integer(1 << 4).intValue(),
-            FLAG_FOCUS_TRAVERSABLE = new Integer(1 << 5).intValue();
+    
+    private static final int FLAG_VALID = 1;
+    private static final int FLAG_OPAQUE = 1 << 1;
+    private static final int FLAG_VISIBLE = 1 << 2;
+    private static final int FLAG_FOCUSABLE = 1 << 3;
+    private static final int FLAG_ENABLED = 1 << 4;
+    private static final int FLAG_FOCUS_TRAVERSABLE = 1 << 5;
 
     static final int FLAG_REALIZED = 1 << 31;
 
@@ -643,7 +644,7 @@ public class Figure implements IFigure {
     @Override
     public Rectangle getClientArea(Rectangle rect) {
         rect.setBounds(getBounds());
-        rect.crop(getInsets());
+        rect.shrink(getInsets());
         if (useLocalCoordinates())
             rect.setLocation(0, 0);
         return rect;

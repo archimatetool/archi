@@ -532,14 +532,14 @@ public class ToolEntryEditPart extends PaletteEditPart {
 
     @Override
     public void restoreState(IMemento memento) {
-        if (new Boolean(memento.getString(ACTIVE_STATE)).booleanValue())
+        if (Boolean.valueOf(memento.getString(ACTIVE_STATE)).booleanValue())
             getPaletteViewer().setActiveTool(getToolEntry());
         super.restoreState(memento);
     }
 
     @Override
     public void saveState(IMemento memento) {
-        memento.putString(ACTIVE_STATE, new Boolean(getPaletteViewer()
+        memento.putString(ACTIVE_STATE, Boolean.valueOf(getPaletteViewer()
                 .getActiveTool() == getToolEntry()).toString());
         super.saveState(memento);
     }

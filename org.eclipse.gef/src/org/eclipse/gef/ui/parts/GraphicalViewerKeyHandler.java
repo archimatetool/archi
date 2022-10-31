@@ -234,8 +234,9 @@ public class GraphicalViewerKeyHandler extends KeyHandler {
     private GraphicalEditPart getCachedNode() {
         if (cachedNode == null)
             return null;
-        if (cachedNode.isEnqueued())
-            return null;
+        // Phillipus - this doesn't really do anything
+        //if (cachedNode.isEnqueued())
+        //    return null;
         return (GraphicalEditPart) cachedNode.get();
     }
 

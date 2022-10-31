@@ -65,7 +65,7 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
             r--;
         Integer i;
         while (proximity < r) {
-            i = new Integer(r + proximity * direction);
+            i = Integer.valueOf(r + proximity * direction);
             if (!colsUsed.containsKey(i)) {
                 colsUsed.put(i, i);
                 reserveColumn(connection, i);
@@ -154,7 +154,7 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
             r--;
         Integer i;
         while (proximity < r) {
-            i = new Integer(r + proximity * direction);
+            i = Integer.valueOf(r + proximity * direction);
             if (!rowsUsed.containsKey(i)) {
                 rowsUsed.put(i, i);
                 reserveRow(connection, i);
@@ -303,9 +303,9 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
         List positions = new ArrayList(5);
         boolean horizontal = startNormal.isHorizontal();
         if (horizontal)
-            positions.add(new Integer(start.y));
+            positions.add(Integer.valueOf(start.y));
         else
-            positions.add(new Integer(start.x));
+            positions.add(Integer.valueOf(start.x));
         horizontal = !horizontal;
 
         if (startNormal.dotProduct(endNormal) == 0) {
@@ -323,7 +323,7 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
                     else
                         i = average.x;
                 }
-                positions.add(new Integer(i));
+                positions.add(Integer.valueOf(i));
                 horizontal = !horizontal;
 
                 if (endNormal.dotProduct(direction) > 0)
@@ -335,7 +335,7 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
                     else
                         i = average.x;
                 }
-                positions.add(new Integer(i));
+                positions.add(Integer.valueOf(i));
                 horizontal = !horizontal;
             }
         } else {
@@ -347,14 +347,14 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
                 else
                     i = endNormal.similarity(end.getAdded(endNormal
                             .getScaled(10)));
-                positions.add(new Integer(i));
+                positions.add(Integer.valueOf(i));
                 horizontal = !horizontal;
             } else {
                 // 3 or 1
                 if (startNormal.dotProduct(direction) < 0) {
                     i = startNormal.similarity(start.getAdded(startNormal
                             .getScaled(10)));
-                    positions.add(new Integer(i));
+                    positions.add(Integer.valueOf(i));
                     horizontal = !horizontal;
                 }
 
@@ -362,21 +362,21 @@ public final class ManhattanConnectionRouter extends AbstractRouter {
                     i = average.y;
                 else
                     i = average.x;
-                positions.add(new Integer(i));
+                positions.add(Integer.valueOf(i));
                 horizontal = !horizontal;
 
                 if (startNormal.dotProduct(direction) < 0) {
                     i = endNormal.similarity(end.getAdded(endNormal
                             .getScaled(10)));
-                    positions.add(new Integer(i));
+                    positions.add(Integer.valueOf(i));
                     horizontal = !horizontal;
                 }
             }
         }
         if (horizontal)
-            positions.add(new Integer(end.y));
+            positions.add(Integer.valueOf(end.y));
         else
-            positions.add(new Integer(end.x));
+            positions.add(Integer.valueOf(end.x));
 
         processPositions(start, end, positions, startNormal.isHorizontal(),
                 conn);
