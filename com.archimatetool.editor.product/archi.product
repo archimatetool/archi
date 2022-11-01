@@ -57,9 +57,7 @@ jre/bin/server
    </plugins>
 
    <features>
-      <feature id="com.archimatetool.eclipse.feature"/>
       <feature id="com.archimatetool.editor.feature"/>
-      <feature id="com.archimatetool.gef.feature"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.help"/>
