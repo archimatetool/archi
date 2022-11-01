@@ -16,9 +16,31 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.cheatsheets,
  com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: com.archimatetool.help.jar
+Bundle-ClassPath: com.archimatetool.help.jar,
+ ecj-4.25.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.archimatetool.help,
  com.archimatetool.help.cheatsheets,
- com.archimatetool.help.hints
+ com.archimatetool.help.hints,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.core.compiler,
+ org.eclipse.jdt.core.compiler.batch,
+ org.eclipse.jdt.internal.antadapter,
+ org.eclipse.jdt.internal.compiler,
+ org.eclipse.jdt.internal.compiler.apt.dispatch,
+ org.eclipse.jdt.internal.compiler.apt.model,
+ org.eclipse.jdt.internal.compiler.apt.util,
+ org.eclipse.jdt.internal.compiler.ast,
+ org.eclipse.jdt.internal.compiler.batch,
+ org.eclipse.jdt.internal.compiler.classfmt,
+ org.eclipse.jdt.internal.compiler.codegen,
+ org.eclipse.jdt.internal.compiler.env,
+ org.eclipse.jdt.internal.compiler.flow,
+ org.eclipse.jdt.internal.compiler.impl,
+ org.eclipse.jdt.internal.compiler.lookup,
+ org.eclipse.jdt.internal.compiler.parser,
+ org.eclipse.jdt.internal.compiler.parser.diagnose,
+ org.eclipse.jdt.internal.compiler.problem,
+ org.eclipse.jdt.internal.compiler.tool,
+ org.eclipse.jdt.internal.compiler.util
 Automatic-Module-Name: com.archimatetool.help
