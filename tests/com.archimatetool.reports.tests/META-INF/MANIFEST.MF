@@ -7,7 +7,6 @@ Fragment-Host: com.archimatetool.reports
 Bundle-Vendor: Archi
 Require-Bundle: org.junit,
  com.archimatetool.testsupport,
- com.archimatetool.help,
  com.archimatetool.canvas
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.archimatetool.testingtools
