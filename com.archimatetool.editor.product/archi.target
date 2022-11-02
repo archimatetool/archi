@@ -5,6 +5,7 @@
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="https://download.eclipse.org/eclipse/updates/4.25"/>
         <unit id="org.eclipse.sdk.ide" version="4.25.0.I20220831-1800"/>
+        <unit id="org.eclipse.jdt.core.compiler.batch" version="3.31.0.v20220831-1439"/>
     </location>
 </locations>
 </target>
