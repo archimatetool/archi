@@ -8,7 +8,7 @@ package com.archimatetool.hammer.validation.issues;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.editor.ui.IHelpHintProvider;
 
 
 public interface IIssue extends IHelpHintProvider, IAdaptable {

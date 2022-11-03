@@ -8,7 +8,11 @@ public class Messages extends NLS {
 
     public static String AdviceCategory_0;
 
+    public static String AdviceCategory_1;
+
     public static String ErrorsCategory_0;
+
+    public static String ErrorsCategory_1;
 
     public static String OKType_0;
 
@@ -17,6 +21,8 @@ public class Messages extends NLS {
     public static String OKType_2;
 
     public static String WarningsCategory_0;
+
+    public static String WarningsCategory_1;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

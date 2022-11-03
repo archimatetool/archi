@@ -28,4 +28,9 @@ public class WarningsCategory extends AbstractIssueCategory {
     public Image getImage() {
         return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_WARNING);
     }
+    
+    @Override
+    public String getHelpHintContent() {
+        return Messages.WarningsCategory_1;
+    }
 }

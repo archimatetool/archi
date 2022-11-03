@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor,
  com.archimatetool.jdom,
- com.archimatetool.help,
  com.archimatetool.templates
 Bundle-ClassPath: com.archimatetool.canvas.jar
 Bundle-Activator: com.archimatetool.canvas.CanvasEditorPlugin

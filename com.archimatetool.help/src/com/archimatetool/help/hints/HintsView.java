@@ -52,6 +52,7 @@ import org.osgi.framework.Bundle;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.IComponentSelectionListener;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -277,11 +278,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             return;
         }
         
-        // Check if it's a IHelpHintProvider first as this over-rides other types
-        Object actualObject = (selected instanceof IHelpHintProvider) ? selected : null;
+        Object actualObject = selected;
 
-        // Adaptable, dig in to get to get the actual object...
-        if(actualObject == null && selected instanceof IAdaptable) {
+        // Adaptable, dig in to get to get the actual object
+        if(selected instanceof IAdaptable) {
             // ArchiMate concept (in EditPart)
             actualObject = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
             
@@ -290,27 +290,65 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
                 actualObject = ((IAdaptable)selected).getAdapter(IDiagramModelComponent.class);
             }
         }
-        // Default
-        else {
-            actualObject = selected;
+        
+        String title = "", content = null, path = null; //$NON-NLS-1$
+        Hint hint = getHintForObject(actualObject);
+        
+        // We have a hint so these are the defaults
+        if(hint != null) {
+            title = hint.title;
+            path = hint.path;
         }
+        
+        // If this is a Help Hint Provider it can over-ride hint title and content if set
+        IHelpHintProvider provider = (IHelpHintProvider)(actualObject instanceof IHelpHintProvider ? actualObject : selected instanceof IHelpHintProvider ? selected : null);
+        if(provider != null) {
+            // Title set
+            if(StringUtils.isSet(provider.getHelpHintTitle())) {
+                title = provider.getHelpHintTitle();
+            }
+            
+            // Content set
+            if(StringUtils.isSet(provider.getHelpHintContent())) {
+                content = makeHTMLEntry(provider.getHelpHintContent());
+            }
+        }
+
+        // Set Title
+        fTitleLabel.setText(title);
         
         // Enable JS
         fBrowser.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_JS_ENABLED));
-        
-        // This is a Hint Provider so this takes priority...
-        if(actualObject instanceof IHelpHintProvider) {
-            showHintForHintProvider(source, (IHelpHintProvider)actualObject);
+
+        // We have some content
+        if(content != null) {
+            fBrowser.setText(content);
+            fLastPath = ""; //$NON-NLS-1$
         }
-        // Object
+        // We have a hint path
+        else if(path != null) {
+            if(fLastPath != path) { // optimise
+                // Load page
+                fPageLoaded = false;
+                fBrowser.setUrl("file:///" + path); //$NON-NLS-1$
+                fLastPath = path;
+                
+                // Kludge for Mac/Safari when displaying hint on mouse rollover menu item in MagicConnectionCreationTool
+                if(PlatformUtils.isMac() && source instanceof MenuItem) {
+                    _doMacWaitKludge();
+                }
+            }
+        }
+        // Blank
         else {
-            showHintForObject(source, actualObject);
+            fBrowser.setText(""); //$NON-NLS-1$
+            fLastPath = ""; //$NON-NLS-1$
         }
     }
     
-    private void showHintForObject(Object source, Object object) {
+    private Hint getHintForObject(Object object) {
         if(object == null) {
-            return;
+            return null;
         }
         
         String className;
@@ -329,49 +367,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             className += ((IArchimateDiagramModel)object).getViewpoint();
         }
         
-        Hint hint = fLookupTable.get(className);
-
-        if(hint != null) {
-            if(fLastPath != hint.path) {
-                // Title
-                fTitleLabel.setText(hint.title);
-
-                // Load page
-                fPageLoaded = false;
-                fBrowser.setUrl("file:///" + hint.path); //$NON-NLS-1$
-                fLastPath = hint.path;
-
-                // Kludge for Mac/Safari when displaying hint on mouse rollover menu item in MagicConnectionCreationTool
-                if(PlatformUtils.isMac() && source instanceof MenuItem) {
-                    _doMacWaitKludge();
-                }
-            }
-        }
-        else {
-            showBlankHint();
-        }
-    }
-    
-    private void showHintForHintProvider(Object source, IHelpHintProvider provider) {
-        String title = provider.getHelpHintTitle();
-        String text = provider.getHelpHintContent();
-        
-        if(StringUtils.isSet(title) || StringUtils.isSet(text)) {
-            fTitleLabel.setText(title);
-            text = makeHTMLEntry(text);
-            fBrowser.setText(text);
-            fLastPath = ""; //$NON-NLS-1$
-        }
-        // No user hint, so show inbuilt hint
-        else {
-            showHintForObject(source, provider);
-        }
-    }
-    
-    private void showBlankHint() {
-        fBrowser.setText(""); //$NON-NLS-1$
-        fLastPath = ""; //$NON-NLS-1$
-        fTitleLabel.setText(""); //$NON-NLS-1$
+        return fLookupTable.get(className);
     }
     
     /**

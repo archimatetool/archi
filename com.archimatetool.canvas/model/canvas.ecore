@@ -12,7 +12,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="HelpHintProvider" instanceClassName="com.archimatetool.help.hints.IHelpHintProvider"
+  <eClassifiers xsi:type="ecore:EClass" name="HelpHintProvider" instanceClassName="com.archimatetool.editor.ui.IHelpHintProvider"
       abstract="true" interface="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="NotesContent" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="notes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"

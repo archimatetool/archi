@@ -11,7 +11,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.canvas.model.*;
-import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;
@@ -355,13 +355,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.editor.ui.IHelpHintProvider <em>Help Hint Provider</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see com.archimatetool.help.hints.IHelpHintProvider
+     * @see com.archimatetool.editor.ui.IHelpHintProvider
      * @generated
      */
     public Adapter createHelpHintProviderAdapter() {

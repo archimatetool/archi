@@ -28,4 +28,9 @@ public class ErrorsCategory extends AbstractIssueCategory {
     public Image getImage() {
         return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ERROR);
     }
+    
+    @Override
+    public String getHelpHintContent() {
+        return Messages.ErrorsCategory_1;
+    }
 }

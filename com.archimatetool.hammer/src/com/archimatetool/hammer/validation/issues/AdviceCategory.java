@@ -28,4 +28,9 @@ public class AdviceCategory extends AbstractIssueCategory {
     public Image getImage() {
         return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ADVICE);
     }
+    
+    @Override
+    public String getHelpHintContent() {
+        return Messages.AdviceCategory_1;
+    }
 }

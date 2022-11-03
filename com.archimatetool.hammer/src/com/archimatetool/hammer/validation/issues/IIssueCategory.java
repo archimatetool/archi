@@ -9,13 +9,15 @@ import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.ui.IHelpHintProvider;
+
 
 /**
  * IIssueCategory
  * 
  * @author Phillip Beauvoir
  */
-public interface IIssueCategory {
+public interface IIssueCategory extends IHelpHintProvider {
 
     String getName();
     void setName(String name);

@@ -50,4 +50,14 @@ public abstract class AbstractIssueCategory implements IIssueCategory {
     public Image getImage() {
         return null;
     }
+    
+    @Override
+    public String getHelpHintTitle() {
+        return getName();
+    }
+    
+    @Override
+    public String getHelpHintContent() {
+        return null;
+    }
 }

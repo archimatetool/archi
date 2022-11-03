@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.archimatetool.canvas.model.*;
-import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;

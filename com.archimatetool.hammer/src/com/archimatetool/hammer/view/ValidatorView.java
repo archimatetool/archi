@@ -57,7 +57,6 @@ import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.hammer.IHammerImages;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
-import com.archimatetool.help.hints.IHintsView;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
@@ -155,7 +154,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         fActionExplain = new Action(Messages.ValidatorView_1) {
             @Override
             public void run() {
-                ViewManager.showViewPart(IHintsView.ID, false);
+                ViewManager.showViewPart("com.archimatetool.help.hintsView", false); //$NON-NLS-1$
             }
             
             @Override

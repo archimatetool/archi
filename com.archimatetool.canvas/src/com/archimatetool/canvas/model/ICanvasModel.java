@@ -5,7 +5,7 @@
  */
 package com.archimatetool.canvas.model;
 
-import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IDiagramModel;
 
 
