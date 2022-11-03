@@ -14,7 +14,7 @@ openFile
       <programArgsMac>-vm
 ../jre
       </programArgsMac>
-      <vmArgs>-Dosgi.requiredJavaVersion=17
+      <vmArgs>-Dosgi.requiredJavaVersion=11
 -Declipse.p2.data.area=@config.dir/.p2
 --add-modules=ALL-SYSTEM
       </vmArgs>
