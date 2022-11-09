@@ -44,7 +44,8 @@ public class PaletteColorUtil {
     
     // Added by Phillipus
     public static final Color PALETTE_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_BACKGROUND", new RGB(255, 255, 255));
-    public static final Color TOOLBAR_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND", new RGB(245, 245, 245));
+    public static final Color PALETTE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_LABEL_FOREGROUND", new RGB(0, 0, 0));
+    public static final Color PALETTE_TOOLBAR_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND", new RGB(245, 245, 245));
     public static final Color PALETTE_TITLE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND", ColorConstants.listForeground.getRGB());
     public static final Color PALETTE_TITLE_LABEL_BACKGROUND_START = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START", ColorConstants.listBackground.getRGB());
     public static final Color PALETTE_TITLE_LABEL_BACKGROUND_END = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END", ColorConstants.button.getRGB());

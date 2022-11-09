@@ -50,6 +50,7 @@ ThemesExtension { color-definition:
     
     /* Added by Archi for GEF Palette */
     '#org-eclipse-gef-PALETTE_BACKGROUND',
+    '#org-eclipse-gef-PALETTE_LABEL_FOREGROUND',
     '#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND',
     '#org-eclipse-gef-PALETTE_TITLE_LABEL_FOREGROUND',
     '#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_START',
@@ -61,6 +62,10 @@ ThemesExtension { color-definition:
 /* Added by Archi for GEF Palette */
 ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
     color: #e6e6e6;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_LABEL_FOREGROUND {
+    color: #000000;
 }
 
 ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {

@@ -73,7 +73,7 @@ public class ToolbarEditPart extends GroupEditPart {
         // figure.setBackgroundColor(PaletteColorUtil.WIDGET_BACKGROUND);
         // figure.setBorder(new MarginBorder(2, 1, 1, 1));
 
-        figure.setBackgroundColor(PaletteColorUtil.TOOLBAR_BACKGROUND);
+        figure.setBackgroundColor(PaletteColorUtil.PALETTE_TOOLBAR_BACKGROUND);
         figure.setBorder(BORDER);
         
         return figure;
