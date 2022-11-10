@@ -51,7 +51,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         
         PaletteEntry entry = new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_2,
-                null,
+                Messages.CanvasEditorPalette_0,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelBlock()),
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK),
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK));
@@ -59,7 +59,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         
         entry = new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_3,
-                null,
+                Messages.CanvasEditorPalette_10,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE));
@@ -69,7 +69,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.CanvasEditorPalette_4,
-                null,
+                Messages.CanvasEditorPalette_11,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN));
         group.add(entry);
         
@@ -77,7 +77,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.CanvasEditorPalette_5,
-                null,
+                Messages.CanvasEditorPalette_11,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW));
         group.add(entry);
         
@@ -85,7 +85,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.CanvasEditorPalette_6,
-                null,
+                Messages.CanvasEditorPalette_11,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW));
         group.add(entry);
         
@@ -93,7 +93,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.CanvasEditorPalette_7,
-                null,
+                Messages.CanvasEditorPalette_11,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
         group.add(entry);
 
@@ -156,7 +156,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         
         return new ExtCombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_9,
-                null,
+                Messages.CanvasEditorPalette_12,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(r, g, b)),
                 id,
                 id);

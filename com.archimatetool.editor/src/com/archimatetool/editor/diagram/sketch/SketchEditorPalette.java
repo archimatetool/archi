@@ -68,7 +68,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.SketchEditorPalette_8,
-                null,
+                Messages.SketchEditorPalette_0,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN));
         group.add(entry);
         
@@ -76,7 +76,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.SketchEditorPalette_9,
-                null,
+                Messages.SketchEditorPalette_0,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW));
         group.add(entry);
         
@@ -84,7 +84,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.SketchEditorPalette_10,
-                null,
+                Messages.SketchEditorPalette_0,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW));
         group.add(entry);
         
@@ -92,7 +92,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.SketchEditorPalette_11,
-                null,
+                Messages.SketchEditorPalette_0,
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
         group.add(entry);
     
@@ -159,7 +159,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
 
         return new ExtCombinedTemplateCreationEntry(
                 Messages.SketchEditorPalette_12,
-                null,
+                Messages.SketchEditorPalette_7,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(r, g, b)),
                 id,
                 id);

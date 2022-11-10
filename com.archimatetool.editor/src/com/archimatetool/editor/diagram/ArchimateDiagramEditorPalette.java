@@ -148,13 +148,13 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
 
         // Relations
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            ToolEntry entry = createConnectionCreationToolEntry(eClass, null);
+            ToolEntry entry = createConnectionCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_6);
             group.add(entry);
         }
 
         // Junctions
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-            ToolEntry entry = createElementCreationToolEntry(eClass, null);
+            ToolEntry entry = createElementCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_19);
             group.add(entry);
         }
         
@@ -347,7 +347,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                     fElementEntries.add(group);
                 }
                 
-                ToolEntry entry = createElementCreationToolEntry(eClass, null);
+                ToolEntry entry = createElementCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_20);
                 group.add(entry);
             }
         }
