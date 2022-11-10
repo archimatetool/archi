@@ -61,15 +61,15 @@ ThemesExtension { color-definition:
 
 /* Added by Archi for GEF Palette */
 ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
-    color: #e6e6e6;
+    color: #7f7f7f;
 }
 
 ColorDefinition#org-eclipse-gef-PALETTE_LABEL_FOREGROUND {
-    color: #000000;
+    color: #DDDDDD;
 }
 
 ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {
-    color: #d0d0d0;
+    color: #6f6f6f;
 }
 
 ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_FOREGROUND {

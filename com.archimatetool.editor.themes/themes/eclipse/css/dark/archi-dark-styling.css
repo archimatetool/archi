@@ -6,5 +6,5 @@
 /* Diagram FigureCanvas and Zest Graph backgrounds should be off white so as not to be too glaring */
 FigureCanvas.ArchiFigureCanvas,
 Graph.ArchiGraph {
-    background-color: #F6F6F6;
+    background-color: #6F6F6F;
 }
