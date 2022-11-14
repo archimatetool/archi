@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -26,7 +27,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StyledTextControl;
-import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -208,7 +208,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         gd.heightHint = 50; // Stop table height creep
         tableComp.setLayoutData(gd);
 
-        tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
+        tableComp.setLayout(new TableColumnLayout());
         
         return tableComp;
     }

@@ -94,7 +94,6 @@ import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
-import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
@@ -183,8 +182,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         
         fTableViewer.setInput(fPropertiesElement);
         
-        // Update kludge
-        ((UpdatingTableColumnLayout)fTableViewer.getTable().getParent().getLayout()).doRelayout();
+        // avoid bogus horizontal scrollbar cheese
+        fTableViewer.getTable().getParent().layout();
         
         // Locked
         updateLocked();

@@ -12,8 +12,11 @@ import org.eclipse.swt.widgets.Composite;
  * TableColumnLayout with public method so we can re-layout when the host table adds/removes vertical scroll bar
  * It's a kludge to stop a bogus horizontal scroll bar being shown.
  * 
+ * @Deprecated use table.getParent().layout()
+ * 
  * @author Phillip Beauvoir
  */
+@Deprecated
 public class UpdatingTableColumnLayout extends TableColumnLayout {
 
     private Composite fParent;

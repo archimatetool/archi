@@ -164,6 +164,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     protected void update() {
         fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
         fTableViewer.setInput(fArchimateConcept);
+        fTableViewer.getTable().getParent().layout(); // avoid bogus horizontal scrollbar cheese
     }
     
     @Override
