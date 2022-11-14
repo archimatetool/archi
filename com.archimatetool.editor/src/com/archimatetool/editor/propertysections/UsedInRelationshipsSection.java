@@ -27,6 +27,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -164,7 +165,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     protected void update() {
         fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
         fTableViewer.setInput(fArchimateConcept);
-        fTableViewer.getTable().getParent().layout(); // avoid bogus horizontal scrollbar cheese
+        Display.getCurrent().asyncExec(() -> fTableViewer.getTable().getParent().layout());  // avoid bogus horizontal scrollbar cheese
     }
     
     @Override

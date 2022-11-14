@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -158,7 +159,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
     protected void update() {
         fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
         fTableViewer.setInput(fArchimateConcept);
-        fTableViewer.getTable().getParent().layout(); // avoid bogus horizontal scrollbar cheese
+        Display.getCurrent().asyncExec(() -> fTableViewer.getTable().getParent().layout()); // avoid bogus horizontal scrollbar cheese
     }
     
     @Override
