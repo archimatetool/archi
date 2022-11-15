@@ -137,6 +137,11 @@
                id="keywords.prefsConnections">
          </keywordReference>
       </page>
+      <page
+            class="com.archimatetool.editor.preferences.SystemPreferencesPage"
+            id="org.eclipse.ui.preferencePages.Workbench"
+            name="%prefsSystem">
+      </page>
    </extension>
    <extension
          point="org.eclipse.ui.editors">

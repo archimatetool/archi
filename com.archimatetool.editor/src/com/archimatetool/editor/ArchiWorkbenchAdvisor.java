@@ -6,6 +6,8 @@
 package com.archimatetool.editor;
 
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.preference.IPreferenceNode;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
@@ -54,6 +56,16 @@ extends WorkbenchAdvisor
         
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);
+        
+        // Move "Help" preference page to our "System" page
+        PreferenceManager pm = PlatformUI.getWorkbench().getPreferenceManager();
+        if(pm != null) {
+            IPreferenceNode node = pm.find("org.eclipse.help.ui.browsersPreferencePage");
+            if(node != null) {
+                pm.remove(node);
+                pm.addTo("org.eclipse.ui.preferencePages.Workbench", node);
+            }            
+        }
     }
     
     @Override
