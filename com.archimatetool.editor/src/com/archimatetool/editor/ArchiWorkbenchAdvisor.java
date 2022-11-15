@@ -18,6 +18,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.perspectives.MainPerspective;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.utils.NetUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -57,15 +58,31 @@ extends WorkbenchAdvisor
         // Show Help Button by default on Dialogs
         TrayDialog.setDialogHelpAvailable(true);
         
-        // Move "Help" preference page to our "System" page
         PreferenceManager pm = PlatformUI.getWorkbench().getPreferenceManager();
         if(pm != null) {
-            IPreferenceNode node = pm.find("org.eclipse.help.ui.browsersPreferencePage");
-            if(node != null) {
-                pm.remove(node);
-                pm.addTo("org.eclipse.ui.preferencePages.Workbench", node);
-            }            
+            IPreferenceNode systemNode = pm.find("org.eclipse.ui.preferencePages.Workbench");
+            if(systemNode != null) {
+                // Move "Help" preference page to our "System" page
+                IPreferenceNode helpNode = pm.find("org.eclipse.help.ui.browsersPreferencePage");
+                if(helpNode != null) {
+                    pm.remove(helpNode);
+                    systemNode.add(helpNode);
+                }
+                
+                // Move "Secure Storage" preference page from its container node to our "System" page
+                IPreferenceNode securityCategoryNode = systemNode.findSubNode("org.eclipse.equinox.security.ui.category");
+                if(securityCategoryNode != null) {
+                    IPreferenceNode securityNode = securityCategoryNode.findSubNode("org.eclipse.equinox.security.ui.storage");
+                    if(securityNode != null) {
+                        systemNode.remove(securityCategoryNode);
+                        systemNode.add(securityNode);
+                    }
+                }
+            }
         }
+        
+        // Initialise Proxy
+        NetUtils.initialise();
     }
     
     @Override

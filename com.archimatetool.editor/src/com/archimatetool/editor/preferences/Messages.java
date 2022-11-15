@@ -293,6 +293,22 @@ public class Messages extends NLS {
 
     public static String GeneralPreferencePage_9;
 
+    public static String NetworkConnectionsPreferencePage_0;
+
+    public static String NetworkConnectionsPreferencePage_1;
+
+    public static String NetworkConnectionsPreferencePage_2;
+
+    public static String NetworkConnectionsPreferencePage_3;
+
+    public static String NetworkConnectionsPreferencePage_4;
+
+    public static String NetworkConnectionsPreferencePage_5;
+
+    public static String NetworkConnectionsPreferencePage_6;
+
+    public static String NetworkConnectionsPreferencePage_7;
+
     public static String SystemPreferencesPage_0;
 
     public static String SystemPreferencesPage_1;

@@ -52,6 +52,12 @@ implements IWorkbenchPreferencePage {
         // Help
         addLinkArea(pageArea, "org.eclipse.help.ui.browsersPreferencePage"); //$NON-NLS-1$
         
+        // Metwork
+        addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork"); //$NON-NLS-1$
+
+        // Security
+        addLinkArea(pageArea, "org.eclipse.equinox.security.ui.storage"); //$NON-NLS-1$
+        
         // Browser
         addLinkArea(pageArea, "org.eclipse.ui.browser.preferencePage"); //$NON-NLS-1$
         

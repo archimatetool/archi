@@ -136,6 +136,15 @@ public interface IPreferenceConstants {
     
     String HINTS_BROWSER_JS_ENABLED = "hintsJSEnabled";
     String HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED = "hintsExternalHostsEnabled";
+    
+    // ======================================= Net / Proxy =======================================
+
+    String PREFS_PROXY_ENABLED = "proxyEnabled";
+    String PREFS_PROXY_HOST = "proxyHost";
+    String PREFS_PROXY_PORT = "proxyPort";
+    String PREFS_PROXY_REQUIRES_AUTHENTICATION = "proxyAuthenticate";
+    String PREFS_PROXY_USERNAME = "proxyUserName";
+    String PREFS_PROXY_PASSWORD = "proxyPassword";
 
     // ======================================= Internal =======================================
     

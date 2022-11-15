@@ -11,9 +11,17 @@
 --launcher.defaultAction
 openFile
       </programArgs>
+      <programArgsLin>-eclipse.keyring
+@user.home/.archi4/secure_storage
+      </programArgsLin>
       <programArgsMac>-vm
 ../jre
+-eclipse.keyring
+&quot;@user.home/Library/Application Support/Archi4/secure_storage&quot;
       </programArgsMac>
+      <programArgsWin>-eclipse.keyring
+@user.home/AppData/Roaming/Archi4/secure_storage
+      </programArgsWin>
       <vmArgs>-Dosgi.requiredJavaVersion=11
 -Declipse.p2.data.area=@config.dir/.p2
 --add-modules=ALL-SYSTEM

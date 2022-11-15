@@ -9,15 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.Proxy.Type;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -28,6 +22,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.utils.NetUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -44,7 +39,7 @@ public class CheckForNewVersionAction extends Action {
     }
     
     String getOnlineVersion(URL url) throws IOException {
-        URLConnection connection = url.openConnection();
+        URLConnection connection = NetUtils.openConnection(url);
         connection.connect();
         
         InputStream is = connection.getInputStream();
@@ -65,31 +60,6 @@ public class CheckForNewVersionAction extends Action {
         return s.toString();
     }
 
-    /**
-     * Get the connection through a Proxy
-     * Should we ever implement Proxy support in Archi this is the pattern to use
-     * 
-     * coArchi sets Authenticator.setDefault(a) and resets it with Authenticator.setDefault(null)
-     * but this does not clear Java's cached authentication once Authenticator.setDefault(a) has been called
-     * so we need to explicitly set one on the connection here
-     */
-    @SuppressWarnings("unused")
-    private URLConnection getProxyConnection(URL url) throws IOException {
-        InetSocketAddress socketAddress = new InetSocketAddress("1.1.1.1", 1234); //$NON-NLS-1$
-        Proxy proxy = new Proxy(Type.HTTP, socketAddress);
-        
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection(proxy);
-        
-        connection.setAuthenticator(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("username", "password".toCharArray()); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-        });
-        
-        return connection;
-    }
-    
     @Override
     public void run() {
         try {

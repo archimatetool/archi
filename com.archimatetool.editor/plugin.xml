@@ -138,6 +138,12 @@
          </keywordReference>
       </page>
       <page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="com.archimatetool.editor.preferences.NetworkConnectionsPreferencePage"
+            id="com.archimatetool.editor.prefsNetwork"
+            name="%prefsNetwork">
+      </page>
+      <page
             class="com.archimatetool.editor.preferences.SystemPreferencesPage"
             id="org.eclipse.ui.preferencePages.Workbench"
             name="%prefsSystem">
