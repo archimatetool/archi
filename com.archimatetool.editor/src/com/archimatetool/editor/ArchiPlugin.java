@@ -25,12 +25,13 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 /**
  * The activator class controls the plug-in life cycle
  */
+@SuppressWarnings("nls")
 public class ArchiPlugin extends AbstractUIPlugin {
 
     /**
      * ID of the plug-in
      */
-    public static final String PLUGIN_ID = "com.archimatetool.editor"; //$NON-NLS-1$
+    public static final String PLUGIN_ID = "com.archimatetool.editor";
 
     /**
      * The File location of this plugin folder
@@ -78,7 +79,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
     public IPlatformLauncher getPlatformLauncher() {
         Bundle bundle = getBundle();
         try {
-            Class<?> clazz = bundle.loadClass("com.archimatetool.editor.PlatformLauncher"); //$NON-NLS-1$
+            Class<?> clazz = bundle.loadClass("com.archimatetool.editor.PlatformLauncher");
             if(IPlatformLauncher.class.isAssignableFrom(clazz)) {
                 return ((IPlatformLauncher) clazz.getDeclaredConstructor().newInstance());
             }
@@ -89,11 +90,17 @@ public class ArchiPlugin extends AbstractUIPlugin {
     }
     
     /**
-     * @return The User data folder
+     * @return The User data folder use for app data
      */ 
     public File getUserDataFolder() {
-        String path = PREFERENCES.getString(IPreferenceConstants.USER_DATA_FOLDER);
-        return new File(path);
+        return new File(PREFERENCES.getString(IPreferenceConstants.USER_DATA_FOLDER));
+    }
+    
+    /**
+     * @return The User folder use for user documents such as templates, scripts, repos
+     */ 
+    public File getUserDocumentsFolder() {
+        return new File(PREFERENCES.getString(IPreferenceConstants.USER_DOCUMENTS_FOLDER));
     }
     
     /**
@@ -104,15 +111,15 @@ public class ArchiPlugin extends AbstractUIPlugin {
          * Get Data Folder.  Try for one set by a user system property first, otherwise
          * use the workbench instance data location
          */
-        String strFolder = System.getProperty("com.archimatetool.editor.workspaceFolder"); //$NON-NLS-1$
+        String strFolder = System.getProperty("com.archimatetool.editor.workspaceFolder");
         if(strFolder != null) {
             return new File(strFolder);
         }
         
         Location instanceLoc = Platform.getInstanceLocation();
         if(instanceLoc == null) {
-            Logger.logWarning("Instance Location is null. Using user.home"); //$NON-NLS-1$
-            return new File(System.getProperty("user.home")); //$NON-NLS-1$
+            Logger.logWarning("Instance Location is null. Using user.home");
+            return new File(System.getProperty("user.home"));
         }
         else {
             URL url = instanceLoc.getURL();
@@ -120,7 +127,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
                 return new File(url.getPath());
             }
             else {
-                return new File(System.getProperty("user.home")); //$NON-NLS-1$
+                return new File(System.getProperty("user.home"));
             }
         }
     }
@@ -130,7 +137,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
      */
     public File getPluginFolder() {
         if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/"); //$NON-NLS-1$
+            URL url = getBundle().getEntry("/");
             try {
                 url = FileLocator.resolve(url);
             }
@@ -163,7 +170,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
      */
     public String getVersion() {
         Version v = getBundle().getVersion();
-        return v.getMajor() + "." + v.getMinor() + "." + v.getMicro(); //$NON-NLS-1$ //$NON-NLS-2$
+        return v.getMajor() + "." + v.getMinor() + "." + v.getMicro();
     }
     
     /**
