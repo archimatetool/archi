@@ -32,6 +32,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.SecureStorageUtils;
 
 
 /**
@@ -177,14 +178,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         try {
             if(proxyUserNameChanged) {
-                ISecurePreferences archiNode = SecurePreferencesFactory.getDefault().node(ArchiPlugin.PLUGIN_ID);
-                archiNode.put(IPreferenceConstants.PREFS_PROXY_USERNAME, fProxyUserNameTextField.getText(), true);
-                archiNode.flush();
+                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
+                SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_USERNAME, fProxyUserNameTextField.getText(), true);
             }
             if(proxyPasswordChanged) {
-                ISecurePreferences archiNode = SecurePreferencesFactory.getDefault().node(ArchiPlugin.PLUGIN_ID);
-                archiNode.put(IPreferenceConstants.PREFS_PROXY_PASSWORD, fProxyUserPasswordTextField.getText(), true);
-                archiNode.flush();
+                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
+                SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_PASSWORD, fProxyUserPasswordTextField.getText(), true);
             }
         }
         catch(StorageException | IOException ex) {
