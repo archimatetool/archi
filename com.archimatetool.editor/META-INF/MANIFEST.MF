@@ -31,7 +31,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.equinox.p2.artifact.repository,
  org.eclipse.equinox.p2.garbagecollector,
  org.eclipse.equinox.security,
- org.eclipse.equinox.security.ui
+ org.eclipse.equinox.security.ui,
+ org.eclipse.core.net,
+ org.eclipse.ui.net
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.editor.jar
 Export-Package: .,

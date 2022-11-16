@@ -7,5 +7,9 @@
         <unit id="org.eclipse.sdk.ide" version="4.25.0.I20220831-1800"/>
         <unit id="org.eclipse.jdt.core.compiler.batch" version="3.31.0.v20220831-1439"/>
     </location>
+    
+    <!-- Include this nested target if multi-platform bundles need to be included -->
+    <!-- It seems that order of locations is important and this one must come last! -->
+    <location type="Target" uri="file:${project_loc:/com.archimatetool.editor.product}/nested.target"/>
 </locations>
 </target>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="Archi Nested">
+<locations>
+    <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+        <repository location="https://download.eclipse.org/eclipse/updates/4.25"/>
+        <unit id="org.eclipse.core.net.linux" version="1.0.200.v20220812-1406"/>
+        <unit id="org.eclipse.core.net.win32" version="1.0.100.v20220812-1406"/>
+        <unit id="org.eclipse.core.net.win32.x86_64" version="1.1.700.v20220812-1406"/>
+    </location>
+</locations>
+</target>
