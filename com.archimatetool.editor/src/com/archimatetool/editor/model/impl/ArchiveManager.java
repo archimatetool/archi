@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,6 +48,7 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ArchiveManager implements IArchiveManager {
     
     /**
@@ -69,17 +72,28 @@ public class ArchiveManager implements IArchiveManager {
     public ArchiveManager(IArchimateModel model) {
         fModel = model;
     }
+    
+    @Override
+    public boolean useArchiveFormat() {
+        if(fModel.getFile() == null) {
+            return true; // default for safety
+        }
+        
+        // Use archive format if model file is not in a git folder
+        File gitFolder = new File(fModel.getFile().getParentFile(), ".git");
+        return !(gitFolder.exists() && gitFolder.isDirectory());
+    }
 
     @Override
     public String addImageFromFile(File file) throws IOException {
         if(file == null || !file.exists() || !file.canRead()) {
-            throw new FileNotFoundException("Cannot find file"); //$NON-NLS-1$
+            throw new FileNotFoundException("Cannot find file");
         }
         
         // Get bytes
         byte[] bytes = byteArrayStorage.getBytesFromFile(file);
         if(bytes == null) {
-            throw new IOException("Could not get bytes from file"); //$NON-NLS-1$
+            throw new IOException("Could not get bytes from file");
         }
 
         String entryName = createArchiveImagePathname(file);
@@ -97,7 +111,7 @@ public class ArchiveManager implements IArchiveManager {
             new ImageData(new ByteArrayInputStream(bytes));
         }
         catch(Throwable ex) {
-            throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
+            throw new IOException("Not a supported image file", ex);
         }
     }
     
@@ -142,12 +156,19 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     /**
-     * Load images from model's archive file
+     * Load images from model's archive file or folder
      */
     @Override
     public void loadImages() throws IOException {
-        if(!fImagesLoaded && loadImagesFromModelFile(fModel.getFile())) {
-            fImagesLoaded = true;
+        if(!fImagesLoaded && fModel.getFile() != null) {
+            // Archive format
+            if(FACTORY.isArchiveFile(fModel.getFile())) {
+                fImagesLoaded = loadImagesFromModelFile(fModel.getFile());
+            }
+            // Else try and load if there is an "images" folder
+            else {
+                fImagesLoaded = loadImagesFromModelFolder(fModel.getFile());
+            }
         }
     }
     
@@ -157,21 +178,55 @@ public class ArchiveManager implements IArchiveManager {
             return false;
         }
         
-        ZipFile zipFile = new ZipFile(file);
-        
-        for(Enumeration<? extends ZipEntry> enm = zipFile.entries(); enm.hasMoreElements();) {
-            ZipEntry zipEntry = enm.nextElement();
-            String entryName = zipEntry.getName();
-            if(entryName.startsWith("images/")) { //$NON-NLS-1$
-                // Add to ByteArrayStorage
-                if(!byteArrayStorage.hasEntry(entryName)) {
-                    InputStream in = zipFile.getInputStream(zipEntry);
-                    byteArrayStorage.addStreamEntry(entryName, in);
+        try(ZipFile zipFile = new ZipFile(file)) {
+            for(Enumeration<? extends ZipEntry> enm = zipFile.entries(); enm.hasMoreElements();) {
+                ZipEntry zipEntry = enm.nextElement();
+                String entryName = zipEntry.getName();
+                if(entryName.startsWith("images/")) {
+                    // Add to ByteArrayStorage
+                    if(!byteArrayStorage.hasEntry(entryName)) {
+                        InputStream in = zipFile.getInputStream(zipEntry);
+                        byteArrayStorage.addStreamEntry(entryName, in);
+                    }
                 }
             }
         }
         
-        zipFile.close();
+        return true;
+    }
+    
+    /**
+     * Load any images from the "images" folder if this model is in a git repository
+     */
+    private boolean loadImagesFromModelFolder(File modelFile) throws IOException {
+        File imagesFolder = getImagesFolder(modelFile);
+        if(FileUtils.isFolderEmpty(imagesFolder)) { // No images in folder
+            return false;
+        }
+        
+        // Get image paths in the model
+        Set<String> paths = getImagePaths();
+        if(paths.isEmpty()) {
+            return false;
+        }
+
+        // Iterate through all image files in the folder
+        for(File imageFile : imagesFolder.listFiles()) {
+            String entryName = "images/" + imageFile.getName();
+            
+            // If the image belongs to the model and it's not loaded, then load it
+            // This ensures we don't load any image file that doesn't belong in the model
+            if(paths.contains(entryName) && !byteArrayStorage.hasEntry(entryName)) {
+                byte[] bytes = Files.readAllBytes(imageFile.toPath());
+                try {
+                    testImageBytesValid(bytes);
+                    byteArrayStorage.addByteContentEntry(entryName, bytes);
+                }
+                catch(IOException ex) {
+                    // Ignore
+                }
+            }
+        }
         
         return true;
     }
@@ -238,13 +293,23 @@ public class ArchiveManager implements IArchiveManager {
     @Override
     public void saveModel() throws IOException {
         File file = fModel.getFile();
-        
         if(file == null) {
             return;
         }
         
+        // Delete the images folder if not using the archive format
+        // We have to delete the folder in all cases regardless of whether the model has images
+        if(!useArchiveFormat()) { // This check is important because we don't want to delete any "images" folder
+            FileUtils.deleteFolder(getImagesFolder(file));
+        }
+        
         if(hasImages()) {
-            saveModelToArchiveFile(file);
+            if(useArchiveFormat()) {
+                saveModelToArchiveFile(file);
+            }
+            else {
+                saveModelWithImagesFolder(file);
+            }
         }
         else {
             saveResource(file);
@@ -268,7 +333,7 @@ public class ArchiveManager implements IArchiveManager {
     private void saveModelToArchiveFile(File file) throws IOException {
         try(ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
             // Add the model xml file
-            saveModelFile(zOut);
+            saveModelWithArchiveFile(zOut);
             
             // Add any images
             saveImages(zOut);
@@ -276,16 +341,33 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     /**
+     * Save the model not in archive format, with images in an "images" file
+     */
+    private void saveModelWithImagesFolder(File modelFile) throws IOException {
+        saveResource(modelFile);
+        
+        // Create images folder
+        getImagesFolder(modelFile).mkdirs();
+        
+        for(String imagePath : getImagePaths()) {
+            byte[] bytes = byteArrayStorage.getEntry(imagePath);
+            if(bytes != null) {
+                File imageFile = new File(modelFile.getParentFile(), imagePath);
+                Files.write(imageFile.toPath(), bytes, StandardOpenOption.CREATE);
+            }
+        }
+    }
+    
+    /**
      * Save the model xml file in the Archive File
      */
-    private void saveModelFile(ZipOutputStream zOut) throws IOException {
+    private void saveModelWithArchiveFile(ZipOutputStream zOut) throws IOException {
         // Temp file for xml model file
-        File tmpFile = File.createTempFile("archi-", null); //$NON-NLS-1$
+        File tmpFile = File.createTempFile("archi-", null);
         tmpFile.deleteOnExit();
         saveResource(tmpFile);
         
-        ZipEntry zipEntry = new ZipEntry("model.xml"); //$NON-NLS-1$
-        zipEntry.setTime(0); // Set time to zero for coArchi
+        ZipEntry zipEntry = new ZipEntry("model.xml");
         zOut.putNextEntry(zipEntry);
         
         final int bufSize = 8192;
@@ -333,7 +415,6 @@ public class ArchiveManager implements IArchiveManager {
             byte[] bytes = byteArrayStorage.getEntry(imagePath);
             if(bytes != null) {
                 ZipEntry zipEntry = new ZipEntry(imagePath);
-                zipEntry.setTime(0); // Set time to zero for coArchi
                 zOut.putNextEntry(zipEntry);
                 zOut.write(bytes);
                 zOut.closeEntry();
@@ -346,12 +427,16 @@ public class ArchiveManager implements IArchiveManager {
         
         String unique = EcoreUtil.generateUUID();
         
-        String path = "images/" + unique; //$NON-NLS-1$
+        String path = "images/" + unique;
         if(ext.length() != 0) {
             path += ext;
         }
         
         return path;
+    }
+    
+    private File getImagesFolder(File modelFile) {
+        return modelFile != null ? new File(modelFile.getParentFile(), "images") : null;
     }
     
     @Override

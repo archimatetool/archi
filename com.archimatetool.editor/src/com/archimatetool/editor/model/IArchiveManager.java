@@ -25,6 +25,7 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public interface IArchiveManager {
     
     static class FACTORY {
@@ -44,22 +45,10 @@ public interface IArchiveManager {
          * @return True if file is a zip archive file
          */
         public static boolean isArchiveFile(File file) {
-            ZipFile zipFile = null;
-            
-            try {
-                zipFile = new ZipFile(file);
-                return zipFile.getEntry("model.xml") != null; //$NON-NLS-1$
+            try(ZipFile zipFile = new ZipFile(file)) {
+                return zipFile.getEntry("model.xml") != null;
             }
             catch(Exception ex) {
-            }
-            finally {
-                try {
-                    if(zipFile != null) {
-                        zipFile.close();
-                    }
-                }
-                catch(IOException ex) {
-                }
             }
             
             return false;
@@ -84,7 +73,7 @@ public interface IArchiveManager {
          * @return The URI
          */
         public static URI createArchiveModelURI(File file) {
-            return URI.createURI(getArchiveFilePath(file) + "!/model.xml"); //$NON-NLS-1$
+            return URI.createURI(getArchiveFilePath(file) + "!/model.xml");
         }
         
         /**
@@ -96,11 +85,16 @@ public interface IArchiveManager {
         public static String getArchiveFilePath(File file) {
             String path = file.getAbsolutePath();
             // org.eclipse.emf.common.util.URI treats the # character as a separator
-            path = path.replace("#", "%23");  //$NON-NLS-1$//$NON-NLS-2$
-            return "archive:file:///" + path; //$NON-NLS-1$
+            path = path.replace("#", "%23");
+            return "archive:file:///" + path;
         }
     }
 
+    /**
+     * @return Whether archive zip format is used when saving model file with images
+     */
+    boolean useArchiveFormat();
+    
     /**
      * Add an image from an image file to this Archive Manager's storage cache.
      * If the image already exists the existing image path is returned.
@@ -198,7 +192,7 @@ public interface IArchiveManager {
      * Load all images from another Archimate Model archive file and add to this one
      * 
      * @param file The model file
-     * @return if the images could be loaded
+     * @return true if the images could be loaded
      * @throws IOException
      */
     boolean loadImagesFromModelFile(File file) throws IOException;
