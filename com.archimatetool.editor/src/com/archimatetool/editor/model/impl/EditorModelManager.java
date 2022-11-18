@@ -262,13 +262,14 @@ implements IEditorModelManager {
             resource.load(null);
         }
         catch(IOException ex) {
-            // No errors so must be something else
-            if(resource.getErrors().isEmpty()) {
+            // No Resource errors so must be file access exception
+            if(resource.getErrors().isEmpty() && PlatformUI.isWorkbenchRunning()) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
                         Messages.EditorModelManager_2,
                         ex.toString());
                 return null;
             }
+            
             // Error occured loading model. 
             try {
                 modelCompatibility.checkErrors();
