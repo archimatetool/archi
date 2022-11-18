@@ -24,6 +24,7 @@ openFile
       </programArgsWin>
       <vmArgs>-Dosgi.requiredJavaVersion=11
 -Declipse.p2.data.area=@config.dir/.p2
+-Ddata.location=@user.home/Documents/Archi
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsLin>-Dosgi.instance.area=@user.home/.archi4

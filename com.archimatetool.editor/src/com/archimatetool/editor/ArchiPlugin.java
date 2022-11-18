@@ -8,6 +8,9 @@ package com.archimatetool.editor;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -17,8 +20,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
-
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 
 
 
@@ -90,10 +91,25 @@ public class ArchiPlugin extends AbstractUIPlugin {
     }
     
     /**
-     * @return The User data folder use for app data
+     * @return The User data folder use for Archi data
      */ 
     public File getUserDataFolder() {
-        return new File(PREFERENCES.getString(IPreferenceConstants.USER_DATA_FOLDER));
+        String path = System.getProperty("data.location");
+        
+        if(path != null) {
+            path = path.replace("@user.home", System.getProperty("user.home"));
+            
+            // Check is valid
+            try {
+                Path p = Paths.get(path);
+                return p.toFile();
+            }
+            catch(InvalidPathException ex) {
+            }
+        }
+        
+        // Default
+        return new File(System.getProperty("user.home") + "/Documents/Archi");
     }
     
     /**

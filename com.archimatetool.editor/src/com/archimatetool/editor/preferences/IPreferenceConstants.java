@@ -155,8 +155,6 @@ public interface IPreferenceConstants {
     String LINK_VIEW = "linkView";
     String MRU_MAX = "mruMax";
 
-    String USER_DATA_FOLDER = "userDataFolder";
-    
     // Check for Archi update
     String DOWNLOAD_URL = "downloadURL";
     String UPDATE_URL = "updateURL";
