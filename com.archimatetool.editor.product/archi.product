@@ -12,34 +12,34 @@
 openFile
       </programArgs>
       <programArgsLin>-eclipse.keyring
-@user.home/.archi4/secure_storage
+@user.home/.archi/secure_storage
       </programArgsLin>
       <programArgsMac>-vm
 ../jre
 -eclipse.keyring
-&quot;@user.home/Library/Application Support/Archi4/secure_storage&quot;
+&quot;@user.home/Library/Application Support/Archi/secure_storage&quot;
       </programArgsMac>
       <programArgsWin>-eclipse.keyring
-@user.home/AppData/Roaming/Archi4/secure_storage
+@user.home/AppData/Roaming/Archi/secure_storage
       </programArgsWin>
       <vmArgs>-Dosgi.requiredJavaVersion=11
--Declipse.p2.data.area=@config.dir/.p2
+-Declipse.p2.data.area=@config.dir/p2
 -Ddata.location=@user.home/Documents/Archi
 --add-modules=ALL-SYSTEM
       </vmArgs>
-      <vmArgsLin>-Dosgi.instance.area=@user.home/.archi4
--Dosgi.configuration.area=@user.home/.archi4/.config
--Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/.archi4/dropins
+      <vmArgsLin>-Dosgi.instance.area=@user.home/.archi
+-Dosgi.configuration.area=@user.home/.archi/config
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/.archi/dropins
       </vmArgsLin>
-      <vmArgsMac>-Dosgi.instance.area=&quot;@user.home/Library/Application Support/Archi4&quot;
--Dosgi.configuration.area=&quot;@user.home/Library/Application Support/Archi4/.config&quot;
--Dorg.eclipse.equinox.p2.reconciler.dropins.directory=&quot;%user.home%/Library/Application Support/Archi4/dropins&quot;
+      <vmArgsMac>-Dosgi.instance.area=&quot;@user.home/Library/Application Support/Archi&quot;
+-Dosgi.configuration.area=&quot;@user.home/Library/Application Support/Archi/config&quot;
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=&quot;%user.home%/Library/Application Support/Archi/dropins&quot;
 -XstartOnFirstThread
 -Xdock:icon=../Resources/icon.icns
       </vmArgsMac>
-      <vmArgsWin>-Dosgi.instance.area=@user.home/AppData/Roaming/Archi4
--Dosgi.configuration.area=@user.home/AppData/Roaming/Archi4/.config
--Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/AppData/Roaming/Archi4/dropins
+      <vmArgsWin>-Dosgi.instance.area=@user.home/AppData/Roaming/Archi
+-Dosgi.configuration.area=@user.home/AppData/Roaming/Archi/config
+-Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/AppData/Roaming/Archi/dropins
       </vmArgsWin>
    </launcherArgs>
 
