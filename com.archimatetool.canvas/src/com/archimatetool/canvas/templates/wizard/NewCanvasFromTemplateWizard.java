@@ -83,6 +83,10 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             resource.load(null);
         }
         catch(IOException ex) {
+            // No errors so must be something else
+            if(resource.getErrors().isEmpty()) {
+                throw ex;
+            }
             // Error occured loading model. Was it a disaster?
             try {
                 modelCompatibility.checkErrors();
