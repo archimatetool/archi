@@ -158,8 +158,7 @@ implements IPreferenceConstants {
         store.setDefault(LINK_VIEW, false);
         store.setDefault(MRU_MAX, 6);
 
-        store.setDefault(USER_DATA_FOLDER, ArchiPlugin.INSTANCE.getWorkspaceFolder().getPath());
-        store.setDefault(USER_DOCUMENTS_FOLDER, System.getProperty("user.home") + "/Documents/Archi");
+        store.setDefault(USER_DATA_FOLDER, System.getProperty("user.home") + "/Documents/Archi");
         
         // Check for Archi update
         store.setDefault(DOWNLOAD_URL, "https://www.archimatetool.com/download");

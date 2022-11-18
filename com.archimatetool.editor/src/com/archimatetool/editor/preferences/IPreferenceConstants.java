@@ -156,7 +156,6 @@ public interface IPreferenceConstants {
     String MRU_MAX = "mruMax";
 
     String USER_DATA_FOLDER = "userDataFolder";
-    String USER_DOCUMENTS_FOLDER = "userDocumentsFolder";
     
     // Check for Archi update
     String DOWNLOAD_URL = "downloadURL";

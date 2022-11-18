@@ -87,7 +87,7 @@ implements IEditorModelManager {
     /**
      * Backing File
      */
-    private File backingFile = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "models.xml"); //$NON-NLS-1$
+    private File backingFile = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "models.xml"); //$NON-NLS-1$
     
     /**
      * Listen to the App closing so we can ask to save

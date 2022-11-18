@@ -73,7 +73,7 @@ import com.archimatetool.reports.ArchiReportsPlugin;
  */
 public class HTMLReportExporter {
     
-    public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
+    public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "html-report-preview"); //$NON-NLS-1$
     
     static final String PREFS_LAST_FOLDER = "Reports_LastFolder"; //$NON-NLS-1$
     

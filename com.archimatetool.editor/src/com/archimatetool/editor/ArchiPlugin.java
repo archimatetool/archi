@@ -97,13 +97,6 @@ public class ArchiPlugin extends AbstractUIPlugin {
     }
     
     /**
-     * @return The User folder use for user documents such as templates, scripts, repos
-     */ 
-    public File getUserDocumentsFolder() {
-        return new File(PREFERENCES.getString(IPreferenceConstants.USER_DOCUMENTS_FOLDER));
-    }
-    
-    /**
      * @return The Workspace folder
      */
     public File getWorkspaceFolder() {

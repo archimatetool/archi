@@ -37,7 +37,7 @@ import com.archimatetool.templates.model.TemplateManager;
 public class CanvasTemplateManager extends TemplateManager {
     
     public static final String CANVAS_TEMPLATE_FILE_EXTENSION = ".archicanvas"; //$NON-NLS-1$
-    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "canvasses.xml"); //$NON-NLS-1$
+    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "canvasses.xml"); //$NON-NLS-1$
 
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {

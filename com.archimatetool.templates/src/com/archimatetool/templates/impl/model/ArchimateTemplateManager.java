@@ -38,7 +38,7 @@ public class ArchimateTemplateManager extends TemplateManager {
     
     public static final String ARCHIMATE_TEMPLATE_FILE_EXTENSION = ".architemplate"; //$NON-NLS-1$
     
-    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "templates.xml"); //$NON-NLS-1$
+    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "templates.xml"); //$NON-NLS-1$
     
     public ArchimateTemplateManager() {
     }

@@ -69,7 +69,7 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return Default JR user templates folder
      */
     public File getDefaultUserTemplatesFolder() {
-        return new File(ArchiPlugin.INSTANCE.getUserDocumentsFolder(), "jasper-reports");
+        return new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "jasper-reports");
     }
 
     /**
