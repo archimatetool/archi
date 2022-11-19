@@ -39,13 +39,4 @@ extends WorkbenchWindowAdvisor {
     public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer) {
         return new ArchiActionBarAdvisor(configurer);
     }
-    
-    @Override
-    public void postWindowOpen() {
-        // Application specific launcher actions
-        IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
-        if(launcher != null) {
-            launcher.postWindowOpen(getWindowConfigurer().getWindow());
-        }
-    }
 }

@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 
@@ -49,12 +48,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
      */
     public static IPreferenceStore PREFERENCES;
 
-    /**
-     * The constructor.
-     */
     public ArchiPlugin() {
-        INSTANCE = this;
-        PREFERENCES = getPreferenceStore();
     }
 
     /**
@@ -63,6 +57,9 @@ public class ArchiPlugin extends AbstractUIPlugin {
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
+        
+        INSTANCE = this;
+        PREFERENCES = getPreferenceStore();
     }
 
     /**
@@ -72,22 +69,6 @@ public class ArchiPlugin extends AbstractUIPlugin {
     public void stop(BundleContext context) throws Exception {
         // super must be *last*
         super.stop(context);
-    }
-    
-    /**
-     * @return The Platform specific launcher, if any, to launch application from file in OS
-     */
-    public IPlatformLauncher getPlatformLauncher() {
-        Bundle bundle = getBundle();
-        try {
-            Class<?> clazz = bundle.loadClass("com.archimatetool.editor.PlatformLauncher");
-            if(IPlatformLauncher.class.isAssignableFrom(clazz)) {
-                return ((IPlatformLauncher) clazz.getDeclaredConstructor().newInstance());
-            }
-        } catch(Exception e) {
-        }
-        
-        return null;
     }
     
     /**

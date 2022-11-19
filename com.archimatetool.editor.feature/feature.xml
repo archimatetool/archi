@@ -56,15 +56,6 @@ OTHER DEALINGS IN THE SOFTWARE.
          version="0.0.0"/>
 
    <plugin
-         id="com.archimatetool.editor.launch.win32"
-         os="win32"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="com.archimatetool.editor.themes"
          download-size="0"
          install-size="0"
