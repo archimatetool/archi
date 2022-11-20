@@ -693,6 +693,17 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+M4+F">
       </key>
+      <key
+            commandId="com.archimatetool.editor.action.deleteFromModel"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="SHIFT+DEL">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.deleteFromModel"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="SHIFT+BS">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -785,6 +796,10 @@
             defaultHandler="com.archimatetool.editor.actions.OpenDataFolderHandler"
             id="com.archimatetool.editor.action.openDataFolder"
             name="%command.name.19">
+      </command>
+      <command
+            id="com.archimatetool.editor.action.deleteFromModel"
+            name="%command.name.20">
       </command>
    </extension>
    <extension

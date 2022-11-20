@@ -35,6 +35,7 @@ public class CutAction extends CopyAction {
     protected void init() {
         setText(Messages.CutAction_0);
         setId(ActionFactory.CUT.getId());
+        setActionDefinitionId(ActionFactory.CUT.getCommandId());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(

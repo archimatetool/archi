@@ -22,6 +22,7 @@ public class PasteSpecialAction extends PasteAction {
 
         setText(Messages.PasteSpecialAction_0);
         setId(ArchiActionFactory.PASTE_SPECIAL.getId());
+        setActionDefinitionId(ArchiActionFactory.PASTE_SPECIAL.getCommandId());
         setPasteSpecial(true);
     }
 }

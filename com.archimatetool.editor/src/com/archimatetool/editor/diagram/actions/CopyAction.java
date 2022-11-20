@@ -40,6 +40,7 @@ public class CopyAction extends SelectionAction {
     protected void init() {
         setText(Messages.CopyAction_0);
         setId(ActionFactory.COPY.getId());
+        setActionDefinitionId(ActionFactory.COPY.getCommandId());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));

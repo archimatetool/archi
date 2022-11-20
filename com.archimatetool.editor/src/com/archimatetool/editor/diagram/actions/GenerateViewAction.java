@@ -29,6 +29,7 @@ public class GenerateViewAction extends SelectionAction {
     public GenerateViewAction(IWorkbenchPart part) {
         super(part);
         setId(ArchiActionFactory.GENERATE_VIEW.getId());
+        setActionDefinitionId(ArchiActionFactory.GENERATE_VIEW.getCommandId());
         setText(Messages.GenerateViewAction_0);
     }
 

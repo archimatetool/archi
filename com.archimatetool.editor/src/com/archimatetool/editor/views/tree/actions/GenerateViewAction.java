@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.tools.GenerateViewCommand;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateElement;
@@ -31,6 +32,7 @@ public class GenerateViewAction extends ViewerAction {
     public GenerateViewAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText(Messages.GenerateViewAction_0);
+        setActionDefinitionId(ArchiActionFactory.GENERATE_VIEW.getCommandId());
     }
     
     @Override

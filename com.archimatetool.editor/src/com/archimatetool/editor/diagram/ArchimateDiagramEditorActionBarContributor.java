@@ -35,6 +35,7 @@ extends AbstractDiagramEditorActionBarContributor {
         
         // Delete From Model
         RetargetAction retargetAction = new RetargetAction(DeleteFromModelAction.ID, DeleteFromModelAction.TEXT);
+        retargetAction.setActionDefinitionId(DeleteFromModelAction.ID);
         addRetargetAction(retargetAction);
         
         // Viewpoints

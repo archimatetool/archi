@@ -5,11 +5,9 @@
  */
 package com.archimatetool.editor.actions;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
@@ -25,20 +23,6 @@ import com.archimatetool.editor.ui.IArchiImages;
  * @author Phillip Beauvoir
  */
 public final class ArchiActionFactory {
-    
-    /**
-     * Standard Delete Action with icon and key binding
-     */
-    public static class DELETE_ACTION extends Action {
-        public DELETE_ACTION(String text) {
-            ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-            setText(text);
-            setActionDefinitionId("org.eclipse.ui.edit.delete"); // Ensures key binding is displayed //$NON-NLS-1$
-            setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
-            setDisabledImageDescriptor(
-                    sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
-        }
-    }
     
     /**
      * Provide our own Delete Action in order to use a LabelRetargetAction

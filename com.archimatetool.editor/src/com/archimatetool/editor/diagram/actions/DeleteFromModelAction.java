@@ -40,13 +40,14 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  */
 public class DeleteFromModelAction extends SelectionAction {
     
-    public static final String ID = "DeleteFromModelAction"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.editor.action.deleteFromModel"; //$NON-NLS-1$
     public static final String TEXT = Messages.DeleteFromModelAction_0;
     
     public DeleteFromModelAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
+        setActionDefinitionId(ID); // register key binding
     }
 
     @Override
