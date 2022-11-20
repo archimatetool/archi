@@ -67,6 +67,7 @@ public class UndoAction extends StackAction {
                 new Object[] { "" }).trim() //$NON-NLS-1$
         );
         setId(ActionFactory.UNDO.getId());
+        setActionDefinitionId(ActionFactory.UNDO.getCommandId());
 
         ISharedImages sharedImages = PlatformUI.getWorkbench()
                 .getSharedImages();

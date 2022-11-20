@@ -120,6 +120,7 @@ public class DeleteAction extends SelectionAction {
         setText(GEFMessages.DeleteAction_Label);
         setToolTipText(GEFMessages.DeleteAction_Tooltip);
         setId(ActionFactory.DELETE.getId());
+        setActionDefinitionId(ActionFactory.DELETE.getCommandId());
         ISharedImages sharedImages = PlatformUI.getWorkbench()
                 .getSharedImages();
         setImageDescriptor(sharedImages

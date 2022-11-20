@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
-
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -126,6 +126,7 @@ public class DirectEditAction extends SelectionAction {
         setText(GEFMessages.RenameAction_Label);
         setToolTipText(GEFMessages.RenameAction_Tooltip);
         setId(GEFActionConstants.DIRECT_EDIT);
+        setActionDefinitionId(ActionFactory.RENAME.getCommandId());
     }
 
 }

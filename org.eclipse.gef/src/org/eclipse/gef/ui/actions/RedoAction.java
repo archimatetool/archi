@@ -67,6 +67,7 @@ public class RedoAction extends StackAction {
                 new Object[] { "" }).trim() //$NON-NLS-1$
         );
         setId(ActionFactory.REDO.getId());
+        setActionDefinitionId(ActionFactory.REDO.getCommandId());
 
         ISharedImages sharedImages = PlatformUI.getWorkbench()
                 .getSharedImages();
