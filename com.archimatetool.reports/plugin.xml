@@ -9,7 +9,7 @@
          <command
                commandId="com.archimatetool.reports.command.HTML"
                id="com.archimatetool.reports.menuItem.HTML"
-               label="%command.label"
+               label="%action.label"
                style="push">
          </command>
       </menuContribution>
@@ -41,12 +41,16 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.label"
             id="com.archimatetool.reports.command.HTML"
-            name="%action.label">
+            name="%command.label">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.label.0"
             id="com.archimatetool.reports.command.PreviewHTML"
-            name="Preview HTML Report">
+            name="%command.label.0">
       </command>
    </extension>
    <extension

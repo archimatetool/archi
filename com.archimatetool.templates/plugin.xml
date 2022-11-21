@@ -4,13 +4,17 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="org.eclipse.ui.category.file"
             defaultHandler="com.archimatetool.templates.impl.NewArchimateModelFromTemplateHandler"
+            description="%command.description"
             id="com.archimatetool.templates.modelFromTemplate"
-            name="New Model From Template">
+            name="%command.name">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.file"
+            description="%command.description.0"
             id="com.archimatetool.templates.saveAsTemplate"
-            name="Save As Template">
+            name="%command.name.0">
       </command>
    </extension>
    <extension

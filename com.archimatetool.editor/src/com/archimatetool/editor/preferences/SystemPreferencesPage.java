@@ -52,6 +52,9 @@ implements IWorkbenchPreferencePage {
         // Help
         addLinkArea(pageArea, "org.eclipse.help.ui.browsersPreferencePage"); //$NON-NLS-1$
         
+        // Keys
+        addLinkArea(pageArea, "com.archimatetool.editor.keys"); //$NON-NLS-1$
+        
         // Metwork
         addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork"); //$NON-NLS-1$
 

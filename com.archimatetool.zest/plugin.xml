@@ -37,7 +37,9 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="com.archimatetool.editor.category"
             defaultHandler="com.archimatetool.zest.ShowZestViewHandler"
+            description="%command.description"
             id="com.archimatetool.zest.action.showZestView"
             name="%command.name">
       </command>

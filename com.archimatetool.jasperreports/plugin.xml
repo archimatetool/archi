@@ -9,7 +9,7 @@
          <command
                commandId="com.archimatetool.jasperreports.command.Jasper"
                id="com.archimatetool.jasperreports.menuItem.Jasper"
-               label="Jasper..."
+               label="%command.label"
                style="push">
          </command>
       </menuContribution>
@@ -17,8 +17,10 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="org.eclipse.ui.category.file"
+            description="%command.description"
             id="com.archimatetool.jasperreports.command.Jasper"
-            name="Jasper">
+            name="%prefsJasper">
       </command>
    </extension>
    <extension

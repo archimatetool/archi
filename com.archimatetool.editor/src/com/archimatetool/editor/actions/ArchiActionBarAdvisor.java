@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
@@ -21,7 +20,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -37,12 +35,8 @@ import com.archimatetool.editor.WorkbenchCleaner;
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.model.IModelImporter;
 import com.archimatetool.editor.model.ISelectedModelImporter;
-import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.dialog.RelationshipsMatrixDialog;
-import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.utils.PlatformUtils;
-import com.archimatetool.editor.views.navigator.INavigatorView;
-import com.archimatetool.editor.views.tree.ITreeModelView;
 
 
 
@@ -87,12 +81,6 @@ extends ActionBarAdvisor {
 
     private IWorkbenchAction fActionResetPerspective;
     private IAction fActionToggleCoolbar;
-    
-    private IAction fShowModelsView;
-    private IAction fShowPropertiesView;
-    private IAction fShowOutlineView;
-    private IAction fShowNavigatorView;
-    private IAction fShowPaletteView;
     
     private IAction fActionShowRelationsMatrix;
     
@@ -217,34 +205,6 @@ extends ActionBarAdvisor {
 
         // Toggle Coolbar
         fActionToggleCoolbar = new ShowToolbarAction();
-        
-        // Show Views
-        fShowModelsView = new ToggleViewAction(ITreeModelView.NAME, ITreeModelView.ID,
-                "com.archimatetool.editor.action.showTreeModelView", ITreeModelView.IMAGE_DESCRIPTOR); //$NON-NLS-1$
-        register(fShowModelsView);
-        
-        fShowPropertiesView = new ToggleViewAction(Messages.ArchiActionBarAdvisor_3, ViewManager.PROPERTIES_VIEW,
-                "com.archimatetool.editor.action.showPropertiesView", IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON)); //$NON-NLS-1$
-        register(fShowPropertiesView);
-        
-        fShowOutlineView = new ToggleViewAction(Messages.ArchiActionBarAdvisor_4, ViewManager.OUTLINE_VIEW,
-                "com.archimatetool.editor.action.showOutlineView", IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON)); //$NON-NLS-1$
-        register(fShowOutlineView);
-        
-        fShowNavigatorView = new ToggleViewAction(Messages.ArchiActionBarAdvisor_5, INavigatorView.ID,
-                "com.archimatetool.editor.action.showNavigatorView", INavigatorView.IMAGE_DESCRIPTOR); //$NON-NLS-1$
-        register(fShowNavigatorView);
-
-        fShowPaletteView = new ToggleViewAction(Messages.ArchiActionBarAdvisor_6, PaletteView.ID,
-                                    "com.archimatetool.editor.action.showPaletteView", //$NON-NLS-1$
-                                    ResourceLocator.imageDescriptorFromBundle("org.eclipse.gef", //$NON-NLS-1$
-                                    "$nl$/icons/palette_view.gif").orElse(null)) { //$NON-NLS-1$
-            @Override
-            public String getToolTipText() {
-                return Messages.ArchiActionBarAdvisor_7;
-            };
-        };
-        register(fShowPaletteView);
         
         // Show Relationships matrix dialog
         fActionShowRelationsMatrix = new Action(Messages.ArchiActionBarAdvisor_17) {
@@ -445,11 +405,7 @@ extends ActionBarAdvisor {
 
         //menu.add(new Separator("PerspectiveMenu")); //$NON-NLS-1$
         
-        menu.add(fShowModelsView);
-        menu.add(fShowPropertiesView);
-        menu.add(fShowOutlineView);
-        menu.add(fShowNavigatorView);
-        menu.add(fShowPaletteView);
+        menu.add(new Separator("show_view_start")); //$NON-NLS-1$
         menu.add(new GroupMarker("show_view_append")); //$NON-NLS-1$
         menu.add(new Separator("show_view_end")); //$NON-NLS-1$
 
@@ -575,13 +531,7 @@ extends ActionBarAdvisor {
         
         IToolBarManager toolBarViews = new ToolBarManager(SWT.FLAT);
         coolBarManager.add(new ToolBarContributionItem(toolBarViews, "toolbar_views")); //$NON-NLS-1$
-        
         toolBarViews.add(new GroupMarker("start")); //$NON-NLS-1$
-        toolBarViews.add(fShowModelsView);
-        toolBarViews.add(fShowPropertiesView);
-        toolBarViews.add(fShowOutlineView);
-        toolBarViews.add(fShowNavigatorView);
-        toolBarViews.add(fShowPaletteView);
         toolBarViews.add(new GroupMarker("append")); //$NON-NLS-1$
         toolBarViews.add(new GroupMarker("end")); //$NON-NLS-1$
         toolBarViews.add(new Separator());

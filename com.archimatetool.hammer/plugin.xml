@@ -4,13 +4,17 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="com.archimatetool.editor.category"
             defaultHandler="com.archimatetool.hammer.ShowValidatorViewHandler"
+            description="%command.description"
             id="com.archimatetool.hammer.command.showValidatorView"
-            name="%command.name">
+            name="%command.name1">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.description.0"
             id="com.archimatetool.hammer.command.validate"
-            name="%command.name">
+            name="%command.name2">
       </command>
    </extension>
    <extension
@@ -22,8 +26,9 @@
                commandId="com.archimatetool.hammer.command.showValidatorView"
                icon="img/icon.png"
                id="com.archimatetool.hammer.menuitem.showValidatorView"
-               label="%command.label"
-               style="push">
+               label="%view.name"
+               style="push"
+               tooltip="%command.name1">
          </command>
       </menuContribution>
       <menuContribution
@@ -33,8 +38,9 @@
                commandId="com.archimatetool.hammer.command.showValidatorView"
                icon="img/icon.png"
                id="com.archimatetool.hammer.toolbaritem.showValidatorView"
-               label="%command.label"
-               style="push">
+               label="%view.name"
+               style="push"
+               tooltip="%command.name1">
          </command>
       </menuContribution>
       <menuContribution
@@ -43,8 +49,9 @@
          <command
                commandId="com.archimatetool.hammer.command.validate"
                id="com.archimatetool.hammer.popupmenu.validate"
-               label="%command.name"
-               style="push">
+               label="%command.name2"
+               style="push"
+               tooltip="%command.name2">
          </command>
          <separator
                name="com.archimatetool.hammer.popup.separator"
@@ -58,7 +65,7 @@
                commandId="com.archimatetool.hammer.command.validate"
                icon="img/icon.png"
                id="com.archimatetool.hammer.menuitem.validate"
-               label="%command.name"
+               label="%command.label"
                style="push">
          </command>
       </menuContribution>
@@ -98,7 +105,7 @@
       <page
             class="com.archimatetool.hammer.preferences.ValidatorPreferencePage"
             id="com.archimatetool.hammer.preferences.ValidatorPreferencePage"
-            name="%page.name">
+            name="%view.name">
       </page>
    </extension>
    <extension

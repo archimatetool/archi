@@ -5,12 +5,16 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="org.eclipse.ui.category.help"
             defaultHandler="com.archimatetool.help.hints.ShowHintsViewHandler"
+            description="%command.description"
             id="com.archimatetool.help.command.showHintsView"
             name="%command.name">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.help"
             defaultHandler="com.archimatetool.help.hints.ShowCheatSheetsHandler"
+            description="%command.description.0"
             id="com.archimatetool.help.command.showCheatSheets"
             name="%command.name.1">
       </command>
@@ -25,7 +29,8 @@
                icon="img/hint.png"
                id="com.archimatetool.help.menuitem.showHintsView"
                label="%command.label"
-               style="push">
+               style="push"
+               tooltip="%command.name">
          </command>
       </menuContribution>
       <menuContribution
@@ -36,7 +41,8 @@
                icon="img/hint.png"
                id="com.archimatetool.help.toolbaritem.showHintsView"
                label="%command.label.0"
-               style="push">
+               style="push"
+               tooltip="%command.name">
          </command>
       </menuContribution>
       <menuContribution

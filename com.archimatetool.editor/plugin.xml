@@ -148,6 +148,12 @@
             id="org.eclipse.ui.preferencePages.Workbench"
             name="%prefsSystem">
       </page>
+      <page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="org.eclipse.ui.ExtensionFactory:newKeysPreferencePage"
+            id="com.archimatetool.editor.keys"
+            name="%prefsKeys">
+      </page>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -708,99 +714,150 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            categoryId="org.eclipse.ui.category.file"
+            description="%command.description.1"
             id="com.archimatetool.editor.action.newModel"
             name="%command.name">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.file"
+            description="%command.description.2"
             id="com.archimatetool.editor.action.openModel"
             name="%command.name.0">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.file"
+            description="%command.description.3"
             id="com.archimatetool.editor.action.closeModel"
             name="%command.name.1">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.4"
             id="com.archimatetool.editor.action.duplicate"
             name="%command.name.2">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.5"
             id="com.archimatetool.editor.action.openDiagram"
             name="%command.name.3">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.actions.ShowModelsViewHandler"
+            description="%command.description.6"
             id="com.archimatetool.editor.action.showTreeModelView"
             name="%command.name.4">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.actions.ShowPropertiesViewHandler"
+            description="%command.description.7"
             id="com.archimatetool.editor.action.showPropertiesView"
             name="%command.name.5">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.actions.ShowOutlineViewHandler"
+            description="%command.description.8"
             id="com.archimatetool.editor.action.showOutlineView"
             name="%command.name.6">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.actions.ShowNavigatorViewHandler"
+            description="%command.description.9"
             id="com.archimatetool.editor.action.showNavigatorView"
             name="%command.name.7">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.actions.ShowPaletteViewHandler"
+            description="%command.description.10"
             id="com.archimatetool.editor.action.showPaletteView"
             name="%command.name.8">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.11"
             id="com.archimatetool.editor.action.exportAsImageToClipboard"
             name="%command.name.9">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.window"
+            description="%command.description.12"
             id="com.archimatetool.editor.action.fullScreen"
             name="%command.name.10">
       </command>
       <command
             categoryId="org.eclipse.gef.category.view"
-            description="%command.name.11"
+            description="%command.description.0"
             id="org.eclipse.gef.zoom_normal"
             name="%command.name.11">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.13"
             id="com.archimatetool.action.generateView"
             name="%command.name.12">
       </command>
       <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.14"
             id="com.archimatetool.action.defaultSize"
             name="%command.name.13">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.15"
             id="com.archimatetool.com.paste_special"
             name="%command.name.14">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.help"
             defaultHandler="com.archimatetool.editor.p2.ManagePluginsActionHandler"
             description="%command.description"
             id="com.archimatetool.editor.pluginManager"
             name="%command.name.15">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.window"
             defaultHandler="com.archimatetool.editor.actions.MacFullScreenCommandHandler"
+            description="%command.description.16"
             id="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
             name="%command.name.16">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.description.17"
             id="com.archimatetool.editor.action.openPropertiesDialog"
             name="%command.name.17">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.description.18"
             id="com.archimatetool.editor.action.openProfilesDialog"
             name="%command.name.18">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.help"
             defaultHandler="com.archimatetool.editor.actions.OpenDataFolderHandler"
+            description="%command.description.19"
             id="com.archimatetool.editor.action.openDataFolder"
             name="%command.name.19">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.20"
             id="com.archimatetool.editor.action.deleteFromModel"
             name="%command.name.20">
       </command>
+      <category
+            description="Archi Commands"
+            id="com.archimatetool.editor.category"
+            name="Archi">
+      </category>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
@@ -956,6 +1013,84 @@
                name="com.archimatetool.menu.separatorTools2"
                visible="true">
          </separator>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=show_view_start">
+         <command
+               commandId="com.archimatetool.editor.action.showTreeModelView"
+               icon="img/models.png"
+               label="%command.label.8"
+               style="push"
+               tooltip="%command.tooltip">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showPropertiesView"
+               icon="img/prop_ps.png"
+               label="%command.label.9"
+               style="push"
+               tooltip="%command.tooltip.0">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showOutlineView"
+               icon="img/outline.png"
+               label="%command.label.10"
+               style="push"
+               tooltip="%command.tooltip.1">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showNavigatorView"
+               icon="img/navigator.png"
+               label="%command.label.11"
+               style="push"
+               tooltip="%command.tooltip.2">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showPaletteView"
+               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif"
+               label="%command.label.12"
+               style="push"
+               tooltip="%command.tooltip.3">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:toolbar_views?after=start">
+         <command
+               commandId="com.archimatetool.editor.action.showTreeModelView"
+               icon="img/models.png"
+               label="%command.label.13"
+               style="push"
+               tooltip="%command.tooltip.4">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showPropertiesView"
+               icon="img/prop_ps.png"
+               label="%command.label.14"
+               style="push"
+               tooltip="%command.tooltip.5">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showOutlineView"
+               icon="img/outline.png"
+               label="%command.label.15"
+               style="push"
+               tooltip="%command.tooltip.6">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showNavigatorView"
+               icon="img/navigator.png"
+               label="%command.label.16"
+               style="push"
+               tooltip="%command.tooltip.7">
+         </command>
+         <command
+               commandId="com.archimatetool.editor.action.showPaletteView"
+               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif"
+               label="%command.label.17"
+               style="push"
+               tooltip="%command.tooltip.8">
+         </command>
       </menuContribution>
    </extension>
    <extension
