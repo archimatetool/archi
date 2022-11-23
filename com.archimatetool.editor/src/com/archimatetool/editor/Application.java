@@ -53,7 +53,12 @@ public class Application implements IApplication {
                 loc.lock();   // Lock it
             }
         }
-
+        
+        // Check whether we are migrating from Archi 4 to 5
+        if(Archi4Migrator.check()) {
+            return EXIT_RESTART;
+        }
+        
         // Create Main Display
         Display display = PlatformUI.createDisplay();
 
