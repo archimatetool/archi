@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IInfluenceRelationship;
@@ -46,4 +47,13 @@ public class RelationshipRendererTests extends AbstractTextRendererTests {
         assertEquals("+++", result);
     }
     
+    @Test
+    public void render_AccessType() {
+        IAccessRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        relation.setAccessType(IAccessRelationship.READ_WRITE_ACCESS);
+        IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        dmc.setArchimateConcept(relation);
+        String result = renderer.render(dmc, "${accessType}");
+        assertEquals("Read/Write", result);
+    }
 }
