@@ -162,7 +162,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         
         // avoid bogus horizontal scrollbar cheese
         Display.getCurrent().asyncExec(() -> {
-            if(!fTableViewer.getTable().getParent().isDisposed()) {
+            if(!fTableViewer.getTable().isDisposed()) {
                 fTableViewer.getTable().getParent().layout();
             }
         });
