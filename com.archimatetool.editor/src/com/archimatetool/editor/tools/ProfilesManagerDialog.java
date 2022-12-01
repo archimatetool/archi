@@ -156,7 +156,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle(Messages.ProfilesManagerDialog_1);
-        setMessage(NLS.bind(Messages.ProfilesManagerDialog_2, fArchimateModel.getName()));
+        setMessage(NLS.bind(Messages.ProfilesManagerDialog_2, ArchiLabelProvider.INSTANCE.getLabel(fArchimateModel)));
 
         Composite composite = (Composite)super.createDialogArea(parent);
 
