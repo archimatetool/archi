@@ -3,7 +3,7 @@
       id="com.archimatetool.tests.feature"
       label="Archi Unit Tests"
       version="4.0.0.qualifier"
-      provider-name="Phillip Beauvoir">
+      provider-name="Archi">
 
    <description>
       Archi Tests
