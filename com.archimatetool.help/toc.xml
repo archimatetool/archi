@@ -187,9 +187,9 @@
        </topic>
        <topic href="help/Text/prefs_general.html" label="General">
        </topic>
-       <topic href="help/Text/prefs_help.html" label="Help">
-       </topic>
        <topic href="help/Text/prefs_jasper.html" label="Jasper Reports">
+       </topic>
+       <topic href="help/Text/prefs_system.html" label="System">
        </topic>
     </topic>
     <topic href="help/Text/plugins.html" label="Plug-ins">
