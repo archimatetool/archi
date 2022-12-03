@@ -27,8 +27,8 @@ public class NodeFigure extends AbstractTextControlContainerFigure implements IA
     
     public NodeFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new BoxFigureDelegate(this);
-        fFigureDelegate2 = new RectangleFigureDelegate(this);
+        fFigureDelegate1 = new RectangleFigureDelegate(this);
+        fFigureDelegate2 = new BoxFigureDelegate(this);
     }
     
     @Override
@@ -36,7 +36,7 @@ public class NodeFigure extends AbstractTextControlContainerFigure implements IA
         super.drawFigure(graphics);
         
         int type = getDiagramModelArchimateObject().getType();
-        if(type == 1) {
+        if(type == 0) {
             drawIcon(graphics);
         }
     }
@@ -87,12 +87,12 @@ public class NodeFigure extends AbstractTextControlContainerFigure implements IA
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 9);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 0 : 20;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 
     @Override

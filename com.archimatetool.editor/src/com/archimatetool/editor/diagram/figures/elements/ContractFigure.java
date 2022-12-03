@@ -6,10 +6,13 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.ITextPosition;
 
 /**
@@ -19,6 +22,9 @@ import com.archimatetool.model.ITextPosition;
  */
 public class ContractFigure extends ObjectFigure {
     
+    private IFigureDelegate rectangleDelegate;
+    private IFigureDelegate contractDelegate;
+
     class ContractFigureDelegate extends ObjectFigureDelegate {
         ContractFigureDelegate(AbstractDiagramModelObjectFigure owner) {
             super(owner);
@@ -78,12 +84,38 @@ public class ContractFigure extends ObjectFigure {
                 return super.calculateTextControlBounds();
             }
         }
-
     }
 
     public ContractFigure() {
-        super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new ContractFigureDelegate(this));
+        rectangleDelegate = new RectangleFigureDelegate(this);
+        contractDelegate = new ContractFigureDelegate(this);
     }
-    
+
+    /**
+     * Draw the icon
+     */
+    @Override
+    protected void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        
+        graphics.drawRectangle(pt.x, pt.y, 13, 10);
+        graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
+        graphics.drawLine(pt.x, pt.y + 7, pt.x + 13, pt.y + 7);
+        
+        graphics.popState();
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : contractDelegate;
+    }
 }

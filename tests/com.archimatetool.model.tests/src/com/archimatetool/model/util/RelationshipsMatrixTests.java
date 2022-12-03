@@ -55,7 +55,7 @@ public class RelationshipsMatrixTests {
         assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
         
         relationship = IArchimateFactory.eINSTANCE.createSpecializationRelationship();
-        assertFalse(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
+        assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
 
         sourceElement = IArchimateFactory.eINSTANCE.createSystemSoftware();
         relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
@@ -87,7 +87,7 @@ public class RelationshipsMatrixTests {
         assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
-        assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
+        assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         sourceClass = IArchimatePackage.eINSTANCE.getSystemSoftware();
         targetClass = IArchimatePackage.eINSTANCE.getSystemSoftware();
@@ -100,10 +100,10 @@ public class RelationshipsMatrixTests {
         sourceClass = IArchimatePackage.eINSTANCE.getValue();
         targetClass = IArchimatePackage.eINSTANCE.getJunction();
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
-        assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
+        assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
-        assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
+        assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
     }
     
     

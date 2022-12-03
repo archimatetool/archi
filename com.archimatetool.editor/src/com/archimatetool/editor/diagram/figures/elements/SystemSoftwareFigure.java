@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
@@ -25,18 +26,68 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 public class SystemSoftwareFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
     private IFigureDelegate rectangleDelegate;
-    private IFigureDelegate boxDelegate;
     
     public SystemSoftwareFigure() {
         super(TEXT_FLOW_CONTROL);
         rectangleDelegate = new RectangleFigureDelegate(this);
-        boxDelegate = new BoxFigureDelegate(this);
     }
     
     @Override
     protected void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        drawIcon(graphics);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        
+        rect.width--;
+        rect.height--;
+        
+        Rectangle imageBounds = rect.getCopy();
+        
+        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+        setLineWidth(graphics, 1, rect);
+
+        setFigurePositionFromTextPosition(rect);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        graphics.setForegroundColor(getLineColor());
+
+        Pattern gradient = applyGradientPattern(graphics, rect);
+
+        int diameter = (rect.width / 3) * 2;
+        int x1 = rect.x + (rect.width - diameter) / 4;
+        int x2 = x1 + diameter / 6;
+        
+        int y1 = rect.y + (rect.height - diameter) / 2;
+        int y2 = y1 + diameter / 6;
+        
+        graphics.fillOval(x2, y1, diameter, diameter);
+        
+        graphics.setAlpha(getLineAlpha());
+        graphics.drawOval(x2, y1, diameter, diameter);
+        
+        graphics.setAlpha(getAlpha());
+        graphics.fillOval(x1, y2, diameter, diameter);
+        
+        graphics.setAlpha(getLineAlpha());
+        graphics.drawOval(x1, y2, diameter, diameter);
+
+        disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
+
+        graphics.popState();
     }
     
     /**
@@ -75,11 +126,11 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
     
     @Override
     public int getIconOffset() {
-        return 20;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : boxDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }

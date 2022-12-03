@@ -8,10 +8,10 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.model.IIconic;
 
 
@@ -22,14 +22,19 @@ import com.archimatetool.model.IIconic;
  * 
  * @author Phillip Beauvoir
  */
-public class ValueFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+public class ValueFigure extends AbstractMotivationFigure {
 
     public ValueFigure() {
-        super(TEXT_FLOW_CONTROL);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
@@ -98,4 +103,36 @@ public class ValueFigure extends AbstractTextControlContainerFigure implements I
         return new EllipseAnchor(this);
     }
 
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        
+        graphics.drawOval(pt.x, pt.y, 14, 9);
+        
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds().getCopy();
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 7);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 21 : 0;
+    }
 }

@@ -54,14 +54,4 @@ public class MeaningUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return defaultMotivationColor;
     }
-    
-    @Override
-    public boolean hasIcon() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAlternateFigure() {
-        return false;
-    }
 }

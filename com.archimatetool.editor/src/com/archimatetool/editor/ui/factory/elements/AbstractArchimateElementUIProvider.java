@@ -30,8 +30,7 @@ implements IArchimateElementUIProvider {
     
     protected static Color defaultMotivationColor = new Color(204, 204, 255);
     protected static Color defaultStrategyColor = new Color(245, 222, 170);
-    protected static Color defaultImplMigrationColor1 = new Color(255, 224, 224);
-    protected static Color defaultImplMigrationColor2 = new Color(224, 255, 224);
+    protected static Color defaultImplMigrationColor = new Color(255, 224, 224);
     
     protected AbstractArchimateElementUIProvider() {
     }

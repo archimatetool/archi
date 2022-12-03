@@ -38,7 +38,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -103,7 +103,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -168,7 +168,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -233,7 +233,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -298,7 +298,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -363,7 +363,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -428,7 +428,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -493,7 +493,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -530,17 +530,17 @@
         <target concept="ApplicationInterface" relations="or" />
         <target concept="ApplicationProcess" relations="or" />
         <target concept="ApplicationService" relations="or" />
-        <target concept="Artifact" relations="cgos" />
+        <target concept="Artifact" relations="cgors" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="or" />
-        <target concept="BusinessCollaboration" relations="or" />
+        <target concept="BusinessActor" relations="o" />
+        <target concept="BusinessCollaboration" relations="o" />
         <target concept="BusinessEvent" relations="or" />
         <target concept="BusinessFunction" relations="or" />
         <target concept="BusinessInteraction" relations="or" />
         <target concept="BusinessInterface" relations="or" />
         <target concept="BusinessObject" relations="or" />
         <target concept="BusinessProcess" relations="or" />
-        <target concept="BusinessRole" relations="or" />
+        <target concept="BusinessRole" relations="o" />
         <target concept="BusinessService" relations="or" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="o" />
@@ -549,20 +549,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="or" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="or" />
+        <target concept="Device" relations="o" />
         <target concept="DistributionNetwork" relations="o" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="or" />
-        <target concept="Facility" relations="or" />
+        <target concept="Equipment" relations="o" />
+        <target concept="Facility" relations="o" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="or" />
+        <target concept="Node" relations="o" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="o" />
         <target concept="Plateau" relations="o" />
@@ -572,7 +572,7 @@
         <target concept="Representation" relations="o" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="no" />
         <target concept="SystemSoftware" relations="or" />
         <target concept="TechnologyCollaboration" relations="o" />
         <target concept="TechnologyEvent" relations="or" />
@@ -623,7 +623,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -688,7 +688,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="io" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -753,7 +753,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="io" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -818,7 +818,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -883,7 +883,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -948,7 +948,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -1013,7 +1013,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -1078,7 +1078,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1143,7 +1143,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -1208,7 +1208,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="io" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -1273,7 +1273,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -1338,7 +1338,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="fnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1377,16 +1377,16 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
-        <target concept="BusinessEvent" relations="fiortv" />
-        <target concept="BusinessFunction" relations="fiortv" />
-        <target concept="BusinessInteraction" relations="fiortv" />
-        <target concept="BusinessInterface" relations="fiortv" />
+        <target concept="BusinessActor" relations="fortv" />
+        <target concept="BusinessCollaboration" relations="fortv" />
+        <target concept="BusinessEvent" relations="fortv" />
+        <target concept="BusinessFunction" relations="fortv" />
+        <target concept="BusinessInteraction" relations="fortv" />
+        <target concept="BusinessInterface" relations="fortv" />
         <target concept="BusinessObject" relations="ao" />
-        <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
-        <target concept="BusinessService" relations="fiortv" />
+        <target concept="BusinessProcess" relations="fortv" />
+        <target concept="BusinessRole" relations="fortv" />
+        <target concept="BusinessService" relations="fortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="cfgostv" />
         <target concept="Constraint" relations="nor" />
@@ -1394,20 +1394,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="fgiortv" />
+        <target concept="Device" relations="fgortv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="fgiortv" />
-        <target concept="Facility" relations="fgiortv" />
+        <target concept="Equipment" relations="fortv" />
+        <target concept="Facility" relations="fortv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
-        <target concept="Material" relations="aio" />
+        <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="fgiortv" />
+        <target concept="Node" relations="fortv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fortv" />
         <target concept="Plateau" relations="o" />
@@ -1468,7 +1468,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1533,7 +1533,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1598,7 +1598,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="fnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1663,7 +1663,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1728,7 +1728,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="or" />
         <target concept="Material" relations="or" />
         <target concept="Meaning" relations="no" />
@@ -1742,7 +1742,7 @@
         <target concept="Representation" relations="or" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="no" />
+        <target concept="Stakeholder" relations="nor" />
         <target concept="SystemSoftware" relations="or" />
         <target concept="TechnologyCollaboration" relations="or" />
         <target concept="TechnologyEvent" relations="or" />
@@ -1767,16 +1767,16 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
-        <target concept="BusinessEvent" relations="fiortv" />
-        <target concept="BusinessFunction" relations="fiortv" />
-        <target concept="BusinessInteraction" relations="fiortv" />
-        <target concept="BusinessInterface" relations="fiortv" />
+        <target concept="BusinessActor" relations="fotv" />
+        <target concept="BusinessCollaboration" relations="fotv" />
+        <target concept="BusinessEvent" relations="fortv" />
+        <target concept="BusinessFunction" relations="fortv" />
+        <target concept="BusinessInteraction" relations="fortv" />
+        <target concept="BusinessInterface" relations="fortv" />
         <target concept="BusinessObject" relations="ao" />
-        <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
-        <target concept="BusinessService" relations="fiortv" />
+        <target concept="BusinessProcess" relations="fortv" />
+        <target concept="BusinessRole" relations="fotv" />
+        <target concept="BusinessService" relations="fortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
         <target concept="Constraint" relations="nor" />
@@ -1784,20 +1784,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="cfgiorstv" />
+        <target concept="Device" relations="cfgostv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="cfgiorstv" />
-        <target concept="Facility" relations="cfgiorstv" />
+        <target concept="Equipment" relations="fotv" />
+        <target concept="Facility" relations="fotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
-        <target concept="Material" relations="aio" />
+        <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="cfgiorstv" />
+        <target concept="Node" relations="fotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -1807,8 +1807,8 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
-        <target concept="SystemSoftware" relations="cfgiorstv" />
+        <target concept="Stakeholder" relations="no" />
+        <target concept="SystemSoftware" relations="cfgiortv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
         <target concept="TechnologyFunction" relations="fiortv" />
@@ -1857,8 +1857,8 @@
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="ImplementationEvent" relations="io" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
@@ -1872,7 +1872,7 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="inor" />
         <target concept="SystemSoftware" relations="fgiortv" />
         <target concept="TechnologyCollaboration" relations="fortv" />
         <target concept="TechnologyEvent" relations="fiortv" />
@@ -1883,7 +1883,7 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
-        <target concept="WorkPackage" relations="o" />
+        <target concept="WorkPackage" relations="io" />
     </source>
 
     <source concept="Driver">
@@ -1923,7 +1923,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -1962,16 +1962,16 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
-        <target concept="BusinessEvent" relations="fiortv" />
-        <target concept="BusinessFunction" relations="fiortv" />
-        <target concept="BusinessInteraction" relations="fiortv" />
-        <target concept="BusinessInterface" relations="fiortv" />
+        <target concept="BusinessActor" relations="fotv" />
+        <target concept="BusinessCollaboration" relations="fotv" />
+        <target concept="BusinessEvent" relations="fortv" />
+        <target concept="BusinessFunction" relations="fortv" />
+        <target concept="BusinessInteraction" relations="fortv" />
+        <target concept="BusinessInterface" relations="fortv" />
         <target concept="BusinessObject" relations="ao" />
-        <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
-        <target concept="BusinessService" relations="fiortv" />
+        <target concept="BusinessProcess" relations="fortv" />
+        <target concept="BusinessRole" relations="fotv" />
+        <target concept="BusinessService" relations="fortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
         <target concept="Constraint" relations="nor" />
@@ -1979,20 +1979,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="cfgiorstv" />
+        <target concept="Device" relations="cfgortv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="cfgiorstv" />
-        <target concept="Facility" relations="cfgiorstv" />
+        <target concept="Equipment" relations="cfgorstv" />
+        <target concept="Facility" relations="fotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="cfgiorstv" />
+        <target concept="Node" relations="fotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -2002,8 +2002,8 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
-        <target concept="SystemSoftware" relations="cfgiorstv" />
+        <target concept="Stakeholder" relations="no" />
+        <target concept="SystemSoftware" relations="cfgiortv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
         <target concept="TechnologyFunction" relations="fiortv" />
@@ -2027,15 +2027,15 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
+        <target concept="BusinessActor" relations="fiotv" />
+        <target concept="BusinessCollaboration" relations="fiotv" />
         <target concept="BusinessEvent" relations="fiortv" />
         <target concept="BusinessFunction" relations="fiortv" />
         <target concept="BusinessInteraction" relations="fiortv" />
         <target concept="BusinessInterface" relations="fiortv" />
         <target concept="BusinessObject" relations="ao" />
         <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
+        <target concept="BusinessRole" relations="fiotv" />
         <target concept="BusinessService" relations="fiortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
@@ -2044,20 +2044,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="cfgiorstv" />
+        <target concept="Device" relations="cfgiortv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="cfgiorstv" />
-        <target concept="Facility" relations="cfgiorstv" />
+        <target concept="Equipment" relations="cfgiortv" />
+        <target concept="Facility" relations="cfgiostv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="ImplementationEvent" relations="io" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="cfgiorstv" />
+        <target concept="Node" relations="cfgiotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -2067,8 +2067,8 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
-        <target concept="SystemSoftware" relations="cfgiorstv" />
+        <target concept="Stakeholder" relations="ino" />
+        <target concept="SystemSoftware" relations="cfgiortv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
         <target concept="TechnologyFunction" relations="fiortv" />
@@ -2078,7 +2078,7 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
-        <target concept="WorkPackage" relations="o" />
+        <target concept="WorkPackage" relations="io" />
     </source>
 
     <source concept="Gap">
@@ -2118,7 +2118,7 @@
         <target concept="Goal" relations="o" />
         <target concept="Grouping" relations="cgos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="o" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="o" />
@@ -2183,7 +2183,7 @@
         <target concept="Goal" relations="cgnos" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -2248,7 +2248,7 @@
         <target concept="Goal" relations="cgnors" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="cfgiost" />
-        <target concept="Junction" relations="acfginortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="cfgorstv" />
         <target concept="Material" relations="acgiors" />
         <target concept="Meaning" relations="cgnos" />
@@ -2313,7 +2313,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="acfgnost" />
         <target concept="ImplementationEvent" relations="cfgost" />
-        <target concept="Junction" relations="afnot" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -2378,7 +2378,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="afinortv" />
         <target concept="ImplementationEvent" relations="fiot" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fortv" />
         <target concept="Material" relations="aior" />
         <target concept="Meaning" relations="no" />
@@ -2442,8 +2442,8 @@
         <target concept="Gap" relations="cgo" />
         <target concept="Goal" relations="cgnor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="cgo" />
-        <target concept="Junction" relations="acfginortv" />
+        <target concept="ImplementationEvent" relations="cgio" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="cfgostv" />
         <target concept="Material" relations="acgio" />
         <target concept="Meaning" relations="cgno" />
@@ -2457,7 +2457,7 @@
         <target concept="Representation" relations="acgo" />
         <target concept="Requirement" relations="cgnor" />
         <target concept="Resource" relations="cgor" />
-        <target concept="Stakeholder" relations="cgnor" />
+        <target concept="Stakeholder" relations="cginor" />
         <target concept="SystemSoftware" relations="cfgiortv" />
         <target concept="TechnologyCollaboration" relations="cfgortv" />
         <target concept="TechnologyEvent" relations="cfgiortv" />
@@ -2468,49 +2468,49 @@
         <target concept="TechnologyService" relations="cfgiortv" />
         <target concept="Value" relations="cgno" />
         <target concept="ValueStream" relations="cgor" />
-        <target concept="WorkPackage" relations="cgo" />
+        <target concept="WorkPackage" relations="cgio" />
     </source>
 
     <source concept="Material">
-        <target concept="ApplicationCollaboration" relations="o" />
-        <target concept="ApplicationComponent" relations="o" />
-        <target concept="ApplicationEvent" relations="o" />
-        <target concept="ApplicationFunction" relations="o" />
-        <target concept="ApplicationInteraction" relations="o" />
-        <target concept="ApplicationInterface" relations="o" />
-        <target concept="ApplicationProcess" relations="o" />
-        <target concept="ApplicationService" relations="o" />
-        <target concept="Artifact" relations="o" />
+        <target concept="ApplicationCollaboration" relations="or" />
+        <target concept="ApplicationComponent" relations="or" />
+        <target concept="ApplicationEvent" relations="or" />
+        <target concept="ApplicationFunction" relations="or" />
+        <target concept="ApplicationInteraction" relations="or" />
+        <target concept="ApplicationInterface" relations="or" />
+        <target concept="ApplicationProcess" relations="or" />
+        <target concept="ApplicationService" relations="or" />
+        <target concept="Artifact" relations="or" />
         <target concept="Assessment" relations="no" />
         <target concept="BusinessActor" relations="o" />
         <target concept="BusinessCollaboration" relations="o" />
-        <target concept="BusinessEvent" relations="o" />
-        <target concept="BusinessFunction" relations="o" />
-        <target concept="BusinessInteraction" relations="o" />
-        <target concept="BusinessInterface" relations="o" />
+        <target concept="BusinessEvent" relations="or" />
+        <target concept="BusinessFunction" relations="or" />
+        <target concept="BusinessInteraction" relations="or" />
+        <target concept="BusinessInterface" relations="or" />
         <target concept="BusinessObject" relations="or" />
-        <target concept="BusinessProcess" relations="o" />
+        <target concept="BusinessProcess" relations="or" />
         <target concept="BusinessRole" relations="o" />
-        <target concept="BusinessService" relations="o" />
+        <target concept="BusinessService" relations="or" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="o" />
         <target concept="Constraint" relations="nor" />
         <target concept="Contract" relations="or" />
         <target concept="CourseOfAction" relations="or" />
-        <target concept="DataObject" relations="o" />
+        <target concept="DataObject" relations="or" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="o" />
+        <target concept="Device" relations="or" />
         <target concept="DistributionNetwork" relations="o" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="o" />
+        <target concept="Equipment" relations="or" />
         <target concept="Facility" relations="o" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
-        <target concept="Material" relations="cgos" />
+        <target concept="Material" relations="cgors" />
         <target concept="Meaning" relations="no" />
         <target concept="Node" relations="o" />
         <target concept="Outcome" relations="nor" />
@@ -2523,14 +2523,14 @@
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
         <target concept="Stakeholder" relations="no" />
-        <target concept="SystemSoftware" relations="o" />
+        <target concept="SystemSoftware" relations="or" />
         <target concept="TechnologyCollaboration" relations="o" />
-        <target concept="TechnologyEvent" relations="o" />
-        <target concept="TechnologyFunction" relations="o" />
-        <target concept="TechnologyInteraction" relations="o" />
-        <target concept="TechnologyInterface" relations="o" />
-        <target concept="TechnologyProcess" relations="o" />
-        <target concept="TechnologyService" relations="o" />
+        <target concept="TechnologyEvent" relations="or" />
+        <target concept="TechnologyFunction" relations="or" />
+        <target concept="TechnologyInteraction" relations="or" />
+        <target concept="TechnologyInterface" relations="or" />
+        <target concept="TechnologyProcess" relations="or" />
+        <target concept="TechnologyService" relations="or" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
         <target concept="WorkPackage" relations="o" />
@@ -2573,7 +2573,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="cgnos" />
@@ -2612,15 +2612,15 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
+        <target concept="BusinessActor" relations="fiotv" />
+        <target concept="BusinessCollaboration" relations="fiotv" />
         <target concept="BusinessEvent" relations="fiortv" />
         <target concept="BusinessFunction" relations="fiortv" />
         <target concept="BusinessInteraction" relations="fiortv" />
         <target concept="BusinessInterface" relations="fiortv" />
         <target concept="BusinessObject" relations="ao" />
         <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
+        <target concept="BusinessRole" relations="fiotv" />
         <target concept="BusinessService" relations="fiortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
@@ -2629,20 +2629,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="cfgiorstv" />
+        <target concept="Device" relations="cfgiortv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="cfgiorstv" />
-        <target concept="Facility" relations="cfgiorstv" />
+        <target concept="Equipment" relations="cfgiortv" />
+        <target concept="Facility" relations="cfgiotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="ImplementationEvent" relations="io" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="cfgiorstv" />
+        <target concept="Node" relations="cfgiostv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -2652,8 +2652,8 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
-        <target concept="SystemSoftware" relations="cfgiorstv" />
+        <target concept="Stakeholder" relations="ino" />
+        <target concept="SystemSoftware" relations="cfgiortv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
         <target concept="TechnologyFunction" relations="fiortv" />
@@ -2663,7 +2663,7 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
-        <target concept="WorkPackage" relations="o" />
+        <target concept="WorkPackage" relations="io" />
     </source>
 
     <source concept="Outcome">
@@ -2703,7 +2703,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -2742,15 +2742,15 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
+        <target concept="BusinessActor" relations="fiotv" />
+        <target concept="BusinessCollaboration" relations="fiotv" />
         <target concept="BusinessEvent" relations="fiortv" />
         <target concept="BusinessFunction" relations="fiortv" />
         <target concept="BusinessInteraction" relations="fiortv" />
         <target concept="BusinessInterface" relations="fiortv" />
         <target concept="BusinessObject" relations="ao" />
         <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
+        <target concept="BusinessRole" relations="fiotv" />
         <target concept="BusinessService" relations="fiortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
@@ -2763,16 +2763,16 @@
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
         <target concept="Equipment" relations="fgiortv" />
-        <target concept="Facility" relations="fgiortv" />
+        <target concept="Facility" relations="fgiotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="ImplementationEvent" relations="io" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="fgiortv" />
+        <target concept="Node" relations="fgiotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="cfgostv" />
         <target concept="Plateau" relations="o" />
@@ -2782,7 +2782,7 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="ino" />
         <target concept="SystemSoftware" relations="fgiortv" />
         <target concept="TechnologyCollaboration" relations="fgotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
@@ -2793,7 +2793,7 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
-        <target concept="WorkPackage" relations="o" />
+        <target concept="WorkPackage" relations="io" />
     </source>
 
     <source concept="Plateau">
@@ -2831,14 +2831,14 @@
         <target concept="Facility" relations="cgor" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="cgnor" />
-        <target concept="Grouping" relations="acfgnorst" />
+        <target concept="Grouping" relations="acfginorst" />
         <target concept="ImplementationEvent" relations="fot" />
-        <target concept="Junction" relations="acfgnort" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="cgor" />
         <target concept="Material" relations="cgor" />
         <target concept="Meaning" relations="no" />
         <target concept="Node" relations="cgor" />
-        <target concept="Outcome" relations="nor" />
+        <target concept="Outcome" relations="cgnor" />
         <target concept="Path" relations="cgor" />
         <target concept="Plateau" relations="cfgost" />
         <target concept="Principle" relations="nor" />
@@ -2847,7 +2847,7 @@
         <target concept="Representation" relations="cgor" />
         <target concept="Requirement" relations="cgnor" />
         <target concept="Resource" relations="cgor" />
-        <target concept="Stakeholder" relations="no" />
+        <target concept="Stakeholder" relations="inor" />
         <target concept="SystemSoftware" relations="cgor" />
         <target concept="TechnologyCollaboration" relations="cgor" />
         <target concept="TechnologyEvent" relations="cgor" />
@@ -2898,7 +2898,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -2937,15 +2937,15 @@
         <target concept="ApplicationService" relations="cfgortv" />
         <target concept="Artifact" relations="acgo" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fortv" />
-        <target concept="BusinessCollaboration" relations="fortv" />
+        <target concept="BusinessActor" relations="fotv" />
+        <target concept="BusinessCollaboration" relations="fotv" />
         <target concept="BusinessEvent" relations="fortv" />
         <target concept="BusinessFunction" relations="fortv" />
         <target concept="BusinessInteraction" relations="fortv" />
         <target concept="BusinessInterface" relations="fortv" />
         <target concept="BusinessObject" relations="acgo" />
         <target concept="BusinessProcess" relations="fortv" />
-        <target concept="BusinessRole" relations="fortv" />
+        <target concept="BusinessRole" relations="fotv" />
         <target concept="BusinessService" relations="cfgortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
@@ -2958,16 +2958,16 @@
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
         <target concept="Equipment" relations="fortv" />
-        <target concept="Facility" relations="fortv" />
+        <target concept="Facility" relations="fotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="acgo" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="fortv" />
+        <target concept="Node" relations="fotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -2977,7 +2977,7 @@
         <target concept="Representation" relations="acgo" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="no" />
         <target concept="SystemSoftware" relations="fortv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fortv" />
@@ -2991,7 +2991,7 @@
         <target concept="WorkPackage" relations="o" />
     </source>
 
-    <source concept="Relationship" type="Relationship">
+    <source concept="Relationship">
         <target concept="ApplicationCollaboration" relations="o" />
         <target concept="ApplicationComponent" relations="o" />
         <target concept="ApplicationEvent" relations="o" />
@@ -3093,7 +3093,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -3158,7 +3158,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cgnors" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="nor" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -3223,7 +3223,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="finortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -3288,7 +3288,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -3327,16 +3327,16 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
-        <target concept="BusinessEvent" relations="fiortv" />
-        <target concept="BusinessFunction" relations="fiortv" />
-        <target concept="BusinessInteraction" relations="fiortv" />
-        <target concept="BusinessInterface" relations="fiortv" />
+        <target concept="BusinessActor" relations="fotv" />
+        <target concept="BusinessCollaboration" relations="fotv" />
+        <target concept="BusinessEvent" relations="fortv" />
+        <target concept="BusinessFunction" relations="fortv" />
+        <target concept="BusinessInteraction" relations="fortv" />
+        <target concept="BusinessInterface" relations="fortv" />
         <target concept="BusinessObject" relations="ao" />
-        <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
-        <target concept="BusinessService" relations="fiortv" />
+        <target concept="BusinessProcess" relations="fortv" />
+        <target concept="BusinessRole" relations="fotv" />
+        <target concept="BusinessService" relations="fortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
         <target concept="Constraint" relations="nor" />
@@ -3344,20 +3344,20 @@
         <target concept="CourseOfAction" relations="or" />
         <target concept="DataObject" relations="ao" />
         <target concept="Deliverable" relations="o" />
-        <target concept="Device" relations="cfgiorstv" />
+        <target concept="Device" relations="fotv" />
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
-        <target concept="Equipment" relations="cfgiorstv" />
-        <target concept="Facility" relations="cfgiorstv" />
+        <target concept="Equipment" relations="fotv" />
+        <target concept="Facility" relations="fotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
-        <target concept="Material" relations="aio" />
+        <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="cfgiorstv" />
+        <target concept="Node" relations="fotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -3367,7 +3367,7 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="no" />
         <target concept="SystemSoftware" relations="cfgiorstv" />
         <target concept="TechnologyCollaboration" relations="fotv" />
         <target concept="TechnologyEvent" relations="fiortv" />
@@ -3392,15 +3392,15 @@
         <target concept="ApplicationService" relations="fortv" />
         <target concept="Artifact" relations="aio" />
         <target concept="Assessment" relations="no" />
-        <target concept="BusinessActor" relations="fiortv" />
-        <target concept="BusinessCollaboration" relations="fiortv" />
+        <target concept="BusinessActor" relations="fiotv" />
+        <target concept="BusinessCollaboration" relations="fiotv" />
         <target concept="BusinessEvent" relations="fiortv" />
         <target concept="BusinessFunction" relations="fiortv" />
         <target concept="BusinessInteraction" relations="fiortv" />
         <target concept="BusinessInterface" relations="fiortv" />
         <target concept="BusinessObject" relations="ao" />
         <target concept="BusinessProcess" relations="fiortv" />
-        <target concept="BusinessRole" relations="fiortv" />
+        <target concept="BusinessRole" relations="fiotv" />
         <target concept="BusinessService" relations="fiortv" />
         <target concept="Capability" relations="or" />
         <target concept="CommunicationNetwork" relations="fotv" />
@@ -3413,16 +3413,16 @@
         <target concept="DistributionNetwork" relations="fotv" />
         <target concept="Driver" relations="no" />
         <target concept="Equipment" relations="fgiortv" />
-        <target concept="Facility" relations="fgiortv" />
+        <target concept="Facility" relations="fgiotv" />
         <target concept="Gap" relations="o" />
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
-        <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="ImplementationEvent" relations="io" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="aio" />
         <target concept="Meaning" relations="no" />
-        <target concept="Node" relations="fgiortv" />
+        <target concept="Node" relations="fgiotv" />
         <target concept="Outcome" relations="nor" />
         <target concept="Path" relations="fotv" />
         <target concept="Plateau" relations="o" />
@@ -3432,7 +3432,7 @@
         <target concept="Representation" relations="ao" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="nor" />
+        <target concept="Stakeholder" relations="ino" />
         <target concept="SystemSoftware" relations="fgiortv" />
         <target concept="TechnologyCollaboration" relations="cfgostv" />
         <target concept="TechnologyEvent" relations="fiortv" />
@@ -3443,7 +3443,7 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="ValueStream" relations="or" />
-        <target concept="WorkPackage" relations="o" />
+        <target concept="WorkPackage" relations="io" />
     </source>
 
     <source concept="TechnologyEvent">
@@ -3483,7 +3483,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3548,7 +3548,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3613,7 +3613,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3678,7 +3678,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfginorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afinortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3743,7 +3743,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3808,7 +3808,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="afnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="fotv" />
         <target concept="Material" relations="ao" />
         <target concept="Meaning" relations="no" />
@@ -3873,7 +3873,7 @@
         <target concept="Goal" relations="no" />
         <target concept="Grouping" relations="cgnos" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="no" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -3938,7 +3938,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="cfgnorstv" />
         <target concept="ImplementationEvent" relations="o" />
-        <target concept="Junction" relations="fnortv" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="o" />
         <target concept="Material" relations="o" />
         <target concept="Meaning" relations="no" />
@@ -4003,7 +4003,7 @@
         <target concept="Goal" relations="nor" />
         <target concept="Grouping" relations="acfgnorst" />
         <target concept="ImplementationEvent" relations="fot" />
-        <target concept="Junction" relations="afnort" />
+        <target concept="Junction" relations="acfginorstv" />
         <target concept="Location" relations="or" />
         <target concept="Material" relations="or" />
         <target concept="Meaning" relations="no" />
@@ -4017,7 +4017,7 @@
         <target concept="Representation" relations="or" />
         <target concept="Requirement" relations="nor" />
         <target concept="Resource" relations="or" />
-        <target concept="Stakeholder" relations="no" />
+        <target concept="Stakeholder" relations="nor" />
         <target concept="SystemSoftware" relations="or" />
         <target concept="TechnologyCollaboration" relations="or" />
         <target concept="TechnologyEvent" relations="or" />

@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  */
 public class LocationUIProvider extends AbstractArchimateElementUIProvider {
     
-    private static Color defaultColor = new Color(251, 184, 117);
+    private static Color defaultColor = new Color(237, 207, 226);
 
     @Override
     public EClass providerFor() {

@@ -50,9 +50,10 @@ package com.archimatetool.model;
  * 4.9.0 - Add Profiles
  *       - Add images to IDiagramModelArchimateObject
  *       - Refactor IDiagramModelImageProvider, IIconic and more...
+ * 5.0.0 - ArchiMate 3.2
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "4.9.0"; //$NON-NLS-1$
+    String VERSION = "5.0.0"; //$NON-NLS-1$
 }

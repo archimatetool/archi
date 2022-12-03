@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -72,7 +73,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         int[] mainRectangle;
         
-        if(getDiagramModelArchimateObject().getType() == 1) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
             mainRectangle = new int[] {
                     bounds.x, bounds.y,
                     bounds.x + bounds.width, bounds.y,
@@ -146,6 +147,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         graphics.drawPolygon(mainRectangle);
         
         graphics.popState();
+        
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            drawIcon(graphics);
+        }
     }
     
     @Override
@@ -153,9 +158,17 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         Rectangle bounds = getBounds().getCopy();
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        int textAlignment = getDiagramModelObject().getTextAlignment();
+        
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
             bounds.y += 5 - getTextControlMarginHeight();
             bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
+            
+            // Adjust for icon
+            if(getIconOffset() != 0 && isIconVisible() && textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
+                int iconOffset = getIconOffset() - getTextControlMarginWidth();
+                bounds.width -= iconOffset;
+            }
         }
         
         return bounds;
@@ -173,7 +186,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
             
-            if(getDiagramModelArchimateObject().getType() == 1) {
+            if(getDiagramModelArchimateObject().getType() == 0) {
                 return pt;
             }
             
@@ -193,5 +206,39 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new GroupingFigureConnectionAnchor(this);
+    }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        
+        graphics.drawRectangle(pt.x, pt.y, 6, 3);
+        graphics.drawRectangle(pt.x, pt.y + 3, 13, 7);
+        
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
+    }
+    
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 }

@@ -6,11 +6,10 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
-
-import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 
 
 
@@ -20,14 +19,19 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
  * 
  * @author Phillip Beauvoir
  */
-public class MeaningFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
-
+public class MeaningFigure extends AbstractMotivationFigure {
+    
     public MeaningFigure() {
-        super(TEXT_FLOW_CONTROL);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getDiagramModelArchimateObject().getType() == 0) {
+            super.drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
@@ -99,4 +103,57 @@ public class MeaningFigure extends AbstractTextControlContainerFigure implements
 
         graphics.popState();
     }
+    
+    /**
+     * Draw the icon
+     */
+    private void drawIcon(Graphics graphics) {
+        if(!isIconVisible()) {
+            return;
+        }
+        
+        graphics.pushState();
+        
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(getIconColor());
+        
+        Point pt = getIconOrigin();
+        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 11);
+        
+        Path path = new Path(null);
+        path.addArc(rect.x, rect.y, rect.width/3 * 2, rect.height/3 * 2, 60, 149);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x + rect.width/3 - 1, rect.y, rect.width/3 * 2, rect.height/3 * 2, -38, 157);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x, rect.y + rect.height / 3, rect.width/5 * 3, rect.height/3 * 2 - 1, -41, -171);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.addArc(rect.x + rect.width/3, rect.y + rect.height/4, rect.width/5 * 3, rect.height/3 * 2, 7, -136);
+        graphics.drawPath(path);
+        path.dispose();
+
+        graphics.popState();
+    }
+
+    /**
+     * @return The icon start position
+     */
+    private Point getIconOrigin() {
+        Rectangle bounds = getBounds().getCopy();
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
+    }
+
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
+    }
+
 }

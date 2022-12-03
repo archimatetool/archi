@@ -44,6 +44,6 @@ public class ImplementationEventUIProvider extends AbstractEventUIProvider {
     
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor1;
+        return defaultImplMigrationColor;
     }
 }

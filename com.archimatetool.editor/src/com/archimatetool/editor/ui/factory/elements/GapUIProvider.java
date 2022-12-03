@@ -53,7 +53,7 @@ public class GapUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor2;
+        return defaultImplMigrationColor;
     }
     
     @Override

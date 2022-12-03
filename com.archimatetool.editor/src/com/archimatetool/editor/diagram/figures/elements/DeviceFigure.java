@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
 
 
@@ -25,11 +26,11 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
     
     protected static final int INDENT = 15;
 
-    protected IFigureDelegate fFigureDelegate;
+    protected IFigureDelegate figureDelegate;
     
     public DeviceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate = new BoxFigureDelegate(this);
+        figureDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
@@ -132,16 +133,16 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 31, bounds.y + 20);
+        return new Point(bounds.x + bounds.width - 17, bounds.y + 5);
     }
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 1 ? fFigureDelegate : null;
+        return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 1 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
     }
 }

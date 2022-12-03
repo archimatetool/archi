@@ -52,16 +52,6 @@ public class WorkPackageUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return defaultImplMigrationColor1;
-    }
-    
-    @Override
-    public boolean hasIcon() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAlternateFigure() {
-        return false;
+        return defaultImplMigrationColor;
     }
 }

@@ -11,6 +11,11 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
+
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
 
@@ -20,30 +25,152 @@ import org.eclipse.swt.graphics.Path;
  * 
  * @author Phillip Beauvoir
  */
-public class DistributionNetworkFigure extends CommunicationNetworkFigure {
+public class DistributionNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
+    
+    private static final double ARROW_ANGLE = Math.cos(Math.toRadians(60));
+
+    private IFigureDelegate rectangleDelegate;
     
     public DistributionNetworkFigure() {
+        super(TEXT_FLOW_CONTROL);
+        rectangleDelegate = new RectangleFigureDelegate(this);
     }
     
     @Override
+    protected void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+        
+        graphics.pushState();
+        
+        Rectangle rect = getBounds().getCopy();
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        setFigurePositionFromTextPosition(rect, 5/3.0);
+        
+        // Calculate line width depending on size
+        int lineWidth = (int)Math.max(3, Math.sqrt(rect.width * rect.height) / 24);
+
+        // Shrink the arrow size area depending on line width
+        Dimension arrowSize = getArrowSize(rect);
+        rect.shrink(lineWidth, lineWidth);
+        arrowSize = getArrowSize(rect);
+
+        // Fill
+        fillSection(graphics, rect, arrowSize);
+
+        // Lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        graphics.setLineWidth(lineWidth);
+        
+        drawArrows(graphics, rect, arrowSize);
+        
+        drawHorizontalLine(graphics, rect, arrowSize);
+        
+        // Image Icon
+        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        
+        graphics.popState();
+    }
+    
+    protected void fillSection(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setBackgroundColor(getFillColor());
+        graphics.setAlpha(getAlpha());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = new Path(null);
+        
+        Rectangle line1 = getLine1(rect, arrow);
+        Rectangle line2 = getLine2(rect, arrow);
+        
+        path.moveTo(line1.x, line1.y);
+        
+        // Left to right horizontal
+        path.lineTo(line1.width, line1.height);
+        
+        // Down/Right at angle
+        path.lineTo(rect.x + rect.width, rect.y + rect.height / 2);
+        
+        // Down/Left at angle
+        path.lineTo(line1.width, line2.y);
+        
+        // Right to left horizontal
+        path.lineTo(line2.x, line2.y);
+        
+        // Up/Left at angle
+        path.lineTo(rect.x, rect.y + rect.height / 2);
+        
+        path.close();
+        
+        graphics.fillPath(path);
+        
+        path.dispose();
+        
+        disposeGradientPattern(graphics, gradient);
+    }
+    
+    private Dimension getArrowSize(Rectangle rect) {
+        int width = (int)(rect.width / (1 + ARROW_ANGLE) / 2);
+        int size = Math.min(rect.height, width);
+        return new Dimension((int)(size * ARROW_ANGLE), size);
+    }
+
+    private void drawArrows(Graphics graphics, Rectangle rect, Dimension arrow) {
+        graphics.setLineCap(SWT.CAP_ROUND);
+
+        graphics.drawLine(rect.x + arrow.width,
+                          rect.y + rect.height / 2 - arrow.height / 2,
+                          rect.x,
+                          rect.y + rect.height / 2);
+        
+        graphics.drawLine(rect.x,
+                          rect.y + rect.height / 2,
+                          rect.x + arrow.width,
+                          rect.y + rect.height / 2 + arrow.height / 2);
+        
+        graphics.drawLine(rect.x + rect.width - arrow.width,
+                          rect.y + rect.height / 2 - arrow.height / 2,
+                          rect.x + rect.width,
+                          rect.y + rect.height / 2);
+        
+        graphics.drawLine(rect.x + rect.width,
+                          rect.y + rect.height / 2,
+                          rect.x + rect.width - arrow.width,
+                          rect.y + rect.height / 2 + arrow.height / 2);
+    }
+
+    private Rectangle getLine1(Rectangle rect, Dimension arrow) {
+        return new Rectangle(rect.x + arrow.height / 5,
+                rect.y + rect.height / 2 - arrow.height / 5,
+                rect.x + rect.width - arrow.height / 5,
+                rect.y + rect.height / 2 - arrow.height / 5);
+    }
+    
+    private Rectangle getLine2(Rectangle rect, Dimension arrow) {
+        return new Rectangle(rect.x + arrow.height / 5,
+                rect.y + rect.height / 2 + arrow.height / 5,
+                rect.x + rect.width - arrow.height / 5,
+                rect.y + rect.height / 2 + arrow.height / 5);
+    }
+
     protected void drawHorizontalLine(Graphics graphics, Rectangle rect, Dimension arrow) {
         graphics.setLineCap(SWT.CAP_ROUND);
         
-        graphics.drawLine(rect.x + arrow.height / 5,
-                          rect.y + rect.height / 2 - arrow.height / 5,
-                          rect.x + rect.width - arrow.height / 5,
-                          rect.y + rect.height / 2 - arrow.height / 5);
+        Rectangle line1 = getLine1(rect, arrow);
+        graphics.drawLine(line1.x, line1.y, line1.width, line1.height);
         
-        graphics.drawLine(rect.x + arrow.height / 5,
-                          rect.y + rect.height / 2 + arrow.height / 5,
-                          rect.x + rect.width - arrow.height / 5,
-                          rect.y + rect.height / 2 + arrow.height / 5);
+        Rectangle line2 = getLine2(rect, arrow);
+        graphics.drawLine(line2.x, line2.y, line2.width, line2.height);
     }
     
-    /**
-     * Draw the icon
-     */
-    @Override
     protected void drawIcon(Graphics graphics) {
         if(!isIconVisible()) {
             return;
@@ -83,12 +210,18 @@ public class DistributionNetworkFigure extends CommunicationNetworkFigure {
         graphics.popState();
     }
     
-    /**
-     * @return The icon start position
-     */
-    @Override
-    protected Point getIconOrigin() {
+    private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 12);
+    }
+    
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+    }
+
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        return getDiagramModelArchimateObject().getType() == 0 ? rectangleDelegate : null;
     }
 }
