@@ -18,6 +18,17 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.archimatetool.hammer.command.showValidatorView"
+            icon="img/icon.png">
+      </image>
+      <image
+            commandId="com.archimatetool.hammer.command.validate"
+            icon="img/icon.png">
+      </image>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"

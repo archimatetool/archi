@@ -45,6 +45,13 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.archimatetool.zest.action.showZestView"
+            icon="img/icon.png">
+      </image>
+   </extension>
+   <extension
          point="org.eclipse.ui.views">
       <view
             class="com.archimatetool.zest.ZestView"

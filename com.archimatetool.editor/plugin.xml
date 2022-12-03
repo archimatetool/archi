@@ -578,6 +578,21 @@
             sequence="M1+W">
       </key>
       <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+S">
+      </key>
+      <key
             commandId="com.archimatetool.editor.action.newModel"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+N">
@@ -870,6 +885,57 @@
             id="com.archimatetool.editor.category"
             name="Archi">
       </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.archimatetool.editor.action.newModel"
+            icon="img/newfile_wiz.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.openModel"
+            icon="img/open.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.showTreeModelView"
+            icon="img/models.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.showPropertiesView"
+            icon="img/prop_ps.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.showOutlineView"
+            icon="img/outline.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.showNavigatorView"
+            icon="img/navigator.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.showPaletteView"
+            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
+      </image>
+      <image
+            commandId="org.eclipse.gef.zoom_normal"
+            icon="img/zoomnormal.png">
+      </image>
+      <image
+            commandId="com.archimatetool.action.generateView"
+            icon="img/outline.png">
+      </image>
+      <image
+            commandId="com.archimatetool.action.defaultSize"
+            icon="img/default-size.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.openPropertiesDialog"
+            icon="img/prop_ps.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.action.openProfilesDialog"
+            icon="img/specialization.png">
+      </image>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">

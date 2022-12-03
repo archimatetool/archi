@@ -20,6 +20,13 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.archimatetool.help.command.showHintsView"
+            icon="img/hint.png">
+      </image>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"

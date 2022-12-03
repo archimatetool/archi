@@ -18,6 +18,13 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.archimatetool.templates.modelFromTemplate"
+            icon="img/newfile_wiz.png">
+      </image>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
