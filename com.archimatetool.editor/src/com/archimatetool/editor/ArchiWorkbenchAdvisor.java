@@ -69,13 +69,14 @@ extends WorkbenchAdvisor
                     systemNode.add(helpNode);
                 }
                 
-                // Move "Secure Storage" preference page from its container node to our "System" page
+                // Move the "Secure Storage" preference page from its container node to our "System" page
                 IPreferenceNode securityCategoryNode = systemNode.findSubNode("org.eclipse.equinox.security.ui.category");
                 if(securityCategoryNode != null) {
                     IPreferenceNode securityNode = securityCategoryNode.findSubNode("org.eclipse.equinox.security.ui.storage");
                     if(securityNode != null) {
                         systemNode.remove(securityCategoryNode);
-                        systemNode.add(securityNode);
+                        // We'll completely remove it and use our own "Secure Storage" preference page to workaround the Ventura bug
+                        //systemNode.add(securityNode);
                     }
                 }
             }

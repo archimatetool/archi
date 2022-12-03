@@ -59,7 +59,7 @@ implements IWorkbenchPreferencePage {
         addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork"); //$NON-NLS-1$
 
         // Security
-        addLinkArea(pageArea, "org.eclipse.equinox.security.ui.storage"); //$NON-NLS-1$
+        addLinkArea(pageArea, "com.archimatetool.editor.security"); //$NON-NLS-1$
         
         // Browser
         addLinkArea(pageArea, "org.eclipse.ui.browser.preferencePage"); //$NON-NLS-1$
