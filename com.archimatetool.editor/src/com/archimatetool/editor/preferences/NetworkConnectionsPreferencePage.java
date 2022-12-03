@@ -6,10 +6,8 @@
 package com.archimatetool.editor.preferences;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
-import org.eclipse.equinox.security.storage.ISecurePreferences;
-import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
-import org.eclipse.equinox.security.storage.StorageException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
@@ -32,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.UIUtils;
-import com.archimatetool.editor.utils.SecureStorageUtils;
+import com.archimatetool.editor.utils.EncryptedProperties;
 
 
 /**
@@ -149,11 +147,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fRequiresProxyAuthenticationButton.setSelection(getPreferenceStore().getBoolean(PREFS_PROXY_REQUIRES_AUTHENTICATION));
         
         try {
-            ISecurePreferences archiNode = SecurePreferencesFactory.getDefault().node(ArchiPlugin.PLUGIN_ID);
-            fProxyUserNameTextField.setText(archiNode.get(IPreferenceConstants.PREFS_PROXY_USERNAME, "")); //$NON-NLS-1$
-            fProxyUserPasswordTextField.setText(archiNode.get(IPreferenceConstants.PREFS_PROXY_PASSWORD, "").isEmpty() ? "" : "********"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            EncryptedProperties props = EncryptedProperties.getDefault();
+
+            char[] userName = props.getSecureProperty(IPreferenceConstants.PREFS_PROXY_USERNAME);
+            fProxyUserNameTextField.setTextChars(userName == null ? new char[1] : userName);
+            
+            char[] password = props.getSecureProperty(IPreferenceConstants.PREFS_PROXY_PASSWORD);
+            fProxyUserPasswordTextField.setText(password == null ? "" : "********"); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        catch(StorageException ex) {
+        catch(GeneralSecurityException | IOException ex) {
             ex.printStackTrace();
             showErrorDialog(ex);
         }
@@ -177,16 +179,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(PREFS_PROXY_REQUIRES_AUTHENTICATION, fRequiresProxyAuthenticationButton.getSelection());
         
         try {
+            EncryptedProperties props = EncryptedProperties.getDefault();
+            
             if(proxyUserNameChanged) {
-                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
-                SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_USERNAME, fProxyUserNameTextField.getText(), true);
+                props.setSecureProperty(IPreferenceConstants.PREFS_PROXY_USERNAME, fProxyUserNameTextField.getTextChars());
             }
             if(proxyPasswordChanged) {
-                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
-                SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_PASSWORD, fProxyUserPasswordTextField.getText(), true);
+                props.setSecureProperty(IPreferenceConstants.PREFS_PROXY_PASSWORD, fProxyUserNameTextField.getTextChars());
             }
         }
-        catch(StorageException | IOException ex) {
+        catch(IOException | GeneralSecurityException ex) {
             ex.printStackTrace();
             showErrorDialog(ex);
         }

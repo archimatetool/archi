@@ -17,15 +17,11 @@ import java.net.SocketAddress;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.equinox.security.storage.ISecurePreferences;
-import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
-import org.eclipse.equinox.security.storage.StorageException;
-
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 
 /**
@@ -45,18 +41,20 @@ public final class NetUtils  {
             // If proxy request, return its credentials
             // Otherwise the requested URL is the endpoint (and not the proxy host)
             if(getRequestorType() == RequestorType.PROXY) {
-                // Get credentials from secure storage
-                // This is the Archi node for all secure entries. We could clear it with coArchiNode.removeNode()
-                ISecurePreferences archiNode = SecurePreferencesFactory.getDefault().node(ArchiPlugin.PLUGIN_ID);
-                
                 try {
-                    String userName = archiNode.get(IPreferenceConstants.PREFS_PROXY_USERNAME, "");
-                    String pw = archiNode.get(IPreferenceConstants.PREFS_PROXY_PASSWORD, "");
-                    return new PasswordAuthentication(userName, pw.toCharArray());
+                    EncryptedProperties props = EncryptedProperties.getDefault();
+                    
+                    char[] userName = props.getSecureProperty(IPreferenceConstants.PREFS_PROXY_USERNAME);
+                    char[] pw = props.getSecureProperty(IPreferenceConstants.PREFS_PROXY_PASSWORD);
+                    
+                    if(userName != null && pw != null) {
+                        return new PasswordAuthentication(new String(userName), pw);
+                    }
+                    
+                    return new PasswordAuthentication("", new char[1]);
                 }
-                catch(StorageException ex) {
+                catch(GeneralSecurityException | IOException ex) {
                     ex.printStackTrace();
-                    Logger.logError("Could not get secure storage", ex);
                 }
             }
             
