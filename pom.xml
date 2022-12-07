@@ -12,7 +12,7 @@
 
     <properties>
         <revision>5.0.0-SNAPSHOT</revision>
-        <tycho-version>3.0.1-SNAPSHOT</tycho-version>
+        <tycho-version>3.0.1</tycho-version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,13 +25,6 @@
             <url>https://download.eclipse.org/eclipse/updates/4.25</url>
         </repository>
     </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>tycho-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <!--Core modules -->
     <modules>
