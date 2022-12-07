@@ -22,7 +22,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -56,9 +55,6 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 public class JasperReportsExporter {
     
     static class CancelledException extends IOException {
-        public CancelledException(String message) {
-            super(message);
-        }
     }
     
     public static final int EXPORT_HTML = 1;
@@ -176,13 +172,17 @@ public class JasperReportsExporter {
         for(IDiagramModel dm : diagramModels) {
             setProgressSubTask(NLS.bind(Messages.JasperReportsExporter_1, i++, total));
             
-            Image image = null;
+            Image[] image = new Image[1];
             
             try {
-                image = DiagramUtils.createImage(dm, 1, 10);
+                // Image creation must be done in a UI thread
+                Display.getDefault().syncExec(() -> {
+                    image[0] = DiagramUtils.createImage(dm, 1, 10);
+                });
+                
                 String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
+                loader.data = new ImageData[] { image[0].getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(tmpFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
@@ -191,8 +191,8 @@ public class JasperReportsExporter {
                         (t.getMessage() == null ? t.toString() : t.getMessage()), t);
             }
             finally {
-                if(image != null) {
-                    image.dispose();
+                if(image[0] != null) {
+                    image[0].dispose();
                 }
             }
         }
@@ -298,16 +298,9 @@ public class JasperReportsExporter {
     private void setProgressSubTask(String task) throws CancelledException {
         if(progressMonitor != null) {
             progressMonitor.subTask(task);
-            updateProgress();
-        }
-    }
-    
-    private void updateProgress() throws CancelledException {
-        if(progressMonitor != null && PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
-            while(Display.getCurrent().readAndDispatch());
             
             if(progressMonitor.isCanceled()) {
-                throw new CancelledException(Messages.JasperReportsExporter_12);
+                throw new CancelledException();
             }
         }
     }

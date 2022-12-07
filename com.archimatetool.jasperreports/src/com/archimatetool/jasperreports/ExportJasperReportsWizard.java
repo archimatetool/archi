@@ -9,14 +9,11 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.jasperreports.JasperReportsExporter.CancelledException;
 import com.archimatetool.model.IArchimateModel;
 
@@ -88,7 +85,9 @@ public class ExportJasperReportsWizard extends Wizard {
     }
 
     // Since this can take a while, show the progress monitor
-    public void runWithProgress() throws InvocationTargetException, InterruptedException {
+    public void runWithProgress() {
+        Throwable[] exception = new Throwable[1];
+        
         IRunnableWithProgress runnable = monitor -> {
             try {
                 JasperReportsExporter exporter = new JasperReportsExporter(fModel, exportFolder, exportFileName, mainTemplateFile,
@@ -96,26 +95,26 @@ public class ExportJasperReportsWizard extends Wizard {
                 exporter.export(monitor);
             }
             catch(Throwable ex) { // Catch SWT and OOM exceptions
-                // Async this to close progress monitor
-                Display.getCurrent().asyncExec(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(ex instanceof CancelledException) {
-                            MessageDialog.openInformation(getShell(), Messages.ExportJasperReportsWizard_0, ex.getMessage());
-                        }
-                        else {
-                            Logger.log(IStatus.ERROR, "Error saving Jasper Report", ex); //$NON-NLS-1$
-                            MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, ex.getMessage());
-                        }
-                    }
-                });
-            }
-            finally {
-                monitor.done();
+                if(!(ex instanceof CancelledException)) {
+                    ex.printStackTrace();
+                    exception[0] = ex;
+                }
             }
         };
 
         ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
-        dialog.run(false, true, runnable);
+        
+        try {
+            dialog.run(true, true, runnable);
+        }
+        catch(InvocationTargetException | InterruptedException ex) {
+            ex.printStackTrace();
+            MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, ex.getMessage());
+        }
+        
+        if(exception[0] != null) {
+            exception[0].printStackTrace();
+            MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, exception[0].getMessage());
+        }
     }
 }
