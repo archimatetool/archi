@@ -12,9 +12,10 @@
 
     <properties>
         <revision>5.0.0-SNAPSHOT</revision>
-        <tycho-version>3.0.0</tycho-version>
+        <tycho-version>3.0.1-SNAPSHOT</tycho-version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
     <repositories>
@@ -24,6 +25,13 @@
             <url>https://download.eclipse.org/eclipse/updates/4.25</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>tycho-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <!--Core modules -->
     <modules>
@@ -85,8 +93,6 @@
     </profiles>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        
         <plugins>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
@@ -106,6 +112,16 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-compiler-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <useProjectSettings>false</useProjectSettings>
                 </configuration>
             </plugin>
 
@@ -139,29 +155,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.tycho</groupId>
-                    <artifactId>tycho-compiler-plugin</artifactId>
-                    <version>${tycho-version}</version>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                        <useProjectSettings>false</useProjectSettings>
-                    </configuration>
-                </plugin>
-                
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
-                    <configuration>
-                        <encoding>ISO-8859-1</encoding>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
 
     </build>
 
