@@ -26,5 +26,6 @@ jobs:
     
     - name: Run Maven tests with a virtual display
       run: |
+        cp .github/toolchains.xml ~/.m2/toolchains.xml
         mvn -v
         xvfb-run mvn clean verify
