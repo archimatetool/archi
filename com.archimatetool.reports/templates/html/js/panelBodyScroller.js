@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
   let pos = { top: 0, left: 0, x: 0, y: 0 };
   let isBlockLink = false;
 
-  [...ele.getElementsByTagName('area')].forEach((e)=> {
-    e.addEventListener('click', (e)=>{
+  const tags = ele.getElementsByTagName('area');
+  for (var i = 0; i < tags.length; i++) {
+    tags[i].addEventListener('click', function (e) {
       if(isBlockLink) e.preventDefault();
     });
-  })
+  }
 
   const mouseDownHandler = function (e) {
     e.preventDefault();
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
 
-    setTimeout(() => {
+    setTimeout(function ()  {
       isBlockLink = false;
     }, 100)
   };
