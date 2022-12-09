@@ -29,7 +29,7 @@ hide-^value;format="lower"^
 >>
 
 modelreport(model, strategyFolder, businessFolder, applicationFolder, technologyFolder, motivationFolder, implementationFolder, otherFolder, relationsFolder, viewsFolder) ::= <<
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html class="model" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
