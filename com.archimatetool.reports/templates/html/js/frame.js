@@ -168,7 +168,9 @@ $(document).ready(function() {
 		parent.window.postMessage('view-id=' + viewId, '*');
 
 		// *** DIAGRAM ZOOM ***
-		window.addEventListener('load', initZoomSlider);
+		//initZoomSlider();
+		//window.addEventListener('load', initZoomSlider);
+		setTimeout(initZoomSlider, 50);
 	}
 
 	function initZoomSlider() {
@@ -211,7 +213,7 @@ $(document).ready(function() {
 			setZoom();
 		}
 		// Register events wheel on root-panel-body
-		document.getElementsByClassName("root-panel-body")[0].addEventListener("wheel", (e) => {
+		document.getElementsByClassName("root-panel-body")[0].addEventListener("wheel", function(e) {
 			// Zooming happens here
 			if (e.ctrlKey) {
 				e.preventDefault()
