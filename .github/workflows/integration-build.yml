@@ -1,0 +1,48 @@
+name: Archi Product Integration Build
+
+on:
+ schedule:
+   - cron: '0 8 * * *'
+
+jobs:
+  integration-build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Find and Replace Eclipse p2 location to latest integration
+      uses: jacobtomlinson/gha-find-replace@v2
+      with:
+        find: "https://download.eclipse.org/eclipse/updates/4.25"
+        replace: "https://download.eclipse.org/eclipse/updates/4.27-I-builds"
+        include: "pom.xml"
+        regex: false
+    
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+      
+    - name: Cache Maven Repository
+      id: cache-m2
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: maven-${{ hashFiles('**/pom.xml') }}
+
+    - name: Build product
+      run: |
+        cp .github/toolchains.xml ~/.m2/toolchains.xml
+        mvn -V clean package -P product
+
+    - name: Deploy to release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: "com.archimatetool.editor.product/target/products/Archi-*.*"
+        prerelease: true
