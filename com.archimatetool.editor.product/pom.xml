@@ -33,7 +33,7 @@
                         <goals>
                             <goal>materialize-products</goal>
                             <!-- (optional) create product zips (one per os/ws/arch) -->
-                            <!-- goal>archive-products</goal -->
+                            <goal>archive-products</goal>
                         </goals>
                     </execution>
                 </executions>
