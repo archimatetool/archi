@@ -8,6 +8,7 @@ package com.archimatetool.modelimporter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.Logger;
@@ -142,6 +143,11 @@ class ConceptImporter extends AbstractImporter {
         }
         
         @Override
+        public boolean canExecute() {
+            return !EcoreUtil.equals(importedObject.getProfiles(), oldProfiles);
+        }
+        
+        @Override
         public void dispose() {
             importedObject = null;
             targetObject = null;
@@ -175,6 +181,11 @@ class ConceptImporter extends AbstractImporter {
         public void undo() {
             relationship.setSource(oldSourceConcept);
             relationship.setTarget(oldTargetConcept);
+        }
+        
+        @Override
+        public boolean canExecute() {
+            return !(sourceConcept.equals(oldSourceConcept) && targetConcept.equals(oldTargetConcept));
         }
         
         @Override

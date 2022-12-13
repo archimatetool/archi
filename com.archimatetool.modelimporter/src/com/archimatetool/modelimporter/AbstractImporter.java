@@ -44,6 +44,10 @@ abstract class AbstractImporter {
         return importer.shouldUpdateAll();
     }
     
+    protected boolean shouldUpdateFolderStructure() {
+        return importer.shouldUpdateFolderStructure();
+    }
+    
     protected <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
         return importer.findObjectInTargetModel(eObject);
     }
@@ -81,6 +85,11 @@ abstract class AbstractImporter {
     protected void addToParentFolder(IArchimateModelObject importedObject, IArchimateModelObject targetObject) throws ImportException {
         // Imported object's parent folder
         IFolder importedParentFolder = (IFolder)importedObject.eContainer();
+        
+        // If the target object already has a parent and we want to preserve it
+        if(targetObject.eContainer() != null && !shouldUpdateFolderStructure()) {
+            return;
+        }
 
         // Imported object's parent folder is a User folder
         if(importedParentFolder.getType() == FolderType.USER) {

@@ -59,6 +59,7 @@ public class ModelImporter {
     
     private boolean update; // If true update target objects with source objects
     private boolean updateAll; // If true update model name, purpose, documentation and top level folders with source
+    private boolean updateFolderStructure = true; // If true folder structure is updated according to the imported model
     
     private IArchimateModel importedModel;
     private IArchimateModel targetModel;
@@ -178,6 +179,14 @@ public class ModelImporter {
     
     public boolean shouldUpdateAll() {
         return updateAll;
+    }
+    
+    public void setUpdateFolderStructure(boolean update) {
+        updateFolderStructure = update;
+    }
+    
+    public boolean shouldUpdateFolderStructure() {
+        return updateFolderStructure;
     }
     
     public List<StatusMessage> getStatusMessages() {
@@ -349,6 +358,11 @@ public class ModelImporter {
         }
         
         @Override
+        public boolean canExecute() {
+            return !EcoreUtil.equals(importedObject.getProperties(), oldProperties);
+        }
+        
+        @Override
         public void dispose() {
             importedObject = null;
             targetObject = null;
@@ -377,6 +391,11 @@ public class ModelImporter {
         public void undo() {
             targetObject.getFeatures().clear();
             targetObject.getFeatures().addAll(oldFeatures);
+        }
+        
+        @Override
+        public boolean canExecute() {
+            return !EcoreUtil.equals(importedObject.getFeatures(), oldFeatures);
         }
         
         @Override
