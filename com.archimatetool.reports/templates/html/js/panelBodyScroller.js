@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
   const ele = document.getElementsByClassName('root-panel-body')[0];
-  ele.style.cursor = 'grab';
 
   let pos = { top: 0, left: 0, x: 0, y: 0 };
   let isBlockLink = false;
@@ -12,8 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  const diagram = ele.getElementsByClassName('diagram')[0];
+  if(diagram) {
+    diagram.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+    });
+  }
+  
   const mouseDownHandler = function (e) {
-    e.preventDefault();
     ele.style.cursor = 'grabbing';
     ele.style.userSelect = 'none';
 
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const mouseUpHandler = function () {
-    ele.style.cursor = 'grab';
+    ele.style.cursor = 'auto';
     ele.style.removeProperty('user-select');
 
     document.removeEventListener('mousemove', mouseMoveHandler);
