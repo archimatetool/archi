@@ -6,7 +6,8 @@ Bundle-Localization: plugin
 Bundle-Version: 5.0.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.csv,
- com.archimatetool.commandline
+ com.archimatetool.commandline,
+ com.archimatetool.modelimporter
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: com.archimatetool.csv.commandline

@@ -16,6 +16,7 @@ import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
 import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.modelimporter.ImportException;
 
 
 
@@ -43,7 +44,7 @@ public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
             CSVImporter importer =  new CSVImporter(model);
             importer.doImport(file);
         }
-        catch(CSVParseException ex) {
+        catch(CSVParseException | ImportException ex) {
             throw new IOException(ex.getMessage());
         }
     }

@@ -9,7 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- com.archimatetool.editor
+ com.archimatetool.editor,
+ com.archimatetool.modelimporter
 Export-Package: com.archimatetool.csv,
  com.archimatetool.csv.export,
  com.archimatetool.csv.importer

@@ -11,46 +11,43 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
-import com.archimatetool.editor.model.commands.AddListMemberCommand;
-import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
-import com.archimatetool.editor.model.commands.SetProfileCommand;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssociationRelationship;
-import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.util.UUIDFactory;
+import com.archimatetool.modelimporter.ImportException;
+import com.archimatetool.modelimporter.ModelImporter;
 
 
 /**
@@ -60,47 +57,29 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  */
 public class CSVImporter implements CSVConstants {
     
-    private IArchimateModel fModel;
+    private IArchimateModel targetModel;
     
-    // ID -> IArchimateConcept: new elements and relations added
-    Map<String, IArchimateConcept> newConcepts = new HashMap<>();
+    IArchimateModel newModel;
     
-    // New model profiles added
-    List<IProfile> newProfiles = new ArrayList<>();
+    // New relations
+    Map<String, IArchimateRelationship> newRelations = new HashMap<>();
     
-    // IArchimateConcept -> IProfile: updated Profile
-    Map<IArchimateConcept, IProfile> updatedProfiles = new HashMap<>();
-    
-    // IProperty -> IProperties object: new Property added
-    Map<IProperty, IProperties> newProperties = new HashMap<>();
-    
-    // IProperty -> Value: updated Property
-    Map<IProperty, String> updatedProperties = new HashMap<>();
+    // New properties
+    Map<IProperties, List<IProperty>> newProperties = new HashMap<>();
 
-    // IArchimateConcept -> Map [EAttribute, value] : Updated concepts' features
-    Map<IArchimateConcept, Map<EAttribute, Object>> updatedConcepts = new HashMap<>();
-    
     // IArchimateRelationship -> Source/Target IDs in two String array objects [0] and [1]
     Map<IArchimateRelationship, String[]> relationshipSourceTargets = new HashMap<>();
-
-    // CSV Model id. This might be set as a reference for Properties. Might be null.
-    private String modelID;
     
-    // Model name from CSV. Optional.
-    private String modelName;
-    
-    // Model purpose from CSV. Optional.
-    private String modelPurpose;
+    // Lookup cache
+    Map<String, IArchimateModelObject> objectLookup = new HashMap<>();
 
     public CSVImporter(IArchimateModel model) {
-        fModel = model;
+        targetModel = model;
     }
     
-    /**
-     * Do the actual import given the file
-     * @param file
-     */
-    public void doImport(File file) throws IOException, CSVParseException {
+    public void doImport(File file) throws IOException, CSVParseException, ImportException {
+        copyModel();
+        
         // What file is it?
         
         File elementsFile = getMatchingFile(file, ELEMENTS_FILENAME);
@@ -118,112 +97,24 @@ public class CSVImporter implements CSVConstants {
             importProperties(propertiesFile);
         }
 
-        // Execute the Commands
-        CommandStack stack = (CommandStack)fModel.getAdapter(CommandStack.class);
-        stack.execute(createCommands());
+        // Model Importer
+        ModelImporter importer = new ModelImporter();
+        importer.setUpdateAll(true);
+        importer.doImport(newModel, targetModel);
     }
     
-    /**
-     * Create Commands
-     */
-    private Command createCommands() {
-        // Create Commands
-        CompoundCommand compoundCommand = new NonNotifyingCompoundCommand();
+    void copyModel() {
+        newModel = EcoreUtil.copy(targetModel);
+        newModel.getFolder(FolderType.DIAGRAMS).getFolders().clear();
+        newModel.getFolder(FolderType.DIAGRAMS).getElements().clear();
         
-        // Model Name
-        if(modelName != null) {
-            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, fModel, IArchimatePackage.Literals.NAMEABLE__NAME, modelName);
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
+        // Create lookup table
+        for(Iterator<EObject> iter = newModel.eAllContents(); iter.hasNext();) {
+            EObject element = iter.next();
+            if(element instanceof IArchimateModelObject) {
+                objectLookup.put(((IArchimateModelObject)element).getId(), (IArchimateModelObject)element);
             }
         }
-        
-        // Model Purpose
-        if(modelPurpose != null) {
-            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, fModel, IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, modelPurpose);
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-        
-        // Model Profiles
-        for(IProfile profile : newProfiles) {
-            Command cmd = new AddListMemberCommand<IProfile>(fModel.getProfiles(), profile);
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-        
-        // New elements/relations
-        for(IArchimateConcept concept : newConcepts.values()) {
-            Command cmd = new Command() {
-                IFolder folder = fModel.getDefaultFolderForObject(concept);
-                
-                @Override
-                public void execute() {
-                    folder.getElements().add(concept);
-                }
-                
-                @Override
-                public void undo() {
-                    folder.getElements().remove(concept);
-                }
-            };
-            
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-        
-        // Updated concepts' features
-        for(Entry<IArchimateConcept, Map<EAttribute, Object>> conceptEntry : updatedConcepts.entrySet()) {
-            for(Entry<EAttribute, Object> entry : conceptEntry.getValue().entrySet()) {
-                Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, conceptEntry.getKey(), entry.getKey(), entry.getValue());
-                if(cmd.canExecute()) {
-                    compoundCommand.add(cmd);
-                }
-            }
-        }
-        
-        // Updated concepts' profiles
-        for(Entry<IArchimateConcept, IProfile> conceptEntry : updatedProfiles.entrySet()) {
-            Command cmd = new SetProfileCommand(conceptEntry.getKey(), conceptEntry.getValue());
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-
-        // New Properties
-        for(Entry<IProperty, IProperties> entry : newProperties.entrySet()) {
-            Command cmd = new Command() {
-                IProperty property = entry.getKey();
-                IProperties propertiesObject = entry.getValue();
-                
-                @Override
-                public void execute() {
-                    propertiesObject.getProperties().add(property);
-                }
-                
-                @Override
-                public void undo() {
-                    propertiesObject.getProperties().remove(property);
-                }
-            };
-            
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-        
-        // Updated Property Value
-        for(Entry<IProperty, String> entry : updatedProperties.entrySet()) {
-            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.PROPERTY__VALUE, entry.getValue());
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-        }
-     
-        return compoundCommand;
     }
     
     // -------------------------------- Import Model and Elements --------------------------------
@@ -280,15 +171,23 @@ public class CSVImporter implements CSVConstants {
      * Add a model record's information
      */
     private void parseModelRecord(CSVRecord csvRecord) {
-        // If the id is set for the model we will not set the model's id to it but we will keep a reference to it
-        // because the properties CSV file might use this as the reference id for adding model properties
+        // If the id is set for the model the properties CSV file might use this as the reference id for adding model properties
         String id = csvRecord.get(0);
         if(StringUtils.isSet(id)) {
-            modelID = id;
+            objectLookup.put(id, newModel);
         }
         
-        modelName = csvRecord.get(2);
-        modelPurpose = csvRecord.get(3);
+        // Model Name
+        String modelName = csvRecord.get(2);
+        if(modelName != null) {
+            newModel.setName(modelName);
+        }
+
+        // Model Purpose
+        String modelPurpose = csvRecord.get(3);
+        if(modelPurpose != null) {
+            newModel.setPurpose(modelPurpose);
+        }
     }
 
     /**
@@ -313,35 +212,25 @@ public class CSVImporter implements CSVConstants {
             throw new CSVParseException(Messages.CSVImporter_3);
         }
 
-        String name = normalise(csvRecord.get(2));
-        String documentation = csvRecord.get(3);
-        
-        // Specialization is optional
-        String specializationName = csvRecord.size() > 4 ? csvRecord.get(4) : null;
-        
-        // Is the element already in the model?
-        IArchimateElement element = (IArchimateElement)findArchimateConceptInModel(id, eClass);
-        
-        // Yes it is in the model, so update its values
-        if(element != null) {
-            storeUpdatedConceptFeature(element, IArchimatePackage.Literals.NAMEABLE__NAME, name);
-            storeUpdatedConceptFeature(element, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, documentation);
-            if(specializationName != null) { // If this is at least blank
-                updateProfileForConcept(element, specializationName);
-            }
-        }
-        // No, so create a new element, and optionally, a new profile
-        else {
+        IArchimateElement element = (IArchimateElement)findObjectInModel(id, eClass);
+        if(element == null) {
             element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
             element.setId(id);
-            element.setName(name);
-            element.setDocumentation(documentation);
-            newConcepts.put(id, element);
-            
-            // If we have a specialization name then create and add a new Profile
-            if(StringUtils.isSet(specializationName)) {
-                setProfileForNewConcept(element, specializationName);
-            }
+            newModel.getDefaultFolderForObject(element).getElements().add(element);
+            objectLookup.put(element.getId(), element);
+        }
+
+        String name = normalise(csvRecord.get(2));
+        element.setName(name);
+
+        String documentation = csvRecord.get(3);
+        element.setDocumentation(documentation);
+
+        // If we have a specialization name then create and add a new Profile
+        // Specialization is optional
+        String specializationName = csvRecord.size() > 4 ? csvRecord.get(4) : null;
+        if(StringUtils.isSet(specializationName)) {
+            setProfileForNewConcept(element, specializationName);
         }
     }
     
@@ -377,23 +266,21 @@ public class CSVImporter implements CSVConstants {
         }
 
         // Now connect the relations
-        for(Entry<String, IArchimateConcept> entry : newConcepts.entrySet()) {
-            if(entry.getValue() instanceof IArchimateRelationship) {
-                IArchimateRelationship relation = (IArchimateRelationship)entry.getValue();
-                
-                // Get the source and target ids from the lookup table
-                String[] sourceTargets = relationshipSourceTargets.get(relation);
-                IArchimateConcept source = findReferencedConcept(sourceTargets[0]);
-                IArchimateConcept target = findReferencedConcept(sourceTargets[1]);
-                
-                // Is it a valid relationship?
-                if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), relation.eClass())) {
-                    throw new CSVParseException(Messages.CSVImporter_5 + relation.getId());
-                }
-                
-                // Connect
-                relation.connect(source, target);
+        for(Entry<String, IArchimateRelationship> entry : newRelations.entrySet()) {
+            IArchimateRelationship relation = entry.getValue();
+
+            // Get the source and target ids from the lookup table
+            String[] sourceTargets = relationshipSourceTargets.get(relation);
+            IArchimateConcept source = findReferencedConcept(sourceTargets[0]);
+            IArchimateConcept target = findReferencedConcept(sourceTargets[1]);
+
+            // Is it a valid relationship?
+            if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), relation.eClass())) {
+                throw new CSVParseException(Messages.CSVImporter_5 + relation.getId());
             }
+
+            // Connect
+            relation.connect(source, target);
         }
     }
     
@@ -418,41 +305,30 @@ public class CSVImporter implements CSVConstants {
             throw new CSVParseException(Messages.CSVImporter_4 + id);
         }
 
-        String name = normalise(csvRecord.get(2));
-        String documentation = csvRecord.get(3);
-
-        // Specialization is optional
-        String specializationName = csvRecord.size() > 6 ? csvRecord.get(6) : null;
-        
-        // Is the relation already in the model?
-        IArchimateRelationship relation = (IArchimateRelationship)findArchimateConceptInModel(id, eClass);
-        
-        // Yes it is, so update values
-        if(relation != null) {
-            storeUpdatedConceptFeature(relation, IArchimatePackage.Literals.NAMEABLE__NAME, name);
-            storeUpdatedConceptFeature(relation, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, documentation);
-            if(specializationName != null) { // If this is at least blank
-                updateProfileForConcept(relation, specializationName);
-            }
-        }
-        // No, create a new one
-        else {
+        IArchimateRelationship relation = (IArchimateRelationship)findObjectInModel(id, eClass);
+        if(relation == null) {
             relation = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
             relation.setId(id);
-            relation.setName(name);
-            relation.setDocumentation(documentation);
-            
-            // Get source and target ids and store in lookup table
-            String sourceID = csvRecord.get(4);
-            String targetID = csvRecord.get(5);
-            relationshipSourceTargets.put(relation, new String[] { sourceID, targetID });
-            
-            newConcepts.put(id, relation);
-            
-            // If we have a specialization name then create and add a new Profile
-            if(StringUtils.isSet(specializationName)) {
-                setProfileForNewConcept(relation, specializationName);
-            }
+            newModel.getDefaultFolderForObject(relation).getElements().add(relation);
+            newRelations.put(id, relation);
+            objectLookup.put(relation.getId(), relation);
+        }
+
+        String name = normalise(csvRecord.get(2));
+        relation.setName(name);
+
+        String documentation = csvRecord.get(3);
+        relation.setDocumentation(documentation);
+
+        // Get source and target ids and store in lookup table
+        String sourceID = csvRecord.get(4);
+        String targetID = csvRecord.get(5);
+        relationshipSourceTargets.put(relation, new String[] { sourceID, targetID });
+
+        // If we have a specialization name then create and add a new Profile
+        String specializationName = csvRecord.size() > 6 ? csvRecord.get(6) : null;
+        if(StringUtils.isSet(specializationName)) {
+            setProfileForNewConcept(relation, specializationName);
         }
     }
 
@@ -479,6 +355,13 @@ public class CSVImporter implements CSVConstants {
                 createPropertyFromRecord(csvRecord);
             }
         }
+        
+        // Add properties now
+        for(Entry<IProperties, List<IProperty>> entry : newProperties.entrySet()) {
+            for(IProperty p : entry.getValue()) {
+                entry.getKey().getProperties().add(p);
+            }
+        }
     }
     
     private boolean isPropertiesRecordCorrectSize(CSVRecord csvRecord) {
@@ -499,23 +382,9 @@ public class CSVImporter implements CSVConstants {
             checkIDForInvalidCharacters(id);
         }
         
-        // Find referenced concept in newly created list
-        IProperties propertiesObject = newConcepts.get(id);
+        IProperties propertiesObject = (IProperties)findObjectInModel(id, IArchimatePackage.eINSTANCE.getProperties());
         
-        // Not found, check if it's referencing an existing element in the model
-        if(propertiesObject == null) {
-            EObject eObject = ArchimateModelUtils.getObjectByID(fModel, id);
-            if(eObject instanceof IProperties) {
-                propertiesObject = (IProperties)eObject;
-            }
-        }
-
-        // Not found, check if it's referencing the model
-        if(propertiesObject == null && id.equals(modelID)) {
-            propertiesObject = fModel;
-        }
-        
-        // Not found at all
+        // Not found
         if(propertiesObject == null) {
             throw new CSVParseException(Messages.CSVImporter_7 + id);
         }
@@ -525,20 +394,17 @@ public class CSVImporter implements CSVConstants {
         
         // Handle special properties for some concepts' attributes
         if(INFLUENCE_STRENGTH.equals(key) && propertiesObject instanceof IInfluenceRelationship) {
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
-                    IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, value);
+            ((IInfluenceRelationship)propertiesObject).setStrength(value);
             return;
         }
         else if(ACCESS_TYPE.equals(key) && propertiesObject instanceof IAccessRelationship) {
             int newvalue = ACCESS_TYPES.indexOf(value);
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
-                    IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE, newvalue);
+            ((IAccessRelationship)propertiesObject).setAccessType(newvalue);
             return;
         }
         else if(ASSOCIATION_DIRECTED.endsWith(key) && propertiesObject instanceof IAssociationRelationship) {
             boolean newvalue = "true".equalsIgnoreCase(value); //$NON-NLS-1$
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject,
-                    IArchimatePackage.Literals.ASSOCIATION_RELATIONSHIP__DIRECTED, newvalue);
+            ((IAssociationRelationship)propertiesObject).setDirected(newvalue);
             return;
         }
         else if(JUNCTION_TYPE.equals(key) && propertiesObject instanceof IJunction) {
@@ -548,21 +414,28 @@ public class CSVImporter implements CSVConstants {
             else {
                 value = IJunction.OR_JUNCTION_TYPE;
             }
-            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.JUNCTION__TYPE, value);
+            ((IJunction)propertiesObject).setType(value);
             return;
         }
         
         // Is there already a property with this key?
         IProperty property = getProperty(propertiesObject, key);
         if(property != null) {
-            updatedProperties.put(property, value);
+            property.setValue(value);
         }
-        // No, create new one
+        // Create new one
         else {
             property = IArchimateFactory.eINSTANCE.createProperty();
             property.setKey(key);
             property.setValue(value);
-            newProperties.put(property, propertiesObject);
+            
+            // Add properties in order
+            List<IProperty> list = newProperties.get(propertiesObject);
+            if(list == null) {
+                list = new ArrayList<>();
+                newProperties.put(propertiesObject, list);
+            }
+            list.add(property);
         }
     }
 
@@ -719,13 +592,7 @@ public class CSVImporter implements CSVConstants {
     }
     
     private String generateID() {
-        String id;
-        do {
-            id = UUID.randomUUID().toString();
-        }
-        while(newConcepts.containsKey(id));
-        
-        return id;
+        return UUIDFactory.createID(null);
     }
     
     void checkIDForInvalidCharacters(String id) throws CSVParseException {
@@ -735,17 +602,16 @@ public class CSVImporter implements CSVConstants {
     }
     
     /**
-     * Find an existing archimate concept in the model given its id and class type. Return null if not found.
-     * @throws CSVParseException 
+     * Find an existing object in the target model given its id and class type. Return null if not found.
      */
-    IArchimateConcept findArchimateConceptInModel(String id, EClass eClass) throws CSVParseException {
-        EObject eObject = ArchimateModelUtils.getObjectByID(fModel, id);
+    EObject findObjectInModel(String id, EClass eClass) throws CSVParseException {
+        EObject eObject = objectLookup.get(id);
         
         // Found an element with this id
         if(eObject != null) {
             // class matches
-            if(eObject.eClass() == eClass) {
-                return (IArchimateConcept)eObject;
+            if(eClass != null && eClass.isInstance(eObject)) {
+                return eObject;
             }
             // Not the right class, so that's an error we should report
             else {
@@ -758,16 +624,10 @@ public class CSVImporter implements CSVConstants {
     }
     
     /**
-     * Find a referenced concept either in the model or in the newly created elements list
+     * Find a referenced concept in the model
      */
     IArchimateConcept findReferencedConcept(String id) throws CSVParseException {
-        // Do we have it as a newly created element?
-        EObject eObject = newConcepts.get(id);
-        
-        // No. How about in the model?
-        if(eObject == null) {
-            eObject = ArchimateModelUtils.getObjectByID(fModel, id);
-        }
+        EObject eObject = objectLookup.get(id);
         
         // Not found
         if(eObject == null) {
@@ -803,89 +663,23 @@ public class CSVImporter implements CSVConstants {
         
         return null;
     }
-    
-    private void storeUpdatedConceptFeature(IArchimateConcept concept, EAttribute feature, Object value) {
-        Map<EAttribute, Object> map = updatedConcepts.get(concept);
-        
-        if(map == null) {
-            map = new HashMap<>();
-            updatedConcepts.put(concept, map);
-        }
-        
-        map.put(feature, value);
-    }
-    
-    // -------------------------------- Profile Helpers --------------------------------
-    
+
     /**
      * Set a profile for a newly created concept
      */
     private void setProfileForNewConcept(IArchimateConcept newConcept, String specializationName) {
         // Do we have a matching Profile in the model?
-        IProfile profile = findModelProfile(specializationName, newConcept.eClass().getName());
+        IProfile profile = ArchimateModelUtils.getProfileByNameAndType(newModel, specializationName, newConcept.eClass().getName());
         
-        // No, so create a new Profile and add it to the lookup list
+        // No, so create a new Profile
         if(profile == null) {
-            profile = createNewProfile(specializationName, newConcept.eClass().getName());
+            profile = IArchimateFactory.eINSTANCE.createProfile();
+            profile.setName(specializationName);
+            profile.setConceptType(newConcept.eClass().getName());
+            newModel.getProfiles().add(profile);
         }
         
         // Assign it
         newConcept.getProfiles().add(profile);
-    }
-    
-    /**
-     * Update a profile for an existing concept
-     */
-    private void updateProfileForConcept(IArchimateConcept concept, String specializationName) {
-        // If there is a specialization name
-        if(StringUtils.isSet(specializationName)) {
-            // If the concept doesn't have this Profile by name and type...
-            if(!ArchimateModelUtils.hasProfileByNameAndType(concept.getProfiles(), specializationName, concept.eClass().getName())) {
-                // See if there is a matching Profile in the model or lookup list
-                IProfile profile = findModelProfile(specializationName, concept.eClass().getName());
-                
-                // No, so create a new Profile and add it to the lookup list
-                if(profile == null) {
-                    profile = createNewProfile(specializationName, concept.eClass().getName());
-                }
-
-                // Store the concept in the list of updated profiles
-                updatedProfiles.put(concept, profile);
-            }
-        }
-        // If there is no specialization name then remove concept's existing Profile if present
-        else if(concept.getPrimaryProfile() != null) {
-            // Store null value in updated element
-            updatedProfiles.put(concept, null);
-        }
-    }
-    
-    /**
-     * Create a new profile and add it to the lookup list
-     */
-    private IProfile createNewProfile(String specializationName, String conceptType) {
-        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
-        profile.setName(specializationName);
-        profile.setConceptType(conceptType);
-        
-        // Add it to the lookup list
-        newProfiles.add(profile);
-        
-        return profile;
-    }
-    
-    /**
-     * Find a profile in the model or the lookup list
-     */
-    private IProfile findModelProfile(String profileName, String conceptType) {
-        // Is it in the model?
-        IProfile profile = ArchimateModelUtils.getProfileByNameAndType(fModel, profileName, conceptType);
-        
-        // Or our lookup list?
-        if(profile == null) {
-            profile = ArchimateModelUtils.getProfileByNameAndType(newProfiles, profileName, conceptType);
-        }
-        
-        return profile;
     }
 }
