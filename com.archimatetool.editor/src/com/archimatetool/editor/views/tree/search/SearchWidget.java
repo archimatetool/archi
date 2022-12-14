@@ -343,7 +343,8 @@ public class SearchWidget extends Composite {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass);
+                // Windows 11 doen't show a tick if we use an image in the menu
+                return PlatformUtils.isWindows11() ? null : ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass);
             }
         };
         
@@ -435,7 +436,8 @@ public class SearchWidget extends Composite {
                 
                 @Override
                 public ImageDescriptor getImageDescriptor() {
-                    return ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass());
+                    // Windows 11 doen't show checked state if we use an image in the menu
+                    return PlatformUtils.isWindows11() ? null : ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass());
                 }
             };
 

@@ -87,6 +87,14 @@ public class PlatformUtils {
     public static boolean isOSVersion(String version) {
         return System.getProperty("os.version").equals(version);
     }
+    
+    /**
+     * @return true if this is Windows 11
+     *  "os.version" returns 10 so we have to do this
+     */
+    public static boolean isWindows11() {
+        return System.getProperty("os.name").equals("Windows 11");
+    }
 
     /**
      * Compare given version to current OS version and see if the current OS version is greater than the given version
