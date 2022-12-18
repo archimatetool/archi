@@ -98,7 +98,7 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
     }
 
     private void setValues() {
-        fUserReportsFolderTextField.setText(JasperReportsPlugin.INSTANCE.getUserTemplatesFolder().getAbsolutePath());
+        fUserReportsFolderTextField.setText(getPreferenceStore().getString(JASPER_USER_REPORTS_FOLDER));
     }
     
     @Override
