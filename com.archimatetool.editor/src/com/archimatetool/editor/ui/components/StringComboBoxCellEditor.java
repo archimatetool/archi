@@ -22,25 +22,31 @@ public class StringComboBoxCellEditor extends ComboBoxCellEditor {
     public StringComboBoxCellEditor(Composite parent, String[] items, boolean editable) {
         super(parent, items);
         setEditable(editable);
-        ((CCombo)getControl()).setVisibleItemCount(12);
+        setVisibleItemCount(12);
     }
 
+    public void setVisibleItemCount(int count) {
+        getControl().setVisibleItemCount(count);
+    }
+    
+    @Override
+    public CCombo getControl() {
+        return (CCombo)super.getControl();
+    }
+    
     @Override
     protected Object doGetValue() {
-        CCombo combobox = (CCombo)getControl();
-        return combobox.getText();
+        return getControl().getText();
     }
     
     @Override
     protected void doSetValue(Object value) {
-        CCombo combobox = (CCombo)getControl();
         Assert.isTrue(value instanceof String);
-        combobox.setText((String)value);
+        getControl().setText((String)value);
     }
     
     public void setEditable(boolean val) {
-        CCombo combobox = (CCombo)getControl();
-        combobox.setEditable(val);
+        getControl().setEditable(val);
     }
     
     @Override
