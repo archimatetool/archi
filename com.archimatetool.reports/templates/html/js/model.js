@@ -74,7 +74,7 @@ $(document).ready(function() {
 	$('.hide-true').remove();
 	let topTreeFolders = $('.tree > li');
 	topTreeFolders.each(function(index) {
-		if (! $(this).find(' > ul > li').size()) {
+		if (! $(this).find(' > ul > li').length) {
 			$(this).remove();
 		}
 	});

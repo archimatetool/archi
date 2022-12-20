@@ -35,11 +35,11 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>^model.Name^</title>
 
-	<!-- JQUERY (use 1.x branch to be compatible with IE 6/7/8) / UI / LAYOUT -->
-	<script type="text/javascript" src="lib/jquery/js/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="lib/jquery-ui/js/jquery-ui-1.11.2.min.js"></script>
-	<script type="text/javascript" src="lib/jquery-ui-layout/js/jquery.layout-1.4.4.js"></script>
-	<link type="text/css" rel="stylesheet" href="lib/jquery-ui-layout/css/layout-default-1.4.4.css">
+	<!-- JQUERY / UI / LAYOUT -->
+	<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui-layout/jquery.layout-1.4.4.js"></script>
+	<link type="text/css" rel="stylesheet" href="lib/jquery-ui-layout/layout-default-1.4.4.css">
 	<!-- BOOTSTRAP -->
 	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.yeti.css">
 	<script type="text/javascript" src="lib/bootstrap/js/bootstrap-3.3.2.min.js"></script>
