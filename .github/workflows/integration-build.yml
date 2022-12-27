@@ -12,14 +12,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
-    - name: Find and Replace Eclipse p2 location to latest integration
-      uses: jacobtomlinson/gha-find-replace@v2
       with:
-        find: "https://download.eclipse.org/eclipse/updates/4.25"
-        replace: "https://download.eclipse.org/eclipse/updates/4.27-I-builds"
-        include: "pom.xml"
-        regex: false
+        ref: integration-build
     
     - name: Set up Java
       uses: actions/setup-java@v3
@@ -34,10 +28,10 @@ jobs:
         path: ~/.m2/repository
         key: maven-${{ hashFiles('**/pom.xml') }}
 
-    - name: Build product
+    - name: Run tests and build product
       run: |
         cp .github/toolchains.xml ~/.m2/toolchains.xml
-        mvn -V clean package -P product
+        xvfb-run mvn -V clean verify -P tests,product
 
     - name: Deploy to release
       uses: xresloader/upload-to-github-release@v1
