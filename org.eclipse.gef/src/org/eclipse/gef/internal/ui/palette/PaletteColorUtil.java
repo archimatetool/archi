@@ -16,9 +16,11 @@ import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.themes.ColorDefinition;
 import org.eclipse.ui.internal.themes.IThemeRegistry;
+import org.eclipse.ui.themes.IThemeManager;
 
 /**
  * A class to keep miscellaneous palette color utilities.
@@ -43,15 +45,33 @@ public class PaletteColorUtil {
     }
     
     // Added by Phillipus
-    public static final Color PALETTE_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_BACKGROUND", new RGB(255, 255, 255));
-    public static final Color PALETTE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_LABEL_FOREGROUND", new RGB(0, 0, 0));
-    public static final Color PALETTE_TOOLBAR_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND", new RGB(245, 245, 245));
-    public static final Color PALETTE_TITLE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND", ColorConstants.listForeground.getRGB());
-    public static final Color PALETTE_TITLE_LABEL_BACKGROUND_START = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START", ColorConstants.listBackground.getRGB());
-    public static final Color PALETTE_TITLE_LABEL_BACKGROUND_END = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END", ColorConstants.button.getRGB());
-    public static final Color PALETTE_ARROW_BUTTON_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND", ColorConstants.listBackground.getRGB());
-    public static final Color PALETTE_ARROW_BUTTON_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND", ColorConstants.buttonDarkest.getRGB());
+    public static Color PALETTE_BACKGROUND;
+    public static Color PALETTE_LABEL_FOREGROUND;
+    public static Color PALETTE_TOOLBAR_BACKGROUND;
+    public static Color PALETTE_TITLE_LABEL_FOREGROUND;
+    public static Color PALETTE_TITLE_LABEL_BACKGROUND_START;
+    public static Color PALETTE_TITLE_LABEL_BACKGROUND_END;
+    public static Color PALETTE_ARROW_BUTTON_BACKGROUND;
+    public static Color PALETTE_ARROW_BUTTON_FOREGROUND;
 
+    static {
+        initPaletteColors();
+        
+        IThemeManager themeManager = PlatformUI.getWorkbench().getThemeManager();
+        themeManager.addPropertyChangeListener(e -> initPaletteColors());
+    }
+    
+    private static void initPaletteColors() {
+        PALETTE_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_BACKGROUND", new RGB(255, 255, 255));
+        PALETTE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_LABEL_FOREGROUND", new RGB(0, 0, 0));
+        PALETTE_TOOLBAR_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND", new RGB(245, 245, 245));
+        PALETTE_TITLE_LABEL_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND", ColorConstants.listForeground.getRGB());
+        PALETTE_TITLE_LABEL_BACKGROUND_START = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START", ColorConstants.listBackground.getRGB());
+        PALETTE_TITLE_LABEL_BACKGROUND_END = getThemeColor("org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END", ColorConstants.button.getRGB());
+        PALETTE_ARROW_BUTTON_BACKGROUND = getThemeColor("org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND", ColorConstants.listBackground.getRGB());
+        PALETTE_ARROW_BUTTON_FOREGROUND = getThemeColor("org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND", ColorConstants.buttonDarkest.getRGB());
+    }
+    
     public static final Color WIDGET_BACKGROUND = ColorConstants.button;
 
     public static final Color WIDGET_NORMAL_SHADOW = ColorConstants.buttonDarker;
