@@ -43,6 +43,7 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.elements.ValueFigure;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -389,7 +390,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
             // roundedRectangle case
             corner = ((RoundedRectangle)figure).getCornerDimensions();
         }
-        else if(figure instanceof ValueFigure) {
+        else if(figure instanceof ValueFigure && ((IDiagramModelArchimateObject)((ValueFigure)figure).getDiagramModelObject()).getType() == 1) {
             // ellipse case
             corner = figure.getSize();
         }

@@ -100,7 +100,7 @@ public class ValueFigure extends AbstractMotivationFigure {
 
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        return new EllipseAnchor(this);
+        return getDiagramModelArchimateObject().getType() == 0 ? super.getDefaultConnectionAnchor() : new EllipseAnchor(this) ;
     }
 
     /**
