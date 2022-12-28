@@ -67,5 +67,60 @@
             label="System">
         </theme>
 	</extension>
+ <extension
+       point="org.eclipse.ui.themes">
+    <themeElementCategory
+          id="com.archimatetool.editor.themes"
+          label="Archi Theme">
+    </themeElementCategory>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="org.eclipse.gef.PALETTE_BACKGROUND"
+          label="Palette Background"
+          value="255,255,255">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="org.eclipse.gef.PALETTE_LABEL_FOREGROUND"
+          label="Palette Label Foreground"
+          value="0,0,0">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND"
+          label="Palette Toolbar Background"
+          value="245,245,245">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          defaultsTo="SWT.COLOR_LIST_FOREGROUND"
+          id="org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND"
+          label="Palette Title Label Foreground">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          defaultsTo="SWT.COLOR_LIST_BACKGROUND"
+          id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START"
+          label="Palette Title Label Background Start">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          defaultsTo="SWT.COLOR_WIDGET_BACKGROUND"
+          id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END"
+          label="Palette Title Label Background End">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          defaultsTo="SWT.COLOR_LIST_BACKGROUND"
+          id="org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND"
+          label="Palette Arrow Button Background">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          defaultsTo="SWT.COLOR_WIDGET_DARK_SHADOW"
+          id="org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND"
+          label="Palette Arrow Button Foreground">
+    </colorDefinition>
+ </extension>
    
 </plugin>
