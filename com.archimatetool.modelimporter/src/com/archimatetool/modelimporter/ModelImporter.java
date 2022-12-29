@@ -84,22 +84,55 @@ public class ModelImporter {
     }
     
     public void doImport(File importedFile, IArchimateModel targetModel) throws IOException, ImportException {
-        if(!importedFile.exists()) {
-            throw new IOException(NLS.bind(Messages.ModelImporter_2, importedFile));
-        }
-        
-        doImport(IEditorModelManager.INSTANCE.load(importedFile), targetModel);
+        doImport(loadModel(importedFile), targetModel);
     }
     
     public void doImport(IArchimateModel importedModel, IArchimateModel targetModel) throws IOException, ImportException {
         this.importedModel = importedModel;
         this.targetModel = targetModel;
         
+        // Run Commands
+        CommandStack stack = (CommandStack)targetModel.getAdapter(CommandStack.class);
+        stack.execute(getCommand());
+    }
+    
+    /**
+     * Return the Command to do the import. Can be executed on a Command Stack (jArchi)
+     */
+    public Command getCommand(File importedFile, IArchimateModel targetModel) throws IOException, ImportException {
+        return getCommand(loadModel(importedFile), targetModel);
+    }
+    
+    /**
+     * Return the Command to do the import. Can be executed on a Command Stack (jArchi)
+     */
+    public Command getCommand(IArchimateModel importedModel, IArchimateModel targetModel) throws IOException, ImportException {
+        this.importedModel = importedModel;
+        this.targetModel = targetModel;
+        return getCommand();
+    }
+    
+    private IArchimateModel loadModel(File importedFile) throws IOException {
+        if(!importedFile.exists()) {
+            throw new IOException(NLS.bind(Messages.ModelImporter_2, importedFile));
+        }
+        
+        return IEditorModelManager.INSTANCE.load(importedFile);
+    }
+    
+    private Command getCommand() throws IOException, ImportException {
         objectCache = createObjectIDCache();
         
         statusMessages = new ArrayList<>();
         
-        compoundCommand = new NonNotifyingCompoundCommand(Messages.ModelImporter_1);
+        compoundCommand = new NonNotifyingCompoundCommand(Messages.ModelImporter_1) {
+            @Override
+            public void execute() {
+                super.execute();
+            	// Release objects for GC
+                ModelImporter.this.dispose();
+            }
+        };
         
         // Upate root model object if the option is set
         if(updateAll) {
@@ -137,15 +170,8 @@ public class ModelImporter {
             // TODO: No more needed because we match profiles by name and can't generate duplicates
             // addCommand(new UnduplicateProfileNamesCommand(targetModel));
         }
-        
-        // Run Commands
-        CommandStack stack = (CommandStack)targetModel.getAdapter(CommandStack.class);
-        stack.execute(compoundCommand);
-        
-        objectCache.clear();
-        objectCache = null;
-        importedModel = null;
-        this.targetModel = null;
+
+        return compoundCommand;
     }
 
     protected IArchimateModel getImportedModel() {
@@ -328,6 +354,19 @@ public class ModelImporter {
      */
     void logMessage(StatusMessageLevel level, String message, Object... objs) {
         statusMessages.add(new StatusMessage(level, message, objs));
+    }
+    
+    /**
+     * Release objects for GC
+     */
+    public void dispose() {
+        if(objectCache != null) {
+            objectCache.clear();
+            objectCache = null;
+        }
+        importedModel = null;
+        targetModel = null;
+        compoundCommand = null;
     }
     
     // ====================================================================================================

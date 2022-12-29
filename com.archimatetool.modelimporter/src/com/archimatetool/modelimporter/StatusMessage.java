@@ -17,7 +17,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
  * 
  * @author Phillip Beauvoir
  */
-class StatusMessage {
+public class StatusMessage {
     
     enum StatusMessageLevel {
         
@@ -51,11 +51,11 @@ class StatusMessage {
         this.objs = objs;
     }
     
-    StatusMessageLevel getLevel() {
+    public StatusMessageLevel getLevel() {
         return level;
     }
     
-    String getMessage() {
+    public String getMessage() {
         Object[] objsList = Stream.of(objs)
                                       .map(obj -> ArchiLabelProvider.INSTANCE.getLabel(obj))
                                       .toArray();
