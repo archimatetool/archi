@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.text.Collator;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -152,7 +154,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
             }
         });
         
-        fTableViewer.setComparator(new ViewerComparator());
+        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
     }
     
     @Override

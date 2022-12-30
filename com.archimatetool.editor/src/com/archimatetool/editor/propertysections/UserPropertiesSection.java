@@ -6,6 +6,7 @@
 package com.archimatetool.editor.propertysections;
 
 import java.net.MalformedURLException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1081,6 +1082,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     private static class SortPropertiesCommand extends Command implements Comparator<IProperty>  {
         private EList<IProperty> properties;
         private List<IProperty> original;
+        private Collator collator = Collator.getInstance();
 
         public SortPropertiesCommand(EList<IProperty> properties) {
             setLabel(Messages.UserPropertiesSection_14);
@@ -1123,13 +1125,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         public int compare(IProperty p1, IProperty p2) {
             String key1 = StringUtils.safeString(p1.getKey());
             String key2 = StringUtils.safeString(p2.getKey());
-            return key1.compareToIgnoreCase(key2);
+            return collator.compare(key1, key2);
         }
 
         @Override
         public void dispose() {
             properties = null;
             original = null;
+            collator = null;
         }
     }
 
@@ -1207,7 +1210,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             
             tableViewer.getTable().setLinesVisible(true);
 
-            tableViewer.setComparator(new ViewerComparator());
+            tableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
 
             // Column
             TableViewerColumn columnKey = new TableViewerColumn(tableViewer, SWT.NONE, 0);

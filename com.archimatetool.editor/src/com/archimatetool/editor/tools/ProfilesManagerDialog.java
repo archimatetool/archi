@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.tools;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -257,10 +258,10 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         fTableViewer.getTable().setHeaderVisible(true);
         fTableViewer.getTable().setLinesVisible(true);
 
-        fTableViewer.setComparator(new ViewerComparator() {
+        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()) {
             @Override
             public int compare(Viewer viewer, Object e1, Object e2) {
-                return ((IProfile)e1).getName().compareToIgnoreCase(((IProfile)e2).getName());
+                return getComparator().compare(((IProfile)e1).getName(), ((IProfile)e2).getName());
             }
         });
 

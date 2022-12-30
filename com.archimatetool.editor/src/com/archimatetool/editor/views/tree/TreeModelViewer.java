@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.views.tree;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class TreeModelViewer extends TreeViewer {
         setUseHashlookup(true);
         
         // Sort
-        setComparator(new ViewerComparator() {
+        setComparator(new ViewerComparator(Collator.getInstance()) {
             @Override
             public int compare(Viewer viewer, Object e1, Object e2) {
                 int cat1 = category(e1);
@@ -134,8 +135,7 @@ public class TreeModelViewer extends TreeViewer {
                     label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
                 }
                 
-                //return getComparator().compare(label1, label2);
-                return label1.compareToIgnoreCase(label2);
+                return getComparator().compare(label1, label2);
             }
             
             @Override

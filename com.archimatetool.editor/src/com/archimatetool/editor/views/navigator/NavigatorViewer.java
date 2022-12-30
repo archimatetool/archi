@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.views.navigator;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class NavigatorViewer extends TreeViewer {
         setLabelProvider(new NavigatorViewerLabelProvider());
         setAutoExpandLevel(3);
         
-        setComparator(new ViewerComparator());
+        setComparator(new ViewerComparator(Collator.getInstance()));
     }
     
     /**

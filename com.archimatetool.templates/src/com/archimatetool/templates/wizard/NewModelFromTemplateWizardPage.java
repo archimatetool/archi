@@ -7,6 +7,7 @@ package com.archimatetool.templates.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Collator;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -138,7 +139,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         // My Templates
         gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         fUserTableViewer = createGroupsTableViewer(tableComposite, Messages.NewModelFromTemplateWizardPage_3, gd);
-        fUserTableViewer.setComparator(new ViewerComparator() {
+        fUserTableViewer.setComparator(new ViewerComparator(Collator.getInstance()) {
             @Override
             public int category(Object element) {
                 if(element == fTemplateManager.AllUserTemplatesGroup) {

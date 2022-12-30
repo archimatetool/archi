@@ -5,6 +5,7 @@
  */
 package com.archimatetool.templates.wizard;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class TemplateGroupsTableViewer extends TableViewer {
         setColumns();
         setContentProvider(new CategoriesTableViewerContentProvider());
         setLabelProvider(new CategoriesTableViewerLabelCellProvider());
-        setComparator(new ViewerComparator());
+        setComparator(new ViewerComparator(Collator.getInstance()));
     }
     
     /**

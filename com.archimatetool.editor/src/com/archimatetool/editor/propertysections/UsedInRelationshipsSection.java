@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.text.Collator;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -134,7 +136,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
             }
         });
         
-        fTableViewer.setComparator(new ViewerComparator());
+        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
         
         // DND
         fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE, new Transfer[] { LocalSelectionTransfer.getTransfer() },

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.templates.dialog;
 
+import java.text.Collator;
 import java.util.List;
 
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -40,7 +41,7 @@ public class TemplatesTableViewer extends TableViewer {
         setColumns();
         setContentProvider(new TemplatesTableViewerContentProvider());
         setLabelProvider(new TemplatesTableViewerLabelCellProvider());
-        setComparator(new ViewerComparator());
+        setComparator(new ViewerComparator(Collator.getInstance()));
     }
     
     /**

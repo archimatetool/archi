@@ -5,6 +5,7 @@
  */
 package com.archimatetool.templates.dialog;
 
+import java.text.Collator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -41,7 +42,7 @@ public class TemplatesTreeViewer extends TreeViewer {
         
         setContentProvider(new TemplatesTreeViewerContentProvider());
         setLabelProvider(new TemplatesTreeViewerLabelProvider());
-        setComparator(new ViewerComparator());
+        setComparator(new ViewerComparator(Collator.getInstance()));
     }
 
     /**

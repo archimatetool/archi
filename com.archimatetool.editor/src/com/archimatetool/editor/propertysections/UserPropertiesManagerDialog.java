@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.text.Collator;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -227,7 +228,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         fTableViewer.getTable().setHeaderVisible(true);
         fTableViewer.getTable().setLinesVisible(true);
 
-        fTableViewer.setComparator(new ViewerComparator());
+        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
 
         // Columns
         TableViewerColumn columnOldKey = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
