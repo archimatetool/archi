@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   const mouseDownHandler = function (e) {
-    ele.style.cursor = 'grabbing';
-    ele.style.userSelect = 'none';
+    diagram.style.cursor = 'grabbing';
+    diagram.style.userSelect = 'none';
 
     pos = {
       left: ele.scrollLeft,
@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
+    document.addEventListener('mouseout', mouseUpHandler);
   };
 
   const mouseMoveHandler = function (e) {
@@ -46,8 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const mouseUpHandler = function () {
-    ele.style.cursor = 'auto';
-    ele.style.removeProperty('user-select');
+    diagram.style.cursor = 'auto';
+    diagram.style.removeProperty('user-select');
 
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
@@ -58,5 +59,5 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Attach the handler
-  ele.addEventListener('mousedown', mouseDownHandler);
+  diagram.addEventListener('mousedown', mouseDownHandler);
 });
