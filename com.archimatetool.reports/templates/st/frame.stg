@@ -150,7 +150,6 @@ frame(element, map) ::= <<
 	<link type="text/css" rel="stylesheet" href="../../css/i18n.css">
 	<script type="text/javascript" src="../../js/frame.js"></script>
 	<script type="text/javascript" src="../../js/imageMapResizer.min.js"></script>
-	<script type="text/javascript" src="../../js/panelBodyScroller.js"></script>
 </head>
 
 <body>
