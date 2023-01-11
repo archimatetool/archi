@@ -36,7 +36,7 @@ import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
  * 
  * @author Phillip Beauvoir
  */
-class StatusDialog extends ExtendedTitleAreaDialog {
+public class StatusDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.ImportModel"; //$NON-NLS-1$
     
