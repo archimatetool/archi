@@ -102,8 +102,8 @@ public class Archi4Migrator {
                 if("dropins".equals(file.getName()) || ".metadata".equals(file.getName())) {
                     FileUtils.copyFolder(file, new File(currentLocation, file.getName()));
                 }
-                // Other folders go to the new documents folder
-                else {
+                // Other folders go to the new documents folder (if it's not the same as the user data folder)
+                else if(!previousLocation.equals(ArchiPlugin.INSTANCE.getUserDataFolder())) {
                     FileUtils.copyFolder(file, new File(ArchiPlugin.INSTANCE.getUserDataFolder(), file.getName()));
                 }
             }
