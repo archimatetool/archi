@@ -51,7 +51,7 @@
                     <!-- This should be set to "repository" from Eclipse 4.24 onwards to support PGP signing of plug-ins -->
                     <!-- Because the target platform's artifact metadata doesn't contain the pgp keys but the repository's artifact metadata does -->
                     <!-- See https://www.eclipse.org/tycho/sitedocs/tycho-p2/tycho-p2-director-plugin/materialize-products-mojo.html#source -->
-                    <source>targetPlatform</source>
+                    <source>repository</source>
                 </configuration>
             </plugin>
 
