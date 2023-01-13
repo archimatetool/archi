@@ -56,7 +56,7 @@ public class Archi4Migrator {
         currentLocation = new File(Platform.getInstanceLocation().getURL().getPath());
         
         // Flag file to denote migration has happened
-        File migratedFile = new File(currentLocation, "migrated");
+        File migratedFile = new File(previousLocation, "migrated");
         
         // No previous data location, or same as current location, or user has already been asked
         if(!previousLocation.exists() || previousLocation.equals(currentLocation) || migratedFile.exists()) {
@@ -76,14 +76,12 @@ public class Archi4Migrator {
             return false;
         }
         
-        if(response == DONT_ASK_AGAIN) {
-            // Create the migrated flag file so we don't ask the user again
-            Files.createFile(migratedFile.toPath());
-            return false;
-        }
-        
         // Create the migrated flag file so we don't ask the user again
         Files.createFile(migratedFile.toPath());
+        
+        if(response == DONT_ASK_AGAIN) {
+            return false;
+        }
 
         // Copy files
         for(File file : files) {
