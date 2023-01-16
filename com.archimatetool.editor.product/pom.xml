@@ -52,6 +52,11 @@
                     <!-- Because the target platform's artifact metadata doesn't contain the pgp keys but the repository's artifact metadata does -->
                     <!-- See https://www.eclipse.org/tycho/sitedocs/tycho-p2/tycho-p2-director-plugin/materialize-products-mojo.html#source -->
                     <source>targetPlatform</source>
+                    <formats>
+                        <linux>zip</linux>
+                        <macosx>zip</macosx>
+                        <win32>zip</win32>
+                    </formats>
                 </configuration>
             </plugin>
 
