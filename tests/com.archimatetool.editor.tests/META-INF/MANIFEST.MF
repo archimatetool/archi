@@ -7,7 +7,7 @@ Fragment-Host: com.archimatetool.editor
 Bundle-Vendor: Archi
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .
 Export-Package: com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.editor.tests

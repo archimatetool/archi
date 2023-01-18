@@ -8,5 +8,5 @@ Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.reports,
  com.archimatetool.commandline
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: com.archimatetool.reports.commandline

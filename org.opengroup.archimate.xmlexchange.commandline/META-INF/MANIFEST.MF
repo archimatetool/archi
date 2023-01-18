@@ -8,5 +8,5 @@ Bundle-Vendor: Archi, The Open Group
 Require-Bundle: com.archimatetool.commandline,
  org.opengroup.archimate.xmlexchange
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.commandline

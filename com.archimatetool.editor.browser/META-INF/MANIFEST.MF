@@ -8,7 +8,7 @@ Bundle-Activator: com.archimatetool.editor.browser.BrowserPlugin
 Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.editor.browser
 Automatic-Module-Name: com.archimatetool.editor.browser

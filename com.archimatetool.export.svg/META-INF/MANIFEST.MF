@@ -11,7 +11,7 @@ Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.archimatetool.editor
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.export.svg.jar,
  lib/batik-all-1.11.jar,

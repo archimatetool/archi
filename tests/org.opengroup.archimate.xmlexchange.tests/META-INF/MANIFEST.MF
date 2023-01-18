@@ -8,5 +8,5 @@ Bundle-Vendor: Archi, The Open Group
 Require-Bundle: org.junit,
  com.archimatetool.testsupport,
  com.archimatetool.canvas
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests
