@@ -58,6 +58,7 @@ table.border {
 td {
 	padding: 5px;
 	min-width: 100px;
+	vertical-align: top;
 }
 
 td.border {
