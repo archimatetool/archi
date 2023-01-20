@@ -74,12 +74,9 @@ pre {
     page-break-before: always;
 }
 
-.font12 {
+.heading {
 	font-size: 12pt;
-}
-
-.font14 {
-	font-size: 14pt;
+	font-weight: 600;
 }
 
 .caption {
