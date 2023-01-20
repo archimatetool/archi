@@ -70,6 +70,10 @@ pre {
     font-size: 11px;
 }
 
+.pagebreak {
+    page-break-before: always;
+}
+
 .font12 {
 	font-size: 12pt;
 }
