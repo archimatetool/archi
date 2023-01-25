@@ -43,6 +43,7 @@ import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -297,6 +298,11 @@ public class ModelImporter {
         
         if(eObject instanceof ICloneable) {
             newObject = (IArchimateModelObject)((ICloneable)eObject).getCopy();
+
+            // Clear Profiles. These will be copied later
+            if(newObject instanceof IProfiles) {
+                ((IProfiles)newObject).getProfiles().clear();
+            }
         }
         else {
             newObject = (IArchimateModelObject)EcoreUtil.create(eObject.eClass());
