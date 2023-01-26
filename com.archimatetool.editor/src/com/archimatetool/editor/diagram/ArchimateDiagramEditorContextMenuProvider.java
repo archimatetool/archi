@@ -14,7 +14,6 @@ import org.eclipse.jface.action.Separator;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
-import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -51,10 +50,6 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         // Delete from Model
         menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(DeleteFromModelAction.ID));
         
-        // Select Element in Tree
-        menu.appendToGroup(GROUP_RENAME, new Separator());
-        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
- 
         // Generate View For Element
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(ArchiActionFactory.GENERATE_VIEW.getId()));
 

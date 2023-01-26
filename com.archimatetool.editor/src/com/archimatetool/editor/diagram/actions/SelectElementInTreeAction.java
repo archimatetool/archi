@@ -19,6 +19,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelReference;
 
 
 /**
@@ -49,6 +50,9 @@ public class SelectElementInTreeAction extends SelectionAction {
                 if(model instanceof IDiagramModel) {
                     elements.add(model);
                 }
+                else if(model instanceof IDiagramModelReference) {
+                    elements.add(((IDiagramModelReference)model).getReferencedModel());
+                }
                 else if(model instanceof IDiagramModelArchimateComponent) {
                     elements.add(((IDiagramModelArchimateComponent)model).getArchimateConcept());
                 }
@@ -72,7 +76,8 @@ public class SelectElementInTreeAction extends SelectionAction {
         for(Object object : list) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModel || model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
+                if(model instanceof IDiagramModel || model instanceof IDiagramModelReference ||
+                        model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
                     return true;
                 }
             }
