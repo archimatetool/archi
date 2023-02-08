@@ -31,6 +31,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.impl.ArchimatePackage;
 
 
 
@@ -123,6 +124,41 @@ public class ArchiLabelProvider {
         if(provider != null) {
             return provider.getDefaultName();
         }
+        
+        return ""; //$NON-NLS-1$
+    }
+    
+    /**
+     * Get the letter indicating the layer of an EClass, used for accessibility.
+     * @param eClass The Class
+     * @return A name or null
+     */
+    public String getLevelLetter(EClass eClass) {
+    	if(eClass == null) {
+            return ""; //$NON-NLS-1$
+        }
+    	
+    	if(ArchimatePackage.eINSTANCE.getBusinessElement().isSuperTypeOf(eClass)) {
+    		return "B";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getApplicationElement().isSuperTypeOf(eClass)) {
+    		return "A";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(eClass)) {
+    		return "T";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getPhysicalElement().isSuperTypeOf(eClass)) {
+    		return "P";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getMotivationElement().isSuperTypeOf(eClass)) {
+    		return "M";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getImplementationMigrationElement().isSuperTypeOf(eClass)) {
+    		return "I";
+    	}
+    	if(ArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(eClass)) {
+    		return "S";
+    	}
         
         return ""; //$NON-NLS-1$
     }

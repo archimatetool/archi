@@ -20,8 +20,12 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextAlignment;
@@ -37,6 +41,7 @@ import com.archimatetool.model.ITextPosition;
 public abstract class AbstractTextControlContainerFigure extends AbstractContainerFigure implements ITextFigure {
     
     private IFigure fTextControl;
+    private IFigure fLayerTextControl;
     private int fTextControlType = TEXT_FLOW_CONTROL;
     
     public static final int TEXT_FLOW_CONTROL = 0;
@@ -80,6 +85,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             }
         };
         
+        fLayerTextControl = createLayerTextFlowControl(mainLocator);
+        
         add(getMainFigure(), mainLocator);
         
         // If the model object is IIconic
@@ -113,11 +120,14 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             if(fTextPositionDelegate != null) {
                 fTextPositionDelegate.updateTextPosition();
             }
-            
+           
             // Update Grid Layout
             GridLayout layout = (GridLayout)getTextControl().getParent().getParent().getLayoutManager();
             layout.marginWidth = getTextControlMarginWidth();
             layout.marginHeight = getTextControlMarginHeight();
+        }
+        if(fLayerTextControl instanceof TextFlow) {
+        	fLayerTextControl.setFont(FontFactory.getItalic(getFont()));
         }
 
         // Icon Image
@@ -197,6 +207,37 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         
         add(textWrapperFigure, textLocator);
         //add(page, textLocator);
+        
+        return textFlow;
+    }
+    
+    protected TextFlow createLayerTextFlowControl(Locator textLocator) {
+        IDiagramModelObject diagramModel = getDiagramModelObject();
+    	String layerText = null;
+        if (diagramModel instanceof IDiagramModelArchimateObject) {
+        	IArchimateElement element = ((IDiagramModelArchimateObject)diagramModel).getArchimateElement();
+        	layerText = ArchiLabelProvider.INSTANCE.getLevelLetter(element.eClass());
+        }
+        if (layerText == null || layerText.length() == 0) {
+        	return null;
+        }
+    	
+        TextFlow textFlow = new TextFlow();
+        textFlow.setText(layerText);
+        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow));
+        FlowPage page = new FlowPage();
+        page.add(textFlow);
+        
+        Figure textWrapperFigure = new Figure();
+        
+        GridLayout layout = new GridLayout();
+        layout.marginWidth = getTextControlMarginWidth();
+        layout.marginHeight = getTextControlMarginHeight();
+        textWrapperFigure.setLayoutManager(layout);
+
+        textWrapperFigure.add(page, new GridData(SWT.LEFT, SWT.TOP, true, true));
+        
+        add(textWrapperFigure, textLocator);
         
         return textFlow;
     }
