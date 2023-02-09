@@ -17,6 +17,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFolder;
@@ -99,8 +100,9 @@ abstract class AbstractImporter {
             if(targetParentFolder != null) {
                 addCommand(new AddObjectCommand(targetParentFolder, targetObject));
             }
-            // No
-            else {
+            // It can happen that importedObject is a relationship which happens to be the source or target
+            // of another relationship and might not have a parent folder at this point. It will get one later.
+            else if(!(importedObject instanceof IArchimateRelationship)) {
                 throw new ImportException("Target parent folder was null"); //$NON-NLS-1$
             }
         }
