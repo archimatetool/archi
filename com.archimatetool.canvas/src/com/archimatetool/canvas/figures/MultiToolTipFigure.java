@@ -34,7 +34,7 @@ public class MultiToolTipFigure extends Figure {
             public Dimension getPreferredSize(int wHint, int hHint) {
                 Dimension d = FigureUtilities.getTextExtents(fTextFlow.getText(), fTextFlow.getFont());
                 if(d.width > 400) {
-                    d.width = 400;
+                    d = super.getPreferredSize(400, -1);
                 }
                 return d;
             }

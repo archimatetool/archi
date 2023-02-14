@@ -6,10 +6,14 @@
 package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.text.FlowPage;
+import org.eclipse.draw2d.text.ParagraphTextLayout;
+import org.eclipse.draw2d.text.TextFlow;
 
 import com.archimatetool.editor.ui.FontFactory;
 
@@ -20,15 +24,16 @@ import com.archimatetool.editor.ui.FontFactory;
  * @author Phillip Beauvoir
  */
 public class ToolTipFigure extends Figure {
-    private Label l1, l2, l3;
+    
+    private TextFlow nameText, rubricText;
+    private Label typeLabel;
 
     public ToolTipFigure() {
         setBorder(new MarginBorder(3));
         ToolbarLayout layout = new ToolbarLayout();
         layout.setStretchMinorAxis(false);
         setLayoutManager(layout);
-        l1 = new Label();
-        add(l1);
+        nameText = createTextFlow();
     }
     
     public ToolTipFigure(String text) {
@@ -37,30 +42,48 @@ public class ToolTipFigure extends Figure {
     }
 
     public void setText(String text) {
-        l1.setText(text);
+        nameText.setText(text);
     }
 
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        // Not too wide
-        return super.getPreferredSize(450, hHint);
-    }
-    
     public void setType(String type) {
-        if(l2 == null) {
-            l1.setFont(FontFactory.SystemFontBold); // this becomes bold if we are a two-liner
-            l2 = new Label();
-            add(l2);
+        if(typeLabel == null) {
+            typeLabel = new Label();
+            add(typeLabel);
+            nameText.setFont(FontFactory.SystemFontBold); // Name becomes bold if type is set
         }
-        l2.setText(type);
+        typeLabel.setText(type);
     }
     
     public void setRubric(String text) {
-        if(l3 == null) {
-            l3 = new Label();
-            l3.setFont(FontFactory.SystemFontItalic);
-            add(l3);
+        if(rubricText == null) {
+            rubricText = createTextFlow();
+            rubricText.setFont(FontFactory.SystemFontItalic);
         }
-        l3.setText(text);
+        rubricText.setText(text);
+    }
+    
+    private TextFlow createTextFlow() {
+        TextFlow textFlow = new TextFlow();
+        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, ParagraphTextLayout.WORD_WRAP_HARD));
+        
+        FlowPage page = new FlowPage() {
+            @Override
+            public Dimension getPreferredSize(int wHint, int hHint) {
+                if(textFlow.getText().length() == 0) {
+                    return new Dimension();
+                }
+                
+                Dimension d = FigureUtilities.getTextExtents(textFlow.getText(), textFlow.getFont());
+                if(d.width > 400) {
+                    d = super.getPreferredSize(400, -1);
+                }
+                return d;
+            }
+        };
+        
+        page.add(textFlow);
+        add(page);
+        
+        return textFlow;
     }
 }
