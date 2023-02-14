@@ -9102,13 +9102,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = CONNECTABLE_FEATURE_COUNT + 5;
 
     /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT = CONNECTABLE_FEATURE_COUNT + 6;
+
+    /**
      * The feature id for the '<em><b>Text</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT = CONNECTABLE_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_CONNECTION__TEXT = CONNECTABLE_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -9117,7 +9126,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = CONNECTABLE_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = CONNECTABLE_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -9126,7 +9135,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__SOURCE = CONNECTABLE_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_CONNECTION__SOURCE = CONNECTABLE_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -9135,7 +9144,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TARGET = CONNECTABLE_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_CONNECTION__TARGET = CONNECTABLE_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
@@ -9144,7 +9153,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = CONNECTABLE_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = CONNECTABLE_FEATURE_COUNT + 11;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -9153,7 +9162,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TYPE = CONNECTABLE_FEATURE_COUNT + 11;
+    int DIAGRAM_MODEL_CONNECTION__TYPE = CONNECTABLE_FEATURE_COUNT + 12;
 
     /**
      * The number of structural features of the '<em>Diagram Model Connection</em>' class.
@@ -9162,7 +9171,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 12;
+    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 13;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateConnection <em>Diagram Model Archimate Connection</em>}' class.
@@ -10103,6 +10112,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_CONNECTION__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT_ALIGNMENT = DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Text</b></em>' attribute.

@@ -26,6 +26,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.ITextAlignment;
 
 
 /**
@@ -42,6 +43,7 @@ import com.archimatetool.model.IProperty;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getLineColor <em>Line Color</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
@@ -162,6 +164,26 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * @ordered
      */
     protected String lineColor = LINE_COLOR_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextAlignment()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_ALIGNMENT_EDEFAULT = 2;
+
+    /**
+     * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextAlignment()
+     * @generated
+     * @ordered
+     */
+    protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
 
     /**
      * The default value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -500,6 +522,29 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * @generated
      */
     @Override
+    public int getTextAlignment() {
+        return textAlignment;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setTextAlignment(int newTextAlignment) {
+        int oldTextAlignment = textAlignment;
+        textAlignment = newTextAlignment;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT, oldTextAlignment, textAlignment));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public int getTextPosition() {
         return textPosition;
     }
@@ -640,6 +685,8 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return getLineWidth();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
                 return getLineColor();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
+                return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return getText();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -683,6 +730,9 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
                 setLineColor((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
+                setTextAlignment((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText((String)newValue);
@@ -733,6 +783,9 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
                 setLineColor(LINE_COLOR_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
+                setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText(TEXT_EDEFAULT);
                 return;
@@ -775,6 +828,8 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return lineWidth != LINE_WIDTH_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
+                return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -824,6 +879,12 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 default: return -1;
             }
         }
+        if (baseClass == ITextAlignment.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT: return IArchimatePackage.TEXT_ALIGNMENT__TEXT_ALIGNMENT;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -860,6 +921,12 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 default: return -1;
             }
         }
+        if (baseClass == ITextAlignment.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.TEXT_ALIGNMENT__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -883,6 +950,8 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
         result.append(lineWidth);
         result.append(", lineColor: "); //$NON-NLS-1$
         result.append(lineColor);
+        result.append(", textAlignment: "); //$NON-NLS-1$
+        result.append(textAlignment);
         result.append(", text: "); //$NON-NLS-1$
         result.append(text);
         result.append(", textPosition: "); //$NON-NLS-1$

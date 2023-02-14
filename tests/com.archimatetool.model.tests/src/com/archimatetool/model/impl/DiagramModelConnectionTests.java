@@ -22,6 +22,7 @@ import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ITextAlignment;
 
 
 @SuppressWarnings("nls")
@@ -159,6 +160,17 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
         assertEquals(IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE, connection.getTextPosition());
         connection.setTextPosition(2);
         assertEquals(2, connection.getTextPosition());
+    }
+    
+    @Test
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, connection.getTextAlignment());
+    }
+    
+    @Test
+    public void testSetTextAlignment() {
+        connection.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_RIGHT);
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_RIGHT, connection.getTextAlignment());
     }
     
     @Test

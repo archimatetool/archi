@@ -23,14 +23,14 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
 
 /**
- * Property Section for a Text Alignment and Poistion object
+ * Property Section for a Text Alignment and/or Text Position object
  * 
  * @author Phillip Beauvoir
  */
@@ -50,22 +50,27 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
 
         @Override
         public Class<?> getAdaptableType() {
-            return IDiagramModelObject.class;
+            return IDiagramModelComponent.class;
         }
     }
 
+    private Composite parentComposite;
+    private Composite textPositionComposite;
+    
     private Button[] fAlignmentButtons = new Button[3];
     private Button[] fPositionButtons = new Button[3];
     
     @Override
-    protected void createControls(final Composite parent) {
+    protected void createControls(Composite parent) {
+        parentComposite = parent;
+        
         ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
         
-        Composite group1 = createComposite(parent, 2, false);
-        createTextAlignmentControls(group1);
+        Composite textAlignmentComposite = createComposite(parent, 2, false);
+        createTextAlignmentControls(textAlignmentComposite);
         
-        Composite group2 = createComposite(parent, 2, false);
-        createTextPositionControls(group2);
+        textPositionComposite = createComposite(parent, 2, false);
+        createTextPositionControls(textPositionComposite);
         
         // Allow setting 1 or 2 columns
         GridLayoutColumnHandler.create(parent, 2).updateColumns();
@@ -142,11 +147,14 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
                         
                         CompoundCommand result = new CompoundCommand();
                         
-                        for(EObject textPosition : getEObjects()) {
-                            if(((ITextPosition)textPosition).getTextPosition() != position && isAlive(textPosition)) {
-                                Command cmd = new TextPositionCommand((ITextPosition)textPosition, position);
-                                if(cmd.canExecute()) {
-                                    result.add(cmd);
+                        for(EObject eObject : getEObjects()) {
+                            if(eObject instanceof ITextPosition) {
+                                ITextPosition textPosition = (ITextPosition)eObject;
+                                if(textPosition.getTextPosition() != position && isAlive(textPosition)) {
+                                    Command cmd = new TextPositionCommand(textPosition, position);
+                                    if(cmd.canExecute()) {
+                                        result.add(cmd);
+                                    }
                                 }
                             }
                         }
@@ -212,9 +220,11 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
         
         IArchimateModelObject firstSelected = getFirstSelectedObject();
 
-        for(int i = 0; i < fAlignmentButtons.length; i++) {
-            fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
-            fAlignmentButtons[i].setEnabled(!isLocked(firstSelected) && firstSelected instanceof ITextAlignment);
+        if(firstSelected instanceof ITextAlignment) {
+            for(int i = 0; i < fAlignmentButtons.length; i++) {
+                fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
+                fAlignmentButtons[i].setEnabled(!isLocked(firstSelected));
+            }
         }
     }
     
@@ -223,11 +233,29 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
             return; 
         }
         
-        IArchimateModelObject firstSelected = getFirstSelectedObject();
+        boolean shouldShow = true;
         
-        for(int i = 0; i < fPositionButtons.length; i++) {
-            fPositionButtons[i].setSelection(fPositionButtons[i] == getPositionButton());
-            fPositionButtons[i].setEnabled(!isLocked(firstSelected) && firstSelected instanceof ITextPosition);
+        for(IArchimateModelObject eObject : getEObjects()) {
+            if(!(eObject instanceof ITextPosition)) {
+                shouldShow = false;
+                break;
+            }
+        }
+        
+        if(shouldShow) {
+            if(textPositionComposite == null) {
+                textPositionComposite = createComposite(parentComposite, 2, false);
+                createTextPositionControls(textPositionComposite);
+            }
+
+            for(int i = 0; i < fPositionButtons.length; i++) {
+                fPositionButtons[i].setSelection(fPositionButtons[i] == getPositionButton());
+                fPositionButtons[i].setEnabled(!isLocked(getFirstSelectedObject()));
+            }
+        }
+        else if(textPositionComposite != null) {
+            textPositionComposite.dispose();
+            textPositionComposite = null;
         }
     }
     

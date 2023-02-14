@@ -357,7 +357,7 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider #//Properties #//Documentable"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject #//TextAlignment">
     <eOperations name="connect">
       <eParameters name="source" eType="#//Connectable"/>
       <eParameters name="target" eType="#//Connectable"/>

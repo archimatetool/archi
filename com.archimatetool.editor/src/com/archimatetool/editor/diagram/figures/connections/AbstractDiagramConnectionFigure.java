@@ -9,9 +9,11 @@ import java.util.Arrays;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
+import org.eclipse.draw2d.geometry.Dimension;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
@@ -33,7 +35,6 @@ import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -56,6 +57,9 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fLineColor;
     
     private static Color TARGET_FEEDBACK_COLOR = new Color(0, 0, 255);
+    
+    // Max width of text label
+    private static final int TEXT_LABEL_MAX_WIDTH = 300;
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
@@ -95,6 +99,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         setLineWidth();
         
+        setTextAlignment(getModelConnection().getTextAlignment());
+        
         getFlowPage().setOpaque(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
         
         repaint(); // repaint when figure changes
@@ -117,7 +123,21 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             fTextFlow = new TextFlow();
             //fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_HARD));
             
-            FlowPage flowPage = new FlowPage();
+            FlowPage flowPage = new FlowPage() {
+                @Override
+                public Dimension getPreferredSize(int wHint, int hHint) {
+                    if(fTextFlow.getText().length() == 0) {
+                        return new Dimension();
+                    }
+                    
+                    Dimension d = FigureUtilities.getTextExtents(fTextFlow.getText(), fTextFlow.getFont());
+                    if(d.width > TEXT_LABEL_MAX_WIDTH) {
+                        d = super.getPreferredSize(TEXT_LABEL_MAX_WIDTH, -1);
+                    }
+                    return d;
+                }
+            };
+            
             flowPage.add(fTextFlow);
             
             add(flowPage);
@@ -140,15 +160,12 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         switch(position) {
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE:
                 locator = new ArchiConnectionEndpointLocator(this, false);
-                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE:
                 locator = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
-                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_CENTER); // Text align center
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET:
                 locator = new ArchiConnectionEndpointLocator(this, true);
-                setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT); // Text align left
                 break;
         }
         

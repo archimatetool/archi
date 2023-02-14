@@ -29,7 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface IDiagramModelConnection extends IConnectable, IFontAttribute, IProperties, IDocumentable, ILineObject {
+public interface IDiagramModelConnection extends IConnectable, IFontAttribute, IProperties, IDocumentable, ILineObject, ITextAlignment {
     
     /**
      * Text Position at source
