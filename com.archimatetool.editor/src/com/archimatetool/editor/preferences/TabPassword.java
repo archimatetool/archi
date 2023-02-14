@@ -98,7 +98,8 @@ public class TabPassword {
 		Group providersGroup = new Group(page, SWT.NONE);
 		providersGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		providersGroup.setLayout(new GridLayout());
-		providersGroup.setText(SecUIMessages.providerGroup);
+		// Philipus moved this further down...
+		//providersGroup.setText(SecUIMessages.providerGroup);
 
 		Label providersNote = new Label(providersGroup, SWT.WRAP);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -197,10 +198,10 @@ public class TabPassword {
 		descriptionLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 		descriptionLabel.setText(SecUIMessages.providerDetails);
 
-        // Phillipus changed this to workaround Ventura bug
-		detailsText = new Text(page, SWT.MULTI | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY | SWT.WRAP);
-        // Then add to composite in a Group
-		detailsText.setParent(providersComp);
+		detailsText = new Text(providersComp, SWT.MULTI | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY | SWT.WRAP);
+		
+        // Phillipus moved this here to workaround Mac Ventura bug
+		providersGroup.setText(SecUIMessages.providerGroup);
 		
 		detailsText.setBackground(detailsText.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		gridData = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);

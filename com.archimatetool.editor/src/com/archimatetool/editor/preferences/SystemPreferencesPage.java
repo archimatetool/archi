@@ -19,6 +19,8 @@ import org.eclipse.ui.dialogs.PreferenceLinkArea;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -28,11 +30,12 @@ import com.archimatetool.editor.ArchiPlugin;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class SystemPreferencesPage
 extends PreferencePage
 implements IWorkbenchPreferencePage {
     
-    private static String HELP_ID = "com.archimatetool.help.prefsSystem"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.prefsSystem";
     
 	public SystemPreferencesPage() {
 		setPreferenceStore(ArchiPlugin.PREFERENCES);
@@ -50,19 +53,19 @@ implements IWorkbenchPreferencePage {
         Dialog.applyDialogFont(pageArea);
 
         // Help
-        addLinkArea(pageArea, "org.eclipse.help.ui.browsersPreferencePage"); //$NON-NLS-1$
+        addLinkArea(pageArea, "org.eclipse.help.ui.browsersPreferencePage");
         
         // Keys
-        addLinkArea(pageArea, "com.archimatetool.editor.keys"); //$NON-NLS-1$
+        addLinkArea(pageArea, "com.archimatetool.editor.keys");
         
         // Metwork
-        addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork"); //$NON-NLS-1$
+        addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork");
 
         // Security
-        addLinkArea(pageArea, "com.archimatetool.editor.security"); //$NON-NLS-1$
+        addLinkArea(pageArea, PlatformUtils.isMac() && ImageFactory.getDeviceZoom() == 100 ? "com.archimatetool.editor.security" : "org.eclipse.equinox.security.ui.storage");
         
         // Browser
-        addLinkArea(pageArea, "org.eclipse.ui.browser.preferencePage"); //$NON-NLS-1$
+        addLinkArea(pageArea, "org.eclipse.ui.browser.preferencePage");
         
         return pageArea;
     }
