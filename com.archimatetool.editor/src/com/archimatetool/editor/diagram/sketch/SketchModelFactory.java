@@ -110,7 +110,7 @@ public class SketchModelFactory implements ICreationFactory {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
 
         if(object instanceof ITextAlignment) {
-            ((IDiagramModelObject)object).setTextAlignment(provider.getDefaultTextAlignment());
+            ((ITextAlignment)object).setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
         if(object instanceof ITextPosition) {
