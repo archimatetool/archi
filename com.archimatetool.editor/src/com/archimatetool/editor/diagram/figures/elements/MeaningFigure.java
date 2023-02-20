@@ -39,7 +39,7 @@ public class MeaningFigure extends AbstractMotivationFigure {
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, 1, bounds);
         
-        // The following is the most awful code to draw a cloud...
+        // The following is a not so awful code to draw a cloud...
         
         graphics.setAlpha(getAlpha());
         
@@ -47,57 +47,42 @@ public class MeaningFigure extends AbstractMotivationFigure {
             setDisabledState(graphics);
         }
         
+        // Meaning icon is drawn inside a 12x7 grid using bezier curves
+        // (online tool to help define curves: https://www.victoriakirst.com/beziertool/)
+        float gridUnitX = (float)(bounds.width / 12.0);
+        float gridUnitY = (float)(bounds.height / 7.0);
+        
+        // Define Path
+        Path path = new Path(null);
+        // Big bubble
+        path.moveTo( bounds.x +    gridUnitX, bounds.y + 2*gridUnitY);
+        path.cubicTo(bounds.x               , bounds.y              , bounds.x +  2*gridUnitX, bounds.y              , bounds.x +  3*gridUnitX, bounds.y +   gridUnitY);
+        path.cubicTo(bounds.x +  4*gridUnitX, bounds.y              , bounds.x +  6*gridUnitX, bounds.y              , bounds.x +  7*gridUnitX, bounds.y +   gridUnitY);
+        path.cubicTo(bounds.x +  8*gridUnitX, bounds.y              , bounds.x + 10*gridUnitX, bounds.y              , bounds.x + 10*gridUnitX, bounds.y +   gridUnitY);
+        path.cubicTo(bounds.x + 12*gridUnitX, bounds.y              , bounds.x + 12*gridUnitX, bounds.y + 2*gridUnitY, bounds.x + 11*gridUnitX, bounds.y + 3*gridUnitY);
+        path.cubicTo(bounds.x + 12*gridUnitX, bounds.y + 3*gridUnitY, bounds.x + 12*gridUnitX, bounds.y + 4*gridUnitY, bounds.x + 11*gridUnitX, bounds.y + 5*gridUnitY);
+        path.cubicTo(bounds.x + 11*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  8*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  7*gridUnitX, bounds.y + 6*gridUnitY);
+        path.cubicTo(bounds.x +  6*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  2*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  2*gridUnitX, bounds.y + 5*gridUnitY);
+        path.cubicTo(bounds.x               , bounds.y + 5*gridUnitY, bounds.x               , bounds.y + 3*gridUnitY, bounds.x +    gridUnitX, bounds.y + 2*gridUnitY);
+        // Small bubble
+        path.moveTo(bounds.x + 0.5f*gridUnitX, bounds.y + 5.5f*gridUnitY);
+        path.cubicTo(bounds.x + gridUnitX, bounds.y +    5*gridUnitY, bounds.x + 2*gridUnitX, bounds.y + 5.5f*gridUnitY, bounds.x + 1.5f*gridUnitX, bounds.y +    6*gridUnitY);
+        path.cubicTo(bounds.x + gridUnitX, bounds.y	+ 6.5f*gridUnitY, bounds.x              , bounds.y +    6*gridUnitY, bounds.x + 0.5f*gridUnitX, bounds.y + 5.5f*gridUnitY);
+        
         // Main fill
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, bounds);
-        
-        Path path = new Path(null);
-        path.addArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 0, 360);
         graphics.fillPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 0, 360);
-        graphics.fillPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(bounds.x, bounds.y + bounds.height/3, bounds.width/5 * 3, bounds.height/3 * 2 - 1, 0, 360);
-        graphics.fillPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2, 0, 360);
-        graphics.fillPath(path);
-        path.dispose();
-        
         disposeGradientPattern(graphics, gradient);
         
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        path = new Path(null);
-        path.addArc(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, 60, 149);
         graphics.drawPath(path);
-        path.dispose();
         
-        path = new Path(null);
-        path.addArc(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2, -38, 157);
-        graphics.drawPath(path);
+        // Delete Path and free memory
         path.dispose();
-        
-        path = new Path(null);
-        path.addArc(bounds.x, bounds.y + bounds.height / 3, bounds.width/5 * 3, bounds.height/3 * 2 - 1, -41, -171);
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2, 7, -120);
-        graphics.drawPath(path);
-        path.dispose();
-        
+                
         // Icon
         drawIconImage(graphics, bounds);
 
@@ -155,5 +140,4 @@ public class MeaningFigure extends AbstractMotivationFigure {
     public int getIconOffset() {
         return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
     }
-
 }
