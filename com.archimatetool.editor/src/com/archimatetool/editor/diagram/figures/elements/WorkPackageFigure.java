@@ -9,6 +9,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
@@ -54,7 +55,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         Rectangle imageBounds = rect.getCopy();
         
-        setFigurePositionFromTextPosition(rect);
+        setFigurePositionFromTextPosition(rect, 8/7.0);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -64,39 +65,65 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         graphics.setForegroundColor(getLineColor());
         graphics.setBackgroundColor(getLineColor());
         
-        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 10);
+        /*
+         * WorkPackage icon is drawn inside a 8x7 grid:
+         *  -------------------------
+         *  :  :  ://:\\:  :  :  :  :
+         *  -------------------------
+         *  :  ://:  :  :\\:  :  :  :
+         *  -------------------------
+         *  :(|:  :  :  :  :|):  :  :
+         *  -------------------------
+         *  :(|:  :  :  :  :|):  :  :
+         *  -------------------------
+         *  :  :\\:  :  :  :  :|\:  :
+         *  -------------------------
+         *  :  :  :\\:==:==:==:+=:=>:
+         *  -------------------------
+         *  :  :  :  :  :  :  :|/:  :
+         *  -------------------------
+         */
+   
+        float gridUnit = (float)(rect.width / 8.0);
+        int lineWidth = (int) gridUnit;
         graphics.setLineWidth(lineWidth);
+        // Use rounded ends when drawing
+        graphics.setLineCap(SWT.CAP_ROUND);
         
         Path path = new Path(null);
         
-        int radius = getRadius(rect);
-        int actualRadius = getRadius(rect) - Math.round(radius / 10.0f) - lineWidth / 2;
-        Point center = rect.getCenter();
+        // Semi-circle is drawn inside a 6x6 square but because of line width radius is only 2,5
+        float radius = (int) (2.5f * gridUnit);
+        path.addArc(rect.x + gridUnit / 2,
+                rect.y + gridUnit / 2,
+                radius * 2,
+                radius * 2,
+                -25,
+                295);	// this added to previous number must be equal to 270
         
-        // Semi-circle
-        path.addArc((float)center.preciseX() - actualRadius,
-                    (float)center.preciseY() - actualRadius,
-                    actualRadius * 2,
-                    actualRadius * 2,
-                    320,
-                    315);
+        // Save current position
+        float[] currentPoint = new float[2];
+        path.getCurrentPoint(currentPoint);
         
         // Line
-        path.moveTo(center.x, center.y + actualRadius);
-        path.lineTo(center.x + radius, center.y + actualRadius);
+        path.lineTo(currentPoint[0] + 3 * gridUnit, currentPoint[1]);
         
+        // Draw semi-circle and line segment
         graphics.drawPath(path);
+        
+        // Update current position before disposing the path
+        path.getCurrentPoint(currentPoint);
         path.dispose();
         
         // Triangle
         path = new Path(null);
+        path.moveTo(currentPoint[0], currentPoint[1]);
+        path.lineTo(currentPoint[0], currentPoint[1] - 1.5f * gridUnit);
+        path.lineTo(currentPoint[0] + 2 * gridUnit, currentPoint[1]);
+        path.lineTo(currentPoint[0], currentPoint[1] + 1.5f * gridUnit);
         
-        path.moveTo(center.x + radius, center.y + actualRadius - lineWidth);
-        path.lineTo(center.x + radius + lineWidth, center.y + actualRadius);
-        path.lineTo(center.x + radius, center.y + actualRadius + lineWidth);
-        
+        // Draw triangle
         path.close();
-        
         graphics.fillPath(path);
         path.dispose();
 
@@ -104,13 +131,6 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
-    }
-    
-    private int getRadius(Rectangle rect) {
-        int r1 = rect.height / 2;
-        int r2 = rect.width / 3;
-        int radius = Math.min(r1, r2);
-        return radius - radius % 2;
     }
     
     /**
@@ -135,11 +155,11 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         Path path = new Path(null);
         
         // Circle
-        path.addArc(pt.x, pt.y, circleWidth, circleWidth, 320, 315);
+        path.addArc(pt.x, pt.y, circleWidth, circleWidth, 340, 295);
         
         // Line
         path.moveTo(pt.x + circleHalf, pt.y + circleWidth);
-        path.lineTo(pt.x + 10, pt.y + circleWidth);
+        path.lineTo(pt.x + 11, pt.y + circleWidth);
         
         graphics.drawPath(path);
         path.dispose();
@@ -147,9 +167,9 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         // Triangle
         path = new Path(null);
         
-        path.moveTo(pt.x + 10, pt.y + circleWidth - 2);
-        path.lineTo(pt.x + 12, pt.y + circleWidth);
-        path.lineTo(pt.x + 10, pt.y + circleWidth + 2);
+        path.moveTo(pt.x + 11, pt.y + circleWidth - 3);
+        path.lineTo(pt.x + 15, pt.y + circleWidth);
+        path.lineTo(pt.x + 11, pt.y + circleWidth + 3);
         
         path.close();
         
@@ -164,12 +184,12 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
     }
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 18 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
     }
 
     @Override
