@@ -22,7 +22,7 @@ openFile
       <programArgsWin>-eclipse.keyring
 @user.home/AppData/Roaming/Archi/secure_storage
       </programArgsWin>
-      <vmArgs>-Dosgi.requiredJavaVersion=11
+      <vmArgs>-Dosgi.requiredJavaVersion=17
 -Declipse.p2.data.area=@config.dir/p2
 -Ddata.location=@user.home/Documents/Archi
 --add-modules=ALL-SYSTEM
