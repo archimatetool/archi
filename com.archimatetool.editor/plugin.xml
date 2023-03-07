@@ -31,7 +31,7 @@
            value="Archi"/>
      <property
            name="windowImages"
-           value="img/app-16.png,img/app-32.png,img/app-48.png,img/app-64.png,img/app-128.png,img/app-256.png"/>
+           value="img/app-16.png,img/app-32.png,img/app-48.png"/>
      <property
            name="cssTheme"
            value="org.eclipse.e4.ui.css.theme.e4_default">

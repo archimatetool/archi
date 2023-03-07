@@ -43,7 +43,7 @@ openFile
       </vmArgsWin>
    </launcherArgs>
 
-   <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png" i256="/com.archimatetool.editor/img/app-256.png"/>
+   <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png"/>
 
    <splash
       location="com.archimatetool.editor" />
