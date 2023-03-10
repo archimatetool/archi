@@ -27,6 +27,7 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
@@ -52,6 +53,15 @@ import com.archimatetool.modelimporter.ModelImporter;
 
 /**
  * CSV Importer
+ * 
+ * This uses the Model Importer to do the work.
+ * 
+ * 1. Create a copy of the target mode
+ * 2. Remove the diagram folders from the copied model as we are only importing concepts and properties
+ * 3. Add an ArchiveManager to the copied model - the copied model may have images in it
+ * 4. Import the elements, relations and properties from CSV into the copied model
+ * 5. Import the copied model into the target model using the Model Importer
+ * 6. The Model Importer will diff the copied and target models and create the undo/redo commmands
  * 
  * @author Phillip Beauvoir
  */
@@ -104,7 +114,14 @@ public class CSVImporter implements CSVConstants {
     }
     
     void copyModel() {
+        // Copy the model
         newModel = EcoreUtil.copy(targetModel);
+        
+        // Add an Archive Manager - this is needed by the model importer if the target model has images
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(newModel);
+        newModel.setAdapter(IArchiveManager.class, archiveManager);
+        
+        // Clear the diagrams as we are only importing concepts and properties
         newModel.getFolder(FolderType.DIAGRAMS).getFolders().clear();
         newModel.getFolder(FolderType.DIAGRAMS).getElements().clear();
         

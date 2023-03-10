@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -31,6 +32,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -67,6 +69,7 @@ public class CSVImporterTests {
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
         model.setAdapter(CommandStack.class, new CommandStack());
+        model.setAdapter(IArchiveManager.class, IArchiveManager.FACTORY.createArchiveManager(model));
         
         importer = new CSVImporter(model);
     }
@@ -139,6 +142,19 @@ public class CSVImporterTests {
         IProperty property = relation.getProperties().get(0);
         assertEquals("This", property.getKey());
         assertEquals("value changes", property.getValue());
+    }
+    
+    /**
+     * If the target model contains images, the model importer expects an ArchiveManager
+     */
+    @Test
+    public void testImagePathInProfile() throws Exception {
+        // Simulate an image by adding a profile with an image path
+        IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
+        profile.setImagePath("imagePath");
+        model.getProfiles().add(profile);
+        
+        testDoImportWithUpdatedElements();
     }
     
     private void testDoImportPart1() {
