@@ -3,19 +3,15 @@
 <target name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/eclipse/updates/4.25"/>
-        <unit id="org.eclipse.jdt.core.compiler.batch" version="3.31.0.v20220831-1439"/>
+        <repository location="https://download.eclipse.org/releases/2023-03"/>
+        <unit id="org.eclipse.sdk.ide" version="4.27.0.I20230302-0300"/>
+        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.21.202212280858"/>
+        <unit id="org.eclipse.jgit.feature.group" version="6.5.0.202303070854-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.5.0.202303070854-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2022-09"/>
-        <unit id="org.eclipse.sdk.ide" version="4.25.0.I20220831-1800"/>
-        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.19.202209051432"/>
-        <unit id="org.eclipse.jgit.feature.group" version="6.3.0.202209071007-r"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.3.0.202209071007-r"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/downloads/2022-09/"/>
-        <unit id="org.slf4j.binding.simple" version="1.7.30.v20200204-2150"/>
+        <repository location="https://download.eclipse.org/tools/orbit/downloads/2023-03/"/>
+        <unit id="org.slf4j.binding.simple" version="1.7.30.v20221112-0806"/>
     </location>
 </locations>
 </target>

@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.help.ui,
  org.eclipse.help.webapp,
  org.eclipse.ui.cheatsheets,
- com.archimatetool.editor,
- org.eclipse.jdt.core.compiler.batch
+ com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.help.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-17

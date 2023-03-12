@@ -21,7 +21,7 @@
         <repository>
             <id>Eclipse Update Site</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.25</url>
+            <url>https://download.eclipse.org/eclipse/updates/4.27</url>
         </repository>
     </repositories>
 
