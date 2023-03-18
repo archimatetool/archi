@@ -356,13 +356,15 @@ extends ActionBarAdvisor {
         menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
         
         /*
-         * On a Mac, there is a "Preferences" menu item under the application menu bar.
+         * On a Mac, there is a "Preferences" menu item under the application menu bar
+         * So we only create this one on Windows and Linux.
          */
         if(!PlatformUtils.isMac()) {
-            IWorkbenchAction preferenceAction = ActionFactory.PREFERENCES.create(window);
-            ActionContributionItem item = new ActionContributionItem(preferenceAction);
             menu.add(new Separator());
-            menu.add(item);
+            IWorkbenchAction preferenceAction = ActionFactory.PREFERENCES.create(window);
+            preferenceAction.setActionDefinitionId(IWorkbenchCommandConstants.WINDOW_PREFERENCES); // Support key binding
+            register(preferenceAction);
+            menu.add(preferenceAction);
         }
 
         menu.add(new Separator(IWorkbenchActionConstants.EDIT_END));
