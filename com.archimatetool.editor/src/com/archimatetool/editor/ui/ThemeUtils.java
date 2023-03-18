@@ -42,10 +42,10 @@ public final class ThemeUtils {
     private static IThemeEngine engine;
     
     /**
-     * @return The Theme engine. This might be null if THEME_ENABLED is false
+     * @return The Theme engine. This will be null if THEME_ENABLED is false or the workbench is not running
      */
     public static IThemeEngine getThemeEngine() {
-        if(engine == null) {
+        if(engine == null && PlatformUI.isWorkbenchRunning()) {
             MApplication application = PlatformUI.getWorkbench().getService(MApplication.class);
             IEclipseContext context = application.getContext();
             engine = context.get(IThemeEngine.class);
