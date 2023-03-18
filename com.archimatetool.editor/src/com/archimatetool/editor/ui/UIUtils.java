@@ -145,7 +145,12 @@ public final class UIUtils {
             font = (Font)control.getData("defaultFont");
         }
         
-        if(font != null) {
+        // Themes are not enabled so simply set the font, even if null
+        if(ThemeUtils.getThemeEngine() == null) {
+            control.setFont(font);
+        }
+        // Themes are enabled and we have a font
+        else if(font != null) {
             FontData fd = font.getFontData()[0];
             StringBuilder sb = new StringBuilder();
             

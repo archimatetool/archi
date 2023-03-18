@@ -58,50 +58,30 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
 
     /**
-     * Font information for a control
+     * Font information for a control that is tied to a preference key
      */
-    private abstract static class FontInfo {
-        protected String text;
-        protected String description;
-        protected FontData fontData;
+    private static class FontInfo {
+        String prefsKey;
+        String text;
+        String description;
+        FontData fontData;
         
-        FontInfo(String text, String description, FontData fontData) {
+        FontInfo(String text, String description, String prefsKey) {
             this.text = text;
             this.description = description;
-            this.fontData = fontData;
+            this.prefsKey = prefsKey;
         }
         
         void performDefault() {
-            this.fontData = getDefaultFontData();
+            fontData = getDefaultFontData();
         }
         
-        FontData getFontData() {
-            return fontData;
-        }
-        
-        abstract FontData getDefaultFontData();
-
-        abstract void performOK();
-    }
-    
-    /**
-     * Font information for a control that is tied to a preference key
-     */
-    private static class FontInfoWithPreferences extends FontInfo {
-        private String prefsKey;
-        
-        FontInfoWithPreferences(String text, String description, String prefsKey) {
-            super(text, description, null);
-            this.prefsKey = prefsKey;
-        }
-
-        @Override
         FontData getFontData() {
             // Get font data from Preferences store
             if(fontData == null) {
                 String fontDetails = ArchiPlugin.PREFERENCES.getString(prefsKey);
                 if(StringUtils.isSet(fontDetails)) {
-                    fontData = new FontData(fontDetails);
+                    fontData = getSafeFontData(fontDetails);
                 }
                 else {
                     fontData = getDefaultFontData();
@@ -111,14 +91,32 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             return fontData;
         }
         
-        @Override
         FontData getDefaultFontData() {
+            // Get default font data from Preferences store (this could be in a suppplied preference file)
+            String fontDetails = ArchiPlugin.PREFERENCES.getDefaultString(prefsKey);
+            if(StringUtils.isSet(fontDetails)) {
+                return getSafeFontData(fontDetails);
+            }
+            
+            return getSystemFontData();
+        }
+        
+        FontData getSystemFontData() {
             return JFaceResources.getDefaultFont().getFontData()[0];
         }
         
-        @Override
+        private FontData getSafeFontData(String fontDetails) {
+            try {
+                return new FontData(fontDetails);
+            }
+            catch(Exception ex) {
+            }
+            
+            return getSystemFontData();
+        }
+
         void performOK() {
-            ArchiPlugin.PREFERENCES.setValue(prefsKey, getFontData().equals(getDefaultFontData()) ? "" : getFontData().toString()); //$NON-NLS-1$
+            ArchiPlugin.PREFERENCES.setValue(prefsKey, getFontData().equals(getSystemFontData()) ? "" : getFontData().toString()); //$NON-NLS-1$
         }
     }
 
@@ -353,36 +351,36 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      * Add Font options for controls
      */
     private void addFontOptions() {
-        // View object default font gets its font info in a convoluted way from FontFactory...
-        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, FontFactory.getDefaultUserViewFontData()) {
+        // View object/connection default font gets and sets its font info in a special way in FontFactory
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, DEFAULT_VIEW_FONT) {
             @Override
             void performOK() {
                 FontFactory.setDefaultUserViewFont(getFontData());
             }
             
             @Override
-            FontData getDefaultFontData() {
+            FontData getSystemFontData() {
                 return FontFactory.getDefaultViewOSFontData();
             }
         });
 
         // Single line text control font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_10, Messages.FontsPreferencePage_13, SINGLE_LINE_TEXT_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_10, Messages.FontsPreferencePage_13, SINGLE_LINE_TEXT_FONT));
         
         // Multiline text control font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_4, Messages.FontsPreferencePage_14, MULTI_LINE_TEXT_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_4, Messages.FontsPreferencePage_14, MULTI_LINE_TEXT_FONT));
         
         // Model Tree font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_0, Messages.FontsPreferencePage_15, MODEL_TREE_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_0, Messages.FontsPreferencePage_15, MODEL_TREE_FONT));
         
         // Navigator Tree font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_9, Messages.FontsPreferencePage_16, NAVIGATOR_TREE_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_9, Messages.FontsPreferencePage_16, NAVIGATOR_TREE_FONT));
 
         // Properties Table font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_17, Messages.FontsPreferencePage_18, PROPERTIES_TABLE_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_17, Messages.FontsPreferencePage_18, PROPERTIES_TABLE_FONT));
 
         // Analysis Table font
-        fontInfos.add(new FontInfoWithPreferences(Messages.FontsPreferencePage_19, Messages.FontsPreferencePage_20, ANALYSIS_TABLE_FONT));
+        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_19, Messages.FontsPreferencePage_20, ANALYSIS_TABLE_FONT));
     }
     
     private FontData openFontDialog(FontInfo fontInfo) {
