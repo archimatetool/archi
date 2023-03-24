@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.themes.ColorDefinition;
 import org.eclipse.ui.internal.themes.IThemeRegistry;
-import org.eclipse.ui.themes.IThemeManager;
 
 /**
  * A class to keep miscellaneous palette color utilities.
@@ -33,6 +32,9 @@ public class PaletteColorUtil {
 
     /**
      * Added by Phillipus - get a theme color from the theme registry
+     * 
+     * We get the fixed colors from the registry rather than from calling PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry().get(id)
+     * because if the user selects dark theme and disables CSS theming then those colors are still used which looks weird.
      */
     private static Color getThemeColor(final String id, RGB defaultColor) {
         IThemeRegistry reg = WorkbenchPlugin.getDefault().getThemeRegistry();
@@ -57,8 +59,11 @@ public class PaletteColorUtil {
     static {
         initPaletteColors();
         
-        IThemeManager themeManager = PlatformUI.getWorkbench().getThemeManager();
-        themeManager.addPropertyChangeListener(e -> initPaletteColors());
+        PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(e -> {
+            if(e.getProperty().startsWith("org.eclipse.gef")) {
+                initPaletteColors();
+            }
+        });
     }
     
     private static void initPaletteColors() {
