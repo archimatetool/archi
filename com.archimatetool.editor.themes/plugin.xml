@@ -6,7 +6,7 @@
       <theme
             basestylesheeturi="themes/archi/css/basic.css"
             id="com.archimatetool.editor.theme.basic"
-            label="Basic">
+            label="%theme.basic">
       </theme>
 		
     </extension>
@@ -16,110 +16,110 @@
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_classic.css"
 			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="Classic">
+			label="%theme.classic">
 		</theme>
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="Light"
+			label="%theme.light"
 			os="linux">
 		</theme>
 		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_mac.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="Light"
+			label="%theme.light"
 			os="macosx">
 		</theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4_default_win.css"
             id="org.eclipse.e4.ui.css.theme.e4_default"
-            label="Light"
+            label="%theme.light"
             os="win32">
         </theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4-dark_win.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="Dark"
+            label="%theme.dark"
             os="win32">
         </theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4-dark_linux.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="Dark"
+            label="%theme.dark"
             os="linux">
         </theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4-dark_mac1013.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="Dark"
+            label="%theme.dark"
             os="macosx"
             os_version="10.11,10.12,10.13">
         </theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4-dark_mac.css"
             id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="Dark"
+            label="%theme.dark"
             os="macosx">
         </theme>
         <theme
             basestylesheeturi="themes/eclipse/css/e4_system.css"
             id="org.eclipse.e4.ui.css.theme.e4_system"
-            label="System">
+            label="%theme.system">
         </theme>
 	</extension>
  <extension
        point="org.eclipse.ui.themes">
     <themeElementCategory
           id="com.archimatetool.editor.themes"
-          label="Archi Theme">
+          label="%themeCategory.archi">
     </themeElementCategory>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           id="org.eclipse.gef.PALETTE_BACKGROUND"
-          label="Palette Background"
+          label="%PALETTE_BACKGROUND"
           value="255,255,255">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           id="org.eclipse.gef.PALETTE_LABEL_FOREGROUND"
-          label="Palette Label Foreground"
+          label="%PALETTE_LABEL_FOREGROUND"
           value="0,0,0">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           id="org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND"
-          label="Palette Toolbar Background"
+          label="%PALETTE_TOOLBAR_BACKGROUND"
           value="245,245,245">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           defaultsTo="SWT.COLOR_LIST_FOREGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND"
-          label="Palette Title Label Foreground">
+          label="%PALETTE_TITLE_LABEL_FOREGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           defaultsTo="SWT.COLOR_LIST_BACKGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START"
-          label="Palette Title Label Background Start">
+          label="%PALETTE_TITLE_LABEL_BACKGROUND_START">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           defaultsTo="SWT.COLOR_WIDGET_BACKGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END"
-          label="Palette Title Label Background End">
+          label="%PALETTE_TITLE_LABEL_BACKGROUND_END">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           defaultsTo="SWT.COLOR_LIST_BACKGROUND"
           id="org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND"
-          label="Palette Arrow Button Background">
+          label="%PALETTE_ARROW_BUTTON_BACKGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
           defaultsTo="SWT.COLOR_WIDGET_DARK_SHADOW"
           id="org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND"
-          label="Palette Arrow Button Foreground">
+          label="%PALETTE_ARROW_BUTTON_FOREGROUND">
     </colorDefinition>
  </extension>
    
