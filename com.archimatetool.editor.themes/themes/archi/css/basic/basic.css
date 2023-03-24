@@ -2,6 +2,7 @@
  * Styling for very basic theme
  *******************************************************************************/
 
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
 
 .MTrimmedWindow {
     margin-top: 0px;
@@ -24,10 +25,4 @@ TabbedPropertyTitle {
     swt-backgroundGradientEnd-color:    #eaeaea;
     swt-backgroundBottomKeyline1-color: #eaeaea;
     swt-backgroundBottomKeyline2-color: #eaeaea;
-}
-
-/* Diagram FigureCanvas and Zest Graph backgrounds should always be white */
-FigureCanvas.ArchiFigureCanvas,
-Graph.ArchiGraph {
-    background-color: #FFFFFF;
 }

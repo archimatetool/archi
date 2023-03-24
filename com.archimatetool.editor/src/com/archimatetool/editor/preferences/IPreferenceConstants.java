@@ -33,6 +33,10 @@ public interface IPreferenceConstants {
     String DERIVE_ELEMENT_LINE_COLOR_FACTOR = "deriveElementLineColorFactor";
     String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile";
     
+    // Theme Color Definition IDs
+    String VIEW_BACKGROUND_COLOR = "com.archimatetool.editor.VIEW_BACKGROUND";
+    String VISUALISER_BACKGROUND_COLOR = "com.archimatetool.editor.VISUALISER_BACKGROUND";
+    
     // Fonts
     
     String ANALYSIS_TABLE_FONT = "analysisTableFont";

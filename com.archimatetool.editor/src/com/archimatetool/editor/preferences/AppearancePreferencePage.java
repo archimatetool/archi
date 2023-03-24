@@ -24,9 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -34,7 +32,6 @@ import org.osgi.service.prefs.BackingStoreException;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -56,7 +53,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowStatusLineButton;
     
     private IThemeEngine themeEngine;
-    private ITheme currentTheme;
+    private ITheme lastActiveTheme;
     
 	public AppearancePreferencePage() {
 		setPreferenceStore(ArchiPlugin.PREFERENCES);
@@ -127,7 +124,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 @Override
                 public void selectionChanged(SelectionChangedEvent event) {
                     ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-                    setTheme(theme, false);
+                    themeEngine.setTheme(theme, false);
                 }
             });
         }
@@ -156,8 +153,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Theme
         if(themeEngine != null) {
             ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-            if(theme != null) {
-                setTheme(theme, true);
+            if(!theme.equals(lastActiveTheme)) {
+                themeEngine.setTheme(theme, true);
+                lastActiveTheme = theme;
             }
         }
         
@@ -185,7 +183,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     protected void performDefaults() {
         if(themeEngine != null) {
-            // Theme
             themeEngine.setTheme(ThemeUtils.getDefaultThemeName(), false);
             ITheme activeTheme = themeEngine.getActiveTheme();
             if(activeTheme != null) {
@@ -202,9 +199,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performCancel() {
-        // Cancel theme
-        if(themeEngine != null && currentTheme != themeEngine.getActiveTheme()) {
-            themeEngine.setTheme(currentTheme, false);
+        if(themeEngine != null && lastActiveTheme != null && lastActiveTheme != themeEngine.getActiveTheme()) {
+            themeEngine.setTheme(lastActiveTheme, false);
         }
         
         return super.performCancel();
@@ -219,42 +215,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public void init(IWorkbench workbench) {
         themeEngine = ThemeUtils.getThemeEngine();
-        currentTheme = themeEngine == null ? null : themeEngine.getActiveTheme();
-    }
-    
-    private void setTheme(ITheme theme, boolean persist) {
-        if(themeEngine == null) {
-            return;
-        }
-        
-        // Seems to be fixed
-        //hideEmptyShells(true);
-        
-        themeEngine.setTheme(theme, persist);
-        
-        // Seems to be fixed
-        //hideEmptyShells(false);
-        
-        if(persist) {
-            currentTheme = themeEngine.getActiveTheme();
-        }
-    }
-    
-    /**
-     * Hack for e4 bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=435915
-     * Changing the Appearance Theme causes any hidden Shell to momentarily appear
-     * such as the one created by FigureUtilities.getGC().
-     * So find each empty Shell and set its Alpha to 0 before setting the theme and set it back to 255
-     * This hides the Shell and unhides it.
-     */
-    @SuppressWarnings("unused")
-    private void hideEmptyShells(boolean set) {
-        if(PlatformUtils.isWindows()) {
-            for(Shell shell : Display.getCurrent().getShells()) {
-                if(shell.getChildren().length == 0) {
-                    shell.setAlpha(set ? 0 : 255);
-                }
-            }
-        }
+        lastActiveTheme = themeEngine == null ? null : themeEngine.getActiveTheme();
     }
 }

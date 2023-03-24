@@ -121,6 +121,18 @@
           label="%PALETTE_ARROW_BUTTON_FOREGROUND"
           value="COLOR_WIDGET_DARK_SHADOW">
     </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.VIEW_BACKGROUND"
+          label="%VIEW_BACKGROUND"
+          value="255,255,255">
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.VISUALISER_BACKGROUND"
+          label="%VISUALISER_BACKGROUND"
+          value="255,255,255">
+    </colorDefinition>
  </extension>
    
 </plugin>

@@ -1,0 +1,21 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings
+ *******************************************************************************/
+
+FigureCanvas.ArchiFigureCanvas {
+    background-color: '#com-archimatetool-editor-VIEW_BACKGROUND';
+}
+
+Graph.ArchiGraph {
+    background-color: '#com-archimatetool-editor-VISUALISER_BACKGROUND';
+}
+
+/* Set default colors here, so that user-set colors for the default theme persists */
+
+ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
+    color: #FFFFFF;
+}
+
+ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
+    color: #FFFFFF;
+}

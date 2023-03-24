@@ -2,11 +2,16 @@
  * Styling for Archi that over-rides some Eclipse stylings
  *******************************************************************************/
 
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
 
-/* Diagram FigureCanvas and Zest Graph backgrounds should be off white so as not to be too glaring */
-FigureCanvas.ArchiFigureCanvas,
-Graph.ArchiGraph {
-    background-color: #6F6F6F;
+/* Theme colors */
+
+ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
+    color: #6F6F6F;
+}
+
+ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
+    color: #6F6F6F;
 }
 
 /* GEF Palette */

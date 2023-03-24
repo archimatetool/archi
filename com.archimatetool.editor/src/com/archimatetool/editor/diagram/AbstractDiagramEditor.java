@@ -74,6 +74,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -133,6 +134,7 @@ import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.EditorManager;
@@ -366,8 +368,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Set CSS class name
         viewer.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiFigureCanvas"); //$NON-NLS-1$ //$NON-NLS-2$
         
-        // Set background color in case theming is disabled
-        viewer.getControl().setBackground(new Color(255, 255, 255));
+        // Set background color in case CSS theming is disabled
+        RGB rgb = ThemeUtils.getCurrentThemeColor(IPreferenceConstants.VIEW_BACKGROUND_COLOR);
+        if(rgb != null) {
+            viewer.getControl().setBackground(new Color(rgb));
+        }
     }
     
     private void hookSelectionListener() {
