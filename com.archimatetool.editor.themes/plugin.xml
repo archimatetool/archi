@@ -93,33 +93,33 @@
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          defaultsTo="SWT.COLOR_LIST_FOREGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND"
-          label="%PALETTE_TITLE_LABEL_FOREGROUND">
+          label="%PALETTE_TITLE_LABEL_FOREGROUND"
+          value="COLOR_LIST_FOREGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          defaultsTo="SWT.COLOR_LIST_BACKGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START"
-          label="%PALETTE_TITLE_LABEL_BACKGROUND_START">
+          label="%PALETTE_TITLE_LABEL_BACKGROUND_START"
+          value="COLOR_LIST_BACKGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          defaultsTo="SWT.COLOR_WIDGET_BACKGROUND"
           id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END"
-          label="%PALETTE_TITLE_LABEL_BACKGROUND_END">
+          label="%PALETTE_TITLE_LABEL_BACKGROUND_END"
+          value="COLOR_WIDGET_BACKGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          defaultsTo="SWT.COLOR_LIST_BACKGROUND"
           id="org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND"
-          label="%PALETTE_ARROW_BUTTON_BACKGROUND">
+          label="%PALETTE_ARROW_BUTTON_BACKGROUND"
+          value="COLOR_LIST_BACKGROUND">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          defaultsTo="SWT.COLOR_WIDGET_DARK_SHADOW"
           id="org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND"
-          label="%PALETTE_ARROW_BUTTON_FOREGROUND">
+          label="%PALETTE_ARROW_BUTTON_FOREGROUND"
+          value="COLOR_WIDGET_DARK_SHADOW">
     </colorDefinition>
  </extension>
    
