@@ -4,7 +4,7 @@
     <extension
           point="org.eclipse.e4.ui.css.swt.theme">
       <theme
-            basestylesheeturi="themes/archi/css/basic.css"
+            basestylesheeturi="themes/archi/css/basic/basic.css"
             id="com.archimatetool.editor.theme.basic"
             label="%theme.basic">
       </theme>

@@ -2,7 +2,7 @@
  * Styling for Archi that over-rides some Eclipse stylings
  *******************************************************************************/
 
-@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
 
 /* Theme colors */
 

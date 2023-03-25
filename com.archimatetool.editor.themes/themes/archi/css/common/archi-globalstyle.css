@@ -2,15 +2,17 @@
  * Styling for Archi that over-rides some Eclipse stylings
  *******************************************************************************/
 
+/* Draw2d FigureCanvas used in GEF Editor */
 FigureCanvas.ArchiFigureCanvas {
     background-color: '#com-archimatetool-editor-VIEW_BACKGROUND';
 }
 
+/* Zest Graph used in Zest graphs */
 Graph.ArchiGraph {
     background-color: '#com-archimatetool-editor-VISUALISER_BACKGROUND';
 }
 
-/* Set default colors here, so that user-set colors for the default theme persists */
+/* Set default colors here, so that user-set colors for the default light theme persists */
 
 ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
     color: #FFFFFF;

@@ -2,7 +2,7 @@
  * Styling for very basic theme
  *******************************************************************************/
 
-@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/common/archi-globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
 
 .MTrimmedWindow {
     margin-top: 0px;
