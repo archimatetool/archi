@@ -119,7 +119,22 @@ public class JasperReportsExporter {
         tmpFolder.mkdirs();
         
         try {
-            writeDiagrams(tmpFolder);
+            // Image creation must be done in a UI thread
+            // And because of threading issues on Linux we need to do it in one block
+            IOException[] exception = new IOException[1];
+            
+            Display.getDefault().syncExec(() -> {
+                try {
+                    writeDiagrams(tmpFolder);
+                }
+                catch(IOException ex) {
+                    exception[0] = ex;
+                }
+            });
+
+            if(exception[0] != null) {
+                throw exception[0];
+            }
             
             JasperPrint jasperPrint = createJasperPrint(tmpFolder);
             
@@ -175,10 +190,7 @@ public class JasperReportsExporter {
             Image[] image = new Image[1];
             
             try {
-                // Image creation must be done in a UI thread
-                Display.getDefault().syncExec(() -> {
-                    image[0] = DiagramUtils.createImage(dm, 1, 10);
-                });
+                image[0] = DiagramUtils.createImage(dm, 1, 10);
                 
                 String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
                 ImageLoader loader = new ImageLoader();

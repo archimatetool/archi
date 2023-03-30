@@ -361,7 +361,23 @@ public class HTMLReportExporter {
         }
         
         // Save images
-        saveImages(imagesFolder, diagramModels);
+        
+        // Image creation must be done in a UI thread
+        // And because of threading issues on Linux we need to do it in one block
+        IOException[] exception = new IOException[1];
+        
+        Display.getDefault().syncExec(() -> {
+            try {
+                saveImages(imagesFolder, diagramModels);
+            }
+            catch(IOException ex) {
+                exception[0] = ex;
+            }
+        });
+        
+        if(exception[0] != null) {
+            throw exception[0];
+        }
         
         setProgressSubTask(Messages.HTMLReportExporter_11);
 
@@ -409,11 +425,8 @@ public class HTMLReportExporter {
             ModelReferencedImage[] geoImage = new ModelReferencedImage[1];
             
             try {
-                // Image creation must be done in a UI thread
-                Display.getDefault().syncExec(() -> {
-                    geoImage[0] = DiagramUtils.createModelReferencedImage(dm, 1, 10);
-                });
-
+                geoImage[0] = DiagramUtils.createModelReferencedImage(dm, 1, 10);
+                
                 // Generate file name
                 String diagramName = dm.getId();
                 if(StringUtils.isSet(diagramName)) {
