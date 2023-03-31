@@ -128,7 +128,7 @@ public class HTMLReportExporter {
         
         try {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
-            dialog.run(true, true, runnable);
+            dialog.run(false, true, runnable); // Set fork to false because of threading issues on Linux
         }
         catch(Exception ex) {
             exception[0] = ex;
@@ -167,7 +167,7 @@ public class HTMLReportExporter {
         
         try {
             ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
-            dialog.run(true, true, runnable);
+            dialog.run(false, true, runnable); // Set fork to false because of threading issues on Linux
         }
         catch(Exception ex) {
             exception[0] = ex;
@@ -361,23 +361,7 @@ public class HTMLReportExporter {
         }
         
         // Save images
-        
-        // Image creation must be done in a UI thread
-        // And because of threading issues on Linux we need to do it in one block
-        IOException[] exception = new IOException[1];
-        
-        Display.getDefault().syncExec(() -> {
-            try {
-                saveImages(imagesFolder, diagramModels);
-            }
-            catch(IOException ex) {
-                exception[0] = ex;
-            }
-        });
-        
-        if(exception[0] != null) {
-            throw exception[0];
-        }
+        saveImages(imagesFolder, diagramModels);
         
         setProgressSubTask(Messages.HTMLReportExporter_11);
 
@@ -422,10 +406,10 @@ public class HTMLReportExporter {
         for(IDiagramModel dm : diagramModels) {
             setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, i++, total));
 
-            ModelReferencedImage[] geoImage = new ModelReferencedImage[1];
+            ModelReferencedImage geoImage = null;
             
             try {
-                geoImage[0] = DiagramUtils.createModelReferencedImage(dm, 1, 10);
+                geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
                 
                 // Generate file name
                 String diagramName = dm.getId();
@@ -448,12 +432,12 @@ public class HTMLReportExporter {
                 nameTable.put(dm, diagramName);
 
                 // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
-                Rectangle bounds = geoImage[0].getBounds();
+                Rectangle bounds = geoImage.getBounds();
                 bounds.performScale(ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
                 diagramBoundsMap.put(dm, bounds);
 
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { geoImage[0].getImage().getImageData(ImageFactory.getImageDeviceZoom()) };
+                loader.data = new ImageData[] { geoImage.getImage().getImageData(ImageFactory.getImageDeviceZoom()) };
                 File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
@@ -462,16 +446,22 @@ public class HTMLReportExporter {
                         (t.getMessage() == null ? t.toString() : t.getMessage()), t);
             }
             finally {
-                if(geoImage[0] != null && geoImage[0].getImage() != null) {
-                    geoImage[0].getImage().dispose();
+                if(geoImage != null && geoImage.getImage() != null) {
+                    geoImage.getImage().dispose();
                 }
             }
         }
     }
     
     private void checkProgressCancelled() throws CancelledException {
-        if(progressMonitor != null && progressMonitor.isCanceled()) {
-            throw new CancelledException(Messages.HTMLReportExporter_14);
+        if(progressMonitor != null) {
+            if(PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
+                while(Display.getCurrent().readAndDispatch());
+            }
+            
+            if(progressMonitor.isCanceled()) {
+                throw new CancelledException(Messages.HTMLReportExporter_14);
+            }
         }
     }
     

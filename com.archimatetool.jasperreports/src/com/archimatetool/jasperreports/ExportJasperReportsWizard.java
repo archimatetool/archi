@@ -105,7 +105,7 @@ public class ExportJasperReportsWizard extends Wizard {
         ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
         
         try {
-            dialog.run(true, true, runnable);
+            dialog.run(false, true, runnable); // Set fork to false because of threading issues on Linux
         }
         catch(InvocationTargetException | InterruptedException ex) {
             ex.printStackTrace();
