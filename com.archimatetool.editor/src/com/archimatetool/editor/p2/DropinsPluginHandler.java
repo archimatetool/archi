@@ -70,12 +70,6 @@ public class DropinsPluginHandler {
      */
     static final String MAGIC_ENTRY = "archi-plugin"; //$NON-NLS-1$
     
-    /**
-     * Setting in Archi.ini for user dropins folder
-     * -Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%user.home%/subfolder/dropins
-     */
-    static final String DROPINS_DIRECTORY = "org.eclipse.equinox.p2.reconciler.dropins.directory"; //$NON-NLS-1$
-    
     public DropinsPluginHandler() { 
     }
 
@@ -347,13 +341,7 @@ public class DropinsPluginHandler {
      */
     private File getUserDropinsFolder() {
         if(userDropinsFolder == null) {
-            // If the dropins dir is set in Archi.ini
-            String dropinsDirProperty = ArchiPlugin.INSTANCE.getBundle().getBundleContext().getProperty(DROPINS_DIRECTORY);
-            if(dropinsDirProperty != null) {
-                // Perform a variable substitution if necessary of %% tokens
-                dropinsDirProperty = substituteVariables(dropinsDirProperty);
-                userDropinsFolder = new File(dropinsDirProperty);
-            }
+            userDropinsFolder = ArchiPlugin.INSTANCE.getUserDropinsFolder();
         }
         
         return userDropinsFolder;
@@ -384,45 +372,6 @@ public class DropinsPluginHandler {
         }
         
         return installationDropinsFolder;
-    }
-    
-    /**
-     * This is taken From org.eclipse.equinox.internal.p2.reconciler.dropins.Activator
-     * When the dropins folder contains %% tokens, treat this as a system property.
-     * Example - %user.home%
-     */
-    private String substituteVariables(String path) {
-        if(path == null) {
-            return path;
-        }
-        
-        int beginIndex = path.indexOf('%');
-        
-        // no variable
-        if(beginIndex == -1) {
-            return path;
-        }
-        
-        beginIndex++;
-        
-        int endIndex = path.indexOf('%', beginIndex);
-        // no matching end % to indicate variable
-        if(endIndex == -1) {
-            return path;
-        }
-        
-        // get the variable name and do a lookup
-        String var = path.substring(beginIndex, endIndex);
-        if(var.length() == 0 || var.indexOf(File.pathSeparatorChar) != -1) {
-            return path;
-        }
-        
-        var = ArchiPlugin.INSTANCE.getBundle().getBundleContext().getProperty(var);
-        if(var == null) {
-            return path;
-        }
-        
-        return path.substring(0, beginIndex - 1) + var + path.substring(endIndex + 1);
     }
     
     /**
