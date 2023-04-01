@@ -1,9 +1,9 @@
 name: Archi Product Integration Build
 
 on:
- workflow_dispatch:
- schedule:
-   - cron: '0 8 * * 1,4'
+  workflow_dispatch:
+#  schedule:
+#    - cron: '0 8 * * 1,4'
 
 jobs:
   integration-build:
