@@ -15,7 +15,7 @@ openFile
 @user.home/.archi/secure_storage
       </programArgsLin>
       <programArgsMac>-vm
-../jre
+../jre/lib/libjli.dylib
 -eclipse.keyring
 &quot;@user.home/Library/Application Support/Archi/secure_storage&quot;
       </programArgsMac>
