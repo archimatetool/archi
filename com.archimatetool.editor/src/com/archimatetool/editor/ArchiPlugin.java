@@ -166,6 +166,13 @@ public class ArchiPlugin extends AbstractUIPlugin {
     }
     
     /**
+     * @return The Proeduct Name or, if not running as a Product, this bundle's name
+     */
+    public String getProductName() {
+        return Platform.getProduct() != null ? Platform.getProduct().getName() : getBundle().getHeaders().get("Bundle-Name");
+    }
+    
+    /**
      * @return The version of this app in format 1.0.0
      */
     public String getVersion() {

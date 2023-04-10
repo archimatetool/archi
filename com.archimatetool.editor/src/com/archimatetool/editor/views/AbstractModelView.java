@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
@@ -162,7 +161,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Update Shell title bar with file name of current model
      */
     protected void updateShellTitleBarWithFileName() {
-        String appname = Platform.getProduct().getName();
+        String appname = ArchiPlugin.INSTANCE.getProductName();
         
         if(getActiveArchimateModel() != null && getActiveArchimateModel().getFile() != null) {
             getSite().getShell().setText(appname + " - " + getActiveArchimateModel().getFile().getPath()); //$NON-NLS-1$
@@ -477,6 +476,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
         
         // Update shell text
-        getSite().getShell().setText(Platform.getProduct().getName());
+        getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());
     }
 }

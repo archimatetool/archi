@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -419,7 +418,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Update Shell title bar with file name of current model
      */
     protected void updateShellTitleBarWithFileName() {
-        String appname = Platform.getProduct().getName();
+        String appname = ArchiPlugin.INSTANCE.getProductName();
         File file = getModel().getArchimateModel().getFile();
         
         if(file != null) {
@@ -1072,7 +1071,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);
         
         // Update shell text
-        getSite().getShell().setText(Platform.getProduct().getName());
+        getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());
         
         // Disable Actions
         disableActions();
