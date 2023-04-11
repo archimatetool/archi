@@ -377,6 +377,7 @@ public class TreeModelViewer extends TreeViewer {
     private class ModelTreeViewerLabelProvider extends CellLabelProvider {
         private Font fontItalic;
         private Font fontBold;
+        private Font fontBoldItalic;
         
         @Override
         public void update(ViewerCell cell) {
@@ -389,6 +390,7 @@ public class TreeModelViewer extends TreeViewer {
         private void resetFonts() {
             fontItalic = null;
             fontBold = null;
+            fontBoldItalic = null;
         }
 
         private String getText(Object element) {
@@ -425,20 +427,26 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         private Font getFont(Object element) {
-            // Show bold if using Search
+            boolean isFiltering = false;
+            boolean unusedConcept = false;
+            
+            // Using Search
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
-                return getBoldFont();
+                isFiltering = true;
             }
             
-            // Italicise unused elements
-            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
-                if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
-                    return getItalicFont();
-                }
+            // Unused elements
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept && 
+                    !DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
+                unusedConcept = true;
             }
             
-            return null;
+            if(isFiltering) {
+                return unusedConcept ? getBoldItalicFont() : getBoldFont();
+            }
+            
+            return unusedConcept ? getItalicFont() : null;
         }
         
         private Font getBoldFont() {
@@ -446,6 +454,13 @@ public class TreeModelViewer extends TreeViewer {
                 fontBold = FontFactory.getBold(getTree().getFont());
             }
             return fontBold;
+        }
+        
+        private Font getBoldItalicFont() {
+            if(fontBoldItalic == null) {
+                fontBoldItalic = FontFactory.getBold(getItalicFont());
+            }
+            return fontBoldItalic;
         }
         
         private Font getItalicFont() {
