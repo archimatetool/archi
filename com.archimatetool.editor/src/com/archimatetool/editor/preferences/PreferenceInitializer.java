@@ -90,6 +90,7 @@ implements IPreferenceConstants {
         // General
         
         store.setDefault(GRID_SIZE, 12);
+        store.setDefault(MARGIN_WIDTH, 5);
         
         store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
         store.setDefault(PALETTE_STATE, true);

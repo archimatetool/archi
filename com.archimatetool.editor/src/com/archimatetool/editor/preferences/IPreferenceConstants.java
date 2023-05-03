@@ -79,6 +79,7 @@ public interface IPreferenceConstants {
     // General
     
     String GRID_SIZE = "gridSize";
+    String MARGIN_WIDTH = "marginWidth";
 
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject";
     String PALETTE_STATE = "palette_state";

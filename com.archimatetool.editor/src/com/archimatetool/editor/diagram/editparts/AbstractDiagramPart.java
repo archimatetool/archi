@@ -146,9 +146,9 @@ implements IEditPartFilterProvider {
     protected IFigure createFigure() {
         FreeformLayer figure = new FreeformLayer();
         
-        // Provide an edge when in negative space
-        // Causes snap to grid problems when in negative space
-        figure.setBorder(new MarginBorder(5));
+        // Add a border so that user can grab edges of an object
+        int marginWidth = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.MARGIN_WIDTH);
+        figure.setBorder(new MarginBorder(marginWidth));
         
         figure.setLayoutManager(new FreeformLayout());
         

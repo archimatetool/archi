@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.preferences;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -33,6 +34,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
     private Spinner fGridSizeSpinner;
+    private Spinner fMarginWidthSpinner;
     
     private Button fViewTooltipsButton;
     
@@ -73,9 +75,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-        GridData gd;
-        Label label;
-        
         Composite client = new Composite(parent, SWT.NULL);
         GridLayout layout = new GridLayout();
         layout.marginWidth = layout.marginHeight = 0;
@@ -89,36 +88,32 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         viewGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Grid Size
-        label = new Label(viewGroup, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_1);
-        
+        new Label(viewGroup, SWT.NULL).setText(Messages.DiagramPreferencePage_1);
         fGridSizeSpinner = new Spinner(viewGroup, SWT.BORDER);
         fGridSizeSpinner.setMinimum(5);
         fGridSizeSpinner.setMaximum(100);
+        
+        // Margin Width
+        new Label(viewGroup, SWT.NULL).setText(Messages.DiagramPreferencePage_11);
+        fMarginWidthSpinner = new Spinner(viewGroup, SWT.BORDER);
+        fMarginWidthSpinner.setMinimum(0);
+        fMarginWidthSpinner.setMaximum(100);
 
         fPaletteStateButton = new Button(viewGroup, SWT.CHECK);
         fPaletteStateButton.setText(Messages.DiagramPreferencePage_6);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fPaletteStateButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fPaletteStateButton);
         
         fViewTooltipsButton = new Button(viewGroup, SWT.CHECK);
         fViewTooltipsButton.setText(Messages.DiagramPreferencePage_7);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fViewTooltipsButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fViewTooltipsButton);
         
         fEditNameOnNewObjectButton = new Button(viewGroup, SWT.CHECK);
         fEditNameOnNewObjectButton.setText(Messages.DiagramPreferencePage_24);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fEditNameOnNewObjectButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fEditNameOnNewObjectButton);
         
         fShowSpecializationsPaletteButton = new Button(viewGroup, SWT.CHECK);
         fShowSpecializationsPaletteButton.setText(Messages.DiagramPreferencePage_9);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fShowSpecializationsPaletteButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationsPaletteButton);
         
         // -------------- Viewpoints ----------------------------
 
@@ -129,26 +124,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsFilterModelTreeButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsFilterModelTreeButton.setText(Messages.DiagramPreferencePage_14);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fViewpointsFilterModelTreeButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fViewpointsFilterModelTreeButton);
         
         fViewpointsHidePaletteElementsButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsHidePaletteElementsButton.setText(Messages.DiagramPreferencePage_15);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fViewpointsHidePaletteElementsButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fViewpointsHidePaletteElementsButton);
         
         fViewpointsHideMagicConnectorElementsButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsHideMagicConnectorElementsButton.setText(Messages.DiagramPreferencePage_16);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fViewpointsHideMagicConnectorElementsButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fViewpointsHideMagicConnectorElementsButton);
 
         fViewpointsGhostDiagramElementsButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsGhostDiagramElementsButton.setText(Messages.DiagramPreferencePage_17);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fViewpointsGhostDiagramElementsButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fViewpointsGhostDiagramElementsButton);
         
         // -------------- Paste Special ----------------------------
         Group pasteSpecialGroup = new Group(client, SWT.NULL);
@@ -160,8 +148,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
         	fPasteSpecialButtons[i] = new Button(pasteSpecialGroup, SWT.RADIO);
         	fPasteSpecialButtons[i].setText(PASTE_SPECIAL_BEHAVIOR[i]);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            fPasteSpecialButtons[i].setLayoutData(gd);
+            GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fPasteSpecialButtons[i]);
         }
         
         // -------------- Resize Behaviour ----------------------------
@@ -175,8 +162,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
             fResizeBehaviourButtons[i] = new Button(resizeGroup, SWT.RADIO);
             fResizeBehaviourButtons[i].setText(RESIZE_BEHAVIOUR[i]);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            fResizeBehaviourButtons[i].setLayoutData(gd);
+            GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fResizeBehaviourButtons[i]);
         }
 
         // -------------- Other ----------------------------
@@ -236,11 +222,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void setSpinnerValues() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getInt(GRID_SIZE));
+        fMarginWidthSpinner.setSelection(getPreferenceStore().getInt(MARGIN_WIDTH));
     }
     
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(GRID_SIZE, fGridSizeSpinner.getSelection());
+        getPreferenceStore().setValue(MARGIN_WIDTH, fMarginWidthSpinner.getSelection());
 
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
@@ -274,6 +262,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     protected void performDefaults() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(GRID_SIZE));
+        fMarginWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(MARGIN_WIDTH));
 
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
