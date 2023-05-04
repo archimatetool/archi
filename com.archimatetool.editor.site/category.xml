@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="com.archimatetool.editor.feature"/>
-   <feature id="com.archimatetool.gef.feature"/>
+   <feature id="com.archimatetool.editor.feature">
+      <category name="com.archimatetool"/>
+   </feature>
+   <feature id="com.archimatetool.gef.feature">
+      <category name="com.archimatetool"/>
+   </feature>
+   <category-def name="com.archimatetool" label="Archi">
+      <description>
+         Archi P2
+      </description>
+   </category-def>
 </site>
