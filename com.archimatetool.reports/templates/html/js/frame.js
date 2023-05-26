@@ -19,8 +19,9 @@ function createLinks(text) {
 var hints = {
 // Hints for viewpoints
     viewpoint_: "view.html",
-	viewpoint_application_cooperation: "vp_application_cooperation.html",
+    viewpoint_application_cooperation: "vp_application_cooperation.html",
     viewpoint_application_usage: "vp_application_usage.html",
+    viewpoint_application_structure: "vp_application_structure.html",
     viewpoint_business_process_cooperation: "vp_business_process_cooperation.html",
     viewpoint_capability: "vp_capability.html",
     viewpoint_goal_realization: "vp_goal_realization.html",
