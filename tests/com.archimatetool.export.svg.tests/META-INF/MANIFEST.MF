@@ -6,6 +6,7 @@ Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.export.svg
 Bundle-Vendor: Archi
 Require-Bundle: org.junit,
- com.archimatetool.testsupport
+ com.archimatetool.testsupport,
+ org.mockito.mockito-core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: com.archimatetool.export.svg.tests

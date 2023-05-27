@@ -5,7 +5,6 @@ Bundle-SymbolicName: com.archimatetool.canvas.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.canvas
 Bundle-Vendor: Archi
-Require-Bundle: org.junit,
- com.archimatetool.testsupport
+Require-Bundle: org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: com.archimatetool.canvas.tests

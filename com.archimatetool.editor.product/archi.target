@@ -10,8 +10,9 @@
         <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.5.0.202303070854-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/downloads/2023-03/"/>
+        <repository location="https://download.eclipse.org/tools/orbit/downloads/2023-03"/>
         <unit id="org.slf4j.binding.simple" version="1.7.30.v20221112-0806"/>
+        <unit id="org.mockito.mockito-core" version="4.8.1.v20221103-2317"/>
     </location>
 </locations>
 </target>
