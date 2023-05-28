@@ -8,10 +8,8 @@ package com.archimatetool.modelimporter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -41,7 +39,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
@@ -65,8 +62,8 @@ public class ModelImporter {
     private IArchimateModel importedModel;
     private IArchimateModel targetModel;
     
-    // Keep a cache of objects in the target model
-    private Map<String, IIdentifier> objectCache;
+    // Object matcher to uniquely identify objects in the target model
+    private IObjectMatcher objectMatcher;
     
     // Status Messages
     private List<StatusMessage> statusMessages;
@@ -122,7 +119,10 @@ public class ModelImporter {
     }
     
     private Command getCommand() throws IOException, ImportException {
-        objectCache = createObjectIDCache();
+        // Default Object Matcher
+        if(objectMatcher == null) {
+            objectMatcher = new DefaultObjectMatcher(targetModel);
+        }
         
         statusMessages = new ArrayList<>();
         
@@ -195,6 +195,13 @@ public class ModelImporter {
     }
     
     /**
+     * Set an object matcher to use to match target objects
+     */
+    public void setObjectMatcher(IObjectMatcher objectMatcher) {
+        this.objectMatcher = objectMatcher;
+    }
+    
+    /**
      * If true update/replace model and top level folders' name, purpose, documentation and properties with source
      */
     public void setUpdateAll(boolean updateAll) {
@@ -220,40 +227,6 @@ public class ModelImporter {
         return statusMessages;
     }
     
-    /**
-     * Create a cache of objects in the target model
-     */
-    private Map<String, IIdentifier> createObjectIDCache() {
-        HashMap<String, IIdentifier> map = new HashMap<String, IIdentifier>();
-        
-        for(Iterator<EObject> iter = targetModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            
-            String key = getObjectKey(eObject);
-            if(key != null) {
-                map.put(key, (IIdentifier)eObject);
-            }
-        }
-        
-        return map;
-    }
-    
-    /**
-     * @return Object's Key for lookup
-     */
-    private String getObjectKey(EObject eObject) {
-        // Profile uses Concept Type and Name (case-insensitive)
-        if(eObject instanceof IProfile) {
-            return ((IProfile)eObject).getConceptType() + ((IProfile)eObject).getName().toLowerCase();
-        }
-        // Else use ID
-        else if(eObject instanceof IIdentifier) {
-            return ((IIdentifier)eObject).getId();
-        }
-
-        return null;
-    }
-    
     // ===================================================================================
     // Shared methods
     // ===================================================================================
@@ -268,12 +241,12 @@ public class ModelImporter {
     }
 
     /**
-     * Find an object in the target model based on the eObject's identifier and class
+     * Find an object in the target model based on the eObject's unique identifier
      * Existing and newly added objects in the target model are added to the objectCache
      */
     @SuppressWarnings("unchecked")
-    <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
-    	EObject foundObject = objectCache.get(getObjectKey(eObject));
+    <T extends EObject> T findObjectInTargetModel(T eObject) throws ImportException {
+        EObject foundObject = objectMatcher.getMatchingObject(eObject);
         
         // Not found
         if(foundObject == null) {
@@ -282,7 +255,7 @@ public class ModelImporter {
         
         // Not the right class, so that's an error we should report
         if(foundObject.eClass() != eObject.eClass()) {
-            throw new ImportException("Found object with same id but different class: " + eObject.getId()); //$NON-NLS-1$
+            throw new ImportException("Found object with same id but different class: " + eObject); //$NON-NLS-1$
         }
 
         // Found an element with same key and the class is the same
@@ -311,8 +284,8 @@ public class ModelImporter {
         
         newObject.setId(eObject.getId());
         
-        // Update global object cache
-        objectCache.put(getObjectKey(newObject), newObject);
+        // Add this to the object matcher so that all newly created objects can be found
+        objectMatcher.add(newObject);
         
         return (T)newObject;
     }
@@ -366,13 +339,10 @@ public class ModelImporter {
      * Release objects for GC
      */
     public void dispose() {
-        if(objectCache != null) {
-            objectCache.clear();
-            objectCache = null;
-        }
         importedModel = null;
         targetModel = null;
         compoundCommand = null;
+        objectMatcher = null;
     }
     
     // ====================================================================================================

@@ -21,7 +21,6 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IIdentifier;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
 
 /**
@@ -49,7 +48,7 @@ abstract class AbstractImporter {
         return importer.shouldUpdateFolderStructure();
     }
     
-    protected <T extends IIdentifier> T findObjectInTargetModel(T eObject) throws ImportException {
+    protected <T extends EObject> T findObjectInTargetModel(T eObject) throws ImportException {
         return importer.findObjectInTargetModel(eObject);
     }
     
