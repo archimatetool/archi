@@ -41,7 +41,8 @@
                 <configuration>
                     <includes>
                         <include>**/AllTests.java</include>
-                    </includes>                    
+                    </includes>
+                    <useJDK>BREE</useJDK>
                 </configuration>
             </plugin>
         </plugins>
