@@ -16,16 +16,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'maven'
       
-    - name: Cache Maven Repository
-      id: cache-m2
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: maven-${{ hashFiles('**/pom.xml') }}
-    
     - name: Run Maven tests with a virtual display
       run: |
         cp .github/toolchains.xml ~/.m2/toolchains.xml
-        mvn -v
-        xvfb-run mvn clean verify
+        xvfb-run mvn -V clean verify
