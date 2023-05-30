@@ -100,13 +100,11 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
         IArchimateConcept oldSource = source;
         source = newSource;
         
-        if(oldSource != newSource) { // optimise
-            if(oldSource != null) {
-                oldSource.getSourceRelationships().remove(this);
-            }
-            if(newSource != null) {
-                newSource.getSourceRelationships().add(this);
-            }
+        if(oldSource != null) {
+            oldSource.getSourceRelationships().remove(this);
+        }
+        if(newSource != null) {
+            newSource.getSourceRelationships().add(this);
         }
         
         if (eNotificationRequired())
@@ -133,13 +131,11 @@ public abstract class ArchimateRelationship extends ArchimateConcept implements 
         IArchimateConcept oldTarget = target;
         target = newTarget;
         
-        if(oldTarget != newTarget) { // optimise
-            if(oldTarget != null) {
-                oldTarget.getTargetRelationships().remove(this);
-            }
-            if(newTarget != null) {
-                newTarget.getTargetRelationships().add(this);
-            }
+        if(oldTarget != null) {
+            oldTarget.getTargetRelationships().remove(this);
+        }
+        if(newTarget != null) {
+            newTarget.getTargetRelationships().add(this);
         }
         
         if (eNotificationRequired())
