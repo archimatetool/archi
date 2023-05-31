@@ -241,14 +241,10 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     // =================================================================================
     
     /**
-     * If true will not refresh viewer on multiple eCore notifications
-     */
-    private Boolean fAddingToBuffer = false;
-    
-    /**
      * Buffer notifications to optimise updates
      */
-    private List<Notification> fNotificationBuffer;
+    private List<Notification> notificationBuffer = new ArrayList<>();
+    private int notificationBufferCount;
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -257,22 +253,25 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Start: Buffer all incoming notifications
         if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
-            fAddingToBuffer = true;
-            fNotificationBuffer = new ArrayList<Notification>();
+            if(notificationBufferCount++ == 0) {
+                notificationBuffer.clear();
+            }
         }
         // End: Refresh Viewer with buffered notifications
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
-            doRefreshFromNotifications(fNotificationBuffer);
+            if(--notificationBufferCount == 0) {
+                doRefreshFromNotifications(notificationBuffer);
+            }
         }
         // ECore model event
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENT) {
             // Normal event
-            if(!fAddingToBuffer) {
+            if(notificationBufferCount == 0) {
                 eCoreChanged((Notification)newValue);
             }
             // Else add to buffer
             else {
-                fNotificationBuffer.add((Notification)newValue);
+                notificationBuffer.add((Notification)newValue);
             }
         }
     }
@@ -312,8 +311,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Overriders should call super after doing their thing
      */
     protected void doRefreshFromNotifications(List<Notification> notifications) {
-        fAddingToBuffer = false;
-        fNotificationBuffer = null;
+        notificationBuffer.clear();
     }
     
     /**
