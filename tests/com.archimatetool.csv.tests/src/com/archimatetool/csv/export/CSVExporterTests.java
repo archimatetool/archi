@@ -23,15 +23,9 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperty;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class CSVExporterTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CSVExporterTests.class);
-    }
     
     private CSVExporter exporter;
     

@@ -20,13 +20,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchActorUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

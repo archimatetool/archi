@@ -11,8 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Test;
 
 
@@ -22,10 +20,6 @@ import org.junit.Test;
 @SuppressWarnings("nls")
 public class StringUtilsTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(StringUtilsTests.class);
-    }
-    
     @Test
     public void safeStringNull() {
         String string = null;

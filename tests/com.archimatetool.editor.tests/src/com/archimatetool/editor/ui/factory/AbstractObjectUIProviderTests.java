@@ -16,16 +16,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public abstract class AbstractObjectUIProviderTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AbstractObjectUIProviderTests.class);
-    }
-    
     protected IObjectUIProvider provider;
     protected EClass expectedClass;
     

@@ -20,14 +20,8 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class LoadModelFromFileProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(LoadModelFromFileProviderTests.class);
-    }
     
     LoadModelFromFileProvider provider;
     

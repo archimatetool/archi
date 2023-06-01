@@ -22,13 +22,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelReference;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelReferenceUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

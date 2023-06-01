@@ -25,7 +25,6 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
@@ -33,10 +32,6 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ViewChildrenDataSourceTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewChildrenDataSourceTests.class);
-    }
-
     private static IArchimateModel model;
     private static IDiagramModel dm;
     

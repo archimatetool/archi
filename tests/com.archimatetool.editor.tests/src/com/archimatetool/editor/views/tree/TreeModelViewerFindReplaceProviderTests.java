@@ -32,8 +32,6 @@ import com.archimatetool.model.INameable;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class TreeModelViewerFindReplaceProviderTests extends AbstractFindReplaceProviderTests {
@@ -44,10 +42,6 @@ public class TreeModelViewerFindReplaceProviderTests extends AbstractFindReplace
     private static TreeModelViewer treeViewer;
     
     private TreeModelViewerFindReplaceProvider provider;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TreeModelViewerFindReplaceProviderTests.class);
-    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {

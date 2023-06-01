@@ -22,16 +22,9 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class CreateMapViewCheatSheetActionTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CreateMapViewCheatSheetActionTests.class);
-    }
-    
-
     @BeforeClass
     public static void runOnceBeforeAllTests() {
     }

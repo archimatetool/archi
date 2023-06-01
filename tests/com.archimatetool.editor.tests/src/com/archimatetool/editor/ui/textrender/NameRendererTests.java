@@ -16,8 +16,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -28,10 +26,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class NameRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(NameRendererTests.class);
-    }
-    
     private NameRenderer renderer = new NameRenderer();
     
     private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();

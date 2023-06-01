@@ -15,16 +15,10 @@ import org.junit.Test;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObjectUIProviderTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AbstractGraphicalObjectUIProviderTests.class);
-    }
-    
     protected IGraphicalObjectUIProvider getProvider() {
         return (IGraphicalObjectUIProvider)provider;
     }

@@ -22,17 +22,11 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IBusinessActor;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class ColorFactoryTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ColorFactoryTests.class);
-    }
-    
     @Test
     public void testGetInt_Int_Int() {
         Color color = ColorFactory.get(1, 2, 3);

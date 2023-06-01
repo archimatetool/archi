@@ -12,8 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.util.EList;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +26,6 @@ import com.archimatetool.model.TestSupport;
 
 @SuppressWarnings("nls")
 public class MetadataTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(MetadataTests.class);
-    }
     
     IArchimateModel model;
     IMetadata metadata;

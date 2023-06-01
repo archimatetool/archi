@@ -28,15 +28,9 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class MRUMenuManagerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(MRUMenuManagerTests.class);
-    }
     
     private MRUMenuManager menuManager;
     

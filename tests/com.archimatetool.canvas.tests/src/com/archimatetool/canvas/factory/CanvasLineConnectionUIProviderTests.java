@@ -17,13 +17,7 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class CanvasLineConnectionUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasLineConnectionUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

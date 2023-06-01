@@ -30,16 +30,10 @@ import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramImageFigureTests.class);
-    }
     
     private DiagramImageFigure figure;
     private IDiagramModelImage dmImage;

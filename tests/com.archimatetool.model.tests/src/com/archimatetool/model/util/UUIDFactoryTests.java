@@ -17,16 +17,9 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class UUIDFactoryTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(UUIDFactoryTests.class);
-    }
-    
-    
     @Test
     public void createID_Concept() {
         String id = UUIDFactory.createID(IArchimateFactory.eINSTANCE.createBusinessActor());

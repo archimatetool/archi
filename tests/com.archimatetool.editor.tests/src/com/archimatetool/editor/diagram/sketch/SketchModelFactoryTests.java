@@ -20,15 +20,9 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class SketchModelFactoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchModelFactoryTests.class);
-    }
     
     @Test
     public void testIsUsedFor() {

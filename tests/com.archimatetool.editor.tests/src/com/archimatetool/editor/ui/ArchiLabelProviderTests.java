@@ -28,17 +28,11 @@ import com.archimatetool.model.INameable;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class ArchiLabelProviderTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchiLabelProviderTests.class);
-    }
-    
     @BeforeClass
     public static void runOnceBeforeAllTests() {
         // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()

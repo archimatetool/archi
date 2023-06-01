@@ -20,16 +20,10 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.RelationshipsMatrix.TargetMatrix;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public class RelationshipsMatrixTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(RelationshipsMatrixTests.class);
-    }
-    
     private RelationshipsMatrix matrix = RelationshipsMatrix.INSTANCE;
     
     @Test(expected = UnsupportedOperationException.class)

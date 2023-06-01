@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.editor.actions.AllActionsTests;
 import com.archimatetool.editor.diagram.AllDiagramTests;
 import com.archimatetool.editor.model.AllModelTests;
@@ -14,39 +17,27 @@ import com.archimatetool.editor.ui.AllUITests;
 import com.archimatetool.editor.utils.AllUtilsTests;
 import com.archimatetool.editor.views.AllViewsTests;
 
-import junit.framework.TestSuite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    // actions
+    AllActionsTests.class,
+    // diagram
+    AllDiagramTests.class,
+    // model
+    AllModelTests.class,
+    // p2
+    AllP2Tests.class,
+    // propertysections
+    AllPropertySectionsTests.class,
+    // ui
+    AllUITests.class,
+    // utils
+    AllUtilsTests.class,
+    // views
+    AllViewsTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor");
-		
-		// actions
-		suite.addTest(AllActionsTests.suite());
-		
-        // diagram
-        suite.addTest(AllDiagramTests.suite());
-
-		// model
-        suite.addTest(AllModelTests.suite());
-        
-        // propertysections
-        suite.addTest(AllPropertySectionsTests.suite());
-		
-        // ui
-        suite.addTest(AllUITests.suite());
-
-        // utils
-        suite.addTest(AllUtilsTests.suite());
-
-        // views
-        suite.addTest(AllViewsTests.suite());
-        
-        // p2
-        suite.addTest(AllP2Tests.suite());
-
-        return suite;
-	}
-
 }

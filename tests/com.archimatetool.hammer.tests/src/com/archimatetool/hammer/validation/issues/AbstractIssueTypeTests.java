@@ -22,15 +22,9 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public abstract class AbstractIssueTypeTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AbstractIssueTypeTests.class);
-    }
     
     protected AbstractIssueType issueType;
     

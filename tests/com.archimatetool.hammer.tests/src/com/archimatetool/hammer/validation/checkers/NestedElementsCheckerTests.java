@@ -21,15 +21,9 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class NestedElementsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(NestedElementsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

@@ -27,18 +27,12 @@ import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapte
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 /**
  * ImageExportProviderTests
  * 
  * @author Phillip Beauvoir
  */
 public class ImageExportProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ImageExportProviderTests.class);
-    }
     
     private ImageExportProvider provider;
     private Shell shell;

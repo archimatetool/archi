@@ -23,15 +23,9 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class DiagramModelArchimateConnectionTests extends DiagramModelConnectionTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelArchimateConnectionTests.class);
-    }
     
     private IArchimateRelationship relationship;
     private IDiagramModelArchimateObject source, target;

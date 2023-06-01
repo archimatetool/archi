@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -43,10 +41,6 @@ public class DiagramEditorFindReplaceProviderTests extends AbstractFindReplacePr
     private static ArchimateTestEditor editor;
 
     private DiagramEditorFindReplaceProvider provider;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramEditorFindReplaceProviderTests.class);
-    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {

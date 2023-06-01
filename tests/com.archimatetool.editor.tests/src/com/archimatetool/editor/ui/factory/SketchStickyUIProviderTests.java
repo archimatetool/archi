@@ -18,13 +18,7 @@ import com.archimatetool.editor.ui.factory.sketch.SketchStickyUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class SketchStickyUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchStickyUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

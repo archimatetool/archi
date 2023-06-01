@@ -5,21 +5,18 @@
  */
 package com.archimatetool.canvas.factory;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    CanvasBlockUIProviderTests.class,
+    CanvasImageUIProviderTests.class,
+    CanvasLineConnectionUIProviderTests.class,
+    CanvasModelUIProviderTests.class,
+    CanvasStickyUIProviderTests.class
+})
+
 public class AllUIFactoryTests {
-
-    public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("com.archimatetool.canvas.factory");
-        
-        suite.addTest(CanvasBlockUIProviderTests.suite());
-        suite.addTest(CanvasImageUIProviderTests.suite());
-        suite.addTest(CanvasLineConnectionUIProviderTests.suite());
-        suite.addTest(CanvasModelUIProviderTests.suite());
-        suite.addTest(CanvasStickyUIProviderTests.suite());
-
-        return suite;
-    }
-
 }

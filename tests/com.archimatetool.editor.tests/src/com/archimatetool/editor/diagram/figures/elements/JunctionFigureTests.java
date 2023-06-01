@@ -13,17 +13,10 @@ import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(JunctionFigureTests.class);
-    }
-    
-
     @Override
     protected JunctionFigure createFigure() {
         // Add a DiagramModelObject

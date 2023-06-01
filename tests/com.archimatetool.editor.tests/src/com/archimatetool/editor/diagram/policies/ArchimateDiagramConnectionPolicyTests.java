@@ -35,15 +35,9 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 public class ArchimateDiagramConnectionPolicyTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateDiagramConnectionPolicyTests.class);
-    }
-
     private ArchimateDiagramConnectionPolicy sourcePolicy;
     private ArchimateDiagramConnectionPolicy targetPolicy;
     private IDiagramModelArchimateComponent sourceDiagramComponent;

@@ -22,8 +22,6 @@ import org.junit.Test;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -34,15 +32,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class FileUtilsTests {
 
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     * 
-     * @return
-     */
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FileUtilsTests.class);
-    }
-    
     // ---------------------------------------------------------------------------------------------
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------

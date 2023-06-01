@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.model;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.editor.model.commands.CommandsTests;
 import com.archimatetool.editor.model.compatibility.ModelCompatibilityTests;
 import com.archimatetool.editor.model.compatibility.handlers.ArchiMate2To3HandlerTests;
@@ -14,37 +17,27 @@ import com.archimatetool.editor.model.impl.ArchiveManagerTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 
-import junit.framework.TestSuite;
+@RunWith(Suite.class)
 
-@SuppressWarnings("nls")
+@Suite.SuiteClasses({
+    // model
+    DiagramModelUtilsTests.class,
+    DiagramModelUtilsNestedRelationsTests.class,
+    IArchiveManagerTests.class,
+    ModelCheckerTests.class,
+    // model.commands
+    CommandsTests.class,
+    // model.compatibility
+    ModelCompatibilityTests.class,
+    // model.compatibility.handlers
+    ArchiMate2To3HandlerTests.class,
+    FixDefaultSizesHandlerTests.class,
+    OutlineOpacityHandlerTests.class,
+    // model.impl
+    ArchiveManagerTests.class,
+    ByteArrayStorageTests.class,
+    EditorModelManagerTests.class
+})
+
 public class AllModelTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.model");
-		
-		// model
-        suite.addTest(DiagramModelUtilsTests.suite());
-        suite.addTest(DiagramModelUtilsNestedRelationsTests.suite());
-        suite.addTest(IArchiveManagerTests.suite());
-        suite.addTest(ModelCheckerTests.suite());
-
-        // model.commands
-        suite.addTest(CommandsTests.suite());
-
-        // model.compatibility
-        suite.addTest(ModelCompatibilityTests.suite());
-        
-        // model.compatibility.handlers
-        suite.addTest(ArchiMate2To3HandlerTests.suite());
-        suite.addTest(FixDefaultSizesHandlerTests.suite());
-        suite.addTest(OutlineOpacityHandlerTests.suite());
-
-        // model.impl
-        suite.addTest(ArchiveManagerTests.suite());
-        suite.addTest(ByteArrayStorageTests.suite());
-		suite.addTest(EditorModelManagerTests.suite());
-		
-		return suite;
-	}
-
 }

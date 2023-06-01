@@ -14,15 +14,9 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ArchiMate2To3HandlerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchiMate2To3HandlerTests.class);
-    }
     
     private static Archimate2To3Handler handler;
     

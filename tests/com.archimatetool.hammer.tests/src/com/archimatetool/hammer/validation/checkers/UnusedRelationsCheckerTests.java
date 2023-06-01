@@ -24,14 +24,8 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class UnusedRelationsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(UnusedRelationsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

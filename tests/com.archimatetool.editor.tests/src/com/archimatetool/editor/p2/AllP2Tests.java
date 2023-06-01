@@ -5,17 +5,14 @@
  */
 package com.archimatetool.editor.p2;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    DropinsPluginHandlerTests.class
+})
+
 public class AllP2Tests {
-
-    public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("com.archimatetool.editor.p2");
-
-        suite.addTest(DropinsPluginHandlerTests.suite());
-        
-        return suite;
-    }
-
 }

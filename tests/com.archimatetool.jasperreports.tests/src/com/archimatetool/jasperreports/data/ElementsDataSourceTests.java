@@ -23,7 +23,6 @@ import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
@@ -31,10 +30,6 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ElementsDataSourceTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ElementsDataSourceTests.class);
-    }
-
     private static IArchimateModel model;
     
     private ElementsDataSource ds;

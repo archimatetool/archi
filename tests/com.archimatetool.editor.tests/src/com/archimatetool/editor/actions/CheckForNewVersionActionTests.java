@@ -20,16 +20,10 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class CheckForNewVersionActionTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CheckForNewVersionActionTests.class);
-    }
     
     private CheckForNewVersionAction action;
     

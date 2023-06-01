@@ -32,17 +32,11 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class PropertiesLabelProviderTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(PropertiesLabelProviderTests.class);
-    }
-    
     @BeforeClass
     public static void runOnceBeforeAllTests() {
         // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()

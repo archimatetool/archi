@@ -8,14 +8,8 @@ package com.archimatetool.hammer.validation.issues;
 
 import org.junit.Before;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class OKTypeTests extends AbstractIssueTypeTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(OKTypeTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

@@ -18,13 +18,7 @@ import org.junit.Test;
 import com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class LineConnectionUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(LineConnectionUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

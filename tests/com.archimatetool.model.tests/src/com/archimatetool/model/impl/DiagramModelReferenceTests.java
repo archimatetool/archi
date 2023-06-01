@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +19,6 @@ import com.archimatetool.model.IDiagramModelReference;
 
 @SuppressWarnings("nls")
 public class DiagramModelReferenceTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelReferenceTests.class);
-    }
     
     private IDiagramModelReference ref;
     private IDiagramModel dm;

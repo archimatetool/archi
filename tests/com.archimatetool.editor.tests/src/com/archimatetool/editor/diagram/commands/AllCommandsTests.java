@@ -5,18 +5,14 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    CreateDiagramArchimateConnectionWithDialogCommandTests.class
+})
+
 public class AllCommandsTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.commands");
-		
-        // commands
-        suite.addTest(CreateDiagramArchimateConnectionWithDialogCommandTests.suite());
-
-        return suite;
-	}
-
 }

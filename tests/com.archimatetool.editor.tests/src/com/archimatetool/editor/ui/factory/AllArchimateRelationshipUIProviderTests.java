@@ -34,14 +34,8 @@ import com.archimatetool.editor.ui.factory.relationships.SpecializationRelations
 import com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-import junit.framework.JUnit4TestAdapter;
-
 @RunWith(Parameterized.class)
 public class AllArchimateRelationshipUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchimateRelationshipUIProviderTests.class);
-    }
     
     @Parameters
     public static Collection<Object[]> eObjects() {

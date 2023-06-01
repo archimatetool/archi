@@ -42,14 +42,8 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 public class CopySnapshotTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CopySnapshotTests.class);
-    }
     
     private ArchimateTestModel tm;
     private IArchimateModel model;

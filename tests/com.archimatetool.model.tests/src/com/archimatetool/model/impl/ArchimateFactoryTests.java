@@ -7,7 +7,6 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -19,10 +18,6 @@ import com.archimatetool.model.IProperty;
 
 @SuppressWarnings("nls")
 public class ArchimateFactoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateFactoryTests.class);
-    }
     
     @Test
     public void createBounds_WithParamaters() {

@@ -9,16 +9,10 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelGroup;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class GroupFigureTests extends AbstractTextControlContainerFigureTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(GroupFigureTests.class);
-    }
     
     private GroupFigure figure;
     private IDiagramModelGroup dmGroup;

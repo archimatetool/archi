@@ -20,15 +20,9 @@ import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class EmptyViewsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(EmptyViewsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

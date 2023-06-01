@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -32,11 +30,6 @@ import com.archimatetool.model.TestSupport;
 @SuppressWarnings("nls")
 public class ArchimateResourceFactoryTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateResourceFactoryTests.class);
-    }
-    
-    
     @Test
     public void testCreateNewResource_File() {
         File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;

@@ -22,14 +22,8 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class ValidatorTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ValidatorTests.class);
-    }
     
     static IArchimateModel model;
     static Validator validator;

@@ -23,15 +23,9 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class FixDefaultSizesHandlerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FixDefaultSizesHandlerTests.class);
-    }
     
     private static FixDefaultSizesHandler handler;
     

@@ -20,15 +20,9 @@ import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class InvalidRelationsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(InvalidRelationsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

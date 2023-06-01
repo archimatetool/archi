@@ -5,17 +5,14 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    PropertiesLabelProviderTests.class
+})
+
 public class AllPropertySectionsTests {
-
-    public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("com.archimatetool.editor.propertysections");
-
-        suite.addTest(PropertiesLabelProviderTests.suite());
-        
-        return suite;
-    }
-
 }

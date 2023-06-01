@@ -12,8 +12,6 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -24,10 +22,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class ViewpointRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewpointRendererTests.class);
-    }
-    
     private ViewpointRenderer renderer = new ViewpointRenderer();
     
     @Override

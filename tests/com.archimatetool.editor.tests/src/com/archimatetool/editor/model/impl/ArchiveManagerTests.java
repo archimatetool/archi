@@ -32,8 +32,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ArchiveManagerTests {
@@ -42,10 +40,6 @@ public class ArchiveManagerTests {
     private IArchimateModel model;
     private IDiagramModel dm;
     private ArchiveManager archiveManager;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchiveManagerTests.class);
-    }
     
     @Before
     public void runBeforeEachTest() {

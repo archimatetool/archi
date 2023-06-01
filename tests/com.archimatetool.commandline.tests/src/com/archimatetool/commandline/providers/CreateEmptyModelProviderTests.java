@@ -18,14 +18,8 @@ import com.archimatetool.commandline.CommandLineState;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.model.IArchimateModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class CreateEmptyModelProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CreateEmptyModelProviderTests.class);
-    }
     
     CreateEmptyModelProvider provider;
     

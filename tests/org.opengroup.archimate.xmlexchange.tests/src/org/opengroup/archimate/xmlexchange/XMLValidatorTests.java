@@ -7,8 +7,6 @@ package org.opengroup.archimate.xmlexchange;
 
 import org.junit.Test;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * XML Model Exporter Tests
@@ -17,10 +15,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 public class XMLValidatorTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(XMLValidatorTests.class);
-    }
-
     @Test
     public void testValidate() throws Exception {
         XMLValidator validator = new XMLValidator();

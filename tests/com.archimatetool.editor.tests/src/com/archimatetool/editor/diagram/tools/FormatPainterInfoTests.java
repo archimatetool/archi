@@ -10,7 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.swt.graphics.RGB;
 import org.junit.After;
@@ -25,10 +24,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 public class FormatPainterInfoTests {
     
     private FormatPainterInfo info;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FormatPainterInfoTests.class);
-    }
     
     @Before
     public void runBeforeEachTest() {

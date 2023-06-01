@@ -6,7 +6,8 @@
 package com.archimatetool.hammer.validation.checkers;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,9 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ViewpointCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewpointCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

@@ -5,29 +5,27 @@
  */
 package com.archimatetool.tests;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    com.archimatetool.canvas.AllTests.class,
+    com.archimatetool.commandline.AllTests.class,
+    com.archimatetool.csv.AllTests.class,
+    com.archimatetool.editor.AllTests.class,
+    com.archimatetool.export.svg.AllTests.class,
+    com.archimatetool.hammer.AllTests.class,
+    com.archimatetool.help.AllTests.class,
+    com.archimatetool.jasperreports.AllTests.class,
+    com.archimatetool.jdom.AllTests.class,
+    com.archimatetool.model.AllTests.class,
+    com.archimatetool.modelimporter.AllTests.class,
+    com.archimatetool.reports.AllTests.class,
+    com.archimatetool.zest.AllTests.class,
+    org.opengroup.archimate.xmlexchange.AllTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("All JUnit Tests");
-		
-		suite.addTest(com.archimatetool.canvas.AllTests.suite());
-		suite.addTest(com.archimatetool.commandline.AllTests.suite());
-		suite.addTest(com.archimatetool.csv.AllTests.suite());
-		suite.addTest(com.archimatetool.editor.AllTests.suite());
-		suite.addTest(com.archimatetool.export.svg.AllTests.suite());
-		suite.addTest(com.archimatetool.hammer.AllTests.suite());
-		suite.addTest(com.archimatetool.help.AllTests.suite());
-		suite.addTest(com.archimatetool.jasperreports.AllTests.suite());
-		suite.addTest(com.archimatetool.jdom.AllTests.suite());
-		suite.addTest(com.archimatetool.model.AllTests.suite());
-		suite.addTest(com.archimatetool.modelimporter.AllTests.suite());
-		suite.addTest(com.archimatetool.reports.AllTests.suite());
-		suite.addTest(com.archimatetool.zest.AllTests.suite());
-		suite.addTest(org.opengroup.archimate.xmlexchange.AllTests.suite());
-
-		return suite;
-	}
 }

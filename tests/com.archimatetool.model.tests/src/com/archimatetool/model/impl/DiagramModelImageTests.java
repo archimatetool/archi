@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -17,10 +16,6 @@ import com.archimatetool.model.IDiagramModelImage;
 
 @SuppressWarnings("nls")
 public class DiagramModelImageTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelImageTests.class);
-    }
     
     private IDiagramModelImage image;
     

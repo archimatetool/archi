@@ -25,15 +25,9 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
 public class AllArchimateTextControlContainerFigureTests extends AbstractTextControlContainerFigureTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchimateTextControlContainerFigureTests.class);
-    }
     
     @Parameters
     public static Collection<EClass[]> eObjects() {

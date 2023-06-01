@@ -16,14 +16,8 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public abstract class ArchimateRelationshipTests extends ArchimateConceptTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateRelationshipTests.class);
-    }
     
     protected IArchimateElement sourceElement;
     protected IArchimateElement targetElement;

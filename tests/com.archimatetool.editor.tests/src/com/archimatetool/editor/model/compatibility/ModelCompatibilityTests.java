@@ -21,15 +21,9 @@ import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ModelCompatibilityTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ModelCompatibilityTests.class);
-    }
     
     private ModelCompatibility mc;
     private Resource resource;

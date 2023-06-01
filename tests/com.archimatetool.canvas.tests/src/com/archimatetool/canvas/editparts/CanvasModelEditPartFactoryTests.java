@@ -26,16 +26,10 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelReference;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class CanvasModelEditPartFactoryTests {
     
     private CanvasModelEditPartFactory editPartFactory;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasModelEditPartFactoryTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

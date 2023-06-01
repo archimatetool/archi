@@ -27,16 +27,10 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class ArchimateDiagramEditPartFactoryTests {
     
     private ArchimateDiagramEditPartFactory editPartFactory;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateDiagramEditPartFactoryTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

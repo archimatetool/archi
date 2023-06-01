@@ -11,8 +11,6 @@ import org.junit.Test;
 
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -23,10 +21,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class IfRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(IfRendererTests.class);
-    }
-    
     private IfRenderer renderer = new IfRenderer();
     
     private TextRenderer textRenderer = TextRenderer.getDefault();

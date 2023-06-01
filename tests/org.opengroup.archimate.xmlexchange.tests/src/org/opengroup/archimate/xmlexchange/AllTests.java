@@ -6,20 +6,17 @@
 package org.opengroup.archimate.xmlexchange;
 
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    XMLExchangeUtilsTests.class,
+    XMLModelExporterTests.class,
+    XMLModelImporterTests.class,
+    XMLValidatorTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("org.opengroup.archimate.xmlexchange");
-
-        suite.addTest(XMLExchangeUtilsTests.suite());
-		suite.addTest(XMLModelExporterTests.suite());
-        suite.addTest(XMLModelImporterTests.suite());
-        suite.addTest(XMLValidatorTests.suite());
-		
-        return suite;
-	}
-
 }

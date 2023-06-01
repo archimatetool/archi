@@ -5,26 +5,23 @@
  */
 package com.archimatetool.canvas;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactoryTests;
 import com.archimatetool.canvas.factory.AllUIFactoryTests;
 
-@SuppressWarnings("nls")
+
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    // editparts
+    CanvasModelEditPartFactoryTests.class,
+    // factory
+    AllUIFactoryTests.class,
+    // this
+    CanvasModelFactoryTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.canvas");
-		
-		// editparts
-		suite.addTest(CanvasModelEditPartFactoryTests.suite());
-		
-		// factory
-		suite.addTest(AllUIFactoryTests.suite());
-		
-		suite.addTest(CanvasModelFactoryTests.suite());
-		
-        return suite;
-	}
-
 }

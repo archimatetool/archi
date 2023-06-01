@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
-import junit.framework.JUnit4TestAdapter;
-
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigureTests;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -16,10 +14,6 @@ import com.archimatetool.model.IDiagramModelReference;
 
 @SuppressWarnings("nls")
 public class DiagramModelReferenceFigureTests extends AbstractTextControlContainerFigureTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelReferenceFigureTests.class);
-    }
     
     private DiagramModelReferenceFigure figure;
     private IDiagramModelReference dmRef;

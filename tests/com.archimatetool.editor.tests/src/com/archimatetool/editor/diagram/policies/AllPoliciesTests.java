@@ -5,23 +5,17 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    ArchimateDiagramConnectionPolicyTests.class,
+    ExtendedConnectionBendpointTrackerTests.class
+})
+
 public class AllPoliciesTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.policies");
-		
-        // policies
-        suite.addTest(ArchimateDiagramConnectionPolicyTests.suite());
-
-        // policies.snaptogrid
-        suite.addTest(ExtendedConnectionBendpointTrackerTests.suite());
-        
-        return suite;
-	}
-
 }

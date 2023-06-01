@@ -6,7 +6,9 @@
 package com.archimatetool.hammer.validation.checkers;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +20,9 @@ import com.archimatetool.hammer.validation.issues.WarningType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class DuplicateElementCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DuplicateElementCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

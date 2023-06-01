@@ -14,15 +14,9 @@ import org.junit.Test;
 
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public abstract class AbstractIssueCategoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AbstractIssueCategoryTests.class);
-    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {

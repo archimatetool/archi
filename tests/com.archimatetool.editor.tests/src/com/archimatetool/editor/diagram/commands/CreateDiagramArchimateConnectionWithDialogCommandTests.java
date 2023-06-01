@@ -29,16 +29,10 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class CreateDiagramArchimateConnectionWithDialogCommandTests {
     
     private CreateDiagramArchimateConnectionWithDialogCommand cmd;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CreateDiagramArchimateConnectionWithDialogCommandTests.class);
-    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {

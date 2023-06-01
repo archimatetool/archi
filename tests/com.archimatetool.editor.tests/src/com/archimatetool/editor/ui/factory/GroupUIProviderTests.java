@@ -19,13 +19,7 @@ import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(GroupUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

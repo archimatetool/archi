@@ -34,16 +34,10 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class DuplicateCommandHandlerTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DuplicateCommandHandlerTests.class);
-    }
-
     @Test
     public void testCanDuplicateSelection() {
         // Empty

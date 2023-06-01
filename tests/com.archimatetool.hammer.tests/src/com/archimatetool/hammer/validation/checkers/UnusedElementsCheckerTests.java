@@ -22,14 +22,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class UnusedElementsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(UnusedElementsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

@@ -25,15 +25,9 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelArchimateObjectTests.class);
-    }
     
     private IDiagramModelArchimateObject object;
     

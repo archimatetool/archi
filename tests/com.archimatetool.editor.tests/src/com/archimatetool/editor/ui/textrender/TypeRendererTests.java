@@ -15,8 +15,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelReference;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -27,10 +25,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class TypeRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TypeRendererTests.class);
-    }
-    
     private TypeRenderer renderer = new TypeRenderer();
     
     private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();

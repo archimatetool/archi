@@ -16,8 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,10 +30,6 @@ public class ByteArrayStorageTests {
     private long imgfileByteSize = 662299;
     
     private String entry1 = "entry1", entry2 = "entry2";
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ByteArrayStorageTests.class);
-    }
     
     @Before
     public void runBeforeEachTest() {

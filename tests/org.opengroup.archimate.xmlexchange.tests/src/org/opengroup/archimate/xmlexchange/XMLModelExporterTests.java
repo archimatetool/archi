@@ -18,8 +18,6 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * XML Model Exporter Tests
@@ -29,10 +27,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class XMLModelExporterTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(XMLModelExporterTests.class);
-    }
-
     @Test
     public void testExportModel() throws IOException, SAXException {
         Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.archiFile1);

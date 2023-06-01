@@ -16,14 +16,8 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class CommandLineStateTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CommandLineStateTests.class);
-    }
     
     @Test
     public void getModel_IsSet() {

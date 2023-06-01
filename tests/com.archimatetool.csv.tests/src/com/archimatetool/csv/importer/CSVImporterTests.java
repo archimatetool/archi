@@ -38,15 +38,9 @@ import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class CSVImporterTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CSVImporterTests.class);
-    }
     
     File testFolder = TestUtils.getLocalBundleFolder("com.archimatetool.csv.tests", "testdata");
     

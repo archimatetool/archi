@@ -23,15 +23,9 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ZestViewerContentProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ZestViewerContentProviderTests.class);
-    }
     
     private static ArchimateTestModel tm;
     private static ZestViewerContentProvider provider;

@@ -5,7 +5,11 @@
  */
 package com.archimatetool.model.viewpoints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -19,16 +23,10 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ViewpointManagerTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewpointManagerTests.class);
-    }
-    
     @Test
     public void testExists() {
         assertNotNull(ViewpointManager.INSTANCE);

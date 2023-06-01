@@ -5,18 +5,14 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    ArchimateDiagramEditPartFactoryTests.class
+})
+
 public class AllEditPartsTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.editparts");
-		
-        // editparts
-        suite.addTest(ArchimateDiagramEditPartFactoryTests.suite());
-
-        return suite;
-	}
-
 }

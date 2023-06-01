@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * JUnit tests for JUnit 4
@@ -23,15 +21,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 public class HTMLUtilsTests {
 
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     * 
-     * @return
-     */
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(HTMLUtilsTests.class);
-    }
-    
     // ---------------------------------------------------------------------------------------------
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------

@@ -12,16 +12,10 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.junit.Test;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class FontFactoryTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FontFactoryTests.class);
-    }
-    
     @Test
     public void testGetItalic() {
         Font font = new Font(null, "Sans", 16, SWT.NORMAL);

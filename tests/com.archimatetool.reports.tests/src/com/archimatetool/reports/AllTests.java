@@ -6,19 +6,16 @@
 package com.archimatetool.reports;
 
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.reports.html.HTMLReportExporterTests;
 
-import junit.framework.TestSuite;
+@RunWith(Suite.class)
 
-@SuppressWarnings("nls")
+@Suite.SuiteClasses({
+    HTMLReportExporterTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.reports");
-
-		suite.addTest(HTMLReportExporterTests.suite());
-		
-        return suite;
-	}
-
 }

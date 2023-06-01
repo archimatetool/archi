@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -21,10 +20,6 @@ import com.archimatetool.model.ITextAlignment;
 
 @SuppressWarnings("nls")
 public class SketchModelStickyTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchModelStickyTests.class);
-    }
     
     private ISketchModelSticky sticky;
     

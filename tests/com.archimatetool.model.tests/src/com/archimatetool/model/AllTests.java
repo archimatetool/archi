@@ -5,6 +5,9 @@
  */
 package com.archimatetool.model;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.model.impl.AllArchimateElementTypeTests;
 import com.archimatetool.model.impl.AllArchimateRelationshipTypeTests;
 import com.archimatetool.model.impl.ArchimateDiagramModelTests;
@@ -35,54 +38,48 @@ import com.archimatetool.model.util.UUIDFactoryTests;
 import com.archimatetool.model.viewpoints.ViewpointManagerTests;
 import com.archimatetool.model.viewpoints.ViewpointTests;
 
-import junit.framework.TestSuite;
+@RunWith(Suite.class)
 
-@SuppressWarnings("nls")
+@Suite.SuiteClasses({
+    // impl
+    ArchimateDiagramModelTests.class,
+    ArchimateFactoryTests.class,
+    ArchimateModelTests.class,
+
+    DiagramModelArchimateConnectionTests.class,
+    DiagramModelArchimateObjectTests.class,
+    DiagramModelBendpointTests.class,
+    DiagramModelConnectionTests.class,
+    DiagramModelExtraTests.class,
+    DiagramModelGroupTests.class,
+    DiagramModelImageTests.class,
+    DiagramModelNoteTests.class,
+    DiagramModelReferenceTests.class,
+    
+    BoundsTests.class,
+    FolderTests.class,
+    MetadataTests.class,
+    FeaturesEListTests.class,
+    ProfileTests.class,
+    PropertyTests.class,
+    
+    SketchModelTests.class,
+    SketchModelActorTests.class,
+    SketchModelStickyTests.class,
+    
+    AllArchimateElementTypeTests.class,
+    AllArchimateRelationshipTypeTests.class,
+    
+    // util
+    ArchimateModelUtilsTests.class,
+    ArchimateResourceFactoryTests.class,
+    UUIDFactoryTests.class,
+    RelationshipsMatrixTests.class,
+
+    // viewpoints
+    ViewpointTests.class,
+    ViewpointManagerTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.model");
-
-		// impl
-        suite.addTest(ArchimateDiagramModelTests.suite());
-        suite.addTest(ArchimateFactoryTests.suite());
-		suite.addTest(ArchimateModelTests.suite());
-
-		suite.addTest(DiagramModelArchimateConnectionTests.suite());
-        suite.addTest(DiagramModelArchimateObjectTests.suite());
-        suite.addTest(DiagramModelBendpointTests.suite());
-        suite.addTest(DiagramModelConnectionTests.suite());
-        suite.addTest(DiagramModelExtraTests.suite());
-        suite.addTest(DiagramModelGroupTests.suite());
-        suite.addTest(DiagramModelImageTests.suite());
-        suite.addTest(DiagramModelNoteTests.suite());
-        suite.addTest(DiagramModelReferenceTests.suite());
-		
-        suite.addTest(BoundsTests.suite());
-        suite.addTest(FolderTests.suite());
-        suite.addTest(MetadataTests.suite());
-        suite.addTest(FeaturesEListTests.suite());
-        suite.addTest(ProfileTests.suite());
-        suite.addTest(PropertyTests.suite());
-        
-        suite.addTest(SketchModelTests.suite());
-        suite.addTest(SketchModelActorTests.suite());
-        suite.addTest(SketchModelStickyTests.suite());
-		
-        suite.addTest(AllArchimateElementTypeTests.suite());
-        suite.addTest(AllArchimateRelationshipTypeTests.suite());
-        
-        // util
-        suite.addTest(ArchimateModelUtilsTests.suite());
-        suite.addTest(ArchimateResourceFactoryTests.suite());
-        suite.addTest(UUIDFactoryTests.suite());
-        suite.addTest(RelationshipsMatrixTests.suite());
-
-        // viewpoints
-        suite.addTest(ViewpointTests.suite());
-        suite.addTest(ViewpointManagerTests.suite());
-
-        return suite;
-	}
-
 }

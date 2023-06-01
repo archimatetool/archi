@@ -18,8 +18,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * Extra tests on objects that don't fit anywhere else
@@ -27,10 +25,6 @@ import junit.framework.JUnit4TestAdapter;
  * @author Phillip Beauvoir
  */
 public class DiagramModelExtraTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelExtraTests.class);
-    }
     
     /**
      * See {@link DiagramModelArchimateObject#eInverseAdd(org.eclipse.emf.ecore.InternalEObject, int, Class, org.eclipse.emf.common.notify.NotificationChain)}

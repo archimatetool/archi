@@ -32,20 +32,9 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class CommandsTests {
-    
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     * 
-     * @return
-     */
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CommandsTests.class);
-    }
     
     private ArchimateTestModel tm;
     private IArchimateModel model;

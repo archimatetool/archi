@@ -28,8 +28,6 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -40,10 +38,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class ArchimateModelUtilsTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateModelUtilsTests.class);
-    }
-    
     /*
      * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in ViewpointTests
      */

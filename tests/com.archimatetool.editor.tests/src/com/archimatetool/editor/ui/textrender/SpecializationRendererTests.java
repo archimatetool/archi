@@ -17,8 +17,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IProfile;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -29,10 +27,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class SpecializationRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SpecializationRendererTests.class);
-    }
-    
     private SpecializationRenderer renderer = new SpecializationRenderer();
     
     private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();

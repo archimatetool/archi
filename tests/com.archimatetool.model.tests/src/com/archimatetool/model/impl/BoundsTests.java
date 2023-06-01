@@ -13,16 +13,10 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public class BoundsTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(BoundsTests.class);
-    }
-
     private IBounds bounds;
     
     @Before

@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +21,6 @@ import com.archimatetool.model.IFolder;
 
 
 public class FolderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FolderTests.class);
-    }
     
     private IFolder folder;
     private IArchimateModel model;

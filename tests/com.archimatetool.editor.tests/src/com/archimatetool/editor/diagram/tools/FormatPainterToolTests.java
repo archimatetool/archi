@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.tools;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -25,11 +24,6 @@ import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
 public class FormatPainterToolTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FormatPainterToolTests.class);
-    }
-    
     
     // ---------------------------------------------------------------------------------------------
     // Tests

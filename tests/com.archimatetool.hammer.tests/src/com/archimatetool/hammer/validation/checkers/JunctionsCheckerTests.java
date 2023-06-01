@@ -19,14 +19,8 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class JunctionsCheckerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(JunctionsCheckerTests.class);
-    }
     
     @Test
     public void testGetIssues() {

@@ -6,17 +6,14 @@
 package com.archimatetool.zest;
 
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    ZestViewerContentProviderTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.zest");
-
-		suite.addTest(ZestViewerContentProviderTests.suite());
-		
-        return suite;
-	}
-
 }

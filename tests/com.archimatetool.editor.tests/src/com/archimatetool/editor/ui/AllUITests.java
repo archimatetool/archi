@@ -5,31 +5,26 @@
  */
 package com.archimatetool.editor.ui;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.editor.ui.factory.AllUIFactoryTests;
 import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    // ui
+    ArchiLabelProviderTests.class,
+    ColorFactoryTests.class,
+    FigureImagePreviewFactoryTests.class,
+    FontFactoryTests.class,
+    ImageFactoryTests.class,
+    // factory
+    AllUIFactoryTests.class,
+    // textrender
+    AllTextRenderTests.class
+})
+
 public class AllUITests {
-
-    public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("com.archimatetool.editor.ui");
-
-        // ui
-        suite.addTest(ArchiLabelProviderTests.suite());
-        suite.addTest(ColorFactoryTests.suite());
-        suite.addTest(FigureImagePreviewFactoryTests.suite());
-        suite.addTest(FontFactoryTests.suite());
-        suite.addTest(ImageFactoryTests.suite());
-        
-        // factory
-        suite.addTest(AllUIFactoryTests.suite());
-        
-        // textrender
-        suite.addTest(AllTextRenderTests.suite());
-
-        return suite;
-    }
-
 }

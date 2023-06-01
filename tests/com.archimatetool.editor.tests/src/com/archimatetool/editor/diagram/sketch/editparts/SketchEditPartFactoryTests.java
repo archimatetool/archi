@@ -24,16 +24,10 @@ import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class SketchEditPartFactoryTests {
     
     private SketchEditPartFactory editPartFactory;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchEditPartFactoryTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

@@ -18,13 +18,7 @@ import com.archimatetool.editor.ui.factory.diagram.NoteUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class NoteUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(NoteUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

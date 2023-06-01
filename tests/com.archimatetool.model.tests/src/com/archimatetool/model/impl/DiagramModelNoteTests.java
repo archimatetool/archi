@@ -7,7 +7,6 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -19,10 +18,6 @@ import com.archimatetool.model.ITextAlignment;
 
 @SuppressWarnings("nls")
 public class DiagramModelNoteTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelNoteTests.class);
-    }
     
     private IDiagramModelNote note;
     

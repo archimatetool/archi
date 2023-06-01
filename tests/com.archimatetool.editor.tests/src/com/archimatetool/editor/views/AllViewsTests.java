@@ -5,26 +5,22 @@
  */
 package com.archimatetool.editor.views;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandlerTests;
 import com.archimatetool.editor.views.tree.TreeModelViewerFindReplaceProviderTests;
 import com.archimatetool.editor.views.tree.commands.DeleteCommandHandlerTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    // views.tree
+    TreeModelViewerDragDropHandlerTests.class,
+    TreeModelViewerFindReplaceProviderTests.class,
+    // views.tree.commands
+    DeleteCommandHandlerTests.class
+})
+
 public class AllViewsTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.views");
-		
-        // views.tree
-        suite.addTest(TreeModelViewerDragDropHandlerTests.suite());
-        suite.addTest(TreeModelViewerFindReplaceProviderTests.suite());
-
-        // views.tree.commands
-        suite.addTest(DeleteCommandHandlerTests.suite());
-
-        return suite;
-	}
-
 }

@@ -19,8 +19,6 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 /**
  * XML Model Importer Tests
  * 
@@ -28,10 +26,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 public class XMLModelImporterTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(XMLModelImporterTests.class);
-    }
-
     private XMLModelImporter importer;
     
     @Before

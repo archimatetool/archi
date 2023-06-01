@@ -20,14 +20,8 @@ import org.junit.Test;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 public class DropinsPluginHandlerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DropinsPluginHandlerTests.class);
-    }
     
     @Test
     public void testGetPluginNameJar() {

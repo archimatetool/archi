@@ -27,16 +27,10 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public class ObjectUIFactoryProviderTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ObjectUIFactoryProviderTests.class);
-    }
-    
     private ObjectUIFactory factory;
     
     @Before

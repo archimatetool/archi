@@ -5,34 +5,31 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    ArchimateDiagramModelUIProviderTests.class,
+    ArchimateModelUIProviderTests.class,
+    
+    AllArchiMateElementUIProviderTests.class,
+    AllArchimateRelationshipUIProviderTests.class,
+    
+    DiagramModelImageUIProviderTests.class,
+    DiagramModelReferenceUIProviderTests.class,
+    FolderUIProviderTests.class,
+    GroupUIProviderTests.class,
+    LineConnectionUIProviderTests.class,
+    NoteUIProviderTests.class,
+    
+    SketchActorUIProviderTests.class,
+    SketchModelUIProviderTests.class,
+    SketchStickyUIProviderTests.class,
+    
+    ObjectUIFactoryProviderTests.class
+})
+
 public class AllUIFactoryTests {
-
-    public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("com.archimatetool.editor.ui.factory");
-
-        suite.addTest(ArchimateDiagramModelUIProviderTests.suite());
-        suite.addTest(ArchimateModelUIProviderTests.suite());
-        
-        suite.addTest(AllArchiMateElementUIProviderTests.suite());
-        suite.addTest(AllArchimateRelationshipUIProviderTests.suite());
-        
-        suite.addTest(DiagramModelImageUIProviderTests.suite());
-        suite.addTest(DiagramModelReferenceUIProviderTests.suite());
-        suite.addTest(FolderUIProviderTests.suite());
-        suite.addTest(GroupUIProviderTests.suite());
-        suite.addTest(LineConnectionUIProviderTests.suite());
-        suite.addTest(NoteUIProviderTests.suite());
-        
-        suite.addTest(SketchActorUIProviderTests.suite());
-        suite.addTest(SketchModelUIProviderTests.suite());
-        suite.addTest(SketchStickyUIProviderTests.suite());
-        
-        suite.addTest(ObjectUIFactoryProviderTests.suite());
-
-        return suite;
-    }
-
 }

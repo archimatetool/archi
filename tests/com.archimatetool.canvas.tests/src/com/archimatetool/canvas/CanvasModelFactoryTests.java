@@ -21,15 +21,9 @@ import com.archimatetool.editor.diagram.ArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class CanvasModelFactoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasModelFactoryTests.class);
-    }
     
     @Test
     public void testIsUsedFor() {

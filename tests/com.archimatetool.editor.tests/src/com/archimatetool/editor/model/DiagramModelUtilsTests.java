@@ -37,8 +37,6 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * DiagramModelUtils Tests
@@ -50,10 +48,6 @@ public class DiagramModelUtilsTests {
     
     private static ArchimateTestModel tm;
     private static IArchimateModel model;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelUtilsTests.class);
-    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {

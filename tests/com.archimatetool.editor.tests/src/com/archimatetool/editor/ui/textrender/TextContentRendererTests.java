@@ -13,8 +13,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelNote;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -25,10 +23,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class TextContentRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TextContentRendererTests.class);
-    }
-    
     private TextContentRenderer renderer = new TextContentRenderer();
     
     @Override

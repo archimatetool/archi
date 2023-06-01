@@ -12,7 +12,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -27,10 +26,6 @@ import com.archimatetool.model.ITextAlignment;
 
 @SuppressWarnings("nls")
 public class DiagramModelConnectionTests extends DiagramModelComponentTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelConnectionTests.class);
-    }
     
     private IDiagramModelObject source, target;
     private IDiagramModelConnection connection;

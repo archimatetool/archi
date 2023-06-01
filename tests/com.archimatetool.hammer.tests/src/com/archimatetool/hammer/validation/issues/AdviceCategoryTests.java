@@ -10,14 +10,8 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 public class AdviceCategoryTests extends AbstractIssueCategoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AdviceCategoryTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

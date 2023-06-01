@@ -38,8 +38,6 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -50,10 +48,6 @@ import junit.framework.JUnit4TestAdapter;
 public class DeleteCommandHandlerTests {
     
     static File TEST_MODEL_FILE = new File(TestSupport.getTestDataFolder(), "models/testDeleteHandler.archimate");
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DeleteCommandHandlerTests.class);
-    }
     
     private ArchimateTestModel tm;
     private IArchimateModel model;

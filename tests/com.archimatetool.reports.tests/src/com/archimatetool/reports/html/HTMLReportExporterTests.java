@@ -25,15 +25,9 @@ import com.archimatetool.reports.TestData;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class HTMLReportExporterTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(HTMLReportExporterTests.class);
-    }
     
     @Test
     public void testCreateReport() throws Exception {

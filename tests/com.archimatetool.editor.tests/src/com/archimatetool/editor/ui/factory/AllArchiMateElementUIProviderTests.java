@@ -86,14 +86,8 @@ import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 @RunWith(Parameterized.class)
 public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchiMateElementUIProviderTests.class);
-    }
     
     @Parameters
     public static Collection<Object[]> eObjects() {

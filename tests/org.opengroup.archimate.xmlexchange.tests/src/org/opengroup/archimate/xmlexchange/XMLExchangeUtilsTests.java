@@ -14,8 +14,6 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * XML Model Exporter Tests
@@ -24,10 +22,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 public class XMLExchangeUtilsTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(XMLExchangeUtilsTests.class);
-    }
-
     @Test
     public void testGetNegativeOffsetForDiagram() {
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();

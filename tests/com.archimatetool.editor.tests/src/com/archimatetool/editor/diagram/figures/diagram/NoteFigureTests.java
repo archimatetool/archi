@@ -16,15 +16,9 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(NoteFigureTests.class);
-    }
     
     private NoteFigure figure;
     private IDiagramModelNote dmNote;

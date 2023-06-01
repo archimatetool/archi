@@ -6,7 +6,6 @@
 package com.archimatetool.canvas.factory;
 
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -16,10 +15,6 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.DiagramModelImageUIProviderTests;
 
 public class CanvasImageUIProviderTests extends DiagramModelImageUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasImageUIProviderTests.class);
-    }
     
     @Override
     @Before

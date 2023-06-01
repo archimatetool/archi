@@ -14,16 +14,10 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.junit.Test;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 public class ImageFactoryTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ImageFactoryTests.class);
-    }
-    
     @Test
     public void getAutoScaledImage() {
         Image image = new Image(Display.getDefault(), 30, 40);

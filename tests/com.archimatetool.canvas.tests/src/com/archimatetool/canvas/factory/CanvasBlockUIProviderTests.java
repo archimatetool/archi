@@ -22,13 +22,7 @@ import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTest
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class CanvasBlockUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasBlockUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

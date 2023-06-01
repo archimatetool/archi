@@ -21,8 +21,6 @@ import com.archimatetool.testingtools.ArchimateTestEditor;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 /**
  * SelectAllAction Tests
  * 
@@ -30,10 +28,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 @SuppressWarnings("nls")
 public class SelectAllActionTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SelectAllActionTests.class);
-    }
     
     @Test
     public void testSelectAll() throws Exception {
@@ -50,6 +44,5 @@ public class SelectAllActionTests {
         
         editor.dispose();
     }
-
     
 }

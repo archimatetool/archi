@@ -36,8 +36,6 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -55,10 +53,6 @@ public class TreeModelViewerDragDropHandlerTests {
     
     @Mock
     private TreeViewer treeViewer; // Mock the TreeViewer
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TreeModelViewerDragDropHandlerTests.class);
-    }
     
     @Before
     public void runOnceBeforeEachTest() {

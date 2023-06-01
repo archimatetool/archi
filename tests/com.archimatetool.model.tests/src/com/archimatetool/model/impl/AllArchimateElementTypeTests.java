@@ -24,14 +24,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 @RunWith(Parameterized.class)
 public class AllArchimateElementTypeTests extends ArchimateElementTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchimateElementTypeTests.class);
-    }
     
     @Parameters
     public static Collection<EClass[]> eObjects() {

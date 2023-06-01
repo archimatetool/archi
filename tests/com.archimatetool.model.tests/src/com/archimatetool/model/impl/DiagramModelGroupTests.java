@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -20,10 +19,6 @@ import com.archimatetool.model.ITextAlignment;
 
 
 public class DiagramModelGroupTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelGroupTests.class);
-    }
     
     private IDiagramModelGroup group;
     

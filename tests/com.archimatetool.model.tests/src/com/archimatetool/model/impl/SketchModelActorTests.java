@@ -7,7 +7,6 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -17,10 +16,6 @@ import com.archimatetool.model.ISketchModelActor;
 
 
 public class SketchModelActorTests extends DiagramModelObjectTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchModelActorTests.class);
-    }
     
     private ISketchModelActor actor;
     

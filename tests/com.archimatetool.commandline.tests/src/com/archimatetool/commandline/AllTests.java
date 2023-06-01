@@ -6,22 +6,19 @@
 package com.archimatetool.commandline;
 
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.commandline.providers.CreateEmptyModelProviderTests;
 import com.archimatetool.commandline.providers.LoadModelFromFileProviderTests;
 
-import junit.framework.TestSuite;
+@RunWith(Suite.class)
 
-@SuppressWarnings("nls")
+@Suite.SuiteClasses({
+    CreateEmptyModelProviderTests.class,
+    CommandLineStateTests.class,
+    LoadModelFromFileProviderTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.commandline");
-
-        suite.addTest(CreateEmptyModelProviderTests.suite());
-		suite.addTest(CommandLineStateTests.suite());
-        suite.addTest(LoadModelFromFileProviderTests.suite());
-		
-        return suite;
-	}
-
 }

@@ -14,8 +14,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IInfluenceRelationship;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -26,10 +24,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class RelationshipRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(RelationshipRendererTests.class);
-    }
-    
     private RelationshipRenderer renderer = new RelationshipRenderer();
     
     @Override

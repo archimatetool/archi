@@ -10,8 +10,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -26,10 +24,6 @@ import com.archimatetool.tests.TestUtils;
 
 
 public class PDFExportProviderTests extends AbstractExportProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(PDFExportProviderTests.class);
-    }
     
     @Override
     @Before

@@ -27,15 +27,9 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ArchimateDiagramModelFactoryTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateDiagramModelFactoryTests.class);
-    }
     
     @Test
     public void testCreateDiagramModelArchimateObject() {

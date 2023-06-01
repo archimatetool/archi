@@ -30,16 +30,10 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProfile;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class ProfileTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ProfileTests.class);
-    }
     
     IArchimateModel model;
     IProfile profile;

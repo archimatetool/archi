@@ -17,15 +17,9 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class OutlineOpacityHandlerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(OutlineOpacityHandlerTests.class);
-    }
     
     private static OutlineOpacityHandler handler;
     

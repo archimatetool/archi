@@ -28,8 +28,6 @@ import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
-import junit.framework.JUnit4TestAdapter;
-
 /**
  * TextRendererTests
  * 
@@ -38,10 +36,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class TextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TextRendererTests.class);
-    }
-    
     private TextRenderer textRenderer = TextRenderer.getDefault();
     
     // ============================= TextRenderer methods Tests =========================================

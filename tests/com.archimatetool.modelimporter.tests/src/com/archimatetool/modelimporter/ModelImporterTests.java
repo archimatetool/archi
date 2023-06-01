@@ -18,8 +18,6 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * Importer Tests
@@ -28,10 +26,6 @@ import junit.framework.JUnit4TestAdapter;
  */
 @SuppressWarnings("nls")
 public class ModelImporterTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ModelImporterTests.class);
-    }
     
     @Test
     public void importModel_Initialised() {

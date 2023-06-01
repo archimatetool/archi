@@ -14,15 +14,9 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ArchimateDiagramModelTests extends DiagramModelTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateDiagramModelTests.class);
-    }
     
     private IArchimateDiagramModel adm;
     

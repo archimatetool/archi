@@ -27,15 +27,9 @@ import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
 public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchimateRelationshipTypeTests.class);
-    }
     
     @Parameters
     public static Collection<EClass[]> eObjects() {

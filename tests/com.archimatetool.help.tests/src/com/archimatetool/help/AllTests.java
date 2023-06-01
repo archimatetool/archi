@@ -5,20 +5,16 @@
  */
 package com.archimatetool.help;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.help.cheatsheets.CreateMapViewCheatSheetActionTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    CreateMapViewCheatSheetActionTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.help");
-
-		// impl
-        suite.addTest(CreateMapViewCheatSheetActionTests.suite());
-
-        return suite;
-	}
-
 }

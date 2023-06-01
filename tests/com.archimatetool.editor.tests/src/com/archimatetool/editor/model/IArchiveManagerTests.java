@@ -21,16 +21,9 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class IArchiveManagerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(IArchiveManagerTests.class);
-    }
-    
     
     @Test
     public void testFactory_createArchiveManager() throws IOException {

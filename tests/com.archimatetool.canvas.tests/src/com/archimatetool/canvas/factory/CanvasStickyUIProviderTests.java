@@ -22,13 +22,7 @@ import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTest
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextPosition;
 
-import junit.framework.JUnit4TestAdapter;
-
 public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasStickyUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

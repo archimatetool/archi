@@ -18,16 +18,10 @@ import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProfile;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class FieldDataFactoryTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FieldDataFactoryTests.class);
-    }
-
     @Test
     public void testGetFieldValue_This() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();

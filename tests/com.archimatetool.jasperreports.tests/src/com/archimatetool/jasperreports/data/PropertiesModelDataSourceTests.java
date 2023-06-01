@@ -12,9 +12,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import junit.framework.JUnit4TestAdapter;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,13 +20,12 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IProperty;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+
 
 @SuppressWarnings("nls")
 public class PropertiesModelDataSourceTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(PropertiesModelDataSourceTests.class);
-    }
     
     private PropertiesModelDataSource ds;
     private IArchimateModel model;

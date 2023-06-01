@@ -12,8 +12,6 @@ import org.junit.Test;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 /**
@@ -24,10 +22,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public class PropertiesRendererTests extends AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(PropertiesRendererTests.class);
-    }
-    
     private PropertiesRenderer renderer = new PropertiesRenderer();
     
     @Override

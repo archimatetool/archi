@@ -5,20 +5,17 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactoryTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    SketchEditPartFactoryTests.class,
+    SketchModelFactoryTests.class
+})
+
 public class AllSketchTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.sketch");
-		
-		suite.addTest(SketchEditPartFactoryTests.suite());
-		suite.addTest(SketchModelFactoryTests.suite());
-
-        return suite;
-	}
-
 }

@@ -26,8 +26,6 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 
-import junit.framework.JUnit4TestAdapter;
-
 /**
  * AbstractTextRendererTests
  * 
@@ -36,10 +34,6 @@ import junit.framework.JUnit4TestAdapter;
 @SuppressWarnings("nls")
 public abstract class AbstractTextRendererTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AbstractTextRendererTests.class);
-    }
-    
     protected abstract AbstractTextRenderer getRenderer();
     
     

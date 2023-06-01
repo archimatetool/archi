@@ -6,18 +6,15 @@
 package com.archimatetool.export.svg;
 
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    PDFExportProviderTests.class,
+    SVGExportProviderTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.export.svg");
-
-		suite.addTest(PDFExportProviderTests.suite());
-		suite.addTest(SVGExportProviderTests.suite());
-		
-        return suite;
-	}
-
 }

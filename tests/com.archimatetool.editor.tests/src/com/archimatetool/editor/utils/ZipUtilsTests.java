@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -38,10 +36,6 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class ZipUtilsTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ZipUtilsTests.class);
-    }
-    
     private File testZipFile = new File(TestSupport.getTestDataFolder(), "zip/test.zip");
     
     // ---------------------------------------------------------------------------------------------

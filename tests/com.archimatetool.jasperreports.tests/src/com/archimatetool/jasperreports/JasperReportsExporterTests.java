@@ -22,7 +22,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -30,10 +29,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 @SuppressWarnings("nls")
 public class JasperReportsExporterTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(JasperReportsExporterTests.class);
-    }
-
     private static IArchimateModel model;
     private static JasperPrint jasperPrint;
     

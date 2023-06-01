@@ -5,7 +5,9 @@
  */
 package com.archimatetool.model.viewpoints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
@@ -14,16 +16,10 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 @SuppressWarnings("nls")
 public class ViewpointTests {
 
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ViewpointTests.class);
-    }
-    
     Viewpoint vp;
     
     @Before

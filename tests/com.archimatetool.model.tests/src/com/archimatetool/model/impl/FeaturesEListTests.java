@@ -22,14 +22,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeaturesEList;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 public class FeaturesEListTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FeaturesEListTests.class);
-    }
     
     private IFeaturesEList list;
 

@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
@@ -41,10 +39,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
  * @author Phillip Beauvoir
  */
 public class DiagramUtilsTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramUtilsTests.class);
-    }
     
     private static ArchimateTestModel tm;
     private static IArchimateModel model;

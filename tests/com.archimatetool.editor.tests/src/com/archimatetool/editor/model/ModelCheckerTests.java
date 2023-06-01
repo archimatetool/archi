@@ -31,18 +31,12 @@ import com.archimatetool.model.IProfile;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
-
 @SuppressWarnings("nls")
 public class ModelCheckerTests {
     
     private ArchimateTestModel tm;
     private IArchimateModel model;
     private ModelChecker modelChecker;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ModelCheckerTests.class);
-    }
     
     @Before
     public void runBeforeEachTest() {

@@ -6,21 +6,18 @@
 package com.archimatetool.csv;
 
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import com.archimatetool.csv.export.CSVExporterTests;
 import com.archimatetool.csv.importer.CSVImporterTests;
 
-@SuppressWarnings("nls")
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    CSVExporterTests.class,
+    CSVImporterTests.class
+})
+
 public class AllTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.csv");
-
-		suite.addTest(CSVExporterTests.suite());
-        suite.addTest(CSVImporterTests.suite());
-		
-        return suite;
-	}
-
 }

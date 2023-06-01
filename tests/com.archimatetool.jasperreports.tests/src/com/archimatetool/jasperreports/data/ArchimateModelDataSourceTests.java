@@ -28,7 +28,6 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
-import junit.framework.JUnit4TestAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
@@ -36,10 +35,6 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ArchimateModelDataSourceTests {
     
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateModelDataSourceTests.class);
-    }
-
     private static IArchimateModel model;
     
     private ArchimateModelDataSource ds;

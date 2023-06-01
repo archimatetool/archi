@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -16,10 +15,6 @@ import com.archimatetool.editor.ui.factory.sketch.SketchModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 public class SketchModelUIProviderTests extends AbstractObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(SketchModelUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

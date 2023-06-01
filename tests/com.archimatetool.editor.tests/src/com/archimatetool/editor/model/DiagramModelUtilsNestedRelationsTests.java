@@ -25,8 +25,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 /**
  * DiagramModelUtils Tests specifically for Nested Relations functions
@@ -43,10 +41,6 @@ public class DiagramModelUtilsNestedRelationsTests {
     private IDiagramModelArchimateObject dmo1, dmo2, dmo3, dmo4, dmo5;
     private IArchimateElement element1, element2, element3;
     private IArchimateRelationship relationship1, relationship2;
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramModelUtilsNestedRelationsTests.class);
-    }
     
     /*
 

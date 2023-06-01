@@ -11,8 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -25,10 +23,6 @@ import com.archimatetool.tests.TestUtils;
 public class JDOMUtilsTests {
     
     public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("com.archimatetool.jdom.tests", "testdata");
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(JDOMUtilsTests.class);
-    }
     
     @Test
     public void testWrite2XMLFile() throws Exception {

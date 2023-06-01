@@ -5,34 +5,28 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
 import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
 
-import junit.framework.TestSuite;
+@RunWith(Suite.class)
 
-@SuppressWarnings("nls")
+@Suite.SuiteClasses({
+    // figures
+    AllArchimateTextControlContainerFigureTests.class,
+    // figures.diagram
+    DiagramImageFigureTests.class,
+    DiagramModelReferenceFigureTests.class,
+    GroupFigureTests.class,
+    NoteFigureTests.class,
+    // figures.elements
+    JunctionFigureTests.class
+})
+
 public class AllFiguresTests {
-
-    public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram.figures");
-		
-        // figures
-        suite.addTest(AllArchimateTextControlContainerFigureTests.suite());
-        
-        // figures.diagram
-        suite.addTest(DiagramImageFigureTests.suite());
-        suite.addTest(DiagramModelReferenceFigureTests.suite());
-        suite.addTest(GroupFigureTests.suite());
-        suite.addTest(NoteFigureTests.suite());
-
-        // figures.elements
-        suite.addTest(JunctionFigureTests.suite());
-
-
-        return suite;
-	}
-
 }

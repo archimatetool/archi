@@ -6,7 +6,6 @@
 package com.archimatetool.canvas.factory;
 
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -16,10 +15,6 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProviderTests;
 
 public class CanvasModelUIProviderTests extends AbstractObjectUIProviderTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(CanvasModelUIProviderTests.class);
-    }
     
     @Before
     public void runOnceBeforeAllTests() {

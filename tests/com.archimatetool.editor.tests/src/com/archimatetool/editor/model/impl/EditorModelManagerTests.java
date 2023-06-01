@@ -32,17 +32,10 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
-import junit.framework.JUnit4TestAdapter;
-
 
 
 @SuppressWarnings("nls")
 public class EditorModelManagerTests {
-    
-    public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(EditorModelManagerTests.class);
-    }
-    
     
     private IEditorModelManager editorModelManager;
     
