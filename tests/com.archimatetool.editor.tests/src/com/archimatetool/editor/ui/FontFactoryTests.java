@@ -23,9 +23,7 @@ public class FontFactoryTests {
         FontData fd = italic.getFontData()[0];
         assertEquals(16, fd.getHeight());
         assertEquals(SWT.ITALIC, fd.getStyle());
-        
         font.dispose();
-        italic.dispose();
     }
     
     @Test
@@ -35,8 +33,6 @@ public class FontFactoryTests {
         FontData fd = bold.getFontData()[0];
         assertEquals(16, fd.getHeight());
         assertEquals(SWT.BOLD, fd.getStyle());
-        
         font.dispose();
-        bold.dispose();
     }
 }
