@@ -950,8 +950,6 @@ implements IZestView, ISelectionListener {
                 break; // Only need to refresh once
             }
         }
-        
-        super.doRefreshFromNotifications(notifications);
     }
     
     private boolean doRefresh(Notification msg) {

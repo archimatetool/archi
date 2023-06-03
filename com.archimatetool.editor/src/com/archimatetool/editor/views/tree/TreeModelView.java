@@ -878,21 +878,14 @@ implements ITreeModelView, IUIRequestListener {
         Display.getCurrent().asyncExec(new Runnable() {
             @Override
             public void run() {
-                if(!getViewer().getControl().isDisposed()) { // check inside run loop
+                if(!getViewer().getControl().isDisposed() && notifications != null) { // check inside run loop
                     refreshFromNotifications(notifications);
                 }
-                
-                // Call super
-                TreeModelView.super.doRefreshFromNotifications(notifications);
             }
         });
     }
     
     private void refreshFromNotifications(List<Notification> notifications) {
-        if(notifications == null) {
-            return;
-        }
-        
         Set<EObject> refreshElements = new HashSet<>();
         Set<EObject> updateElements = new HashSet<>();
         

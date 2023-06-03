@@ -243,7 +243,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     /**
      * Buffer notifications to optimise updates
      */
-    private List<Notification> notificationBuffer = new ArrayList<>();
+    private List<Notification> notificationBuffer;
     private int notificationBufferCount;
     
     @Override
@@ -254,13 +254,14 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         // Start: Buffer all incoming notifications
         if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
             if(notificationBufferCount++ == 0) {
-                notificationBuffer.clear();
+                notificationBuffer = new ArrayList<>();
             }
         }
         // End: Refresh Viewer with buffered notifications
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
             if(--notificationBufferCount == 0) {
                 doRefreshFromNotifications(notificationBuffer);
+                notificationBuffer = null;
             }
         }
         // ECore model event
@@ -270,7 +271,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
                 eCoreChanged((Notification)newValue);
             }
             // Else add to buffer
-            else {
+            else if(notificationBuffer != null) {
                 notificationBuffer.add((Notification)newValue);
             }
         }
@@ -308,10 +309,8 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     /**
      * Refresh any tree elements from buffered notifications
-     * Overriders should call super after doing their thing
      */
     protected void doRefreshFromNotifications(List<Notification> notifications) {
-        notificationBuffer.clear();
     }
     
     /**
