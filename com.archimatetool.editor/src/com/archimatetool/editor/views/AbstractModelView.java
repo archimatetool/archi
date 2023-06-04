@@ -244,7 +244,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Buffer notifications to optimise updates
      */
     private List<Notification> notificationBuffer;
-    private int notificationBufferCount;
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -253,25 +252,25 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Start: Buffer all incoming notifications
         if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
-            if(notificationBufferCount++ == 0) {
+            if(notificationBuffer == null) {
                 notificationBuffer = new ArrayList<>();
             }
         }
         // End: Refresh Viewer with buffered notifications
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
-            if(--notificationBufferCount == 0) {
+            if(notificationBuffer != null && !notificationBuffer.isEmpty()) {
                 doRefreshFromNotifications(notificationBuffer);
-                notificationBuffer = null;
             }
+            notificationBuffer = null;
         }
         // ECore model event
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENT) {
-            // Normal event
-            if(notificationBufferCount == 0) {
+            // No buffer, so treat as single event
+            if(notificationBuffer == null) {
                 eCoreChanged((Notification)newValue);
             }
             // Else add to buffer
-            else if(notificationBuffer != null) {
+            else {
                 notificationBuffer.add((Notification)newValue);
             }
         }
