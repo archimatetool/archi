@@ -264,7 +264,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Edit...
         fEditFontButton = new Button(buttonClient, SWT.PUSH);
         fEditFontButton.setText(Messages.FontsPreferencePage_2);
-        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fEditFontButton);
+        setButtonLayoutData(fEditFontButton);
         fEditFontButton.setEnabled(false);
         fEditFontButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -286,7 +286,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Default
         fDefaultFontButton = new Button(buttonClient, SWT.PUSH);
         fDefaultFontButton.setText(Messages.FontsPreferencePage_7);
-        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fDefaultFontButton);
+        setButtonLayoutData(fDefaultFontButton);
         fDefaultFontButton.setEnabled(false);
         fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
             @Override

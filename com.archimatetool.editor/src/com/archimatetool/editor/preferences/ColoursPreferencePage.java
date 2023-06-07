@@ -314,7 +314,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Edit...
         fEditFillColorButton = new Button(buttonClient, SWT.PUSH);
         fEditFillColorButton.setText(Messages.ColoursPreferencePage_13);
-        fEditFillColorButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        setButtonLayoutData(fEditFillColorButton);
         fEditFillColorButton.setEnabled(false);
         fEditFillColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -334,7 +334,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Reset
         fResetFillColorButton = new Button(buttonClient, SWT.PUSH);
         fResetFillColorButton.setText(Messages.ColoursPreferencePage_14);
-        fResetFillColorButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        setButtonLayoutData(fResetFillColorButton);
         fResetFillColorButton.setEnabled(false);
         fResetFillColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -351,6 +351,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Import Scheme
         Button importButton = new Button(buttonClient, SWT.PUSH);
         importButton.setText(Messages.ColoursPreferencePage_15);
+        setButtonLayoutData(importButton);
         importButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         importButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -367,7 +368,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Export Scheme
         Button exportButton = new Button(buttonClient, SWT.PUSH);
         exportButton.setText(Messages.ColoursPreferencePage_16);
-        exportButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        setButtonLayoutData(exportButton);
         exportButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
