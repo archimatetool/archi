@@ -110,6 +110,8 @@ implements IPreferenceConstants {
         
         // Windows at hi-res needs this set to true
         store.setDefault(USE_FIGURE_LINE_OFFSET, PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100);
+        
+        store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
 
         // Appearance
         

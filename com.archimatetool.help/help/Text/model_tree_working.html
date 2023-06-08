@@ -44,6 +44,15 @@
     <p>To duplicate Elements or Views in the Model Tree select "Duplicate" from the main "Edit" menu or from the right-click context menu. Note that Duplicate Views contain references to the original concepts copied.</p>
     
     <br/>
+
+    <h2>Changing an Object's ArchiMate Concept Type in the Model Tree</h2>
+    <p>An Element or Relation's ArchiMate concept type can be changed in the Model Tree. To change one or more objects' ArchiMate concept type in the Model Tree select the required Elements or Relationships and, from the right-click context menu, select the "Set Concept Type" sub-menu and then select the required ArchiMate concept.</p>
+    <p>When changing a Relationship type, only valid ArchiMate Relationships for its source and target concepts will be enabled in the context menu.</p>
+    <p>When changing an Element type, any connected Relationships that would no longer be valid will be changed to Association Relationships. In this case, a confirmation dialog will be shown. An option to add a note in the documentation field of changed Relationships can be enabled in <a href="prefs_general.html">Preferences</a>.</p>
+    <p>When changing an Element type, if it is changed to a concept belonging to a different ArchiMate layer, it will be moved into the appropriate folder. For example, changing a Business Service to an Application Service will move it from the "Business" folder to the "Application" folder.</p>
+    <p>Note that changing a concept type will not retain any assigned Specialization, as this will be invalidated.</p>
+    
+    <br/>
     
     <h2>Editing Properties for an Object in the Model Tree</h2>
     <p>To edit the Properties for a selected object in the Model Tree, select the object in the tree and open the Properties Window either by double-clicking the object or from the main "Window" menu or main toolbar.</p>

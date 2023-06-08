@@ -45,6 +45,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fScaleImagesButton;
     
+    private Button fAddDocumentationNoteButton;
+    
     private Button fUseEdgeBrowserButton;
     
     private Button fEnableJSHintsButton;
@@ -107,10 +109,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fAutoSearchButton = new Button(modelTreeGroup, SWT.CHECK);
         fAutoSearchButton.setText(Messages.GeneralPreferencePage_6);
         fAutoSearchButton.setLayoutData(createHorizontalGridData(2));
-        
-        label = new Label(modelTreeGroup, SWT.NULL);
-        label.setText(Messages.GeneralPreferencePage_7);
-        label.setLayoutData(createHorizontalGridData(2));
+        fAutoSearchButton.setToolTipText(Messages.GeneralPreferencePage_7);
         
         fWarnOnDeleteButton = new Button(modelTreeGroup, SWT.CHECK);
         fWarnOnDeleteButton.setText(Messages.GeneralPreferencePage_16);
@@ -132,12 +131,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         otherGroup.setLayout(new GridLayout(2, false));
         otherGroup.setLayoutData(createHorizontalGridData(2));
         
+        fAddDocumentationNoteButton = new Button(otherGroup, SWT.CHECK);
+        fAddDocumentationNoteButton.setText(Messages.GeneralPreferencePage_20);
+        fAddDocumentationNoteButton.setToolTipText(Messages.GeneralPreferencePage_23);
+        fAddDocumentationNoteButton.setLayoutData(createHorizontalGridData(2));
+        
         fScaleImagesButton = new Button(otherGroup, SWT.CHECK);
         fScaleImagesButton.setText(Messages.GeneralPreferencePage_13);
         fScaleImagesButton.setLayoutData(createHorizontalGridData(2));
-        label = new Label(otherGroup, SWT.NULL);
-        label.setText(Messages.GeneralPreferencePage_14);
-        label.setLayoutData(createHorizontalGridData(2));
+        fScaleImagesButton.setToolTipText(Messages.GeneralPreferencePage_14);
         
         // Internal Browser
         Group browserGroup = new Group(client, SWT.NULL);
@@ -211,6 +213,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
         
+        fAddDocumentationNoteButton.setSelection(getPreferenceStore().getBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
+        
         if(fUseEdgeBrowserButton != null) {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getBoolean(EDGE_BROWSER));
         }
@@ -238,6 +242,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
+        
+        getPreferenceStore().setValue(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, fAddDocumentationNoteButton.getSelection());
         
         if(fUseEdgeBrowserButton != null) {
             getPreferenceStore().setValue(EDGE_BROWSER, fUseEdgeBrowserButton.getSelection());
@@ -268,6 +274,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
+        
+        fAddDocumentationNoteButton.setSelection(getPreferenceStore().getDefaultBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
         
         if(fUseEdgeBrowserButton != null) {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(EDGE_BROWSER));

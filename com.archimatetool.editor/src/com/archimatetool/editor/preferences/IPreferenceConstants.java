@@ -99,6 +99,9 @@ public interface IPreferenceConstants {
     
     // Whether to use a line offset in all cases for figures drawn on hi-res screens
     String USE_FIGURE_LINE_OFFSET = "figureLineOffset";
+    
+    // Whether to add a note to the documentation field of relationships that have been changed to Association when setting a new concept type
+    String ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE = "addDocumentationNoteOnRelationChange";
 
     // Appearance
     

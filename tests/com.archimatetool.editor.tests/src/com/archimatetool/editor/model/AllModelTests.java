@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import com.archimatetool.editor.model.commands.CommandsTests;
+import com.archimatetool.editor.model.commands.SetConceptTypeCommandFactoryTests;
 import com.archimatetool.editor.model.compatibility.ModelCompatibilityTests;
 import com.archimatetool.editor.model.compatibility.handlers.ArchiMate2To3HandlerTests;
 import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandlerTests;
@@ -27,6 +28,7 @@ import com.archimatetool.editor.model.impl.EditorModelManagerTests;
     ModelCheckerTests.class,
     // model.commands
     CommandsTests.class,
+    SetConceptTypeCommandFactoryTests.class,
     // model.compatibility
     ModelCompatibilityTests.class,
     // model.compatibility.handlers

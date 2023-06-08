@@ -133,6 +133,12 @@ public class Messages extends NLS {
 
     public static String SaveAsAction_1;
 
+    public static String SetConceptTypeExtensionContributionFactory_0;
+
+    public static String SetConceptTypeExtensionContributionFactory_1;
+
+    public static String SetConceptTypeExtensionContributionFactory_2;
+
     public static String ShowToolbarAction_0;
 
     public static String ShowToolbarAction_1;

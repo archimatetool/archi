@@ -983,6 +983,16 @@
          </menu>
       </menuContribution>
       <menuContribution
+            allPopups="true"
+            class="com.archimatetool.editor.actions.SetConceptTypeExtensionContributionFactory"
+            locationURI="popup:com.archimatetool.editor.treeModelView?before=rename">
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            class="com.archimatetool.editor.actions.SetConceptTypeExtensionContributionFactory"
+            locationURI="popup:ArchimateDiagramEditorContextMenuProvider?before=rename">
+      </menuContribution>
+      <menuContribution
             allPopups="false"
             locationURI="toolbar:toolbar_file?after=start">
          <command
