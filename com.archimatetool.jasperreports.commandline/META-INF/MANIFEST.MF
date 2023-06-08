@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Jasper Reports Command Line
 Bundle-SymbolicName: com.archimatetool.jasperreports.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 5.0.2.qualifier
+Bundle-Version: 5.1.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.commandline,
  com.archimatetool.jasperreports
