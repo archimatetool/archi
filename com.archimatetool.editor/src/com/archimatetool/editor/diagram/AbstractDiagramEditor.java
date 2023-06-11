@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Layer;
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -23,6 +25,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.RequestConstants;
@@ -371,6 +374,23 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         RGB rgb = ThemeUtils.getCurrentThemeColor(IPreferenceConstants.VIEW_BACKGROUND_COLOR);
         if(rgb != null) {
             viewer.getControl().setBackground(new Color(rgb));
+        }
+
+        // Move Connection Layer below Primary Layer
+        moveConnectionLayer(false);
+    }
+    
+    public void moveConnectionLayer(boolean above) {
+        ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart)getGraphicalViewer().getRootEditPart();
+        Layer connectionLayer = (Layer)rootEditPart.getLayer(LayerConstants.CONNECTION_LAYER);
+        Layer primaryLayer = (Layer)rootEditPart.getLayer(LayerConstants.PRIMARY_LAYER);
+        LayeredPane printableLayers = (LayeredPane)rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        
+        if(above) {
+            printableLayers.addLayerAfter(primaryLayer, LayerConstants.PRIMARY_LAYER, connectionLayer);
+        }
+        else {
+            printableLayers.addLayerAfter(connectionLayer, LayerConstants.CONNECTION_LAYER, primaryLayer);
         }
     }
     
