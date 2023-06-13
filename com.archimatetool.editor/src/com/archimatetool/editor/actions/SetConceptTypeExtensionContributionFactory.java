@@ -150,13 +150,17 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass)) {
             @Override
             public void run() {
+                boolean hasInvalidConnections = false;
+                
                 for(IArchimateElement element : elements) {
                     if(!SetConceptTypeCommandFactory.isValidTypeForConcept(eClass, element)) {
-                        if(!MessageDialog.openConfirm(null, Messages.SetConceptTypeExtensionContributionFactory_0,
-                                Messages.SetConceptTypeExtensionContributionFactory_2)) {
-                            return;
-                        }
+                        hasInvalidConnections = true;
                     }
+                }
+                
+                if(hasInvalidConnections && !MessageDialog.openConfirm(null, Messages.SetConceptTypeExtensionContributionFactory_0,
+                        Messages.SetConceptTypeExtensionContributionFactory_2)) {
+                    return;
                 }
                 
                 changeElementTypes(eClass, elements);
