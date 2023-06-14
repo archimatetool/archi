@@ -3,14 +3,14 @@
 <target name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2023-03"/>
-        <unit id="org.eclipse.sdk.feature.group" version="4.27.0.v20230302-0300"/>
+        <repository location="https://download.eclipse.org/releases/2023-06"/>
+        <unit id="org.eclipse.sdk.feature.group" version="4.28.0.v20230605-0440"/>
         <unit id="org.eclipse.emf.compare.feature.group" version="3.3.21.202212280858"/>
-        <unit id="org.eclipse.jgit.feature.group" version="6.5.0.202303070854-r"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.5.0.202303070854-r"/>
+        <unit id="org.eclipse.jgit.feature.group" version="6.6.0.202305301015-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.6.0.202305301015-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/downloads/2023-03"/>
+        <repository location="https://download.eclipse.org/tools/orbit/downloads/2023-06"/>
         <unit id="org.slf4j.binding.simple" version="1.7.30.v20221112-0806"/>
         <unit id="org.mockito.mockito-core" version="4.8.1.v20221103-2317"/>
     </location>

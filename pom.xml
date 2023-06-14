@@ -21,12 +21,12 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2023-03</url>
+            <url>https://download.eclipse.org/releases/2023-06</url>
         </repository>
         <repository>
             <id>Orbit</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/downloads/2023-03</url>
+            <url>https://download.eclipse.org/tools/orbit/downloads/2023-06</url>
         </repository>
     </repositories>
 
