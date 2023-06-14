@@ -154,12 +154,6 @@
             id="com.archimatetool.editor.keys"
             name="%prefsKeys">
       </page>
-      <page
-            category="org.eclipse.ui.preferencePages.Workbench"
-            class="com.archimatetool.editor.preferences.StoragePreferencePage"
-            id="com.archimatetool.editor.security"
-            name="%prefsSecureStorage">
-      </page>
    </extension>
    <extension
          point="org.eclipse.ui.editors">

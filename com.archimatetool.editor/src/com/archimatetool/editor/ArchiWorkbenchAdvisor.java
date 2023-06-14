@@ -18,7 +18,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.perspectives.MainPerspective;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.NetUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -77,16 +76,8 @@ extends WorkbenchAdvisor
                     if(securityNode != null) {
                         // Remove the category node
                         systemNode.remove(securityCategoryNode);
-
-                        // Bug on Mac Ventura at 100% DPI - See https://github.com/eclipse-platform/eclipse.platform.swt/issues/472
-                        // We'll default to our own "Secure Storage" preference page declared in plugin.xml
-                        if(!(PlatformUtils.isMac() && ImageFactory.getDeviceZoom() == 100)) {
-                            // Don't need this one on Windows/Linux/Mac Retina
-                            systemNode.remove("com.archimatetool.editor.security");
-                            
-                            // Add security node to our system node
-                            systemNode.add(securityNode);
-                        }
+                        // Add security node to our system node
+                        systemNode.add(securityNode);
                     }
                 }
             }
