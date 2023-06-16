@@ -25,10 +25,10 @@ import org.jdom2.input.SAXBuilder;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.util.Logger;
 
 /**
  * Viewpoint Manager
@@ -51,27 +51,20 @@ public class ViewpointManager {
     /**
      * The Viewpoints XML file
      */
-    static final String VIEWPOINTS_FILE = "model/viewpoints.xml"; //$NON-NLS-1$
+    private static final String VIEWPOINTS_FILE = "model/viewpoints.xml"; //$NON-NLS-1$
     
-    static final String BUSINESS_ELEMENTS = "$BusinessElements$"; //$NON-NLS-1$
-    static final String APPLICATION_ELEMENTS = "$ApplicationElements$"; //$NON-NLS-1$
-    static final String TECHNOLOGY_ELEMENTS = "$TechnologyElements$"; //$NON-NLS-1$
-    static final String PHYSICAL_ELEMENTS = "$PhysicalElements$"; //$NON-NLS-1$
-    static final String STRATEGY_ELEMENTS = "$StrategyElements$"; //$NON-NLS-1$
-    static final String MOTIVATION_ELEMENTS = "$MotivationElements$"; //$NON-NLS-1$
-    static final String IMPLEMENTATION_MIGRATION_ELEMENTS = "$ImplementationMigrationElements$"; //$NON-NLS-1$
+    private static final String BUSINESS_ELEMENTS = "$BusinessElements$"; //$NON-NLS-1$
+    private static final String APPLICATION_ELEMENTS = "$ApplicationElements$"; //$NON-NLS-1$
+    private static final String TECHNOLOGY_ELEMENTS = "$TechnologyElements$"; //$NON-NLS-1$
+    private static final String PHYSICAL_ELEMENTS = "$PhysicalElements$"; //$NON-NLS-1$
+    private static final String STRATEGY_ELEMENTS = "$StrategyElements$"; //$NON-NLS-1$
+    private static final String MOTIVATION_ELEMENTS = "$MotivationElements$"; //$NON-NLS-1$
+    private static final String IMPLEMENTATION_MIGRATION_ELEMENTS = "$ImplementationMigrationElements$"; //$NON-NLS-1$
     
-    static final Map<String, EClass[]> ELEMENTS_MAP = new HashMap<String, EClass[]>();
-    
-    static {
-        ELEMENTS_MAP.put(BUSINESS_ELEMENTS, ArchimateModelUtils.getBusinessClasses());
-        ELEMENTS_MAP.put(APPLICATION_ELEMENTS, ArchimateModelUtils.getApplicationClasses());
-        ELEMENTS_MAP.put(TECHNOLOGY_ELEMENTS, ArchimateModelUtils.getTechnologyClasses());
-        ELEMENTS_MAP.put(PHYSICAL_ELEMENTS, ArchimateModelUtils.getPhysicalClasses());
-        ELEMENTS_MAP.put(STRATEGY_ELEMENTS, ArchimateModelUtils.getStrategyClasses());
-        ELEMENTS_MAP.put(MOTIVATION_ELEMENTS, ArchimateModelUtils.getMotivationClasses());
-        ELEMENTS_MAP.put(IMPLEMENTATION_MIGRATION_ELEMENTS, ArchimateModelUtils.getImplementationMigrationClasses());
-    }
+    private static final String STRUCTURAL_RELATIONSHIPS = "$StructuralRelationships$"; //$NON-NLS-1$
+    private static final String DEPENDENCY_RELATIONSHIPS = "$DependencyRelationships$"; //$NON-NLS-1$
+    private static final String DYNAMIC_RELATIONSHIPS = "$DynamicRelationships$"; //$NON-NLS-1$
+    private static final String OTHER_RELATIONSHIPS = "$OtherRelationships$"; //$NON-NLS-1$
     
     /**
      * Single Instance of ViewpointManager
@@ -79,16 +72,37 @@ public class ViewpointManager {
     public static ViewpointManager INSTANCE = new ViewpointManager();
     
     /**
+     * Mapping of concepts to collections
+     */
+    private final Map<String, EClass[]> CONCEPTS_MAP = new HashMap<String, EClass[]>();
+    
+    /**
      * All Viewpoints
      */
     private Map<String, IViewpoint> VIEWPOINTS = new HashMap<String, IViewpoint>();
     
     private ViewpointManager() {
+        // Map elements to collections
+        CONCEPTS_MAP.put(BUSINESS_ELEMENTS, ArchimateModelUtils.getBusinessClasses());
+        CONCEPTS_MAP.put(APPLICATION_ELEMENTS, ArchimateModelUtils.getApplicationClasses());
+        CONCEPTS_MAP.put(TECHNOLOGY_ELEMENTS, ArchimateModelUtils.getTechnologyClasses());
+        CONCEPTS_MAP.put(PHYSICAL_ELEMENTS, ArchimateModelUtils.getPhysicalClasses());
+        CONCEPTS_MAP.put(STRATEGY_ELEMENTS, ArchimateModelUtils.getStrategyClasses());
+        CONCEPTS_MAP.put(MOTIVATION_ELEMENTS, ArchimateModelUtils.getMotivationClasses());
+        CONCEPTS_MAP.put(IMPLEMENTATION_MIGRATION_ELEMENTS, ArchimateModelUtils.getImplementationMigrationClasses());
+        
+        // Map relationships to collections
+        CONCEPTS_MAP.put(STRUCTURAL_RELATIONSHIPS, getTypedRelationships(IArchimatePackage.eINSTANCE.getStructuralRelationship()));
+        CONCEPTS_MAP.put(DEPENDENCY_RELATIONSHIPS, getTypedRelationships(IArchimatePackage.eINSTANCE.getDependendencyRelationship()));
+        CONCEPTS_MAP.put(DYNAMIC_RELATIONSHIPS, getTypedRelationships(IArchimatePackage.eINSTANCE.getDynamicRelationship()));
+        CONCEPTS_MAP.put(OTHER_RELATIONSHIPS, getTypedRelationships(IArchimatePackage.eINSTANCE.getOtherRelationship()));
+        
         try {
             loadDefaultViewpointsFile();
         }
         catch(IOException | JDOMException ex) {
             ex.printStackTrace();
+            Logger.logError("Could not load Viewpoints", ex); //$NON-NLS-1$
         }
     }
     
@@ -127,27 +141,34 @@ public class ViewpointManager {
     }
     
     /**
-     * @param dmo
-     * @return True if dmo is an allowed component for this Viewpoint
+     * @return True if the ArchiMate concept in dmc is allowed for this Viewpoint
+     *         This can be used when greying out or hiding components in the UI
      */
-    public boolean isAllowedDiagramModelComponent(IDiagramModelComponent dmo) {
-        if(dmo instanceof IDiagramModelArchimateObject && dmo.getDiagramModel() instanceof IArchimateDiagramModel) {
-            EClass eClass = ((IDiagramModelArchimateObject)dmo).getArchimateElement().eClass();
-            return isAllowedConceptForDiagramModel((IArchimateDiagramModel)dmo.getDiagramModel(), eClass);
-        }
-        
-        if(dmo instanceof IDiagramModelConnection) {
-            return isAllowedDiagramModelComponent(((IDiagramModelConnection)dmo).getSource()) && 
-                    isAllowedDiagramModelComponent(((IDiagramModelConnection)dmo).getTarget());
+    public boolean isAllowedDiagramModelComponent(IDiagramModelArchimateComponent dmc) {
+        if(dmc.getDiagramModel() instanceof IArchimateDiagramModel) {
+            IArchimateDiagramModel dm = (IArchimateDiagramModel)dmc.getDiagramModel();
+            
+            boolean isAllowedConcept = isAllowedConceptForDiagramModel(dm, dmc.getArchimateConcept().eClass());
+            
+            // If this is a connection then return true if
+            // 1. This is an allowed relationship for the viewpoint
+            // 2. AND the source and target components are alllowed
+            if(dmc instanceof IDiagramModelArchimateConnection) {
+                IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)dmc;
+                
+                return isAllowedConcept &&
+                       isAllowedDiagramModelComponent((IDiagramModelArchimateComponent)connection.getSource()) &&
+                       isAllowedDiagramModelComponent((IDiagramModelArchimateComponent)connection.getTarget());
+            }
+            
+            return isAllowedConcept;
         }
         
         return true;
     }
     
     /**
-     * @param dm
-     * @param eClass
-     * @return True if eClass is an allowed concept for a diagram model
+     * @return True if eClass is an allowed concept for an ArchiMate diagram model
      */
     public boolean isAllowedConceptForDiagramModel(IArchimateDiagramModel dm, EClass eClass) {
         if(dm != null) {
@@ -162,7 +183,7 @@ public class ViewpointManager {
     /**
      * Load viewpoints from XML file
      */
-    void loadDefaultViewpointsFile() throws IOException, JDOMException {
+    private void loadDefaultViewpointsFile() throws IOException, JDOMException {
         // Load localised file from bundle
         URL url = FileLocator.find(Platform.getBundle(BUNDLE_ID), new Path("$nl$/" + VIEWPOINTS_FILE)); //$NON-NLS-1$
         url = FileLocator.resolve(url);
@@ -199,7 +220,7 @@ public class ViewpointManager {
                     continue;
                 }
                 
-                if(ELEMENTS_MAP.containsKey(conceptName)) {
+                if(CONCEPTS_MAP.containsKey(conceptName)) {
                     addCollection(vp, conceptName);
                 }
                 else {
@@ -219,13 +240,27 @@ public class ViewpointManager {
     }
     
     private void addCollection(Viewpoint vp, String conceptName) {
-        for(EClass eClass : ELEMENTS_MAP.get(conceptName)) {
+        for(EClass eClass : CONCEPTS_MAP.get(conceptName)) {
             addConcept(vp, eClass);
         }
     }
     
     private void addConcept(Viewpoint vp, EClass eClass) {
-        vp.getClassList().add(eClass);
+        vp.addEClass(eClass);
     }
     
+    /**
+     * Get all relationship classes that have the given supertype
+     */
+    private EClass[] getTypedRelationships(EClass supertype) {
+        ArrayList<EClass> list = new ArrayList<EClass>();
+        
+        for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
+            if(supertype.isSuperTypeOf(eClass)) {
+                list.add(eClass);
+            }
+        }
+        
+        return list.toArray(new EClass[list.size()]);
+    }
 }

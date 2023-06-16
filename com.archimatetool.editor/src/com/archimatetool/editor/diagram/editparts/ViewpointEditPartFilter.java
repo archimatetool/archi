@@ -7,7 +7,7 @@ package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.gef.EditPart;
 
-import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -33,8 +33,8 @@ public class ViewpointEditPartFilter implements IChildEditPartFilter, IConnectio
     }
     
     private boolean isConceptVisible(Object childObject) {   	
-    	if(childObject instanceof IDiagramModelComponent) {
-    		return ViewpointManager.INSTANCE.isAllowedDiagramModelComponent((IDiagramModelComponent) childObject);
+    	if(childObject instanceof IDiagramModelArchimateComponent) {
+    		return ViewpointManager.INSTANCE.isAllowedDiagramModelComponent((IDiagramModelArchimateComponent) childObject);
     	}
         
         return true;

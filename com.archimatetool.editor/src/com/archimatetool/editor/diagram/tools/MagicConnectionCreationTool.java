@@ -51,7 +51,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
@@ -185,7 +184,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         fCanSetCurrentCommand = false;
         
         Menu menu = new Menu(getCurrentViewer().getControl());
-        addConnectionActions(menu, sourceDiagramModelComponent.getArchimateConcept(), targetDiagramModelComponent.getArchimateConcept());
+        addConnectionActions(menu, sourceDiagramModelComponent, targetDiagramModelComponent);
         menu.setVisible(true);
         
         // Modal menu
@@ -364,13 +363,18 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     private void addConnectionActions(Menu menu, String menuText, IDiagramModelArchimateComponent sourceDiagramModelComponent,
             EClass[] list, EClass relationshipType) {
         
+        // Check if relationship allowed by Viewpoint
+        if(!isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, relationshipType)) {
+            return;
+        }
+
         MenuItem item = new MenuItem(menu, SWT.CASCADE);
         item.setText(menuText);
         Menu subMenu = new Menu(item);
         item.setMenu(subMenu);
         
         for(EClass type : list) {
-            // Check if allowed by Viewpoint
+            // Check if target type allowed by Viewpoint
             if(!isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, type)) {
                 continue;
             }
@@ -423,7 +427,9 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             IArchimateConcept targetConcept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(type);
             
             for(EClass eClass : ArchimateModelUtils.getValidRelationships(sourceConcept, targetConcept)) {
-                addConnectionAction(childSubMenu, eClass, false);
+                if(isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, eClass)) { // Check if allowed by Viewpoint
+                    addConnectionAction(childSubMenu, eClass, false);
+                }
             }
             
             if(childSubMenu.getItemCount() == 0) {
@@ -465,23 +471,27 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     /**
      * Add Connection Actions going in both directions
      */
-    private void addConnectionActions(Menu menu, IArchimateConcept sourceConcept, IArchimateConcept targetConcept) {
-        EClass[] forwardConnections = ArchimateModelUtils.getValidRelationships(sourceConcept, targetConcept);
-        EClass[] reverseConnections = ArchimateModelUtils.getValidRelationships(targetConcept, sourceConcept);
+    private void addConnectionActions(Menu menu, IDiagramModelArchimateComponent sourceDiagramModelComponent, IDiagramModelArchimateComponent targetDiagramModelComponent) {
+        List<MenuItem> forward = new ArrayList<>();
+        List<MenuItem> reverse = new ArrayList<>();
         
         // Add forward direction connections
-        for(EClass type : forwardConnections) {
-            addConnectionAction(menu, type, false);
+        for(EClass type : ArchimateModelUtils.getValidRelationships(sourceDiagramModelComponent.getArchimateConcept(), targetDiagramModelComponent.getArchimateConcept())) {
+            if(isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, type)) {
+                forward.add(addConnectionAction(menu, type, false));
+            }
         }
         
         // Add reverse direction connections
-        for(EClass type : reverseConnections) {
-            addConnectionAction(menu, type, true);
+        for(EClass type : ArchimateModelUtils.getValidRelationships(targetDiagramModelComponent.getArchimateConcept(), sourceDiagramModelComponent.getArchimateConcept())) {
+            if(isAllowedTargetTypeInViewpoint(sourceDiagramModelComponent, type)) {
+                reverse.add(addConnectionAction(menu, type, true));
+            }
         }
         
         // Add a separator only if we have both sets of items on the menu
-        if(forwardConnections.length > 0 && reverseConnections.length > 0) {
-            new MenuItem(menu, SWT.SEPARATOR, forwardConnections.length);
+        if(!forward.isEmpty() && !reverse.isEmpty()) {
+            new MenuItem(menu, SWT.SEPARATOR, forward.size());
         }
     }
     
@@ -533,10 +543,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             return true;
         }
         
-        IArchimateDiagramModel dm = (IArchimateDiagramModel)diagramComponent.getDiagramModel();
-        String id = dm.getViewpoint();
-        IViewpoint viewpoint = ViewpointManager.INSTANCE.getViewpoint(id);
-        return viewpoint == null ? true : viewpoint.isAllowedConcept(type);
+        return ViewpointManager.INSTANCE.isAllowedConceptForDiagramModel((IArchimateDiagramModel)diagramComponent.getDiagramModel(), type);
     }
     
     @Override

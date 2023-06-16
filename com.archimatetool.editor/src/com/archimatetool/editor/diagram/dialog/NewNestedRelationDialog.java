@@ -36,13 +36,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -188,19 +193,30 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
                 
                 // Normal direction
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
-                    if(ArchimateModelUtils.isValidRelationship(fSourceObject.getArchimateElement(), fTargetObject.getArchimateElement(), eClass)) {
+                    if(isAllowedRelationInViewpoint(fSourceObject, eClass) && ArchimateModelUtils.isValidRelationship(fSourceObject.getArchimateElement(), fTargetObject.getArchimateElement(), eClass)) {
                         list.add(new NestedConnectionInfo(fSourceObject, fTargetObject, false, eClass)); 
                     }
                 }
                 
                 // Reverse direction
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
-                    if(ArchimateModelUtils.isValidRelationship(fTargetObject.getArchimateElement(), fSourceObject.getArchimateElement(), eClass)) {
+                    if(isAllowedRelationInViewpoint(fTargetObject, eClass) && ArchimateModelUtils.isValidRelationship(fTargetObject.getArchimateElement(), fSourceObject.getArchimateElement(), eClass)) {
                         list.add(new NestedConnectionInfo(fTargetObject, fSourceObject, true, eClass)); 
                     }
                 }
 
                 return list;
+            }
+            
+            /**
+             * @return True if type is an allowed relation type for a given Viewpoint
+             */
+            private boolean isAllowedRelationInViewpoint(IDiagramModelArchimateComponent dmc, EClass type) {
+                if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+                    return true;
+                }
+                
+                return ViewpointManager.INSTANCE.isAllowedConceptForDiagramModel((IArchimateDiagramModel)dmc.getDiagramModel(), type);
             }
         }
 

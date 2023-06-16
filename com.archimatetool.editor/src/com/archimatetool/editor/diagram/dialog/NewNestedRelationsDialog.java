@@ -38,13 +38,18 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -72,7 +77,8 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         
         Mapping(IDiagramModelArchimateObject childObject) {
             validRelations = createValidRelations(fParentObject, childObject);
-            selectedIndex = 1;
+            // First in list is the (none) bogus relation
+            selectedIndex = validRelations.size() > 1 ? 1 : 0;
         }
         
         String getSelectedRelationName() {
@@ -131,7 +137,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             
             // Normal direction
             for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
-                if(ArchimateModelUtils.isValidRelationship(sourceObject.getArchimateElement(), targetObject.getArchimateElement(), eClass)) {
+                if(isAllowedRelationInViewpoint(sourceObject, eClass) && ArchimateModelUtils.isValidRelationship(sourceObject.getArchimateElement(), targetObject.getArchimateElement(), eClass)) {
                     list.add(new NestedConnectionInfo(sourceObject, targetObject, false, eClass)); 
                 }
             }
@@ -139,12 +145,23 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             // Reverse direction
             for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewReverseRelations()) {
                 // Reverse direction
-                if(ArchimateModelUtils.isValidRelationship(targetObject.getArchimateElement(), sourceObject.getArchimateElement(), eClass)) {
+                if(isAllowedRelationInViewpoint(targetObject, eClass) && ArchimateModelUtils.isValidRelationship(targetObject.getArchimateElement(), sourceObject.getArchimateElement(), eClass)) {
                     list.add(new NestedConnectionInfo(targetObject, sourceObject, true, eClass)); 
                 }
             }
             
             return list;
+        }
+        
+        /**
+         * @return True if type is an allowed relation type for a given Viewpoint
+         */
+        private boolean isAllowedRelationInViewpoint(IDiagramModelArchimateComponent dmc, EClass type) {
+            if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+                return true;
+            }
+            
+            return ViewpointManager.INSTANCE.isAllowedConceptForDiagramModel((IArchimateDiagramModel)dmc.getDiagramModel(), type);
         }
     }
 

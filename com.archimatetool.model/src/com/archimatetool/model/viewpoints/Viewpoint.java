@@ -22,7 +22,8 @@ import com.archimatetool.model.IArchimatePackage;
  */
 class Viewpoint implements IViewpoint {
     
-    private Set<EClass> classList = new HashSet<EClass>();
+    private Set<EClass> elementsClassList = new HashSet<EClass>();
+    private Set<EClass> relationsClassList = new HashSet<EClass>();
 
     // Default elements in a Viewpoint are Junction and Grouping
     private static Set<EClass> defaultList = Stream.of(IArchimatePackage.eINSTANCE.getJunction(),
@@ -37,23 +38,33 @@ class Viewpoint implements IViewpoint {
         this.name = name;
     }
     
-    Set<EClass> getClassList() {
-        return classList;
+    void addEClass(EClass eClass) {
+        if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
+            elementsClassList.add(eClass);
+        }
+        else if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
+            relationsClassList.add(eClass);
+        }
     }
     
     @Override
     public boolean isAllowedConcept(EClass eClass) {
         // Safety
-        if(!IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
+        if(!IArchimatePackage.eINSTANCE.getArchimateConcept().isSuperTypeOf(eClass)) {
             return true;
         }
         
-        // All concepts allowed
-        if(classList.isEmpty()) {
+        // If elements list is empty all are allowed
+        if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass) && elementsClassList.isEmpty()) {
             return true;
         }
         
-        return classList.contains(eClass) || defaultList.contains(eClass);
+        // If relations list is empty all are allowed
+        if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass) && relationsClassList.isEmpty()) {
+            return true;
+        }
+        
+        return elementsClassList.contains(eClass) || relationsClassList.contains(eClass) || defaultList.contains(eClass);
     }
     
     @Override

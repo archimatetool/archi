@@ -55,9 +55,13 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  */
 public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
+    private static int RELATIONS_GROUP = 1;
+    private static int SPECIALIZATIONS_GROUP = 5;
+    
     private IArchimateDiagramModel fDiagramModel;
     
     private List<PaletteEntry> fElementEntries = new ArrayList<PaletteEntry>();
+    private List<PaletteEntry> fRelationshipEntries = new ArrayList<PaletteEntry>();
     private List<PaletteEntry> fSpecializationEntries = new ArrayList<PaletteEntry>();
     
     /**
@@ -83,6 +87,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
      * Update the Palette contents depending on the Viewpoint
      */
     void updateViewpoint() {
+        createArchimateRelationsGroup();
         createSpecializationsGroup();
         createArchimateElementGroups();
     }
@@ -132,7 +137,15 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
      * Relations Types
      */
     private void createArchimateRelationsGroup() {
+        // Remove all Archimate Relations
+        for(PaletteEntry entry : fRelationshipEntries) {
+            remove(entry);
+        }
+        fRelationshipEntries.clear();
+
         PaletteGroup group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_13);
+        add(RELATIONS_GROUP, group);
+        fRelationshipEntries.add(group);
         
         // Magic Connector
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
@@ -148,8 +161,10 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
 
         // Relations
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            ToolEntry entry = createConnectionCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_6);
-            group.add(entry);
+            if(isAllowedConceptForViewpoint(eClass)) {
+                ToolEntry entry = createConnectionCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_6);
+                group.add(entry);
+            }
         }
 
         // Junctions
@@ -158,8 +173,9 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             group.add(entry);
         }
         
-        add(group);
-        add(new PaletteSeparator());
+        PaletteSeparator sep = new PaletteSeparator();
+        add(RELATIONS_GROUP + 1, sep);
+        fRelationshipEntries.add(sep);
     }
     
     /**
@@ -257,11 +273,11 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
         
         if(!group.getChildren().isEmpty()) {
-            add(5, group);
-            PaletteSeparator sep = new PaletteSeparator();
-            add(6, sep);
-
+            add(SPECIALIZATIONS_GROUP, group);
             fSpecializationEntries.add(group);
+            
+            PaletteSeparator sep = new PaletteSeparator();
+            add(SPECIALIZATIONS_GROUP + 1, sep);
             fSpecializationEntries.add(sep);
         }
     }
