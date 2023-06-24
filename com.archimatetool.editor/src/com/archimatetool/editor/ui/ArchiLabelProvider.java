@@ -17,9 +17,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.Logger;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -31,6 +39,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfile;
 
 
 
@@ -178,6 +187,75 @@ public class ArchiLabelProvider {
         }
         
         return null;
+    }
+    
+    /**
+     * Create an ImageDescriptor icon for a Specialization from its image
+     * The image data size is 16x16 or 32x32 depending on zoom.
+     * The user image is scaled to fit and centred on the background image.
+     * The background color is set to something unlikely to be used in the actual image so that we can set the transparent pixel
+     */
+    public ImageDescriptor getImageDescriptorForSpecialization(IProfile profile) {
+        return new ImageDescriptor() {
+            @Override
+            public ImageData getImageData(int zoom) {
+                // Get the Specialization image
+                Image image = null;
+                try {
+                    IArchiveManager archiveManager = (IArchiveManager)profile.getAdapter(IArchiveManager.class);
+                    if(archiveManager != null) {
+                        image = archiveManager.createImage(profile.getImagePath());
+                    }
+                    if(image == null) {
+                        return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
+                    }
+                }
+                catch(Exception ex) {
+                    ex.printStackTrace();
+                    return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
+                }
+                
+                // Image bounds
+                final Rectangle imageBounds = image.getBounds();
+
+                // Palette icon size
+                final int iconSize = 16;
+
+                // Blank icon image for background and size
+                Image iconImage = new Image(Display.getDefault(), iconSize, iconSize);
+
+                GC gc = new GC(iconImage);
+                gc.setAntialias(SWT.ON);
+                gc.setInterpolation(SWT.HIGH);
+                
+                // Set background to this color so we can make it transparent
+                RGB background = new RGB(255, 255, 254);
+                gc.setBackground(new Color(background));
+                gc.fillRectangle(0, 0, iconSize, iconSize);
+                
+                // Get scaled size
+                Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
+                
+                // Centre the image
+                int x = (iconSize - scaledSize.width) / 2;
+                int y = (iconSize - scaledSize.height) / 2;
+                
+                // Draw scaled image onto icon image
+                gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
+                        x, y, scaledSize.width, scaledSize.height);
+                
+                ImageData data = iconImage.getImageData(zoom);
+
+                // Set transparent pixel to background color
+                data.transparentPixel = data.palette.getPixel(background);
+                
+                gc.dispose();
+                image.dispose();
+                iconImage.dispose();
+                
+                return data;
+            }
+        };
     }
     
     /**

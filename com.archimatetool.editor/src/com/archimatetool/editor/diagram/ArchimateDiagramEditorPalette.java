@@ -19,25 +19,15 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
-import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IProfile;
@@ -244,7 +234,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass) && isAllowedConceptForViewpoint(eClass)) {
                 // Add image if it has one
                 if(profile.getImagePath() != null) {
-                    id = createImageDescriptorForSpecialization(profile);
+                    id = ArchiLabelProvider.INSTANCE.getImageDescriptorForSpecialization(profile);
                 }
                 
                 ToolEntry entry = new ExtCombinedTemplateCreationEntry(
@@ -280,73 +270,6 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             add(SPECIALIZATIONS_GROUP + 1, sep);
             fSpecializationEntries.add(sep);
         }
-    }
-    
-    /**
-     * Create an ImageDescriptor for a Specialization from its image
-     * The image data is created as 16x16 or 32x32 depending on zoom.
-     * The user image is scaled to fit and centred on the background image.
-     * The background color is set to something unlikely to be used in the actual image so that we can set the transparent pixel
-     */
-    private ImageDescriptor createImageDescriptorForSpecialization(IProfile profile) {
-        return new ImageDescriptor() {
-            @Override
-            public ImageData getImageData(int zoom) {
-                // Get the Specialization image
-                Image image = null;
-                try {
-                    IArchiveManager archiveManager = (IArchiveManager)fDiagramModel.getAdapter(IArchiveManager.class);
-                    image = archiveManager.createImage(profile.getImagePath());
-                    if(image == null) {
-                        throw new Exception("Image was null"); //$NON-NLS-1$
-                    }
-                }
-                catch(Exception ex) {
-                    ex.printStackTrace();
-                    return ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
-                }
-                
-                // Image bounds
-                final Rectangle imageBounds = image.getBounds();
-
-                // Palette icon size
-                final int iconSize = 16;
-
-                // Blank icon image for background and size
-                Image iconImage = new Image(Display.getDefault(), iconSize, iconSize);
-
-                GC gc = new GC(iconImage);
-                gc.setAntialias(SWT.ON);
-                gc.setInterpolation(SWT.HIGH);
-                
-                // Set background to this color so we can make it transparent
-                RGB background = new RGB(255, 255, 254);
-                gc.setBackground(new Color(background));
-                gc.fillRectangle(0, 0, iconSize, iconSize);
-                
-                // Get scaled size
-                Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
-                
-                // Centre the image
-                int x = (iconSize - scaledSize.width) / 2;
-                int y = (iconSize - scaledSize.height) / 2;
-                
-                // Draw scaled image onto icon image
-                gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
-                        x, y, scaledSize.width, scaledSize.height);
-                
-                ImageData data = iconImage.getImageData(zoom);
-
-                // Set transparent pixel to background color
-                data.transparentPixel = data.palette.getPixel(background);
-                
-                gc.dispose();
-                image.dispose();
-                iconImage.dispose();
-                
-                return data;
-            }
-        };
     }
     
     /**
