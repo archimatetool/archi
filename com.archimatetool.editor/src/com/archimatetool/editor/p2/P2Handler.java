@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.equinox.internal.p2.core.Activator;
 import org.eclipse.equinox.internal.p2.garbagecollector.GarbageCollector;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.IProvisioningAgentProvider;
@@ -38,6 +37,8 @@ import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepositoryManager;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -214,8 +215,9 @@ public class P2Handler {
     
     private IProvisioningAgent getProvisioningAgent() throws ProvisionException {
         if(provisioningAgent == null) {
-            ServiceReference<?> sr = Activator.getContext().getServiceReference(IProvisioningAgentProvider.SERVICE_NAME);
-            IProvisioningAgentProvider agentProvider = (IProvisioningAgentProvider)Activator.getContext().getService(sr);
+            BundleContext bundleContext = FrameworkUtil.getBundle(IProvisioningAgent.class).getBundleContext();
+            ServiceReference<?> sr = bundleContext.getServiceReference(IProvisioningAgentProvider.SERVICE_NAME);
+            IProvisioningAgentProvider agentProvider = (IProvisioningAgentProvider)bundleContext.getService(sr);
             provisioningAgent = agentProvider.createAgent(null);
         }
         
