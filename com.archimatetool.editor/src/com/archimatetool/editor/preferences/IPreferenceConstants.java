@@ -126,9 +126,9 @@ public interface IPreferenceConstants {
     String BACKUP_ON_SAVE = "backupOnSave";
     
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
-    
     String TREE_SEARCH_AUTO = "treeSearchAuto";
     String SHOW_WARNING_ON_DELETE_FROM_TREE = "showWarningOnDeleteFromTree";
+    String SHOW_SPECIALIZATIONS_IN_MODEL_TREE = "showSpecializationsInModelTree";
     
     String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";
     

@@ -132,9 +132,9 @@ implements IPreferenceConstants {
         store.setDefault(BACKUP_ON_SAVE, true);
 
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
-        
         store.setDefault(TREE_SEARCH_AUTO, true);
         store.setDefault(SHOW_WARNING_ON_DELETE_FROM_TREE, true);
+        store.setDefault(SHOW_SPECIALIZATIONS_IN_MODEL_TREE, true);
         
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 

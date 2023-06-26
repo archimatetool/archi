@@ -42,6 +42,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowUnusedElementsInModelTreeButton;
     private Button fAutoSearchButton;
     private Button fWarnOnDeleteButton;
+    private Button fShowSpecializationsModelTreeButton;
     
     private Button fScaleImagesButton;
     
@@ -114,6 +115,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton = new Button(modelTreeGroup, SWT.CHECK);
         fWarnOnDeleteButton.setText(Messages.GeneralPreferencePage_16);
         fWarnOnDeleteButton.setLayoutData(createHorizontalGridData(2));
+        
+        fShowSpecializationsModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
+        fShowSpecializationsModelTreeButton.setText(Messages.GeneralPreferencePage_24);
+        fShowSpecializationsModelTreeButton.setLayoutData(createHorizontalGridData(2));
         
         // Label Expressions
         Group expressionsGroup = new Group(client, SWT.NULL);
@@ -209,6 +214,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
+        fShowSpecializationsModelTreeButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE));
+        
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
 
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
@@ -239,6 +246,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_SEARCH_AUTO, fAutoSearchButton.getSelection());
         getPreferenceStore().setValue(SHOW_WARNING_ON_DELETE_FROM_TREE, fWarnOnDeleteButton.getSelection());
+        getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_MODEL_TREE, fShowSpecializationsModelTreeButton.getSelection());
+        
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
@@ -271,6 +280,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
+        fShowSpecializationsModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE));
+        
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));

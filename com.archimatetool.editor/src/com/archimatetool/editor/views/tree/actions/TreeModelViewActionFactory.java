@@ -5,8 +5,12 @@
  */
 package com.archimatetool.editor.views.tree.actions;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +34,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IProfile;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -55,7 +60,7 @@ public class TreeModelViewActionFactory {
      * @return A List (perhaps empty) of Actions for a given selected object
      */
     public List<IAction> getNewObjectActions(Object selected) {
-        List<IAction> list = new ArrayList<IAction>();
+        List<IAction> actionList = new ArrayList<IAction>();
         
         // If we have selected a leaf object, go up to its parent
         if(selected instanceof IArchimateConcept || selected instanceof IDiagramModel) {
@@ -64,91 +69,80 @@ public class TreeModelViewActionFactory {
         
         // We haven't got a parent folder
         if(!(selected instanceof IFolder)) {
-            return list;
+            return actionList;
         }
         
         IFolder selectedFolder = (IFolder)selected;
         
-        list.add(createNewFolderAction((IFolder)selected));
-        list.add(null);
+        actionList.add(createNewFolderAction((IFolder)selected));
+        actionList.add(null);
         
         // Find the topmost folder type
         IFolder topMostFolder = selectedFolder;
         while(topMostFolder.eContainer() instanceof IFolder) {
             topMostFolder = (IFolder)topMostFolder.eContainer();
         }
-
+        
         switch(topMostFolder.getType()) {
             case STRATEGY:
-                for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getStrategyClasses(), selectedFolder));
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getStrategyClasses(), selectedFolder));
                 break;
 
             case BUSINESS:
-                for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getBusinessClasses(), selectedFolder));
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getBusinessClasses(), selectedFolder));
                 break;
 
             case APPLICATION:
-                for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getApplicationClasses(), selectedFolder));
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getApplicationClasses(), selectedFolder));
                 break;
 
             case MOTIVATION:
-                for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getMotivationClasses(), selectedFolder));
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getMotivationClasses(), selectedFolder));
                 break;
 
             case IMPLEMENTATION_MIGRATION:
-                for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getImplementationMigrationClasses(), selectedFolder));
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getImplementationMigrationClasses(), selectedFolder));
                 break;
 
             case TECHNOLOGY:
                 // Technology
-                for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
-                
-                list.add(null);
-                
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getTechnologyClasses(), selectedFolder));
+                actionList.add(null);
                 // Physical
-                for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getPhysicalClasses(), selectedFolder));
+                
+                // Specializations
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getPhysicalClasses(), selectedFolder));
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getTechnologyClasses(), selectedFolder));
                 break;
 
             case OTHER:
                 // Grouping and Location
-                for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
-                
-                list.add(null);
-                
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getOtherClasses(), selectedFolder));
+                actionList.add(null);
                 // Connectors
-                for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-                    IAction action = createNewElementAction(selectedFolder, eClass);
-                    list.add(action);
-                }
+                actionList.addAll(createConceptActions(ArchimateModelUtils.getConnectorClasses(), selectedFolder));
+                
+                // Specializations
+                actionList.add(null);
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getOtherClasses(), selectedFolder));
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getConnectorClasses(), selectedFolder));
                 break;
                 
             case DIAGRAMS:
-                list.add(createNewArchimateDiagramAction(selectedFolder));
-                list.add(createNewSketchAction(selectedFolder));
+                actionList.add(createNewArchimateDiagramAction(selectedFolder));
+                actionList.add(createNewSketchAction(selectedFolder));
                 break;
 
             default:
@@ -156,13 +150,56 @@ public class TreeModelViewActionFactory {
         }
         
         // Remove any trailing separator
-        if(list.get(list.size() - 1) == null) {
-            list.remove(list.size() - 1);
+        if(actionList.get(actionList.size() - 1) == null) {
+            actionList.remove(actionList.size() - 1);
         }
 
-        return list;
+        return actionList;
     }
+    
+    private List<IAction> createConceptActions(EClass[] classes, IFolder folder) {
+        List<IAction> actions = new ArrayList<>();
+        
+        // Add actions for ArchiMate classes
+        for(EClass eClass : classes) {
+            IAction action = createNewElementAction(folder, eClass);
+            actions.add(action);
+        }
+        
+        return actions;
+    }
+    
+    private List<IAction> createSpecializationActions(EClass[] classes, IFolder folder) {
+        List<IAction> actions = new ArrayList<>();
+        
+        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_MODEL_TREE)
+                || folder.getArchimateModel().getProfiles().isEmpty()) {
+            return actions;
+        }
+        
+        List<IProfile> profiles = new ArrayList<>(folder.getArchimateModel().getProfiles());
+        
+        Collections.sort(profiles, new Comparator<IProfile>() {
+            private Collator collator = Collator.getInstance();
 
+            @Override
+            public int compare(IProfile p1, IProfile p2) {
+                return collator.compare(p1.getName(), p2.getName());
+            }
+        });
+        
+        Set<EClass> classesSet = Set.of(classes);
+        
+        for(IProfile profile : profiles) {
+            if(classesSet.contains(profile.getConceptClass())) {
+                IAction action = createNewSpecializationAction(folder, profile);
+                actions.add(action);
+            }
+        }
+        
+        return actions;
+    }
+    
     private IAction createNewElementAction(final IFolder folder, final EClass eClass) {
         IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass)) {
             @Override
@@ -180,6 +217,27 @@ public class TreeModelViewActionFactory {
         action.setImageDescriptor(ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
         return action;
     }
+    
+    private IAction createNewSpecializationAction(final IFolder folder, IProfile profile) {
+        IAction action = new Action(profile.getName()) {
+            @Override
+            public void run() {
+                // Create a new Archimate Element, set its name and profile
+                IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(profile.getConceptClass());
+                element.setName(profile.getName());
+                element.getProfiles().add(profile);
+                // Execute Command
+                Command cmd = new NewElementCommand(folder, element);
+                CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
+                commandStack.execute(cmd);
+            }
+        };
+
+        action.setImageDescriptor(profile.getImagePath() != null ? 
+                ArchiLabelProvider.INSTANCE.getImageDescriptorForSpecialization(profile) : ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass()));
+        return action;
+    }
+
     
     private IAction createNewArchimateDiagramAction(final IFolder folder) {
         IAction action = new Action(Messages.TreeModelViewActionFactory_0) {
