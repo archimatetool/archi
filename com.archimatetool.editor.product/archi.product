@@ -23,6 +23,7 @@ openFile
 @user.home/AppData/Roaming/Archi/secure_storage
       </programArgsWin>
       <vmArgs>-Dosgi.requiredJavaVersion=17
+-Dfile.encoding=UTF-8
 -Declipse.p2.data.area=@config.dir/p2
 -Ddata.location=@user.home/Documents/Archi
 --add-modules=ALL-SYSTEM
