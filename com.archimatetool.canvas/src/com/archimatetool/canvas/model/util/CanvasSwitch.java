@@ -219,6 +219,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(canvasModelConnection);
                 if (result == null) result = caseDocumentable(canvasModelConnection);
                 if (result == null) result = caseLineObject(canvasModelConnection);
+                if (result == null) result = caseTextAlignment(canvasModelConnection);
                 if (result == null) result = caseDiagramModelComponent(canvasModelConnection);
                 if (result == null) result = caseCloneable(canvasModelConnection);
                 if (result == null) result = caseArchimateModelObject(canvasModelConnection);
