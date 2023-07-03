@@ -21,6 +21,7 @@ name: "CodeQL"
 #    - cron: '19 8 * * 1'
 
 on:
+ workflow_dispatch:
  schedule:
    - cron: '19 8 * * 1'
 
@@ -46,6 +47,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: 3.9.3
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
