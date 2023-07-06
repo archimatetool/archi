@@ -7,8 +7,9 @@ package com.archimatetool.editor.tools;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -101,8 +102,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     
     private IArchimateModel fArchimateModel;
     
-    private Map<String, IProfile> fProfilesModel; // The model's Profiles
-    private Map<String, IProfile> fProfilesTemp;  // A temporary copy of the model's Profiles
+    private List<IProfile> fProfilesCopy;  // A temporary copy of the model's Profiles
     
     private Map<String, List<IProfiles>> fProfilesUsage;  // Usages of a Profile
     
@@ -126,17 +126,14 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
 
         fArchimateModel = model;
         
-        // Create indexed copies of the model's Profiles
-        fProfilesModel = new LinkedHashMap<>();
-        fProfilesTemp = new LinkedHashMap<>();
-
+        // Create a copy of the model's Profiles
+        fProfilesCopy = new ArrayList<>();
         for(IProfile profile : model.getProfiles()) {
-            // Index of original profiles in the model
-            fProfilesModel.put(profile.getId(), profile);
-            
-            // Copies of the original profiles
-            fProfilesTemp.put(profile.getId(), EcoreUtil.copy(profile));
+            fProfilesCopy.add(EcoreUtil.copy(profile));
         }
+        
+        // Sort them
+        sortProfiles();
         
         // Find Profile usages now as it can be time consuming to do it more than once
         fProfilesUsage = new HashMap<>();
@@ -258,15 +255,6 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         fTableViewer.getTable().setHeaderVisible(true);
         fTableViewer.getTable().setLinesVisible(true);
 
-        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()) {
-            @Override
-            public int compare(Viewer viewer, Object e1, Object e2) {
-                return getComparator().compare(((IProfile)e1).getName(), ((IProfile)e2).getName());
-            }
-        });
-
-        // Columns
-        
         // Icon
         TableViewerColumn columnIcon = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(columnIcon.getColumn(), new ColumnWeightData(5, true));
@@ -276,6 +264,15 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         columnName.getColumn().setText(Messages.ProfilesManagerDialog_7);
         tableLayout.setColumnData(columnName.getColumn(), new ColumnWeightData(50, true));
         columnName.setEditingSupport(new NameEditingSupport(fTableViewer));
+        
+        // Sort on name column
+        fTableViewer.getTable().setSortColumn(columnName.getColumn());
+        fTableViewer.getTable().setSortDirection(SWT.UP);
+        
+        columnName.getColumn().addListener(SWT.Selection, event -> {
+            sortProfiles();
+            fTableViewer.refresh();
+        });
 
         // Restricted to Concept Type
         TableViewerColumn columnConceptType = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
@@ -300,7 +297,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
 
             @Override
             public Object[] getElements(Object inputElement) {
-                return fProfilesTemp.values().toArray();
+                return fProfilesCopy.toArray();
             }
         });
 
@@ -467,7 +464,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         IProfile profile = IArchimateFactory.eINSTANCE.createProfile();
         profile.setConceptType(fDefaultClass.getName());
         profile.setName(generateNewProfileName(profile.getConceptType()));
-        fProfilesTemp.put(profile.getId(), profile);
+        fProfilesCopy.add(profile);
         
         //fTableViewer.applyEditorValue(); // complete any current editing
         fTableViewer.refresh();
@@ -496,12 +493,26 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                                     Messages.ProfilesManagerDialog_14,
                                     Messages.ProfilesManagerDialog_15)) {
             
-            for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
-                fProfilesTemp.remove(((IProfile)o).getId());
+            for(Object profile : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
+                fProfilesCopy.remove(profile);
             }
             
             fTableViewer.refresh();
         }
+    }
+    
+    /**
+     * Sort profiles on names
+     */
+    private void sortProfiles() {
+        Collections.sort(fProfilesCopy, new Comparator<IProfile>() {
+            Collator collator = Collator.getInstance();
+
+            @Override
+            public int compare(IProfile p1, IProfile p2) {
+                return collator.compare(p1.getName(), p2.getName());
+            }
+        });
     }
     
     /**
@@ -605,7 +616,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      * @return true if name is not blank and not already used for concept type
      */
     private boolean isValidProfileNameAndType(String name, String conceptType) {
-        return !name.isBlank() && !ArchimateModelUtils.hasProfileByNameAndType(fProfilesTemp.values(), name, conceptType);
+        return !name.isBlank() && !ArchimateModelUtils.hasProfileByNameAndType(fProfilesCopy, name, conceptType);
     }
     
     /**
@@ -629,29 +640,43 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
     protected void okPressed() {
         super.okPressed();
 
+        // Create some handy lookups
+        
+        // Model Profiles
+        Map<String, IProfile> modelProfilesMap = new HashMap<>();
+        for(IProfile profile : fArchimateModel.getProfiles()) {
+            modelProfilesMap.put(profile.getId(), profile);
+        }
+        
+        // Our copy of Profiles
+        Map<String, IProfile> copyProfilesMap = new HashMap<>();
+        for(IProfile profile : fProfilesCopy) {
+            copyProfilesMap.put(profile.getId(), profile);
+        }
+
         CompoundCommand compoundCmd = new CompoundCommand(Messages.ProfilesManagerDialog_16);
+        
+        // Iterate thru our copied list of Profiles
+        for(IProfile profile : fProfilesCopy) {
+            // Is this profile in the model?
+            if(modelProfilesMap.containsKey(profile.getId())) {
+                IProfile profileOriginal = modelProfilesMap.get(profile.getId());
 
-        // Iterate thru our temp list of Profiles
-        for(IProfile profile : fProfilesTemp.values()) {
-            // Is this a copy of the original?
-            if(fProfilesModel.containsKey(profile.getId())) {
-                IProfile profileOriginal = fProfilesModel.get(profile.getId());
-
-                // The Profile has been edited
+                // Yes, but the Profile has been edited
                 if(!EcoreUtil.equals(profileOriginal, profile)) {
                     List<IProfiles> usages = fProfilesUsage.get(profileOriginal.getId());
                     compoundCmd.add(new ChangeProfileCommand(profileOriginal, profile, usages));
                 }
             }
-            // A new Profile was added
+            // No, so this is a new Profile and has to be added
             else {
                 compoundCmd.add(new AddListMemberCommand<IProfile>(fArchimateModel.getProfiles(), profile));
             }
         }
         
-        // Iterate thru model's Profiles and compare with our temp list to see if any Profiles were deleted
-        for(IProfile profile : fArchimateModel.getProfiles()) {
-            if(!fProfilesTemp.containsKey(profile.getId())) {
+        // Iterate thru model's Profiles and compare with our copied list to see if any Profiles were deleted
+        for(IProfile profile : modelProfilesMap.values()) {
+            if(!copyProfilesMap.containsKey(profile.getId())) {
                 List<IProfiles> usages = fProfilesUsage.get(profile.getId());
                 compoundCmd.add(new DeleteProfileCommand(profile, usages));
             }
@@ -748,7 +773,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
             // Allow the name to change case, but don't allow a duplicate Profile name for the same concept type
             if(profile.getName().equalsIgnoreCase(name) || isValidProfileNameAndType(name, profile.getConceptType())) {
                 profile.setName((String)value);
-                fTableViewer.refresh(); // refresh the whole table so items are sorted
+                fTableViewer.update(element, null);
             }
         }
     }
