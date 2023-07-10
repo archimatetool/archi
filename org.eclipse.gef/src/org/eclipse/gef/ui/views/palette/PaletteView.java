@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.gef.ui.views.palette;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.ui.IEditorPart;
@@ -33,6 +34,8 @@ import org.eclipse.gef.internal.GEFMessages;
 public class PaletteView extends PageBookView {
 
     private boolean viewInPage = true;
+    
+    private static final boolean isMac = "cocoa".equals(SWT.getPlatform()); //$NON-NLS-1$
 
     /**
      * The ID for this view. This is the same as the String used to register
@@ -57,6 +60,17 @@ public class PaletteView extends PageBookView {
             partActivated(getBootstrapPart());
         }
     };
+
+    @Override
+    protected void showPageRec(PageRec pageRec) {
+        super.showPageRec(pageRec);
+        
+        // Bug on Mac - PaletteView contents are not redrawn if PaletteView is hidden and reshown
+        // See https://github.com/archimatetool/archi/issues/944
+        if(isMac && pageRec.page instanceof PaletteViewerPage && !pageRec.page.getControl().isDisposed()) {
+            pageRec.page.getControl().redraw();
+        }
+    }
 
     /**
      * Creates a default page saying that a palette is not available.
