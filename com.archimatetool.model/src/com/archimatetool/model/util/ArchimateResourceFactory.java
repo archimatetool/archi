@@ -94,6 +94,8 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         resource.getDefaultLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
         resource.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
         
+        // Don't allow loading an unregistered URI in case of exploits
+        resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION, false);
         
         Map<String, Object> parserFeatures = new HashMap<String, Object>();
         // Don't allow DTD loading in case of XSS exploits
