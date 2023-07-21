@@ -133,8 +133,21 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="com.archimatetool.help.command.showHintsView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+7">
+            sequence="M1+M2+7">
+      </key>
+      <key
+            commandId="com.archimatetool.help.command.showHintsView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+7">
+      </key>
+      <key
+            commandId="com.archimatetool.help.command.showHintsView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+7">
       </key>
    </extension>
    <extension

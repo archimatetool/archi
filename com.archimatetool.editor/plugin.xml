@@ -613,28 +613,93 @@
       </key>
       <key
             commandId="com.archimatetool.editor.action.showTreeModelView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+1">
+            sequence="M1+M2+1">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showTreeModelView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+1">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showTreeModelView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+1">
       </key>
       <key
             commandId="com.archimatetool.editor.action.showPropertiesView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+2">
+            sequence="M1+M2+2">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showPropertiesView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+2">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showPropertiesView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+2">
       </key>
       <key
             commandId="com.archimatetool.editor.action.showOutlineView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+3">
+            sequence="M1+M2+3">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showOutlineView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+3">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showOutlineView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+3">
       </key>
       <key
             commandId="com.archimatetool.editor.action.showNavigatorView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+4">
+            sequence="M1+M2+4">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showNavigatorView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+4">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showNavigatorView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+4">
       </key>
       <key
             commandId="com.archimatetool.editor.action.showPaletteView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+5">
+            sequence="M1+M2+5">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showPaletteView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+5">
+      </key>
+      <key
+            commandId="com.archimatetool.editor.action.showPaletteView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+5">
       </key>
       <key
             commandId="com.archimatetool.editor.action.exportAsImageToClipboard"

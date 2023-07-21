@@ -85,8 +85,21 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="com.archimatetool.hammer.command.showValidatorView"
+            platform="win32"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+8">
+            sequence="M1+M2+8">
+      </key>
+      <key
+            commandId="com.archimatetool.hammer.command.showValidatorView"
+            platform="gtk"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+8">
+      </key>
+      <key
+            commandId="com.archimatetool.hammer.command.showValidatorView"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M3+8">
       </key>
    </extension>
    <extension
