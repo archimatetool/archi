@@ -13,7 +13,10 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -22,27 +25,67 @@ import java.util.logging.SimpleFormatter;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Logging Support
+ * File Logging Support
  * 
  * Uses java.util.logging to log to a localised file for a given plug-in.
  * 
  * <p>Example Usage:<p>
    <pre>
-   LoggingSupport loggingSupport = new LoggingSupport("com.archimatetool.myplugin",
-                                            getBundle().getEntry("logging.properties"),
-                                            new File(getLoggingFolder(), "log-%g.txt"));
-   loggingSupport.start();
-   // Use the logger...
-   loggingSupport.stop();
+   FileLogger.create("com.archimatetool.myplugin",
+                      getBundle().getEntry("logging.properties"),
+                      new File(getLoggingFolder(), "log-%g.txt"));
    </pre>
  * 
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
-public class LoggingSupport {
+public class FileLogger {
 
-    private static final int MAX_BYTES = 1024 * 1024 * 10; // 10 mb files
-    private static final int FILE_COUNT = 3; // Max files to use
+    private static final int DEFAULT_MAX_BYTES = 1024 * 1024 * 10; // 10 mb files
+    private static final int DEFAULT_MAX_FILE_COUNT = 3; // Max files to use
+    
+    /**
+     * Registered loggers
+     */
+    private static Map<String, FileLogger> loggers = new HashMap<>();
+    
+    /**
+     * Create and start Java Logging to file using default file size of 10 mb and 3 log files
+     * 
+     * @param rootPackageName root package name that will be used for the root logger
+     * @param propertiesFile bundle location of logging.properties file (can be null)
+     * @param fileNamePattern absolute file name pattern of the logging file to write to
+     */
+    public static FileLogger create(String rootPackageName, URL propertiesFile, File fileNamePattern) throws IOException {
+        return create(rootPackageName, propertiesFile, fileNamePattern, DEFAULT_MAX_BYTES, DEFAULT_MAX_FILE_COUNT);
+    }
+    
+    /**
+     * Create and start Java Logging to file
+     * 
+     * @param rootPackageName root package name that will be used for the root logger
+     * @param propertiesFile bundle location of logging.properties file (can be null)
+     * @param fileNamePattern absolute file name pattern of the logging file to write to
+     * @param limit the maximum number of bytes to write to any one file
+     * @param count the number of files to use
+     */
+    public static FileLogger create(String rootPackageName, URL propertiesFile, File fileNamePattern, int limit, int count) throws IOException {
+        FileLogger logger = loggers.get(rootPackageName);
+        
+        if(logger == null) {
+            logger = new FileLogger(rootPackageName, propertiesFile, fileNamePattern, limit, count);
+            loggers.put(rootPackageName, logger);
+        }
+        
+        return logger;
+    }
+    
+    /**
+     * Return a previsously created FileLogger, or null if it hasn't been created yet or has been closed
+     */
+    public static FileLogger get(String rootPackageName) {
+        return loggers.get(rootPackageName);
+    }
     
     /**
      * Use our own extension of SimpleFormatter because we don't want to set a global, singleton format
@@ -101,45 +144,20 @@ public class LoggingSupport {
     }
     
     private String rootPackageName;
-    private URL propertiesFile;
-    private File fileNamePattern;
-    
     private Logger rootLogger;
     private FileHandler fileHandler;
     
-    /**
-     * @param rootPackageName root package name that will be used for the root logger
-     * @param propertiesFile bundle location of logging.properties file (can be null)
-     * @param fileNamePattern absolute file name pattern of the logging file
-     */
-    public LoggingSupport(String rootPackageName, URL propertiesFile, File fileNamePattern) {
+    private FileLogger() {
+    }
+
+    private FileLogger(String rootPackageName, URL propertiesFile, File fileNamePattern, int limit, int count) throws IOException {
         this.rootPackageName = rootPackageName;
-        this.propertiesFile = propertiesFile;
-        this.fileNamePattern = fileNamePattern;
         
-        // The root logger is the root class package name of the bundle
+        // The root logger is the root class package name of the plug-in
         rootLogger = Logger.getLogger(rootPackageName);
         
         // Don't use parent handlers so there's no logging to console
         rootLogger.setUseParentHandlers(false);
-    }
-    
-    /**
-     * Get a Logger for its name
-     * We use this proxy method rather than the direct call to ensure that the root logger is initialised
-     */
-    public Logger getLogger(String name) {
-        return Logger.getLogger(name);
-    }
-    
-    /**
-     * Initialise the file handler for logging to file
-     */
-    public void start() throws SecurityException, IOException {
-        // Don't use file logging if running headless (unit tests)
-        if(!PlatformUI.isWorkbenchRunning()) {
-            return;
-        }
         
         // Read logging properties file, if any
         if(propertiesFile != null) {
@@ -147,12 +165,19 @@ public class LoggingSupport {
                 LogManager.getLogManager().updateConfiguration(is, null);
             }
         }
+
+        // Don't use file logging if running headless (unit tests)
+        if(!PlatformUI.isWorkbenchRunning()) {
+            return;
+        }
         
         // Parent folder must exist for logging file and lock file
-        fileNamePattern.getParentFile().mkdirs();
+        if(fileNamePattern.getParentFile() != null) {
+            fileNamePattern.getParentFile().mkdirs();
+        }
         
-        // Set file handler on root logger
-        fileHandler = new FileHandler(fileNamePattern.getAbsolutePath(), MAX_BYTES, FILE_COUNT, true); // 10mb
+        // Set file handler and format on the root logger
+        fileHandler = new FileHandler(fileNamePattern.getAbsolutePath(), limit, count, true);
         String format = LogManager.getLogManager().getProperty(rootPackageName + ".format");
         fileHandler.setFormatter(new ExtSimpleFormatter(format));
         fileHandler.setEncoding("UTF-8"); // Important!
@@ -160,12 +185,28 @@ public class LoggingSupport {
     }
     
     /**
-     * Close the file handler
+     * Set the root logger to level
      */
-    public void stop() {
+    public void setLevel(Level newLevel) {
+        if(rootLogger != null) {
+            rootLogger.setLevel(newLevel);
+        }
+    }
+    
+    /**
+     * Close the logger and stop logging. The logger will be unregistered and calls to get(packagename) will return null.
+     */
+    public void close() {
         if(fileHandler != null) {
             fileHandler.close();
-            fileHandler = null;
         }
+
+        if(rootLogger != null) {
+            rootLogger.removeHandler(fileHandler);
+        }
+        
+        fileHandler = null;
+        rootLogger = null;
+        loggers.remove(rootPackageName);
     }
 }
