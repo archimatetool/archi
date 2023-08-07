@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.zest.core;singleton:=true
-Require-Bundle: org.eclipse.zest.layouts,org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",org.eclipse.draw2d;visibility:=reexport
+Require-Bundle: org.eclipse.zest.layouts;bundle-version="[1.1.400,1.2.0)",
+ org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
+ org.eclipse.draw2d;bundle-version="[3.10.200,3.11.0)";visibility:=reexport
 Bundle-Vendor: %Plugin.providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.zest.core.viewers,
