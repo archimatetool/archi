@@ -3,6 +3,11 @@ body, table {
 	font-size: 13px;
 }
 
+.dark-mode {
+	background-color: rgb(78, 78, 78);
+	color: rgb(226, 226, 226);
+}
+
 h1 {
     font-size: 16px;
 }

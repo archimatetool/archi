@@ -30,9 +30,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.LocationAdapter;
-import org.eclipse.swt.browser.LocationEvent;
-import org.eclipse.swt.browser.ProgressEvent;
+import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
@@ -41,7 +39,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -53,9 +50,9 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.IHelpHintProvider;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.IComponentSelectionListener;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchiHelpPlugin;
 import com.archimatetool.model.IArchimateConcept;
@@ -69,13 +66,14 @@ import com.archimatetool.model.IDiagramModelComponent;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class HintsView
 extends ViewPart
 implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener {
     
     
     // CSS string
-    private String cssString = ""; //$NON-NLS-1$
+    private String cssString = "";
 
     private Browser fBrowser;
     
@@ -89,8 +87,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private String fLastPath;
     
     private CLabel fTitleLabel;
-    
-    private boolean fPageLoaded;
     
     private static class PinAction extends Action {
         PinAction() {
@@ -114,10 +110,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
 
     public HintsView() {
-        // Load CSS String
+        // Load CSS for Hint Providers
         try {
-            File cssFile = new File(ArchiHelpPlugin.INSTANCE.getHintsFolder(), "style.css"); //$NON-NLS-1$
-            cssString = new String(Files.readAllBytes(cssFile.toPath()));
+            cssString = Files.readString(java.nio.file.Path.of(ArchiHelpPlugin.INSTANCE.getHintsFolder().getPath(), "style.css"));
         }
         catch(IOException ex) {
             ex.printStackTrace();
@@ -132,17 +127,19 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         layout.verticalSpacing = 0;
         parent.setLayout(layout);
         
-        if(!JFaceResources.getFontRegistry().hasValueFor("HintsTitleFont")) { //$NON-NLS-1$
+        if(!JFaceResources.getFontRegistry().hasValueFor("HintsTitleFont")) {
             FontData[] fontData = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT).getFontData();
             fontData[0].setHeight(fontData[0].getHeight() + 4);
-            JFaceResources.getFontRegistry().put("HintsTitleFont", fontData); //$NON-NLS-1$
+            JFaceResources.getFontRegistry().put("HintsTitleFont", fontData);
         }
         
         fTitleLabel = new CLabel(parent, SWT.NULL);
-        fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont")); //$NON-NLS-1$
-        // Use CSS styling for label color in case of Dark Theme
-        fTitleLabel.setData("style", "background-color: RGB(220, 235, 235); color: #000;"); //$NON-NLS-1$ //$NON-NLS-2$
-        // fTitleLabel.setBackground(ColorFactory.get(220, 235, 235));
+        fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont"));
+
+        // Use CSS styling for label color
+        if(!ThemeUtils.isDarkTheme()) {
+            fTitleLabel.setData("style", "background-color: RGB(220, 235, 235); color: #000;");
+        }
         
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fTitleLabel.setLayoutData(gd);
@@ -164,18 +161,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         
         gd = new GridData(GridData.FILL_BOTH);
         fBrowser.setLayoutData(gd);
-        
-        // Listen to Loading progress
-        fBrowser.addProgressListener(new ProgressListener() {
-            @Override
-            public void completed(ProgressEvent event) {
-                fPageLoaded = true;
-            }
-            
-            @Override
-            public void changed(ProgressEvent event) {
-            }
-        });
         
         // Listen to Diagram Editor Selections
         ComponentSelectionManager.INSTANCE.addSelectionListener(this);
@@ -206,22 +191,27 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
      * Create the Browser if possible
      */
     private Browser createBrowser(Composite parent) {
-        Browser browser = null;
         try {
-            browser = new Browser(parent, SWT.NONE);
+            final Browser browser = new Browser(parent, SWT.NONE);
             
             // Don't allow external hosts if set
-            browser.addLocationListener(new LocationAdapter() {
-                @Override
-                public void changing(LocationEvent e) {
-                    if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED)) {
-                        e.doit = e.location != null &&
-                                (e.location.startsWith("file:") //$NON-NLS-1$
-                                || e.location.startsWith("data:") //$NON-NLS-1$
-                                || e.location.startsWith("about:")); //$NON-NLS-1$
-                    }
+            browser.addLocationListener(LocationListener.changingAdapter(e -> {
+                if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED)) {
+                    e.doit = isLocalURL(e.location); // can link to local locations
                 }
-            });
+            }));
+            
+            browser.addProgressListener(ProgressListener.completedAdapter(e -> {
+                // If this is a local URL and we're using dark theme apply dark css
+                if(browser.getJavascriptEnabled() && ThemeUtils.isDarkTheme() && isLocalURL(browser.getUrl())) {
+                    browser.execute("document.body.classList.add('dark-mode');");
+                }
+            }));
+            
+            // Start with skeleton html
+            browser.setText(makeHTMLEntry(""));
+            
+            return browser;
         }
         catch(SWTError error) {
         	error.printStackTrace();
@@ -232,21 +222,13 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
                     child.dispose();
                 }
             }
+        	
+        	return null;
         }
-        
-        return browser;
     }
 
     @Override
     public void setFocus() {
-        /*
-         * Need to do this otherwise we get a:
-         * 
-         * "java.lang.RuntimeException: WARNING: Prevented recursive attempt to activate part org.eclipse.ui.views.PropertySheet
-         * while still in the middle of activating part *.hintsView"
-         * 
-         * But on Windows this leads to a SWTException if closing this View by shortcut key (Alt-4)
-         */
         if(fBrowser != null) {
             fBrowser.setFocus();
         }
@@ -291,7 +273,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
         
-        String title = "", content = null, path = null; //$NON-NLS-1$
+        String title = "", content = null, path = null;
         Hint hint = getHintForObject(actualObject);
         
         // We have a hint so these are the defaults
@@ -317,32 +299,25 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         // Set Title
         fTitleLabel.setText(title);
         
-        // Enable JS
+        // Enable/Disable JS
         fBrowser.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_JS_ENABLED));
 
         // We have some content
         if(content != null) {
             fBrowser.setText(content);
-            fLastPath = ""; //$NON-NLS-1$
+            fLastPath = "";
         }
         // We have a hint path
         else if(path != null) {
             if(fLastPath != path) { // optimise
-                // Load page
-                fPageLoaded = false;
-                fBrowser.setUrl("file:///" + path); //$NON-NLS-1$
+                fBrowser.setUrl("file:///" + path);
                 fLastPath = path;
-                
-                // Kludge for Mac/Safari when displaying hint on mouse rollover menu item in MagicConnectionCreationTool
-                if(PlatformUtils.isMac() && source instanceof MenuItem) {
-                    _doMacWaitKludge();
-                }
             }
         }
         // Blank
         else {
-            fBrowser.setText(""); //$NON-NLS-1$
-            fLastPath = ""; //$NON-NLS-1$
+            fBrowser.setText("");
+            fLastPath = "";
         }
     }
     
@@ -375,54 +350,44 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
      */
     private String makeHTMLEntry(String text) {
         if(text == null) {
-            return ""; //$NON-NLS-1$
+            return "";
         }
         
         StringBuffer html = new StringBuffer();
-        html.append("<html><head>"); //$NON-NLS-1$
+        html.append("<html><head>");
         
-        html.append("<style>"); //$NON-NLS-1$
+        html.append("<style>");
         html.append(cssString);
-        html.append("</style>"); //$NON-NLS-1$
+        html.append("</style>");
         
-        html.append("</head>"); //$NON-NLS-1$
+        html.append("</head>");
         
-        html.append("<body>"); //$NON-NLS-1$
+        html.append("<body>");
         html.append(text);
-        html.append("</body>"); //$NON-NLS-1$
+        html.append("</body>");
         
-        html.append("</html>"); //$NON-NLS-1$
+        html.append("</html>");
         return html.toString();
     }
     
     /**
-     * If we are displaying a hint from a menu rollover in MagicConnectionCreationTool then the threading is different
-     * and the Browser does not update. So we need to wait for a few sleep cycles.
+     * @return true if URL is a local file or text
      */
-    private void _doMacWaitKludge() {
-        // This works on Carbon and Cocoa...usually needs about 4-7 sleep cycles
-        fBrowser.getDisplay().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                int i = 0;
-                while(!fPageLoaded && i++ < 20) { // Set an upper getout limit for safety
-                    fBrowser.getDisplay().sleep();
-                }
-            }
-        });
+    private boolean isLocalURL(String url) {
+        return url != null && (url.startsWith("file:") || url.startsWith("data:") || url.startsWith("about:"));
     }
     
     private void createFileMap() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-            String className = configurationElement.getAttribute("className"); //$NON-NLS-1$
-            String fileName = configurationElement.getAttribute("file"); //$NON-NLS-1$
-            String title = configurationElement.getAttribute("title"); //$NON-NLS-1$
-            String key = configurationElement.getAttribute("key"); //$NON-NLS-1$
+            String className = configurationElement.getAttribute("className");
+            String fileName = configurationElement.getAttribute("file");
+            String title = configurationElement.getAttribute("title");
+            String key = configurationElement.getAttribute("key");
             
             String id = configurationElement.getNamespaceIdentifier();
             Bundle bundle = Platform.getBundle(id);
-            URL url = FileLocator.find(bundle, new Path("$nl$/" + fileName), null); //$NON-NLS-1$
+            URL url = FileLocator.find(bundle, new Path("$nl$/" + fileName), null);
             
             try {
                 url = FileLocator.resolve(url);
