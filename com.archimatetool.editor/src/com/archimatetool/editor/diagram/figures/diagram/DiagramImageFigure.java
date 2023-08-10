@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
@@ -120,7 +121,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
             }
         }
         else {
-            super.paintFigure(graphics);
+            graphics.setBackgroundColor(ColorConstants.white);
+            graphics.fillRectangle(bounds);
             Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
             graphics.drawImage(image, bounds.x + (bounds.width / 2) - 7, bounds.y + (bounds.height / 2) - 7);
         }
