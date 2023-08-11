@@ -40,27 +40,9 @@
       </diagramEditorFactory>
    </extension>
    <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs
-            contributorId="com.archimatetool.editor">
-         <propertyTab
-               afterTab="properties.tab"
-               category="main.category"
-               id="hint.tab"
-               label="%propertyTab.label">
-         </propertyTab>
-      </propertyTabs>
-   </extension>
-   <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
             contributorId="com.archimatetool.editor">
-         <propertySection
-               class="com.archimatetool.canvas.propertysections.HintContentSection"
-               filter="com.archimatetool.canvas.propertysections.HintContentSection$Filter"
-               id="hintContentSection"
-               tab="hint.tab">
-         </propertySection>
          <propertySection
                afterSection="textContentSection"
                class="com.archimatetool.canvas.propertysections.NotesSection"

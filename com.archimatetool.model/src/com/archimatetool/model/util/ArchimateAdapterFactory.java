@@ -86,6 +86,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
@@ -757,6 +758,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseSketchModelActor(ISketchModelActor object) {
                 return createSketchModelActorAdapter();
+            }
+            @Override
+            public Adapter caseHintProvider(IHintProvider object) {
+                return createHintProviderAdapter();
             }
             @Override
             public Adapter defaultCase(EObject object) {
@@ -2077,6 +2082,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createSketchModelActorAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IHintProvider
+     * @generated
+     */
+    public Adapter createHintProviderAdapter() {
         return null;
     }
 

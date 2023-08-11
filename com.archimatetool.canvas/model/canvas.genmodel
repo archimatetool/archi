@@ -13,11 +13,6 @@
   <foreignModel>canvas.ecore</foreignModel>
   <genPackages prefix="Canvas" basePackage="com.archimatetool.canvas" resource="XML"
       disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="canvas.ecore#/">
-    <genClasses image="false" ecoreClass="canvas.ecore#//HintProvider">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//HintProvider/hintTitle"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//HintProvider/hintContent"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="canvas.ecore#//HelpHintProvider"/>
     <genClasses image="false" ecoreClass="canvas.ecore#//NotesContent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute canvas.ecore#//NotesContent/notes"/>
     </genClasses>

@@ -88,6 +88,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
@@ -146,6 +147,7 @@ import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
+
 import java.io.File;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -815,6 +817,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass sketchModelActorEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass hintProviderEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2772,6 +2781,36 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EClass getHintProvider() {
+        return hintProviderEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getHintProvider_HintTitle() {
+        return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EAttribute getHintProvider_HintContent() {
+        return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EEnum getFolderType() {
         return folderTypeEEnum;
     }
@@ -3637,6 +3676,10 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         sketchModelActorEClass = createEClass(SKETCH_MODEL_ACTOR);
 
+        hintProviderEClass = createEClass(HINT_PROVIDER);
+        createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_TITLE);
+        createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_CONTENT);
+
         // Create enums
         folderTypeEEnum = createEEnum(FOLDER_TYPE);
 
@@ -4310,6 +4353,10 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(sketchModelActorEClass, ISketchModelActor.class, "SketchModelActor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
+        initEClass(hintProviderEClass, IHintProvider.class, "HintProvider", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getHintProvider_HintTitle(), ecorePackage.getEString(), "hintTitle", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getHintProvider_HintContent(), ecorePackage.getEString(), "hintContent", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
         // Initialize enums and add enum literals
         initEEnum(folderTypeEEnum, FolderType.class, "FolderType"); //$NON-NLS-1$
         addEEnumLiteral(folderTypeEEnum, FolderType.USER);
@@ -4459,6 +4506,12 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
            source,
            new String[] {
                "name", "Connection" //$NON-NLS-1$ //$NON-NLS-2$
+           });
+        addAnnotation
+          (getHintProvider_HintContent(),
+           source,
+           new String[] {
+               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
            });
     }
 

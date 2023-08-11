@@ -5,8 +5,8 @@
  */
 package com.archimatetool.canvas.model;
 
-import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IHintProvider;
 
 
 /**
@@ -16,8 +16,8 @@ import com.archimatetool.model.IDiagramModel;
  *
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getCanvasModel()
- * @model superTypes="com.archimatetool.model.DiagramModel com.archimatetool.canvas.model.HintProvider com.archimatetool.canvas.model.HelpHintProvider"
+ * @model
  * @generated
  */
-public interface ICanvasModel extends IDiagramModel, IHintProvider, IHelpHintProvider {
+public interface ICanvasModel extends IDiagramModel, IHintProvider {
 } // ICanvasModel

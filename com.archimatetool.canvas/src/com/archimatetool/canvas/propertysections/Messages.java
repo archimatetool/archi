@@ -11,18 +11,6 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.canvas.propertysections.messages"; //$NON-NLS-1$
 
-    public static String HintContentSection_0;
-
-    public static String HintContentSection_1;
-
-    public static String HintContentSection_2;
-
-    public static String HintContentSection_3;
-
-    public static String HintContentSection_4;
-
-    public static String HintContentSection_5;
-
     public static String NotesSection_0;
 
     public static String NotesSection_1;

@@ -254,6 +254,12 @@
                id="image.tab"
                label="%propertyTab.label.5">
          </propertyTab>
+         <propertyTab
+               afterTab="properties.tab"
+               category="main.category"
+               id="hint.tab"
+               label="Hint">
+         </propertyTab>
       </propertyTabs>
    </extension>
    <extension
@@ -401,6 +407,12 @@
                filter="com.archimatetool.editor.propertysections.LabelRendererSection$Filter"
                id="labelRendererSection"
                tab="label.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.HintContentSection"
+               filter="com.archimatetool.editor.propertysections.HintContentSection$Filter"
+               id="hintContentSection"
+               tab="hint.tab">
          </propertySection>
       </propertySections>
    </extension>

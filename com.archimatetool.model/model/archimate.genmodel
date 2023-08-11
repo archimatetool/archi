@@ -333,5 +333,9 @@
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//SketchModelSticky"/>
     <genClasses ecoreClass="archimate.ecore#//SketchModelActor"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//HintProvider">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//HintProvider/hintTitle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//HintProvider/hintContent"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

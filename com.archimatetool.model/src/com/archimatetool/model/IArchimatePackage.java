@@ -10630,6 +10630,43 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_ACTOR_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.IHintProvider
+     * @see com.archimatetool.model.impl.ArchimatePackage#getHintProvider()
+     * @generated
+     */
+    int HINT_PROVIDER = 138;
+
+    /**
+     * The feature id for the '<em><b>Hint Title</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int HINT_PROVIDER__HINT_TITLE = 0;
+
+    /**
+     * The feature id for the '<em><b>Hint Content</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int HINT_PROVIDER__HINT_CONTENT = 1;
+
+    /**
+     * The number of structural features of the '<em>Hint Provider</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int HINT_PROVIDER_FEATURE_COUNT = 2;
+
+    /**
      * The meta object id for the '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10637,7 +10674,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 138;
+    int FOLDER_TYPE = 139;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -10647,7 +10684,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 139;
+    int FILE = 140;
 
 
     /**
@@ -12757,6 +12794,38 @@ public interface IArchimatePackage extends EPackage {
     EClass getSketchModelActor();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Hint Provider</em>'.
+     * @see com.archimatetool.model.IHintProvider
+     * @generated
+     */
+    EClass getHintProvider();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IHintProvider#getHintTitle <em>Hint Title</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Hint Title</em>'.
+     * @see com.archimatetool.model.IHintProvider#getHintTitle()
+     * @see #getHintProvider()
+     * @generated
+     */
+    EAttribute getHintProvider_HintTitle();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IHintProvider#getHintContent <em>Hint Content</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Hint Content</em>'.
+     * @see com.archimatetool.model.IHintProvider#getHintContent()
+     * @see #getHintProvider()
+     * @generated
+     */
+    EAttribute getHintProvider_HintContent();
+
+    /**
      * Returns the meta object for enum '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -14706,6 +14775,32 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass SKETCH_MODEL_ACTOR = eINSTANCE.getSketchModelActor();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.IHintProvider
+         * @see com.archimatetool.model.impl.ArchimatePackage#getHintProvider()
+         * @generated
+         */
+        EClass HINT_PROVIDER = eINSTANCE.getHintProvider();
+
+        /**
+         * The meta object literal for the '<em><b>Hint Title</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute HINT_PROVIDER__HINT_TITLE = eINSTANCE.getHintProvider_HintTitle();
+
+        /**
+         * The meta object literal for the '<em><b>Hint Content</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute HINT_PROVIDER__HINT_CONTENT = eINSTANCE.getHintProvider_HintContent();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}' enum.

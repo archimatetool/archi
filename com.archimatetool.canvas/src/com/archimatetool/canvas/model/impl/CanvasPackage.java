@@ -17,9 +17,7 @@ import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasModelImage;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IHintProvider;
 import com.archimatetool.canvas.model.INotesContent;
-import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -64,20 +62,6 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * @generated
      */
     private EClass canvasModelConnectionEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass hintProviderEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass helpHintProviderEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -206,46 +190,6 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * @generated
      */
     @Override
-    public EClass getHintProvider() {
-        return hintProviderEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EAttribute getHintProvider_HintTitle() {
-        return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EAttribute getHintProvider_HintContent() {
-        return (EAttribute)hintProviderEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EClass getHelpHintProvider() {
-        return helpHintProviderEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
     public EClass getNotesContent() {
         return notesContentEClass;
     }
@@ -289,12 +233,6 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
         isCreated = true;
 
         // Create classes and their features
-        hintProviderEClass = createEClass(HINT_PROVIDER);
-        createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_TITLE);
-        createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_CONTENT);
-
-        helpHintProviderEClass = createEClass(HELP_HINT_PROVIDER);
-
         notesContentEClass = createEClass(NOTES_CONTENT);
         createEAttribute(notesContentEClass, NOTES_CONTENT__NOTES);
 
@@ -341,8 +279,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
 
         // Add supertypes to classes
         canvasModelEClass.getESuperTypes().add(theArchimatePackage.getDiagramModel());
-        canvasModelEClass.getESuperTypes().add(this.getHintProvider());
-        canvasModelEClass.getESuperTypes().add(this.getHelpHintProvider());
+        canvasModelEClass.getESuperTypes().add(theArchimatePackage.getHintProvider());
         canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getIconic());
         canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getTextContent());
         canvasModelStickyEClass.getESuperTypes().add(this.getNotesContent());
@@ -355,22 +292,15 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getProperties());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getLockable());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getBorderObject());
-        canvasModelBlockEClass.getESuperTypes().add(this.getHelpHintProvider());
-        canvasModelBlockEClass.getESuperTypes().add(this.getHintProvider());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getTextContent());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getTextPosition());
+        canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getHintProvider());
         canvasModelImageEClass.getESuperTypes().add(theArchimatePackage.getDiagramModelImage());
         canvasModelImageEClass.getESuperTypes().add(theArchimatePackage.getLockable());
         canvasModelConnectionEClass.getESuperTypes().add(theArchimatePackage.getDiagramModelConnection());
         canvasModelConnectionEClass.getESuperTypes().add(theArchimatePackage.getLockable());
 
         // Initialize classes and features; add operations and parameters
-        initEClass(hintProviderEClass, IHintProvider.class, "HintProvider", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getHintProvider_HintTitle(), ecorePackage.getEString(), "hintTitle", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-        initEAttribute(getHintProvider_HintContent(), ecorePackage.getEString(), "hintContent", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-
-        initEClass(helpHintProviderEClass, IHelpHintProvider.class, "HelpHintProvider", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-
         initEClass(notesContentEClass, INotesContent.class, "NotesContent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getNotesContent_Notes(), ecorePackage.getEString(), "notes", "", 0, 1, INotesContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -400,12 +330,6 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      */
     protected void createExtendedMetaDataAnnotations() {
         String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
-        addAnnotation
-          (getHintProvider_HintContent(),
-           source,
-           new String[] {
-               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });
         addAnnotation
           (getNotesContent_Notes(),
            source,
