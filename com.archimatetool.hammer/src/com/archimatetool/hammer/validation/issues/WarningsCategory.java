@@ -30,7 +30,7 @@ public class WarningsCategory extends AbstractIssueCategory {
     }
     
     @Override
-    public String getHelpHintContent() {
+    public String getHintContent() {
         return Messages.WarningsCategory_1;
     }
 }

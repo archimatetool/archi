@@ -63,13 +63,13 @@ public abstract class AbstractIssueTypeTests {
     }
     
     @Test
-    public void testGetHelpHintContent() {
-        assertEquals(issueType.getExplanation(), issueType.getHelpHintContent());
+    public void testGetHintContent() {
+        assertEquals(issueType.getExplanation(), issueType.getHintContent());
     }
     
     @Test
-    public void testGetHelpHintTitle() {
-        assertEquals(issueType.getName(), issueType.getHelpHintTitle());
+    public void testGetHintTitle() {
+        assertEquals(issueType.getName(), issueType.getHintTitle());
     }
     
     @Test

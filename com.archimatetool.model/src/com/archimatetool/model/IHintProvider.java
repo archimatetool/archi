@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getHintProvider()
- * @model interface="true" abstract="true"
+ * @model interface="true" abstract="true" superTypes="com.archimatetool.model.HelpHintProvider"
  * @generated
  */
-public interface IHintProvider extends EObject {
+public interface IHintProvider extends EObject, IHelpHintProvider {
     /**
      * Returns the value of the '<em><b>Hint Title</b></em>' attribute.
      * The default value is <code>""</code>.
@@ -37,6 +37,7 @@ public interface IHintProvider extends EObject {
      * @model default=""
      * @generated
      */
+    @Override
     String getHintTitle();
 
     /**
@@ -61,6 +62,7 @@ public interface IHintProvider extends EObject {
      *        extendedMetaData="kind='element'"
      * @generated
      */
+    @Override
     String getHintContent();
 
     /**

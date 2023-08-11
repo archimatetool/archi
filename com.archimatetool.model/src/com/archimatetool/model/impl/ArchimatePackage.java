@@ -88,6 +88,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IHelpHintProvider;
 import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
@@ -824,6 +825,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass hintProviderEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass helpHintProviderEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2811,6 +2819,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
+    public EClass getHelpHintProvider() {
+        return helpHintProviderEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EEnum getFolderType() {
         return folderTypeEEnum;
     }
@@ -3680,6 +3698,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_TITLE);
         createEAttribute(hintProviderEClass, HINT_PROVIDER__HINT_CONTENT);
 
+        helpHintProviderEClass = createEClass(HELP_HINT_PROVIDER);
+
         // Create enums
         folderTypeEEnum = createEEnum(FOLDER_TYPE);
 
@@ -3936,6 +3956,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         sketchModelActorEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelActorEClass.getESuperTypes().add(this.getDocumentable());
         sketchModelActorEClass.getESuperTypes().add(this.getProperties());
+        hintProviderEClass.getESuperTypes().add(this.getHelpHintProvider());
 
         // Initialize classes and features; add operations and parameters
         initEClass(adapterEClass, IAdapter.class, "Adapter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -4356,6 +4377,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(hintProviderEClass, IHintProvider.class, "HintProvider", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getHintProvider_HintTitle(), ecorePackage.getEString(), "hintTitle", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
         initEAttribute(getHintProvider_HintContent(), ecorePackage.getEString(), "hintContent", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+        initEClass(helpHintProviderEClass, IHelpHintProvider.class, "HelpHintProvider", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         // Initialize enums and add enum literals
         initEEnum(folderTypeEEnum, FolderType.class, "FolderType"); //$NON-NLS-1$

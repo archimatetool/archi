@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.IHelpHintProvider;
+import com.archimatetool.model.IHelpHintProvider;
 
 
 /**
