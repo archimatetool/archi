@@ -40,7 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * <P>
  * WARNING: This class is not intended to be subclassed.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "restriction"})
 public class SWTGraphics extends Graphics {
     
     private double scale = 1.0;
@@ -317,7 +317,13 @@ public class SWTGraphics extends Graphics {
 
         LineAttributes lineAttributes = currentState.lineAttributes;
         if (!appliedState.lineAttributes.equals(lineAttributes)) {
-            if (getAdvanced()) {
+            /*
+             * Workaround Windows Hi-DPI where setting line width to 1 and then setting it to 2 doesn't always take effect.
+             * And other drawing artefacts to do with line width.
+             * So don't use LineAttributes.
+             */
+            // if (getAdvanced()) {
+            if (getAdvanced() && !("win32".equals(SWT.getPlatform()) && org.eclipse.swt.internal.DPIUtil.getDeviceZoom() > 100)) { //$NON-NLS-1$
                 gc.setLineAttributes(lineAttributes);
             } else {
                 gc.setLineWidth((int) lineAttributes.width);
@@ -1286,7 +1292,6 @@ public class SWTGraphics extends Graphics {
         setLineAttributes(lineAttributes, true);
     }
     
-    @SuppressWarnings("restriction")
     public void setLineAttributes(LineAttributes lineAttributes, boolean adjustForWindowsHiDPI) {
         copyLineAttributes(currentState.lineAttributes, lineAttributes);
         
@@ -1333,7 +1338,6 @@ public class SWTGraphics extends Graphics {
         setLineDash(value, true);
     }
     
-    @SuppressWarnings("restriction")
     public void setLineDash(float[] value, boolean adjustForWindowsHiDPI) {
         if (value != null) {
             // validate dash values
