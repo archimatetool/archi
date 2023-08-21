@@ -13,6 +13,8 @@ package org.eclipse.draw2d;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -27,9 +29,6 @@ import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * A concrete implementation of <code>Graphics</code> using an SWT
@@ -318,13 +317,11 @@ public class SWTGraphics extends Graphics {
         LineAttributes lineAttributes = currentState.lineAttributes;
         if (!appliedState.lineAttributes.equals(lineAttributes)) {
             /*
-             * Workaround Windows Hi-DPI where setting line width to 1 and then setting it to 2 doesn't always take effect.
-             * And other drawing artefacts to do with line width.
-             * So don't use LineAttributes.
+             * Fix for Windows hi-dpi where setting line width to 1 and then setting it to 2 doesn't always take effect and other drawing artefacts to do with line width.
+             * On Windows GC#setLineAttributes will increase the line width by calling DPIUtil.autoScaleUp so we clone lineAttributes
              */
-            // if (getAdvanced()) {
-            if (getAdvanced() && !("win32".equals(SWT.getPlatform()) && org.eclipse.swt.internal.DPIUtil.getDeviceZoom() > 100)) { //$NON-NLS-1$
-                gc.setLineAttributes(lineAttributes);
+            if (getAdvanced()) {
+                gc.setLineAttributes(clone(lineAttributes)); // use clone!
             } else {
                 gc.setLineWidth((int) lineAttributes.width);
                 gc.setLineCap(lineAttributes.cap);
