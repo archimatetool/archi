@@ -91,7 +91,7 @@ public abstract class AbstractDiagramTransferDropTargetListener extends Abstract
         for(Object object : selection.toArray()) {
             if(object instanceof IArchimateModelObject) {
                 IArchimateModel sourceArchimateModel = ((IArchimateModelObject)object).getArchimateModel();
-                if(sourceArchimateModel != targetArchimateModel) {
+                if(sourceArchimateModel == null || sourceArchimateModel != targetArchimateModel) {
                     return false;
                 }
             }
