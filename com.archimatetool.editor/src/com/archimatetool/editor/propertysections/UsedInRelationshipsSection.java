@@ -123,14 +123,10 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                if(isAlive(fArchimateConcept)) {
-                    Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                    if(o instanceof IArchimateRelationship) {
-                        IArchimateRelationship relation = (IArchimateRelationship)o;
-                        ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
-                        if(view != null) {
-                            view.getViewer().setSelection(new StructuredSelection(relation), true);
-                        }
+                if(((IStructuredSelection)event.getSelection()).getFirstElement() instanceof IArchimateRelationship relation && isAlive(relation)) {
+                    ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
+                    if(view != null) {
+                        view.getViewer().setSelection(new StructuredSelection(relation), true);
                     }
                 }
             }
