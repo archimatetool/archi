@@ -152,7 +152,7 @@ public class ArchiLabelProviderTests {
         assertEquals("", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(null, true));
         
         EClass eClass = IArchimatePackage.eINSTANCE.getAssignmentRelationship();
-        assertEquals("Assigned from", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(eClass, true));
+        assertEquals("Has Assigned", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(eClass, true));
         assertEquals("Assigned to", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(eClass, false));
     }
 }
