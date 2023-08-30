@@ -146,6 +146,8 @@ public interface IArchiImages {
     String ICON_ASPECT_RATIO = IMGPATH + "aspect-ratio.png";
     String ICON_BROWSER = IMGPATH + "browser.png";
     String ICON_CANCEL_SEARCH = IMGPATH + "cancelsearch.png";
+    String ICON_CHECKED = IMGPATH + "checked.png";
+    String ICON_UNCHECKED = IMGPATH + "unchecked.png";
     String ICON_COG = IMGPATH + "cog.png";
     String ICON_COLLAPSEALL = IMGPATH + "collapseall.png";
     String ICON_DIAGRAM = IMGPATH + "diagram.png";
