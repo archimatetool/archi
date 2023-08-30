@@ -8,8 +8,8 @@ package com.archimatetool.editor.views.tree.search;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -355,7 +355,7 @@ public class SearchWidget extends Composite {
 
 	private void populatePropertiesMenu() {
 	    // Models that are loaded are the ones in the Models Tree
-	    Set<String> set = new HashSet<String>();
+	    Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
 
 	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
 	        getAllUniquePropertyKeysForModel(model, set);
@@ -364,14 +364,14 @@ public class SearchWidget extends Composite {
 	    List<String> list = new ArrayList<String>(set);
 	    
 	    // Sort alphabetically
-	    Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
+        Collections.sort(list, (s1, s2) -> s1.compareToIgnoreCase(s2)); // Don't use Collator.getInstance() as it's too slow
+	    
+        // Limit to a sensible menu size
+        if(list.size() > 1000) {
+            list = list.subList(0, 999);
+        }
 
-	    for(final String key : list) {
+	    for(String key : list) {
 	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
 	            @Override
 	            public void run() {
