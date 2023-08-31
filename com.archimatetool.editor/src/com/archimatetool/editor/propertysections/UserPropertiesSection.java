@@ -41,7 +41,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -49,10 +48,10 @@ import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -68,8 +67,7 @@ import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -83,7 +81,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IActionBars;
@@ -98,6 +95,7 @@ import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
+import com.archimatetool.editor.ui.components.TableCheckListener;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
@@ -145,6 +143,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     
     // Indicates multiple property values (unlikely to be a user-given value)
     private static final String multipleValuesIndicator = UUID.randomUUID().toString();
+    
+    // Maximum amount of items to display when getting all unique keys and values for combo boxes
+    private static final int MAX_ITEMS_COMBO = 20000;
+    
+    // Display all items
+    private static final int MAX_ITEMS_ALL = -1;
     
     @Override
     protected void createControls(Composite parent) {
@@ -515,14 +519,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     /**
      * @return All unique Property Keys for an entire model (sorted)
      */
-    private String[] getAllUniquePropertyKeysForModel() {
+    private String[] getAllUniquePropertyKeysForModel(int maxSize) {
         IArchimateModel model = getArchimateModel();
-
         Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
-
+        int count = 0;
+        
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty p) {
+                if(maxSize != MAX_ITEMS_ALL && ++count > maxSize) { // Don't get more than this
+                    break;
+                }
                 String key = p.getKey();
                 if(StringUtils.isSetAfterTrim(key)) {
                     set.add(key);
@@ -531,7 +538,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
 
         String[] items = set.toArray(new String[set.size()]);
-        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2));
+        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2)); // Don't use Collator.getInstance() as it's too slow
 
         return items;
     }
@@ -539,14 +546,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     /**
      * @return All unique Property Values for an entire model (sorted)
      */
-    private String[] getAllUniquePropertyValuesForKeyForModel(String key) {
+    private String[] getAllUniquePropertyValuesForKeyForModel(String key, int maxSize) {
         IArchimateModel model = getArchimateModel();
-
         Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
+        int count = 0;
 
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty p) {
+                if(maxSize != MAX_ITEMS_ALL && ++count > maxSize) { // Don't get more than this
+                    break;
+                }
                 if(p.getKey().equals(key)) {
                     String value = p.getValue();
                     if(StringUtils.isSetAfterTrim(value)) {
@@ -557,7 +567,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
 
         String[] items = set.toArray(new String[set.size()]);
-        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2));
+        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2)); // Don't use Collator.getInstance() as it's too slow
 
         return items;
     }
@@ -661,14 +671,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected CellEditor getCellEditor(Object element) {
-            String[] items = new String[0];
-
-            if(isAlive(getFirstSelectedElement())) {
-                items = getAllUniquePropertyKeysForModel();
-            }
-
+            String[] items = isAlive(getFirstSelectedElement()) ? getAllUniquePropertyKeysForModel(MAX_ITEMS_COMBO) : new String[0];
             cellEditor.setItems(items);
-            
             return cellEditor;
         }
 
@@ -737,14 +741,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected CellEditor getCellEditor(Object element) {
-            String[] items = new String[0];
-
-            if(isAlive(getFirstSelectedElement())) {
-                items = getAllUniquePropertyValuesForKeyForModel(((IProperty)element).getKey());
-            }
-
+            String[] items = isAlive(getFirstSelectedElement()) ? getAllUniquePropertyValuesForKeyForModel(((IProperty)element).getKey(), MAX_ITEMS_COMBO) : new String[0];
             cellEditor.setItems(items);
-            
             return cellEditor;
         }
 
@@ -1101,7 +1099,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         @Override
         public void run() {
             if(isAlive(getFirstSelectedElement())) {
-                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel());
+                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL));
                 if(dialog.open() == Window.OK) {
                     List<String> newKeys = dialog.getSelectedKeys();
                     CompoundCommand cmd = isMultiSelection() ? new CompoundCommand(Messages.UserPropertiesSection_20) : 
@@ -1351,11 +1349,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     // -----------------------------------------------------------------------------------------------------------------
 
     private static class MultipleAddDialog extends ExtendedTitleAreaDialog {
-        private CheckboxTableViewer tableViewer;
+        private TableViewer tableViewer;
         private Button buttonSelectAll, buttonDeselectAll;
 
         private String[] keys;
-        private List<String> selectedKeys;
+        private Set<String> selectedKeys = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
 
         public MultipleAddDialog(Shell parentShell, String[] keys) {
             super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
@@ -1408,12 +1406,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             tableComp.setLayout(tableLayout);
             tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-            Table table = new Table(tableComp, SWT.FULL_SELECTION | SWT.CHECK);
-            tableViewer = new CheckboxTableViewer(table);
+            tableViewer = new TableViewer(tableComp, SWT.FULL_SELECTION | SWT.VIRTUAL);
             tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
             
             // Mac Silicon Item height
-            UIUtils.fixMacSiliconItemHeight(table);
+            UIUtils.fixMacSiliconItemHeight(tableViewer.getControl());
             
             tableViewer.getTable().setLinesVisible(true);
 
@@ -1422,23 +1419,49 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(100, true));
 
             // Content Provider
-            tableViewer.setContentProvider(new IStructuredContentProvider() {
+            tableViewer.setContentProvider(new ILazyContentProvider() {
                 @Override
                 public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+                    if(newInput != null) {
+                        tableViewer.setItemCount(keys.length);
+                    }
+                }
+
+                @Override
+                public void updateElement(int index) {
+                    tableViewer.replace(keys[index], index);
                 }
 
                 @Override
                 public void dispose() {
                 }
-
+            });
+            
+            // Label Provider
+            tableViewer.setLabelProvider(new CellLabelProvider() {
                 @Override
-                public Object[] getElements(Object inputElement) {
-                    return keys;
+                public void update(ViewerCell cell) {
+                    String key = (String)cell.getElement();
+                    cell.setText(key);
+                    cell.setImage(selectedKeys.contains(key) ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CHECKED)
+                                                                : IArchiImages.ImageFactory.getImage(IArchiImages.ICON_UNCHECKED));
                 }
             });
+            
+            // Mouse click in Assets table - did we click the checkbox?
+            new TableCheckListener(tableViewer.getTable()) {
+                @Override
+                protected void hit(Object object) {
+                    String key = (String)object;
+                    if(selectedKeys.contains(key)) {
+                        selectedKeys.remove(key);
+                    }
+                    else {
+                        selectedKeys.add(key);
+                    }
+                }
+            };
 
-            // Label Provider
-            tableViewer.setLabelProvider(new LabelProvider());
             tableViewer.setInput(keys);
         }
 
@@ -1457,37 +1480,27 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             buttonSelectAll.setText(Messages.UserPropertiesSection_18);
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonSelectAll.setLayoutData(gd);
-            buttonSelectAll.addSelectionListener(new SelectionAdapter() {
-                @Override
-                public void widgetSelected(SelectionEvent e) {
-                    tableViewer.setCheckedElements(keys);
+            buttonSelectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
+                for(String key : keys) {
+                    selectedKeys.add(key);
                 }
-            });
+                tableViewer.setInput(keys);
+            }));
 
             buttonDeselectAll = new Button(client, SWT.PUSH);
             buttonDeselectAll.setText(Messages.UserPropertiesSection_19);
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonDeselectAll.setLayoutData(gd);
-            buttonDeselectAll.addSelectionListener(new SelectionAdapter() {
-                @Override
-                public void widgetSelected(SelectionEvent e) {
-                    tableViewer.setCheckedElements(new Object[] {});
-                }
-            });
+            buttonDeselectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
+                selectedKeys = new HashSet<>();
+                tableViewer.setInput(keys);
+            }));
         }
 
-        @Override
-        protected void okPressed() {
-            selectedKeys = new ArrayList<>();
-            for(Object o : tableViewer.getCheckedElements()) {
-                selectedKeys.add((String)o);
-            }
-            
-            super.okPressed();
-        }
-        
         List<String> getSelectedKeys() {
-            return selectedKeys;
+            List<String> list = new ArrayList<>(selectedKeys);
+            Collections.sort(list, (s1, s2) -> s1.compareToIgnoreCase(s2));
+            return list;
         }
 
         @Override
