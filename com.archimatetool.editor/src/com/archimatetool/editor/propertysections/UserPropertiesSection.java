@@ -7,18 +7,24 @@ package com.archimatetool.editor.propertysections;
 
 import java.net.MalformedURLException;
 import java.text.Collator;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -26,15 +32,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -55,7 +58,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -65,6 +67,7 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -131,16 +134,22 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
     }
 
-    private IProperties fPropertiesElement;
+    // Selected properties elements
+    private List<IProperties> fPropertiesElements = new ArrayList<>();
 
     private TableViewer fTableViewer;
-    private IAction fActionNewProperty, fActionNewMultipleProperty, fActionRemoveProperty, fActionShowKeyEditor;
+    
+    private IAction fActionNewProperty, fActionNewMultipleProperties, fActionRemoveProperties, fActionShowKeyEditor;
 
     private boolean ignoreMessages;
+    
+    // Indicates multiple property values (unlikely to be a user-given value)
+    private static final String multipleValuesIndicator = UUID.randomUUID().toString();
     
     @Override
     protected void createControls(Composite parent) {
         createTableControl(parent);
+        createActionsAndToolbar(parent);
         
         // We are interested in listening to notifications from child IProperty objects
         ((LightweightEContentAdapter)getECoreAdapter()).addClass(IProperty.class);
@@ -170,18 +179,49 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 fTableViewer.refresh();
             }
 
-            if(feature == IArchimatePackage.Literals.PROPERTY__KEY
-                    || feature == IArchimatePackage.Literals.PROPERTY__VALUE) {
-                fTableViewer.update(msg.getNotifier(), null);
+            if(feature == IArchimatePackage.Literals.PROPERTY__KEY || feature == IArchimatePackage.Literals.PROPERTY__VALUE) {
+                if(isMultiSelection()) {
+                    fTableViewer.refresh();
+                }
+                else {
+                    fTableViewer.update(msg.getNotifier(), null);
+                }
+            }
+        }
+    }
+    
+    @Override
+    protected void addAdapter() {
+        if(getEObjects() != null && getECoreAdapter() != null) {
+            for(IArchimateModelObject eObject : getEObjects()) {
+                if(!eObject.eAdapters().contains(getECoreAdapter())) {
+                    eObject.eAdapters().add(getECoreAdapter());
+                }
+            }
+        }
+    }
+    
+    @Override
+    protected void removeAdapter() {
+        if(getEObjects() != null && getECoreAdapter() != null) {
+            for(IArchimateModelObject eObject : getEObjects()) {
+                eObject.eAdapters().remove(getECoreAdapter());
             }
         }
     }
 
     @Override
     protected void update() {
-        fPropertiesElement = (IProperties)getFirstSelectedObject();
+        // Get selected properties elements
+        fPropertiesElements = new ArrayList<>();
         
-        fTableViewer.setInput(fPropertiesElement);
+        for(IArchimateModelObject obj : getEObjects()) {
+            if(obj instanceof IProperties p) {
+                fPropertiesElements.add(p);
+            }
+        }
+        
+        fTableViewer.setInput(fPropertiesElements);
         
         // avoid bogus horizontal scrollbar cheese
         fTableViewer.getTable().getParent().layout();
@@ -194,8 +234,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         boolean locked = isLocked(getFirstSelectedObject());
         fTableViewer.getTable().setEnabled(!locked);
         fActionNewProperty.setEnabled(!locked);
-        fActionRemoveProperty.setEnabled(!locked && !fTableViewer.getSelection().isEmpty());
-        fActionNewMultipleProperty.setEnabled(!locked);
+        fActionRemoveProperties.setEnabled(!locked && !fTableViewer.getSelection().isEmpty());
+        fActionNewMultipleProperties.setEnabled(!locked);
     }
 
     @Override
@@ -203,22 +243,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         return new Filter();
     }
     
-    /**
-     * Return the Archimate model bound to the properties element
-     * @return 
-     */
-    protected IArchimateModel getArchimateModel() {
-        if(fPropertiesElement instanceof IArchimateModelObject) {
-            return ((IArchimateModelObject)fPropertiesElement).getArchimateModel();
-        }
-        return null;
-    }
-
     @Override
     public boolean shouldUseExtraSpace() {
         return true;
     }
 
+    /**
+     * Create table
+     */
     private void createTableControl(Composite parent) {
         // Table Composite
         Composite tableComp = createTableComposite(parent, SWT.NULL);
@@ -280,20 +312,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
 
         // Content Provider
-        fTableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-
-            @Override
-            public void dispose() {
-            }
-
-            @Override
-            public Object[] getElements(Object inputElement) {
-                return ((IProperties)inputElement).getProperties().toArray();
-            }
-        });
+        fTableViewer.setContentProvider(new TableContentProvider());
 
         // Label Provider
         fTableViewer.setLabelProvider(new LabelCellProvider());
@@ -301,134 +320,17 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Enable tooltips
         ColumnViewerToolTipSupport.enableFor(fTableViewer);
 
-        // Toolbar
-        ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.VERTICAL);
-        getWidgetFactory().adapt(toolBar);
-        GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).applyTo(toolBar);
-
-        ToolBarManager toolBarmanager = new ToolBarManager(toolBar);
-
-        // New Property
-        fActionNewProperty = new Action(Messages.UserPropertiesSection_2) {
-            @Override
-            public void run() {
-                if(isAlive(fPropertiesElement)) {
-                    fTableViewer.applyEditorValue(); // complete any current editing
-                    int index = -1;
-                    IProperty selected = (IProperty)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
-                    if(selected != null) {
-                        index = fPropertiesElement.getProperties().indexOf(selected) + 1;
-                    }
-                    IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-                    executeCommand(new NewPropertyCommand(fPropertiesElement.getProperties(), property, index));
-                    fTableViewer.editElement(property, 1);
-                }
-            }
-
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLUS);
-            }
-        };
-
-        // New Multiple Properties
-        fActionNewMultipleProperty = new Action(Messages.UserPropertiesSection_3) {
-            @Override
-            public void run() {
-                if(isAlive(fPropertiesElement)) {
-                    MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell());
-                    if(dialog.open() == Window.OK) {
-                        executeCommand(dialog.getCommand());
-                    }
-                }
-            }
-
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MUTIPLE);
-            }
-        };
-
-        // Remove Property
-        fActionRemoveProperty = new Action(Messages.UserPropertiesSection_4) {
-            @Override
-            public void run() {
-                if(isAlive(fPropertiesElement)) {
-                    CompoundCommand compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement) {
-                        @Override
-                        public String getLabel() {
-                            return getCommands().size() > 1 ? Messages.UserPropertiesSection_5 : Messages.UserPropertiesSection_6;
-                        }
-                    };
-                    for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
-                        Command cmd = new RemovePropertyCommand(fPropertiesElement.getProperties(), (IProperty)o);
-                        compoundCmd.add(cmd);
-                    }
-                    executeCommand(compoundCmd);
-                }
-            }
-
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SMALL_X);
-            }
-        };
-        fActionRemoveProperty.setEnabled(false);
-
-        // Manage
-        fActionShowKeyEditor = new Action(Messages.UserPropertiesSection_7) {
-            @Override
-            public void run() {
-                if(isAlive(fPropertiesElement)) {
-                    UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
-                            getArchimateModel());
-                    dialog.open();
-                }
-            }
-
-            @Override
-            public String getToolTipText() {
-                return getText();
-            }
-
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COG);
-            }
-        };
-
-        toolBarmanager.add(fActionNewProperty);
-        toolBarmanager.add(fActionNewMultipleProperty);
-        toolBarmanager.add(fActionRemoveProperty);
-        toolBarmanager.add(fActionShowKeyEditor);
-        toolBarmanager.update(true);
-
         /*
          * Selection Listener
          */
-        fTableViewer.addSelectionChangedListener((e) -> {
-            fActionRemoveProperty.setEnabled(!e.getSelection().isEmpty());
+        fTableViewer.addSelectionChangedListener(e -> {
+            fActionRemoveProperties.setEnabled(!e.getSelection().isEmpty());
         });
 
         /*
          * Table Double-click
          */
-        fTableViewer.getTable().addListener(SWT.MouseDoubleClick, (e) -> {
+        fTableViewer.getTable().addMouseListener(MouseListener.mouseDoubleClickAdapter(e -> {
             // Get Table item
             Point pt = new Point(e.x, e.y);
             TableItem item = fTableViewer.getTable().getItem(pt);
@@ -444,7 +346,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                     handleDoubleClick((IProperty)item.getData());
                 }
             }
-        });
+        }));
         
         /*
          * Edit table row on key press
@@ -457,43 +359,58 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 }
             }
         }));
-
-        hookContextMenu();
     }
-
+    
     /**
-     * Hook into a right-click menu
+     * Create actions, local toolbar and context menu
      */
-    private void hookContextMenu() {
+    private void createActionsAndToolbar(Composite parent) {
+        // New Property Action
+        fActionNewProperty = new NewPropertyAction();
+
+        // New Multiple Properties Action
+        fActionNewMultipleProperties = new NewMultiplePropertiesAction();
+
+        // Remove Properties Action
+        fActionRemoveProperties = new RemovePropertiesAction();
+
+        // Manage Keys Action
+        fActionShowKeyEditor = new ShowKeyEditorAction();
+
+        // Toolbar
+        ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.VERTICAL);
+        getWidgetFactory().adapt(toolBar);
+        GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).applyTo(toolBar);
+
+        ToolBarManager toolBarmanager = new ToolBarManager(toolBar);
+        toolBarmanager.add(fActionNewProperty);
+        toolBarmanager.add(fActionNewMultipleProperties);
+        toolBarmanager.add(fActionRemoveProperties);
+        toolBarmanager.add(fActionShowKeyEditor);
+        toolBarmanager.update(true);
+
+        // Hook into the context menu
         MenuManager menuMgr = new MenuManager("#PropertiesPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
-
-        menuMgr.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
+        menuMgr.addMenuListener(manager -> {
+            manager.add(fActionNewProperty);
+            manager.add(fActionNewMultipleProperties);
+            manager.add(new Separator());
+            manager.add(fActionRemoveProperties);
+            manager.add(new Separator());
+            manager.add(fActionShowKeyEditor);
         });
 
         Menu menu = menuMgr.createContextMenu(fTableViewer.getControl());
         fTableViewer.getControl().setMenu(menu);
     }
 
-    private void fillContextMenu(IMenuManager manager) {
-        manager.add(fActionNewProperty);
-        manager.add(fActionNewMultipleProperty);
-        manager.add(new Separator());
-        manager.add(fActionRemoveProperty);
-        manager.add(new Separator());
-        manager.add(fActionShowKeyEditor);
-    }
-
     /**
      * Sort Keys
      */
     private void sortKeys() {
-        if(isAlive(fPropertiesElement)) {
-            executeCommand(new SortPropertiesCommand(fPropertiesElement.getProperties()));
+        if(!isMultiSelection() && isAlive(getFirstSelectedElement())) {
+            executeCommand(new SortPropertiesCommand(getFirstSelectedElement().getProperties()));
         }
     }
 
@@ -512,19 +429,101 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             }
         }
     }
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    //
+    // Properties handling
+    //
+    // -----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * @return true if more than one element is selected
+     */
+    private boolean isMultiSelection() {
+        return fPropertiesElements.size() > 1;
+    }
+    
+    /**
+     * @return The first selected element with properties, or null
+     */
+    private IProperties getFirstSelectedElement() {
+        return fPropertiesElements.size() == 0 ? null : fPropertiesElements.get(0);
+    }
+    
+    /**
+     * @return a list of common properties for selected elements that share the same key
+     */
+    private List<IProperty> getCommonProperties() {
+        List<IProperty> properties = new ArrayList<>();
+        Map<String, Entry<Set<String>, Set<IProperties>>> map = new LinkedHashMap<>(); // Map of key -> values -> elements
+        
+        // Iterate thru all selected elements and their properties
+        for(IProperties propertiesElement : fPropertiesElements) {
+            for(IProperty property : propertiesElement.getProperties()) {
+                // Get the first matching property in case the element has more than one with the same key
+                property = getFirstMatchingProperty(propertiesElement.getProperties(), property);
+                
+                // Do we have this property key in the map?
+                Entry<Set<String>, Set<IProperties>> entry = map.get(property.getKey());
+                
+                // No, create and add a new entry
+                if(entry == null) {
+                    entry = new SimpleEntry<>(new HashSet<>(), new HashSet<>());
+                    map.put(property.getKey(), entry);
+                }
+                
+                entry.getKey().add(property.getValue()); // Add the property value
+                entry.getValue().add(propertiesElement); // Add the properties element
+            }
+        }
+        
+        for(Entry<String, Entry<Set<String>, Set<IProperties>>> entry : map.entrySet()) {
+            // If the size of elements equals the size of selected elements, then they all have the property key in common
+            if(entry.getValue().getValue().size() == fPropertiesElements.size()) {
+                // If there is only one value, use that, else use the multipleValuesIndicator
+                IProperty property = IArchimateFactory.eINSTANCE.createProperty(entry.getKey(),
+                                                                                entry.getValue().getKey().size() == 1 ? entry.getValue().getKey().iterator().next() : multipleValuesIndicator);
+                properties.add(property);
+            }
+        }
+        
+        return properties;
+    }
+    
+    /**
+     * @return the first matching property in properties that matches the given property
+     */
+    private IProperty getFirstMatchingProperty(List<IProperty> properties, IProperty property) {
+        for(IProperty p : properties) {
+            if(Objects.equals(p.getKey(), property.getKey())) { // match on key
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Return the Archimate model bound to the properties element
+     */
+    private IArchimateModel getArchimateModel() {
+        if(getFirstSelectedElement() instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)getFirstSelectedElement()).getArchimateModel();
+        }
+        return null;
+    }
+    
     /**
      * @return All unique Property Keys for an entire model (sorted)
      */
     private String[] getAllUniquePropertyKeysForModel() {
         IArchimateModel model = getArchimateModel();
 
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
 
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
-            if(element instanceof IProperty) {
-                String key = ((IProperty)element).getKey();
+            if(element instanceof IProperty p) {
+                String key = p.getKey();
                 if(StringUtils.isSetAfterTrim(key)) {
                     set.add(key);
                 }
@@ -532,12 +531,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
 
         String[] items = set.toArray(new String[set.size()]);
-        Arrays.sort(items, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
+        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2));
 
         return items;
     }
@@ -548,12 +542,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     private String[] getAllUniquePropertyValuesForKeyForModel(String key) {
         IArchimateModel model = getArchimateModel();
 
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
 
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
-            if(element instanceof IProperty) {
-                IProperty p = (IProperty)element;
+            if(element instanceof IProperty p) {
                 if(p.getKey().equals(key)) {
                     String value = p.getValue();
                     if(StringUtils.isSetAfterTrim(value)) {
@@ -564,12 +557,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
 
         String[] items = set.toArray(new String[set.size()]);
-        Arrays.sort(items, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
+        Arrays.sort(items, (s1, s2) -> s1.compareToIgnoreCase(s2));
 
         return items;
     }
@@ -577,7 +565,282 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
     // -----------------------------------------------------------------------------------------------------------------
     //
-    // Drag & Drop
+    // Table functions
+    //
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Content Provider
+     */
+    private class TableContentProvider implements IStructuredContentProvider {
+        @Override
+        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        }
+
+        @Override
+        public void dispose() {
+        }
+
+        @Override
+        public Object[] getElements(Object inputElement) {
+            // More than one element selected
+            if(isMultiSelection()) {
+                return getCommonProperties().toArray();
+            }
+
+            // One element selected
+            return isAlive(getFirstSelectedElement()) ? getFirstSelectedElement().getProperties().toArray() : new Object[0];
+        }
+    }
+
+    /**
+     * Label Provider
+     */
+    private static class LabelCellProvider extends CellLabelProvider {
+        @Override
+        public void update(ViewerCell cell) {
+            cell.setText(getColumnText(cell.getElement(), cell.getColumnIndex()));
+            cell.setForeground(getForeground(cell.getElement(), cell.getColumnIndex()));
+            cell.setImage(getColumnImage(cell.getElement(), cell.getColumnIndex()));
+        }
+        
+        public Image getColumnImage(Object element, int columnIndex) {
+            if(columnIndex == 0) {
+                return isLink(element) ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BROWSER) : null;
+            }
+            
+            return null;
+        }
+
+        public String getColumnText(Object element, int columnIndex) {
+            switch(columnIndex) {
+                case 1:
+                    String key = ((IProperty)element).getKey();
+                    return StringUtils.isSetAfterTrim(key) ? key : Messages.UserPropertiesSection_9;
+
+                case 2:
+                    String value = ((IProperty)element).getValue();
+                    return multipleValuesIndicator.equals(value) ? Messages.UserPropertiesSection_22 : value;
+
+                default:
+                    return null;
+            }
+        }
+
+        public Color getForeground(Object element, int columnIndex) {
+            if(columnIndex == 2) {
+                return isLink(element) ? ColorConstants.blue : null;
+            }
+            return null;
+        }
+
+        @Override
+        public String getToolTipText(Object element) {
+            return isLink(element) ? Messages.UserPropertiesSection_21 : null;
+        }
+        
+        private boolean isLink(Object element) {
+            Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(((IProperty)element).getValue());
+            return matcher.find();
+        }
+    }
+
+    /**
+     * Key Editor
+     */
+    private class KeyEditingSupport extends EditingSupport {
+        StringComboBoxCellEditor cellEditor;
+
+        public KeyEditingSupport(ColumnViewer viewer) {
+            super(viewer);
+            cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
+            
+            // Nullify some global Action Handlers so that this cell editor can handle them
+            hookCellEditorGlobalActionHandler(cellEditor);
+        }
+
+        @Override
+        protected CellEditor getCellEditor(Object element) {
+            String[] items = new String[0];
+
+            if(isAlive(getFirstSelectedElement())) {
+                items = getAllUniquePropertyKeysForModel();
+            }
+
+            cellEditor.setItems(items);
+            
+            return cellEditor;
+        }
+
+        @Override
+        protected boolean canEdit(Object element) {
+            return true;
+        }
+
+        @Override
+        protected Object getValue(Object element) {
+            return ((IProperty)element).getKey();
+        }
+
+        @Override
+        protected void setValue(Object element, Object value) {
+            CompoundCommand compoundCmd = new CompoundCommand();
+
+            for(IProperties propertiesElement : fPropertiesElements) {
+                IProperty property = (IProperty)element;
+                
+                if(isAlive(propertiesElement)) {
+                    if(isMultiSelection()) {
+                        property = getFirstMatchingProperty(propertiesElement.getProperties(), property);
+                    }
+                    if(property != null) {
+                        Command cmd = new EObjectFeatureCommand(Messages.UserPropertiesSection_10, property, IArchimatePackage.Literals.PROPERTY__KEY, value);
+                        if(cmd.canExecute()) {
+                            compoundCmd.add(cmd);
+                        }
+                    }
+                }
+            }
+            
+            // If multi-selection update the local Property without notifications so we don't refresh the table with fresh contents
+            // and avoid problems with tab traversal
+            if(isMultiSelection()) {
+                try {
+                    ignoreMessages = true;
+                    executeCommand(compoundCmd.unwrap());
+                    ((IProperty)element).setKey((String)value);
+                    fTableViewer.update(element, null);
+                }
+                finally {
+                    ignoreMessages = false;
+                }
+            }
+            else {
+                executeCommand(compoundCmd.unwrap());
+            }
+        }
+    }
+
+    /**
+     * Value Editor
+     */
+    private class ValueEditingSupport extends EditingSupport {
+        StringComboBoxCellEditor cellEditor;
+
+        public ValueEditingSupport(ColumnViewer viewer) {
+            super(viewer);
+            cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
+            
+            // Nullify some global Action Handlers so that this cell editor can handle them
+            hookCellEditorGlobalActionHandler(cellEditor);
+        }
+
+        @Override
+        protected CellEditor getCellEditor(Object element) {
+            String[] items = new String[0];
+
+            if(isAlive(getFirstSelectedElement())) {
+                items = getAllUniquePropertyValuesForKeyForModel(((IProperty)element).getKey());
+            }
+
+            cellEditor.setItems(items);
+            
+            return cellEditor;
+        }
+
+        @Override
+        protected boolean canEdit(Object element) {
+            return true;
+        }
+
+        @Override
+        protected Object getValue(Object element) {
+            String value = ((IProperty)element).getValue();
+            return multipleValuesIndicator.equals(value) ? "" : value; //$NON-NLS-1$
+        }
+
+        @Override
+        protected void setValue(Object element, Object value) {
+            CompoundCommand compoundCmd = new CompoundCommand();
+
+            for(IProperties propertiesElement : fPropertiesElements) {
+                IProperty property = (IProperty)element;
+                
+                if(isAlive(propertiesElement)) {
+                    if(isMultiSelection()) {
+                        property = getFirstMatchingProperty(propertiesElement.getProperties(), property);
+                    }
+                    if(property != null) {
+                        Command cmd = new EObjectFeatureCommand(Messages.UserPropertiesSection_11, property, IArchimatePackage.Literals.PROPERTY__VALUE, value);
+                        if(cmd.canExecute()) {
+                            compoundCmd.add(cmd);
+                        }
+                    }
+                }
+            }
+            
+            // If multi-selection update the local Property without notifications so we don't refresh the table with fresh contents
+            // and avoid problems with tab traversal
+            if(isMultiSelection()) {
+                try {
+                    ignoreMessages = true;
+                    executeCommand(compoundCmd.unwrap());
+                    ((IProperty)element).setValue((String)value);
+                    fTableViewer.update(element, null);
+                }
+                finally {
+                    ignoreMessages = false;
+                }
+            }
+            else {
+                executeCommand(compoundCmd.unwrap());
+            }
+        }
+    }
+    
+    /**
+     * Set some editing global Action Handlers to null when the cell editor is activated
+     * And restore them when the cell editor is deactivated.
+     */
+    private void hookCellEditorGlobalActionHandler(CellEditor cellEditor) {
+        Listener listener = new Listener() {
+            // We have to disable the action handlers of the the active Editor/View site *and* the Properties View Site
+            GlobalActionDisablementHandler propertiesViewGlobalActionHandler, globalActionHandler;
+            
+            @Override
+            public void handleEvent(Event event) {
+                switch(event.type) {
+                    case SWT.Activate:
+                        // The Properties View site action bars
+                        IActionBars actionBars = fPage.getSite().getActionBars();
+                        propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
+                        propertiesViewGlobalActionHandler.clearGlobalActions();
+                        
+                        // The active View or Editor site's action bars also have to be updated
+                        globalActionHandler = new GlobalActionDisablementHandler();
+                        globalActionHandler.update();
+                        break;
+
+                    case SWT.Deactivate:
+                        if(propertiesViewGlobalActionHandler != null) {
+                            propertiesViewGlobalActionHandler.restoreGlobalActions();
+                            globalActionHandler.update();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        };
+        
+        cellEditor.getControl().addListener(SWT.Activate, listener);
+        cellEditor.getControl().addListener(SWT.Deactivate, listener);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    //
+    // Table Drag & Drop
     //
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -606,7 +869,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             @Override
             public void dragStart(DragSourceEvent event) {
-                if(isAlive(fPropertiesElement)) {
+                if(isMultiSelection()) {
+                    event.doit = false;
+                }
+                else if(isAlive(getFirstSelectedElement())) {
                     IStructuredSelection selection = (IStructuredSelection)fTableViewer.getSelection();
                     LocalSelectionTransfer.getTransfer().setSelection(selection);
                     event.doit = true;
@@ -682,7 +948,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         List<?> list = ((IStructuredSelection)selection).toList();
         for(Object o : list) {
             IProperty property = (IProperty)o;
-            int movedIndex = fPropertiesElement.getProperties().indexOf(property);
+            int movedIndex = getFirstSelectedElement().getProperties().indexOf(property);
             if(movedIndex == index || (movedIndex + 1) == index) {
                 return;
             }
@@ -692,7 +958,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     }
 
     private void movePropertiesToIndex(List<IProperty> propertiesToMove, int index) {
-        EList<IProperty> properties = fPropertiesElement.getProperties();
+        EList<IProperty> properties = getFirstSelectedElement().getProperties();
 
         // Sanity check
         if(index < 0) {
@@ -733,10 +999,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         }
         else if(event.item != null) {
             IProperty property = (IProperty)event.item.getData();
-            index = fPropertiesElement.getProperties().indexOf(property);
+            index = getFirstSelectedElement().getProperties().indexOf(property);
         }
         else {
-            index = fPropertiesElement.getProperties().size();
+            index = getFirstSelectedElement().getProperties().size();
         }
 
         // Dropped in after position
@@ -768,198 +1034,146 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         return DND.FEEDBACK_NONE; // <----- This is important otherwise we get unwanted selection cheese on XP
     }
 
-
     // -----------------------------------------------------------------------------------------------------------------
     //
-    // Table functions
+    // Actions
     //
     // -----------------------------------------------------------------------------------------------------------------
-
+    
     /**
-     * Label Provider
+     * New Property Action
      */
-    private static class LabelCellProvider extends CellLabelProvider {
+    private class NewPropertyAction extends Action {
+        private NewPropertyAction() {
+            super(Messages.UserPropertiesSection_2);
+            setToolTipText(Messages.UserPropertiesSection_2);
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLUS));
+        }
 
         @Override
-        public void update(ViewerCell cell) {
-            cell.setText(getColumnText(cell.getElement(), cell.getColumnIndex()));
-            cell.setForeground(getForeground(cell.getElement(), cell.getColumnIndex()));
-            cell.setImage(getColumnImage(cell.getElement(), cell.getColumnIndex()));
-        }
-        
-        public Image getColumnImage(Object element, int columnIndex) {
-            if(columnIndex == 0) {
-                return isLink(element) ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BROWSER) : null;
-            }
+        public void run() {
+            fTableViewer.applyEditorValue(); // complete any current editing
+            IProperty newProperty = null;
             
-            return null;
-        }
-
-        public String getColumnText(Object element, int columnIndex) {
-            switch(columnIndex) {
-                case 1:
-                    String key = ((IProperty)element).getKey();
-                    if(!StringUtils.isSetAfterTrim(key)) {
-                        key = Messages.UserPropertiesSection_9;
+            if(isMultiSelection()) {
+                CompoundCommand cmd = new CompoundCommand();
+                
+                for(IProperties propertiesElement : fPropertiesElements) {
+                    if(isAlive(propertiesElement)) {
+                        IProperty property = IArchimateFactory.eINSTANCE.createProperty();
+                        cmd.add(new NewPropertyCommand(propertiesElement.getProperties(), property, -1));
                     }
-                    return key;
-
-                case 2:
-                    return ((IProperty)element).getValue();
-
-                default:
-                    return null;
+                }
+                
+                executeCommand(cmd.unwrap());
+                
+                if(fTableViewer.getTable().getItemCount() > 0) {
+                    newProperty = (IProperty)fTableViewer.getElementAt(fTableViewer.getTable().getItemCount() - 1);
+                }
             }
-        }
-
-        public Color getForeground(Object element, int columnIndex) {
-            if(columnIndex == 2) {
-                return isLink(element) ? ColorConstants.blue : null;
+            else if(isAlive(getFirstSelectedElement())) {
+                newProperty = IArchimateFactory.eINSTANCE.createProperty();
+                int index = -1;
+                IProperty selected = (IProperty)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
+                if(selected != null) {
+                    index = getFirstSelectedElement().getProperties().indexOf(selected) + 1;
+                }
+                
+                executeCommand(new NewPropertyCommand(getFirstSelectedElement().getProperties(), newProperty, index));
             }
-            return null;
-        }
-
-        @Override
-        public String getToolTipText(Object element) {
-            return isLink(element) ? Messages.UserPropertiesSection_21 : null;
-        }
-        
-        private boolean isLink(Object element) {
-            Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(((IProperty)element).getValue());
-            return matcher.find();
-        }
-    }
-
-    /**
-     * Key Editor
-     */
-    private class KeyEditingSupport extends EditingSupport {
-        StringComboBoxCellEditor cellEditor;
-
-        public KeyEditingSupport(ColumnViewer viewer) {
-            super(viewer);
-            cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
             
-            // Nullify some global Action Handlers so that this cell editor can handle them
-            hookCellEditorGlobalActionHandler(cellEditor);
-        }
-
-        @Override
-        protected CellEditor getCellEditor(Object element) {
-            String[] items = new String[0];
-
-            if(isAlive(fPropertiesElement)) {
-                items = getAllUniquePropertyKeysForModel();
-            }
-
-            cellEditor.setItems(items);
-            
-            return cellEditor;
-        }
-
-        @Override
-        protected boolean canEdit(Object element) {
-            return true;
-        }
-
-        @Override
-        protected Object getValue(Object element) {
-            return ((IProperty)element).getKey();
-        }
-
-        @Override
-        protected void setValue(Object element, Object value) {
-            if(isAlive(fPropertiesElement)) {
-                executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_10, (IProperty)element,
-                                            IArchimatePackage.Literals.PROPERTY__KEY, value));
-            }
-        }
-    }
-
-    /**
-     * Value Editor
-     */
-    private class ValueEditingSupport extends EditingSupport {
-        StringComboBoxCellEditor cellEditor;
-
-        public ValueEditingSupport(ColumnViewer viewer) {
-            super(viewer);
-            cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
-            
-            // Nullify some global Action Handlers so that this cell editor can handle them
-            hookCellEditorGlobalActionHandler(cellEditor);
-        }
-
-        @Override
-        protected CellEditor getCellEditor(Object element) {
-            String[] items = new String[0];
-
-            if(isAlive(fPropertiesElement)) {
-                items = getAllUniquePropertyValuesForKeyForModel(((IProperty)element).getKey());
-            }
-
-            cellEditor.setItems(items);
-            
-            return cellEditor;
-        }
-
-        @Override
-        protected boolean canEdit(Object element) {
-            return true;
-        }
-
-        @Override
-        protected Object getValue(Object element) {
-            return ((IProperty)element).getValue();
-        }
-
-        @Override
-        protected void setValue(Object element, Object value) {
-            if(isAlive(fPropertiesElement)) {
-                executeCommand(new EObjectFeatureCommand(Messages.UserPropertiesSection_11, (IProperty)element,
-                                        IArchimatePackage.Literals.PROPERTY__VALUE, value));
+            if(newProperty != null) {
+                fTableViewer.editElement(newProperty, 1);
             }
         }
     }
     
     /**
-     * Set some editing global Action Handlers to null when the cell editor is activated
-     * And restore them when the cell editor is deactivated.
+     * New Multiple Properties Action
      */
-    private void hookCellEditorGlobalActionHandler(CellEditor cellEditor) {
-        Listener listener = new Listener() {
-            // We have to disable the action handlers of the the active Editor/View site *and* the Properties View Site
-            GlobalActionDisablementHandler propertiesViewGlobalActionHandler, globalActionHandler;
-            
-            @Override
-            public void handleEvent(Event event) {
-                switch(event.type) {
-                    case SWT.Activate:
-                        // The Properties View site action bars
-                        IActionBars actionBars = fPage.getSite().getActionBars();
-                        propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
-                        propertiesViewGlobalActionHandler.clearGlobalActions();
-                        
-                        // The active View or Editor site's action bars also have to be updated
-                        globalActionHandler = new GlobalActionDisablementHandler();
-                        globalActionHandler.update();
-                        break;
+    private class NewMultiplePropertiesAction extends Action {
+        private NewMultiplePropertiesAction() {
+            super(Messages.UserPropertiesSection_3);
+            setToolTipText(Messages.UserPropertiesSection_3);
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MUTIPLE));
+        }
 
-                    case SWT.Deactivate:
-                        if(propertiesViewGlobalActionHandler != null) {
-                            propertiesViewGlobalActionHandler.restoreGlobalActions();
-                            globalActionHandler.update();
+        @Override
+        public void run() {
+            if(isAlive(getFirstSelectedElement())) {
+                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel());
+                if(dialog.open() == Window.OK) {
+                    List<String> newKeys = dialog.getSelectedKeys();
+                    CompoundCommand cmd = isMultiSelection() ? new CompoundCommand(Messages.UserPropertiesSection_20) : 
+                                                               new EObjectNonNotifyingCompoundCommand(getFirstSelectedElement(), Messages.UserPropertiesSection_20);
+                    
+                    for(IProperties propertiesElement : fPropertiesElements) {
+                        if(isAlive(propertiesElement)) {
+                            for(String key : newKeys) {
+                                IProperty property = IArchimateFactory.eINSTANCE.createProperty(key, ""); //$NON-NLS-1$
+                                cmd.add(new NewPropertyCommand(propertiesElement.getProperties(), property, -1));
+                            }
                         }
-                        break;
-
-                    default:
-                        break;
+                    }
+                    
+                    executeCommand(cmd.unwrap());
                 }
             }
-        };
-        
-        cellEditor.getControl().addListener(SWT.Activate, listener);
-        cellEditor.getControl().addListener(SWT.Deactivate, listener);
+        }
+    }
+
+    /**
+     * Remove properties Action
+     */
+    private class RemovePropertiesAction extends Action {
+        private RemovePropertiesAction() {
+            super(Messages.UserPropertiesSection_4);
+            setToolTipText(Messages.UserPropertiesSection_4);
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SMALL_X));
+            setEnabled(false);
+        }
+
+        @Override
+        public void run() {
+            CompoundCommand cmd = isMultiSelection() ? new CompoundCommand() : new EObjectNonNotifyingCompoundCommand(getFirstSelectedElement());
+            
+            for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
+                IProperty property = (IProperty)o;
+                
+                for(IProperties propertiesElement : fPropertiesElements) {
+                    if(isAlive(propertiesElement)) {
+                        if(isMultiSelection()) {
+                            property = getFirstMatchingProperty(propertiesElement.getProperties(), property);
+                        }
+                        if(property != null) {
+                            cmd.add(new RemovePropertyCommand(propertiesElement.getProperties(), property));
+                        }
+                    }
+                }
+            }
+            
+            executeCommand(cmd);
+        }
+    }
+
+    /**
+     * Manage global keys Action
+     */
+    private class ShowKeyEditorAction extends Action {
+        private ShowKeyEditorAction() {
+            super(Messages.UserPropertiesSection_7);
+            setToolTipText(Messages.UserPropertiesSection_7);
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COG));
+        }
+
+        @Override
+        public void run() {
+            if(isAlive(getFirstSelectedElement())) {
+                UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
+                        getArchimateModel());
+                dialog.open();
+            }
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1016,6 +1230,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         RemovePropertyCommand(EList<IProperty> properties, IProperty property) {
             this.properties = properties;
             this.property = property;
+            setLabel(Messages.UserPropertiesSection_5);
         }
 
         @Override
@@ -1079,7 +1294,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     /**
      * Sort Properties Command
      */
-    private static class SortPropertiesCommand extends Command implements Comparator<IProperty>  {
+    private static class SortPropertiesCommand extends Command {
         private EList<IProperty> properties;
         private List<IProperty> original;
         private Collator collator = Collator.getInstance();
@@ -1098,8 +1313,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 return false;
             }
 
-            EList<IProperty> temp = new BasicEList<IProperty>(properties);
-            ECollections.sort(temp, this);
+            List<IProperty> temp = new ArrayList<IProperty>(properties);
+            Collections.sort(temp, (p1, p2) -> collator.compare(p1.getKey(), p2.getKey()));
 
             for(int i = 0; i < temp.size(); i++) {
                 if(temp.get(i) != properties.get(i)) {
@@ -1112,20 +1327,13 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         public void execute() {
-            ECollections.sort(properties, this);
+            ECollections.sort(properties, (p1, p2) -> collator.compare(p1.getKey(), p2.getKey()));
         }
 
         @Override
         public void undo() {
             properties.clear();
             properties.addAll(original);
-        }
-
-        @Override
-        public int compare(IProperty p1, IProperty p2) {
-            String key1 = StringUtils.safeString(p1.getKey());
-            String key2 = StringUtils.safeString(p2.getKey());
-            return collator.compare(key1, key2);
         }
 
         @Override
@@ -1142,19 +1350,18 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     //
     // -----------------------------------------------------------------------------------------------------------------
 
-    private class MultipleAddDialog extends ExtendedTitleAreaDialog {
+    private static class MultipleAddDialog extends ExtendedTitleAreaDialog {
         private CheckboxTableViewer tableViewer;
         private Button buttonSelectAll, buttonDeselectAll;
 
-        private CompoundCommand compoundCmd;
         private String[] keys;
+        private List<String> selectedKeys;
 
-        public MultipleAddDialog(Shell parentShell) {
+        public MultipleAddDialog(Shell parentShell, String[] keys) {
             super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
             setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
             setShellStyle(getShellStyle() | SWT.RESIZE);
-
-            keys = getAllUniquePropertyKeysForModel();
+            this.keys = keys;
         }
 
         @Override
@@ -1201,7 +1408,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             tableComp.setLayout(tableLayout);
             tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-            Table table = new Table(tableComp, SWT.MULTI | SWT.FULL_SELECTION | SWT.CHECK);
+            Table table = new Table(tableComp, SWT.FULL_SELECTION | SWT.CHECK);
             tableViewer = new CheckboxTableViewer(table);
             tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
             
@@ -1209,8 +1416,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             UIUtils.fixMacSiliconItemHeight(table);
             
             tableViewer.getTable().setLinesVisible(true);
-
-            tableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
 
             // Column
             TableViewerColumn columnKey = new TableViewerColumn(tableViewer, SWT.NONE, 0);
@@ -1234,7 +1439,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             // Label Provider
             tableViewer.setLabelProvider(new LabelProvider());
-            tableViewer.setInput(""); // anything will do //$NON-NLS-1$
+            tableViewer.setInput(keys);
         }
 
         private void createButtonPanel(Composite parent) {
@@ -1273,19 +1478,16 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         @Override
         protected void okPressed() {
-            compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement, Messages.UserPropertiesSection_20);
-
+            selectedKeys = new ArrayList<>();
             for(Object o : tableViewer.getCheckedElements()) {
-                IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-                property.setKey((String)o);
-                compoundCmd.add(new NewPropertyCommand(fPropertiesElement.getProperties(), property, -1));
+                selectedKeys.add((String)o);
             }
-
+            
             super.okPressed();
         }
-
-        Command getCommand() {
-            return compoundCmd;
+        
+        List<String> getSelectedKeys() {
+            return selectedKeys;
         }
 
         @Override
