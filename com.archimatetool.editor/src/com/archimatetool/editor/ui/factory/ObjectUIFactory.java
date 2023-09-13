@@ -59,7 +59,7 @@ public class ObjectUIFactory {
     }
     
     void registerProvider(IObjectUIProvider provider) {
-        if(provider != null && provider.providerFor() != null) {
+        if(provider != null && provider.providerFor() != null && map.get(provider.providerFor()) == null) {
             map.put(provider.providerFor(), provider);
         }
     }

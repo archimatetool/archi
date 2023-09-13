@@ -57,6 +57,22 @@ public class ObjectUIFactoryProviderTests {
         assertNotNull(factory.getProviderForClass(eClass));
         assertEquals(1, factory.map.size());
     }
+    
+    @Test
+    public void testNoDuplicateProviders() {
+        IObjectUIProvider provider1 = mock(IObjectUIProvider.class);
+        IObjectUIProvider provider2 = mock(IObjectUIProvider.class);
+        
+        EClass eClass = mock(EClass.class);
+        when(provider1.providerFor()).thenReturn(eClass);
+        when(provider2.providerFor()).thenReturn(eClass);
+        
+        factory.registerProvider(provider1);
+        assertSame(provider1, factory.getProviderForClass(eClass));
+        
+        factory.registerProvider(provider2);
+        assertSame(provider1, factory.getProviderForClass(eClass));
+    }
 
     @Test
     public void testGetProvider_EObject_ArchiMateElement() {
