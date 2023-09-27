@@ -430,6 +430,13 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
+               afterSection="lineColorSection"
+               class="com.archimatetool.editor.propertysections.LineWidthSection"
+               filter="com.archimatetool.editor.propertysections.LineWidthSection$Filter"
+               id="lineWidthSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                afterSection="iconColorSection"
                class="com.archimatetool.editor.propertysections.GradientSection"
                filter="com.archimatetool.editor.propertysections.GradientSection$Filter"

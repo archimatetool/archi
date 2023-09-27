@@ -184,7 +184,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

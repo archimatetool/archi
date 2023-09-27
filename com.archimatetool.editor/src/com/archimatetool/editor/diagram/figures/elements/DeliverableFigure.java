@@ -48,8 +48,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        int lineWidth = 1;
-        setLineWidth(graphics, lineWidth, bounds);
+        setLineWidth(graphics, bounds);
         
         graphics.setAlpha(getAlpha());
         
@@ -57,7 +56,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
             setDisabledState(graphics);
         }
         
-        Path path = getFigurePath(8, bounds, (float)lineWidth / 2);
+        Path path = getFigurePath(8, bounds, (float)getLineWidth() / 2);
         
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
@@ -127,7 +126,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 19, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

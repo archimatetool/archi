@@ -95,15 +95,7 @@ public class Messages extends NLS {
 
     public static String DiagramConnectionSection_2;
 
-    public static String DiagramConnectionSection_3;
-
-    public static String DiagramConnectionSection_4;
-
-    public static String DiagramConnectionSection_5;
-
     public static String DiagramConnectionSection_6;
-
-    public static String DiagramConnectionSection_7;
 
     public static String DiagramConnectionSection_8;
 
@@ -246,6 +238,14 @@ public class Messages extends NLS {
     public static String LineColorSection_1;
 
     public static String LineColorSection_2;
+
+    public static String LineWidthSection_0;
+
+    public static String LineWidthSection_1;
+
+    public static String LineWidthSection_2;
+
+    public static String LineWidthSection_3;
 
     public static String LockedSection_0;
 

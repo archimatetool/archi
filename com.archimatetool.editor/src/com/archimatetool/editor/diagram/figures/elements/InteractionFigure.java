@@ -51,7 +51,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect, 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
         
@@ -153,7 +153,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 11 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

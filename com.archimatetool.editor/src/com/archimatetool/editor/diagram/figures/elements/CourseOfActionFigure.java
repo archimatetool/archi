@@ -49,7 +49,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect, 1.24); // Should match '3.1 / 2.5' (values used in getRadius() and getCenter())
         
@@ -219,7 +219,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 17, bounds.y + 3);
+        return new Point(bounds.getRight().x - 16 - getLineWidth(), bounds.y + 2 + getLineWidth());
     }
 
     @Override

@@ -48,7 +48,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect, 2/3.0);
         
@@ -143,7 +143,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
+        return new Point(bounds.x + bounds.width - 10 - getLineWidth(), bounds.y + 4);
     }
 
     @Override

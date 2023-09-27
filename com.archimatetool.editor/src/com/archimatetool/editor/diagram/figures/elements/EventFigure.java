@@ -48,7 +48,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         bounds.height--;
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
         
         int indent = Math.min(bounds.height / 3, bounds.width / 3);
         int centre_y = bounds.y + bounds.height / 2 - 1;
@@ -135,7 +135,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 7);
+        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 7);
     }
 
     @Override

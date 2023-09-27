@@ -37,7 +37,7 @@ public class MeaningFigure extends AbstractMotivationFigure {
         Rectangle bounds = getBounds().getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
         
         // The following is a not so awful code to draw a cloud...
         
@@ -133,7 +133,7 @@ public class MeaningFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 8);
     }
 
     @Override

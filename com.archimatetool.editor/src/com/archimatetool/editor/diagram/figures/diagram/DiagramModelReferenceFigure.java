@@ -62,7 +62,7 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 19, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 18 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

@@ -39,7 +39,7 @@ public class SketchActorFigure extends AbstractLabelFigure {
         graphics.setAntialias(SWT.ON);
         Rectangle bounds = getBounds().getCopy();
         
-        graphics.setLineWidth(2);
+        graphics.setLineWidth(getLineWidth() + 1);
         
         bounds.height -= getLabel().getPreferredSize().height;
         

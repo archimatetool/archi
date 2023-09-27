@@ -43,7 +43,7 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
        
         PointList points = new PointList();
         points.addPoint(bounds.x + FLANGE, bounds.y);

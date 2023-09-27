@@ -110,7 +110,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 13);
+        return new Point(bounds.x + bounds.width - 20 - getLineWidth(), bounds.y + 13);
     }
     
     @Override

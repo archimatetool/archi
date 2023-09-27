@@ -19,10 +19,6 @@ public class Messages extends NLS {
 
     public static String BringToFrontAction_0;
 
-    public static String ConnectionLineWidthAction_0;
-
-    public static String ConnectionLineWidthAction_1;
-
     public static String ConnectionRouterAction_0;
 
     public static String ConnectionRouterAction_1;
@@ -82,6 +78,10 @@ public class Messages extends NLS {
     public static String LineColorAction_0;
 
     public static String LineColorAction_1;
+
+    public static String LineWidthAction_0;
+
+    public static String LineWidthAction_1;
 
     public static String LockObjectAction_0;
 

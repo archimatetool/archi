@@ -68,7 +68,7 @@ public class ConstraintFigure extends AbstractMotivationFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
+        return new Point(bounds.x + bounds.width - 18 - getLineWidth(), bounds.y + 8);
     }
 
     @Override

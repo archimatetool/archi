@@ -104,6 +104,22 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
     
     /**
+     * @return The owner's line width
+     */
+    protected int getLineWidth() {
+        return getOwner().getLineWidth();
+    }
+    
+    /**
+     * Set the line width to that in the diagram model and compensate the figure bounds width and height for this line width and translate the graphics instance
+     * @param graphics The graphics instance
+     * @param bounds The bounds of the object
+     */
+    protected void setLineWidth(Graphics graphics, Rectangle bounds) {
+        getOwner().setLineWidth(graphics, bounds);
+    }
+
+    /**
      * Set the line width and compensate the figure bounds width and height for this line width and translate the graphics instance
      * @param graphics The graphics instance
      * @param lineWidth The line width

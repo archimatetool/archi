@@ -51,7 +51,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
         rect.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -146,7 +146,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 16, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 15 - getLineWidth(), bounds.y + 6);
     }
 
     @Override

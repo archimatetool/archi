@@ -46,8 +46,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        int lineWidth = 1;
-        setLineWidth(graphics, lineWidth, bounds);
+        setLineWidth(graphics, bounds);
         
         Pattern gradient = applyGradientPattern(graphics, bounds);
 
@@ -57,7 +56,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         float y1 = bounds.y + (bounds.height / 5);
         float y2 = bounds.y + bounds.height - (bounds.height / 5);
         
-        float lineOffset = (float)lineWidth / 2;
+        float lineOffset = (float)getLineWidth() / 2;
 
         path.moveTo(bounds.x, y1);
         path.lineTo(x1, y1);

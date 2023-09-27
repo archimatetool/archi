@@ -46,7 +46,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         rect.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -200,7 +200,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 20, bounds.y + 7);
+        return new Point(bounds.getRight().x - 19 - getLineWidth(), bounds.y + 7);
     }
 
     @Override

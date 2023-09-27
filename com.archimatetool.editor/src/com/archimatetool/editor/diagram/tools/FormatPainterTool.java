@@ -112,6 +112,8 @@ public class FormatPainterTool extends AbstractTool {
     protected CompoundCommand createCommand(PaintFormat pf, IDiagramModelComponent targetComponent) {
         CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(targetComponent);
+        
         // IFontAttribute
         if(pf.getSourceComponent() instanceof IFontAttribute source && targetComponent instanceof IFontAttribute target) {
             Command cmd = new FontStyleCommand(target, source.getFont());
@@ -126,14 +128,21 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ILineObject
-        if(pf.getSourceComponent() instanceof ILineObject source && targetComponent instanceof ILineObject target) {
-            Command cmd = new LineColorCommand(target, source.getLineColor());
-            if(cmd.canExecute()) {
-                result.add(cmd);
+        if(pf.getSourceComponent() instanceof ILineObject source && targetComponent instanceof ILineObject target && provider != null) {
+            // Line color
+            if(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName())) {
+                Command cmd = new LineColorCommand(target, source.getLineColor());
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
-            cmd = new LineWidthCommand(target, source.getLineWidth());
-            if(cmd.canExecute()) {
-                result.add(cmd);
+
+            // Line width
+            if(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName())) {
+                Command cmd = new LineWidthCommand(target, source.getLineWidth());
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
         }
 
@@ -195,13 +204,14 @@ public class FormatPainterTool extends AbstractTool {
             }
             
             // Gradient
-            cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$
-            if(cmd.canExecute()) {
-                result.add(cmd);
+            if(provider != null && provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT)) {
+                cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
             
             // Icon Visibility and Color, but paste only if the target object has an icon
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(target);
             if(provider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)provider).hasIcon()) {
                 // Icon visible
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_ICON_VISIBLE, source.getIconVisibleState(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT); //$NON-NLS-1$
@@ -277,7 +287,7 @@ public class FormatPainterTool extends AbstractTool {
     }
     
     protected boolean isObjectLocked(Object object) {
-        return object instanceof ILockable && ((ILockable)object).isLocked();
+        return object instanceof ILockable lockable && lockable.isLocked();
     }
 
     protected boolean isPaintableObject(Object object) {

@@ -36,7 +36,7 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
-import com.archimatetool.editor.diagram.actions.ConnectionLineWidthAction;
+import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
@@ -146,7 +146,7 @@ extends ActionBarContributor {
         
         // Fill color, line width, font, color, opacity
         addRetargetAction(new RetargetAction(FillColorAction.ID, FillColorAction.TEXT));
-        addRetargetAction(new RetargetAction(ConnectionLineWidthAction.ID, ConnectionLineWidthAction.TEXT));
+        addRetargetAction(new RetargetAction(LineWidthAction.ID, LineWidthAction.TEXT));
         addRetargetAction(new RetargetAction(LineColorAction.ID, LineColorAction.TEXT));
         addRetargetAction(new RetargetAction(FontAction.ID, FontAction.TEXT));
         addRetargetAction(new RetargetAction(FontColorAction.ID, FontColorAction.TEXT));
@@ -307,8 +307,8 @@ extends ActionBarContributor {
         // Outline opacity
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(OutlineOpacityAction.ID));
 
-        // Connection Line Width and Color
-        editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(ConnectionLineWidthAction.ID));
+        // Line Width and Color
+        editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(LineWidthAction.ID));
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(LineColorAction.ID));
         
         // Font

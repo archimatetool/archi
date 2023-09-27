@@ -49,7 +49,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
         
         int height_indent = bounds.height / 6;
         
@@ -133,7 +133,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17, bounds.y + 5);
+        return new Point(bounds.x + bounds.width - 15 - getLineWidth(), bounds.y + 5);
     }
     
     @Override

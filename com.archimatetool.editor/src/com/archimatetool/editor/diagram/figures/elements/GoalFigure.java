@@ -39,7 +39,7 @@ public class GoalFigure extends AbstractMotivationFigure {
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect);
 
@@ -127,7 +127,7 @@ public class GoalFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

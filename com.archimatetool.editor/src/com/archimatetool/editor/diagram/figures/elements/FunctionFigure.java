@@ -54,7 +54,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
         rect.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -165,7 +165,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 19);
+        return new Point(bounds.x + bounds.width - 16 - getLineWidth(), bounds.y + 19);
     }
     
     @Override

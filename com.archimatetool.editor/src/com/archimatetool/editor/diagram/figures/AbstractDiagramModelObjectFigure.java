@@ -97,6 +97,15 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
+     * Set the line width to that in the diagram model and compensate the figure bounds width and height for this line width and translate the graphics instance
+     * @param graphics The graphics instance
+     * @param bounds The bounds of the object
+     */
+    protected void setLineWidth(Graphics graphics, Rectangle bounds) {
+        setLineWidth(graphics, getLineWidth(), bounds);
+    }
+    
+    /**
      * Set the line width and compensate the figure bounds width and height for this line width and translate the graphics instance
      * @param graphics The graphics instance
      * @param lineWidth The line width
@@ -245,6 +254,10 @@ implements IDiagramModelObjectFigure {
     
     protected int getGradient() {
         return fDiagramModelObject.getGradient();
+    }
+    
+    protected int getLineWidth() {
+        return fDiagramModelObject.getLineWidth();
     }
     
     @Override

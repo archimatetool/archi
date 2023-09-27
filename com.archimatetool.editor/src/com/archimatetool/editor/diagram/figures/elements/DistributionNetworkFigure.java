@@ -212,7 +212,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
     
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 12);
+        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 12);
     }
     
     @Override

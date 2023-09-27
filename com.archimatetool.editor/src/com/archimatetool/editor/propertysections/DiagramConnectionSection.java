@@ -19,12 +19,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
-import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IFeatures;
-import com.archimatetool.model.ILineObject;
 
 
 
@@ -53,7 +51,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     }
 
     private Combo fComboTextPosition;
-    private Combo fComboLineWidth;
     private Button fButtonDisplayName;
     
     public static final String[] comboTextPositionItems = {
@@ -62,17 +59,10 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
             Messages.DiagramConnectionSection_2
     };
     
-    public static final String[] comboLineWidthItems = {
-            Messages.DiagramConnectionSection_3,
-            Messages.DiagramConnectionSection_4,
-            Messages.DiagramConnectionSection_5
-    };
-    
     @Override
     protected void createControls(Composite parent) {
         createDisplayNameControl(parent);
         createTextPositionComboControl(parent);
-        createLineWidthComboControl(parent);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -86,7 +76,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
         fComboTextPosition.setItems(comboTextPositionItems);
         
         GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
-        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
         fComboTextPosition.setLayoutData(gd);
         
         fComboTextPosition.addSelectionListener(new SelectionAdapter() {
@@ -97,36 +86,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
                 for(EObject connection : getEObjects()) {
                     if(isAlive(connection)) {
                         Command cmd = new ConnectionTextPositionCommand((IDiagramModelConnection)connection, fComboTextPosition.getSelectionIndex());
-                        if(cmd.canExecute()) {
-                            result.add(cmd);
-                        }
-                    }
-                }
-
-                executeCommand(result.unwrap());
-            }
-        });
-    }
-    
-    private void createLineWidthComboControl(Composite parent) {
-        createLabel(parent, Messages.DiagramConnectionSection_7, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
-        
-        fComboLineWidth = new Combo(parent, SWT.READ_ONLY);
-        getWidgetFactory().adapt(fComboLineWidth, true, true);
-        fComboLineWidth.setItems(comboLineWidthItems);
-        
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
-        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
-        fComboLineWidth.setLayoutData(gd);
-        
-        fComboLineWidth.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                CompoundCommand result = new CompoundCommand();
-
-                for(EObject connection : getEObjects()) {
-                    if(isAlive(connection)) {
-                        Command cmd = new LineWidthCommand((ILineObject)connection, fComboLineWidth.getSelectionIndex() + 1);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -171,9 +130,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
                 refreshTextPositionCombo();
             }
-            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
-                refreshLineWidthCombo();
-            }
             else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 update();
             }
@@ -189,7 +145,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     protected void update() {
         refreshNameVisibleButton();
         refreshTextPositionCombo();
-        refreshLineWidthCombo();
     }
     
     protected void refreshTextPositionCombo() {
@@ -203,19 +158,6 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
         fComboTextPosition.select(pos);
         
         fComboTextPosition.setEnabled(!isLocked(lastSelectedConnection));
-    }
-    
-    protected void refreshLineWidthCombo() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        
-        IDiagramModelConnection lastSelectedConnection = (IDiagramModelConnection)getFirstSelectedObject();
-        
-        int lineWidth = lastSelectedConnection.getLineWidth();
-        fComboLineWidth.select(lineWidth - 1);
-        
-        fComboLineWidth.setEnabled(!isLocked(lastSelectedConnection));
     }
     
     protected void refreshNameVisibleButton() {

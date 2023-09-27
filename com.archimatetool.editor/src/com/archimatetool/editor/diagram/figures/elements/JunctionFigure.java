@@ -52,7 +52,7 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
-                setLineWidth(graphics, 1, bounds);
+                setLineWidth(graphics, bounds);
                 graphics.setForegroundColor(getFillColor());
                 graphics.drawOval(bounds);
                 break;

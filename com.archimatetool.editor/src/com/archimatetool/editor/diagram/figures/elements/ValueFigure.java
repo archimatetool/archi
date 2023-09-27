@@ -42,7 +42,7 @@ public class ValueFigure extends AbstractMotivationFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
         
         graphics.setAlpha(getAlpha());
         
@@ -128,7 +128,7 @@ public class ValueFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 7);
+        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 7);
     }
 
     @Override

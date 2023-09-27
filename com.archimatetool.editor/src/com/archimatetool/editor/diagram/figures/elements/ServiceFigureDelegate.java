@@ -40,7 +40,7 @@ implements IRoundedRectangleFigure {
         bounds.height--;
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
 
         Dimension arc = getArc();
         

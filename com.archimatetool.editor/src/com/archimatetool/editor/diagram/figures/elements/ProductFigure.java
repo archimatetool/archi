@@ -48,7 +48,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 bounds.height--;
 
                 // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-                setLineWidth(graphics, 1, bounds);
+                setLineWidth(graphics, bounds);
 
                 graphics.setAlpha(getAlpha());
                 
@@ -137,7 +137,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
     }
 
     @Override

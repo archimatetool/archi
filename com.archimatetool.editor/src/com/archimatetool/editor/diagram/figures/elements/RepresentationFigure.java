@@ -44,8 +44,7 @@ public class RepresentationFigure extends DeliverableFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        int lineWidth = 1;
-        setLineWidth(graphics, lineWidth, bounds);
+        setLineWidth(graphics, bounds);
 
         graphics.setAlpha(getAlpha());
         
@@ -53,7 +52,7 @@ public class RepresentationFigure extends DeliverableFigure {
             setDisabledState(graphics);
         }
         
-        Path path = getFigurePath(6, bounds, (float)lineWidth / 2);
+        Path path = getFigurePath(6, bounds, (float)getLineWidth() / 2);
         
         // Main Fill
         graphics.setBackgroundColor(getFillColor());

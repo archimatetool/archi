@@ -48,7 +48,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         bounds.height--;
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
 
         int indent = Math.min(bounds.height / 2, bounds.width / 2);
         int centre_y = bounds.y + bounds.height / 2;
@@ -157,7 +157,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 19, bounds.y + 7);
+        return new Point(bounds.getRight().x - 18 - getLineWidth(), bounds.y + 7);
     }
     
     @Override

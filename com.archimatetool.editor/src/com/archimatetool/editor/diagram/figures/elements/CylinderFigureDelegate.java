@@ -37,7 +37,7 @@ public class CylinderFigureDelegate extends AbstractFigureDelegate {
         rect.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);

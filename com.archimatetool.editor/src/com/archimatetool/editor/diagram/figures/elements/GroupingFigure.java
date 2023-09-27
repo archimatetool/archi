@@ -59,7 +59,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         }
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
 
         // Scale line dashes below 1.0
         double scale = Math.min(FigureUtils.getGraphicsScale(graphics), 1.0);
@@ -234,7 +234,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
     }
     
     @Override

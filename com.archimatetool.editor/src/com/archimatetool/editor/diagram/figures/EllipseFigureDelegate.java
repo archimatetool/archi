@@ -32,7 +32,7 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         bounds.height--;
 
         // Line Width
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
         
         graphics.setAlpha(getAlpha());
         

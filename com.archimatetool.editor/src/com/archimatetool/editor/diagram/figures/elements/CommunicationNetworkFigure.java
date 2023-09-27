@@ -151,7 +151,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 14);
+        return new Point(bounds.x + bounds.width - 18 - getLineWidth(), bounds.y + 14);
     }
 
     @Override

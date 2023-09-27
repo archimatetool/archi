@@ -49,7 +49,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
         
@@ -165,7 +165,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 12, bounds.y + 12);
+        return new Point(bounds.x + bounds.width - 11 - getLineWidth(), bounds.y + 12);
     }
 
     @Override

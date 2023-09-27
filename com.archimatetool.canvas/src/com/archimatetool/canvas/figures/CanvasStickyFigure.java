@@ -140,8 +140,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        int lineWidth = 1;
-        setLineWidth(graphics, lineWidth, bounds);
+        setLineWidth(graphics, bounds);
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=568864
@@ -162,7 +161,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         if(getBorderColor() != null) {
             graphics.setAlpha(getLineAlpha());
             
-            float lineOffset = (float)lineWidth / 2;
+            float lineOffset = (float)getLineWidth() / 2;
 
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);

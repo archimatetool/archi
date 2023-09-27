@@ -40,7 +40,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         bounds.height--;
         
         // Set line width here so that the whole figure is consttained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, bounds);
+        setLineWidth(graphics, bounds);
 
         graphics.setAlpha(getAlpha());
         

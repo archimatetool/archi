@@ -47,7 +47,7 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
         Rectangle imageBounds = rect.getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, 1, rect);
+        setLineWidth(graphics, rect);
         
         setFigurePositionFromTextPosition(rect, 5/3.0); // Should match 'widthFraction' formula
         
@@ -130,7 +130,7 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
      */
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
     }
     
     @Override
