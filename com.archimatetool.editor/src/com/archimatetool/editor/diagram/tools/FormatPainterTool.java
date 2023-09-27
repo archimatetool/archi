@@ -37,6 +37,7 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -112,10 +113,7 @@ public class FormatPainterTool extends AbstractTool {
         CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
         // IFontAttribute
-        if(pf.getSourceComponent() instanceof IFontAttribute && targetComponent instanceof IFontAttribute) {
-            IFontAttribute source = (IFontAttribute)pf.getSourceComponent();
-            IFontAttribute target = (IFontAttribute)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof IFontAttribute source && targetComponent instanceof IFontAttribute target) {
             Command cmd = new FontStyleCommand(target, source.getFont());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -128,10 +126,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ILineObject
-        if(pf.getSourceComponent() instanceof ILineObject && targetComponent instanceof ILineObject) {
-            ILineObject source = (ILineObject)pf.getSourceComponent();
-            ILineObject target = (ILineObject)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof ILineObject source && targetComponent instanceof ILineObject target) {
             Command cmd = new LineColorCommand(target, source.getLineColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -143,21 +138,23 @@ public class FormatPainterTool extends AbstractTool {
         }
 
         // IBorderObject
-        if(pf.getSourceComponent() instanceof IBorderObject && targetComponent instanceof IBorderObject) {
-            IBorderObject source = (IBorderObject)pf.getSourceComponent();
-            IBorderObject target = (IBorderObject)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof IBorderObject source && targetComponent instanceof IBorderObject target) {
             Command cmd = new BorderColorCommand(target, source.getBorderColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
         }
         
+        // IBorderType
+        if(pf.getSourceComponent() instanceof IBorderType source && targetComponent instanceof IBorderType target && source.eClass() == target.eClass()) {
+            Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE, source.getBorderType()); //$NON-NLS-1$
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+        }
+        
         // ITextPosition
-        if(pf.getSourceComponent() instanceof ITextPosition && targetComponent instanceof ITextPosition) {
-            ITextPosition source = (ITextPosition)pf.getSourceComponent();
-            ITextPosition target = (ITextPosition)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof ITextPosition source && targetComponent instanceof ITextPosition target) {
             Command cmd = new TextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -165,10 +162,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ITextAlignment
-        if(pf.getSourceComponent() instanceof ITextAlignment && targetComponent instanceof ITextAlignment) {
-            ITextAlignment source = (ITextAlignment)pf.getSourceComponent();
-            ITextAlignment target = (ITextAlignment)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof ITextAlignment source && targetComponent instanceof ITextAlignment target) {
             Command cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -176,10 +170,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IDiagramModelObject
-        if(pf.getSourceComponent() instanceof IDiagramModelObject && targetComponent instanceof IDiagramModelObject) {
-            IDiagramModelObject source = (IDiagramModelObject)pf.getSourceComponent();
-            IDiagramModelObject target = (IDiagramModelObject)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof IDiagramModelObject source && targetComponent instanceof IDiagramModelObject target) {
             // Source fill colour is null which is "default"
             String fillColorString = source.getFillColor();
             if(fillColorString == null) {
@@ -227,10 +218,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // Archimate objects
-        if(pf.getSourceComponent() instanceof IDiagramModelArchimateObject && targetComponent instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)pf.getSourceComponent();
-            IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)targetComponent;
-
+        if(pf.getSourceComponent() instanceof IDiagramModelArchimateObject source && targetComponent instanceof IDiagramModelArchimateObject target) {
             // Image Source
             Command cmd = new FeatureCommand("", target, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE, //$NON-NLS-1$
                     source.getImageSource(), IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT);
@@ -240,10 +228,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IDiagramModelConnection
-        if(pf.getSourceComponent() instanceof IDiagramModelConnection && targetComponent instanceof IDiagramModelConnection) {
-            IDiagramModelConnection source = (IDiagramModelConnection)pf.getSourceComponent();
-            IDiagramModelConnection target = (IDiagramModelConnection)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof IDiagramModelConnection source && targetComponent instanceof IDiagramModelConnection target) {
             // Connection text position
             Command cmd = new ConnectionTextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
@@ -260,10 +245,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IIconic
-        if(pf.getSourceComponent() instanceof IIconic && targetComponent instanceof IIconic) {
-            IIconic source = (IIconic)pf.getSourceComponent();
-            IIconic target = (IIconic)targetComponent;
-            
+        if(pf.getSourceComponent() instanceof IIconic source && targetComponent instanceof IIconic target) {
             // If we have an image path and the source and target models are different, copy the image bytes
             String imagePath = source.getImagePath();
             if(imagePath != null && source.getArchimateModel() != target.getArchimateModel()) {
@@ -300,8 +282,8 @@ public class FormatPainterTool extends AbstractTool {
 
     protected boolean isPaintableObject(Object object) {
         // Junctions are a no-no
-        if(object instanceof IDiagramModelArchimateObject) {
-            IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
+        if(object instanceof IDiagramModelArchimateObject dmo) {
+            IArchimateElement element = dmo.getArchimateElement();
             return !(element instanceof IJunction);
         }
         
