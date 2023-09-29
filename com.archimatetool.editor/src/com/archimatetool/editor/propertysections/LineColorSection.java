@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -20,6 +22,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
+import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
@@ -107,7 +110,6 @@ public class LineColorSection extends AbstractECorePropertySection {
         public void propertyChange(PropertyChangeEvent event) {
             if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
                     event.getProperty().equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR) ||
-                    event.getProperty().equals(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR) ||
                     event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) { // This will affect the "Default" menu in color chooser
                 update();
             }
@@ -115,6 +117,8 @@ public class LineColorSection extends AbstractECorePropertySection {
     };
 
     private ColorChooser fColorChooser;
+    private Action fDeriveLineColorAction;
+
     
     @Override
     protected void createControls(Composite parent) {
@@ -131,6 +135,26 @@ public class LineColorSection extends AbstractECorePropertySection {
         
         fColorChooser = new ColorChooser(parent, getWidgetFactory());
         fColorChooser.addListener(colorListener);
+        
+        // Derive line color from fill color action
+        fDeriveLineColorAction = new Action(Messages.LineColorSection_3, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                CompoundCommand result = new CompoundCommand();
+
+                for(EObject object : getEObjects()) {
+                    if(isAlive(object) && object instanceof IDiagramModelObject dmo) {
+                        Command cmd = new FeatureCommand(Messages.LineColorSection_4, dmo, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR,
+                                fDeriveLineColorAction.isChecked(), IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
+                    }
+                }
+
+                executeCommand(result.unwrap());
+            }
+        };
     }
     
     @Override
@@ -138,7 +162,8 @@ public class LineColorSection extends AbstractECorePropertySection {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED ||
+                    isFeatureNotification(msg, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
                 update();
             }
         }
@@ -172,12 +197,15 @@ public class LineColorSection extends AbstractECorePropertySection {
         }
         fColorChooser.setIsDefaultColor(isDefaultColor);
         
-        // If this is an element line disable some things
-        if(lineObject instanceof IDiagramModelObject) {
-            boolean deriveElementLineColor = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+        // If this is an element line enable or disable some things
+        if(lineObject instanceof IDiagramModelObject dmo) {
+            boolean deriveElementLineColor = dmo.getDeriveElementLineColor();
             fColorChooser.setDoShowColorImage(!deriveElementLineColor);
             fColorChooser.getColorButton().setEnabled(!deriveElementLineColor);
             fColorChooser.setDoShowDefaultMenuItem(!deriveElementLineColor);
+            
+            fColorChooser.addMenuAction(fDeriveLineColorAction);
+            fDeriveLineColorAction.setChecked(deriveElementLineColor);
         }
         else {
             fColorChooser.setDoShowColorImage(true);

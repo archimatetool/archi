@@ -211,6 +211,14 @@ public class FormatPainterTool extends AbstractTool {
                 }
             }
             
+            // Derive line color
+            if(provider != null && provider.shouldExposeFeature(IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
+                cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR, source.getDeriveElementLineColor(), IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
+            }
+            
             // Icon Visibility and Color, but paste only if the target object has an icon
             if(provider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)provider).hasIcon()) {
                 // Icon visible

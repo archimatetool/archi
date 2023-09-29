@@ -64,20 +64,22 @@ public class SketchModelFactory implements ICreationFactory {
         EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
         // Actor
-        if(object instanceof ISketchModelActor) {
-            ((ISketchModelActor)object).setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+        if(object instanceof ISketchModelActor actor) {
+            actor.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
         }
         
         // Sticky
-        else if(object instanceof ISketchModelSticky) {
-            ISketchModelSticky sticky = (ISketchModelSticky)object;
+        else if(object instanceof ISketchModelSticky sticky) {
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+            
+            // Derive element line color
+            sticky.setDeriveElementLineColor(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR));
             
             // Gradient
             sticky.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
 
-            if(fParam instanceof RGB) {
-                String color = ColorFactory.convertRGBToString((RGB)fParam);
+            if(fParam instanceof RGB rgb) {
+                String color = ColorFactory.convertRGBToString(rgb);
                 sticky.setFillColor(color);
                 
                 Color lineColor = ColorFactory.getDefaultLineColor(sticky);
@@ -88,8 +90,7 @@ public class SketchModelFactory implements ICreationFactory {
         }
         
         // Group
-        else if(object instanceof IDiagramModelGroup) {
-            IDiagramModelGroup group = (IDiagramModelGroup)object;
+        else if(object instanceof IDiagramModelGroup group) {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
             // Gradient
@@ -97,11 +98,9 @@ public class SketchModelFactory implements ICreationFactory {
         }
         
         // Connection
-        else if(object instanceof IDiagramModelConnection) {
-            IDiagramModelConnection connection = (IDiagramModelConnection)object;
-            
-            if(fParam instanceof Integer) {
-                connection.setType((Integer)fParam);
+        else if(object instanceof IDiagramModelConnection connection) {
+            if(fParam instanceof Integer i) {
+                connection.setType(i);
             }
             
             ColorFactory.setDefaultColors(connection);
@@ -109,18 +108,18 @@ public class SketchModelFactory implements ICreationFactory {
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
 
-        if(object instanceof ITextAlignment) {
-            ((ITextAlignment)object).setTextAlignment(provider.getDefaultTextAlignment());
+        if(object instanceof ITextAlignment ta) {
+            ta.setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
-        if(object instanceof ITextPosition) {
-            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        if(object instanceof ITextPosition tp) {
+            tp.setTextPosition(provider.getDefaultTextPosition());
         }
 
         // Add new bounds with a default user size
-        if(object instanceof IDiagramModelObject) {
+        if(object instanceof IDiagramModelObject dmo) {
             Dimension size = provider.getDefaultSize();
-            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
+            dmo.setBounds(0, 0, size.width, size.height);
         }
         
         return object;

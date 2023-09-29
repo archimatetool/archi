@@ -68,6 +68,7 @@ public class FigureImagePreviewFactory {
             dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
             dmo.setName(provider.getDefaultName());
             dmo.setType(type);
+            dmo.setDeriveElementLineColor(false);
             
             // Special case for text alignment
             if(eClass == IArchimatePackage.eINSTANCE.getGrouping()) {

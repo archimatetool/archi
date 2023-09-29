@@ -30,7 +30,6 @@ public interface IPreferenceConstants {
     String FOLDER_COLOUR_PREFIX = "folderColour_";
 
     String DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor";
-    String DERIVE_ELEMENT_LINE_COLOR_FACTOR = "deriveElementLineColorFactor";
     String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile";
     
     // Theme Color Definition IDs

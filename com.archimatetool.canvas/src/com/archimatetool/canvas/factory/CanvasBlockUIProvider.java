@@ -61,7 +61,8 @@ public class CanvasBlockUIProvider extends AbstractGraphicalObjectUIProvider {
     @Override
     public boolean shouldExposeFeature(String featureName) {
         if(featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
-                featureName == IDiagramModelObject.FEATURE_GRADIENT) {
+                featureName == IDiagramModelObject.FEATURE_GRADIENT ||
+                featureName == IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR) {
             return false;
         }
         

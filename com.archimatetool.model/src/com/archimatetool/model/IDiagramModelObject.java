@@ -23,23 +23,27 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
+@SuppressWarnings("nls")
 public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILineObject, ITextAlignment {
     
-    String FEATURE_LINE_ALPHA = "lineAlpha"; //$NON-NLS-1$
+    String FEATURE_LINE_ALPHA = "lineAlpha";
     int FEATURE_LINE_ALPHA_DEFAULT = 255;
     
-    String FEATURE_GRADIENT = "gradient"; //$NON-NLS-1$
+    String FEATURE_GRADIENT = "gradient";
     int GRADIENT_NONE = -1;
     int FEATURE_GRADIENT_DEFAULT = GRADIENT_NONE;
     
-    String FEATURE_ICON_VISIBLE = "iconVisible"; //$NON-NLS-1$
+    String FEATURE_ICON_VISIBLE = "iconVisible";
     int ICON_VISIBLE_IF_NO_IMAGE_DEFINED = 0;
     int ICON_VISIBLE_ALWAYS = 1;
     int ICON_VISIBLE_NEVER = 2;
     int FEATURE_ICON_VISIBLE_DEFAULT = ICON_VISIBLE_IF_NO_IMAGE_DEFINED;
     
-    String FEATURE_ICON_COLOR = "iconColor"; //$NON-NLS-1$
-    String FEATURE_ICON_COLOR_DEFAULT = ""; //$NON-NLS-1$
+    String FEATURE_ICON_COLOR = "iconColor";
+    String FEATURE_ICON_COLOR_DEFAULT = "";
+    
+    String FEATURE_DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor";
+    boolean FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT = true;
     
     /**
      * @return the value of FEATURE_LINE_ALPHA
@@ -64,7 +68,7 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     void setGradient(int type);
     
     /**
-     * @return true if the icon is visible (if this object has an icon)
+     * @return the icon visible state
      */
     int getIconVisibleState();
     
@@ -84,6 +88,17 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @param iconColor
      */
     void setIconColor(String iconColor);
+    
+    /**
+     * @return true if this element derives its line color from its fill color
+     */
+    boolean getDeriveElementLineColor();
+    
+    /**
+     * Set whether this element derives its line color from its fill color
+     * @param value value
+     */
+    void setDeriveElementLineColor(boolean value);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.

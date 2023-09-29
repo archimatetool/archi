@@ -227,9 +227,8 @@ implements IDiagramModelObjectFigure {
     public Color getLineColor() {
         if(fLineColor == null) {
             // User preference to derive element line colour
-            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
-                fLineColor = ColorFactory.getDarkerColor(getFillColor(),
-                        ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
+            if(fDiagramModelObject.getDeriveElementLineColor()) {
+                fLineColor = ColorFactory.getDerivedLineColor(getFillColor());
             }
             else {
                 fLineColor = ColorFactory.get(fDiagramModelObject.getLineColor());

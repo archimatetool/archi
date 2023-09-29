@@ -14,9 +14,7 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
@@ -117,9 +115,9 @@ public class LineColorAction extends SelectionAction {
             return false;
         }
         
-        if(model instanceof IDiagramModelObject) {
+        if(model instanceof IDiagramModelObject dmo) {
             // Disable if diagram model object line colours are derived from fill colours as set in Prefs
-            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+            if(dmo.getDeriveElementLineColor()) {
                 return false;
             }
         }

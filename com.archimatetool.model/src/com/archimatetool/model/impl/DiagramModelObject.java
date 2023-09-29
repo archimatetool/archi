@@ -251,6 +251,16 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         getFeatures().putString(FEATURE_ICON_COLOR, iconColor, FEATURE_ICON_COLOR_DEFAULT);
     }
     
+    @Override
+    public boolean getDeriveElementLineColor() {
+        return getFeatures().getBoolean(FEATURE_DERIVE_ELEMENT_LINE_COLOR, FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT);
+    }
+    
+    @Override
+    public void setDeriveElementLineColor(boolean value) {
+        getFeatures().putBoolean(FEATURE_DERIVE_ELEMENT_LINE_COLOR, value, FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT);
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

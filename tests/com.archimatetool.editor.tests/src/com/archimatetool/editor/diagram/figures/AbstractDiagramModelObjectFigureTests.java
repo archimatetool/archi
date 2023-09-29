@@ -107,7 +107,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testSetLineColor() {
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR, false);
+        diagramModelObject.setDeriveElementLineColor(false);
         
         assertEquals(ColorFactory.getDefaultLineColor(diagramModelObject), abstractFigure.getLineColor());
         

@@ -42,7 +42,6 @@ implements IPreferenceConstants {
 	    // Colours
 	    
         store.setDefault(DERIVE_ELEMENT_LINE_COLOR, true);
-        store.setDefault(DERIVE_ELEMENT_LINE_COLOR_FACTOR, 7);
         store.setDefault(SAVE_USER_DEFAULT_COLOR, false);
         
         // Fonts

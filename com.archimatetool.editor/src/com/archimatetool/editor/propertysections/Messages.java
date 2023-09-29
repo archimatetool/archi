@@ -239,6 +239,10 @@ public class Messages extends NLS {
 
     public static String LineColorSection_2;
 
+    public static String LineColorSection_3;
+
+    public static String LineColorSection_4;
+
     public static String LineWidthSection_0;
 
     public static String LineWidthSection_1;

@@ -40,9 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -87,14 +85,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fResetFillColorButton;
     private Button fDeriveElementLineColorsButton;
     
-    // Spinner
-    private Spinner fElementLineColorContrastSpinner;
-
     // Tree
     private TreeViewer fTreeViewer;
 
-    private Label fContrastFactorLabel;
-    
     private IPropertyChangeListener themeChangeListener;
     
     private static List<String> themeColors = List.of(VIEW_BACKGROUND_COLOR,
@@ -381,37 +374,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        Group elementColorGroup = new Group(client, SWT.NULL);
-        elementColorGroup.setLayout(new GridLayout(2, false));
-        elementColorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        elementColorGroup.setText(Messages.ColoursPreferencePage_17);
-        
         // Derive element line colours
-        fDeriveElementLineColorsButton = new Button(elementColorGroup, SWT.CHECK);
+        fDeriveElementLineColorsButton = new Button(client, SWT.CHECK);
         fDeriveElementLineColorsButton.setText(Messages.ColoursPreferencePage_18);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDeriveElementLineColorsButton.setLayoutData(gd);
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getBoolean(DERIVE_ELEMENT_LINE_COLOR));
-        fDeriveElementLineColorsButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                fElementLineColorContrastSpinner.setEnabled(fDeriveElementLineColorsButton.getSelection());
-                fContrastFactorLabel.setEnabled(fDeriveElementLineColorsButton.getSelection());
-            }
-        });
         
-        fContrastFactorLabel = new Label(elementColorGroup, SWT.NULL);
-        fContrastFactorLabel.setText(Messages.ColoursPreferencePage_19);
-        
-        fElementLineColorContrastSpinner = new Spinner(elementColorGroup, SWT.BORDER);
-        fElementLineColorContrastSpinner.setMinimum(1);
-        fElementLineColorContrastSpinner.setMaximum(10);
-        fElementLineColorContrastSpinner.setSelection(getPreferenceStore().getInt(DERIVE_ELEMENT_LINE_COLOR_FACTOR));
-        
-        label = new Label(elementColorGroup, SWT.NULL);
-        label.setText(Messages.ColoursPreferencePage_20);
-
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
 
@@ -585,7 +555,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR, fDeriveElementLineColorsButton.getSelection());
-        getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR_FACTOR, fElementLineColorContrastSpinner.getSelection());
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
         
         saveColors(getPreferenceStore(), true);
@@ -599,8 +568,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
         
-        fElementLineColorContrastSpinner.setSelection(getPreferenceStore().getDefaultInt(DERIVE_ELEMENT_LINE_COLOR_FACTOR));
-
         // Set color cache to inbuilt defaults
         resetColorsCache(true);
         

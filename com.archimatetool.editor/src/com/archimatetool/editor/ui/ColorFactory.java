@@ -69,26 +69,27 @@ public class ColorFactory {
      * Set user default colors as set in prefs for a model object
      */
     public static void setDefaultColors(IDiagramModelComponent component) {
-        // If user Prefs is to *not* save default colours in file
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-            return;
+        // Derived line color
+        if(component instanceof IDiagramModelObject dmo) {
+            dmo.setDeriveElementLineColor(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR));
         }
-        
-        // Fill color
-        if(component instanceof IDiagramModelObject) {
-            IDiagramModelObject dmo = (IDiagramModelObject)component;
-            Color fillColor = getDefaultFillColor(dmo);
-            if(fillColor != null) {
-                dmo.setFillColor(convertColorToString(fillColor));
+
+        // If user Prefs is set to save default colours in file
+        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            // Fill color
+            if(component instanceof IDiagramModelObject dmo) {
+                Color fillColor = getDefaultFillColor(dmo);
+                if(fillColor != null) {
+                    dmo.setFillColor(convertColorToString(fillColor));
+                }
             }
-        }
-        
-        // Line color
-        if(component instanceof ILineObject) {
-            ILineObject lo = (ILineObject)component;
-            Color lineColor = getDefaultLineColor(lo);
-            if(lineColor != null) {
-                lo.setLineColor(convertColorToString(lineColor));
+            
+            // Line color
+            if(component instanceof ILineObject lo) {
+                Color lineColor = getDefaultLineColor(lo);
+                if(lineColor != null) {
+                    lo.setLineColor(convertColorToString(lineColor));
+                }
             }
         }
     }
@@ -341,4 +342,20 @@ public class ColorFactory {
         return get(convertRGBToString(rgb));
     }
 
+    /**
+     * Return a color based on the suppled one for elements
+     * @param color The color to base this one on
+     * @return the new color
+     */
+    public static Color getDerivedLineColor(Color color) {
+        if(color == null) {
+            return null;
+        }
+        
+        float contrastFactor = 0.7f;
+        
+        RGB rgb = new RGB((int)(color.getRed() * contrastFactor), (int)(color.getGreen() * contrastFactor), (int)(color.getBlue() * contrastFactor));
+        
+        return get(convertRGBToString(rgb));
+    }
 }
