@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.model.commands;
 
+import java.util.Objects;
+
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.model.IFeatures;
@@ -15,6 +17,7 @@ import com.archimatetool.model.IFeaturesEList;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class FeatureCommand extends Command {
     
     private IFeaturesEList features;
@@ -24,8 +27,8 @@ public class FeatureCommand extends Command {
         setLabel(label);
         features = featuresObject.getFeatures();
         this.name = name;
-        this.value = value.toString();
-        this.defaultValue = defaultValue.toString();
+        this.value = value != null ? value.toString() : "";
+        this.defaultValue = defaultValue != null ? defaultValue.toString() : "";
         oldValue = features.getString(name, this.defaultValue);
     }
 
@@ -41,7 +44,7 @@ public class FeatureCommand extends Command {
     
     @Override
     public boolean canExecute() {
-        return value != null && !value.equals(oldValue);
+        return !Objects.equals(value, oldValue);
     }
 
     @Override

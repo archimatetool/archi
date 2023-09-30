@@ -74,6 +74,26 @@ public class FeaturesEListTests {
     }
     
     @Test
+    public void putStringNullWithDefault() {
+        IFeature feature = list.putString("name1", "value", "default");
+        assertNotNull(feature);
+        
+        feature = list.putString("name1", null, "default");
+        assertEquals("name1", list.get(0).getName());
+        assertEquals("", list.get(0).getValue());
+    }
+    
+    @Test
+    public void putStringNullWithNullDefault() {
+        IFeature feature = list.putString("name1", "value", null);
+        assertNotNull(feature);
+        
+        feature = list.putString("name1", null, null);
+        assertNull(feature);
+        assertTrue(list.isEmpty());
+    }
+    
+    @Test
     public void putInt() {
         IFeature feature = list.putInt("name1", 1);
         assertNotNull(feature);

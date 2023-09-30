@@ -5,6 +5,8 @@
  */
 package com.archimatetool.model.impl;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
@@ -17,6 +19,7 @@ import com.archimatetool.model.IFeaturesEList;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class FeaturesEList extends EObjectContainmentEList<IFeature> implements IFeaturesEList {
     
     public FeaturesEList(Class<?> dataClass, InternalEObject owner, int featureID) {
@@ -31,10 +34,17 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     @Override
     public IFeature putString(String name, String value, String defaultValue) {
         checkNull(name);
-        checkNull(value);
+        
+        if(value == null) {
+            value = "";
+        }
+        
+        if(defaultValue == null) {
+            defaultValue = "";
+        }
         
         // value == default value so remove it or don't add it and return null
-        if(value.equals(defaultValue)) {
+        if(Objects.equals(value, defaultValue)) {
             remove(name);
             return null;
         }
@@ -49,7 +59,7 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
             add(feature);
         }
         // Different value
-        else if(!value.equals(feature.getValue())) {
+        else if(!Objects.equals(value, feature.getValue())) {
             feature.setValue(value);
         }
         
@@ -131,7 +141,7 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
 
     private void checkNull(String s) {
         if(s == null) {
-            throw new IllegalArgumentException("key or value cannot be null"); //$NON-NLS-1$
+            throw new IllegalArgumentException("name cannot be null");
         }
     }
     
