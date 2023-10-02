@@ -78,6 +78,9 @@ openFile
       <feature id="org.eclipse.ecf.core.ssl.feature"/>
       <feature id="org.eclipse.equinox.p2.extras.feature"/>
       <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature"/>
+      <feature id="org.eclipse.emf.compare"/>
+      <feature id="org.eclipse.jgit"/>
+      <feature id="org.eclipse.jgit.ssh.apache"/>
    </features>
 
    <configurations>
