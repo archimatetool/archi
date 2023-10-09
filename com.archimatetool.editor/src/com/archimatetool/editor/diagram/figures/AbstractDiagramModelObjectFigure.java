@@ -27,7 +27,6 @@ import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -164,12 +163,11 @@ implements IDiagramModelObjectFigure {
     }
     
     @Override
-    public void setFont(Font f) {
-        if(PlatformUtils.isWindows()) {
-            f = FontFactory.getAdjustedWindowsFont(f);
-        }
+    public void setFont(Font font) {
+        // Possible font scaling for non 96 DPI on Windows or if property set
+        font = FontFactory.getScaledFont96DPI(font);
         
-        super.setFont(f);
+        super.setFont(font);
     }
     
     /**

@@ -32,7 +32,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -201,10 +200,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         String fontName = getModelConnection().getFont();
         Font font = FontFactory.get(fontName);
         
-        // Adjust for Windows DPI
-        if(PlatformUtils.isWindows()) {
-            font = FontFactory.getAdjustedWindowsFont(font);
-        }
+        // Possible font scaling for non 96 DPI on Windows or if property set
+        font = FontFactory.getScaledFont96DPI(font);
 
         getConnectionLabel().setFont(font);
     }

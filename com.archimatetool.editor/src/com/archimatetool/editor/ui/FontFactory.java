@@ -24,7 +24,14 @@ import com.archimatetool.editor.utils.StringUtils;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public final class FontFactory {
+    
+    // Property to set if we will check to adjust font scaling
+    public static final String ADJUST_FONT_SIZE_PROPERTY = "com.archimatetool.adjustFontSize";
+    
+    // Whether to check to adjust font size on Windows non 96 DPI or if property set
+    private static final boolean CHECK_ADJUST_FONT_SIZE = PlatformUtils.isWindows() || "true".equals(System.getProperty(ADJUST_FONT_SIZE_PROPERTY));
     
     private static final String DEFAULT_VIEW_FONT_NAME = "defaultViewFont"; //$NON-NLS-1$
     
@@ -33,14 +40,9 @@ public final class FontFactory {
      */
     private static FontRegistry FontRegistry = new FontRegistry();
 
-    /**
-     * Temporary Font Registry to hold adjusted size fonts on Windows
-     */
-    private static FontRegistry windowsFontRegistry = new FontRegistry();
+    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold("");
     
-    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold(""); //$NON-NLS-1$
-    
-    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
+    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic("");
     
     /**
      * @param fontName
@@ -112,19 +114,19 @@ public final class FontFactory {
      */
     public static FontData getDefaultViewOSFontData() {
         // Default
-        FontData fd = new FontData("Sans", 9, SWT.NORMAL); //$NON-NLS-1$
+        FontData fd = new FontData("Sans", 9, SWT.NORMAL);
 
         // Windows
         if(PlatformUtils.isWindows()) {
-            fd = new FontData("Segoe UI", 9, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("Segoe UI", 9, SWT.NORMAL);
         }
         // Linux
         else if(PlatformUtils.isLinux()) {
-            fd = new FontData("Sans", 9, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("Sans", 9, SWT.NORMAL);
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("Lucida Grande", 12, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("Lucida Grande", 12, SWT.NORMAL);
         }
 
         return fd;
@@ -136,25 +138,31 @@ public final class FontFactory {
     }
 
     /**
-     * On Windows OS if the system DPI is not 96 DPI we need to adjust the size
-     * of the font on the diagram View.
-     * @param font
-     * @return The adjusted font
+     * Return a font scaled from 96 DPI if the current DPI is not 96
+     * This can happen on Windows if the DPI is not 96 or on Mac if we set a property.
+     * @return The adjusted font if DPI is not 96, or the same font if it is 96 DPI, or null if font is null
      */
-    public static Font getAdjustedWindowsFont(Font font) {
-        if(font != null && PlatformUtils.isWindows()) {
-            int DPI = font.getDevice().getDPI().y;
-            if(DPI != 96) {
-                FontData[] fd = font.getFontData();
-                String fontName = fd[0].toString();
-                if(!windowsFontRegistry.hasValueFor(fontName)) {
-                    float factor = (float)96 / DPI;
-                    int newHeight = (int)(fd[0].getHeight() * factor);
-                    fd[0].setHeight(newHeight);
-                    windowsFontRegistry.put(fontName, fd);
-                }
-                font = windowsFontRegistry.get(fontName);
+    public static Font getScaledFont96DPI(Font font) {
+        if(font == null || !CHECK_ADJUST_FONT_SIZE) {
+            return font;
+        }
+        
+        int DPI = font.getDevice().getDPI().y;
+        
+        if(DPI != 96) {
+            FontData[] fd = font.getFontData();
+            
+            float factor = (float)96 / DPI;
+            int newHeight = (int)(fd[0].getHeight() * factor);
+            
+            fd[0].setHeight(newHeight);
+            String fontName = fd[0].toString();
+            
+            if(!FontRegistry.hasValueFor(fontName)) {
+                FontRegistry.put(fontName, fd);
             }
+            
+            font = FontRegistry.get(fontName);
         }
 
         return font;
