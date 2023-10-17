@@ -83,6 +83,12 @@ public class Messages extends NLS {
 
     public static String LineWidthAction_1;
 
+    public static String LineWidthAction_2;
+
+    public static String LineWidthAction_3;
+
+    public static String LineWidthAction_4;
+
     public static String LockObjectAction_0;
 
     public static String LockObjectAction_1;

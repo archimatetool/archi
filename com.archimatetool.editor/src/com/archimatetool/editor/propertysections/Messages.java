@@ -125,6 +125,8 @@ public class Messages extends NLS {
 
     public static String FillColorSection_1;
 
+    public static String FillOpacitySection_0;
+
     public static String FontColorSection_0;
 
     public static String FontColorSection_1;
@@ -243,6 +245,8 @@ public class Messages extends NLS {
 
     public static String LineColorSection_4;
 
+    public static String LineOpacitySection_0;
+
     public static String LineWidthSection_0;
 
     public static String LineWidthSection_1;
@@ -260,10 +264,6 @@ public class Messages extends NLS {
     public static String NoteBorderTypeSection_1;
 
     public static String NoteBorderTypeSection_2;
-
-    public static String OpacitySection_0;
-
-    public static String OutlineOpacitySection_0;
 
     public static String PropertiesLabelProvider_0;
 

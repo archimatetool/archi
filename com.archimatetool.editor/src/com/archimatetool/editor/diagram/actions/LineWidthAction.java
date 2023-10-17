@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
-import com.archimatetool.editor.propertysections.LineWidthSection;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -118,6 +117,12 @@ public class LineWidthAction extends SelectionAction {
     private static class LineWidthDialog extends Dialog {
         private Combo fCombo;
         private int fLineWidth;
+        
+        private static final String[] comboLineWidthItems = {
+                Messages.LineWidthAction_2,
+                Messages.LineWidthAction_3,
+                Messages.LineWidthAction_4
+        };
 
         protected LineWidthDialog(Shell parent, int lineWidth) {
             super(parent);
@@ -135,7 +140,7 @@ public class LineWidthAction extends SelectionAction {
             Composite composite = (Composite)super.createDialogArea(parent);
             
             fCombo = new Combo(composite, SWT.READ_ONLY);
-            fCombo.setItems(LineWidthSection.comboLineWidthItems);
+            fCombo.setItems(comboLineWidthItems);
             fCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fCombo.select(fLineWidth - 1);
             

@@ -6,7 +6,6 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,13 +28,10 @@ public class GridLayoutColumnHandler {
     private int maxColumns;
     private Composite parent;
     
-    IPropertyChangeListener listener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            if(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN.equals(event.getProperty())) {
-                updateColumns();
-                parent.requestLayout();
-            }
+    IPropertyChangeListener listener = event -> {
+        if(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN.equals(event.getProperty())) {
+            updateColumns();
+            parent.requestLayout();
         }
     };
     
@@ -45,6 +41,7 @@ public class GridLayoutColumnHandler {
         
         parent.addDisposeListener((e) -> {
             ArchiPlugin.PREFERENCES.removePropertyChangeListener(listener);
+            this.parent = null;
         });
         
         ArchiPlugin.PREFERENCES.addPropertyChangeListener(listener);

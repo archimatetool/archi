@@ -417,30 +417,30 @@
          </propertySection>
          <propertySection
                afterSection="fillColorSection"
-               class="com.archimatetool.editor.propertysections.LineColorSection"
-               filter="com.archimatetool.editor.propertysections.LineColorSection$Filter"
-               id="lineColorSection"
+               class="com.archimatetool.editor.propertysections.FillOpacitySection"
+               filter="com.archimatetool.editor.propertysections.FillOpacitySection$Filter"
+               id="fillOpacitySection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="lineColorSection"
+               afterSection="fillOpacitySection"
+               class="com.archimatetool.editor.propertysections.LineSection"
+               filter="com.archimatetool.editor.propertysections.LineSection$Filter"
+               id="lineSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="lineSection"
+               class="com.archimatetool.editor.propertysections.LineOpacitySection"
+               filter="com.archimatetool.editor.propertysections.LineOpacitySection$Filter"
+               id="lineOpacitySection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="lineOpacitySection"
                class="com.archimatetool.editor.propertysections.IconColorSection"
                filter="com.archimatetool.editor.propertysections.IconColorSection$Filter"
                id="iconColorSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="lineColorSection"
-               class="com.archimatetool.editor.propertysections.LineWidthSection"
-               filter="com.archimatetool.editor.propertysections.LineWidthSection$Filter"
-               id="lineWidthSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="iconColorSection"
-               class="com.archimatetool.editor.propertysections.GradientSection"
-               filter="com.archimatetool.editor.propertysections.GradientSection$Filter"
-               id="gradientSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
@@ -477,7 +477,7 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="fillColorSection"
+               afterSection="fillOpacitySection"
                class="com.archimatetool.editor.propertysections.BorderColorSection"
                filter="com.archimatetool.editor.propertysections.BorderColorSection$Filter"
                id="borderColorSection"
@@ -488,13 +488,6 @@
                class="com.archimatetool.editor.propertysections.FontSection"
                filter="com.archimatetool.editor.propertysections.FontSection$Filter"
                id="fontSection"
-               tab="appearance.tab">
-         </propertySection>
-         <propertySection
-               afterSection="fontSection"
-               class="com.archimatetool.editor.propertysections.OpacitySection"
-               filter="com.archimatetool.editor.propertysections.OpacitySection$Filter"
-               id="opacitySection"
                tab="appearance.tab">
          </propertySection>
          <propertySection

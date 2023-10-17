@@ -12,15 +12,16 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILineObject;
 
 
 
 /**
- * Property Section for a Fill Color and Gradient
+ * Property Section for a Line
  * 
  * @author Phillip Beauvoir
  */
-public class FillColorSection extends AbstractECorePropertySection {
+public class LineSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -30,22 +31,22 @@ public class FillColorSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelObject dmo && 
-                    (shouldExposeFeature(dmo, IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName())
-                            || shouldExposeFeature(dmo, IDiagramModelObject.FEATURE_GRADIENT));
+            return object instanceof ILineObject lo &&
+                    (shouldExposeFeature(lo, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName())
+                            || shouldExposeFeature(lo, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()));
         }
 
         @Override
         public Class<?> getAdaptableType() {
-            return IDiagramModelObject.class;
+            return ILineObject.class;
         }
     }
     
     private Composite parentComposite;
-    private FillColorComposite fillColorComposite;
-    private GradientComposite gradientComposite;
+    private LineColorComposite lineColorComposite;
+    private LineWidthComposite lineWidthComposite;
     private GridLayoutColumnHandler columnHandler;
-    
+
     @Override
     protected void createControls(Composite parent) {
         parentComposite = parent;
@@ -61,12 +62,12 @@ public class FillColorSection extends AbstractECorePropertySection {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
             
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR) {
-                updateColorControl(); // update also when executing command in case "default" is chosen
+            if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR || isFeatureNotification(msg, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
+                updateColorControl(); // update also when executing command in case "default" or "derive from fill color" is chosen
             }
-            else if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_GRADIENT)) {
+            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
                 if(!fIsExecutingCommand) {
-                    updateGradientControl();
+                    updateLineWidthControl();
                 }
             }
             else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
@@ -78,7 +79,7 @@ public class FillColorSection extends AbstractECorePropertySection {
     @Override
     protected void update() {
         updateColorControl();
-        updateGradientControl();
+        updateLineWidthControl();
         
         // Allow setting 1 or 2 columns
         if(columnHandler == null) {
@@ -88,33 +89,33 @@ public class FillColorSection extends AbstractECorePropertySection {
     }
     
     private void updateColorControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName());
+        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
         
         if(show) {
-            if(fillColorComposite == null) {
-                fillColorComposite = new FillColorComposite(this, parentComposite);
+            if(lineColorComposite == null) {
+                lineColorComposite = new LineColorComposite(this, parentComposite);
             }
-            fillColorComposite.updateControl();
+            lineColorComposite.updateControl();
         }
-        else if(fillColorComposite != null) {
-            fillColorComposite.dispose();
-            fillColorComposite = null;
+        else if(lineColorComposite != null) {
+            lineColorComposite.dispose();
+            lineColorComposite = null;
             return;
         }
     }
     
-    private void updateGradientControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IDiagramModelObject.FEATURE_GRADIENT);
+    private void updateLineWidthControl() {
+        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
         
         if(show) {
-            if(gradientComposite == null) {
-                gradientComposite = new GradientComposite(this, parentComposite);
+            if(lineWidthComposite == null) {
+                lineWidthComposite = new LineWidthComposite(this, parentComposite);
             }
-            gradientComposite.updateControl();
+            lineWidthComposite.updateControl();
         }
-        else if(gradientComposite != null) {
-            gradientComposite.dispose();
-            gradientComposite = null;
+        else if(lineWidthComposite != null) {
+            lineWidthComposite.dispose();
+            lineWidthComposite = null;
             return;
         }
     }
@@ -123,19 +124,19 @@ public class FillColorSection extends AbstractECorePropertySection {
     protected IObjectFilter getFilter() {
         return new Filter();
     }
-
+    
     @Override
     public void dispose() {
         super.dispose();
         
-        if(fillColorComposite != null) {
-            fillColorComposite.dispose();
-            fillColorComposite = null;
+        if(lineColorComposite != null) {
+            lineColorComposite.dispose();
+            lineColorComposite = null;
         }
         
-        if(gradientComposite != null) {
-            gradientComposite.dispose();
-            gradientComposite = null;
+        if(lineWidthComposite != null) {
+            lineWidthComposite.dispose();
+            lineWidthComposite = null;
         }
         
         columnHandler = null;

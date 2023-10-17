@@ -54,7 +54,7 @@ public class IconColorSection extends AbstractECorePropertySection {
     /**
      * Color listener
      */
-    private IPropertyChangeListener colorListener = (event) -> {
+    private IPropertyChangeListener colorListener = event -> {
         String newColor = IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT;
         
         // User changed color
@@ -97,14 +97,10 @@ public class IconColorSection extends AbstractECorePropertySection {
     protected void notifyChanged(Notification msg) {
         if(msg.getNotifier() == getFirstSelectedObject()) {
             Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
+            
+            if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_COLOR) || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update(); // Update in all cases
             }
-        }
-        
-        // Notifier is the Feature
-        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_COLOR)) {
-            update();
         }
     }
 
