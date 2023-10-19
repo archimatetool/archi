@@ -444,14 +444,14 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="gradientSection"
+               afterSection="iconColorSection"
                class="com.archimatetool.editor.propertysections.TextAlignmentSection"
                filter="com.archimatetool.editor.propertysections.TextAlignmentSection$Filter"
                id="textAlignmentSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="gradientSection"
+               afterSection="lineOpacitySection"
                class="com.archimatetool.editor.propertysections.GroupBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.GroupBorderTypeSection$Filter"
                id="groupBorderTypeSection"
@@ -491,7 +491,7 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="gradientSection"
+               afterSection="lineOpacitySection"
                class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
                id="noteBorderTypeSection"
