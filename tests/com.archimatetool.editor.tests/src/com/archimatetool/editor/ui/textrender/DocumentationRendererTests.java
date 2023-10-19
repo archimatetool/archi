@@ -7,10 +7,12 @@ package com.archimatetool.editor.ui.textrender;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -28,8 +30,14 @@ public class DocumentationRendererTests extends AbstractTextRendererTests {
 
     private DocumentationRenderer renderer = new DocumentationRenderer();
     
-    private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-    private IDiagramModelArchimateConnection dmc = TextRendererTests.createDiagramModelConnection();
+    private IDiagramModelArchimateObject dmo;
+    private IDiagramModelArchimateConnection dmc;
+    
+    @Before
+    public void beforeEachTest() {
+        dmo = TextRendererTests.createDiagramModelObject();
+        dmc = TextRendererTests.createDiagramModelConnection();
+    }
     
     @Override
     protected DocumentationRenderer getRenderer() {
@@ -110,8 +118,30 @@ public class DocumentationRendererTests extends AbstractTextRendererTests {
     }
     
     @Test
+    public void render_ConnectedSourceDocumentation_No_DiagramModelComponent() {
+        IConnectable target = dmc.getTarget();
+        
+        // remove dmc
+        dmc.disconnect();
+        
+        String result = renderer.render(target, "$assignment:source{documentation}");
+        assertEquals("Source Documentation", result);
+    }
+    
+    @Test
     public void render_ConnectedTargetDocumentation() {
         String result = renderer.render(dmc.getSource(), "$assignment:target{documentation}");
+        assertEquals("Target Documentation", result);
+    }
+
+    @Test
+    public void render_ConnectedTargetDocumentation_No_DiagramModelComponent() {
+        IConnectable source = dmc.getSource();
+        
+        // remove dmc
+        dmc.disconnect();
+        
+        String result = renderer.render(source, "$assignment:target{documentation}");
         assertEquals("Target Documentation", result);
     }
 

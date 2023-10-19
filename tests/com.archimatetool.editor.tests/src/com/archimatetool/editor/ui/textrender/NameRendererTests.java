@@ -7,10 +7,12 @@ package com.archimatetool.editor.ui.textrender;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -28,8 +30,14 @@ public class NameRendererTests extends AbstractTextRendererTests {
 
     private NameRenderer renderer = new NameRenderer();
     
-    private IDiagramModelArchimateObject dmo = TextRendererTests.createDiagramModelObject();
-    private IDiagramModelArchimateConnection dmc = TextRendererTests.createDiagramModelConnection();
+    private IDiagramModelArchimateObject dmo;
+    private IDiagramModelArchimateConnection dmc;
+    
+    @Before
+    public void beforeEachTest() {
+        dmo = TextRendererTests.createDiagramModelObject();
+        dmc = TextRendererTests.createDiagramModelConnection();
+    }
     
     @Override
     protected NameRenderer getRenderer() {
@@ -104,8 +112,30 @@ public class NameRendererTests extends AbstractTextRendererTests {
     }
     
     @Test
+    public void render_ConnectedSourceName_No_DiagramModelComponent() {
+        IConnectable target = dmc.getTarget();
+        
+        // remove dmc
+        dmc.disconnect();
+        
+        String result = renderer.render(target, "$assignment:source{name}");
+        assertEquals("Source Concept", result);
+    }
+    
+    @Test
     public void render_ConnectedTargetName() {
         String result = renderer.render(dmc.getSource(), "$assignment:target{name}");
+        assertEquals("Target Concept", result);
+    }
+
+    @Test
+    public void render_ConnectedTargetName_No_DiagramModelComponent() {
+        IConnectable source = dmc.getSource();
+        
+        // remove dmc
+        dmc.disconnect();
+        
+        String result = renderer.render(source, "$assignment:target{name}");
         assertEquals("Target Concept", result);
     }
 

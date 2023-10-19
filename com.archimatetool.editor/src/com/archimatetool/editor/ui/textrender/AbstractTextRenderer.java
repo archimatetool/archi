@@ -5,7 +5,9 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -30,11 +32,11 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
      * @return object itself or the underlying object
      */
     protected IArchimateModelObject getActualObject(IArchimateModelObject object) {
-        if(object instanceof IDiagramModelArchimateComponent) {
-            return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+        if(object instanceof IDiagramModelArchimateComponent dmo) {
+            return dmo.getArchimateConcept();
         }
-        if(object instanceof IDiagramModelReference) {
-            return ((IDiagramModelReference)object).getReferencedModel();
+        if(object instanceof IDiagramModelReference dmr) {
+            return dmr.getReferencedModel();
         }
         return object;
     }
@@ -61,18 +63,18 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
         }
 
         // View - object is an IDiagramModelComponent so return IDiagramModel
-        if(viewPrefix.equals(prefix) && object instanceof IDiagramModelComponent) {
-            return ((IDiagramModelComponent)object).getDiagramModel();
+        if(viewPrefix.equals(prefix) && object instanceof IDiagramModelComponent dmc) {
+            return dmc.getDiagramModel();
         }
         
         // Model Folder
-        if(modelFolderPrefix.equals(prefix) && actualObject.eContainer() instanceof IFolder) { // Has a folder parent
-            return (IFolder)actualObject.eContainer();
+        if(modelFolderPrefix.equals(prefix) && actualObject.eContainer() instanceof IFolder folder) { // Has a folder parent
+            return folder;
         }
         
         // View Folder
-        if(viewFolderPrefix.equals(prefix) && object instanceof IDiagramModelComponent) {
-            IDiagramModel dm = ((IDiagramModelComponent)object).getDiagramModel();
+        if(viewFolderPrefix.equals(prefix) && object instanceof IDiagramModelComponent dmc) {
+            IDiagramModel dm = dmc.getDiagramModel();
             return dm != null ? (IArchimateModelObject)dm.eContainer() : null; // folder parent of IDiagramModel
         }
         
@@ -83,36 +85,54 @@ public abstract class AbstractTextRenderer implements ITextRenderer {
         }
         
         // Source of Connection
-        if(sourcePrefix.equals(prefix) && object instanceof IDiagramModelConnection) {
-            return getActualObject(((IDiagramModelConnection)object).getSource());
+        if(sourcePrefix.equals(prefix) && object instanceof IDiagramModelConnection dmc) {
+            return getActualObject(dmc.getSource());
         }
         
         // Target of Connection
-        if(targetPrefix.equals(prefix) && object instanceof IDiagramModelConnection) {
-            return getActualObject(((IDiagramModelConnection)object).getTarget());
+        if(targetPrefix.equals(prefix) && object instanceof IDiagramModelConnection dmc) {
+            return getActualObject(dmc.getTarget());
         }
         
-        // Linked Source object from a connection
-        if(prefix.endsWith(":source") && object instanceof IConnectable) {
+        // Linked Source object from a connection/relation
+        if(prefix.endsWith(":source") && object instanceof IConnectable connectable) {
             prefix = prefix.replace(":source", "");
 
-            // Has at least one target connection that matches...
-            for(IDiagramModelConnection connection : ((IConnectable)object).getTargetConnections()) {
-                IArchimateModelObject actualConnection = getActualObject(connection);
+            // Has at least one source connection that matches...
+            for(IDiagramModelConnection connection : connectable.getTargetConnections()) {
+                IArchimateModelObject actualConnection = getActualObject(connection); // Could be "connection" or a relationship type
                 if(actualConnection.eClass().getName().toLowerCase().contains(prefix)) {
                     return getActualObject(connection.getSource());
                 }
             }
+            
+            // No connection, so has at least one source model relation that matches...
+            if(actualObject instanceof IArchimateConcept concept) {
+                for(IArchimateRelationship relationship : concept.getTargetRelationships()) {
+                    if(relationship.eClass().getName().toLowerCase().contains(prefix)) {
+                        return relationship.getSource();
+                    }
+                }
+            }
         }
-        // Linked Target object from a connection
-        else if(prefix.endsWith(":target") && object instanceof IConnectable) {
+        // Linked Target object from a connection/relation
+        else if(prefix.endsWith(":target") && object instanceof IConnectable connectable) {
             prefix = prefix.replace(":target", "");
-
+            
             // Has at least one target connection that matches...
-            for(IDiagramModelConnection connection : ((IConnectable)object).getSourceConnections()) {
-                IArchimateModelObject actualConnection = getActualObject(connection);
+            for(IDiagramModelConnection connection : connectable.getSourceConnections()) {
+                IArchimateModelObject actualConnection = getActualObject(connection); // Could be "connection" or a relationship type
                 if(actualConnection.eClass().getName().toLowerCase().contains(prefix)) {
                     return getActualObject(connection.getTarget());
+                }
+            }
+            
+            // No connection, so has at least one target model relation that matches...
+            if(actualObject instanceof IArchimateConcept concept) {
+                for(IArchimateRelationship relationship : concept.getSourceRelationships()) {
+                    if(relationship.eClass().getName().toLowerCase().contains(prefix)) {
+                        return relationship.getTarget();
+                    }
                 }
             }
         }
