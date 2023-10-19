@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/batik-all-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io-2.14.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fop-transcoder-allinone-2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xmlgraphics-commons-2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-all-1.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext-1.3.04.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xmlgraphics-commons-2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/fop-transcoder-allinone-2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>

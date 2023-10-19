@@ -96,6 +96,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
 
         svgProvider.fSetViewboxButton.setSelection(false);
+        svgProvider.fTextAsShapesButton.setSelection(false);
 
         svgProvider.fSpinner1.setSelection(1);
         svgProvider.fSpinner2.setSelection(2);
@@ -105,6 +106,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
+        assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_TEXT_AS_SHAPES));
         assertEquals("1 2", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
     }
     

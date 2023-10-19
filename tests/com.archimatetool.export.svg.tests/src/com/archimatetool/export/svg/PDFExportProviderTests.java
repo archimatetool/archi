@@ -58,6 +58,6 @@ public class PDFExportProviderTests extends AbstractExportProviderTests {
     @Test
     public void testInit() {
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
-        assertTrue(shell.getChildren().length == 0);
+        assertTrue(shell.getChildren().length > 0);
     }
 }

@@ -15,6 +15,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class PreferenceInitializer extends AbstractPreferenceInitializer
 implements IPreferenceConstants {
 
@@ -23,7 +24,16 @@ implements IPreferenceConstants {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         store.setDefault(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, true);
-        store.setDefault(SVG_EXPORT_PREFS_VIEWBOX, ""); //$NON-NLS-1$
+        store.setDefault(SVG_EXPORT_PREFS_VIEWBOX, "");
+        
+        store.setDefault(SVG_EXPORT_PREFS_TEXT_AS_SHAPES, true);
+        store.setDefault(PDF_EXPORT_PREFS_TEXT_AS_SHAPES, true);
+        
+        store.setDefault(SVG_EXPORT_PREFS_EMBED_FONTS, false);
+        store.setDefault(PDF_EXPORT_PREFS_EMBED_FONTS, false);
+        
+        store.setDefault(SVG_EXPORT_PREFS_USE_TEXT_OFFSET_WORKAROUND, false);
+        store.setDefault(PDF_EXPORT_PREFS_USE_TEXT_OFFSET_WORKAROUND, false);
     }
 
 }

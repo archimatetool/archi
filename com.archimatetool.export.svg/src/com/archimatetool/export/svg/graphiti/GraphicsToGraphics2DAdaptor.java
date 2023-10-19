@@ -68,6 +68,9 @@ import org.eclipse.swt.widgets.Display;
  *         This class is originally from GMF and was adapted for Graphiti needs.
  */
 public class GraphicsToGraphics2DAdaptor extends Graphics {
+    
+    // Workaround for some fonts clipping (particularly on Linux)
+    public boolean useTextOffsetWorkaround = false;
 
     private static class State {
 
@@ -1060,6 +1063,11 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             // Round down instead of up. Font will be 1 point smaller.
             //height = Math.round(fsize);
             height = (int)fsize;
+
+            // workaround for some fonts clipping - reduce font height
+            if(useTextOffsetWorkaround) {
+                height--;
+            }
 
             int style = fontInfo[0].getStyle();
             boolean bItalic = (style & SWT.ITALIC) == SWT.ITALIC;

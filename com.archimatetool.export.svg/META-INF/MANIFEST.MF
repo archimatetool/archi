@@ -14,9 +14,10 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.export.svg.jar,
- lib/batik-all-1.11.jar,
- lib/fop-transcoder-allinone-2.3.jar,
+ lib/batik-all-1.17.jar,
+ lib/fop-transcoder-allinone-2.9.jar,
  lib/xml-apis-ext-1.3.04.jar,
- lib/xmlgraphics-commons-2.3.jar
+ lib/xmlgraphics-commons-2.9.jar,
+ lib/commons-io-2.14.0.jar
 Export-Package: com.archimatetool.export.svg
 Automatic-Module-Name: com.archimatetool.export.svg

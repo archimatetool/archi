@@ -13,10 +13,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -41,8 +41,21 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     Button fSetViewboxButton;
     Spinner fSpinner1, fSpinner2, fSpinner3, fSpinner4;
     
+    Button fTextAsShapesButton;
+    Button fEmbedFontsButton;
+    Button fTextOffsetWorkaroundButton;
+
     @Override
     public void export(String providerID, File file) throws Exception {
+        // Set Text as Shapes
+        setDrawTextAsShapes(fTextAsShapesButton.getSelection());
+        
+        // Embed fonts
+        setEmbedFonts(fEmbedFontsButton.getSelection());
+        
+        // Workaround text offset
+        setTextOffsetWorkaround(fTextOffsetWorkaroundButton.getSelection());
+        
         initialiseGraphics();
         
         // Get the Element root from the SVGGraphics2D instance
@@ -115,21 +128,18 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
         setFigure(figure);
         
-        container.setLayout(new GridLayout(8, false));
-        container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        final int numColumns = 8;
+        
+        container.setLayout(new GridLayout(numColumns, false));
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(container);
         
         fSetViewboxButton = new Button(container, SWT.CHECK);
         fSetViewboxButton.setText(Messages.SVGExportProvider_0);
-        GridData gd = new GridData();
-        gd.horizontalSpan = 8;
-        fSetViewboxButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(numColumns, 1).applyTo(fSetViewboxButton);
         
-        fSetViewboxButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                updateControls();
-            }
-        });
+        fSetViewboxButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+            updateControls();
+        }));
         
         int min = -10000;
         int max = 10000;
@@ -137,29 +147,37 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         Label label = new Label(container, SWT.NONE);
         label.setText(" " + Messages.SVGExportProvider_2); //$NON-NLS-1$
         fSpinner1 = new Spinner(container, SWT.BORDER);
-        fSpinner1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner1.setMinimum(min);
         fSpinner1.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
         label.setText(" " + Messages.SVGExportProvider_3); //$NON-NLS-1$
         fSpinner2 = new Spinner(container, SWT.BORDER);
-        fSpinner2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner2.setMinimum(min);
         fSpinner2.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
         label.setText(" " + Messages.SVGExportProvider_4); //$NON-NLS-1$
         fSpinner3 = new Spinner(container, SWT.BORDER);
-        fSpinner3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner3.setMaximum(max);
         
         label = new Label(container, SWT.NONE);
         label.setText(" " + Messages.SVGExportProvider_5); //$NON-NLS-1$
         fSpinner4 = new Spinner(container, SWT.BORDER);
-        fSpinner4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fSpinner4.setMaximum(max);
-
+        
+        fTextAsShapesButton = new Button(container, SWT.CHECK);
+        fTextAsShapesButton.setText(Messages.SVGExportProvider_6);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(numColumns, 1).applyTo(fTextAsShapesButton);
+        
+        fEmbedFontsButton = new Button(container, SWT.CHECK);
+        fEmbedFontsButton.setText(Messages.SVGExportProvider_7);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(numColumns, 1).applyTo(fEmbedFontsButton);
+        
+        fTextOffsetWorkaroundButton = new Button(container, SWT.CHECK);
+        fTextOffsetWorkaroundButton.setText(Messages.SVGExportProvider_8);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(numColumns, 1).applyTo(fTextOffsetWorkaroundButton);
+        
         loadPreferences();
         
         // Set viewBox width and height to the image size
@@ -181,8 +199,7 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         // Viewbox button selected
-        boolean selected = store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
-        fSetViewboxButton.setSelection(selected);
+        fSetViewboxButton.setSelection(store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
         updateControls();
         
         int min_x = 0;
@@ -205,6 +222,15 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         
         fSpinner1.setSelection(min_x);
         fSpinner2.setSelection(min_y);
+        
+        // Text as Shapes selected
+        fTextAsShapesButton.setSelection(store.getBoolean(SVG_EXPORT_PREFS_TEXT_AS_SHAPES));
+        
+        // Embed fonts selected
+        fEmbedFontsButton.setSelection(store.getBoolean(SVG_EXPORT_PREFS_EMBED_FONTS));
+        
+        // Workaround text offset
+        fTextOffsetWorkaroundButton.setSelection(store.getBoolean(SVG_EXPORT_PREFS_USE_TEXT_OFFSET_WORKAROUND));
     }
     
     /**
@@ -221,6 +247,15 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         
         String s = min_x + " " + min_y;  //$NON-NLS-1$
         store.setValue(SVG_EXPORT_PREFS_VIEWBOX, s);
+        
+        // Text as shapes button selected
+        store.setValue(SVG_EXPORT_PREFS_TEXT_AS_SHAPES, fTextAsShapesButton.getSelection());
+        
+        // Embed fonts selected
+        store.setValue(SVG_EXPORT_PREFS_EMBED_FONTS, fEmbedFontsButton.getSelection());
+        
+        // Workaround text offset
+        store.setValue(SVG_EXPORT_PREFS_USE_TEXT_OFFSET_WORKAROUND, fTextOffsetWorkaroundButton.getSelection());
     }
     
 }
