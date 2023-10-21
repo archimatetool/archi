@@ -2,8 +2,7 @@
 <introContent>
     
     <!-- Root page -->
-    <page id="root">
-        <html src="intro.html" type="inline"></html>
+    <page id="root" url="intro.html">
     </page>
         
 </introContent>
