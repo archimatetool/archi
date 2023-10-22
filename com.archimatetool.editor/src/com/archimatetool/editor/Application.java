@@ -61,7 +61,10 @@ public class Application implements IApplication {
         
         // Create Main Display
         Display display = PlatformUI.createDisplay();
-
+        
+        // Check for Mac Sonoma menu fix
+        MacMenuFix.apply(display);
+            
         // Hook into opening documents from the desktop
         OpenDocumentHandler.getInstance().hook(display);
 
