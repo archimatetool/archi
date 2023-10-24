@@ -133,6 +133,15 @@ expandAreasForChildren(children) ::= <<
 
 bounds(c, pos) ::= "^map.(c.Id).(pos)^"
 
+expandModelRelations(relations) ::= <<
+	^relations: {r | <tr>
+		<td><a href="../elements/^r.Id^.html" target="element" title="^r.Name;format="xml-encode"^">^r.Name;format="xml-encode"^</a></td>
+		<td><span class="i18n-elementtype-^r.Class.SimpleName^" /></td>
+		<td><a href="../elements/^r.Source.Id^.html" target="element"> ^r.Source.Name;format="xml-encode"^</a></td>
+		<td><a href="../elements/^r.Target.Id^.html" target="element"> ^r.Target.Name;format="xml-encode"^</a></td>
+	</tr>}^
+>>
+
 frame(element, map) ::= <<
 <!DOCTYPE html>
 <html class="frame" lang="en">
@@ -197,6 +206,11 @@ frame(element, map) ::= <<
 					
                     <!-- Properties -->
                     <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab" class="i18n-properties"></a></li>
+                    
+                    <!-- Analysis -->
+                    ^if(element.SourceRelationships || element.TargetRelationships || element.ReferencingDiagramComponents)^
+                    	<li role="presentation"><a href="#analysis" aria-controls="analysis" role="tab" data-toggle="tab" class="i18n-analysis"></a></li>
+					^endif^
 					
 					^if(element.Children)^
 						<li role="presentation"><a href="#elements" aria-controls="elements" role="tab" data-toggle="tab" class="i18n-elements"></a></li>
@@ -241,6 +255,38 @@ frame(element, map) ::= <<
 							</thead>
 							<tbody>
 								^element.Properties:{p | <tr><td>^p.Key;format="xml-encode"^</td><td class="convertlinks no-margin" style="white-space:pre-wrap">^p.Value;format="xml-encode"^</td></tr>}^
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="analysis">
+						<table class="table table-striped table-hover table-condensed" id="used-in-views">
+							<thead>
+								<tr><th colspan="2" class="i18n-used-in-views" /></tr>
+								<tr>
+									<th class="i18n-name"></th>
+									<th class="i18n-viewpoint"></th>
+								</tr>
+							</thead>
+							<tbody>
+								^element.ReferencingDiagramComponents: {v | <tr id="used-in-views-^v.DiagramModel.Id^">
+									<td><a href="../views/^v.DiagramModel.Id^.html" target="view" title="^v.DiagramModel.Name;format="xml-encode"^"> ^v.DiagramModel.Name;format="xml-encode"^ </a></td>
+									<td><span class="i18n-viewpoint-^v.DiagramModel.Viewpoint^" /></td>
+								</tr>}^
+							</tbody>
+						</table>
+						<table class="table table-striped table-hover table-condensed" id="model-relations">
+							<thead>
+								<tr><th colspan="4" class="i18n-model-relations" /></tr>
+								<tr>
+									<th class="i18n-name"></th>
+									<th class="i18n-type"></th>
+									<th class="i18n-source"></th>
+									<th class="i18n-target"></th>
+								</tr>
+							</thead>
+							<tbody>
+								^expandModelRelations(element.SourceRelationships)^
+								^expandModelRelations(element.TargetRelationships)^
 							</tbody>
 						</table>
 					</div>

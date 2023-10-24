@@ -132,6 +132,13 @@ var hints = {
 	CanvasModelSticky: "canvas_sticky.html",
 };
 
+function sortTable(tblSelector) {
+    var tblBody = $(tblSelector+' > tbody');
+    var tblRows = tblBody.children('tr').sort(strcmp);
+    console.debug('Sorted rows at '+tblSelector+' resulting in : '+tblRows+'.')
+    tblRows.appendTo(tblBody);
+}
+
 $(document).ready(function() {
 	// Set heigh of panels the first time
 	setRootPanelHeight();
@@ -154,13 +161,23 @@ $(document).ready(function() {
 	}
 	
 	// Sort 'elements' and 'properties' tables
-	var tabElements = $('#elements > table > tbody');
-	var tabElementsRows = tabElements.children('tr');
-	tabElementsRows.sort(strcmp).appendTo(tabElements);
-	var tabProperties = $('#properties > table > tbody');
-	var tabPropertiesRows = tabProperties.children('tr');
-	tabPropertiesRows.sort(strcmp).appendTo(tabProperties);
-	
+    sortTable('#elements > table');
+    sortTable('#properties > table')
+
+    $('#used-in-views > tbody > tr').each(function(){
+        var id = $(this).attr('id');
+        var idCount = $('#used-in-views > tbody > tr#' + id).length;
+        console.debug('used-in-view #'+id+' found '+idCount+' times.');
+        if (idCount > 1)
+            $(this).remove();
+    });
+
+    sortTable('table#used-in-views');
+    /*
+     TODO sort-by-column otherwise empty-relation-name makes source-name be compared with other relation-names
+     */
+    //sortTable('table#model-relations')
+
 	const type = document.location.href.split('/').slice(-2, -1).pop();
 	if (type == "views") {
 		// *** DEEP LINKS ***

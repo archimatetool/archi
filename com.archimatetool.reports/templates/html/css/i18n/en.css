@@ -3,6 +3,9 @@
 :lang(en) .i18n-documentation:after {content: "Documentation"}
 :lang(en) .i18n-purpose:after {content: "Purpose"}
 :lang(en) .i18n-properties:after {content: "Properties"}
+:lang(en) .i18n-analysis:after {content: "Analysis"}
+:lang(en) .i18n-used-in-views:after {content: "Used in Views"}
+:lang(en) .i18n-model-relations:after {content: "Model Relations"}
 :lang(en) .i18n-elements:after {content: "Elements"}
 :lang(en) .i18n-relationships:after {content: "Relationships"}
 :lang(en) .i18n-key:after {content: "Key"}
@@ -20,6 +23,7 @@
 :lang(en) .i18n-specialization:after {content: "Specialization:"}
 
 /* ViewPoints (com.archimatetool.editor.model.viewpoints.IViewpoint) */
+:lang(en) .i18n-viewpoint:after {content: "Viewpoint"}
 :lang(en) .i18n-viewpoint-:after {content: "No Viewpoint"}
 :lang(en) .i18n-viewpoint-application_cooperation:after {content: "Application Cooperation"}
 :lang(en) .i18n-viewpoint-application_usage:after {content: "Application Usage"}

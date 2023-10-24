@@ -50,13 +50,13 @@ $(document).ready(function() {
       resizable: false
     },
     west: {
-			size: 350,
+			size: 400,
 			spacing_open: 8
 		},
     west__childOptions: {
       maskContents: true,
       south: {
-	      minSize: 50,
+	      minSize: 100,
 				size: 250,
 				spacing_open: 8
 			},
