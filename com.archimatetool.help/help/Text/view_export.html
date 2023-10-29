@@ -14,10 +14,31 @@
     
     <p>A View (diagram) can be exported as an image file to disk.  This is available from the "Export View As Image..." menu command from the main "File-&gt;Export" menu or by right-clicking on a View and selecting the menu item from the contextual menu. This menu command is only available if a View is open and selected.</p>
     
-    <p>Available formats are BMP, JPG, PNG, PDF and SVG. The first three formats can be exported at scaled ranging from 25% to 400%. SVG format has more options including embedding font information and setting the viewBox bounds for different scales.</p>
+    <p>Available formats are BMP, JPG, PNG, PDF and SVG. The first three formats can be exported at scaled ranging from 25% to 400%.</p>
     
     <img src="../Images/export_image.png" alt="export-image"/>
     <p class="caption">Exporting a View as an image</p>
+
+    <p>SVG and PDF formats have more options:</p>
+
+    <table>
+        <tr>
+          <td><strong>Set viewBox bounds:</strong></td>
+          <td>This will determine the size and positioning of the SVG image.</td>
+        </tr>
+        <tr>
+          <td><strong>Render text as shapes:</strong></td>
+          <td>If this is checked, fonts are rendered as shapes. This is usually the preferred option. If this option is unchecked you may also need to check the "Embed fonts" option.</td>
+        </tr>
+        <tr>
+          <td><strong>Embed fonts:</strong></td>
+          <td>If this is checked, fonts are embedded in the SVF or PDF document.</td>
+        </tr>
+        <tr>
+            <td><strong>Text clipping workaround:</strong></td>
+            <td>Some fonts on some platforms might appear clipped in the SVG or PDF document. If this happens check this option when exporting. Note that the font will appear slightly smaller in the document.</td>
+          </tr>
+        </table>
     
     <p>&nbsp;</p>
 
