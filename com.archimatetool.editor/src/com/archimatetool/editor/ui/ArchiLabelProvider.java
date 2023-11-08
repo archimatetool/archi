@@ -257,7 +257,23 @@ public class ArchiLabelProvider {
             }
         };
     }
-    
+
+    /**
+     * @return the keychord for the given {@link EClass} or <code>null</code> if no keychord exists.
+     */
+    public String getKeyChord(EClass eClass) {
+	    if(eClass == null) {
+	        return null;
+	    }
+	    
+	    IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
+	    if(provider != null) {
+	        return provider.getKeyChord();
+	    }
+	    
+	    return null;
+    }
+
     /**
      * @param element
      * @return A IGraphicsIcon for a Diagram Model
@@ -403,4 +419,5 @@ public class ArchiLabelProvider {
                 return ""; //$NON-NLS-1$
         }
     }
+    
 }

@@ -66,4 +66,9 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
     public boolean shouldExposeFeature(String featureName) {
         return true;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return null;
+    }
 }

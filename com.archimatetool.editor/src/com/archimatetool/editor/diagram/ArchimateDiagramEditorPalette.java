@@ -101,7 +101,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE),
+                "n");
         group.add(noteEntry);
         
         // Group
@@ -110,7 +111,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
+                "g");
         group.add(groupEntry);
         
         // Note Connection
@@ -242,7 +244,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                         ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                         new ArchimateDiagramModelFactory(eClass, profile),
                         id,
-                        id);
+                        id,
+                        null);
                 
                 group.add(entry);
             }
@@ -253,7 +256,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                         ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                         new ArchimateDiagramModelFactory(eClass, profile),
                         id,
-                        id);
+                        id,
+                        null);
                 
                 // Ensure Tool gets deselected
                 entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
@@ -331,7 +335,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchiLabelProvider.INSTANCE.getKeyChord(eClass));
         
         return entry;
     }
@@ -342,7 +347,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchiLabelProvider.INSTANCE.getKeyChord(eClass));
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);

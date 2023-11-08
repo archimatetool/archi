@@ -46,4 +46,9 @@ public class TechnologyProcessUIProvider extends AbstractProcessUIProvider {
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "tp";
+    }
 }

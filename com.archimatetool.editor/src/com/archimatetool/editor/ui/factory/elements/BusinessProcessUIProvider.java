@@ -46,4 +46,9 @@ public class BusinessProcessUIProvider extends AbstractProcessUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "bp";
+    }
 }

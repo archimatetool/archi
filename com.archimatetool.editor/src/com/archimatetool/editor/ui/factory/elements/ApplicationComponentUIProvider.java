@@ -54,4 +54,9 @@ public class ApplicationComponentUIProvider extends AbstractArchimateElementUIPr
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ac";
+    }
 }

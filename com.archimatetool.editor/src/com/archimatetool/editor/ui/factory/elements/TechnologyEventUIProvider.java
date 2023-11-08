@@ -46,4 +46,9 @@ public class TechnologyEventUIProvider extends AbstractEventUIProvider {
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "te";
+    }
 }

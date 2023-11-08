@@ -79,4 +79,9 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     public boolean hasAlternateFigure() {
         return false;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "j";
+    }
 }

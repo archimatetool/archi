@@ -46,4 +46,9 @@ public class ApplicationEventUIProvider extends AbstractEventUIProvider {
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ae";
+    }
 }

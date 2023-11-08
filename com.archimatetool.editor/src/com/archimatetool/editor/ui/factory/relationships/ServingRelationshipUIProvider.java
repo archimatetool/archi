@@ -48,4 +48,9 @@ public class ServingRelationshipUIProvider extends AbstractArchimateRelationship
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SERVING_RELATION);
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "rv";
+    }
 }

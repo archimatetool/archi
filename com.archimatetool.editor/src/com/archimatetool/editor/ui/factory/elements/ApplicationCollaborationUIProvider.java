@@ -46,4 +46,9 @@ public class ApplicationCollaborationUIProvider extends AbstractCollaborationUIP
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ab";
+    }
 }

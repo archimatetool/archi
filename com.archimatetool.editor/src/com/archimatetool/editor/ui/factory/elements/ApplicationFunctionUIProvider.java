@@ -46,4 +46,9 @@ public class ApplicationFunctionUIProvider extends AbstractFunctionUIProvider {
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "af";
+    }
 }

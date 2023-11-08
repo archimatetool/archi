@@ -46,4 +46,9 @@ public class BusinessServiceUIProvider extends AbstractServiceUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "bs";
+    }
 }

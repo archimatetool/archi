@@ -94,4 +94,8 @@ implements IArchimateElementUIProvider {
         return d;
     }
     
+    @Override
+    public String getKeyChord() {
+    	return null;
+    }
 }

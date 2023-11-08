@@ -46,4 +46,9 @@ public class ApplicationServiceUIProvider extends AbstractServiceUIProvider {
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "as";
+    }
 }

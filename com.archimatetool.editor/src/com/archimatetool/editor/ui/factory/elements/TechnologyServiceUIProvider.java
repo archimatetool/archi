@@ -46,4 +46,9 @@ public class TechnologyServiceUIProvider extends AbstractServiceUIProvider {
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ts";
+    }
 }

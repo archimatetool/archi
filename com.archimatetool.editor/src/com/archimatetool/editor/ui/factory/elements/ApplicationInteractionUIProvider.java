@@ -46,4 +46,9 @@ public class ApplicationInteractionUIProvider extends AbstractInteractionUIProvi
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "an";
+    }
 }

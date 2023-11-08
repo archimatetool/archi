@@ -46,4 +46,9 @@ public class TechnologyInteractionUIProvider extends AbstractInteractionUIProvid
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "tn";
+    }
 }

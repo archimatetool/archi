@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.IFigure;
@@ -20,6 +21,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -28,12 +30,17 @@ import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.Tool;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.internal.InternalGEFPlugin;
+import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.palette.PaletteEntry;
+import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteListener;
+import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SelectionRequest;
@@ -54,6 +61,7 @@ import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -68,6 +76,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -127,8 +136,11 @@ import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesActio
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
+import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
+import com.archimatetool.editor.diagram.tools.KeyboardAccessibleToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -327,7 +339,49 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         GraphicalViewer viewer = getGraphicalViewer();
         
         // Key handler
-        viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
+        viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer) {
+
+        	StringBuffer buffer = new StringBuffer();
+        	long timeout;
+        	
+			@Override
+			public boolean keyPressed(KeyEvent event) {
+				if (System.currentTimeMillis() > timeout) {
+					buffer.delete(0, buffer.length());
+				}
+				
+				timeout = System.currentTimeMillis() + 500;
+				buffer.append(event.character);
+				
+				GraphicalViewer viewer = this.getViewer();
+				EditDomain editDomain = viewer.getEditDomain();
+				PaletteViewer paletteViewer = editDomain.getPaletteViewer();
+				PaletteRoot paletteRoot = paletteViewer.getPaletteRoot();
+				List<PaletteEntry> children = paletteRoot.getChildren();
+				for (PaletteEntry paletteEntry : children) {
+					if (!(paletteEntry instanceof PaletteGroup)) {
+						continue;
+					}
+					PaletteGroup group = (PaletteGroup) paletteEntry;
+					for (PaletteEntry groupEntry : (List<PaletteEntry>)group.getChildren()) {
+						if (!(groupEntry instanceof ToolEntry)) {
+							continue;
+						} else if (groupEntry instanceof  KeyboardAccessibleToolEntry && groupEntry instanceof ToolEntry) {
+							KeyboardAccessibleToolEntry entry = (KeyboardAccessibleToolEntry) groupEntry;
+							if (entry.getKeyChord() == null) {
+								continue;
+							}
+							if (Pattern.matches("^" + entry.getKeyChord() + "$", buffer)) {
+								paletteViewer.setActiveTool((ToolEntry) entry);
+								return true;
+							}
+						}
+					}
+				}
+				return super.keyPressed(event);
+			}
+        	
+        });
         
         // Context menu
         registerContextMenu(viewer);

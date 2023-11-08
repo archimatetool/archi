@@ -46,4 +46,9 @@ public class BusinessInterfaceUIProvider extends AbstractInterfaceUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "bi";
+    }
 }

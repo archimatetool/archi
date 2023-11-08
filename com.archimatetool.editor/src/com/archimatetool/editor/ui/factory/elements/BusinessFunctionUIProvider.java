@@ -46,4 +46,9 @@ public class BusinessFunctionUIProvider extends AbstractFunctionUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "bf";
+    }
 }

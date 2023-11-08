@@ -46,4 +46,9 @@ public class BusinessInteractionUIProvider extends AbstractInteractionUIProvider
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "bn";
+    }
 }

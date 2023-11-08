@@ -48,4 +48,9 @@ public class AssignmentRelationshipUIProvider extends AbstractArchimateRelations
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASSIGNMENT_RELATION);
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "rs";
+    }
 }

@@ -46,4 +46,9 @@ public class TechnologyFunctionUIProvider extends AbstractFunctionUIProvider {
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "tf";
+    }
 }

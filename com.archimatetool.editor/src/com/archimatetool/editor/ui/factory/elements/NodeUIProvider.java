@@ -54,4 +54,9 @@ public class NodeUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "to";
+    }
 }

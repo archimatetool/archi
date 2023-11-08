@@ -61,4 +61,9 @@ public class AssessmentUIProvider extends AbstractArchimateElementUIProvider {
         return super.getDefaultSizeForFigureType(figureType);
         //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ma";
+    }
 }

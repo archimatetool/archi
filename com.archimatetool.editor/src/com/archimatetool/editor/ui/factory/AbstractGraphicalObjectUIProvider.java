@@ -62,4 +62,9 @@ implements IGraphicalObjectUIProvider {
     public boolean hasIcon() {
         return false;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return null;
+    }
 }

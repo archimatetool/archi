@@ -54,4 +54,9 @@ public class BusinessRoleUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "br";
+    }
 }

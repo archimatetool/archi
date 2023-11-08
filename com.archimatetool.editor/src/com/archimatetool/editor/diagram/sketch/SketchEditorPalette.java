@@ -53,13 +53,15 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         // Actor
         PaletteEntry groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
                 Messages.SketchEditorPalette_2,
-                Messages.SketchEditorPalette_3);
+                Messages.SketchEditorPalette_3,
+                "a");
         group.add(groupEntry);
         
         // Group
         groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getDiagramModelGroup(),
                 Messages.SketchEditorPalette_4,
-                Messages.SketchEditorPalette_5);
+                Messages.SketchEditorPalette_5,
+                "g");
         group.add(groupEntry);
         
         // Connections
@@ -69,7 +71,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.SketchEditorPalette_8,
                 Messages.SketchEditorPalette_0,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN),
+                "c");
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -77,7 +80,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.SketchEditorPalette_9,
                 Messages.SketchEditorPalette_0,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW),
+                "a");
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -85,7 +89,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.SketchEditorPalette_10,
                 Messages.SketchEditorPalette_0,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW),
+                "-");
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -93,7 +98,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.SketchEditorPalette_11,
                 Messages.SketchEditorPalette_0,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW),
+                ".");
         group.add(entry);
     
         return group;
@@ -116,26 +122,28 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, int type, String name, String description,
-                                                                          ImageDescriptor icon) {
+                                                                          ImageDescriptor icon, String keyChord) {
         ConnectionCreationToolEntry entry = new ExtConnectionCreationToolEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass, type),
                 icon,
-                icon);
+                icon,
+                keyChord);
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
         return entry;
     }
 
-    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name, String description) {
+    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name, String description, String keyChord) {
         return new ExtCombinedTemplateCreationEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                keyChord);
     }
 
     private PaletteEntry createStickyEntry(int r, int g, int b) {
@@ -162,6 +170,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 Messages.SketchEditorPalette_7,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(r, g, b)),
                 id,
-                id);
+                id,
+                null);
     }
 }

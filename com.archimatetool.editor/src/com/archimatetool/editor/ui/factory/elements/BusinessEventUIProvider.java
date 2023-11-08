@@ -46,4 +46,9 @@ public class BusinessEventUIProvider extends AbstractEventUIProvider {
     public Color getDefaultColor() {
         return defaultBusinessColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "be";
+    }
 }

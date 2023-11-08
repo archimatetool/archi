@@ -54,4 +54,9 @@ public class CommunicationNetworkUIProvider extends AbstractArchimateElementUIPr
     public Color getDefaultColor() {
         return defaultTechnologyColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "tc";
+    }
 }

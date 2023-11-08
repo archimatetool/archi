@@ -22,7 +22,7 @@ import com.archimatetool.editor.ui.ImageFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ExtCombinedTemplateCreationEntry extends CombinedTemplateCreationEntry {
+public class ExtCombinedTemplateCreationEntry extends CombinedTemplateCreationEntry implements KeyboardAccessibleToolEntry {
     
     private static Cursor cursorAdd = new Cursor(
             null,
@@ -30,9 +30,25 @@ public class ExtCombinedTemplateCreationEntry extends CombinedTemplateCreationEn
             0,
             0);
     
-    public ExtCombinedTemplateCreationEntry(String label, String shortDesc, CreationFactory factory, ImageDescriptor iconSmall, ImageDescriptor iconLarge) {
-        super(label, shortDesc, factory, iconSmall, iconLarge);
+    private static String combineLabelAndKeyChord(String label, String keyChord) {
+    	if (keyChord == null || keyChord.equals("")) {
+    		return label;
+    	} else {
+    		return String.format("%s (%s)", label, keyChord);
+    	}
     }
+    
+    private String keyChord = "";
+    
+    public ExtCombinedTemplateCreationEntry(String label, String shortDesc, CreationFactory factory, ImageDescriptor iconSmall, ImageDescriptor iconLarge, String keyChord) {
+        super(combineLabelAndKeyChord(label, keyChord), shortDesc, factory, iconSmall, iconLarge);
+        this.keyChord = keyChord;
+    }
+    
+    public String getKeyChord() {
+    	return this.keyChord;
+    }
+
     
     @Override
     public Tool createTool() {

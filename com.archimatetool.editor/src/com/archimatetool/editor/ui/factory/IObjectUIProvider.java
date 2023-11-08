@@ -47,6 +47,12 @@ public interface IObjectUIProvider {
     ImageDescriptor getImageDescriptor();
     
     /**
+     * @return The key chord to activate the palette tool entry for this element or <code>null</code>
+     * if one does not exist.
+     */
+    String getKeyChord();
+    
+    /**
      * @param feature The feature in question
      * @return True if this object should expose a feature in the UI
      * @deprecated Use shouldExposeFeature(String featureName)

@@ -48,4 +48,9 @@ public class RealizationRelationshipUIProvider extends AbstractArchimateRelation
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_REALIZATION_RELATION);
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "rr";
+    }
 }

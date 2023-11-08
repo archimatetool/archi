@@ -54,7 +54,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 Messages.CanvasEditorPalette_0,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelBlock()),
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK),
-                ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK));
+                ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK),
+                null);
         group.add(entry);
         
         entry = new ExtCombinedTemplateCreationEntry(
@@ -62,7 +63,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 Messages.CanvasEditorPalette_10,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE),
+                null);
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -70,7 +72,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.CanvasEditorPalette_4,
                 Messages.CanvasEditorPalette_11,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN),
+                null);
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -78,7 +81,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.CanvasEditorPalette_5,
                 Messages.CanvasEditorPalette_11,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW),
+                null);
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -86,7 +90,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.CanvasEditorPalette_6,
                 Messages.CanvasEditorPalette_11,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW),
+                null);
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -94,7 +99,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.CanvasEditorPalette_7,
                 Messages.CanvasEditorPalette_11,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW),
+                null);
         group.add(entry);
 
         
@@ -122,13 +128,14 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, int type, String name, String description,
-                                                                          ImageDescriptor icon) {
+                                                                          ImageDescriptor icon, String keyChord) {
         ConnectionCreationToolEntry entry = new ExtConnectionCreationToolEntry(
                 name,
                 description,
                 new CanvasModelFactory(eClass, type),
                 icon,
-                icon);
+                icon,
+                keyChord);
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
@@ -159,6 +166,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 Messages.CanvasEditorPalette_12,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(r, g, b)),
                 id,
-                id);
+                id,
+                null);
     }
 }

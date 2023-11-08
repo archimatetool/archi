@@ -46,4 +46,9 @@ public class ApplicationProcessUIProvider extends AbstractProcessUIProvider {
     public Color getDefaultColor() {
         return defaultApplicationColor;
     }
+    
+    @Override
+    public String getKeyChord() {
+    	return "ap";
+    }
 }
