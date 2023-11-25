@@ -97,23 +97,25 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         
         // Note
         ToolEntry noteEntry = new ExtCombinedTemplateCreationEntry(
-                Messages.ArchimateDiagramEditorPalette_2,
+                getEntryName(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE));
+        noteEntry.setToolProperty(PaletteKeyHandler.KEY_NAME, IArchimatePackage.eINSTANCE.getDiagramModelNote().getName());
         group.add(noteEntry);
         
         // Group
         ToolEntry groupEntry = new ExtCombinedTemplateCreationEntry(
-                Messages.ArchimateDiagramEditorPalette_4,
+                getEntryName(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
+        groupEntry.setToolProperty(PaletteKeyHandler.KEY_NAME, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
         group.add(groupEntry);
         
-        // Note Connection
+        // Connection
         ToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 Messages.ArchimateDiagramEditorPalette_7);
@@ -139,7 +141,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         
         // Magic Connector
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
-                Messages.ArchimateDiagramEditorPalette_14,
+                Messages.ArchimateDiagramEditorPalette_14 + getAcceleratorText("MagicConnector"), //$NON-NLS-1$
                 Messages.ArchimateDiagramEditorPalette_15,
                 new MagicConnectionModelFactory(),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION),
@@ -147,6 +149,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
 
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
+        magicConnectionEntry.setToolProperty(PaletteKeyHandler.KEY_NAME, "MagicConnector"); //$NON-NLS-1$
         group.add(magicConnectionEntry);
 
         // Relations
@@ -327,18 +330,20 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private ToolEntry createElementCreationToolEntry(EClass eClass, String description) {
         ToolEntry entry = new ExtCombinedTemplateCreationEntry(
-                ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
+                getEntryName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+        
+        entry.setToolProperty(PaletteKeyHandler.KEY_NAME, eClass.getName());
         
         return entry;
     }
     
     private ToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
         ToolEntry entry = new ExtConnectionCreationToolEntry(
-                ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
+                getEntryName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
@@ -347,6 +352,17 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
         
+        entry.setToolProperty(PaletteKeyHandler.KEY_NAME, eClass.getName());
+        
         return entry;
+    }
+    
+    private String getEntryName(EClass eClass) {
+        return ArchiLabelProvider.INSTANCE.getDefaultName(eClass) + getAcceleratorText(eClass.getName());
+    }
+    
+    private String getAcceleratorText(String key) {
+        String text = PaletteKeyHandler.getAcceleratorText(key);
+        return text != null ? " (" + text + ")" : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 }

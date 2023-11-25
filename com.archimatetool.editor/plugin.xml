@@ -939,6 +939,18 @@
             id="com.archimatetool.editor.action.deleteFromModel"
             name="%command.name.20">
       </command>
+      <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.diagram.PaletteKeyHandler"
+            id="com.archimatetool.editor.palette.command"
+            name="Palette Key">
+         <commandParameter
+               id="com.archimatetool.editor.palette.command.params"
+               name="Palette Parameters"
+               optional="false"
+               values="com.archimatetool.editor.diagram.PaletteKeyHandler">
+         </commandParameter>
+      </command>
       <category
             description="Archi Commands"
             id="com.archimatetool.editor.category"
@@ -1700,6 +1712,40 @@
             </adapt>
          </with>
       </definition>
+   </extension>
+   <extension
+         name="Palette Key Bindings"
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M M1+C">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="MagicConnector">
+         </parameter>
+      </key>
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+B M1+A">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="BusinessActor">
+         </parameter>
+      </key>
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+B M1+R">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="BusinessRole">
+         </parameter>
+      </key>
    </extension>
 
 </plugin>
