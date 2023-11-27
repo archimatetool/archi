@@ -1714,11 +1714,19 @@
       </definition>
    </extension>
    <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="When editing Archi diagrams"
+            id="com.archimatetool.editor.view.context"
+            name="In Archi diagrams">
+      </context>
+   </extension>
+   <extension
          name="Palette Key Bindings"
          point="org.eclipse.ui.bindings">
       <key
             commandId="com.archimatetool.editor.palette.command"
-            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            contextId="com.archimatetool.editor.view.context"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+M M1+C">
          <parameter
@@ -1728,9 +1736,9 @@
       </key>
       <key
             commandId="com.archimatetool.editor.palette.command"
-            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            contextId="com.archimatetool.editor.view.context"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+B M1+A">
+            sequence="B A">
          <parameter
                id="com.archimatetool.editor.palette.command.params"
                value="BusinessActor">
@@ -1738,9 +1746,9 @@
       </key>
       <key
             commandId="com.archimatetool.editor.palette.command"
-            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            contextId="com.archimatetool.editor.view.context"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+B M1+R">
+            sequence="B R">
          <parameter
                id="com.archimatetool.editor.palette.command.params"
                value="BusinessRole">

@@ -84,6 +84,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -94,7 +96,6 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
-import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
@@ -107,6 +108,7 @@ import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
+import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
@@ -194,6 +196,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Palette Root
      */
     protected AbstractPaletteRoot fPaletteRoot;
+    
+    /**
+     * Context for key bindngs
+     */
+    private IContextActivation contextActivation;
     
     /**
      * Application Preference changed
@@ -372,6 +379,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         if(rgb != null) {
             viewer.getControl().setBackground(new Color(rgb));
         }
+        
+        // Activate Context
+        activateContext();
     }
     
     private void hookSelectionListener() {
@@ -955,6 +965,26 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
     }
     
+    /**
+     * Activate the context for key bindings for this site
+     */
+    public IContextActivation activateContext() {
+        if(contextActivation == null) {
+            contextActivation = getSite().getService(IContextService.class).activateContext(PaletteKeyHandler.CONTEXT_ID);
+        }
+        return contextActivation;
+    }
+    
+    /**
+     * De-activate the context for key bindings for this site
+     */
+    public void deactivateContext() {
+        if(contextActivation != null) {
+            contextActivation.getContextService().deactivateContext(contextActivation);
+            contextActivation = null;
+        }
+    }
+    
     @Override
     public void selectObjects(Object[] objects) {
         // Safety check in case this is called via Display#asyncExec()
@@ -1088,6 +1118,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         if(fPaletteRoot != null) {
             fPaletteRoot.dispose();
         }
+        
+        contextActivation = null;
         
         // Can now be garbage collected
         fDiagramModel = null;

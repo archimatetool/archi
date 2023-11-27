@@ -5,13 +5,16 @@
  */
 package com.archimatetool.editor.diagram.directedit;
 
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorPart;
 
+import com.archimatetool.editor.diagram.AbstractDiagramEditor;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 
@@ -39,6 +42,12 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(getTextControl());
+        
+        // Deactivate key binding context
+        IEditorPart part = ((DefaultEditDomain)getEditPart().getViewer().getEditDomain()).getEditorPart();
+        if(part instanceof AbstractDiagramEditor editor) {
+            editor.deactivateContext();
+        }
     }
     
     protected void setNormalised() {
@@ -71,6 +80,12 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
     protected void bringDown() {
         // Restore the global Action Handlers
         fGlobalActionHandler.restoreGlobalActions();
+        
+        // Reactivate key binding context
+        IEditorPart part = ((DefaultEditDomain)getEditPart().getViewer().getEditDomain()).getEditorPart();
+        if(part instanceof AbstractDiagramEditor editor) {
+            editor.activateContext();
+        }
         
         super.bringDown();
     }
