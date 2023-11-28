@@ -141,8 +141,8 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
             updateControls();
         }));
         
-        int min = -10000;
-        int max = 10000;
+        int min = -100000;
+        int max = 100000;
         
         Label label = new Label(container, SWT.NONE);
         label.setText(" " + Messages.SVGExportProvider_2); //$NON-NLS-1$
