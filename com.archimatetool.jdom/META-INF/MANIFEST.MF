@@ -40,6 +40,6 @@ Export-Package: com.archimatetool.jdom,
  org.jdom2.xpath.util
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: jaxen-1.2.0.jar,
- jdom-2.0.6.jar,
+ jdom-2.0.6.1.jar,
  com.archimatetool.jdom.jar
 Automatic-Module-Name: com.archimatetool.jdom
