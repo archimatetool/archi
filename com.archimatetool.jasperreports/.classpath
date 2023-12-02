@@ -3,12 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-digester-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ecj-4.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/itext-2.1.7.js6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.9.8.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.9.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.16.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.16.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jasperreports-6.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jasperreports-fonts-6.7.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

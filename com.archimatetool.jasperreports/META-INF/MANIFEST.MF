@@ -9,7 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-BundleShape: dir
 Eclipse-ExtensibleAPI: true
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
- lib/commons-beanutils-1.9.3.jar,
+ lib/commons-beanutils-1.9.4.jar,
  lib/commons-collections-3.2.2.jar,
  lib/commons-digester-2.1.jar,
  lib/commons-logging-1.2.jar,
@@ -17,8 +17,8 @@ Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/jasperreports-6.7.1.jar,
  lib/jasperreports-fonts-6.7.1.jar,
  lib/ecj-4.9.jar,
- lib/jackson-core-2.9.8.jar,
- lib/jackson-databind-2.9.8.jar
+ lib/jackson-core-2.16.0.jar,
+ lib/jackson-databind-2.16.0.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor
