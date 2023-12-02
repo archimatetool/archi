@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
@@ -461,59 +463,38 @@ public class CSVImporter implements CSVConstants {
     
     /**
      * Get all records for a CSV file.
-     * This is a brute-force approach to try with a comma delimiter first. If that fails then
-     * try a semicolon, and if that fails, a tab.
+     * This is a brute-force approach to try with a comma delimiter first.
+     * If that fails then try a semicolon, and if that fails, a tab.
      * 
      * @param file The file to open
-     * @return Records, which may be empty but never null
+     * @return list of CSVRecord
      * @throws IOException
      */
-    private List<CSVRecord> getRecords(File file) throws IOException {
-        List<CSVRecord> records = new ArrayList<CSVRecord>(); 
-        CSVParser parser = null;
+    List<CSVRecord> getRecords(File file) throws IOException {
+        final String expectedErrorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
+        final char[] delimiters = {',', ';', '\t'};
         
-        final String errorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
+        IOException ex = new IOException();
         
-        try {
-            InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
-            parser = new CSVParser(is, CSVFormat.DEFAULT);
-            records = parser.getRecords();
-        }
-        catch(IOException ex) {
-            if(parser != null) {
-                parser.close();
+        for(char delimiter : delimiters) {
+            BOMInputStream bomIn = BOMInputStream.builder().setInputStream(new FileInputStream(file)).get();
+            InputStreamReader is = new InputStreamReader(bomIn, "UTF-8"); //$NON-NLS-1$
+            CSVFormat csvFormat = Builder.create().setDelimiter(delimiter).build();
+            
+            try(CSVParser parser = new CSVParser(is, csvFormat))  {
+                return parser.getRecords();
             }
-            if(ex.getMessage() != null && ex.getMessage().contains(errorMessage)) {
-                try {
-                    InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
-                    parser = new CSVParser(is, CSVFormat.DEFAULT.withDelimiter(';'));
-                    records = parser.getRecords();
-                }
-                catch(IOException ex2) {
-                    if(parser != null) {
-                        parser.close();
-                    }
-                    if(ex2.getMessage() != null && ex2.getMessage().contains(errorMessage)) {
-                        InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
-                        parser = new CSVParser(is, CSVFormat.DEFAULT.withDelimiter('\t'));
-                        records = parser.getRecords();
-                    }
-                    else {
-                        throw ex2;
-                    }
+            catch(UncheckedIOException ex1) {
+                ex = ex1.getCause();
+                // If it's not the expected Exception then break and throw it
+                if(!(ex.getMessage() != null && ex.getMessage().contains(expectedErrorMessage))) {
+                    break;
                 }
             }
-            else {
-                throw ex;
-            }
-        }
-        finally {
-            if(parser != null) {
-                parser.close();
-            }
         }
         
-        return records;
+        // If we got here then we failed, so throw the exception
+        throw ex;
     }
     
     /**

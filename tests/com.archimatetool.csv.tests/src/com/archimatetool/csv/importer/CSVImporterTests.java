@@ -14,9 +14,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.commons.csv.CSVRecord;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.Before;
 import org.junit.Test;
@@ -443,5 +446,37 @@ public class CSVImporterTests {
         
         assertEquals(property, importer.getProperty(element, "key"));
         assertNull(importer.getProperty(element, "key2"));
+    }
+    
+    @Test
+    public void testGetRecordsWithDelimiters() throws Exception {
+        testGetRecords(',');
+        testGetRecords(';');
+        testGetRecords('\t');
+    }
+    
+    @Test
+    public void testGetRecordsWithWrongDelimiterShouldThrowException() {
+        IOException ex = assertThrows(IOException.class, () -> {
+            testGetRecords(' ');
+        });
+        
+        assertTrue(ex.getMessage().contains("invalid char between encapsulated token and delimiter"));
+    }
+
+    private void testGetRecords(char delimiter) throws Exception {
+        String csv = "\"Field 1\",\"Field 2\",\"Field 3\"";
+        csv = csv.replace(',', delimiter);
+        
+        File file = TestUtils.createTempFile(".csv");
+        Files.writeString(file.toPath(), csv);
+        
+        List<CSVRecord> records = importer.getRecords(file);
+        assertNotNull(records);
+        assertEquals(1, records.size());
+        CSVRecord rec = records.get(0);
+        assertEquals("Field 1", rec.get(0));
+        assertEquals("Field 2", rec.get(1));
+        assertEquals("Field 3", rec.get(2));
     }
 }
