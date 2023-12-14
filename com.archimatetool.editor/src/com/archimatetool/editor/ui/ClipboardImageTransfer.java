@@ -14,19 +14,19 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 
-import com.archimatetool.editor.utils.PlatformUtils;
-
 /**
- * Custom clipboard transfer to work around these bugs:
+ * Custom clipboard transfer *was* designed to work around these bugs:
  * 
  * SWT bug copy image to clipboard not working on Linux 64. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
- * SWT bug pasted image is blank or parts missin on Windows. See https://github.com/eclipse-platform/eclipse.platform.swt/issues/143
+ * SWT bug pasted image is blank or parts missing on Windows. See https://github.com/eclipse-platform/eclipse.platform.swt/issues/143
  * 
  * For the Linux bug we use PNGTransfer (taken from https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960#c13)
  * Update: Linux is fixed in Eclipse 4.24 - see https://github.com/eclipse-platform/eclipse.platform.swt/issues/146
  * 
  * For the Windows bug we use two ByteArrayTransfer instances - the usual ImageTransfer and our BMPTransfer.
- * The BMPTransfer instance fixes the issue for apps like Inkscape and Viso.
+ * The BMPTransfer instance fixes the issue for apps like Inkscape and Visio.
+ * 
+ * Update 14 Dec 2023 - BMPTransfer causes a hang on big Images so this is removed. See https://github.com/archimatetool/archi/issues/1007
  * 
  */
 @SuppressWarnings("nls")
@@ -37,17 +37,20 @@ public class ClipboardImageTransfer extends ByteArrayTransfer {
         
         try {
             // Windows
-            if(PlatformUtils.isWindows()) {
-                cb.setContents(new Object[] { imageData, imageData }, new Transfer[] { ImageTransfer.getInstance(), BMPTransfer });
-            }
+            //if(PlatformUtils.isWindows()) {
+            //    cb.setContents(new Object[] { imageData, imageData }, new Transfer[] { ImageTransfer.getInstance(), BMPTransfer });
+            //}
             // Linux Clipboard is fixed in Eclipse 4.24
             //else if(PlatformUtils.isLinux()) {
             //    cb.setContents(new Object[] { imageData }, new Transfer[] { PNGTransfer });
             //}
             // Mac and everything else
-            else {
-                cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
-            }
+            //else {
+            //    cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
+            //}
+            
+            // All platforms
+            cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
         }
         finally {
             cb.dispose();
