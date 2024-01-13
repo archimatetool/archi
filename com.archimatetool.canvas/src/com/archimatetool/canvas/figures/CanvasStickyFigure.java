@@ -185,17 +185,15 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
     
     @Override
     public IFigure getToolTip() {
-        boolean doShowViewTooltips = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS);
+        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
+            return null;
+        }
         
-        if(fTooltip == null && doShowViewTooltips) {
+        if(fTooltip == null) {
             fTooltip = new MultiToolTipFigure();
             setToolTip(fTooltip);
         }
         
-        if(fTooltip == null || !doShowViewTooltips) {
-            return null;
-        }
-
         String notes = getDiagramModelObject().getNotes();
         if(StringUtils.isSet(notes)) {
             fTooltip.setText(notes);

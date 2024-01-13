@@ -244,13 +244,15 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     @Override
     public IFigure getToolTip() {
-        boolean doShowViewTooltips = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS);
+        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
+            return null;
+        }
         
-        if(super.getToolTip() == null && doShowViewTooltips) {
+        if(super.getToolTip() == null) {
             setToolTip(new ToolTipFigure());
         }
         
-        return doShowViewTooltips ? super.getToolTip() : null;
+        return super.getToolTip();
     }
     
     /**
