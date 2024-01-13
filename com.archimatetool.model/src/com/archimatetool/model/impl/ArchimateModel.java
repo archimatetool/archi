@@ -995,6 +995,12 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             metadata.getEntries().clear();
             metadata = null;
         }
+        
+        // Could be storing images
+        if(features != null) {
+            features.clear();
+            features = null;
+        }
     }
 
 } //ArchimateModel

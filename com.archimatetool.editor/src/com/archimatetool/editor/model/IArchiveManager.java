@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.ImageData;
 
 import com.archimatetool.editor.model.impl.ArchiveManager;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 
 
@@ -27,6 +28,8 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
  */
 @SuppressWarnings("nls")
 public interface IArchiveManager {
+    
+    String imageFeaturePrefix = "images/";
     
     static class FACTORY {
         
@@ -91,11 +94,6 @@ public interface IArchiveManager {
     }
 
     /**
-     * @return Whether archive zip format is used when saving model file with images
-     */
-    boolean useArchiveFormat();
-    
-    /**
      * Add an image from an image file to this Archive Manager's storage cache.
      * If the image already exists the existing image path is returned.
      * 
@@ -109,33 +107,30 @@ public interface IArchiveManager {
     String addImageFromFile(File file) throws IOException;
 
     /**
-     * Add image bytes keyed by entryName. This has to follow the same pattern as in createArchiveImagePathname()<p>
-     * If the image already exists the existing image path is returned, otherwise path is returned
+     * Add image bytes keyed by imagePath. This has to follow the same pattern as in createArchiveImagePathname()<p>
      * 
      * @param imagePath The key path entryname
      * @param bytes The image bytes
-     * @return If the image already exists the existing imagePath is returned, otherwise imagePath is returned
+     * @return the existing imagePath
      * @throws IOException
      */
     String addByteContentEntry(String imagePath, byte[] bytes) throws IOException;
     
     /**
-     * Copy image bytes from another ArchiveManager and add them to this ArchiveManager
-     * 
+     * Copy image bytes from another model and add them to this model
      * Once the imagepath has been returned, the caller should set the imagepath:<p>
      * IDiagramModelImageProvider.setImagePath(imagepath)
      * 
-     * @param archiveManager The source ArchiveManager
+     * @param model The source model
      * @param imagePath The image path in the source ArchiveManager
      * @return The newly created imagePath name, or an existing imagePath if the image already exists
-     * @throws IOException
      */
-    String copyImageBytes(IArchiveManager archiveManager, String imagePath) throws IOException;
+    String copyImageBytes(IArchimateModel model, String imagePath);
     
     /**
      * Get image bytes by entryName
      * 
-     * @param entryName The key path entryname
+     * @param imagePath The key path entryname
      * @return The image bytes or null if not found
      */
     byte[] getBytesFromEntry(String imagePath);
@@ -144,10 +139,9 @@ public interface IArchiveManager {
      * Create a new Image for this path entry
      * @param imagePath The image imagePath
      * @return the Image object or null
-     * @throws Exception
      */
-    Image createImage(String imagePath) throws Exception;
-    
+    Image createImage(String imagePath);
+
     /**
      * Create a new ImageData for this path entry
      * @param imagePath The image imagePath
@@ -155,6 +149,11 @@ public interface IArchiveManager {
      */
     ImageData createImageData(String imagePath);
 
+    /**
+     * @return a set of all image features in the model
+     */
+    public Set<IFeature> getImageFeatures();
+    
     /**
      * Get a copy of the list of Image entry paths as used in the model.<p>
      * This will not include duplicates. The list is re-calculated each time.
@@ -175,35 +174,28 @@ public interface IArchiveManager {
     void saveModel() throws IOException;
     
     /**
-     * Clone this ArchiveManager with a copy of this one but with the given model
-     * 
-     * @param model
-     * @return The new ArchiveManager
+     * TODO: Remove this as this does nothing now
      */
-    IArchiveManager clone(IArchimateModel model);
+    @SuppressWarnings("unused")
+    default void loadImages() throws IOException {}
     
     /**
-     * Load all images for this model
+     * Convert image paths from a legacy archive zip file to the new format
+     * @param file The archive legacy file
      * @throws IOException
      */
-    void loadImages() throws IOException;
+    void convertImagesFromLegacyArchive(File file) throws IOException;
 
     /**
-     * Load all images from another Archimate Model archive file and add to this one
-     * 
-     * @param file The model file
-     * @return true if the images could be loaded
-     * @throws IOException
-     */
-    boolean loadImagesFromModelFile(File file) throws IOException;
-    
-    /**
-     * @return True if the model currently has references to at least one image and the image is loaded
+     * @return True if the model currently has references to images
      */
     boolean hasImages();
     
     /**
-     * Dispose and unload any assets no longer referenced
+     * @param feature
+     * @return true if feature is an image feature
      */
-    void dispose();
+    public static boolean isImageFeature(IFeature feature) {
+        return feature != null && feature.getName() != null && feature.getName().startsWith(imageFeaturePrefix);
+    }
 }

@@ -8,7 +8,6 @@ package com.archimatetool.editor.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
@@ -29,7 +28,6 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -118,7 +116,7 @@ public class ArchiveManagerTests {
     }
     
     @Test
-    public void testCreateImage_Null() throws Exception {
+    public void testCreateImage_Null() {
         assertNull(archiveManager.createImage("something"));
     }
     
@@ -149,38 +147,6 @@ public class ArchiveManagerTests {
     }
     
     @Test
-    public void testLoadImages() throws Exception {
-        model.setFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        
-        assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
-        
-        archiveManager.loadImages();
-        assertEquals(2, archiveManager.getLoadedImagePaths().size());
-    }
-    
-    @Test
-    public void testLoadImagesFromModelFile() throws Exception {
-        // File is null, returns false
-        boolean result = archiveManager.loadImagesFromModelFile(null);
-        assertFalse(result);
-        
-        // File contains no images, returns false
-        result = archiveManager.loadImagesFromModelFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
-        assertFalse(result);
-        
-        // Loaded images is empty
-        assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
-        
-        // Load some images
-        result = archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        assertTrue(result);
-        assertEquals(2, archiveManager.getLoadedImagePaths().size());
-        
-        // But should not be in use
-        assertEquals(0, archiveManager.getImagePaths().size());
-    }
-    
-    @Test
     public void testHasImages() throws IOException {
         assertFalse(archiveManager.hasImages());
         
@@ -191,9 +157,10 @@ public class ArchiveManagerTests {
         dmImage.setImagePath("somePath");
         assertFalse(archiveManager.hasImages());
         
-        // So load the image
-        archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        dmImage.setImagePath(archiveManager.getLoadedImagePaths().iterator().next());
+        // Load an image
+        File imgFile = new File(TestSupport.getTestDataFolder(), "/img/img1.png");
+        String pathName = archiveManager.addImageFromFile(imgFile);
+        dmImage.setImagePath(pathName);
         assertTrue(archiveManager.hasImages());
     }    
     
@@ -206,17 +173,7 @@ public class ArchiveManagerTests {
         model.setFile(file);
         
         archiveManager.saveModel();
-        
-        // Not an archive file
         assertTrue(file.exists());
-        assertFalse(IArchiveManager.FACTORY.isArchiveFile(file));
-        
-        // Is an archive file
-        archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        dmImage.setImagePath(archiveManager.getLoadedImagePaths().iterator().next());
-        
-        archiveManager.saveModel();
-        assertTrue(IArchiveManager.FACTORY.isArchiveFile(file));
         
         file.delete();
     }
@@ -239,17 +196,5 @@ public class ArchiveManagerTests {
         archiveManager.saveModel();
 
         assertSame(resource, model.eResource());
-    }
-    
-    @Test
-    public void testClone() throws IOException {
-        archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ZIPPED);
-        
-        IArchiveManager clone = archiveManager.clone(model);
-        assertNotSame(clone, archiveManager);
-        
-        for(String entryName : archiveManager.getLoadedImagePaths()) {
-            assertSame(archiveManager.getBytesFromEntry(entryName), clone.getBytesFromEntry(entryName));
-        }
     }
 }

@@ -15,7 +15,6 @@ import com.archimatetool.editor.model.compatibility.handlers.ArchiMate2To3Handle
 import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandlerTests;
 import com.archimatetool.editor.model.compatibility.handlers.OutlineOpacityHandlerTests;
 import com.archimatetool.editor.model.impl.ArchiveManagerTests;
-import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 
 @RunWith(Suite.class)
@@ -37,7 +36,6 @@ import com.archimatetool.editor.model.impl.EditorModelManagerTests;
     OutlineOpacityHandlerTests.class,
     // model.impl
     ArchiveManagerTests.class,
-    ByteArrayStorageTests.class,
     EditorModelManagerTests.class
 })
 

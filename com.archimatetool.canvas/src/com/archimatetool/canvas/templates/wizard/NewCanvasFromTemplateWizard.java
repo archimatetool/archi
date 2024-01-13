@@ -21,6 +21,7 @@ import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.UUIDFactory;
 import com.archimatetool.templates.model.ITemplate;
@@ -113,10 +114,16 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         // Create New IDs for elements...
         UUIDFactory.generateNewIDs(canvasModel);
         
-        // Load the images from the template model's file now
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(templateModel);
+
+        // Convert from legacy format
         if(IArchiveManager.FACTORY.isArchiveFile(file)) {
-            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-            archiveManager.loadImagesFromModelFile(file); 
+            archiveManager.convertImagesFromLegacyArchive(file);
+        }
+
+        // Add the images from the template model's file to the target model
+        for(IFeature feature : archiveManager.getImageFeatures()) {
+            model.getFeatures().putString(feature.getName(), feature.getValue());
         }
         
         file.delete();

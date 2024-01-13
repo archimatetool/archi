@@ -168,11 +168,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
                 }
             }
 
-            /*
-             * Save model to xml temp file and add to Zip.
-             * Do this last because we need to dispose the Archive Manager last because its images are re-used
-             * several times to create thumbnails.
-             */
+            // Save model to xml temp file and add to Zip
             File tempFile = saveModelToTempFile();
             ZipUtils.addFileToZip(tempFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
             tempFile.delete();
@@ -229,9 +225,8 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         tempModel.eAdapters().clear();
         tempModel.setFile(tmpFile);
         
-        // Clone the Archive Manager for saving
-        IArchiveManager archiveManager = ((IArchiveManager)fModel.getAdapter(IArchiveManager.class)).clone(tempModel);
-        tempModel.setAdapter(IArchiveManager.class, archiveManager);
+        // Use an Archive Manager for saving
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(tempModel);
         archiveManager.saveModel();
         
         return tmpFile;

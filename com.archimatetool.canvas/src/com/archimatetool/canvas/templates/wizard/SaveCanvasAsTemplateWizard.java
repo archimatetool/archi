@@ -37,6 +37,7 @@ import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.UUIDFactory;
@@ -236,8 +237,15 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         IFolder folder = fModel.getDefaultFolderForObject(fCanvasModel);
         folder.getElements().add(fCanvasModel);
         
-        // Clone the ArchiveManager for thumbnail generation and saving
-        IArchiveManager archiveManager = ((IArchiveManager)canvasModel.getAdapter(IArchiveManager.class)).clone(fModel);
+        // Copy the image features from the source model to this model
+        for(IFeature feature : canvasModel.getArchimateModel().getFeatures()) {
+            if(IArchiveManager.isImageFeature(feature)) {
+                fModel.getFeatures().putString(feature.getName(), feature.getValue());
+            }
+        }
+        
+        // Add an Archive Manager for thumbnail generation and saving
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(fModel);
         fModel.setAdapter(IArchiveManager.class, archiveManager);
     }
     

@@ -148,14 +148,8 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
     protected void setImagePath(IArchimateModel selectedModel, String imagePath) {
         // Different models so copy the image bytes and set the image path
         if(selectedModel != getFirstSelectedObject().getArchimateModel()) {
-            try {
-                IArchiveManager selectedArchiveManager = (IArchiveManager)selectedModel.getAdapter(IArchiveManager.class);
-                imagePath = getArchiveManager().copyImageBytes(selectedArchiveManager, imagePath);
-                doImagePathCommand(imagePath);
-            }
-            catch(IOException ex) {
-                showError(ex);
-            }
+            imagePath = getArchiveManager().copyImageBytes(selectedModel, imagePath);
+            doImagePathCommand(imagePath);
         }
         // Same model so just set the image path
         else {

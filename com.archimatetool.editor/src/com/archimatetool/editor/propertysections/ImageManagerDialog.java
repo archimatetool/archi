@@ -302,15 +302,9 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                     
                     // Create image and cache it
                     if(thumbnail == null) {
-                        try {
-                            thumbnail = archiveManager.createImage(path);
-                            if(thumbnail != null) {
-                                fImageCache.put(path, thumbnail);
-                            }
-                        }
-                        catch(Exception ex) {
-                            ex.printStackTrace();
-                            continue;
+                        thumbnail = archiveManager.createImage(path);
+                        if(thumbnail != null) {
+                            fImageCache.put(path, thumbnail);
                         }
                     }
                     

@@ -5,8 +5,6 @@
  */
 package com.archimatetool.modelimporter;
 
-import java.io.IOException;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
@@ -115,12 +113,11 @@ abstract class AbstractImporter {
     /**
      * Import the image bytes from the imported model's IDiagramModelImageProvider to the target model's IDiagramModelImageProvider
      */
-    protected void importImageBytes(IDiagramModelImageProvider importedObject, IDiagramModelImageProvider targetObject) throws IOException {
+    protected void importImageBytes(IDiagramModelImageProvider importedObject, IDiagramModelImageProvider targetObject) {
         String importedImagePath = importedObject.getImagePath();
         if(importedImagePath != null) {
-            IArchiveManager importedArchiveManager = (IArchiveManager)getImportedModel().getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)getTargetModel().getAdapter(IArchiveManager.class);
-            importedImagePath = targetArchiveManager.copyImageBytes(importedArchiveManager, importedImagePath);
+            importedImagePath = targetArchiveManager.copyImageBytes(getImportedModel(), importedImagePath);
             addCommand(new EObjectFeatureCommand(null, targetObject, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, importedImagePath));
         }
     }

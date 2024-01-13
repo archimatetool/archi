@@ -34,7 +34,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -349,7 +348,24 @@ implements IEditorModelManager {
         createNewCommandStack(model);
         
         // New Archive Manager
-        createNewArchiveManager(model);
+        IArchiveManager archiveManger = createNewArchiveManager(model);
+        
+        // Convert from legacy format
+        if(IArchiveManager.FACTORY.isArchiveFile(file)) {
+            try {
+                archiveManger.convertImagesFromLegacyArchive(file);
+            }
+            catch(IOException ex) {
+                ex.printStackTrace();
+                if(PlatformUI.isWorkbenchRunning()) {
+                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            Messages.EditorModelManager_2,
+                            Messages.EditorModelManager_16
+                            + "\n" + ex.getMessage()); //$NON-NLS-1$
+                }
+                return null;
+            }
+        }
         
         // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
         markDiagramModelsAsSaved(model);
@@ -409,10 +425,13 @@ implements IEditorModelManager {
         CommandStack cmdStack = new CommandStack();
         model.setAdapter(CommandStack.class, cmdStack);
         
-        // New Archive Manager and load images
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
-        model.setAdapter(IArchiveManager.class, archiveManager);
-        archiveManager.loadImages();
+        // New Archive Manager
+        IArchiveManager archiveManger = createNewArchiveManager(model);
+        
+        // Convert from legacy format
+        if(IArchiveManager.FACTORY.isArchiveFile(file)) {
+            archiveManger.convertImagesFromLegacyArchive(file);
+        }
         
         return model;
     }
@@ -448,9 +467,6 @@ implements IEditorModelManager {
         // Delete the CommandStack *LAST* because GEF Editor(s) will still reference it!
         deleteCommandStack(model);
   
-        // Delete Archive Manager
-        deleteArchiveManager(model);
-
         // *at the very last* dispose of this model so its contents can be garbage collected
         // Some Eclipse components such as the Properties View might still reference the model or some of its contents
         model.dispose();
@@ -673,37 +689,19 @@ implements IEditorModelManager {
     }
     
     /**
-     * Create a new ArchiveManager for the model
+     * Create a new ArchiveManager for the model if one doesn't already exist
      */
     private IArchiveManager createNewArchiveManager(IArchimateModel model) {
-        // dispose any previous one
-        deleteArchiveManager(model);
+        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
         
-        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
-        model.setAdapter(IArchiveManager.class, archiveManager);
-        
-        // Load images now
-        try {
-            archiveManager.loadImages();
-        }
-        catch(IOException ex) {
-            Logger.logError("Could not load images", ex); //$NON-NLS-1$
-            ex.printStackTrace();
+        if(archiveManager == null) {
+            archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+            model.setAdapter(IArchiveManager.class, archiveManager);
         }
         
         return archiveManager;
     }
     
-    /**
-     * Remove the model's ArchiveManager
-     */
-    private void deleteArchiveManager(IArchimateModel model) {
-        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-        if(archiveManager != null) {
-            archiveManager.dispose();
-        }
-    }
-
     //========================== Persist backing file  ==========================
 
     @Override

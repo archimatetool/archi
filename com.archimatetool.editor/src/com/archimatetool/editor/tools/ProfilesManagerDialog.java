@@ -562,8 +562,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                     // Existing image which could be in this model or a different model
                     else if(dialog.getUserSelectedImagePath() != null) {
                         if(dialog.getUserSelectedModel() != fArchimateModel) { // Different model
-                            IArchiveManager selectedArchiveManager = (IArchiveManager)dialog.getUserSelectedModel().getAdapter(IArchiveManager.class);
-                            path = archiveManager.copyImageBytes(selectedArchiveManager, dialog.getUserSelectedImagePath());
+                            path = archiveManager.copyImageBytes(dialog.getUserSelectedModel(), dialog.getUserSelectedImagePath());
                         }
                         else { // Same model
                             path = dialog.getUserSelectedImagePath();

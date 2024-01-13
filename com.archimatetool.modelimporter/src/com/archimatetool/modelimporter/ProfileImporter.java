@@ -5,8 +5,6 @@
  */
 package com.archimatetool.modelimporter;
 
-import java.io.IOException;
-
 import com.archimatetool.editor.model.commands.AddListMemberCommand;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.modelimporter.StatusMessage.StatusMessageLevel;
@@ -23,7 +21,7 @@ class ProfileImporter extends AbstractImporter {
         super(importer);
     }
     
-    IProfile importProfile(IProfile importedProfile) throws ImportException, IOException {
+    IProfile importProfile(IProfile importedProfile) throws ImportException {
         // Do we have this profile given its Name and Class type?
         IProfile targetProfile = findObjectInTargetModel(importedProfile);
         
@@ -42,7 +40,7 @@ class ProfileImporter extends AbstractImporter {
         return targetProfile;
     }
     
-    private void addNewProfile(IProfile importedProfile) throws IOException {
+    private void addNewProfile(IProfile importedProfile) {
         // Clone the imported Profile
         IProfile newProfile = cloneObject(importedProfile);
 
@@ -59,7 +57,7 @@ class ProfileImporter extends AbstractImporter {
     /**
      * Update the target profile
      */
-    private void updateProfile(IProfile importedProfile, IProfile targetProfile) throws IOException {
+    private void updateProfile(IProfile importedProfile, IProfile targetProfile) {
         updateObject(importedProfile, targetProfile);
         
         // Import any image bytes

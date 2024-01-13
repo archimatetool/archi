@@ -10,7 +10,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -23,7 +22,6 @@ import com.archimatetool.model.IProfile;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class IconicDelegate {
     
     /**
@@ -71,15 +69,9 @@ public class IconicDelegate {
         disposeImage();
         
         if(imagePath != null) {
-            try {
-                IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-                if(archiveManager != null) { // fIconic object can be orphaned at this point when importing another model
-                    fImage = archiveManager.createImage(imagePath);
-                }
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.logError("Could not create image!", ex);
+            IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
+            if(archiveManager != null) { // fIconic object can be orphaned at this point when importing another model
+                fImage = archiveManager.createImage(imagePath);
             }
         }
     }

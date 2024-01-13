@@ -161,12 +161,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         if(imagePath != null) {
             IArchiveManager archiveManager = (IArchiveManager)getDiagramModelObject().getAdapter(IArchiveManager.class);
-            try {
-                image = archiveManager.createImage(imagePath);
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
+            image = archiveManager.createImage(imagePath);
         }
         
         return image;

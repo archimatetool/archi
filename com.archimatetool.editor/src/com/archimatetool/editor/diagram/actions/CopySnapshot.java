@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,7 +26,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -851,19 +849,12 @@ public final class CopySnapshot {
          * Copy image bytes to different target model
          */
         private void copyImageToTargetModel(IDiagramModelImageProvider imageProvider) {
-            IArchiveManager sourceArchiveManager = (IArchiveManager)fSourceArchimateModel.getAdapter(IArchiveManager.class);
             IArchiveManager targetArchiveManager = (IArchiveManager)targetDiagramModel.getAdapter(IArchiveManager.class);
 
             String imagePath = imageProvider.getImagePath();
             if(imagePath != null) {
-                try {
-                    imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
-                    imageProvider.setImagePath(imagePath);
-                }
-                catch(IOException ex) {
-                    ex.printStackTrace();
-                    Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
-                }
+                imagePath = targetArchiveManager.copyImageBytes(fSourceArchimateModel, imagePath);
+                imageProvider.setImagePath(imagePath);
             }
         }
         

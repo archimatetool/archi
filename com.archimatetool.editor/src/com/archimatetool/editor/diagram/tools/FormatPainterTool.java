@@ -5,15 +5,12 @@
  */
 package com.archimatetool.editor.diagram.tools;
 
-import java.io.IOException;
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
@@ -267,16 +264,8 @@ public class FormatPainterTool extends AbstractTool {
             // If we have an image path and the source and target models are different, copy the image bytes
             String imagePath = source.getImagePath();
             if(imagePath != null && source.getArchimateModel() != target.getArchimateModel()) {
-                IArchiveManager sourceArchiveManager = (IArchiveManager)source.getAdapter(IArchiveManager.class);
                 IArchiveManager targetArchiveManager = (IArchiveManager)target.getAdapter(IArchiveManager.class);
-                
-                try {
-                    imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
-                }
-                catch(IOException ex) {
-                    ex.printStackTrace();
-                    Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
-                }
+                imagePath = targetArchiveManager.copyImageBytes(source.getArchimateModel(), imagePath);
             }
             
             Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH, imagePath); //$NON-NLS-1$
