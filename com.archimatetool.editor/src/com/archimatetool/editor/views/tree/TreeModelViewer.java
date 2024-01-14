@@ -164,8 +164,6 @@ public class TreeModelViewer extends TreeViewer {
             
         }, ColumnViewerEditor.DEFAULT);
         
-        setCellEditors(new CellEditor[]{ cellEditor });
-        
         setCellModifier(new ICellModifier() {
             @Override
             public void modify(Object element, String property, Object value) {
