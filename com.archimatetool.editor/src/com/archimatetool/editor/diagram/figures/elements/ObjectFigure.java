@@ -79,7 +79,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
         
         @Override
         public Rectangle calculateTextControlBounds() {
-            Rectangle bounds = getBounds();
+            Rectangle bounds = getTextControlBoundsWithIconImageOffset();
             
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             

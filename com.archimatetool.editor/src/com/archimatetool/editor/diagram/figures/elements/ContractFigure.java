@@ -76,7 +76,7 @@ public class ContractFigure extends ObjectFigure {
         public Rectangle calculateTextControlBounds() {
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             if(textPosition == ITextPosition.TEXT_POSITION_BOTTOM) {
-                Rectangle bounds = getBounds();
+                Rectangle bounds = getTextControlBoundsWithIconImageOffset();
                 bounds.y -= TOP_MARGIN - getTextControlMarginHeight();
                 return bounds;
             }

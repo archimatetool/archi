@@ -284,6 +284,59 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     }
     
     /**
+     * @return The tex control area taking into account user icon
+     */
+    public Rectangle getTextControlBoundsWithIconImageOffset() {
+        Rectangle rectWithImageOffset = getBounds().getCopy();
+        
+        if(getIconicDelegate() == null || getIconicDelegate().getImage() == null || !(getDiagramModelObject() instanceof IIconic)) {
+            return rectWithImageOffset;
+        }
+        
+        IIconic dmo = (IIconic)getDiagramModelObject();
+        org.eclipse.swt.graphics.Rectangle imageBounds = getIconicDelegate().getImage().getBounds();
+        
+        // Add 1 pixel for some space
+        imageBounds.width++;
+
+        int imagePosition = dmo.getImagePosition();
+        //int textAlignment = dmo.getTextAlignment();
+        int textPosition = ((ITextPosition)dmo).getTextPosition();
+
+        if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
+            if(imagePosition == IIconic.ICON_POSITION_TOP_RIGHT) {
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+            if(imagePosition == IIconic.ICON_POSITION_TOP_LEFT) {
+                rectWithImageOffset.x += imageBounds.width;
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+        }
+
+        if(textPosition == ITextPosition.TEXT_POSITION_CENTRE) {
+            if(imagePosition == IIconic.ICON_POSITION_MIDDLE_RIGHT) {
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+            if(imagePosition == IIconic.ICON_POSITION_MIDDLE_LEFT) {
+                rectWithImageOffset.x += imageBounds.width;
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+        }
+
+        if(textPosition == ITextPosition.TEXT_POSITION_BOTTOM) {
+            if(imagePosition == IIconic.ICON_POSITION_BOTTOM_RIGHT) {
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+            if(imagePosition == IIconic.ICON_POSITION_BOTTOM_LEFT) {
+                rectWithImageOffset.x += imageBounds.width;
+                rectWithImageOffset.width -= imageBounds.width;
+            }
+        }
+        
+        return rectWithImageOffset;
+    }
+    
+    /**
      * Calculate the Text Control Bounds or null if none.
      */
     protected Rectangle calculateTextControlBounds() {
@@ -295,20 +348,19 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             }
         }
         
-        // We will adjust for any internal icons...
-        
+        Rectangle rect = getTextControlBoundsWithIconImageOffset();
+
         // If there is no icon offset or the icon is not visible we don't need to do any offsets
         if(getIconOffset() == 0 || !isIconVisible()) {
-            return null;
+            return rect;
         }
-        
-        // Adjust for icon offset and left/right margins
-        int iconOffset = getIconOffset() - getTextControlMarginWidth();
 
-        Rectangle rect = getBounds().getCopy();
+        // Adjust for icon offset and left/right margins
 
         // Text position is Top
-        if(((ITextPosition)getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+        if(rect.equals(getBounds()) && ((ITextPosition)getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+            int iconOffset = getIconOffset() - getTextControlMarginWidth();
+
             int textAlignment = getDiagramModelObject().getTextAlignment();
 
             if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {

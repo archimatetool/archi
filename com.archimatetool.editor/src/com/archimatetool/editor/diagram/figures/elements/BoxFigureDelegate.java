@@ -10,8 +10,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -26,7 +26,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
 
     private static final int EDGE_SIZE = 14;
     
-    public BoxFigureDelegate(AbstractDiagramModelObjectFigure owner) {
+    public BoxFigureDelegate(AbstractTextControlContainerFigure owner) {
         super(owner);
     }
     
@@ -99,7 +99,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle rect = getBounds();
+        Rectangle rect = ((AbstractTextControlContainerFigure)getOwner()).getTextControlBoundsWithIconImageOffset();
         
         int textPosition = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
         int textAlignment = getOwner().getDiagramModelObject().getTextAlignment();
