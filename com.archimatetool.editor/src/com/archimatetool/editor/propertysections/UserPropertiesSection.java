@@ -41,6 +41,7 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -48,10 +49,10 @@ import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -95,7 +96,6 @@ import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
-import com.archimatetool.editor.ui.components.TableCheckListener;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
@@ -1102,6 +1102,10 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL));
                 if(dialog.open() == Window.OK) {
                     List<String> newKeys = dialog.getSelectedKeys();
+                    if(newKeys == null || newKeys.isEmpty()) {
+                        return;
+                    }
+                    
                     CompoundCommand cmd = isMultiSelection() ? new CompoundCommand(Messages.UserPropertiesSection_20) : 
                                                                new EObjectNonNotifyingCompoundCommand(getFirstSelectedElement(), Messages.UserPropertiesSection_20);
                     
@@ -1349,11 +1353,11 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     // -----------------------------------------------------------------------------------------------------------------
 
     private static class MultipleAddDialog extends ExtendedTitleAreaDialog {
-        private TableViewer tableViewer;
+        private CheckboxTableViewer tableViewer;
         private Button buttonSelectAll, buttonDeselectAll;
 
         private String[] keys;
-        private Set<String> selectedKeys = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
+        private List<String> selectedKeys;
 
         public MultipleAddDialog(Shell parentShell, String[] keys) {
             super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
@@ -1406,7 +1410,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             tableComp.setLayout(tableLayout);
             tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-            tableViewer = new TableViewer(tableComp, SWT.FULL_SELECTION | SWT.VIRTUAL);
+            tableViewer = CheckboxTableViewer.newCheckList(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
             tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
             
             // Mac Silicon Item height
@@ -1419,17 +1423,14 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(100, true));
 
             // Content Provider
-            tableViewer.setContentProvider(new ILazyContentProvider() {
+            tableViewer.setContentProvider(new IStructuredContentProvider() {
                 @Override
                 public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-                    if(newInput != null) {
-                        tableViewer.setItemCount(keys.length);
-                    }
                 }
 
                 @Override
-                public void updateElement(int index) {
-                    tableViewer.replace(keys[index], index);
+                public Object[] getElements(Object inputElement) {
+                    return keys;
                 }
 
                 @Override
@@ -1438,30 +1439,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             });
             
             // Label Provider
-            tableViewer.setLabelProvider(new CellLabelProvider() {
-                @Override
-                public void update(ViewerCell cell) {
-                    String key = (String)cell.getElement();
-                    cell.setText(key);
-                    cell.setImage(selectedKeys.contains(key) ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CHECKED)
-                                                                : IArchiImages.ImageFactory.getImage(IArchiImages.ICON_UNCHECKED));
-                }
-            });
-            
-            // Mouse click in Assets table - did we click the checkbox?
-            new TableCheckListener(tableViewer.getTable()) {
-                @Override
-                protected void hit(Object object) {
-                    String key = (String)object;
-                    if(selectedKeys.contains(key)) {
-                        selectedKeys.remove(key);
-                    }
-                    else {
-                        selectedKeys.add(key);
-                    }
-                }
-            };
-
+            tableViewer.setLabelProvider(new LabelProvider());
             tableViewer.setInput(keys);
         }
 
@@ -1481,10 +1459,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonSelectAll.setLayoutData(gd);
             buttonSelectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
-                for(String key : keys) {
-                    selectedKeys.add(key);
-                }
-                tableViewer.setInput(keys);
+                tableViewer.setCheckedElements(keys);
             }));
 
             buttonDeselectAll = new Button(client, SWT.PUSH);
@@ -1492,15 +1467,22 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonDeselectAll.setLayoutData(gd);
             buttonDeselectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
-                selectedKeys = new HashSet<>();
-                tableViewer.setInput(keys);
+                tableViewer.setCheckedElements(new Object[] {});
             }));
         }
 
+        @Override
+        protected void okPressed() {
+            selectedKeys = new ArrayList<>();
+            for(Object o : tableViewer.getCheckedElements()) {
+                selectedKeys.add((String)o);
+            }
+            
+            super.okPressed();
+        }
+
         List<String> getSelectedKeys() {
-            List<String> list = new ArrayList<>(selectedKeys);
-            Collections.sort(list, (s1, s2) -> s1.compareToIgnoreCase(s2));
-            return list;
+            return selectedKeys;
         }
 
         @Override
