@@ -72,6 +72,10 @@ public final class NetUtils  {
         
         // And this one too, but not sure. I think it's for HTTP
         System.setProperty("jdk.http.auth.proxying.disabledSchemes", "");
+        
+        // Set global timeouts. These might or might not work.
+        System.setProperty("sun.net.client.defaultConnectTimeout", Integer.toString(getNetworkTimeout()));
+        System.setProperty("sun.net.client.defaultReadTimeout", Integer.toString(getNetworkTimeout()));
 
         // Set default proxy now
         setDefaultProxy();
@@ -87,16 +91,26 @@ public final class NetUtils  {
         });
     }
 
+    /**
+     * Open a URL Connection with the given URL
+     * This is really meant to be used with HTTP and HTTPS protocols but will work with the FILE protocol
+     */
     public static URLConnection openConnection(URL url) throws IOException {
         URLConnection connection = null;
         
         if(isProxyEnabled()) {
             connection = url.openConnection(getHTTPProxy());
-            ((HttpURLConnection)connection).setAuthenticator(AUTHENTICATOR);
+            if(connection instanceof HttpURLConnection httpConnection) {
+                httpConnection.setAuthenticator(AUTHENTICATOR);
+            }
         }
         else {
             connection = url.openConnection();
         }
+        
+        // Set timeouts, these will work even if the global properties don't
+        connection.setConnectTimeout(getNetworkTimeout());
+        connection.setReadTimeout(getNetworkTimeout());
 
         return connection;
     }
@@ -159,6 +173,13 @@ public final class NetUtils  {
      */
     public static int getProxyPort() {
         return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.PREFS_PROXY_PORT);
+    }
+    
+    /**
+     * Return the network timeout in milliseconds
+     */
+    public static int getNetworkTimeout() {
+        return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.PREFS_NETWORK_TIMEOUT);
     }
 
     private static Proxy getHTTPProxy() {

@@ -153,6 +153,12 @@ implements IPreferenceConstants {
         store.setDefault(HINTS_BROWSER_JS_ENABLED, false);
         store.setDefault(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED, false);
 
+        // ======================================= Network / Proxy =======================================
+        
+        store.setDefault(PREFS_NETWORK_TIMEOUT, 30000); // 30 seconds
+        store.setDefault(PREFS_PROXY_ENABLED, false);
+        store.setDefault(PREFS_PROXY_REQUIRES_AUTHENTICATION, false);
+        
         // ======================================= Internal =======================================
         
         store.setDefault(GRID_VISIBLE, false);

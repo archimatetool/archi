@@ -146,6 +146,7 @@ public interface IPreferenceConstants {
     
     // ======================================= Net / Proxy =======================================
 
+    String PREFS_NETWORK_TIMEOUT = "networkTimeout";
     String PREFS_PROXY_ENABLED = "proxyEnabled";
     String PREFS_PROXY_HOST = "proxyHost";
     String PREFS_PROXY_PORT = "proxyPort";
