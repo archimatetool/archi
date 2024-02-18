@@ -1,0 +1,24 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings
+ *******************************************************************************/
+
+/*
+* On Mac there is white cheese in a Part's menu icon bar if the start and end colors are the same value
+* So we set different start and end values.
+*/
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
+    color: #F0F0F0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
+    color: #F0F0F1;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
+    color: #E4E4E4;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
+    color: #E4E4E5;
+}

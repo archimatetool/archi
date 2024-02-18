@@ -13,8 +13,6 @@
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
  *******************************************************************************/
 
-@import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
-
 .MPart.busy {
 	font-style: italic;
 }
