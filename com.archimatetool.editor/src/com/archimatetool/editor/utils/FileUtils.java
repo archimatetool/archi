@@ -416,7 +416,7 @@ public final class FileUtils  {
      * @param folder
      * @return true if the folder is empty
      */
-    public static boolean isFolderEmpty(File folder) {
+    public static boolean isFolderEmpty(File folder) throws IOException {
         if(!(folder != null && folder.exists() && folder.isDirectory())) {
             return true;
         }
@@ -425,9 +425,6 @@ public final class FileUtils  {
         try(Stream<Path> entries = Files.list(folder.toPath())
                                         .filter(path -> !path.endsWith(".DS_Store"))) { // Ignore Mac file
             return entries.findFirst().isEmpty();
-        }
-        catch(IOException ex) {
-            return true;
         }
     }
 }
