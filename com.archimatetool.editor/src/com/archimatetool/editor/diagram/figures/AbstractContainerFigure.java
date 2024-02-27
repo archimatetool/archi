@@ -11,7 +11,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
@@ -113,8 +112,19 @@ implements IContainerFigure {
         }
 
         Rectangle bounds = getBounds().getCopy();
-        bounds.shrink(new Insets(1, 1, 2, 2));
         
+        // Scaling
+        double scale = FigureUtils.getFigureScale(this);
+        if(scale == 1.5) {
+            bounds.width--;
+            bounds.height--;
+        }
+        else if(scale < 1) {
+            bounds.width -= 2;
+            bounds.height -= 2;
+        }
+        
+        bounds.shrink(1, 1);
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
         graphics.drawRectangle(bounds);
