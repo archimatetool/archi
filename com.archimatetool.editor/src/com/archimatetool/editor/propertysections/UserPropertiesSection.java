@@ -1100,7 +1100,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         public void run() {
             if(isAlive(getFirstSelectedElement())) {
                 MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL));
-                if(dialog.open() == Window.OK) {
+                if(dialog.open() != Window.CANCEL) {
                     List<String> newKeys = dialog.getSelectedKeys();
                     if(newKeys == null || newKeys.isEmpty()) {
                         return;
@@ -1109,11 +1109,16 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                     CompoundCommand cmd = isMultiSelection() ? new CompoundCommand(Messages.UserPropertiesSection_20) : 
                                                                new EObjectNonNotifyingCompoundCommand(getFirstSelectedElement(), Messages.UserPropertiesSection_20);
                     
+                    // Add properties that are not already present
+                    boolean addUnique = dialog.getReturnCode() == IDialogConstants.CLIENT_ID;
+                    
                     for(IProperties propertiesElement : fPropertiesElements) {
                         if(isAlive(propertiesElement)) {
                             for(String key : newKeys) {
-                                IProperty property = IArchimateFactory.eINSTANCE.createProperty(key, ""); //$NON-NLS-1$
-                                cmd.add(new NewPropertyCommand(propertiesElement.getProperties(), property, -1));
+                                if(!(addUnique && hasPropertyKey(propertiesElement, key))) {
+                                    IProperty property = IArchimateFactory.eINSTANCE.createProperty(key, ""); //$NON-NLS-1$
+                                    cmd.add(new NewPropertyCommand(propertiesElement.getProperties(), property, -1));
+                                }
                             }
                         }
                     }
@@ -1121,6 +1126,18 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                     executeCommand(cmd.unwrap());
                 }
             }
+        }
+        
+        /**
+         * @return true if propertiesElement already has a property by key
+         */
+        private boolean hasPropertyKey(IProperties propertiesElement, String key) {
+            for(IProperty property : propertiesElement.getProperties()) {
+                if(key.equals(property.getKey())) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -1421,7 +1438,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
             // Column
             TableViewerColumn columnKey = new TableViewerColumn(tableViewer, SWT.NONE, 0);
             tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(100, true));
-
+            
             // Content Provider
             tableViewer.setContentProvider(new IStructuredContentProvider() {
                 @Override
@@ -1470,17 +1487,25 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 tableViewer.setCheckedElements(new Object[] {});
             }));
         }
-
+        
         @Override
-        protected void okPressed() {
+        protected void createButtonsForButtonBar(Composite parent) {
+            createButton(parent, IDialogConstants.OK_ID, Messages.UserPropertiesSection_6, true);
+            createButton(parent, IDialogConstants.CLIENT_ID, Messages.UserPropertiesSection_23, false);
+            createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+        }
+        
+        @Override
+        protected void buttonPressed(int buttonId) {
             selectedKeys = new ArrayList<>();
             for(Object o : tableViewer.getCheckedElements()) {
                 selectedKeys.add((String)o);
             }
-            
-            super.okPressed();
-        }
 
+            setReturnCode(buttonId);
+            close();
+        }
+        
         List<String> getSelectedKeys() {
             return selectedKeys;
         }
