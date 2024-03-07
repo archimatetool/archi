@@ -19,15 +19,17 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.IContributedContentsView;
 
 /**
  * An EditorPart containing a Browser component
  * 
  * @author Phillip Beauvoir
  */
-public class BrowserEditor extends EditorPart implements IBrowserEditor {
+public class BrowserEditor extends EditorPart implements IBrowserEditor, IContributedContentsView  {
     
     /**
      * The Browser component
@@ -166,5 +168,13 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
     @Override
     public boolean isSaveAsAllowed() {
         return false;
+    }
+
+    /**
+     * Return null so that the Properties View displays "The active part does not provide properties" instead of a table
+     */
+    @Override
+    public IWorkbenchPart getContributingPart() {
+        return null;
     }
 }
