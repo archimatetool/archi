@@ -14,10 +14,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart;
-import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertyShowInContext;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -31,7 +29,7 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class CustomPropertiesView extends PropertySheet implements ICustomPropertiesView, ITabbedPropertySheetPageContributor {
+public class CustomPropertiesView extends PropertySheet implements ICustomPropertiesView {
 
     @Override
     public void createPartControl(Composite parent) {
@@ -78,8 +76,8 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
     protected ISaveablePart getSaveablePart() {
         /*
          * Eclipse 4.5 and 4.6 calls this to set the Properties View to dirty and shows an asterisk on the title bar.
-         * This is so stupid. Really, really stupid.
          * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=372799
+         * Edit: not sure if we need this anymore, but keep it to be safe.
          */
         return null;
     }
@@ -117,14 +115,9 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
     @Override
     public <T> T getAdapter(Class<T> adapter) {
         /*
-         * If this View returns a TabbedPropertySheetPage then we don't get the nasty default table view
-         */
-        if(adapter == IPropertySheetPage.class) {
-            return adapter.cast(new TabbedPropertySheetPage(this));
-        }
-        
-        /*
-         * Return the IArchimateModel in context of the part in context
+         * Return the IArchimateModel in context of the part in context.
+         * This ensures that when this Properties view has the focus all actions, menu items, toolbar items, etc are updated according to
+         * the current IArchimateModel. Otherwise they would be disabled.
          */
         if(adapter == IArchimateModel.class) {
             PropertyShowInContext context = (PropertyShowInContext)getShowInContext();
@@ -133,10 +126,4 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
         
         return super.getAdapter(adapter);
     }
-
-    @Override
-    public String getContributorId() {
-        return ArchiPlugin.PLUGIN_ID;
-    }
-
 }
