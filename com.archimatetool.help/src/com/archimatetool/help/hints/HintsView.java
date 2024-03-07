@@ -44,6 +44,9 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.osgi.framework.Bundle;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -69,7 +72,7 @@ import com.archimatetool.model.IDiagramModelComponent;
 @SuppressWarnings("nls")
 public class HintsView
 extends ViewPart
-implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener {
+implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener, ITabbedPropertySheetPageContributor {
     
     
     // CSS string
@@ -411,6 +414,23 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             
             fLookupTable.put(className, hint);
         }
+    }
+    
+    @Override
+    public <T> T getAdapter(Class<T> adapter) {
+        /*
+         * Return the PropertySheet Page (currently empty so we can display "Properties are not available" instead of the default table)
+         */
+        if(adapter == IPropertySheetPage.class) {
+            return adapter.cast(new TabbedPropertySheetPage(this));
+        }
+
+        return super.getAdapter(adapter);
+    }
+    
+    @Override
+    public String getContributorId() {
+        return ArchiPlugin.PLUGIN_ID;
     }
     
     @Override
