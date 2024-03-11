@@ -8,10 +8,12 @@ package com.archimatetool.jasperreports.data;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IIdentifier;
@@ -77,7 +79,9 @@ public class FieldDataFactory {
         }
         
         if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable) {
+            // Render label expressions in Documentation fields
             String s = ((IDocumentable)dataElement).getDocumentation();
+            s = TextRenderer.getDefault().renderWithExpression((IArchimateModelObject)dataElement, s);
             return StringUtils.isSet(s) ? s : null;
         }
         

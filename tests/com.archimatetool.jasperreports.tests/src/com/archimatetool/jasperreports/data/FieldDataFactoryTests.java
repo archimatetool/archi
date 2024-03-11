@@ -71,6 +71,16 @@ public class FieldDataFactoryTests {
     }
     
     @Test
+    public void testGetFieldValue_Documentation_With_Expression() {
+        IArtifact element = IArchimateFactory.eINSTANCE.createArtifact();
+        element.setName("The Name");
+        element.setDocumentation("Documentation ${name}");
+        Object o = FieldDataFactory.getFieldValue(element, FieldDataFactory.DOCUMENTATION);
+        assertEquals("Documentation The Name", o);
+    }
+
+    
+    @Test
     public void testGetFieldValue_Purpose() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setPurpose("Purpose");
