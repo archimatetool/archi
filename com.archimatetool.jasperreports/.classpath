@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/commonmark-0.21.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-digester-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.9.4.jar"/>

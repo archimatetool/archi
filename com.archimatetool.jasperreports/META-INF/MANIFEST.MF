@@ -18,7 +18,8 @@ Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/jasperreports-fonts-6.7.1.jar,
  lib/ecj-4.9.jar,
  lib/jackson-core-2.16.0.jar,
- lib/jackson-databind-2.16.0.jar
+ lib/jackson-databind-2.16.0.jar,
+ lib/commonmark-0.21.0.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor

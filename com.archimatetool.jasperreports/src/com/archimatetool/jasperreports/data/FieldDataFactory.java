@@ -5,6 +5,9 @@
  */
 package com.archimatetool.jasperreports.data;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -46,7 +49,15 @@ public class FieldDataFactory {
     public static final String IMAGE_PATH = "imagePath";
     public static final String VIEWPOINT = "viewpoint";
     
-
+    private static Parser parser;
+    private static HtmlRenderer renderer;
+    
+    static {
+        // Markdown
+        parser = Parser.builder().build();
+        renderer = HtmlRenderer.builder().build();
+    }
+    
     public static Object getFieldValue(Object dataElement, String fieldName) {
         if(THIS.equals(fieldName)) {
             return dataElement;
@@ -76,14 +87,26 @@ public class FieldDataFactory {
             return value;
         }
         
-        if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable) {
-            String s = ((IDocumentable)dataElement).getDocumentation();
-            return StringUtils.isSet(s) ? s : null;
+        if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable documentable) {
+            String text = documentable.getDocumentation();
+            if(!StringUtils.isSet(text)) {
+                return null;
+            }
+            
+            // Markdown
+            Node document = parser.parse(documentable.getDocumentation());
+            return renderer.render(document);
         }
         
-        if(PURPOSE.equals(fieldName) && dataElement instanceof IArchimateModel) {
-            String s = ((IArchimateModel)dataElement).getPurpose();
-            return StringUtils.isSet(s) ? s : null;
+        if(PURPOSE.equals(fieldName) && dataElement instanceof IArchimateModel model) {
+            String text = model.getPurpose();
+            if(!StringUtils.isSet(text)) {
+                return null;
+            }
+            
+            // Markdown
+            Node document = parser.parse(model.getPurpose());
+            return renderer.render(document);
         }
         
         if(RELATION_SOURCE.equals(fieldName) && dataElement instanceof IArchimateRelationship) {

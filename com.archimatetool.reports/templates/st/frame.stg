@@ -243,7 +243,7 @@ frame(element, map) ::= <<
 							<br>
 							<br>
 						^endif^
-						<div class="convertlinks documentation" style="white-space:pre-wrap">^element.Documentation;format="xml-encode"^^element.Purpose;format="xml-encode"^^element.Content;format="xml-encode"^</div>
+						<div class="convertlinks documentation" style="white-space:pre-wrap">^element.Documentation^^element.Purpose^^element.Content;format="xml-encode"^</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">
 						<table class="table table-striped table-hover table-condensed">

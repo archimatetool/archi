@@ -16,11 +16,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -45,6 +49,7 @@ import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.browser.IBrowserEditorInput;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
@@ -57,6 +62,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
@@ -89,6 +95,9 @@ public class HTMLReportExporter {
     
     private IProgressMonitor progressMonitor;
     
+    private Parser parser;
+    private HtmlRenderer renderer;
+    
     static class CancelledException extends IOException {
         public CancelledException(String message) {
             super(message);
@@ -104,7 +113,18 @@ public class HTMLReportExporter {
     }
     
     public HTMLReportExporter(IArchimateModel model) {
-        fModel = model;
+        // Use a copy of the model
+        fModel = EcoreUtil.copy(model);
+        
+        // Clone the ArchiveManager for images
+        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+        if(archiveManager != null) {
+            fModel.setAdapter(IArchiveManager.class, archiveManager.clone(fModel));
+        }
+        
+        // Markdown
+        parser = Parser.builder().build();
+        renderer = HtmlRenderer.builder().build();
     }
     
     public void export() throws Exception {
@@ -291,6 +311,20 @@ public class HTMLReportExporter {
         url = FileLocator.resolve(bundle.getEntry("help/hints")); //$NON-NLS-1$
         FileUtils.copyFolder(new File(url.getPath()), new File(targetFolder, "hints")); //$NON-NLS-1$
     }
+    
+    private void renderMarkdown(EObject component) {
+        if(component instanceof IArchimateModel model) {
+            Node document = parser.parse(model.getPurpose());
+            String text = renderer.render(document);            
+            model.setPurpose(text);
+        }
+        
+        if(component instanceof IDocumentable documentable) {
+            Node document = parser.parse(documentable.getDocumentation());
+            String text = renderer.render(document);            
+            documentable.setDocumentation(text);
+        }
+    }
 
     /**
      * Write all folders
@@ -328,6 +362,9 @@ public class HTMLReportExporter {
         //frame.remove("children");
         stFrame.add("element", component); //$NON-NLS-1$
         
+        // Render MD in Purpose/ Documentation fields
+        renderMarkdown(component);
+        
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8")) { //$NON-NLS-1$
             writer.write(stFrame.render());
         }
@@ -340,6 +377,10 @@ public class HTMLReportExporter {
      */
     private void writeGraphicalObjects(File objectsFolder, ST stFrame) throws IOException {
         for(IDiagramModel dm : fModel.getDiagramModels()) {
+            
+            // Render MD Documentation field
+            renderMarkdown(dm);
+            
             for(Iterator<EObject> iter =  dm.eAllContents(); iter.hasNext();) {
                 EObject eObject = iter.next();
                 if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 

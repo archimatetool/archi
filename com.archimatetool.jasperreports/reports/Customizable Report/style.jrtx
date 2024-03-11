@@ -22,9 +22,10 @@
 	<style name="Table header" style="Table row" mode="Opaque" backcolor="#A2C7DA" isBold="true"/>
 	<style name="Table row bold" style="Table row" isBold="true"/>
 	<style name="Italic" style="Normal" isItalic="true"/>
-	<style name="Documentation" style="Normal">
+	<style name="Documentation" style="Normal" markup="html">
 		<box leftPadding="5">
 			<leftPen lineWidth="2.0" lineColor="#A2C7DA"/>
 		</box>
 	</style>
+    <style name="Purpose" style="Normal" markup="html"/>
 </jasperTemplate>
