@@ -18,18 +18,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 @RunWith(Parameterized.class)
-public class AllArchimateElementTypeTests extends ArchimateElementTests {
+public class AllArchimateElementTypeTests extends ArchimateConceptTests {
     
     @Parameters
     public static Collection<EClass[]> eObjects() {
-        List<EClass[]> list = new ArrayList<EClass[]>();
+        List<EClass[]> list = new ArrayList<>();
         
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
             list.add(new EClass[] { eClass });
@@ -40,22 +38,15 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
         return list;
     }
     
-    private EClass eClass;
-    
     public AllArchimateElementTypeTests(EClass eClass) {
-        this.eClass = eClass;
-    }
-    
-    @Override
-    protected IArchimateElement getArchimateConcept() {
-        return (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
+        super(eClass);
     }
     
     @Test
     public void testGetJuntion_Type() {
-        Assume.assumeTrue(concept instanceof IJunction);
+        Assume.assumeTrue(getConcept() instanceof IJunction);
 
-        IJunction junction = (IJunction)concept;
+        IJunction junction = (IJunction)getConcept();
         assertEquals(IJunction.AND_JUNCTION_TYPE, junction.getType());
         junction.setType(IJunction.OR_JUNCTION_TYPE);
         assertEquals(IJunction.OR_JUNCTION_TYPE, junction.getType());

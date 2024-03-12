@@ -12,6 +12,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
+import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,19 +26,21 @@ import com.archimatetool.model.IProfile;
 @SuppressWarnings("nls")
 public abstract class ArchimateConceptTests {
     
-    protected abstract IArchimateConcept getArchimateConcept();
+    private EClass eClass;
+    private IArchimateConcept concept;
     
-    protected IArchimateModel model;
-    protected IArchimateConcept concept;
+    protected ArchimateConceptTests(EClass eClass) {
+        this.eClass = eClass;
+    }
     
     @Before
-    public void runBeforeEachArchimateConceptTest() {
-        model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-        
-        concept = getArchimateConcept();
+    public void runBeforeEachTest() {
+        concept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(eClass);
     }
-
+    
+    protected IArchimateConcept getConcept() {
+        return concept;
+    }
     
     @Test
     public void testGetAdapter() {
@@ -47,6 +50,9 @@ public abstract class ArchimateConceptTests {
     @Test
     public void testGetArchimateModel() {
         assertNull(concept.getArchimateModel());
+        
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
         
         model.getDefaultFolderForObject(concept).getElements().add(concept);
         assertSame(model, concept.getArchimateModel());
