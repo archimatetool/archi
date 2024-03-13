@@ -266,9 +266,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Font
         UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.PROPERTIES_TABLE_FONT, true);
         
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(fTableViewer.getTable());
-        
         // Edit cell on double-click and add Tab key traversal
         TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
             @Override
@@ -1429,9 +1426,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
             tableViewer = CheckboxTableViewer.newCheckList(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
             tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-            
-            // Mac Silicon Item height
-            UIUtils.fixMacSiliconItemHeight(tableViewer.getControl());
             
             tableViewer.getTable().setLinesVisible(true);
 
