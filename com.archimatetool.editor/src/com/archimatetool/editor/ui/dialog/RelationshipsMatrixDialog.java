@@ -95,7 +95,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         viewer.getControl().setLayoutData(gd);
         
         viewer.getGrid().setHeaderVisible(true);
-        viewer.getGrid().setRowHeaderVisible(true);
+        //viewer.getGrid().setRowHeaderVisible(true); // Don't set this here!
         viewer.getGrid().setRowsResizeable(true);
         viewer.getGrid().setCellSelectionEnabled(true);
         
@@ -119,6 +119,10 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             column.setImage(ArchiLabelProvider.INSTANCE.getImage(eClass));
             column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
         }
+        
+        // Have to set this here after setting column widths otherwise columns don't display on Mac
+        // See https://github.com/eclipse/nebula/pull/190
+        viewer.getGrid().setRowHeaderVisible(true);
         
         viewer.setContentProvider(new IStructuredContentProvider() {
             @Override

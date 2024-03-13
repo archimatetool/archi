@@ -7,8 +7,8 @@ Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.widgets.jar,
- lib/org.eclipse.nebula.widgets.gallery_1.0.0.201812241324.jar,
- lib/org.eclipse.nebula.widgets.grid_1.0.0.201706221838.jar
+ lib/org.eclipse.nebula.widgets.gallery_1.0.0.202402011804.jar,
+ lib/org.eclipse.nebula.widgets.grid_1.1.1.202402011804.jar
 Export-Package: com.archimatetool.widgets,
  org.eclipse.nebula.animation,
  org.eclipse.nebula.animation.effects,
