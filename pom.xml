@@ -21,7 +21,7 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2023-06</url>
+            <url>https://download.eclipse.org/releases/2024-03</url>
         </repository>
     </repositories>
 
@@ -73,7 +73,7 @@
                 <repository>
                     <id>Orbit</id>
                     <layout>p2</layout>
-                    <url>https://download.eclipse.org/tools/orbit/simrel/maven-osgi/release/4.29.0</url>
+                    <url>https://download.eclipse.org/tools/orbit/simrel/maven-osgi/2024-03</url>
                 </repository>
             </repositories>
         </profile>

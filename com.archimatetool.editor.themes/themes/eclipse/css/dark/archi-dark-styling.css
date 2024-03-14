@@ -4,6 +4,12 @@
 
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
 
+CTabFolder.active {
+    /* Set at top and a tad brighter */
+    swt-selected-tab-highlight: rgb(50, 114, 237);
+    swt-selected-highlight-top: true;
+}
+
 /* Theme colors */
 
 ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
