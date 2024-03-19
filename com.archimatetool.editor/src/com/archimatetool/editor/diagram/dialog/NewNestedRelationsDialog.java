@@ -43,6 +43,7 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -266,6 +267,9 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         RelationsTableViewer(Composite parent, int style) {
             super(parent, SWT.FULL_SELECTION | style);
             
+            // Mac Silicon Item height
+            UIUtils.fixMacSiliconItemHeight(getTable());
+
             setColumns(getTable());
             setContentProvider(new RelationsTableViewerContentProvider());
             setLabelProvider(new RelationsTableViewerLabelCellProvider());
