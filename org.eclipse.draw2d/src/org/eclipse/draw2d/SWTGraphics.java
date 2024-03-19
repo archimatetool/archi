@@ -1290,8 +1290,6 @@ public class SWTGraphics extends Graphics {
     }
     
     public void setLineAttributes(LineAttributes lineAttributes, boolean adjustForWindowsHiDPI) {
-        copyLineAttributes(currentState.lineAttributes, lineAttributes);
-        
         /*
          * Hack to workaround bug on Windows 200% scaling where dashes are half size
          * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/687
@@ -1301,6 +1299,8 @@ public class SWTGraphics extends Graphics {
                 currentState.lineAttributes.dash[i] *= org.eclipse.swt.internal.DPIUtil.getDeviceZoom() / 100;
             }
         }
+
+        copyLineAttributes(currentState.lineAttributes, lineAttributes);
     }
 
     /**
