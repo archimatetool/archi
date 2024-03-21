@@ -36,7 +36,6 @@ import org.osgi.framework.Bundle;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 
 /**
@@ -87,9 +86,6 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
 
         viewer = new TableViewer(tableComp, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
         viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-        
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(viewer.getTable());
         
         viewer.getTable().setHeaderVisible(true);
         

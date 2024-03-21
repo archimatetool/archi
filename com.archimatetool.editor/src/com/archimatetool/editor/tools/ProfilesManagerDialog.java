@@ -80,7 +80,6 @@ import com.archimatetool.editor.propertysections.ImageManagerDialog;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
-import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -241,9 +240,6 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(fTableViewer.getControl());
         
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(fTableViewer.getTable());
-
         // Edit cell on single-click and add Tab key traversal
         TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer),
                 ColumnViewerEditor.TABBING_HORIZONTAL | 

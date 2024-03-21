@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -246,28 +245,10 @@ public final class UIUtils {
     }
     
     /**
-     * Table/Tree/List Item heights on binaries built with Mac SDK 11.1 and later are taller than when using an earlier Mac SDK.
-     * However, if we change the font of a Table/Tree/List it will revert to the smaller item height.
-     * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/677
-     * 
-     * It depends on what binary is being run and what version Mac SDK that binary was compiled against:
-     * 
-     * Archi executable binary on Intel                 SDK 10.14 - smaller height
-     * Archi executable binary on Silicon               SDK 11.1 - bigger height
-     * Java on Intel/Silicon (launch from Eclipse)      SDK 11.1 - bigger height
-     * 
-     * To determine which Mac SDK is used to create the binary run:
-     *   otool -l /path/to/java
-     * and inspect the LC_VERSION_MIN_MACOSX or LC_BUILD_VERSION entry (look for "sdk")
-     * 
-     * So call this method in all cases when running on Mac
-     * For some reason this will ensure that Table/Tree/List Item height is normal on Mac
-     * 
-     * Note this should really be called "fixMacItemHeight"
+     * This is no longer needed with Eclipse 4.31 and later
+     * TODO: Remove this
      */
     public static void fixMacSiliconItemHeight(Control control) {
-        if(PlatformUtils.isMac()) {
-            control.setFont(control.getFont());
-        }
+        // Do nothing
     }
 }

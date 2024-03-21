@@ -17,7 +17,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 
@@ -36,9 +35,6 @@ public class TemplatesTreeViewer extends TreeViewer {
      */
     public TemplatesTreeViewer(Composite parent, int style) {
         super(parent, style);
-        
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(getTree());
         
         setContentProvider(new TemplatesTreeViewerContentProvider());
         setLabelProvider(new TemplatesTreeViewerLabelProvider());

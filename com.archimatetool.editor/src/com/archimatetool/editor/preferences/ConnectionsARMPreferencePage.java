@@ -30,7 +30,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.UIUtils;
 
 
 
@@ -139,9 +138,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private CheckboxTableViewer createRelationsTable(Composite parent) {
         final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER);
-        
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(viewer.getTable());
         
         GridDataFactory.create(GridData.FILL_HORIZONTAL).hint(SWT.DEFAULT, 100).applyTo(viewer.getTable());
         

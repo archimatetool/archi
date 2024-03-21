@@ -51,7 +51,6 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -131,9 +130,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Tree
         fTreeViewer = new TreeViewer(client);
         GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTreeViewer.getTree());
-        
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(fTreeViewer.getTree());
         
         // Tree Double-click listener
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
