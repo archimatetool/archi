@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -57,6 +59,19 @@ public class Application implements IApplication {
         // Check whether we are migrating from Archi 4 to 5
         if(Archi4Migrator.check()) {
             return EXIT_RESTART;
+        }
+        
+        /*
+         * Mac item heights.
+         * Read the preference setting and set it as a System Property before the workbench Display is created.
+         * We can't use Archi's preferences here as it would trigger creation of the workbench Display 
+         * because one of Archi's preference initialisers gets the Device zoom level which creates the default Display
+         * and then it's too late to set the property. So we store it in org.eclipse.ui.workbench.prefs.
+         */
+        if(PlatformUtils.isMac()) {
+            boolean useNativeItemHeights = InstanceScope.INSTANCE.getNode("org.eclipse.ui.workbench")
+                                            .getBoolean(IPreferenceConstants.MAC_ITEM_HEIGHT_PROPERTY_KEY, false);
+            System.setProperty(IPreferenceConstants.MAC_ITEM_HEIGHT_PROPERTY_KEY, Boolean.toString(useNativeItemHeights));
         }
         
         // Create Main Display
