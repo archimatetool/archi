@@ -108,8 +108,18 @@
 }
 .MPart FormHeading > CLabel {
     background-color: #505f70;
-    color: #E98787;
 }
+
+.MPartFormHeaderCLabelError {
+	color:'#org-eclipse-ui-workbench-FORM_HEADING_ERROR_COLOR';
+}
+.MPartFormHeaderCLabelWarning {
+	color:'#org-eclipse-ui-workbench-FORM_HEADING_WARNING_COLOR';
+}
+.MPartFormHeaderCLabelInfo {
+	color:'#org-eclipse-ui-workbench-FORM_HEADING_INFO_COLOR';
+}
+
 /* ------------------------------------------------------------- */
 
 #org-eclipse-jdt-ui-SourceView StyledText,

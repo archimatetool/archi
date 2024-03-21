@@ -8,3 +8,9 @@ TabbedPropertyList {
     /* Default is too light */
     color   : #202020;  /* text color in the tab / tab area */
 }
+
+CTabFolder.active {
+    /* Set at top and not so bright */
+    swt-selected-tab-highlight: rgb(55, 124, 247);
+    swt-selected-highlight-top: true;
+}

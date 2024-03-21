@@ -30,6 +30,7 @@
 	padding: 0px;
 	color: '#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR';
 	swt-draw-custom-tab-content-background: true;
+	swt-unselected-hot-tab-color-background:'#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START';
 }
 
 .MPartStack.active {
@@ -54,6 +55,14 @@ CTabFolder.MArea {
 	padding: 0px;
 }
 
+CTabFolder {
+    swt-selected-tab-highlight: none;
+}
+
+CTabFolder.active {
+    swt-selected-tab-highlight: rgb(103,145,230);
+    swt-selected-highlight-top: false;
+}
 
 .MPartStack.active.noFocus > CTabItem:selected {
 	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
