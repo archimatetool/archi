@@ -1119,9 +1119,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
     public void setLineDash(float[] dash) {
         currentState.lineAttributes.dash = dash;
         setLineStyle(Graphics.LINE_CUSTOM);
-        // Don't apply the Windows 200% scaling workaround as it's not needed
-        // When exporting to SVG
-        swtGraphics.setLineDash(dash, false);
+        swtGraphics.setLineDash(dash);
     }
 
     /*

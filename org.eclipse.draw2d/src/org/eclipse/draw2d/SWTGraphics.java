@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Display;
  * <P>
  * WARNING: This class is not intended to be subclassed.
  */
-@SuppressWarnings({"rawtypes", "unchecked", "restriction"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class SWTGraphics extends Graphics {
     
     private double scale = 1.0;
@@ -1286,20 +1286,6 @@ public class SWTGraphics extends Graphics {
 
     @Override
     public void setLineAttributes(LineAttributes lineAttributes) {
-        setLineAttributes(lineAttributes, true);
-    }
-    
-    public void setLineAttributes(LineAttributes lineAttributes, boolean adjustForWindowsHiDPI) {
-        /*
-         * Hack to workaround bug on Windows 200% scaling where dashes are half size
-         * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/687
-         */
-        if(adjustForWindowsHiDPI && currentState.lineAttributes.dash != null && "win32".equals(SWT.getPlatform())) { //$NON-NLS-1$
-            for(int i = 0; i < currentState.lineAttributes.dash.length; i++) {
-                currentState.lineAttributes.dash[i] *= org.eclipse.swt.internal.DPIUtil.getDeviceZoom() / 100;
-            }
-        }
-
         copyLineAttributes(currentState.lineAttributes, lineAttributes);
     }
 
@@ -1332,25 +1318,11 @@ public class SWTGraphics extends Graphics {
      */
     @Override
     public void setLineDash(float[] value) {
-        setLineDash(value, true);
-    }
-    
-    public void setLineDash(float[] value, boolean adjustForWindowsHiDPI) {
         if (value != null) {
             // validate dash values
             for (int i = 0; i < value.length; i++) {
                 if (value[i] <= 0) {
                     SWT.error(SWT.ERROR_INVALID_ARGUMENT);
-                }
-            }
-            
-            /*
-             * Hack to workaround bug on Windows 200% scaling where dashes are half size
-             * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/687
-             */
-            if(adjustForWindowsHiDPI && "win32".equals(SWT.getPlatform())) { //$NON-NLS-1$
-                for(int i = 0; i < value.length; i++) {
-                    value[i] *= org.eclipse.swt.internal.DPIUtil.getDeviceZoom() / 100;
                 }
             }
 
