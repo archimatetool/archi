@@ -7,6 +7,7 @@ package com.archimatetool.editor.model.compatibility;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -31,22 +32,28 @@ public class ModelCompatibilityTests {
     File file1 = new File(TestSupport.getTestDataFolder(), "models/compatibility_test1.archimate");
     File file2 = new File(TestSupport.getTestDataFolder(), "models/compatibility_test2.archimate");
     
-    @Test(expected=IOException.class)
-    public void testShouldThrowException1() throws IOException {
+    @Test
+    public void testShouldThrowException1() {
         resource = ArchimateResourceFactory.createNewResource(file1);
-        resource.load(null);
+        assertThrows(IOException.class, () -> {
+            resource.load(null);
+        });
     }
 
-    @Test(expected=IOException.class)
-    public void testShouldThrowException2() throws IOException {
+    @Test
+    public void testShouldThrowException2() {
         resource = ArchimateResourceFactory.createNewResource(file2);
-        resource.load(null);
+        assertThrows(IOException.class, () -> {
+            resource.load(null);
+        });
     }
 
-    @Test(expected=IncompatibleModelException.class)
-    public void testCheckErrors_ThrowsException() throws IncompatibleModelException {
+    @Test
+    public void testCheckErrors_ThrowsException() {
         createResource(file2);
-        mc.checkErrors();
+        assertThrows(IncompatibleModelException.class, () -> {
+            mc.checkErrors();
+        });
     }
     
     @Test

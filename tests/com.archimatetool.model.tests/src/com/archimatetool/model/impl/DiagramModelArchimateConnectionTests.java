@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -55,9 +56,11 @@ public class DiagramModelArchimateConnectionTests extends DiagramModelConnection
         assertEquals("another", connection.getName());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testConnect_WrongTypes() {
-        connection.connect(IArchimateFactory.eINSTANCE.createDiagramModelGroup(), IArchimateFactory.eINSTANCE.createDiagramModelGroup());
+        assertThrows(IllegalArgumentException.class, () -> {
+            connection.connect(IArchimateFactory.eINSTANCE.createDiagramModelGroup(), IArchimateFactory.eINSTANCE.createDiagramModelGroup());
+        });
     }
 
     @Override
@@ -97,12 +100,14 @@ public class DiagramModelArchimateConnectionTests extends DiagramModelConnection
         assertSame(r, connection.getArchimateRelationship());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testAddArchimateRelationshipToModel_AlreadyHasParent() {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
         parent.getElements().add(connection.getArchimateRelationship());
         
-        connection.addArchimateConceptToModel(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            connection.addArchimateConceptToModel(null);
+        });
     }
     
     @Test

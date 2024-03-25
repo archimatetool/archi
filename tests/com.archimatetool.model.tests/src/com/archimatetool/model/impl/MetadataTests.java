@@ -8,6 +8,7 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -101,9 +102,11 @@ public class MetadataTests {
         assertEquals(property, entries.get(0));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testAddEntryNullException() {
-        metadata.addEntry(null, "");
+        assertThrows(IllegalArgumentException.class, () -> {
+            metadata.addEntry(null, "");
+        });
     }
         
     @Test
@@ -116,9 +119,11 @@ public class MetadataTests {
         assertEquals(property, metadata.getEntry(key));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testgetEntryNullException() {
-        metadata.getEntry(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            metadata.getEntry(null);
+        });
     }
 
     @Test

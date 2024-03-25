@@ -401,15 +401,19 @@ public class CSVImporterTests {
         assertTrue(concept instanceof IArchimateRelationship);
     }
 
-    @Test(expected=CSVParseException.class)
+    @Test
     public void testFindReferencedConcept_NotFound() throws Exception {
         importer.doImport(elements1File);
-        importer.findReferencedConcept("someid");
+        assertThrows(CSVParseException.class, () -> {
+            importer.findReferencedConcept("someid");
+        });
     }
 
-    @Test(expected=CSVParseException.class)
-    public void testFindReferencedConcept_Null() throws CSVParseException {
-        importer.findReferencedConcept(null);
+    @Test
+    public void testFindReferencedConcept_Null() {
+        assertThrows(CSVParseException.class, () -> {
+            importer.findReferencedConcept(null);
+        });
     }
    
     @Test

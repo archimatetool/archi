@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -84,12 +85,13 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         assertEquals(2, object.getType());
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testAddArchimateElementToModel_AlreadyHasParent() {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
         parent.getElements().add(object.getArchimateElement());
-        
-        object.addArchimateConceptToModel(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            object.addArchimateConceptToModel(null);
+        });
     }
     
     @Test

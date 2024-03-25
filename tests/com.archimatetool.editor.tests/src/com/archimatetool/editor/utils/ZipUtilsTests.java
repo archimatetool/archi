@@ -7,6 +7,7 @@ package com.archimatetool.editor.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedOutputStream;
@@ -245,16 +246,18 @@ public class ZipUtilsTests {
     /**
      * Bogus zip file not existing should throw Exception
      */
-    @Test (expected=FileNotFoundException.class)
-    public void testUnpackZipFile_Exception() throws IOException {
-        ZipUtils.unpackZip(new File("bogus_file.zip"), TestUtils.createTempFolder("ziptest"));
+    @Test
+    public void testUnpackZipFile_Exception() {
+        assertThrows(FileNotFoundException.class, () -> {
+            ZipUtils.unpackZip(new File("bogus_file.zip"), TestUtils.createTempFolder("ziptest"));
+        });
     }
 
     /**
      * Test for cases where a zip entry has "../../file" which would unpack and possibly over-write a file
      * in a parent folder.
      */
-    @Test (expected=IOException.class)
+    @Test
     public void testUnpackZipFileTriesToUnzipInParentRelativeFolder() throws Exception {
         // Create a Zip file
         File tmpZipFile = TestUtils.createTempFile(".zip");
@@ -269,8 +272,11 @@ public class ZipUtilsTests {
         zOut.flush();
         zOut.close();
 
-        // Now unpack it and expect an exception
         File folderTemp = new File(TestUtils.getMainTempFolder(), "ziptest");
-        ZipUtils.unpackZip(tmpZipFile, folderTemp);
+        
+        // Now unpack it and expect an exception
+        assertThrows(IOException.class, () -> {
+            ZipUtils.unpackZip(tmpZipFile, folderTemp);
+        });
     }
 }

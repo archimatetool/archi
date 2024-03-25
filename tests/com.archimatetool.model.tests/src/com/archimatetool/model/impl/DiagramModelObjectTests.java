@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -164,9 +165,11 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertEquals("#ffffff", object.getLineColor());
     }
     
-    @Test(expected=IllegalArgumentException.class)
-    public void testAddConnection_Null() {
-        object.addConnection(null);
+    @Test
+    public void testAddConnection_Null_ThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            object.addConnection(null);
+        });
     }
     
     @Test
@@ -186,9 +189,11 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertTrue(object.getTargetConnections().contains(conn));
     }
     
-    @Test(expected=IllegalArgumentException.class)
-    public void testRemoveConnection_Null() {
-        object.removeConnection(null);
+    @Test
+    public void testRemoveConnection_Null_ThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            object.removeConnection(null);
+        });
     }
 
     @Test

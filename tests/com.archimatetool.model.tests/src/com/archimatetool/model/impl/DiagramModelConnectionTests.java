@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -175,9 +176,11 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
         assertEquals(2, connection.getType());
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testConnectNull() {
-        connection.connect(null, null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            connection.connect(null, null);
+        });
     }
     
     @Test
