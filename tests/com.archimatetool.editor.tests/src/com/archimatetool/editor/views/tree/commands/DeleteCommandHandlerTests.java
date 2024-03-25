@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +21,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.DiagramModelUtils;
@@ -39,11 +37,6 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 
-
-/**
- * It uses Mockito's mock objects
- */
-@RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("nls")
 public class DeleteCommandHandlerTests {
     
@@ -51,14 +44,13 @@ public class DeleteCommandHandlerTests {
     
     private ArchimateTestModel tm;
     private IArchimateModel model;
-    
-    @Mock
     private TreeModelViewer treeModelViewer;
     
     @Before
     public void runOnceBeforeEachTest() throws IOException {
         tm = new ArchimateTestModel(TEST_MODEL_FILE);
         model = tm.loadModelWithCommandStack();
+        treeModelViewer = mock(TreeModelViewer.class);
     }
 
     @Test

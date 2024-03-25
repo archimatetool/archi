@@ -25,9 +25,6 @@ import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.widgets.TreeItem;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
@@ -37,27 +34,21 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 
-
-/**
- * This is an example of overkill in the world of Unit Tests.
- * It uses Mockito's mock objects
- */
-@RunWith(MockitoJUnitRunner.class)
 public class TreeModelViewerDragDropHandlerTests {
     
     private ArchimateTestModel tm;
     private IArchimateModel model;
     
+    private TreeViewer treeViewer;
+    
     // The real TreeModelViewerDragDropHandler to test
     private TreeModelViewerDragDropHandler dragHandler;
-    
-    @Mock
-    private TreeViewer treeViewer; // Mock the TreeViewer
     
     @Before
     public void runOnceBeforeEachTest() {
         tm = new ArchimateTestModel();
         model = tm.createNewModel(); // We need a real model and Command Stack for some operations
+        treeViewer = mock(TreeViewer.class);
         dragHandler = new TreeModelViewerDragDropHandler(treeViewer);
     }
     
