@@ -8,7 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.tests
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.junit
+ org.eclipse.ui
 Bundle-ClassPath: .
 Automatic-Module-Name: com.archimatetool.testsupport

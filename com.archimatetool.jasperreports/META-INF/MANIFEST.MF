@@ -7,7 +7,6 @@ Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-BundleShape: dir
-Eclipse-ExtensibleAPI: true
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/commons-beanutils-1.9.4.jar,
  lib/commons-collections-3.2.2.jar,
