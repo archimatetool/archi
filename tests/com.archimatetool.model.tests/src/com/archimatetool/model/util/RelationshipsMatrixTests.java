@@ -6,6 +6,7 @@
 package com.archimatetool.model.util;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class RelationshipsMatrixTests {
 
     private RelationshipsMatrix matrix = RelationshipsMatrix.INSTANCE;
     
-    @Test(expected = UnsupportedOperationException.class)
     public void testGetRelationshipsMatrixIsUnmodifiable() {
         Map<EClass, List<TargetMatrix>> map = matrix.getRelationshipsMatrix();
-        map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
+        });
     }
     
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRelationshipsValueMapIsUnmodifiable() {
         Map<EClass, Character> map = matrix.getRelationshipsValueMap();
-        map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
+        });
     }
 
     @Test
