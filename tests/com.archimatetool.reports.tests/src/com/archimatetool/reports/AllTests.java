@@ -6,16 +6,16 @@
 package com.archimatetool.reports;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.reports.html.HTMLReportExporterTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     HTMLReportExporterTests.class
 })
-
+@SuiteDisplayName("All Reports Tests")
 public class AllTests {
 }

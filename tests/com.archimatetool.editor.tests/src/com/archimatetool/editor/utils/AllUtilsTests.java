@@ -5,17 +5,17 @@
  */
 package com.archimatetool.editor.utils;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     FileUtilsTests.class,
     HTMLUtilsTests.class,
     StringUtilsTests.class,
     ZipUtilsTests.class
 })
-
+@SuiteDisplayName("All Utils Tests")
 public class AllUtilsTests {
 }

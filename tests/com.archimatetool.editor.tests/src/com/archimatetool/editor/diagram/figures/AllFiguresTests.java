@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigureTests;
@@ -14,9 +15,8 @@ import com.archimatetool.editor.diagram.figures.diagram.GroupFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
 import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // figures
     AllArchimateTextControlContainerFigureTests.class,
     // figures.diagram
@@ -27,6 +27,6 @@ import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
     // figures.elements
     JunctionFigureTests.class
 })
-
+@DisplayName("All Figures Tests")
 public class AllFiguresTests {
 }

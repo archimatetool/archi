@@ -5,16 +5,16 @@
  */
 package com.archimatetool.help;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.help.cheatsheets.CreateMapViewCheatSheetActionTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CreateMapViewCheatSheetActionTests.class
 })
-
+@SuiteDisplayName("All Help Tests")
 public class AllTests {
 }

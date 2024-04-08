@@ -5,71 +5,97 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Named;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import com.archimatetool.tests.TestUtils;
 
 
 
+@SuppressWarnings("nls")
 public abstract class AbstractObjectUIProviderTests {
-
-    protected IObjectUIProvider provider;
-    protected EClass expectedClass;
     
-    @Test
-    public void testProviderFor() {
+    public static final String PARAMS_METHOD = "getParams";
+    
+    /**
+     * Create an Arguments parameter for provider and expected eClass
+     */
+    protected static Arguments getParam(IObjectUIProvider provider, EClass eClass) {
+        return Arguments.of(Named.of(provider.getClass().getSimpleName(), provider), Named.of(eClass.getName(), eClass));
+    }
+
+    @BeforeAll
+    public static void runOnce() {
+        // Need this in JUnit 5 for getImage() test
+        TestUtils.ensureDefaultDisplay();
+    }
+
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testProviderFor(IObjectUIProvider provider, EClass expectedClass) {
         EClass eClass = provider.providerFor();
         assertNotNull(eClass);
         assertEquals(expectedClass, eClass);
     }
     
-    @Test
-    public void testCreateEditPart() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertNotNull(editPart);
     }
     
-    @Test
-    public void testGetDefaultName() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultName(IObjectUIProvider provider) {
         String name = provider.getDefaultName();
         assertNotNull(name);
     }
     
-    @Test
-    public void testGetImage() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetImage(IObjectUIProvider provider) {
         Image image = provider.getImage();
         assertNotNull(image);
     }
     
-    @Test
-    public void testGetImageDescriptor() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetImageDescriptor(IObjectUIProvider provider) {
         ImageDescriptor id = provider.getImageDescriptor();
         assertNotNull(id);
     }
 
-    @Test
-    public void testGetImageInstance() {
-        EObject instance = createInstanceForExpectedClass();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetImageInstance(IObjectUIProvider provider, EClass expectedClass) {
+        EObject instance = createInstanceForExpectedClass(expectedClass);
         ((AbstractObjectUIProvider)provider).setInstance(instance);
         
         Image image = provider.getImage();
         assertNotNull(image);
     }
 
-    @Test
-    public void testShouldExposeFeature() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
         assertTrue(provider.shouldExposeFeature((String)null));
     }
     
     
-    protected EObject createInstanceForExpectedClass() {
+    protected EObject createInstanceForExpectedClass(EClass expectedClass) {
         return expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
     }
 }

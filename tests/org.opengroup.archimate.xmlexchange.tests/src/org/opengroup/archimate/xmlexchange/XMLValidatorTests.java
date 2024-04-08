@@ -5,8 +5,7 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * XML Model Exporter Tests

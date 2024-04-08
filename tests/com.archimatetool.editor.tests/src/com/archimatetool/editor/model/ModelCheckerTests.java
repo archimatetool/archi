@@ -5,15 +5,15 @@
  */
 package com.archimatetool.editor.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.model.FolderType;
@@ -38,7 +38,7 @@ public class ModelCheckerTests {
     private IArchimateModel model;
     private ModelChecker modelChecker;
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
         tm = new ArchimateTestModel();
         model = tm.createNewModel();

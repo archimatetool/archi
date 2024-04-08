@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.model.commands.CommandsTests;
 import com.archimatetool.editor.model.commands.SetConceptTypeCommandFactoryTests;
@@ -18,9 +19,8 @@ import com.archimatetool.editor.model.impl.ArchiveManagerTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // model
     DiagramModelUtilsTests.class,
     DiagramModelUtilsNestedRelationsTests.class,
@@ -40,6 +40,6 @@ import com.archimatetool.editor.model.impl.EditorModelManagerTests;
     ByteArrayStorageTests.class,
     EditorModelManagerTests.class
 })
-
+@SuiteDisplayName("All Model Tests")
 public class AllModelTests {
 }

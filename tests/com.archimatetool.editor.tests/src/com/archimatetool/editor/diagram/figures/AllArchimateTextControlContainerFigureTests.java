@@ -5,19 +5,13 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.provider.Arguments;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -26,44 +20,24 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 @SuppressWarnings("nls")
-@RunWith(Parameterized.class)
 public class AllArchimateTextControlContainerFigureTests extends AbstractTextControlContainerFigureTests {
     
-    @Parameters
-    public static Collection<EClass[]> eObjects() {
-        List<EClass[]> list = new ArrayList<EClass[]>();
+    static Stream<Arguments> getParams() {
+        List<Arguments> list = new ArrayList<>();
         
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            list.add(new EClass[] { eClass });
+            list.add(getParam(createFigure(eClass)));
         }
         
-        return list;
+        return list.stream();
     }
     
-    private EClass eClass;
-    
-    public AllArchimateTextControlContainerFigureTests(EClass eClass) {
-        this.eClass = eClass;
-    }
-
-    @Override
-    protected AbstractDiagramModelObjectFigure createFigure() {
+    static IFigure createFigure(EClass eClass) {
         IDiagramModelArchimateObject dmo =
                 ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dmo.setName("Hello World!");
-        dm.getChildren().add(dmo);
-        
-        editor.layoutPendingUpdates();
-        
-        return (AbstractDiagramModelObjectFigure)editor.findFigure(dmo);
+        return addDiagramModelObjectToModelAndFindFigure(dmo);
     }
     
-    @Override
-    @Test
-    public void testDidClickTextControl() {
-        Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
-        abstractFigure.getTextControl().translateToAbsolute(bounds);
-        assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 10, bounds.y + 5)));
-    }
 }

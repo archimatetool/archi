@@ -6,18 +6,18 @@
 package com.archimatetool.csv;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.csv.export.CSVExporterTests;
 import com.archimatetool.csv.importer.CSVImporterTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CSVExporterTests.class,
     CSVImporterTests.class
 })
-
+@SuiteDisplayName("All CSV Tests")
 public class AllTests {
 }

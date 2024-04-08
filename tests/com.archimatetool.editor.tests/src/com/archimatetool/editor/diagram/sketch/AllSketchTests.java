@@ -5,17 +5,17 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactoryTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     SketchEditPartFactoryTests.class,
     SketchModelFactoryTests.class
 })
-
+@SuiteDisplayName("All Sketch Tests")
 public class AllSketchTests {
 }

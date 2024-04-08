@@ -5,13 +5,13 @@
  */
 package com.archimatetool.editor.model.compatibility.handlers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
@@ -29,7 +29,7 @@ public class FixDefaultSizesHandlerTests {
     
     private static FixDefaultSizesHandler handler;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         handler = new FixDefaultSizesHandler();
     }

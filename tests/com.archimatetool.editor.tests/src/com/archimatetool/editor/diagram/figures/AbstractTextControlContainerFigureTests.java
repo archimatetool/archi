@@ -5,29 +5,23 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 
 @SuppressWarnings("nls")
 public abstract class AbstractTextControlContainerFigureTests extends AbstractContainerFigureTests {
     
-    protected AbstractTextControlContainerFigure figure;
-    
-    @Before
-    public void runBeforeEachTextFlowTest() {
-        figure = (AbstractTextControlContainerFigure)abstractFigure;
-    }
-
-    @Test
-    public void testSetEnabled() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetEnabled(AbstractTextControlContainerFigure figure) {
         assertTrue(figure.isEnabled());
         assertTrue(figure.getTextControl().isEnabled());
         
@@ -37,21 +31,24 @@ public abstract class AbstractTextControlContainerFigureTests extends AbstractCo
         assertFalse(figure.getTextControl().isEnabled());
     }
     
-    @Test
-    public void testGetText() {
-        assertEquals(diagramModelObject.getName(), figure.getText());
-        diagramModelObject.setName("Fido");
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetText(AbstractTextControlContainerFigure figure) {
+        assertEquals(figure.getDiagramModelObject().getName(), figure.getText());
+        figure.getDiagramModelObject().setName("Fido");
         assertEquals("Fido", figure.getText());
     }
 
-    @Test
-    public void testGetTextControl() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetTextControl(AbstractTextControlContainerFigure figure) {
         assertNotNull(figure.getTextControl());
     }
     
     @Override
-    @Test
-    public void testDidClickTextControl() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testDidClickTextControl(AbstractDiagramModelObjectFigure figure) {
         Rectangle bounds = figure.getTextControl().getBounds().getCopy();
         figure.getTextControl().translateToAbsolute(bounds);
         assertTrue(figure.didClickTextControl(new Point(bounds.x + 10, bounds.y + 5)));

@@ -5,12 +5,12 @@
  */
 package com.archimatetool.canvas;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.swt.graphics.RGB;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasModelConnection;

@@ -5,8 +5,9 @@ Bundle-SymbolicName: com.archimatetool.zest.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.zest
 Bundle-Vendor: Archi
-Require-Bundle: org.junit,
- com.archimatetool.testsupport
+Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Import-Package: com.archimatetool.testingtools
+Import-Package: com.archimatetool.testingtools,
+ org.junit.jupiter.api,
+ org.junit.platform.suite.api
 Automatic-Module-Name: com.archimatetool.zest.tests

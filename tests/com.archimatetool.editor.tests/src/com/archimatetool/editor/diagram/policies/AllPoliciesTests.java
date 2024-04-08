@@ -5,17 +5,17 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     ArchimateDiagramConnectionPolicyTests.class,
     ExtendedConnectionBendpointTrackerTests.class
 })
-
+@SuiteDisplayName("All Policies Tests")
 public class AllPoliciesTests {
 }

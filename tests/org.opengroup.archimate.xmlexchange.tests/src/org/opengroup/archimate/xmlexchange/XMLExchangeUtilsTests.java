@@ -5,15 +5,14 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelObject;
-
 
 /**
  * XML Model Exporter Tests

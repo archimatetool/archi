@@ -5,14 +5,14 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CreateDiagramArchimateConnectionWithDialogCommandTests.class
 })
-
+@SuiteDisplayName("All Commands Tests")
 public class AllCommandsTests {
 }

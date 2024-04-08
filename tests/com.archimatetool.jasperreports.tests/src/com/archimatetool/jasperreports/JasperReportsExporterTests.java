@@ -5,16 +5,16 @@
  */
 package com.archimatetool.jasperreports;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -40,7 +40,7 @@ public class JasperReportsExporterTests {
     
     private static JasperReportsExporter exporter;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws JRException, IOException {
         // Load ArchiMate model
         ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
@@ -59,7 +59,7 @@ public class JasperReportsExporterTests {
         jasperPrint = exporter.createJasperPrint(tmpFolder);
     }
     
-    @AfterClass
+    @AfterAll
     public static void runOnceAfterAllTests() throws IOException {
         // Clean up
         FileUtils.deleteFolder(TestUtils.TMP_FOLDER);

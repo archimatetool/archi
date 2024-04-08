@@ -6,8 +6,9 @@
 package com.archimatetool.hammer;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.hammer.validation.ValidatorTests;
 import com.archimatetool.hammer.validation.checkers.DuplicateElementCheckerTests;
@@ -26,9 +27,8 @@ import com.archimatetool.hammer.validation.issues.OKTypeTests;
 import com.archimatetool.hammer.validation.issues.WarningTypeTests;
 import com.archimatetool.hammer.validation.issues.WarningsCategoryTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // validation
     ValidatorTests.class,
     // validation.checkers
@@ -49,6 +49,6 @@ import com.archimatetool.hammer.validation.issues.WarningsCategoryTests;
     WarningsCategoryTests.class,
     WarningTypeTests.class
 })
-
+@SuiteDisplayName("All Hammer Tests")
 public class AllTests {
 }

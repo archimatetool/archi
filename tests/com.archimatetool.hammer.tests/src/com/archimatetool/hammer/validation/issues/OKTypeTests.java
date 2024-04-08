@@ -5,13 +5,11 @@
  */
 package com.archimatetool.hammer.validation.issues;
 
-
-import org.junit.Before;
-
+import org.junit.jupiter.api.BeforeEach;
 
 public class OKTypeTests extends AbstractIssueTypeTests {
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         issueType = new OKType();
     }

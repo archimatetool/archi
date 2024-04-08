@@ -6,16 +6,16 @@
 package com.archimatetool.hammer.validation;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.hammer.validation.issues.IIssueCategory;
 import com.archimatetool.model.IArchimateModel;
@@ -29,7 +29,7 @@ public class ValidatorTests {
     static Validator validator;
     
 
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();

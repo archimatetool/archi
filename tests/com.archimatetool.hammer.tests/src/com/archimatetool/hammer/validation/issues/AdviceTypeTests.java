@@ -5,14 +5,12 @@
  */
 package com.archimatetool.hammer.validation.issues;
 
-
-import org.junit.Before;
-
+import org.junit.jupiter.api.BeforeEach;
 
 @SuppressWarnings("nls")
 public class AdviceTypeTests extends AbstractIssueTypeTests {
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         issueType = new AdviceType("advice", "description", "explanation", null);
     }

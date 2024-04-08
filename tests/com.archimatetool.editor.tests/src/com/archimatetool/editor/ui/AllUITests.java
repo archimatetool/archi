@@ -5,15 +5,15 @@
  */
 package com.archimatetool.editor.ui;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.ui.factory.AllUIFactoryTests;
 import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // ui
     ArchiLabelProviderTests.class,
     ColorFactoryTests.class,
@@ -25,6 +25,6 @@ import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
     // textrender
     AllTextRenderTests.class
 })
-
+@SuiteDisplayName("All UI Tests")
 public class AllUITests {
 }

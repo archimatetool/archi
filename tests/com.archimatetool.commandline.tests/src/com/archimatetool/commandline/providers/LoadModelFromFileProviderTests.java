@@ -5,15 +5,15 @@
  */
 package com.archimatetool.commandline.providers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.cli.CommandLine;
 import org.eclipse.gef.commands.CommandStack;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.commandline.CommandLineState;
 import com.archimatetool.editor.model.IArchiveManager;
@@ -25,7 +25,7 @@ public class LoadModelFromFileProviderTests {
     
     LoadModelFromFileProvider provider;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         provider = new LoadModelFromFileProvider();
         provider.doLog = false;

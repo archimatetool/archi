@@ -5,8 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
+import java.util.stream.Stream;
+
+import org.eclipse.draw2d.IFigure;
+import org.junit.jupiter.params.provider.Arguments;
+
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigureTests;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelReference;
 
@@ -15,24 +19,18 @@ import com.archimatetool.model.IDiagramModelReference;
 @SuppressWarnings("nls")
 public class DiagramModelReferenceFigureTests extends AbstractTextControlContainerFigureTests {
     
-    private DiagramModelReferenceFigure figure;
-    private IDiagramModelReference dmRef;
-    
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(createFigure())
+        );
+    }
 
-    @Override
-    protected DiagramModelReferenceFigure createFigure() {
-        dmRef = IArchimateFactory.eINSTANCE.createDiagramModelReference();
-        dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
-        dmRef.setReferencedModel(dm);
+    static IFigure createFigure() {
+        IDiagramModelReference dmRef = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        dmRef.setReferencedModel(editor.getDiagramModel());
         dmRef.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dmRef.setName("Hello World"); // Need to do this for text control tests
-        dm.getChildren().add(dmRef);
-        
-        // Layout
-        editor.layoutPendingUpdates();
-        
-        figure = (DiagramModelReferenceFigure)editor.findFigure(dmRef);
-        return figure;
+        return addDiagramModelObjectToModelAndFindFigure(dmRef);
     }
     
 }

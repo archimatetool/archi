@@ -5,13 +5,13 @@
  */
 package com.archimatetool.model.viewpoints;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -22,7 +22,7 @@ public class ViewpointTests {
 
     private Viewpoint vp;
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
         vp = new Viewpoint("id", "name");
     }

@@ -5,14 +5,14 @@
  */
 package com.archimatetool.reports.html;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateConcept;

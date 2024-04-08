@@ -5,14 +5,14 @@
  */
 package com.archimatetool.editor.p2;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     DropinsPluginHandlerTests.class
 })
-
+@SuiteDisplayName("All P2 Tests")
 public class AllP2Tests {
 }

@@ -5,16 +5,16 @@
  */
 package com.archimatetool.editor.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -33,7 +33,7 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class ArchiLabelProviderTests {
 
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()
         TestUtils.ensureDefaultDisplay();

@@ -6,8 +6,9 @@
 package com.archimatetool.jasperreports;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.jasperreports.data.ArchimateModelDataSourceTests;
 import com.archimatetool.jasperreports.data.ElementsDataSourceTests;
@@ -16,9 +17,8 @@ import com.archimatetool.jasperreports.data.PropertiesModelDataSourceTests;
 import com.archimatetool.jasperreports.data.ViewChildrenDataSourceTests;
 import com.archimatetool.jasperreports.data.ViewModelDataSourceTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     JasperReportsExporterTests.class,
     ArchimateModelDataSourceTests.class,
     ElementsDataSourceTests.class,
@@ -27,6 +27,6 @@ import com.archimatetool.jasperreports.data.ViewModelDataSourceTests;
     ViewChildrenDataSourceTests.class,
     ViewModelDataSourceTests.class,
 })
-
+@SuiteDisplayName("All Jasper Reports Tests")
 public class AllTests {
 }

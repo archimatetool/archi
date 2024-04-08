@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.diagram.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -21,8 +21,8 @@ import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
@@ -43,7 +43,7 @@ public class DiagramUtilsTests {
     private static ArchimateTestModel tm;
     private static IArchimateModel model;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_1);
         model = tm.loadModel();

@@ -5,14 +5,17 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
@@ -20,26 +23,31 @@ import com.archimatetool.model.IArchimatePackage;
 
 public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new DiagramImageUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getDiagramModelImage();
-    }
-    
-    @Override
-    public void testCreateEditPart() {
-        EditPart editPart = provider.createEditPart();
-        assertTrue(editPart instanceof DiagramImageEditPart);
-    }
-    
-    @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(200, 150), getProvider().getDefaultSize());
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new DiagramImageUIProvider(), IArchimatePackage.eINSTANCE.getDiagramModelImage())
+        );
     }
 
     @Override
-    public void testShouldExposeFeature() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
+        EditPart editPart = provider.createEditPart();
+        assertTrue(editPart instanceof DiagramImageEditPart);
+    }
+
+    @Override
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Dimension(200, 150), provider.getDefaultSize());
+    }
+
+    @Override
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()));
         assertFalse(provider.shouldExposeFeature((String)null));
     }

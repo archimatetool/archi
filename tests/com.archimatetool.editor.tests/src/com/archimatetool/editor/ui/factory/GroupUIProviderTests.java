@@ -5,14 +5,17 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
@@ -21,40 +24,47 @@ import com.archimatetool.model.ITextAlignment;
 
 public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new GroupUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getDiagramModelGroup();
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new GroupUIProvider(), IArchimatePackage.eINSTANCE.getDiagramModelGroup())
+        );
     }
-    
+
     @Override
-    public void testCreateEditPart() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof GroupEditPart);
     }
     
     @Override
-    @Test
-    public void testGetDefaultColor() {
-        assertEquals(new Color(210, 215, 215), getProvider().getDefaultColor());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Color(210, 215, 215), provider.getDefaultColor());
     }
     
     @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(400, 140), getProvider().getDefaultSize());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Dimension(400, 140), provider.getDefaultSize());
     }
 
     @Override
-    public void testShouldExposeFeature() {
-        super.testShouldExposeFeature();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
+        super.testShouldExposeFeature(provider);
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
     }
 
     @Override
-    @Test
-    public void testGetDefaultTextAlignment() {
-        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
     }
 
 }

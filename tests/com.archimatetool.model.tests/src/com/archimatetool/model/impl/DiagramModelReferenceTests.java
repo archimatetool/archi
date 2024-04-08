@@ -5,12 +5,12 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
@@ -29,7 +29,7 @@ public class DiagramModelReferenceTests extends DiagramModelObjectTests {
         return ref;
     }
 
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
         dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
     }

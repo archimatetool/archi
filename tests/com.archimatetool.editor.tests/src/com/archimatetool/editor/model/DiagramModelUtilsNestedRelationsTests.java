@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.model;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -55,8 +55,8 @@ public class DiagramModelUtilsNestedRelationsTests {
      */
 
     
-    @Before
-    public void runOnceBeforeAllTests() {
+    @BeforeEach
+    public void runOnceBeforeEachTest() {
         tm = new ArchimateTestModel();
         model = tm.createNewModel();
         dm = model.getDefaultDiagramModel();

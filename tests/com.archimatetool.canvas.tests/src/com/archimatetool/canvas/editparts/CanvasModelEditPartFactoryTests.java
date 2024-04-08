@@ -5,13 +5,13 @@
  */
 package com.archimatetool.canvas.editparts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.gef.EditPart;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.canvas.model.ICanvasFactory;
 import com.archimatetool.canvas.model.ICanvasModel;
@@ -31,7 +31,7 @@ public class CanvasModelEditPartFactoryTests {
     
     private CanvasModelEditPartFactory editPartFactory;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         editPartFactory = new CanvasModelEditPartFactory();
     }

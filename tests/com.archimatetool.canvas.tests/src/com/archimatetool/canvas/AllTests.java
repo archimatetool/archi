@@ -5,16 +5,16 @@
  */
 package com.archimatetool.canvas;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactoryTests;
 import com.archimatetool.canvas.factory.AllUIFactoryTests;
 
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // editparts
     CanvasModelEditPartFactoryTests.class,
     // factory
@@ -22,6 +22,6 @@ import com.archimatetool.canvas.factory.AllUIFactoryTests;
     // this
     CanvasModelFactoryTests.class
 })
-
+@SuiteDisplayName("All Canvas Tests")
 public class AllTests {
 }

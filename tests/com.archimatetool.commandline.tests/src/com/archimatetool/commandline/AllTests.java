@@ -6,19 +6,19 @@
 package com.archimatetool.commandline;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.commandline.providers.CreateEmptyModelProviderTests;
 import com.archimatetool.commandline.providers.LoadModelFromFileProviderTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CreateEmptyModelProviderTests.class,
     CommandLineStateTests.class,
     LoadModelFromFileProviderTests.class
 })
-
+@SuiteDisplayName("All Command Line Tests")
 public class AllTests {
 }

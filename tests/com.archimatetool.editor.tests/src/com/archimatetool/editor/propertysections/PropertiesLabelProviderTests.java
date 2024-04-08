@@ -5,18 +5,18 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Image;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
@@ -37,7 +37,7 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class PropertiesLabelProviderTests {
 
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()
         TestUtils.ensureDefaultDisplay();
@@ -45,7 +45,7 @@ public class PropertiesLabelProviderTests {
 
     PropertiesLabelProvider provider;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         provider = new PropertiesLabelProvider();
     }

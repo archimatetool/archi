@@ -5,14 +5,14 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.util.Set;
 
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;

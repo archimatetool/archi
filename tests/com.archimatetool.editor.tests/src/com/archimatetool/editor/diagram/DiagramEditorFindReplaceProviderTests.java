@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.diagram;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +16,9 @@ import java.io.IOException;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.ui.findreplace.AbstractFindReplaceProvider;
@@ -42,7 +42,7 @@ public class DiagramEditorFindReplaceProviderTests extends AbstractFindReplacePr
 
     private DiagramEditorFindReplaceProvider provider;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         tm = new ArchimateTestModel(new File(TestSupport.getTestDataFolder(), "models/testFindReplace.archimate"));
         model = tm.loadModelWithCommandStack();
@@ -52,7 +52,7 @@ public class DiagramEditorFindReplaceProviderTests extends AbstractFindReplacePr
         editor.setDiagramModel(dm);
     }
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         // Deselect all nodes in Viewer
         editor.getGraphicalViewer().setSelection(StructuredSelection.EMPTY);

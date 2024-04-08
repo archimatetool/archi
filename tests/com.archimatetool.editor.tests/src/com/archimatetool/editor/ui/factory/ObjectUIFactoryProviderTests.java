@@ -5,17 +5,17 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.BusinessActorUIProvider;
@@ -33,7 +33,7 @@ public class ObjectUIFactoryProviderTests {
 
     private ObjectUIFactory factory;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         factory = new ObjectUIFactory();
     }

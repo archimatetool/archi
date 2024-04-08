@@ -5,20 +5,22 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Named;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -35,109 +37,127 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 @SuppressWarnings("nls")
 public abstract class AbstractDiagramModelObjectFigureTests {
     
-    protected static ArchimateTestModel tm;
-    protected static IArchimateModel model;
-    protected static IArchimateDiagramModel dm;
+    public static final String PARAMS_METHOD = "getParams";
+    
+    /**
+     * Create an Arguments parameter for a figure
+     */
+    protected static Arguments getParam(IFigure figure) {
+        return Arguments.of(Named.of(figure.getClass().getSimpleName(), figure));
+    }
+
     protected static ArchimateTestEditor editor;
 
-    protected AbstractDiagramModelObjectFigure abstractFigure;
-    protected IDiagramModelObject diagramModelObject;
-    
-    protected abstract AbstractDiagramModelObjectFigure createFigure();
-    
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
-        // Create a new model, get the default DiagramModel and open the test editor
-        tm = new ArchimateTestModel();
-        model = tm.createNewModel();
-        dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
+        // Create a new model
+        ArchimateTestModel tm = new ArchimateTestModel();
+        IArchimateModel model = tm.createNewModel();
         
+        // Create a new test editor and add the default DiagramModel from the model
         editor = new ArchimateTestEditor();
-        editor.setDiagramModel(dm);
+        editor.setDiagramModel((IArchimateDiagramModel)model.getDefaultDiagramModel());
     }
     
-    @AfterClass
+    @AfterAll
     public static void runOnceAfterAllTests() {
         editor.dispose();
     }
-
-    @Before
-    public void runBeforeEachAbstractTest() {
-        // Get the figure and its DiagramModelObject
-        abstractFigure = createFigure();
-        diagramModelObject = abstractFigure.getDiagramModelObject();
-    }
-
-    @Test
-    public void testGetBounds() {
-        assertEquals(new Rectangle(0, 0, abstractFigure.getDefaultSize().width, abstractFigure.getDefaultSize().height),
-                abstractFigure.getBounds());
-    }
-
-    @Test
-    public void testGetDiagramModelObject() {
-        assertNotNull(diagramModelObject);
-    }
     
-    @Test
-    public void testSetFont() {
-        assertNotNull(abstractFigure.getFont());
-    }
-    
-    @Test
-    public void testSetFillColor() {
-        assertEquals(ColorFactory.getDefaultFillColor(diagramModelObject), abstractFigure.getFillColor());
+    /**
+     * Add a DiagramModelObject to the parent DiagramModel and return the associated figure
+     */
+    protected static IFigure addDiagramModelObjectToModelAndFindFigure(IDiagramModelObject dmo) {
+        // Add to the diagram model
+        editor.getDiagramModel().getChildren().add(dmo);
         
-        diagramModelObject.setFillColor("#010203");
-        abstractFigure.setFillColor();
-        Color expected = new Color(1, 2, 3);
-        assertEquals(expected, abstractFigure.getFillColor());
+        // Layout editor
+        editor.layoutPendingUpdates();
+
+        // Find the figure and return it
+        return editor.findFigure(dmo);
+    }
+
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetBounds(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(new Rectangle(0, 0, figure.getDefaultSize().width, figure.getDefaultSize().height),
+                figure.getBounds());
+    }
+
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDiagramModelObject(AbstractDiagramModelObjectFigure figure) {
+        assertNotNull(figure.getDiagramModelObject());
     }
     
-    @Test
-    public void testSetFontColor() {
-        IFigure textControl = abstractFigure.getTextControl();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetFont(AbstractDiagramModelObjectFigure figure) {
+        assertNotNull(figure.getFont());
+    }
+    
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetFillColor(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(ColorFactory.getDefaultFillColor(figure.getDiagramModelObject()), figure.getFillColor());
+        
+        figure.getDiagramModelObject().setFillColor("#010203");
+        figure.setFillColor();
+        Color expected = new Color(1, 2, 3);
+        assertEquals(expected, figure.getFillColor());
+    }
+    
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetFontColor(AbstractDiagramModelObjectFigure figure) {
+        IFigure textControl = figure.getTextControl();
         if(textControl != null) {
-            diagramModelObject.setFontColor("#010203");
-            abstractFigure.setFontColor();
+            figure.getDiagramModelObject().setFontColor("#010203");
+            figure.setFontColor();
             Color expected = new Color(1, 2, 3);
             assertEquals(expected, textControl.getForegroundColor());
         }
     }
     
-    @Test
-    public void testSetLineColor() {
-        diagramModelObject.setDeriveElementLineColor(false);
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetLineColor(AbstractDiagramModelObjectFigure figure) {
+        figure.getDiagramModelObject().setDeriveElementLineColor(false);
         
-        assertEquals(ColorFactory.getDefaultLineColor(diagramModelObject), abstractFigure.getLineColor());
+        assertEquals(ColorFactory.getDefaultLineColor(figure.getDiagramModelObject()), figure.getLineColor());
         
-        diagramModelObject.setLineColor("#010203");
-        abstractFigure.setLineColor();
+        figure.getDiagramModelObject().setLineColor("#010203");
+        figure.setLineColor();
         Color expected = new Color(1, 2, 3);
-        assertEquals(expected, abstractFigure.getLineColor());
+        assertEquals(expected, figure.getLineColor());
     }
     
-    @Test
-    public void testGetTooltip() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetTooltip(AbstractDiagramModelObjectFigure figure) {
         ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
-        assertTrue(abstractFigure.getToolTip() instanceof ToolTipFigure);
+        assertTrue(figure.getToolTip() instanceof ToolTipFigure);
         ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.VIEW_TOOLTIPS, false);
-        assertNull(abstractFigure.getToolTip());
+        assertNull(figure.getToolTip());
     }
     
-    @Test
-    public void testDidClickTextControl() {
-        assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testDidClickTextControl(AbstractDiagramModelObjectFigure figure) {
+        assertFalse(figure.didClickTextControl(new Point(10, 10)));
     }
 
-    @Test
-    public void testGetDefaultSize() {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
-        assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(AbstractDiagramModelObjectFigure figure) {
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        assertEquals(provider.getDefaultSize(), figure.getDefaultSize());
     }
 
-    @Test
-    public void testGetDefaultConnectionAnchor() {
-        assertNotNull(abstractFigure.getDefaultConnectionAnchor());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultConnectionAnchor(AbstractDiagramModelObjectFigure figure) {
+        assertNotNull(figure.getDefaultConnectionAnchor());
     }
 }

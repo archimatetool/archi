@@ -5,16 +5,16 @@
  */
 package com.archimatetool.editor.actions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
@@ -27,7 +27,7 @@ public class CheckForNewVersionActionTests {
     
     private CheckForNewVersionAction action;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         action = new CheckForNewVersionAction();
     }

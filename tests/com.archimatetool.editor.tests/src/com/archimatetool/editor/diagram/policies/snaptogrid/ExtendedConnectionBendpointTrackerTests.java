@@ -5,17 +5,17 @@
  */
 package com.archimatetool.editor.diagram.policies.snaptogrid;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ExtendedConnectionBendpointTrackerTests {
     
     private ExtendedConnectionBendpointTracker tracker;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         tracker = new ExtendedConnectionBendpointTracker();
     }

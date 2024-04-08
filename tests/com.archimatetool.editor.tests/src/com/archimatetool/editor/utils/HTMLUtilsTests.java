@@ -5,39 +5,39 @@
  */
 package com.archimatetool.editor.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * JUnit tests for JUnit 4
+ * JUnit tests
  *
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class HTMLUtilsTests {
 
     // ---------------------------------------------------------------------------------------------
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
     }
     
-    @AfterClass
+    @AfterAll
     public static void runOnceAfterAllTests() {
     }
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
     }
     
-    @After
+    @AfterEach
     public void runAfterEachTest() {
     }
 
@@ -50,13 +50,13 @@ public class HTMLUtilsTests {
      */
     @Test
     public void stripTags_String() {
-        String string = "This is a test String"; //$NON-NLS-1$
+        String string = "This is a test String";
         String result = HTMLUtils.stripTags(string);
-        assertEquals("String should be the same", string, result); //$NON-NLS-1$
+        assertEquals(string, result, "String should be the same");
         
-        String string2 = "<bold>This is a <i>test String</bold>"; //$NON-NLS-1$
+        String string2 = "<bold>This is a <i>test String</bold>";
         result = HTMLUtils.stripTags(string2);
-        assertEquals("String should be the same", string, result); //$NON-NLS-1$
+        assertEquals(string, result, "String should be the same");
     }
     
 }

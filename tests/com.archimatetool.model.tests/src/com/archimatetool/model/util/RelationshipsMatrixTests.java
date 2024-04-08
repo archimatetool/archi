@@ -5,15 +5,15 @@
  */
 package com.archimatetool.model.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;

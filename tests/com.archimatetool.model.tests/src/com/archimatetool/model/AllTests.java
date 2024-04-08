@@ -5,8 +5,9 @@
  */
 package com.archimatetool.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.model.impl.AllArchimateElementTypeTests;
 import com.archimatetool.model.impl.AllArchimateRelationshipTypeTests;
@@ -38,9 +39,8 @@ import com.archimatetool.model.util.UUIDFactoryTests;
 import com.archimatetool.model.viewpoints.ViewpointManagerTests;
 import com.archimatetool.model.viewpoints.ViewpointTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // impl
     ArchimateDiagramModelTests.class,
     ArchimateFactoryTests.class,
@@ -80,6 +80,6 @@ import com.archimatetool.model.viewpoints.ViewpointTests;
     ViewpointTests.class,
     ViewpointManagerTests.class
 })
-
+@SuiteDisplayName("All Model Tests")
 public class AllTests {
 }

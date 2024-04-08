@@ -5,18 +5,18 @@
  */
 package com.archimatetool.editor.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
@@ -49,7 +49,7 @@ public class DiagramModelUtilsTests {
     private static ArchimateTestModel tm;
     private static IArchimateModel model;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         tm.loadModel();

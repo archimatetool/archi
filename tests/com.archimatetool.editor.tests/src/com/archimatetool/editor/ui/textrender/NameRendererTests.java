@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModelObject;
@@ -33,7 +33,7 @@ public class NameRendererTests extends AbstractTextRendererTests {
     private IDiagramModelArchimateObject dmo;
     private IDiagramModelArchimateConnection dmc;
     
-    @Before
+    @BeforeEach
     public void beforeEachTest() {
         dmo = TextRendererTests.createDiagramModelObject();
         dmc = TextRendererTests.createDiagramModelConnection();

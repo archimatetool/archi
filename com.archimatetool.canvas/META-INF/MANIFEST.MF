@@ -22,6 +22,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.canvas,
  com.archimatetool.canvas.dnd,
  com.archimatetool.canvas.editparts,
+ com.archimatetool.canvas.factory,
  com.archimatetool.canvas.figures,
  com.archimatetool.canvas.model,
  com.archimatetool.canvas.model.impl,

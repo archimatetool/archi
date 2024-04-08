@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.diagram;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
@@ -18,9 +18,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
@@ -39,7 +39,7 @@ public class ImageExportProviderTests {
     
     private IFigure rootFigure;
     
-    @Before
+    @BeforeEach
     public void onceOnceBeforeEachTest() {
         provider = new ImageExportProvider();
         shell = new Shell();
@@ -52,7 +52,7 @@ public class ImageExportProviderTests {
         rootFigure.setBounds(new Rectangle(0, 0, 500, 500));
     }
     
-    @After
+    @AfterEach
     public void onceOnceAfterEachTest() {
         shell.dispose();
     }

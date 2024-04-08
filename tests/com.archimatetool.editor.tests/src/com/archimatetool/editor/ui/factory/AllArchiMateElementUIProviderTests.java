@@ -5,21 +5,17 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -86,120 +82,103 @@ import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ITextAlignment;
 
-@RunWith(Parameterized.class)
 public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Parameters
-    public static Collection<Object[]> eObjects() {
-        return Arrays.asList(new Object[][] {
-                
-                { new JunctionUIProvider(), IArchimatePackage.eINSTANCE.getJunction() },
-                { new ApplicationCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
-                { new ApplicationComponentUIProvider(), IArchimatePackage.eINSTANCE.getApplicationComponent() },
-                { new ApplicationEventUIProvider(), IArchimatePackage.eINSTANCE.getApplicationEvent() },
-                { new ApplicationFunctionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationFunction() },
-                { new ApplicationInteractionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInteraction() },
-                { new ApplicationInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInterface() },
-                { new ApplicationProcessUIProvider(), IArchimatePackage.eINSTANCE.getApplicationProcess() },
-                { new ApplicationServiceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationService() },
-                { new ArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact() },
-                { new AssessmentUIProvider(), IArchimatePackage.eINSTANCE.getAssessment() },
-                { new BusinessActorUIProvider(), IArchimatePackage.eINSTANCE.getBusinessActor() },
-                { new BusinessInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInterface() },
-                { new BusinessCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
-                { new BusinessEventUIProvider(), IArchimatePackage.eINSTANCE.getBusinessEvent() },
-                { new BusinessFunctionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessFunction() },
-                { new BusinessInteractionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInteraction() },
-                { new BusinessObjectUIProvider(), IArchimatePackage.eINSTANCE.getBusinessObject() },
-                { new BusinessProcessUIProvider(), IArchimatePackage.eINSTANCE.getBusinessProcess() },
-                { new BusinessRoleUIProvider(), IArchimatePackage.eINSTANCE.getBusinessRole() },
-                { new BusinessServiceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessService() },
-                { new CommunicationNetworkUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
-                { new CapabilityUIProvider(), IArchimatePackage.eINSTANCE.getCapability() },
-                { new ConstraintUIProvider(), IArchimatePackage.eINSTANCE.getConstraint() },
-                { new ContractUIProvider(), IArchimatePackage.eINSTANCE.getContract() },
-                { new CourseOfActionUIProvider(), IArchimatePackage.eINSTANCE.getCourseOfAction() },
-                { new DataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject() },
-                { new DeliverableUIProvider(), IArchimatePackage.eINSTANCE.getDeliverable() },
-                { new DeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
-                { new DistributionNetworkUIProvider(), IArchimatePackage.eINSTANCE.getDistributionNetwork() },
-                { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
-                { new EquipmentUIProvider(), IArchimatePackage.eINSTANCE.getEquipment() },
-                { new FacilityUIProvider(), IArchimatePackage.eINSTANCE.getFacility() },
-                { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() },
-                { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
-                { new GroupingUIProvider(), IArchimatePackage.eINSTANCE.getGrouping() },
-                { new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent() },
-                { new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
-                { new MaterialUIProvider(), IArchimatePackage.eINSTANCE.getMaterial() },
-                { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
-                { new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
-                { new PathUIProvider(), IArchimatePackage.eINSTANCE.getPath() },
-                { new PlateauUIProvider(), IArchimatePackage.eINSTANCE.getPlateau() },
-                { new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple() },
-                { new ProductUIProvider(), IArchimatePackage.eINSTANCE.getProduct() },
-                { new RepresentationUIProvider(), IArchimatePackage.eINSTANCE.getRepresentation() },
-                { new ResourceUIProvider(), IArchimatePackage.eINSTANCE.getResource() },
-                { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
-                { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
-                { new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
-                { new TechnologyCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyCollaboration() },
-                { new TechnologyEventUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyEvent() },
-                { new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction() },
-                { new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface() },
-                { new TechnologyInteractionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInteraction() },
-                { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
-                { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
-                { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
-                { new ValueStreamUIProvider(), IArchimatePackage.eINSTANCE.getValueStream() },
-                { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() }
-                
-        });
-    }
-    
-    public AllArchiMateElementUIProviderTests(IObjectUIProvider provider, EClass expectedClass) {
-        this.provider = provider;
-        this.expectedClass = expectedClass;
-    }
-    
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new JunctionUIProvider(), IArchimatePackage.eINSTANCE.getJunction()),
+                getParam(new ApplicationCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getApplicationCollaboration()),
+                getParam(new ApplicationComponentUIProvider(), IArchimatePackage.eINSTANCE.getApplicationComponent()),
+                getParam(new ApplicationEventUIProvider(), IArchimatePackage.eINSTANCE.getApplicationEvent()),
+                getParam(new ApplicationFunctionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationFunction()),
+                getParam(new ApplicationInteractionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInteraction()),
+                getParam(new ApplicationInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInterface()),
+                getParam(new ApplicationProcessUIProvider(), IArchimatePackage.eINSTANCE.getApplicationProcess()),
+                getParam(new ApplicationServiceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationService()),
+                getParam(new ArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact()),
+                getParam(new AssessmentUIProvider(), IArchimatePackage.eINSTANCE.getAssessment()),
+                getParam(new BusinessActorUIProvider(), IArchimatePackage.eINSTANCE.getBusinessActor()),
+                getParam(new BusinessInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInterface()),
+                getParam(new BusinessCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getBusinessCollaboration()),
+                getParam(new BusinessEventUIProvider(), IArchimatePackage.eINSTANCE.getBusinessEvent()),
+                getParam(new BusinessFunctionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessFunction()),
+                getParam(new BusinessInteractionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInteraction()),
+                getParam(new BusinessObjectUIProvider(), IArchimatePackage.eINSTANCE.getBusinessObject()),
+                getParam(new BusinessProcessUIProvider(), IArchimatePackage.eINSTANCE.getBusinessProcess()),
+                getParam(new BusinessRoleUIProvider(), IArchimatePackage.eINSTANCE.getBusinessRole()),
+                getParam(new BusinessServiceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessService()),
+                getParam(new CommunicationNetworkUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationNetwork()),
+                getParam(new CapabilityUIProvider(), IArchimatePackage.eINSTANCE.getCapability()),
+                getParam(new ConstraintUIProvider(), IArchimatePackage.eINSTANCE.getConstraint()),
+                getParam(new ContractUIProvider(), IArchimatePackage.eINSTANCE.getContract()),
+                getParam(new CourseOfActionUIProvider(), IArchimatePackage.eINSTANCE.getCourseOfAction()),
+                getParam(new DataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject()),
+                getParam(new DeliverableUIProvider(), IArchimatePackage.eINSTANCE.getDeliverable()),
+                getParam(new DeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice()),
+                getParam(new DistributionNetworkUIProvider(), IArchimatePackage.eINSTANCE.getDistributionNetwork()),
+                getParam(new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver()),
+                getParam(new EquipmentUIProvider(), IArchimatePackage.eINSTANCE.getEquipment()),
+                getParam(new FacilityUIProvider(), IArchimatePackage.eINSTANCE.getFacility()),
+                getParam(new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap()),
+                getParam(new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal()),
+                getParam(new GroupingUIProvider(), IArchimatePackage.eINSTANCE.getGrouping()),
+                getParam(new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent()),
+                getParam(new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation()),
+                getParam(new MaterialUIProvider(), IArchimatePackage.eINSTANCE.getMaterial()),
+                getParam(new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning()),
+                getParam(new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode()),
+                getParam(new PathUIProvider(), IArchimatePackage.eINSTANCE.getPath()),
+                getParam(new PlateauUIProvider(), IArchimatePackage.eINSTANCE.getPlateau()),
+                getParam(new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple()),
+                getParam(new ProductUIProvider(), IArchimatePackage.eINSTANCE.getProduct()),
+                getParam(new RepresentationUIProvider(), IArchimatePackage.eINSTANCE.getRepresentation()),
+                getParam(new ResourceUIProvider(), IArchimatePackage.eINSTANCE.getResource()),
+                getParam(new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement()),
+                getParam(new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder()),
+                getParam(new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware()),
+                getParam(new TechnologyCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyCollaboration()),
+                getParam(new TechnologyEventUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyEvent()),
+                getParam(new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction()),
+                getParam(new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface()),
+                getParam(new TechnologyInteractionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInteraction()),
+                getParam(new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess()),
+                getParam(new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService()),
+                getParam(new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue()),
+                getParam(new ValueStreamUIProvider(), IArchimatePackage.eINSTANCE.getValueStream()),
+                getParam(new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage())
+        );
+     }
+
     @Override
-    protected IArchimateElementUIProvider getProvider() {
-        return (IArchimateElementUIProvider)provider;
-    }
-    
-    @Override
-    public void testCreateEditPart() {
-        EditPart editPart = getProvider().createEditPart();
-        assertNotNull(editPart);
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+        assertNotNull(provider.getDefaultColor());
     }
 
     @Override
-    @Test
-    public void testGetDefaultColor() {
-        assertNotNull(getProvider().getDefaultColor());
-    }
-
-    @Override
-    @Test
-    public void testGetDefaultSize() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         // Junctions
-        if(getProvider() instanceof JunctionUIProvider) {
-            assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
+        if(provider instanceof JunctionUIProvider) {
+            assertEquals(new Dimension(15, 15), provider.getDefaultSize());
         }
         
         // Grouping
-        else if(getProvider() instanceof GroupingUIProvider) {
-            assertEquals(new Dimension(400, 140), getProvider().getDefaultSize());
+        else if(provider instanceof GroupingUIProvider) {
+            assertEquals(new Dimension(400, 140), provider.getDefaultSize());
         }
         
         else {
-            assertEquals(IGraphicalObjectUIProvider.defaultSize(), getProvider().getDefaultSize());
+            assertEquals(IGraphicalObjectUIProvider.defaultSize(), provider.getDefaultSize());
         }
     }
     
-    @Test
-    public void testGetDefaultSize_UserSet() {
-        if(getProvider() instanceof JunctionUIProvider || getProvider() instanceof GroupingUIProvider) {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize_UserSet(IGraphicalObjectUIProvider provider) {
+        if(provider instanceof JunctionUIProvider || provider instanceof GroupingUIProvider) {
             return;
         }
 
@@ -208,33 +187,36 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         // New value via preferences
         preferenceStore.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
         preferenceStore.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
-        assertEquals(new Dimension(150, 90), getProvider().getDefaultSize());
+        assertEquals(new Dimension(150, 90), provider.getDefaultSize());
         
         // Default value in preferences
         preferenceStore.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
         preferenceStore.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-        assertEquals(IGraphicalObjectUIProvider.defaultSize(), getProvider().getDefaultSize());
+        assertEquals(IGraphicalObjectUIProvider.defaultSize(), provider.getDefaultSize());
     }
 
     @Override
-    public void testShouldExposeFeature() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
         // Junctions
-        if(getProvider() instanceof JunctionUIProvider) {
-            assertFalse(getProvider().shouldExposeFeature((String)null));
+        if(provider instanceof JunctionUIProvider) {
+            assertFalse(provider.shouldExposeFeature((String)null));
         }
         else {
-            super.testShouldExposeFeature();
+            super.testShouldExposeFeature(provider);
         }
     }
     
     @Override
-    @Test
-    public void testGetDefaultTextAlignment() {
-        if(getProvider() instanceof GroupingUIProvider) {
-            assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, getProvider().getDefaultTextAlignment());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
+        if(provider instanceof GroupingUIProvider) {
+            assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
         }
         else {
-            super.testGetDefaultTextAlignment();
+            super.testGetDefaultTextAlignment(provider);
         }
     }
 }

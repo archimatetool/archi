@@ -5,16 +5,18 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Named;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
@@ -26,29 +28,24 @@ import com.archimatetool.model.IProfile;
 @SuppressWarnings("nls")
 public abstract class ArchimateConceptTests {
     
-    private EClass eClass;
-    private IArchimateConcept concept;
+    static final String PARAMS_METHOD = "getParams";
     
-    protected ArchimateConceptTests(EClass eClass) {
-        this.eClass = eClass;
+    /**
+     * Create an Arguments parameter for an EClass instance
+     */
+    protected static Arguments getParam(EClass eClass) {
+        return Arguments.of(Named.of(eClass.getName(), IArchimateFactory.eINSTANCE.create(eClass)));
     }
-    
-    @Before
-    public void runBeforeEachTest() {
-        concept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(eClass);
-    }
-    
-    protected IArchimateConcept getConcept() {
-        return concept;
-    }
-    
-    @Test
-    public void testGetAdapter() {
+
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetAdapter(IArchimateConcept concept) {
         CommonTests.testGetAdapter(concept);
     }
         
-    @Test
-    public void testGetArchimateModel() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetArchimateModel(IArchimateConcept concept) {
         assertNull(concept.getArchimateModel());
         
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -58,8 +55,9 @@ public abstract class ArchimateConceptTests {
         assertSame(model, concept.getArchimateModel());
     }
     
-    @Test
-    public void testGetCopy() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetCopy(IArchimateConcept concept) {
         concept.setName("name");
         concept.setDocumentation("doc");
         concept.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
@@ -83,47 +81,55 @@ public abstract class ArchimateConceptTests {
         assertNotSame(concept.getTargetRelationships(), copy.getTargetRelationships());
     }
 
-    @Test
-    public void testGetDocumentation() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDocumentation(IArchimateConcept concept) {
         CommonTests.testGetDocumentation(concept);
     }
 
-    @Test
-    public void testGetID() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetID(IArchimateConcept concept) {
         assertNotNull(concept.getId());
     }
         
-    @Test
-    public void testGetName() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetName(IArchimateConcept concept) {
         CommonTests.testGetName(concept);
     }
 
-    @Test
-    public void testGetProperties() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetProperties(IArchimateConcept concept) {
         CommonTests.testProperties(concept);
     }
     
-    @Test
-    public void testGetSourceRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetSourceRelationships(IArchimateConcept concept) {
         assertEquals(0, concept.getSourceRelationships().size());
         concept.getSourceRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
         assertEquals(1, concept.getSourceRelationships().size());
     }
     
-    @Test
-    public void testGetTargetRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetTargetRelationships(IArchimateConcept concept) {
         assertEquals(0, concept.getTargetRelationships().size());
         concept.getTargetRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
         assertEquals(1, concept.getTargetRelationships().size());
     }
     
-    @Test
-    public void testGetProfiles() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetProfiles(IArchimateConcept concept) {
         CommonTests.testList(concept.getProfiles(), IArchimatePackage.eINSTANCE.getProfile());
     }
     
-    @Test
-    public void testGetPrimaryProfile() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetPrimaryProfile(IArchimateConcept concept) {
         assertNull(concept.getPrimaryProfile());
         
         IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();

@@ -5,19 +5,19 @@
  */
 package com.archimatetool.editor.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.tests.TestUtils;
@@ -36,20 +36,20 @@ public class FileUtilsTests {
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
     }
     
-    @AfterClass
+    @AfterAll
     public static void runOnceAfterAllTests() throws IOException {
         FileUtils.deleteFolder(TestUtils.TMP_FOLDER);
     }
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
     }
     
-    @After
+    @AfterEach
     public void runAfterEachTest() {
     }
     
@@ -63,7 +63,7 @@ public class FileUtilsTests {
     public void getFileExtension1() {
         File file = new File("test/file.TXT");
         String ext = FileUtils.getFileExtension(file);
-        assertEquals("Wrong file extension", ".txt", ext);
+        assertEquals(".txt", ext, "Wrong file extension");
     }
     
     /**
@@ -73,7 +73,7 @@ public class FileUtilsTests {
     public void getFileExtension2() {
         File file = new File("test/file");
         String ext = FileUtils.getFileExtension(file);
-        assertEquals("Wrong file extension", "", ext);
+        assertEquals("", ext, "Wrong file extension");
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ public class FileUtilsTests {
     public void getFileNameWithoutExtension1() {
         File file = new File("test/File.txt");
         String name = FileUtils.getFileNameWithoutExtension(file);
-        assertEquals("Wrong file extension", "File", name);
+        assertEquals("File", name, "Wrong file extension");
     }
     
     /**
@@ -95,7 +95,7 @@ public class FileUtilsTests {
     public void getFileNameWithoutExtension2() {
         File file = new File("test/File");
         String name = FileUtils.getFileNameWithoutExtension(file);
-        assertEquals("Wrong file extension", "File", name);
+        assertEquals("File", name, "Wrong file extension");
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -220,11 +220,11 @@ public class FileUtilsTests {
         File tgtFile = new File(folderTgt, "temp.xml");
         
         FileUtils.copyFile(new File(TestSupport.getTestDataFolder(), "filetest/readme.txt"), srcFile, false);
-        assertTrue("Test Source File should exist", srcFile.exists());
+        assertTrue(srcFile.exists(), "Test Source File should exist");
         
         FileUtils.moveFile(srcFile, tgtFile);
-        assertFalse("Source File should not exist", srcFile.exists());
-        assertTrue("Target File should exist", tgtFile.exists());
+        assertFalse(srcFile.exists(), "Source File should not exist");
+        assertTrue(tgtFile.exists(), "Target File should exist");
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ public class FileUtilsTests {
         File folder = TestUtils.createTempFolder("delete_folder");
         FileUtils.copyFolder(new File(TestSupport.getTestDataFolder(), "filetest/testfolder"), folder, null);
         FileUtils.deleteFolder(folder);
-        assertFalse("Deleted Folder should not exist", folder.exists());
+        assertFalse(folder.exists(), "Deleted Folder should not exist");
     }
     
     /**
@@ -243,10 +243,10 @@ public class FileUtilsTests {
     @Test
     public void deleteFolder_IfFile() throws Exception {
         File file = TestUtils.createTempFile(".del");
-        assertTrue("Test File should exist", file.exists());
+        assertTrue(file.exists(), "Test File should exist");
         
         FileUtils.deleteFolder(file);
-        assertTrue("File should exist", file.exists());
+        assertTrue(file.exists(), "File should exist");
     }
     
     /**
@@ -281,15 +281,15 @@ public class FileUtilsTests {
         
         File[] sorted = FileUtils.sortFiles(folder.listFiles());
         
-        assertEquals("Folder not in correct position", folder2, sorted[0]);
-        assertEquals("Folder not in correct position", folder3, sorted[1]);
-        assertEquals("Folder not in correct position", folder4, sorted[2]);
-        assertEquals("Folder not in correct position", folder1, sorted[3]);
+        assertEquals(folder2, sorted[0], "Folder not in correct position");
+        assertEquals(folder3, sorted[1], "Folder not in correct position");
+        assertEquals(folder4, sorted[2], "Folder not in correct position");
+        assertEquals(folder1, sorted[3], "Folder not in correct position");
         
-        assertEquals("File not in correct position", file2, sorted[4]);
-        assertEquals("File not in correct position", file3, sorted[5]);
-        assertEquals("File not in correct position", file4, sorted[6]);
-        assertEquals("File not in correct position", file1, sorted[7]);
+        assertEquals(file2, sorted[4], "File not in correct position");
+        assertEquals(file3, sorted[5], "File not in correct position");
+        assertEquals(file4, sorted[6], "File not in correct position");
+        assertEquals(file1, sorted[7], "File not in correct position");
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -302,7 +302,7 @@ public class FileUtilsTests {
         File rootFolder = new File("c:/rootfolder");
         File file = new File("C:/rootfolder/dir/file.txt");
         String path = FileUtils.getRelativePath(rootFolder, file);
-        assertFalse("Relative Path is wrong: " + path, path.startsWith("/"));
+        assertFalse(path.startsWith("/"), "Relative Path is wrong: " + path);
     }
 
     /**
@@ -313,7 +313,7 @@ public class FileUtilsTests {
         File rootFolder = new File("/RootFolder");
         File file = new File("/RootFolder/Dir/FileHere.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue("Relative Path is wrong: " + path, path.equals("Dir/FileHere.txt"));
+        assertTrue(path.equals("Dir/FileHere.txt"), "Relative Path is wrong: " + path);
     }
     
     /**
@@ -324,7 +324,7 @@ public class FileUtilsTests {
         File rootFolder = new File("/rootfolder");
         File file = new File("/anotherfolder/dir/file.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue("Absolute Path is wrong: " + path, path.startsWith("../"));
+        assertTrue(path.startsWith("../"), "Absolute Path is wrong: " + path);
     }
 
     // ---------------------------------------------------------------------------------------------

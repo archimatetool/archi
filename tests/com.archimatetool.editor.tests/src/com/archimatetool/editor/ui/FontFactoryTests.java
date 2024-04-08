@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.ui;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 @SuppressWarnings("nls")

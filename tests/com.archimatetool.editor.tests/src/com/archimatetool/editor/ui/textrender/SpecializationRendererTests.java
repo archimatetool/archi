@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
@@ -34,7 +34,7 @@ public class SpecializationRendererTests extends AbstractTextRendererTests {
     
     private IProfile profile1, profile2, profile3;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         profile1 = dmo.getArchimateConcept().getPrimaryProfile();
         profile2 = ((IDiagramModelArchimateComponent)dmc.getSource()).getArchimateConcept().getPrimaryProfile();

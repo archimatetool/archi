@@ -5,16 +5,19 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
@@ -22,33 +25,40 @@ import com.archimatetool.model.IArchimatePackage;
 
 public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new SketchActorUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getSketchModelActor();
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new SketchActorUIProvider(), IArchimatePackage.eINSTANCE.getSketchModelActor())
+        );
     }
-    
+
     @Override
-    public void testCreateEditPart() {
-        EditPart editPart = getProvider().createEditPart();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
+        EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof SketchActorEditPart);
     }
     
     @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(75, 100), getProvider().getDefaultSize());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Dimension(75, 100), provider.getDefaultSize());
     }
 
     @Override
-    public void testGetDefaultColor() {
-        Color color = getProvider().getDefaultColor();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+        Color color = provider.getDefaultColor();
         assertEquals(ColorConstants.black, color);
     }
     
     @Override
-    public void testShouldExposeFeature() {
-        super.testShouldExposeFeature();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
+        super.testShouldExposeFeature(provider);
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
     }

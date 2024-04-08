@@ -8,12 +8,12 @@ package com.archimatetool.hammer.validation.issues;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 public class AdviceCategoryTests extends AbstractIssueCategoryTests {
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         issueCategory = new AdviceCategory(new ArrayList<AdviceType>());
     }

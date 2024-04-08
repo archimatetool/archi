@@ -6,11 +6,11 @@
 package com.archimatetool.hammer.validation.issues;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.tests.TestUtils;
 
@@ -18,7 +18,7 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public abstract class AbstractIssueCategoryTests {
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         // AbstractUIPlugin#createImageRegistry expects to see a non null Display.getCurrent()
         TestUtils.ensureDefaultDisplay();

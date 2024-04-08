@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     DocumentationRendererTests.class,
     IfRendererTests.class,
     NameRendererTests.class,
@@ -23,6 +23,6 @@ import org.junit.runners.Suite;
     ViewpointRendererTests.class,
     WordWrapRendererTests.class
 })
-
+@SuiteDisplayName("All TextRender Tests")
 public class AllTextRenderTests {
 }

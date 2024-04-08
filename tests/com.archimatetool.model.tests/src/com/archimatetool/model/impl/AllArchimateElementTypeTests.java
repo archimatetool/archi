@@ -5,48 +5,39 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Assume;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
-@RunWith(Parameterized.class)
 public class AllArchimateElementTypeTests extends ArchimateConceptTests {
     
-    @Parameters
-    public static Collection<EClass[]> eObjects() {
-        List<EClass[]> list = new ArrayList<>();
+    static Stream<Arguments> getParams() {
+        List<Arguments> list = new ArrayList<>();
         
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            list.add(new EClass[] { eClass });
+            list.add(getParam(eClass));
         }
         
-        list.add(new EClass[] { IArchimatePackage.eINSTANCE.getJunction() });
+        // Junction
+        list.add(getParam(IArchimatePackage.eINSTANCE.getJunction()));
         
-        return list;
+        return list.stream();
     }
-    
-    public AllArchimateElementTypeTests(EClass eClass) {
-        super(eClass);
-    }
-    
+
     @Test
     public void testGetJuntion_Type() {
-        Assume.assumeTrue(getConcept() instanceof IJunction);
-
-        IJunction junction = (IJunction)getConcept();
+        IJunction junction = IArchimateFactory.eINSTANCE.createJunction();
         assertEquals(IJunction.AND_JUNCTION_TYPE, junction.getType());
         junction.setType(IJunction.OR_JUNCTION_TYPE);
         assertEquals(IJunction.OR_JUNCTION_TYPE, junction.getType());

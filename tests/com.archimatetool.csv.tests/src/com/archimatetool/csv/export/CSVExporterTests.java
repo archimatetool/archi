@@ -5,15 +5,15 @@
  */
 package com.archimatetool.csv.export;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
@@ -29,7 +29,7 @@ public class CSVExporterTests {
     
     private CSVExporter exporter;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setId("0a9d34ab");

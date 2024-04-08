@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.actions.AllActionsTests;
 import com.archimatetool.editor.diagram.AllDiagramTests;
@@ -18,9 +19,8 @@ import com.archimatetool.editor.utils.AllUtilsTests;
 import com.archimatetool.editor.views.AllViewsTests;
 
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // actions
     AllActionsTests.class,
     // diagram
@@ -38,6 +38,6 @@ import com.archimatetool.editor.views.AllViewsTests;
     // views
     AllViewsTests.class
 })
-
+@SuiteDisplayName("All Editor Tests")
 public class AllTests {
 }

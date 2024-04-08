@@ -5,14 +5,14 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     PropertiesLabelProviderTests.class
 })
-
+@SuiteDisplayName("All PropertySections Tests")
 public class AllPropertySectionsTests {
 }

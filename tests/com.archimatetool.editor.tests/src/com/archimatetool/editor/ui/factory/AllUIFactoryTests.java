@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     ArchimateDiagramModelUIProviderTests.class,
     ArchimateModelUIProviderTests.class,
     
@@ -30,6 +30,6 @@ import org.junit.runners.Suite;
     
     ObjectUIFactoryProviderTests.class
 })
-
+@SuiteDisplayName("All UI Factory Tests")
 public class AllUIFactoryTests {
 }

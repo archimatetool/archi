@@ -5,15 +5,14 @@
  */
 package com.archimatetool.modelimporter;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     ModelImporterTests.class
 })
-
+@SuiteDisplayName("All Model Importer Tests")
 public class AllTests {
 }

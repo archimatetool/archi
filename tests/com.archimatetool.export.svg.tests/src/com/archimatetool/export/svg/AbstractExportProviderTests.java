@@ -5,9 +5,9 @@
  */
 package com.archimatetool.export.svg;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import org.apache.batik.svggen.SVGGeneratorContext;
@@ -16,8 +16,8 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
@@ -36,7 +36,7 @@ public class AbstractExportProviderTests {
         rootFigure.setBounds(new Rectangle(0, 0, 500, 500));
     }
     
-    @After
+    @AfterEach
     public void runOnceAfterEachTest() {
         shell.dispose();
     }

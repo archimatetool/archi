@@ -5,13 +5,12 @@
  */
 package com.archimatetool.editor.ui.findreplace;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("nls")
 public abstract class AbstractFindReplaceProviderTests {
@@ -20,7 +19,7 @@ public abstract class AbstractFindReplaceProviderTests {
     
     protected AbstractFindReplaceProvider provider;
     
-    @Before
+    @BeforeEach
     public void runOnceBeforeAbstractEachTest() {
         provider = getProvider();
     }

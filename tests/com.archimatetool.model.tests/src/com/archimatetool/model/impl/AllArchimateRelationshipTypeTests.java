@@ -5,23 +5,23 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateElement;
@@ -32,21 +32,17 @@ import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 @SuppressWarnings("nls")
-@RunWith(Parameterized.class)
 public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
     
-    @Parameters
-    public static Collection<EClass[]> eObjects() {
-        List<EClass[]> list = new ArrayList<>();
+    static Stream<Arguments> getParams() {
+        List<Arguments> list = new ArrayList<>();
         
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            list.add(new EClass[] { eClass });
+            list.add(getParam(eClass));
         }
         
-        return list;
+        return list.stream();
     }
-    
-    private IArchimateRelationship relationship;
     
     private IArchimateElement sourceElement;
     private IArchimateElement targetElement;
@@ -54,17 +50,8 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
     private IArchimateRelationship sourceRelationship;
     private IArchimateRelationship targetRelationship;
 
-    public AllArchimateRelationshipTypeTests(EClass eClass) {
-        super(eClass);
-    }
-    
-    @Override
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
-        super.runBeforeEachTest();
-        
-        relationship = (IArchimateRelationship)getConcept();
-        
         sourceElement = IArchimateFactory.eINSTANCE.createBusinessActor();
         targetElement = IArchimateFactory.eINSTANCE.createBusinessProcess();
         
@@ -75,69 +62,65 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
     // Access Relationship Type
     @Test
     public void testAccess_Interface_Type() {
-        // Only IAccessRelationship type
-        Assume.assumeTrue(relationship instanceof IAccessRelationship);
-
-        IAccessRelationship aRelationship = (IAccessRelationship)relationship;
-        assertEquals(IAccessRelationship.WRITE_ACCESS, aRelationship.getAccessType());
-        aRelationship.setAccessType(IAccessRelationship.READ_ACCESS);
-        assertEquals(IAccessRelationship.READ_ACCESS, aRelationship.getAccessType());
+        IAccessRelationship relationship = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        assertEquals(IAccessRelationship.WRITE_ACCESS, relationship.getAccessType());
+        relationship.setAccessType(IAccessRelationship.READ_ACCESS);
+        assertEquals(IAccessRelationship.READ_ACCESS, relationship.getAccessType());
     }
     
     // Influence Relationship Strength
     @Test
     public void testInfluence_Strength() {
-        // Only IInfluenceRelationship type
-        Assume.assumeTrue(relationship instanceof IInfluenceRelationship);
-
-        IInfluenceRelationship aRelationship = (IInfluenceRelationship)relationship;
-        assertEquals("", aRelationship.getStrength());
-        aRelationship.setStrength("++");
-        assertEquals("++", aRelationship.getStrength());
+        IInfluenceRelationship relationship = IArchimateFactory.eINSTANCE.createInfluenceRelationship();
+        assertEquals("", relationship.getStrength());
+        relationship.setStrength("++");
+        assertEquals("++", relationship.getStrength());
     }
 
     // Association Relationship Directed
     @Test
     public void testAssociation_Directed() {
-        // Only IAssociationRelationship type
-        Assume.assumeTrue(relationship instanceof IAssociationRelationship);
-
-        IAssociationRelationship aRelationship = (IAssociationRelationship)relationship;
-        assertFalse(aRelationship.isDirected());
-        aRelationship.setDirected(true);
-        assertTrue(aRelationship.isDirected());
+        IAssociationRelationship relationship = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        assertFalse(relationship.isDirected());
+        relationship.setDirected(true);
+        assertTrue(relationship.isDirected());
     }
     
-    @Test
-    public void testGetSetSourceElement() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetSetSourceElement(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         relationship.setSource(sourceElement);
         assertSame(sourceElement, relationship.getSource());
     }
         
-    @Test
-    public void testGetSetTargetElement() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetSetTargetElement(IArchimateRelationship relationship) {
         assertNull(relationship.getTarget());
         relationship.setTarget(targetElement);
         assertSame(targetElement, relationship.getTarget());
     }
  
-    @Test
-    public void testGetSetSourceRelationship() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetSetSourceRelationship(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         relationship.setSource(sourceRelationship);
         assertSame(sourceRelationship, relationship.getSource());
     }
         
-    @Test
-    public void testGetSetTargetRelationship() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetSetTargetRelationship(IArchimateRelationship relationship) {
         assertNull(relationship.getTarget());
         relationship.setTarget(targetRelationship);
         assertSame(targetRelationship, relationship.getTarget());
     }
     
-    @Test
-    public void testSetSource_AlsoSetsSourceAndRemovesRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetSource_AlsoSetsSourceAndRemovesRelationships(IArchimateRelationship relationship) {
         relationship.setSource(sourceRelationship);
         assertSame(relationship, sourceRelationship.getSourceRelationships().get(0));
 
@@ -146,8 +129,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, sourceElement.getSourceRelationships().get(0));
     }
     
-    @Test
-    public void testSetSource_AlsoSetsSourceRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetSource_AlsoSetsSourceRelationships(IArchimateRelationship relationship) {
         sourceRelationship.setSource(relationship);
         targetRelationship.setSource(relationship);
         
@@ -155,8 +139,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetRelationship, relationship.getSourceRelationships().get(1));
     }
 
-    @Test
-    public void testSetTarget_AlsoSetsTargetAndRemovesRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetTarget_AlsoSetsTargetAndRemovesRelationships(IArchimateRelationship relationship) {
         relationship.setTarget(targetRelationship);
         assertSame(relationship, targetRelationship.getTargetRelationships().get(0));
 
@@ -165,8 +150,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, targetElement.getTargetRelationships().get(0));
     }
     
-    @Test
-    public void testSetTarget_AlsoSetsTargetRelationships() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testSetTarget_AlsoSetsTargetRelationships(IArchimateRelationship relationship) {
         sourceRelationship.setTarget(relationship);
         targetRelationship.setTarget(relationship);
         
@@ -174,8 +160,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetRelationship, relationship.getTargetRelationships().get(1));
     }
     
-    @Test
-    public void testConnect() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testConnect(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         assertNull(relationship.getTarget());
         
@@ -185,8 +172,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetElement, relationship.getTarget());
     }
     
-    @Test
-    public void testDisconnect() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testDisconnect(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         assertSame(sourceElement, relationship.getSource());
         assertSame(targetElement, relationship.getTarget());
@@ -198,8 +186,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertTrue(targetElement.getTargetRelationships().isEmpty());
     }
 
-    @Test
-    public void testReconnect() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testReconnect(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         relationship.disconnect();
         relationship.reconnect();
@@ -210,8 +199,9 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, targetElement.getTargetRelationships().get(0));
     }
     
-    @Test
-    public void testGetCopy_SourceAndTargetComponentsAreNull() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetCopy_SourceAndTargetComponentsAreNull(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         IArchimateRelationship copy = (IArchimateRelationship)relationship.getCopy();
         assertNull(copy.getSource());

@@ -5,15 +5,15 @@
  */
 package com.archimatetool.editor.actions;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CheckForNewVersionActionTests.class,
     MRUMenuManagerTests.class
 })
-
+@SuiteDisplayName("All Actions Tests")
 public class AllActionsTests {
 }

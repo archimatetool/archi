@@ -5,21 +5,18 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.AggregationRelationshipUIProvider;
@@ -34,51 +31,50 @@ import com.archimatetool.editor.ui.factory.relationships.SpecializationRelations
 import com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-@RunWith(Parameterized.class)
 public class AllArchimateRelationshipUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Parameters
-    public static Collection<Object[]> eObjects() {
-        return Arrays.asList(new Object[][] {
-                { new AccessRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAccessRelationship() },
-                { new AggregationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAggregationRelationship() },
-                { new AssignmentRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAssignmentRelationship() },
-                { new AssociationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAssociationRelationship() },
-                { new CompositionRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getCompositionRelationship() },
-                { new InfluenceRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getInfluenceRelationship() },
-                { new FlowRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getFlowRelationship() },
-                { new RealizationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getRealizationRelationship() },
-                { new ServingRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getServingRelationship() },
-                { new SpecializationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getSpecializationRelationship() },
-                { new TriggeringRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getTriggeringRelationship() },
-        });
-    }
-    
-    public AllArchimateRelationshipUIProviderTests(IObjectUIProvider provider, EClass expectedClass) {
-        this.provider = provider;
-        this.expectedClass = expectedClass;
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new AccessRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAccessRelationship()),
+                getParam(new AggregationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAggregationRelationship()),
+                getParam(new AssignmentRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAssignmentRelationship()),
+                getParam(new AssociationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAssociationRelationship()),
+                getParam(new CompositionRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getCompositionRelationship()),
+                getParam(new InfluenceRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getInfluenceRelationship()),
+                getParam(new FlowRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getFlowRelationship()),
+                getParam(new RealizationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getRealizationRelationship()),
+                getParam(new ServingRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getServingRelationship()),
+                getParam(new SpecializationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getSpecializationRelationship()),
+                getParam(new TriggeringRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getTriggeringRelationship())
+        );
     }
     
     @Override
-    public void testCreateEditPart() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof AbstractConnectionEditPart);
     }
     
     @Override
-    @Test
-    public void testGetDefaultColor() {
-        assertEquals(ColorConstants.black, getProvider().getDefaultColor());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+        assertEquals(ColorConstants.black, provider.getDefaultColor());
     }
     
     @Override
-    public void testGetDefaultLineColor() {
-        assertEquals(ColorConstants.black, getProvider().getDefaultLineColor());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultLineColor(IGraphicalObjectUIProvider provider) {
+        assertEquals(ColorConstants.black, provider.getDefaultLineColor());
     }
 
     @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(-1, -1), getProvider().getDefaultSize());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
     }
 }

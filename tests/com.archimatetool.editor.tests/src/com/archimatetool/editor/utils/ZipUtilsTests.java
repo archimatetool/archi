@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -21,11 +21,11 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.tests.TestUtils;
@@ -43,19 +43,19 @@ public class ZipUtilsTests {
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
     }
     
-    @AfterClass
+    @AfterAll
     public static void runOnceAfterAllTests() {
     }
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
     }
     
-    @After
+    @AfterEach
     public void runAfterEachTest() throws IOException {
         FileUtils.deleteFolder(TestUtils.TMP_FOLDER);
     }
@@ -224,7 +224,7 @@ public class ZipUtilsTests {
         ZipUtils.unpackZip(testZipFile, folderTemp);
         
         // Test output folder exists
-        assertTrue("Zip Output folder not created: " + folderTemp, folderTemp.exists());
+        assertTrue(folderTemp.exists(), "Zip Output folder not created: " + folderTemp);
         
         // Compare files
         File file = new File(folderTemp, "Archisurance.archimate");

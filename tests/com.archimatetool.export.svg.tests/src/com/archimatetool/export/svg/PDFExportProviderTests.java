@@ -5,7 +5,7 @@
  */
 package com.archimatetool.export.svg;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
@@ -15,8 +15,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -26,7 +26,7 @@ import com.archimatetool.tests.TestUtils;
 public class PDFExportProviderTests extends AbstractExportProviderTests {
     
     @Override
-    @Before
+    @BeforeEach
     public void runOnceBeforeEachTest() {
         super.runOnceBeforeEachTest();
         provider = new PDFExportProvider();

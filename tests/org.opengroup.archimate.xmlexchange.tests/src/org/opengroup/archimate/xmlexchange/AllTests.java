@@ -5,18 +5,17 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     XMLExchangeUtilsTests.class,
     XMLModelExporterTests.class,
     XMLModelImporterTests.class,
     XMLValidatorTests.class
 })
-
+@SuiteDisplayName("All XML Exchange Tests")
 public class AllTests {
 }

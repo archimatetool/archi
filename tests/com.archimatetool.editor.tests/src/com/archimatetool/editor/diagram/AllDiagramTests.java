@@ -5,8 +5,9 @@
  */
 package com.archimatetool.editor.diagram;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
 import com.archimatetool.editor.diagram.actions.CopySnapshotTests;
 import com.archimatetool.editor.diagram.actions.SelectAllActionTests;
@@ -19,9 +20,8 @@ import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
 import com.archimatetool.editor.diagram.util.DiagramUtilsTests;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     // diagram
     ArchimateDiagramModelFactoryTests.class,
     DiagramEditorFindReplaceProviderTests.class,
@@ -46,6 +46,6 @@ import com.archimatetool.editor.diagram.util.DiagramUtilsTests;
     // diagram.util
     DiagramUtilsTests.class
 })
-
+@SuiteDisplayName("All Diagram Tests")
 public class AllDiagramTests {
 }

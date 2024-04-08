@@ -5,18 +5,18 @@
  */
 package com.archimatetool.canvas.factory;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     CanvasBlockUIProviderTests.class,
     CanvasImageUIProviderTests.class,
     CanvasLineConnectionUIProviderTests.class,
     CanvasModelUIProviderTests.class,
     CanvasStickyUIProviderTests.class
 })
-
+@SuiteDisplayName("All Canvas UI FactoryTests")
 public class AllUIFactoryTests {
 }

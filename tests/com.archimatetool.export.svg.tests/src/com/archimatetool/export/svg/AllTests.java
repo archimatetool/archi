@@ -5,16 +5,15 @@
  */
 package com.archimatetool.export.svg;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     PDFExportProviderTests.class,
     SVGExportProviderTests.class
 })
-
+@SuiteDisplayName("All Export SVG Tests")
 public class AllTests {
 }

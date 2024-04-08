@@ -5,9 +5,9 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;

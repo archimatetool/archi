@@ -5,15 +5,15 @@
  */
 package com.archimatetool.zest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
@@ -30,7 +30,7 @@ public class ZestViewerContentProviderTests {
     private static ArchimateTestModel tm;
     private static ZestViewerContentProvider provider;
 
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
         tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);

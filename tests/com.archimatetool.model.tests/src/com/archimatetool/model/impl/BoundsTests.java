@@ -5,21 +5,20 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
-
 
 
 public class BoundsTests {
     
     private IBounds bounds;
     
-    @Before
+    @BeforeEach
     public void runBeforeEachTest() {
         bounds = IArchimateFactory.eINSTANCE.createBounds();
     }

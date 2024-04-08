@@ -5,16 +5,20 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
@@ -24,33 +28,39 @@ import com.archimatetool.model.IDiagramModelReference;
 
 public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new DiagramModelReferenceUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getDiagramModelReference();
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new DiagramModelReferenceUIProvider(), IArchimatePackage.eINSTANCE.getDiagramModelReference())
+        );
     }
-    
+
     @Override
-    public void testCreateEditPart() {
-        EditPart editPart = getProvider().createEditPart();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
+        EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof DiagramModelReferenceEditPart);
     }
     
     @Override
-    @Test
-    public void testGetDefaultColor() {
-        Color color = getProvider().getDefaultColor();
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+        Color color = provider.getDefaultColor();
         assertEquals(new Color(220, 235, 235), color);
     }
     
     @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(120, 55), getProvider().getDefaultSize());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
+        assertEquals(new Dimension(120, 55), provider.getDefaultSize());
     }
 
     @Override
-    public void testGetImageInstance() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testGetImageInstance(IObjectUIProvider provider, EClass expectedClass) {
         IDiagramModelReference ref = (IDiagramModelReference)IArchimateFactory.eINSTANCE.create(expectedClass);
         ref.setReferencedModel(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
         ((AbstractObjectUIProvider)provider).setInstance(ref);
@@ -63,9 +73,10 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
         assertNotNull(image);
     }
     
-    @Test
-    public void testHasIcon() {
-        assertTrue(getProvider().hasIcon());
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testHasIcon(IGraphicalObjectUIProvider provider) {
+        assertTrue(provider.hasIcon());
     }
 
 }

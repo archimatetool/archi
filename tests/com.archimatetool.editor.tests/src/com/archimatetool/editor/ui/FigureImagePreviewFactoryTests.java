@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.ui;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.swt.graphics.Image;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;

@@ -5,10 +5,14 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.gef.EditPart;
-import org.junit.Before;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.ui.factory.diagram.ArchimateDiagramModelUIProvider;
@@ -16,14 +20,16 @@ import com.archimatetool.model.IArchimatePackage;
 
 public class ArchimateDiagramModelUIProviderTests extends AbstractObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new ArchimateDiagramModelUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getArchimateDiagramModel();
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new ArchimateDiagramModelUIProvider(), IArchimatePackage.eINSTANCE.getArchimateDiagramModel())
+        );
     }
-    
+
     @Override
-    public void testCreateEditPart() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof ArchimateDiagramPart);
     }

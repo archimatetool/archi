@@ -5,23 +5,29 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Before;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 public class FolderUIProviderTests extends AbstractObjectUIProviderTests {
     
-    @Before
-    public void runOnceBeforeAllTests() {
-        provider = new FolderUIProvider();
-        expectedClass = IArchimatePackage.eINSTANCE.getFolder();
+    static Stream<Arguments> getParams() {
+        return Stream.of(
+                getParam(new FolderUIProvider(), IArchimatePackage.eINSTANCE.getFolder())
+        );
     }
-    
+
     @Override
-    public void testCreateEditPart() {
+    @ParameterizedTest
+    @MethodSource(PARAMS_METHOD)
+    public void testCreateEditPart(IObjectUIProvider provider) {
         assertNull(provider.createEditPart());
     }
 }

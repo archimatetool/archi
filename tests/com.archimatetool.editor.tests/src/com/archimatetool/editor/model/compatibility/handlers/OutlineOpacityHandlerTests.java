@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.model.compatibility.handlers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -23,7 +23,7 @@ public class OutlineOpacityHandlerTests {
     
     private static OutlineOpacityHandler handler;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         handler = new OutlineOpacityHandler();
     }

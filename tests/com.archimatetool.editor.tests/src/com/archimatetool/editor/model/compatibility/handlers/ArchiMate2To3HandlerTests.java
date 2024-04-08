@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.model.compatibility.handlers;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -20,7 +20,7 @@ public class ArchiMate2To3HandlerTests {
     
     private static Archimate2To3Handler handler;
     
-    @BeforeClass
+    @BeforeAll
     public static void runOnceBeforeAllTests() {
         handler = new Archimate2To3Handler();
     }

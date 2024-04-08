@@ -5,15 +5,14 @@
  */
 package com.archimatetool.jdom;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
     JDOMUtilsTests.class
 })
-
+@SuiteDisplayName("All JDOM Tests")
 public class AllTests {
 }

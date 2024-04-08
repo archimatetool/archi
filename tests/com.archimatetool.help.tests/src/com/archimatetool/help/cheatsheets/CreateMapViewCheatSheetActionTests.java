@@ -5,15 +5,14 @@
  */
 package com.archimatetool.help.cheatsheets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.archimatetool.help.cheatsheets.CreateMapViewCheatSheetAction.NewMapViewCommand;
 import com.archimatetool.model.IArchimateModel;
@@ -24,10 +23,6 @@ import com.archimatetool.tests.TestData;
 
 
 public class CreateMapViewCheatSheetActionTests {
-    
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-    }
     
     @Test
     public void testNewMapViewCommand() throws IOException {
