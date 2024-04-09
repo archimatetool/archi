@@ -68,14 +68,6 @@
             <modules>
                 <module>tests</module>
             </modules>
-            <!-- Orbit needed for Mockito -->
-            <repositories>
-                <repository>
-                    <id>Orbit</id>
-                    <layout>p2</layout>
-                    <url>https://download.eclipse.org/tools/orbit/simrel/maven-osgi/release/4.29.0</url>
-                </repository>
-            </repositories>
         </profile>
         
         <!-- Profile for creating a product build, not active by default -->
