@@ -15,10 +15,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -32,31 +31,27 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof SketchActorEditPart);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         assertEquals(new Dimension(75, 100), provider.getDefaultSize());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         Color color = provider.getDefaultColor();
         assertEquals(ColorConstants.black, color);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
         super.testShouldExposeFeature(provider);
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));

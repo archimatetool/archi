@@ -9,10 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -25,8 +24,7 @@ public class FolderUIProviderTests extends AbstractObjectUIProviderTests {
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         assertNull(provider.createEditPart());
     }

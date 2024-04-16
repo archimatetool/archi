@@ -14,26 +14,23 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+
+import com.archimatetool.editor.ParamsTest;
 
 
 public abstract class AbstractContainerFigureTests extends AbstractDiagramModelObjectFigureTests {
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetMainFigure(AbstractContainerFigure figure) {
         assertNotNull(figure.getMainFigure());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetContentPane(AbstractContainerFigure figure) {
         assertNotNull(figure.getContentPane());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testTranslateMousePointToRelative(AbstractContainerFigure figure) {
         figure.setLocation(new Point(100, 100));
         
@@ -42,14 +39,12 @@ public abstract class AbstractContainerFigureTests extends AbstractDiagramModelO
         assertEquals(new Point(200, 300), pt);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testUseLocalCoordinates(AbstractContainerFigure figure) {
         assertTrue(figure.useLocalCoordinates());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetPreferredSize(AbstractContainerFigure figure) {
         assertEquals(figure.getDefaultSize(), figure.getPreferredSize());
         

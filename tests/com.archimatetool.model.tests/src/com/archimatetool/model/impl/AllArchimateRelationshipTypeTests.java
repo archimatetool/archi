@@ -19,9 +19,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateElement;
@@ -29,6 +27,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.ParamsTest;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 @SuppressWarnings("nls")
@@ -86,40 +85,35 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertTrue(relationship.isDirected());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetSetSourceElement(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         relationship.setSource(sourceElement);
         assertSame(sourceElement, relationship.getSource());
     }
         
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetSetTargetElement(IArchimateRelationship relationship) {
         assertNull(relationship.getTarget());
         relationship.setTarget(targetElement);
         assertSame(targetElement, relationship.getTarget());
     }
  
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetSetSourceRelationship(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         relationship.setSource(sourceRelationship);
         assertSame(sourceRelationship, relationship.getSource());
     }
         
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetSetTargetRelationship(IArchimateRelationship relationship) {
         assertNull(relationship.getTarget());
         relationship.setTarget(targetRelationship);
         assertSame(targetRelationship, relationship.getTarget());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetSource_AlsoSetsSourceAndRemovesRelationships(IArchimateRelationship relationship) {
         relationship.setSource(sourceRelationship);
         assertSame(relationship, sourceRelationship.getSourceRelationships().get(0));
@@ -129,8 +123,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, sourceElement.getSourceRelationships().get(0));
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetSource_AlsoSetsSourceRelationships(IArchimateRelationship relationship) {
         sourceRelationship.setSource(relationship);
         targetRelationship.setSource(relationship);
@@ -139,8 +132,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetRelationship, relationship.getSourceRelationships().get(1));
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetTarget_AlsoSetsTargetAndRemovesRelationships(IArchimateRelationship relationship) {
         relationship.setTarget(targetRelationship);
         assertSame(relationship, targetRelationship.getTargetRelationships().get(0));
@@ -150,8 +142,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, targetElement.getTargetRelationships().get(0));
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetTarget_AlsoSetsTargetRelationships(IArchimateRelationship relationship) {
         sourceRelationship.setTarget(relationship);
         targetRelationship.setTarget(relationship);
@@ -160,8 +151,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetRelationship, relationship.getTargetRelationships().get(1));
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testConnect(IArchimateRelationship relationship) {
         assertNull(relationship.getSource());
         assertNull(relationship.getTarget());
@@ -172,8 +162,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(targetElement, relationship.getTarget());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testDisconnect(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         assertSame(sourceElement, relationship.getSource());
@@ -186,8 +175,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertTrue(targetElement.getTargetRelationships().isEmpty());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testReconnect(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         relationship.disconnect();
@@ -199,8 +187,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateConceptTests {
         assertSame(relationship, targetElement.getTargetRelationships().get(0));
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetCopy_SourceAndTargetComponentsAreNull(IArchimateRelationship relationship) {
         relationship.connect(sourceElement, targetElement);
         IArchimateRelationship copy = (IArchimateRelationship)relationship.getCopy();

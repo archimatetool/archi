@@ -19,10 +19,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
@@ -52,8 +51,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(AbstractDiagramModelObjectFigure figure) {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         Dimension defaultSize = provider.getDefaultSize();
@@ -76,8 +74,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         assertEquals(defaultSize, figure.getDefaultSize());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testBorderColor(DiagramImageFigure figure) {
         assertNull(figure.getBorderColor());
         
@@ -86,8 +83,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         assertEquals(expected, figure.getBorderColor());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testDiagramImageScaled(DiagramImageFigure figure) throws Exception {
         // Have to set this to true to use scaling
         figure.useScaledImage = true;
@@ -122,8 +118,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSettingNewImagePath(DiagramImageFigure figure) throws Exception {
         Image image = getPrivateImageField(figure);
         assertNull(image);
@@ -153,8 +148,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         assertEquals(new Dimension(268, 268), figure.getPreferredSize(-1, -1));
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testRescaleImage(DiagramImageFigure figure) throws Exception {
         File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img3.png");
         addImage(file, figure);
@@ -171,8 +165,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         image.dispose();
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetOriginalImage(DiagramImageFigure figure) throws Exception {
         Image image = figure.getOriginalImage();
         assertNull(image);

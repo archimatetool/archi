@@ -10,10 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.stream.Stream;
 
 import org.eclipse.draw2d.IFigure;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -35,8 +34,7 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
         return addDiagramModelObjectToModelAndFindFigure(dmo);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetTextControl(JunctionFigure figure) {
         assertNull(figure.getTextControl());
     }

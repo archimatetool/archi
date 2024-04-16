@@ -13,10 +13,9 @@ import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -30,23 +29,20 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof DiagramImageEditPart);
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         assertEquals(new Dimension(200, 150), provider.getDefaultSize());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()));
         assertFalse(provider.shouldExposeFeature((String)null));

@@ -12,10 +12,9 @@ import java.util.stream.Stream;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
@@ -40,15 +39,13 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         return addDiagramModelObjectToModelAndFindFigure(dmNote);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetTextControl(NoteFigure figure) {
         assertNotNull(figure.getTextControl());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testDidClickTextControl(AbstractDiagramModelObjectFigure figure) {
         assertTrue(figure.didClickTextControl(new Point(10, 10)));
     }

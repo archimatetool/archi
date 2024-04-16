@@ -18,11 +18,10 @@ import org.eclipse.swt.graphics.Color;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Named;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -36,8 +35,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 
 @SuppressWarnings("nls")
 public abstract class AbstractDiagramModelObjectFigureTests {
-    
-    public static final String PARAMS_METHOD = "getParams";
     
     /**
      * Create an Arguments parameter for a figure
@@ -78,27 +75,23 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         return editor.findFigure(dmo);
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetBounds(AbstractDiagramModelObjectFigure figure) {
         assertEquals(new Rectangle(0, 0, figure.getDefaultSize().width, figure.getDefaultSize().height),
                 figure.getBounds());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDiagramModelObject(AbstractDiagramModelObjectFigure figure) {
         assertNotNull(figure.getDiagramModelObject());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetFont(AbstractDiagramModelObjectFigure figure) {
         assertNotNull(figure.getFont());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetFillColor(AbstractDiagramModelObjectFigure figure) {
         assertEquals(ColorFactory.getDefaultFillColor(figure.getDiagramModelObject()), figure.getFillColor());
         
@@ -108,8 +101,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertEquals(expected, figure.getFillColor());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetFontColor(AbstractDiagramModelObjectFigure figure) {
         IFigure textControl = figure.getTextControl();
         if(textControl != null) {
@@ -120,8 +112,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         }
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetLineColor(AbstractDiagramModelObjectFigure figure) {
         figure.getDiagramModelObject().setDeriveElementLineColor(false);
         
@@ -133,8 +124,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertEquals(expected, figure.getLineColor());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetTooltip(AbstractDiagramModelObjectFigure figure) {
         ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
         assertTrue(figure.getToolTip() instanceof ToolTipFigure);
@@ -142,21 +132,18 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertNull(figure.getToolTip());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testDidClickTextControl(AbstractDiagramModelObjectFigure figure) {
         assertFalse(figure.didClickTextControl(new Point(10, 10)));
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(AbstractDiagramModelObjectFigure figure) {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         assertEquals(provider.getDefaultSize(), figure.getDefaultSize());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultConnectionAnchor(AbstractDiagramModelObjectFigure figure) {
         assertNotNull(figure.getDefaultConnectionAnchor());
     }

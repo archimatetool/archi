@@ -12,15 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+
+import com.archimatetool.editor.ParamsTest;
 
 
 @SuppressWarnings("nls")
 public abstract class AbstractTextControlContainerFigureTests extends AbstractContainerFigureTests {
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testSetEnabled(AbstractTextControlContainerFigure figure) {
         assertTrue(figure.isEnabled());
         assertTrue(figure.getTextControl().isEnabled());
@@ -31,23 +30,20 @@ public abstract class AbstractTextControlContainerFigureTests extends AbstractCo
         assertFalse(figure.getTextControl().isEnabled());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetText(AbstractTextControlContainerFigure figure) {
         assertEquals(figure.getDiagramModelObject().getName(), figure.getText());
         figure.getDiagramModelObject().setName("Fido");
         assertEquals("Fido", figure.getText());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetTextControl(AbstractTextControlContainerFigure figure) {
         assertNotNull(figure.getTextControl());
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testDidClickTextControl(AbstractDiagramModelObjectFigure figure) {
         Rectangle bounds = figure.getTextControl().getBounds().getCopy();
         figure.getTextControl().translateToAbsolute(bounds);

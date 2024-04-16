@@ -12,11 +12,10 @@ import java.util.stream.Stream;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditPart;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -31,23 +30,20 @@ public class CanvasLineConnectionUIProviderTests extends AbstractGraphicalObject
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof DiagramConnectionEditPart);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
-   public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
+    @ParamsTest
+    public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         assertEquals(ColorConstants.black, provider.getDefaultColor());
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultLineColor(IGraphicalObjectUIProvider provider) {
         assertEquals(ColorConstants.black, provider.getDefaultLineColor());
     }

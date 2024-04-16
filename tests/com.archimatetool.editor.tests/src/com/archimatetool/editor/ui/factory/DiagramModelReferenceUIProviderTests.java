@@ -16,10 +16,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
 import com.archimatetool.model.IArchimateFactory;
@@ -35,31 +34,27 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof DiagramModelReferenceEditPart);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         Color color = provider.getDefaultColor();
         assertEquals(new Color(220, 235, 235), color);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         assertEquals(new Dimension(120, 55), provider.getDefaultSize());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetImageInstance(IObjectUIProvider provider, EClass expectedClass) {
         IDiagramModelReference ref = (IDiagramModelReference)IArchimateFactory.eINSTANCE.create(expectedClass);
         ref.setReferencedModel(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
@@ -73,8 +68,7 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
         assertNotNull(image);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testHasIcon(IGraphicalObjectUIProvider provider) {
         assertTrue(provider.hasIcon());
     }

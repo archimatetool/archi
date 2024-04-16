@@ -16,18 +16,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Named;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.tests.TestUtils;
 
 
-
-@SuppressWarnings("nls")
 public abstract class AbstractObjectUIProviderTests {
-    
-    public static final String PARAMS_METHOD = "getParams";
     
     /**
      * Create an Arguments parameter for provider and expected eClass
@@ -42,44 +37,38 @@ public abstract class AbstractObjectUIProviderTests {
         TestUtils.ensureDefaultDisplay();
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testProviderFor(IObjectUIProvider provider, EClass expectedClass) {
         EClass eClass = provider.providerFor();
         assertNotNull(eClass);
         assertEquals(expectedClass, eClass);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertNotNull(editPart);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultName(IObjectUIProvider provider) {
         String name = provider.getDefaultName();
         assertNotNull(name);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetImage(IObjectUIProvider provider) {
         Image image = provider.getImage();
         assertNotNull(image);
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetImageDescriptor(IObjectUIProvider provider) {
         ImageDescriptor id = provider.getImageDescriptor();
         assertNotNull(id);
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetImageInstance(IObjectUIProvider provider, EClass expectedClass) {
         EObject instance = createInstanceForExpectedClass(expectedClass);
         ((AbstractObjectUIProvider)provider).setInstance(instance);
@@ -88,8 +77,7 @@ public abstract class AbstractObjectUIProviderTests {
         assertNotNull(image);
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
         assertTrue(provider.shouldExposeFeature((String)null));
     }

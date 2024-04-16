@@ -14,10 +14,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.AggregationRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.AssignmentRelationshipUIProvider;
@@ -50,30 +49,26 @@ public class AllArchimateRelationshipUIProviderTests extends AbstractGraphicalOb
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testCreateEditPart(IObjectUIProvider provider) {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof AbstractConnectionEditPart);
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         assertEquals(ColorConstants.black, provider.getDefaultColor());
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultLineColor(IGraphicalObjectUIProvider provider) {
         assertEquals(ColorConstants.black, provider.getDefaultLineColor());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
     }

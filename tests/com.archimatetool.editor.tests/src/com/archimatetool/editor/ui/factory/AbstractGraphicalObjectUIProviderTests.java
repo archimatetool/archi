@@ -10,9 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -20,34 +19,29 @@ import com.archimatetool.model.ITextPosition;
 
 public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObjectUIProviderTests {
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         Color color = provider.getDefaultColor();
         assertEquals(ColorConstants.white, color);
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultLineColor(IGraphicalObjectUIProvider provider) {
         Color color = provider.getDefaultLineColor();
         assertEquals(new Color(92, 92, 92), color);
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, provider.getDefaultTextAlignment());
     }
 
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultTextPosition(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextPosition.TEXT_POSITION_TOP, provider.getDefaultTextPosition());
     }

@@ -13,11 +13,10 @@ import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
@@ -150,15 +149,13 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
      }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         assertNotNull(provider.getDefaultColor());
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize(IGraphicalObjectUIProvider provider) {
         // Junctions
         if(provider instanceof JunctionUIProvider) {
@@ -175,8 +172,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         }
     }
     
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultSize_UserSet(IGraphicalObjectUIProvider provider) {
         if(provider instanceof JunctionUIProvider || provider instanceof GroupingUIProvider) {
             return;
@@ -196,8 +192,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     }
 
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
         // Junctions
         if(provider instanceof JunctionUIProvider) {
@@ -209,8 +204,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     }
     
     @Override
-    @ParameterizedTest
-    @MethodSource(PARAMS_METHOD)
+    @ParamsTest
     public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
         if(provider instanceof GroupingUIProvider) {
             assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
