@@ -56,7 +56,7 @@ public abstract class DiagramModelTests {
 
     @Test
     public void testGetID() {
-        assertNotNull(dm.getId());
+        CommonTests.testGetID(dm);
     }
 
     @Test

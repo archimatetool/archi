@@ -82,7 +82,7 @@ public abstract class ArchimateConceptTests {
 
     @ParamsTest
     public void testGetID(IArchimateConcept concept) {
-        assertNotNull(concept.getId());
+        CommonTests.testGetID(concept);
     }
         
     @ParamsTest

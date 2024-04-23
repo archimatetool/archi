@@ -66,8 +66,8 @@ public class ProfileTests {
     }
 
     @Test
-    public void getID() {
-        assertNotNull(profile.getId());
+    public void testGetID() {
+        CommonTests.testGetID(profile);
     }
 
     @Test

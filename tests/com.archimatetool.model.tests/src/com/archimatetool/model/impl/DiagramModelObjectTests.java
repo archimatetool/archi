@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -34,11 +33,6 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         object = (IDiagramModelObject)component;
     }
 
-    @Test
-    public void testGetID() {
-        assertNotNull(component.getId());
-    }
-    
     @Test
     public void testGetDiagramModel() {
         assertNull(object.getDiagramModel());

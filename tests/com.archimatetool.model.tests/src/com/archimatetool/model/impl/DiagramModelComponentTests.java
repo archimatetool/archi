@@ -33,6 +33,11 @@ public abstract class DiagramModelComponentTests {
     protected abstract IDiagramModelComponent getComponent();
     
     @Test
+    public void testGetID() {
+        CommonTests.testGetID(component);
+    }
+    
+    @Test
     public void testGetName() {
         CommonTests.testGetName(component);
     }

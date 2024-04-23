@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,6 +19,7 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -31,6 +33,16 @@ import com.archimatetool.model.IProperty;
  */
 @SuppressWarnings("nls")
 public class CommonTests {
+    
+    public static void testGetID(IIdentifier id) {
+        assertNotNull(id.getId());
+        
+        id.setId(null);
+        assertNull(id.getId());
+
+        id.setId("id-012356");
+        assertEquals("id-012356", id.getId());
+    }
     
     public static void testGetName(INameable nameable) {
         assertEquals("", nameable.getName());

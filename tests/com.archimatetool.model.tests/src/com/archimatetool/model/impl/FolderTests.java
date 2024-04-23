@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -38,7 +37,7 @@ public class FolderTests {
 
     @Test
     public void testGetID() {
-        assertNotNull(folder.getId());
+        CommonTests.testGetID(folder);
     }
 
     @Test

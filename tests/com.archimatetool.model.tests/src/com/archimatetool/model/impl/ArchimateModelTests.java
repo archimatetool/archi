@@ -261,8 +261,8 @@ public class ArchimateModelTests {
     }
 
     @Test
-    public void getIDNotNull() {
-        assertNotNull(model.getId());
+    public void getID() {
+        CommonTests.testGetID(model);
     }
         
     @Test
