@@ -6,6 +6,7 @@
 package com.archimatetool.canvas;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -22,7 +23,6 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
-import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -49,7 +49,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = new PaletteGroup(Messages.CanvasEditorPalette_1);
         add(group);
         
-        PaletteEntry entry = new ExtCombinedTemplateCreationEntry(
+        PaletteEntry entry = new CombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_2,
                 Messages.CanvasEditorPalette_0,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelBlock()),
@@ -57,7 +57,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK));
         group.add(entry);
         
-        entry = new ExtCombinedTemplateCreationEntry(
+        entry = new CombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_3,
                 Messages.CanvasEditorPalette_10,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
@@ -154,7 +154,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
            }
         };
         
-        return new ExtCombinedTemplateCreationEntry(
+        return new CombinedTemplateCreationEntry(
                 Messages.CanvasEditorPalette_9,
                 Messages.CanvasEditorPalette_12,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), new RGB(r, g, b)),

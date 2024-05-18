@@ -16,9 +16,7 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 
 /**
- * Extended ConnectionCreationToolEntry so we can provide our own cursors
- * The image masking of cursors on Linux is broken, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=575425
- * Also, we need 2x cursors for Windows 200% scale
+ * Extended ConnectionCreationToolEntry so we can set our own "add" cursors instead of the default "plug" ones which are ugly
  * 
  * @author Phillip Beauvoir
  */

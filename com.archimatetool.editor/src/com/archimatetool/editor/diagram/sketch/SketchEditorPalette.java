@@ -22,7 +22,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.AbstractPaletteRoot;
-import com.archimatetool.editor.diagram.tools.ExtCombinedTemplateCreationEntry;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -130,7 +129,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
 
     private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name, String description) {
-        return new ExtCombinedTemplateCreationEntry(
+        return new CombinedTemplateCreationEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass),
@@ -157,7 +156,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
            }
         };
 
-        return new ExtCombinedTemplateCreationEntry(
+        return new CombinedTemplateCreationEntry(
                 Messages.SketchEditorPalette_12,
                 Messages.SketchEditorPalette_7,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), new RGB(r, g, b)),
