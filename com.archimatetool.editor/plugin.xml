@@ -945,6 +945,30 @@
             id="com.archimatetool.editor.selectInModelTree"
             name="%command.name.21">
       </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.22"
+            id="com.archimatetool.editor.bringToFront"
+            name="%command.name.22">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.23"
+            id="com.archimatetool.editor.bringForward"
+            name="%command.name.23">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.24"
+            id="com.archimatetool.editor.sendToBack"
+            name="%command.name.24">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.25"
+            id="com.archimatetool.editor.sendBackward"
+            name="%command.name.25">
+      </command>
       <category
             description="Archi Commands"
             id="com.archimatetool.editor.category"

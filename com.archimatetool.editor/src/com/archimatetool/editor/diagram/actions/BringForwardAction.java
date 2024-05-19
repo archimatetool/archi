@@ -29,13 +29,15 @@ import com.archimatetool.model.ILockable;
  */
 public class BringForwardAction extends SelectionAction {
     
-    public static final String ID = "BringForwardAction"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.editor.bringForward"; //$NON-NLS-1$
     public static final String TEXT = Messages.BringForwardAction_0;
     
     public BringForwardAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
+        // Register for key binding
+        setActionDefinitionId(ID);
         
         /*
          * Set the selection provider to the viewer and not the global selection provider so that

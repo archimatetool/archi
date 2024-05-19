@@ -164,10 +164,21 @@ extends ActionBarContributor {
         }
 
         // Order Actions
-        addRetargetAction(new RetargetAction(BringToFrontAction.ID, BringToFrontAction.TEXT));
-        addRetargetAction(new RetargetAction(BringForwardAction.ID, BringForwardAction.TEXT));
-        addRetargetAction(new RetargetAction(SendToBackAction.ID, SendToBackAction.TEXT));
-        addRetargetAction(new RetargetAction(SendBackwardAction.ID, SendBackwardAction.TEXT));
+        retargetAction = new RetargetAction(BringToFrontAction.ID, BringToFrontAction.TEXT);
+        retargetAction.setActionDefinitionId(BringToFrontAction.ID); // key binding
+        addRetargetAction(retargetAction);
+        
+        retargetAction = new RetargetAction(BringForwardAction.ID, BringForwardAction.TEXT);
+        retargetAction.setActionDefinitionId(BringForwardAction.ID); // key binding
+        addRetargetAction(retargetAction);
+        
+        retargetAction = new RetargetAction(SendToBackAction.ID, SendToBackAction.TEXT);
+        retargetAction.setActionDefinitionId(SendToBackAction.ID); // key binding
+        addRetargetAction(retargetAction);
+
+        retargetAction = new RetargetAction(SendBackwardAction.ID, SendBackwardAction.TEXT);
+        retargetAction.setActionDefinitionId(SendBackwardAction.ID); // key binding
+        addRetargetAction(retargetAction);
         
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,

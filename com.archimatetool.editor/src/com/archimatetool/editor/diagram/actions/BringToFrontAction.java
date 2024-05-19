@@ -26,13 +26,15 @@ import com.archimatetool.model.ILockable;
  */
 public class BringToFrontAction extends SelectionAction {
     
-    public static final String ID = "BringToFrontAction"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.editor.bringToFront"; //$NON-NLS-1$
     public static final String TEXT = Messages.BringToFrontAction_0;
     
     public BringToFrontAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
+        // Register for key binding
+        setActionDefinitionId(ID);
     }
 
     @Override
