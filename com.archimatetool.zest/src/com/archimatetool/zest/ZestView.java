@@ -22,6 +22,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -43,6 +44,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
@@ -379,6 +381,14 @@ implements IZestView, ISelectionListener {
         fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
 
         fActionSelectInModelTree = new Action(Messages.ZestView_8) {
+            
+            {
+                setToolTipText(getText());
+                // Register for key binding
+                setActionDefinitionId("com.archimatetool.editor.selectInModelTree"); //$NON-NLS-1$
+                IHandlerService service = getSite().getService(IHandlerService.class);
+                service.activateHandler(getActionDefinitionId(), new ActionHandler(this));
+            }
 
             @Override
             public void run() {
@@ -387,11 +397,6 @@ implements IZestView, ISelectionListener {
                 if(view != null && !selection.isEmpty()) {
                     view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
                 }
-            }
-
-            @Override
-            public String getToolTipText() {
-                return getText();
             }
         };
     }

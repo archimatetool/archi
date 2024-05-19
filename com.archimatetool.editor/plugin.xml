@@ -939,6 +939,12 @@
             id="com.archimatetool.editor.action.deleteFromModel"
             name="%command.name.20">
       </command>
+      <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.description.21"
+            id="com.archimatetool.editor.selectInModelTree"
+            name="%command.name.21">
+      </command>
       <category
             description="Archi Commands"
             id="com.archimatetool.editor.category"

@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
@@ -34,8 +36,13 @@ public class SelectElementInTreeAction extends SelectionAction {
     public SelectElementInTreeAction(IWorkbenchPart part) {
         super(part);
         setText(Messages.SelectElementInTreeAction_0);
-        setId(ID);
         setToolTipText(Messages.SelectElementInTreeAction_1);
+        setId(ID);
+        
+        // Register for key binding
+        setActionDefinitionId("com.archimatetool.editor.selectInModelTree"); //$NON-NLS-1$
+        IHandlerService service = part.getSite().getService(IHandlerService.class);
+        service.activateHandler(getActionDefinitionId(), new ActionHandler(this));
     }
 
     @Override
