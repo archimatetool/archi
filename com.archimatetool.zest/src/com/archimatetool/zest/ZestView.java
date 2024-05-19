@@ -377,7 +377,7 @@ implements IZestView, ISelectionListener {
             }
         };
 
-        fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(fGraphViewer);
+        fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(this);
         fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
 
         fActionSelectInModelTree = new Action(Messages.ZestView_8) {

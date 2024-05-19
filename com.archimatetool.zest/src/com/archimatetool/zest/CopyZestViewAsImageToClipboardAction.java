@@ -7,11 +7,13 @@ package com.archimatetool.zest;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
@@ -28,10 +30,15 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
     
     private ZestGraphViewer fGraphViewer;
 
-    public CopyZestViewAsImageToClipboardAction(ZestGraphViewer graphViewer) {
+    public CopyZestViewAsImageToClipboardAction(ZestView zestView) {
         super(Messages.CopyZestViewAsImageToClipboardAction_0);
-        fGraphViewer = graphViewer;
+        fGraphViewer = zestView.getViewer();
         setToolTipText(getText());
+        
+        // Register for key binding
+        setActionDefinitionId("com.archimatetool.editor.action.exportAsImageToClipboard"); //$NON-NLS-1$
+        IHandlerService service = zestView.getSite().getService(IHandlerService.class);
+        service.activateHandler(getActionDefinitionId(), new ActionHandler(this));
     }
 
     @Override
