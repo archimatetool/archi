@@ -10,7 +10,7 @@
         <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.6.0.202305301015-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-osgi/release/4.31.0"/>
+        <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
         <unit id="slf4j.api" version="1.7.36"/>
         <unit id="org.mockito.mockito-core" version="5.10.0"/>
     </location>
