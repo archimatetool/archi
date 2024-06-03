@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -401,4 +402,38 @@ public class ImageFactory {
         return new Rectangle(0, 0, (int)w, (int)h);
     }
     
+    /**
+     * Flip an image.
+     * This can be used on Mac Sonoma and later because there is a problem with Control#setBackgroundImage
+     * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/772
+     * 
+     * @return The flipped image. Caller is responsible for disposing of it.
+     * 
+     * This code taken from https://github.com/knime/knime-product/commit/095c88e22ba6d84e22a480f50734141836098169
+     */
+    public static Image getFlippedImage(Image source) {
+        Rectangle bounds = source.getBounds();
+        Image newImage = new Image(source.getDevice(), bounds.width, bounds.height);
+        
+        GC gc = new GC(newImage);
+        gc.setAdvanced(true);
+        gc.setAntialias(SWT.ON);
+        gc.setInterpolation(SWT.HIGH);
+        
+        Transform transform = new Transform(source.getDevice());
+        // flip down
+        transform.setElements(1, 0, 0, -1, 0, 0);
+        // move up
+        transform.translate(0, -bounds.height);
+        gc.setTransform(transform);
+        
+        gc.drawImage(source, 0, 0, bounds.width, bounds.height,
+                               0, 0, bounds.width, bounds.height);
+        
+        gc.dispose();
+        transform.dispose();
+        
+        return newImage;
+    }
+
 }
