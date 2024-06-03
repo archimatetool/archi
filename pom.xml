@@ -26,7 +26,7 @@
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
         <module>com.archimatetool.editor.feature</module>
-        <module>com.archimatetool.editor.product</module>
+        <module>com.archimatetool.editor.product/target.platform</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>
         <module>com.archimatetool.gef.feature</module>
@@ -71,6 +71,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
+                <module>com.archimatetool.editor.product</module>
                 <module>com.archimatetool.editor.site</module>
             </modules>
         </profile>
@@ -117,7 +118,7 @@
                 	<target>
                     	<artifact>
                             <groupId>com.archimatetool</groupId>
-                            <artifactId>com.archimatetool.editor.product</artifactId>
+                            <artifactId>com.archimatetool.editor.target</artifactId>
                             <version>${revision}</version>
                         </artifact>
                     </target>
