@@ -50,9 +50,9 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private IArchimateDiagramModel fDiagramModel;
     
-    private List<PaletteEntry> fElementEntries = new ArrayList<PaletteEntry>();
-    private List<PaletteEntry> fRelationshipEntries = new ArrayList<PaletteEntry>();
-    private List<PaletteEntry> fSpecializationEntries = new ArrayList<PaletteEntry>();
+    private List<PaletteEntry> fElementEntries = new ArrayList<>();
+    private List<PaletteEntry> fRelationshipEntries = new ArrayList<>();
+    private List<PaletteEntry> fSpecializationEntries = new ArrayList<>();
     
     /**
      * Adapter to listen to Model's Profile changes
@@ -97,23 +97,25 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         
         // Note
         ToolEntry noteEntry = new CombinedTemplateCreationEntry(
-                Messages.ArchimateDiagramEditorPalette_2,
+                ArchiLabelProvider.INSTANCE.getDefaultName(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE));
         group.add(noteEntry);
+        PaletteKeyHandler.setKeyBinding(noteEntry, IArchimatePackage.eINSTANCE.getDiagramModelNote().getName());
         
         // Group
         ToolEntry groupEntry = new CombinedTemplateCreationEntry(
-                Messages.ArchimateDiagramEditorPalette_4,
+                ArchiLabelProvider.INSTANCE.getDefaultName(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
         group.add(groupEntry);
+        PaletteKeyHandler.setKeyBinding(noteEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
         
-        // Note Connection
+        // Connection
         ToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 Messages.ArchimateDiagramEditorPalette_7);
@@ -147,6 +149,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
 
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
+        PaletteKeyHandler.setKeyBinding(magicConnectionEntry, "MagicConnector"); //$NON-NLS-1$
         group.add(magicConnectionEntry);
 
         // Relations
@@ -314,6 +317,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         super.dispose();
         
         fElementEntries = null;
+        fRelationshipEntries = null;
         fSpecializationEntries = null;
         
         fDiagramModel.getArchimateModel().eAdapters().remove(eAdapter);
@@ -333,6 +337,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
         
+        PaletteKeyHandler.setKeyBinding(entry, eClass.getName());
+        
         return entry;
     }
     
@@ -346,6 +352,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
+        PaletteKeyHandler.setKeyBinding(entry, eClass.getName());
         
         return entry;
     }

@@ -969,6 +969,19 @@
             id="com.archimatetool.editor.sendBackward"
             name="%command.name.25">
       </command>
+      <command
+            categoryId="com.archimatetool.editor.category"
+            defaultHandler="com.archimatetool.editor.diagram.PaletteKeyHandler"
+            description="%command.description.26"
+            id="com.archimatetool.editor.palette.command"
+            name="%command.name.26">
+         <commandParameter
+               id="com.archimatetool.editor.palette.command.params"
+               name="Palette Parameters"
+               optional="false"
+               values="com.archimatetool.editor.diagram.PaletteKeyHandler">
+         </commandParameter>
+      </command>
       <category
             description="Archi Commands"
             id="com.archimatetool.editor.category"
