@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +22,8 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.jface.bindings.Binding;
-import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.keys.IBindingService;
 
@@ -126,7 +123,7 @@ public class PaletteKeyHandler extends AbstractHandler implements IParameterValu
     }
 
     /**
-     * @return Shortcut keys, if any, as text, or null
+     * @return Shortcut keys as text, or null if not found
      */
     private static String getAcceleratorText(String parameterValue) {
         if(parameterValue == null || !PlatformUI.isWorkbenchRunning()) {
@@ -153,28 +150,17 @@ public class PaletteKeyHandler extends AbstractHandler implements IParameterValu
         ParameterizedCommand parameterizedCommand = new ParameterizedCommand(command,
                 new Parameterization[] { new Parameterization(parameter, parameterValue) });
         
-        IBindingService bindingService = PlatformUI.getWorkbench().getService(IBindingService.class);
-        
-        TriggerSequence ts = null;
-        
         /*
-         * If the workbench is still loading at this point, the "org.eclipse.ui.contexts.dialogAndWindow" context is the only active context
-         * and a keybinding that uses a different context will not be found (the default context is "org.eclipse.ui.contexts.window").
-         * This is a workaround to find the binding and its trigger sequence by brute force if only one context is active.
+         * If the workbench or editor part is still loading at this point, a given context might not yet be active
+         * and so a keybinding will not be found using IBindingService.getBestActiveBindingFor(parameterizedCommand).
+         * This is a workaround to find the binding and its trigger sequence by brute force.
          */
-        Collection<?> contexts = PlatformUI.getWorkbench().getService(IContextService.class).getActiveContextIds();
-        if(contexts != null && contexts.size() == 1) {
-            for(Binding binding : bindingService.getBindings()) {
-                if(parameterizedCommand.equals(binding.getParameterizedCommand())) {
-                    ts = binding.getTriggerSequence();
-                    break;
-                }
+        for(Binding binding : PlatformUI.getWorkbench().getService(IBindingService.class).getBindings()) {
+            if(parameterizedCommand.equals(binding.getParameterizedCommand())) {
+                return binding.getTriggerSequence().format();
             }
         }
-        else {
-            ts = bindingService.getBestActiveBindingFor(parameterizedCommand);
-        }
         
-        return ts != null ? ts.format() : null;
+        return null;
     }
 }
