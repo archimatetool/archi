@@ -114,7 +114,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         Point pt = getIconOrigin();
         Rectangle rect = new Rectangle(pt.x, pt.y, 14, 10);
         
-        Path path = getFigurePath(1.5f, rect, 0);
+        Path path = getFigurePath(1.5f, rect, 0.5f);
         graphics.drawPath(path);
         path.dispose();
         
