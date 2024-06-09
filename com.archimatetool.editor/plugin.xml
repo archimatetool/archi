@@ -546,6 +546,7 @@
       </factory>
    </extension>
    <extension
+         name="Archi Bindings"
          point="org.eclipse.ui.bindings">
       <scheme
             description="Archi Key Configuration"
@@ -553,39 +554,6 @@
             name="Archi"
             parentId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </scheme>
-      <key
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M2+F8">
-      </key>
-      <key
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+F8">
-      </key>
-      <key
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M2+E">
-      </key>
-      <key
-            contextId="org.eclipse.ui.contexts.dialog"
-            platform="cocoa"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+W">
-      </key>
-      <key
-            contextId="org.eclipse.ui.contexts.dialogAndWindow"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+SPACE">
-      </key>
-      <key
-            contextId="org.eclipse.ui.contexts.dialogAndWindow"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M2+SPACE">
-      </key>
-      <key
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M2+S">
-      </key>
       <key
             commandId="com.archimatetool.editor.action.newModel"
             schemeId="com.archimatetool.editor.keybindings"
@@ -795,6 +763,75 @@
             platform="cocoa"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="SHIFT+BS">
+      </key>
+   </extension>
+   <extension
+         name="Eclipse Bindings Unbound"
+         point="org.eclipse.ui.bindings">
+      <key
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+F8">
+      </key>
+      <key
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+F8">
+      </key>
+      <key
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+E">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialog"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+W">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+S">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="SHIFT+M1+NUMPAD_DIVIDE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="SHIFT+M1+NUMPAD_MULTIPLY">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M4+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            platform="cocoa"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M4+SHIFT+SPACE">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+.">
+      </key>
+      <key
+            contextId="org.eclipse.ui.contexts.dialogAndWindow"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+F10">
       </key>
    </extension>
    <extension
