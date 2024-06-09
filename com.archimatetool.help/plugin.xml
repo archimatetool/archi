@@ -61,6 +61,11 @@
                label="%command.label.1"
                style="push">
          </command>
+         <command
+               commandId="org.eclipse.ui.window.showKeyAssist"
+               label="%command.label.2"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    <extension
