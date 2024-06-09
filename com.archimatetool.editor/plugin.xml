@@ -151,7 +151,7 @@
       <page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="org.eclipse.ui.ExtensionFactory:newKeysPreferencePage"
-            id="com.archimatetool.editor.keys"
+            id="org.eclipse.ui.preferencePages.Keys"
             name="%prefsKeys">
       </page>
    </extension>
