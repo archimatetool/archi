@@ -121,16 +121,8 @@ public class SearchWidget extends Composite {
     }
 
     protected void setupSearchTextWidget() {
-        // The native search text controls look like shit on Windows and Mac
-        if(!PlatformUtils.isLinux()) {
-            SearchTextWidget widget = new SearchTextWidget(this);
-            widget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            fSearchText = widget.getTextControl();
-        }
-        else {
-            fSearchText = UIUtils.createSingleTextControl(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH, false);
-            fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        }
+        fSearchText = UIUtils.createSingleTextControl(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH, false);
+        fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Use auto search
         if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
