@@ -33,6 +33,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.viewpoints.IViewpoint;
@@ -156,7 +157,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         label = new Label(client, SWT.NONE);
         label.setText(Messages.GenerateViewDialog_2);
         
-        fNameText = new Text(client, SWT.BORDER);
+        fNameText = UIUtils.createSingleTextControl(client, SWT.BORDER, false);
         fNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fNameText.setText(Messages.GenerateViewDialog_6 + " " + ArchiLabelProvider.INSTANCE.getLabel(fSelectedElements.get(0))); //$NON-NLS-1$
         
