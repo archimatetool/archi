@@ -98,9 +98,6 @@ public class TreeModelViewer extends TreeViewer {
         // Font
         UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, true);
 
-        // Mac Silicon Item height
-        UIUtils.fixMacSiliconItemHeight(getTree());
-        
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
         
