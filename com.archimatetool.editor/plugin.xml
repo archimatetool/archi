@@ -1781,5 +1781,14 @@
          </with>
       </definition>
    </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="Editing Archi diagrams"
+            id="com.archimatetool.editor.diagram.context"
+            name="In Archi Diagrams"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
+   </extension>
 
 </plugin>

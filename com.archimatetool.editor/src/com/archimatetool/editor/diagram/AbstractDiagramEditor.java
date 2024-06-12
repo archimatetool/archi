@@ -84,6 +84,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -94,7 +96,6 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
-import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
@@ -107,6 +108,7 @@ import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
+import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
@@ -196,6 +198,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected AbstractPaletteRoot fPaletteRoot;
     
     /**
+     * Context for key bindngs
+     */
+    private IContextActivation fContextActivation;
+    
+    /**
      * Application Preference changed
      * @param event
      */
@@ -224,6 +231,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
         else {
             super.init(site, input);
+            // Activate our context
+            activateContext();
         }
     }
     
@@ -955,6 +964,26 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
     }
     
+    /**
+     * Activate the context for key bindings for this site
+     */
+    public IContextActivation activateContext() {
+        if(fContextActivation == null) {
+            fContextActivation = getSite().getService(IContextService.class).activateContext("com.archimatetool.editor.diagram.context"); //$NON-NLS-1$
+        }
+        return fContextActivation;
+    }
+    
+    /**
+     * De-activate the context for key bindings for this site
+     */
+    public void deactivateContext() {
+        if(fContextActivation != null) {
+            fContextActivation.getContextService().deactivateContext(fContextActivation);
+            fContextActivation = null;
+        }
+    }
+    
     @Override
     public void selectObjects(Object[] objects) {
         // Safety check in case this is called via Display#asyncExec()
@@ -1091,5 +1120,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Can now be garbage collected
         fDiagramModel = null;
+
+        fContextActivation = null;
     }
 }
