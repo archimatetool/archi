@@ -3,16 +3,15 @@
 <target name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2023-06"/>
-        <unit id="org.eclipse.sdk.ide" version="4.28.0.I20230605-0440"/>
-        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.21.202212280858"/>
-        <unit id="org.eclipse.jgit.feature.group" version="6.6.0.202305301015-r"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.6.0.202305301015-r"/>
+        <repository location="https://download.eclipse.org/releases/2024-06"/>
+        <unit id="org.eclipse.sdk.ide" version="4.32.0.I20240601-0610"/>
+        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.24.202401051648"/>
+        <unit id="org.eclipse.jgit.feature.group" version="6.10.0.202406032230-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.10.0.202406032230-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
-        <unit id="slf4j.api" version="1.7.36"/>
-        <unit id="org.mockito.mockito-core" version="5.10.0"/>
+        <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0"/>
+        <unit id="org.mockito.mockito-core" version="5.12.0"/>
     </location>
 </locations>
 </target>
