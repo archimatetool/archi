@@ -5,29 +5,27 @@
  */
 package com.archimatetool.tests;
 
-import org.junit.platform.suite.api.IncludeClassNamePatterns;
-import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
-@SelectPackages({
-    "com.archimatetool.canvas",
-    "com.archimatetool.commandline",
-    "com.archimatetool.csv",
-    "com.archimatetool.editor",
-    "com.archimatetool.export.svg",
-    "com.archimatetool.hammer",
-    "com.archimatetool.help",
-    "com.archimatetool.jasperreports",
-    "com.archimatetool.jdom",
-    "com.archimatetool.model",
-    "com.archimatetool.modelimporter",
-    "com.archimatetool.reports",
-    "com.archimatetool.zest",
-    "org.opengroup.archimate.xmlexchange"
+@SelectClasses(names={
+    "com.archimatetool.canvas.AllTests",
+    "com.archimatetool.commandline.AllTests",
+    "com.archimatetool.csv.AllTests",
+    "com.archimatetool.editor.AllTests",
+    "com.archimatetool.export.svg.AllTests",
+    "com.archimatetool.hammer.AllTests",
+    "com.archimatetool.help.AllTests",
+    "com.archimatetool.jasperreports.AllTests",
+    "com.archimatetool.jdom.AllTests",
+    "com.archimatetool.model.AllTests",
+    "com.archimatetool.modelimporter.AllTests",
+    "com.archimatetool.reports.AllTests",
+    "com.archimatetool.zest.AllTests",
+    "org.opengroup.archimate.xmlexchange.AllTests"
 })
-@IncludeClassNamePatterns(".*AllTests")
 @SuiteDisplayName("All Archi Tests")
 public class AllTests {
 }

@@ -32,6 +32,7 @@ import org.osgi.service.prefs.BackingStoreException;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ThemeUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -51,6 +52,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fUseThemes;
     private Button fUseRoundTabsButton;
     private Button fShowStatusLineButton;
+    
+    private Button fMacNativeItemHeightButton;
     
     private IThemeEngine themeEngine;
     private ITheme lastActiveTheme;
@@ -117,6 +120,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowStatusLineButton.setText(Messages.AppearancePreferencePage_2);
         fShowStatusLineButton.setLayoutData(createHorizontalGridData(2));
         
+        // Mac item height
+        if(PlatformUtils.isMac()) {
+            fMacNativeItemHeightButton = new Button(client, SWT.CHECK);
+            fMacNativeItemHeightButton.setText(Messages.AppearancePreferencePage_5);
+            fMacNativeItemHeightButton.setToolTipText(Messages.AppearancePreferencePage_6);
+            fMacNativeItemHeightButton.setLayoutData(createHorizontalGridData(2));
+        }
+        
         setValues();
         
         if(themeEngine != null) {
@@ -146,6 +157,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseThemes.setSelection(ThemeUtils.getThemeEngine() != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
+        
+        // Mac native item height
+        if(fMacNativeItemHeightButton != null) {
+            boolean useNativeItemHeights = getPreferenceStore().getBoolean(MAC_ITEM_HEIGHT_PROPERTY_KEY);
+            fMacNativeItemHeightButton.setSelection(useNativeItemHeights);
+        }
     }
     
     @Override
@@ -176,6 +193,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         catch(BackingStoreException ex) {
         }
+        
+        // Mac native item heights
+        if(fMacNativeItemHeightButton != null) {
+            getPreferenceStore().setValue(MAC_ITEM_HEIGHT_PROPERTY_KEY, fMacNativeItemHeightButton.getSelection());
+        }
 
         return true;
     }
@@ -193,6 +215,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseThemes.setSelection(true);
         fUseRoundTabsButton.setSelection(false);
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
+        
+        if(fMacNativeItemHeightButton != null) {
+            fMacNativeItemHeightButton.setSelection(false);
+        }
         
         super.performDefaults();
     }

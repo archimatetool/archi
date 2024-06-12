@@ -46,6 +46,9 @@ public interface IPreferenceConstants {
     String PROPERTIES_TABLE_FONT = "propertiesTableFont";
     String SINGLE_LINE_TEXT_FONT = "singleLineTextFont";
     
+    // Mac use native item heights
+    String MAC_ITEM_HEIGHT_PROPERTY_KEY = "org.eclipse.swt.internal.cocoa.useNativeItemHeight";
+    
     // ======================================= Connections =======================================
     
     // Connections
