@@ -1790,5 +1790,39 @@
             parentId="org.eclipse.ui.contexts.window">
       </context>
    </extension>
+   <extension
+         name="Palette Key Bindings"
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="com.archimatetool.editor.diagram.context"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M M1+C">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="MagicConnector">
+         </parameter>
+      </key>
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="com.archimatetool.editor.diagram.context"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="B A">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="BusinessActor">
+         </parameter>
+      </key>
+      <key
+            commandId="com.archimatetool.editor.palette.command"
+            contextId="com.archimatetool.editor.diagram.context"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="B R">
+         <parameter
+               id="com.archimatetool.editor.palette.command.params"
+               value="BusinessRole">
+         </parameter>
+      </key>
+   </extension>
 
 </plugin>
