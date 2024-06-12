@@ -157,7 +157,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         label = new Label(client, SWT.NONE);
         label.setText(Messages.GenerateViewDialog_2);
         
-        fNameText = UIUtils.createSingleTextControl(client, SWT.BORDER, false);
+        fNameText = UIUtils.createSingleTextControl(client, SWT.BORDER, true);
         fNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fNameText.setText(Messages.GenerateViewDialog_6 + " " + ArchiLabelProvider.INSTANCE.getLabel(fSelectedElements.get(0))); //$NON-NLS-1$
         

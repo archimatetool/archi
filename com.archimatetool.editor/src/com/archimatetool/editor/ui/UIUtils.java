@@ -12,8 +12,6 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -51,25 +49,18 @@ public final class UIUtils {
     }
     
     /**
-     * Add a Verify listener to a Text control with the SWT.SINGLE style so that newline
-     * characters are removed. This is espcially necessary on Mac and Linux as newlines.
+     * Add a Verify listener to a control with the SWT.SINGLE style so that newline characters are removed.
+     * This is necessary on Mac and Linux as newlines can be copied and pasted into single text controls.
      * Windows will truncate the string up to the first newline character.
-     * can be copied and pasted into single text controls.<p>
      * See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=273470">Eclipse Bug #273470</a>
      * 
-     * @param textControl
+     * @param control This is usually a Text control with style SWT.SINGLE but can be a control
+     * such as CCombo or Combo that contains a text control with style SWT.SINGLE
      */
-    public static void conformSingleTextControl(Text textControl) {
-        if(textControl == null || (textControl.getStyle() & SWT.SINGLE) == 0) {
-            return;
-        }
-        
-        textControl.addListener(SWT.Verify, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                if(StringUtils.isSet(event.text)) {
-                    event.text = event.text.replaceAll("(\\r\\n|\\r|\\n)", "");
-                }
+    public static void conformSingleTextControl(Control control) {
+        control.addListener(SWT.Verify, e -> {
+            if(StringUtils.isSet(e.text)) {
+                e.text = e.text.replaceAll("(\\r\\n|\\r|\\n)", "");
             }
         });
     }
@@ -86,16 +77,16 @@ public final class UIUtils {
 
     
     /**
-     * Filter out any invalid characters from the textControl
-     * This can happen if user copies and pastes binary characters.
-     * @param textControl
+     * Filter out invalid text characters from the control.
+     * This needs to be applied to a control if the control's text string will be saved in XML format.
+     * This can happen if user copies and pastes text containing binary characters.
+     * 
+     * @param control This is usually a Text control but can be a control
+     * such as CCombo or Combo that contains a text control
      */
-    public static void applyInvalidCharacterFilter(Control textControl) {
-        textControl.addListener(SWT.Verify, new Listener() {
-            @Override
-            public void handleEvent(Event e) {
-                e.text = e.text.replaceAll(xml10pattern, "");
-            }
+    public static void applyInvalidCharacterFilter(Control control) {
+        control.addListener(SWT.Verify, e -> {
+            e.text = e.text.replaceAll(xml10pattern, "");
         });
     }
 
@@ -111,7 +102,7 @@ public final class UIUtils {
             return;
         }
         
-        textControl.addTraverseListener((e) -> {
+        textControl.addTraverseListener(e -> {
             // Ctrl + Enter
             if(e.detail == SWT.TRAVERSE_RETURN) {
                 if((e.stateMask & SWT.MOD1) != 0) {
@@ -185,7 +176,7 @@ public final class UIUtils {
      * @param prefsKey
      */
     public static void applyFontChangePreferenceListener(Control control, String prefsKey) {
-        IPropertyChangeListener listener = (event) -> {
+        IPropertyChangeListener listener = event -> {
             if(prefsKey == event.getProperty()) {
                 setFontFromPreferences(control, prefsKey, false);
             }

@@ -10,6 +10,8 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Composite;
 
+import com.archimatetool.editor.ui.UIUtils;
+
 
 /**
  * String ComboBox CellEditor
@@ -23,6 +25,10 @@ public class StringComboBoxCellEditor extends ComboBoxCellEditor {
         super(parent, items);
         setEditable(editable);
         setVisibleItemCount(12);
+        
+        // Filter out bad characters
+        UIUtils.applyInvalidCharacterFilter(getControl());
+        UIUtils.conformSingleTextControl(getControl());
     }
 
     public void setVisibleItemCount(int count) {
