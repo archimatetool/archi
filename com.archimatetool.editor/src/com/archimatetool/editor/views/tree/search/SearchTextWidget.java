@@ -85,6 +85,9 @@ public class SearchTextWidget extends Composite {
         fTextControl.setLayoutData(gd);
         fTextControl.addModifyListener(fModifyListener);
         
+        // Mac bug workaround
+        UIUtils.applyMacUndoBugFilter(fTextControl);
+        
         label.setBackground(fTextControl.getBackground());
         setBackground(fTextControl.getBackground());
     }

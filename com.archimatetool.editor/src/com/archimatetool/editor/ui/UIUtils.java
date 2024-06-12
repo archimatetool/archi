@@ -89,6 +89,24 @@ public final class UIUtils {
             e.text = e.text.replaceAll(xml10pattern, "");
         });
     }
+    
+    /**
+     * Filter out Cmd-Z key presses on Mac to work around crash to desktop.
+     * This doesn't need to be applied if the control is in a dialog or wizard.
+     * See https://github.com/eclipse-platform/eclipse.platform.swt/issues/1273
+     * 
+     * @param control This is usually a Text control but can be a control
+     * such as CCombo or Combo that contains a text control
+     */
+    public static void applyMacUndoBugFilter(Control control) {
+        if(PlatformUtils.isMac()) {
+            control.addListener(SWT.KeyDown, e -> {
+                if(e.keyCode == 'z' && (e.stateMask & SWT.COMMAND) != 0) {
+                    e.doit = false;
+                }
+            });
+        }
+    }
 
     /**
      * Apply a traverse listener to a Multi-line text control such that tabbing or pressing Ctrl + Enter

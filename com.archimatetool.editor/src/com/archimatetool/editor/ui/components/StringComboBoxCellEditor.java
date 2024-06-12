@@ -29,6 +29,9 @@ public class StringComboBoxCellEditor extends ComboBoxCellEditor {
         // Filter out bad characters
         UIUtils.applyInvalidCharacterFilter(getControl());
         UIUtils.conformSingleTextControl(getControl());
+        
+        // Mac bug workaround
+        UIUtils.applyMacUndoBugFilter(getControl());
     }
 
     public void setVisibleItemCount(int count) {

@@ -39,6 +39,9 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(getTextControl());
+        
+        // Mac bug workaround
+        UIUtils.applyMacUndoBugFilter(getTextControl());
     }
     
     protected void setNormalised() {

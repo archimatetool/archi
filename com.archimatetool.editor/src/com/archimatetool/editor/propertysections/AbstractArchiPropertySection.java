@@ -117,6 +117,9 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(textControl);
         
+        // Mac bug workaround
+        UIUtils.applyMacUndoBugFilter(textControl);
+        
         // Add listener to disable global actions when it gets the focus
         addGlobalActionDisablementListener(textControl);
 
