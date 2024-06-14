@@ -80,7 +80,6 @@ public final class ArchiActionFactory {
             }
             RetargetAction action = new RetargetAction(getId(), Messages.ArchiActionFactory_4);
             window.getPartService().addPartListener(action);
-            // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
             return action;
         }
@@ -99,7 +98,6 @@ public final class ArchiActionFactory {
             }
             RetargetAction action = new RetargetAction(getId(), Messages.ArchiActionFactory_5);
             window.getPartService().addPartListener(action);
-            // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
             return action;
         }
@@ -152,7 +150,6 @@ public final class ArchiActionFactory {
             }
             LabelRetargetAction action = new LabelRetargetAction(getId(), Messages.ArchiActionFactory_6);
             window.getPartService().addPartListener(action);
-            // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
             return action;
         }
@@ -171,7 +168,6 @@ public final class ArchiActionFactory {
             }
             RetargetAction action = new RetargetAction(getId(), Messages.ArchiActionFactory_7);
             window.getPartService().addPartListener(action);
-            // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
             action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM));
             return action;

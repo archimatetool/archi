@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -505,9 +504,8 @@ extends ActionBarAdvisor {
          * On a Mac, there is an "About" menu item under the application menu bar.
          */
         if(!PlatformUtils.isMac()) {
-            ActionContributionItem item = new ActionContributionItem(fActionAbout);
             menu.add(new Separator());
-            menu.add(item);
+            menu.add(fActionAbout);
         }
         
         return menu;
