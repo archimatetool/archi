@@ -357,19 +357,19 @@ extends ActionBarAdvisor {
         
         /*
          * On a Mac, there is a "Preferences" menu item under the application menu bar
-         * So we only create this one on Windows and Linux.
+         * so we only create this one on Windows and Linux.
          */
         if(!PlatformUtils.isMac()) {
             menu.add(new Separator());
             IWorkbenchAction preferenceAction = ActionFactory.PREFERENCES.create(window);
-            preferenceAction.setActionDefinitionId(IWorkbenchCommandConstants.WINDOW_PREFERENCES); // Support key binding
             /*
-             * Since around Eclipse 4.27 assigning a key shortcut to open a particular preference page stopped working.
-             * Removing the following line seems to fix this.
-             * I'm not sure whether we need to register some actions since their key bindings work anyway.
-             * The New, Open, Save, Find and Select All actions do need to be registered for key bindings to work.
+             * If we want to show the key binding for this action in the menu by calling setActionDefinitionId on it there is a side effect
+             * that opening a particular preference page with a key binding doesn't work (the Preferences dialog will open, but not on that page).
+             * Either don't call setActionDefinitionId or don't register the action here.
+             * Note that Eclipse itself doesn't call setActionDefinitionId on it.
              */
-            //register(preferenceAction);
+            //preferenceAction.setActionDefinitionId(IWorkbenchCommandConstants.WINDOW_PREFERENCES); // Don't do this!
+            register(preferenceAction);
             menu.add(preferenceAction);
         }
 
