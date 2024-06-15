@@ -80,6 +80,7 @@ import com.archimatetool.editor.propertysections.ImageManagerDialog;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -744,6 +745,10 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         NameEditingSupport(ColumnViewer viewer) {
             super(viewer);
             cellEditor = new TextCellEditor((Composite)viewer.getControl());
+            
+            // Filter out illegal characters
+            UIUtils.conformSingleTextControl(cellEditor.getControl());
+            UIUtils.applyInvalidCharacterFilter(cellEditor.getControl());
         }
 
         @Override

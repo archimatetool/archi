@@ -64,6 +64,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IProperties;
@@ -516,6 +517,10 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         public KeyEditingSupport(ColumnViewer viewer) {
             super(viewer);
             cellEditor = new TextCellEditor((Composite)viewer.getControl());
+            
+            // Filter out illegal characters
+            UIUtils.conformSingleTextControl(cellEditor.getControl());
+            UIUtils.applyInvalidCharacterFilter(cellEditor.getControl());
         }
 
         @Override
