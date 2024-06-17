@@ -8,7 +8,6 @@ package com.archimatetool.editor.actions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +40,7 @@ public class MRUMenuManagerTests {
             ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + i, "");
         }
 
-        menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
+        menuManager = new MRUMenuManager(null);
     }
     
     @Test
@@ -57,7 +55,7 @@ public class MRUMenuManagerTests {
         ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance now
-        menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
+        menuManager = new MRUMenuManager(null);
         
         List<File> list = menuManager.getMRUList();
         assertEquals(2, list.size());
@@ -116,7 +114,7 @@ public class MRUMenuManagerTests {
         ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance
-        menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
+        menuManager = new MRUMenuManager(null);
         
         // Should be added
         assertEquals(4, menuManager.getSize());
@@ -132,7 +130,7 @@ public class MRUMenuManagerTests {
         ArchiPlugin.PREFERENCES.setValue(MRUMenuManager.MRU_PREFS_KEY + "1", "someFile2");
         
         // Need a new instance after 
-        menuManager = new MRUMenuManager(mock(IWorkbenchWindow.class));
+        menuManager = new MRUMenuManager(null);
         
         // Should be added
         assertEquals(4, menuManager.getSize());

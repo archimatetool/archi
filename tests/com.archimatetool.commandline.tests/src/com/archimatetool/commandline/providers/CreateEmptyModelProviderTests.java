@@ -6,10 +6,10 @@
 package com.archimatetool.commandline.providers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLine.Builder;
+import org.apache.commons.cli.Option;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,11 +35,13 @@ public class CreateEmptyModelProviderTests {
     }
     
     @Test
-    public void runCreatesEmptyModel() throws Exception {
+    public void runProvider() throws Exception {
         CommandLineState.setModel(null);
         
-        CommandLine commandLine = mock(CommandLine.class);
-        when(commandLine.hasOption(CreateEmptyModelProvider.OPTION_CREATE_EMPTY_MODEL)).thenReturn(true);
+        CommandLine commandLine = new Builder()
+                .addOption(new Option(CreateEmptyModelProvider.OPTION_CREATE_EMPTY_MODEL, null))
+                .build();
+        
         provider.run(commandLine);
         
         IArchimateModel model = CommandLineState.getModel();

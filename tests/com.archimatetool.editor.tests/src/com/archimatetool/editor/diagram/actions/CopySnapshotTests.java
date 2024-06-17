@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import java.util.List;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.junit.jupiter.api.Test;
 
@@ -128,7 +126,7 @@ public class CopySnapshotTests {
         assertNull(cmd);
 
         // Real one
-        cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null, false);
+        cmd = snapshot.getPasteCommand(targetDiagramModel, null, null, false);
         assertTrue(cmd.canExecute());
 
         cmd.execute();
@@ -190,7 +188,7 @@ public class CopySnapshotTests {
         CopySnapshot snapshot = new CopySnapshot(selected);
         assertTrue(snapshot.canPasteToDiagram(targetDiagramModel));
 
-        Command cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null, false);
+        Command cmd = snapshot.getPasteCommand(targetDiagramModel, null, null, false);
         assertTrue(cmd.canExecute());
         cmd.execute();
         
@@ -231,7 +229,7 @@ public class CopySnapshotTests {
         selected.addAll(getAllDiagramComponents(sourceDiagramModel));
         
         CopySnapshot snapshot = new CopySnapshot(selected);
-        Command cmd = snapshot.getPasteCommand(newTargetDiagramModel, mock(GraphicalViewer.class), null, false);
+        Command cmd = snapshot.getPasteCommand(newTargetDiagramModel, null, null, false);
         cmd.execute();
         
         for(TreeIterator<EObject> iter = newTargetDiagramModel.eAllContents(); iter.hasNext();) {

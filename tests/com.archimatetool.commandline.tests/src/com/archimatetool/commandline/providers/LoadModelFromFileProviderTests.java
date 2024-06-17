@@ -7,10 +7,10 @@ package com.archimatetool.commandline.providers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.CommandLine.Builder;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,16 +37,18 @@ public class LoadModelFromFileProviderTests {
     }
     
     @Test
-    public void runCreatesEmptyModel() throws Exception {
+    public void runProvider() throws Exception {
         CommandLineState.setModel(null);
         
-        CommandLine commandLine = mock(CommandLine.class);
-        
-        when(commandLine.hasOption(LoadModelFromFileProvider.OPTION_LOAD_FILE_MODEL)).thenReturn(true);
-        
         String filePath = TestData.TEST_MODEL_FILE_ARCHISURANCE.getAbsolutePath();
-        when(commandLine.getOptionValue(LoadModelFromFileProvider.OPTION_LOAD_FILE_MODEL)).thenReturn(filePath);
         
+        Option option = new Option(LoadModelFromFileProvider.OPTION_LOAD_FILE_MODEL, null);
+        option.getValuesList().add(filePath);
+        
+        CommandLine commandLine = new Builder()
+                .addOption(option)
+                .build();
+
         provider.run(commandLine); 
         
         IArchimateModel model = CommandLineState.getModel();

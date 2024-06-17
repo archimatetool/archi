@@ -5,8 +5,7 @@ Bundle-SymbolicName: com.archimatetool.export.svg.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.export.svg
 Import-Package: org.junit.jupiter.api,
- org.junit.platform.suite.api,
- org.mockito
+ org.junit.platform.suite.api
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17

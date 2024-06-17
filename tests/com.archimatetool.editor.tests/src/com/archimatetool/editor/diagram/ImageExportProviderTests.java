@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
@@ -23,7 +22,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.tests.TestUtils;
 
@@ -59,7 +57,7 @@ public class ImageExportProviderTests {
 
     @Test
     public void testInit() {
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         assertTrue(shell.getChildren().length > 0);
     }
 
@@ -83,7 +81,7 @@ public class ImageExportProviderTests {
         childFigure.setBounds(new Rectangle(200, 200, 128, 52));
         rootFigure.add(childFigure);
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
 
         File tmp = TestUtils.createTempFile(null);
         
@@ -108,7 +106,7 @@ public class ImageExportProviderTests {
     
     @Test
     public void testSavePreferences() {
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
 
         provider.fScaleSpinner.setSelection(345);
         
@@ -121,7 +119,7 @@ public class ImageExportProviderTests {
     public void testPreferencesWereLoaded() {
         ArchiPlugin.PREFERENCES.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         
         assertEquals(123, provider.fScaleSpinner.getSelection());
     }

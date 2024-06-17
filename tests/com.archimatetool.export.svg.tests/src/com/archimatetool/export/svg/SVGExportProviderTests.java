@@ -8,7 +8,6 @@ package com.archimatetool.export.svg;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
@@ -21,7 +20,6 @@ import org.eclipse.swt.graphics.Image;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.tests.TestUtils;
 
@@ -61,7 +59,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         childFigure.setBounds(new Rectangle(0, 0, 50, 50));
         rootFigure.add(childFigure);
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         provider.export(SVGExportProvider.SVG_IMAGE_EXPORT_PROVIDER, tmp);
         assertTrue(tmp.exists());
         assertTrue(tmp.length() > 100);
@@ -75,7 +73,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         childFigure.setBounds(new Rectangle(0, 0, 200, 100));
         rootFigure.add(childFigure);
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         assertTrue(shell.getChildren().length > 0);
         
         // Check that two spinners are set to the image width and height
@@ -93,7 +91,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
 
     @Test
     public void testSavePreferences() {
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
 
         svgProvider.fSetViewboxButton.setSelection(false);
         svgProvider.fTextAsShapesButton.setSelection(false);
@@ -117,7 +115,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED, false);
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX, "5 6");
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         
         assertFalse(svgProvider.fSetViewboxButton.getSelection());
         

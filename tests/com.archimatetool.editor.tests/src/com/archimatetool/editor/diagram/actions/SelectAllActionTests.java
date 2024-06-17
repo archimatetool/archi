@@ -6,12 +6,10 @@
 package com.archimatetool.editor.diagram.actions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 import java.util.Set;
 
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.ui.IWorkbenchPart;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -38,7 +36,7 @@ public class SelectAllActionTests {
         IArchimateDiagramModel dm = (IArchimateDiagramModel)ArchimateModelUtils.getObjectByID(model, "4165");
         editor.setDiagramModel(dm);
         
-        SelectAllAction action = new SelectAllAction(mock(IWorkbenchPart.class));
+        SelectAllAction action = new SelectAllAction(null);
         Set<GraphicalEditPart> selected = action.getSelectableEditParts(editor.getGraphicalViewer().getContents());
         assertEquals(47, selected.size());
         

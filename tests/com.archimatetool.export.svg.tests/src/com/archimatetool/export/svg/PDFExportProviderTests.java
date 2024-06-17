@@ -6,7 +6,6 @@
 package com.archimatetool.export.svg;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
@@ -18,7 +17,6 @@ import org.eclipse.swt.graphics.Image;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.tests.TestUtils;
 
@@ -48,7 +46,7 @@ public class PDFExportProviderTests extends AbstractExportProviderTests {
         childFigure.setBounds(new Rectangle(0, 0, 50, 50));
         rootFigure.add(childFigure);
         
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         provider.export(PDFExportProvider.PDF_IMAGE_EXPORT_PROVIDER, tmp);
         assertTrue(tmp.exists());
         assertTrue(tmp.length() > 100);
@@ -57,7 +55,7 @@ public class PDFExportProviderTests extends AbstractExportProviderTests {
 
     @Test
     public void testInit() {
-        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        provider.init(null, shell, rootFigure);
         assertTrue(shell.getChildren().length > 0);
     }
 }
