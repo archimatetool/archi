@@ -19,6 +19,11 @@
     
     <repositories>
         <repository>
+            <id>Eclipse I-build</id>
+            <layout>p2</layout>
+            <url>https://download.eclipse.org/eclipse/updates/4.33-I-builds</url>
+        </repository>
+        <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
             <url>https://download.eclipse.org/releases/2024-06</url>
