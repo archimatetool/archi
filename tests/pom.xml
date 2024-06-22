@@ -13,15 +13,6 @@
     <artifactId>com.archimatetool.testing</artifactId>
     <packaging>pom</packaging>
 
-    <!-- Orbit p2 repo provides Mockito and latest JUnit for tests -->
-    <repositories>
-        <repository>
-            <id>Orbit</id>
-            <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0</url>
-        </repository>
-    </repositories>
-
     <modules>
         <module>com.archimatetool.testsupport</module>
 
