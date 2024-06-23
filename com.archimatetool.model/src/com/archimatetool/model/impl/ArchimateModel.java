@@ -6,12 +6,11 @@
 package com.archimatetool.model.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -226,9 +225,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
     
     /**
-     * Ecore listeners
+     * Model Content Ecore listeners
      */
-    private List<IModelContentListener> fContentListeners = new ArrayList<IModelContentListener>();
+    private CopyOnWriteArrayList<IModelContentListener> fContentListeners = new CopyOnWriteArrayList<>();
     
     /**
      * One central EContentAdapter to listen to all model changes and forward on to listeners
@@ -245,7 +244,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             
             // Notify model listeners
             if(fContentListeners != null) {
-                for(IModelContentListener listener : new ArrayList<>(fContentListeners)) {
+                for(IModelContentListener listener : fContentListeners) {
                     listener.notifyChanged(notification);
                 }
             }
@@ -273,7 +272,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             eAdapters().add(eContentAdapter);
         }
         
-        return fContentListeners.contains(listener) ? false: fContentListeners.add(listener);
+        return fContentListeners.addIfAbsent(listener);
     }
     
     @Override

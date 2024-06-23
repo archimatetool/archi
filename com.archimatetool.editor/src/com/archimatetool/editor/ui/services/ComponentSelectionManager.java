@@ -5,11 +5,7 @@
  */
 package com.archimatetool.editor.ui.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.jface.util.SafeRunnable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 
@@ -23,12 +19,10 @@ public final class ComponentSelectionManager {
 
     public static final ComponentSelectionManager INSTANCE = new ComponentSelectionManager();
     
-    private List<IComponentSelectionListener> listeners = new ArrayList<IComponentSelectionListener>();
+    private CopyOnWriteArrayList<IComponentSelectionListener> listeners = new CopyOnWriteArrayList<>();
 
     public void addSelectionListener(IComponentSelectionListener listener) {
-        if(!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
+        listeners.addIfAbsent(listener);
     }
 
     public void removeSelectionListener(IComponentSelectionListener listener) {
@@ -40,15 +34,8 @@ public final class ComponentSelectionManager {
             return;
         }
         
-        Object[] listenersArray = listeners.toArray();
-        for(int i = 0; i < listenersArray.length; i++) {
-            final IComponentSelectionListener l = (IComponentSelectionListener)listenersArray[i];
-            SafeRunner.run(new SafeRunnable() {
-                @Override
-                public void run() {
-                    l.componentSelectionChanged(source, selection);
-                }
-            });
+        for(IComponentSelectionListener listener : listeners) {
+            listener.componentSelectionChanged(source, selection);
         }
     }
 }
