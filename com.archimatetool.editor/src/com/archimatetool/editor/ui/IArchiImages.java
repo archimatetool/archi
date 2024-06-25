@@ -134,9 +134,9 @@ public interface IArchiImages {
 
     
     // Other
-    String ICON_ALIGN_TEXT_LEFT = IMGPATH + "alignleft.gif";
-    String ICON_ALIGN_TEXT_CENTER = IMGPATH + "aligncenter.gif";
-    String ICON_ALIGN_TEXT_RIGHT = IMGPATH + "alignright.gif";
+    String ICON_ALIGN_TEXT_LEFT = IMGPATH + "alignleft.png";
+    String ICON_ALIGN_TEXT_CENTER = IMGPATH + "aligncenter.png";
+    String ICON_ALIGN_TEXT_RIGHT = IMGPATH + "alignright.png";
 
     String ICON_ALIGN_TEXT_TOP = IMGPATH + "aligntop.png";
     String ICON_ALIGN_TEXT_MIDDLE = IMGPATH + "alignmiddle.png";
