@@ -112,7 +112,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         UIUtils.setFontFromPreferences(textControl, IPreferenceConstants.SINGLE_LINE_TEXT_FONT, true);
         
         // Single text control so strip CRLFs
-        UIUtils.conformSingleTextControl(textControl);
+        UIUtils.applyNewlineFilter(textControl);
         
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(textControl);

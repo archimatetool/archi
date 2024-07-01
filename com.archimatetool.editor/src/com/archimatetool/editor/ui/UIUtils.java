@@ -33,13 +33,14 @@ public final class UIUtils {
      * 
      * @param parent Parent control
      * @param style Style
-     * @param filterInvalidCharacters if true the XML invalid chars will also be filtered
+     * @param filterInvalidCharacters if true the XML invalid chars will also be filtered.
+     *        This can be set to false if the text in the control won't be used as part of an XML file.
      * @return a new single Text control
      */
     public static Text createSingleTextControl(Composite parent, int style, boolean filterInvalidCharacters) {
         Text text = new Text(parent, style | SWT.SINGLE);
         
-        conformSingleTextControl(text);
+        applyNewlineFilter(text);
         
         if(filterInvalidCharacters) {
             applyInvalidCharacterFilter(text);
@@ -49,15 +50,28 @@ public final class UIUtils {
     }
     
     /**
-     * Add a Verify listener to a control with the SWT.SINGLE style so that newline characters are removed.
+     * Add a Verify listener to a text control with the SWT.SINGLE style so that newline characters are removed.
+     * This is necessary on Mac and Linux as newlines can be copied and pasted into single text controls.
+     * Windows will truncate the string up to the first newline character.
+     * See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=273470">Eclipse Bug #273470</a>
+     * 
+     * @param control A Text control with style SWT.SINGLE
+     * @deprecated Use {@link #applyNewlineFilter(Control)} instead
+     */
+    public static void conformSingleTextControl(Text textControl) {
+        applyNewlineFilter(textControl);
+    }
+    
+    /**
+     * Add a Verify listener to a control (usually with the SWT.SINGLE style) so that newline characters are removed.
      * This is necessary on Mac and Linux as newlines can be copied and pasted into single text controls.
      * Windows will truncate the string up to the first newline character.
      * See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=273470">Eclipse Bug #273470</a>
      * 
      * @param control This is usually a Text control with style SWT.SINGLE but can be a control
-     * such as CCombo or Combo that contains a text control with style SWT.SINGLE
+     * such as CCombo or Combo that contains a text control with style SWT.SINGLE.
      */
-    public static void conformSingleTextControl(Control control) {
+    public static void applyNewlineFilter(Control control) {
         control.addListener(SWT.Verify, e -> {
             if(StringUtils.isSet(e.text)) {
                 e.text = e.text.replaceAll("(\\r\\n|\\r|\\n)", "");

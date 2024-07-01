@@ -747,7 +747,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
             cellEditor = new TextCellEditor((Composite)viewer.getControl());
             
             // Filter out illegal characters
-            UIUtils.conformSingleTextControl(cellEditor.getControl());
+            UIUtils.applyNewlineFilter(cellEditor.getControl());
             UIUtils.applyInvalidCharacterFilter(cellEditor.getControl());
         }
 

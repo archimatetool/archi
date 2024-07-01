@@ -26,7 +26,7 @@ public class TreeTextCellEditor extends TextCellEditor {
         
         // Filter out nasties
         UIUtils.applyInvalidCharacterFilter(text);
-        UIUtils.conformSingleTextControl(text);
+        UIUtils.applyNewlineFilter(text);
         
         // Mac bug workaround
         UIUtils.applyMacUndoBugFilter(text);

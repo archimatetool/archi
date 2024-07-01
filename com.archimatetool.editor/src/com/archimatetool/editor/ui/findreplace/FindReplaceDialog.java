@@ -34,6 +34,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.FrameworkUtil;
 
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -263,6 +264,9 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         
         input.addListener(SWT.Modify, eventHandler);
         input.addListener(SWT.FocusIn, eventHandler);
+        
+        // Remove newlines
+        UIUtils.applyNewlineFilter(input);
         
         return input;
     }
