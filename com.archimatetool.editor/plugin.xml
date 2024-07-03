@@ -705,11 +705,6 @@
             sequence="F1">
       </key>
       <key
-            commandId="org.eclipse.gef.zoom_in"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1++">
-      </key>
-      <key
             commandId="org.eclipse.gef.zoom_normal"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+0">
