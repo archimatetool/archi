@@ -473,7 +473,7 @@ public class HTMLReportExporter {
     }
 
     private File askSaveFolder() {
-        DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
+        DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
         dialog.setText(Messages.HTMLReportExporter_2);
         dialog.setMessage(Messages.HTMLReportExporter_3);
         

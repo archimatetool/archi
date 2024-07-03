@@ -65,7 +65,7 @@ public class ExportAsImageWizard extends Wizard {
         
         // Make sure the file does not already exist
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+            boolean result = MessageDialog.openQuestion(getShell(),
                     Messages.ExportAsImageWizard_3,
                     NLS.bind(Messages.ExportAsImageWizard_4, file.getAbsolutePath()));
             if(!result) {
@@ -90,7 +90,7 @@ public class ExportAsImageWizard extends Wizard {
                 catch(Throwable ex) {
                     Logger.log(IStatus.ERROR, "Error exporting image", ex); //$NON-NLS-1$
                     
-                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                    MessageDialog.openError(getShell(),
                             Messages.ExportAsImageWizard_5,
                             Messages.ExportAsImageWizard_6 + " " +  //$NON-NLS-1$
                                     (ex.getMessage() == null ? ex.toString() : ex.getMessage()));

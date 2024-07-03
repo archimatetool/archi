@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.PlatformUI;
 import org.jdom2.JDOMException;
 import org.xml.sax.SAXException;
 
@@ -65,7 +66,7 @@ public class XMLExchangeImportProvider implements IModelImporter, IXMLExchangeGl
     }
     
     private File askOpenFile() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+        FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { FILE_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
         String path = dialog.open();
         return path != null ? new File(path) : null;

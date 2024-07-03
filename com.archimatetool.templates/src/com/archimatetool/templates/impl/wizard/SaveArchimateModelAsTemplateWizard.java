@@ -85,7 +85,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         
         // Make sure the file does not already exist
         if(fZipFile.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+            boolean result = MessageDialog.openQuestion(getShell(),
                     Messages.SaveArchimateModelAsTemplateWizard_1,
                     NLS.bind(Messages.SaveArchimateModelAsTemplateWizard_2, fZipFile.getPath()));
             if(!result) {

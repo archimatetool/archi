@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -87,7 +86,7 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
     }
 
     private String chooseFolderPath() {
-        DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
+        DirectoryDialog dialog = new DirectoryDialog(getShell());
         dialog.setText(Messages.JasperReportsPreferencesPage_3);
         dialog.setMessage(Messages.JasperReportsPreferencesPage_4);
         File file = new File(fUserReportsFolderTextField.getText());

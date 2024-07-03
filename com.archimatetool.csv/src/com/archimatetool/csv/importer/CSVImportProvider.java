@@ -9,8 +9,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
@@ -54,7 +54,7 @@ public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
      * The "xxx-" prefix is optional
      */
     File askOpenFile() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+        FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { "*.csv", "*.txt", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         return path != null ? new File(path) : null;

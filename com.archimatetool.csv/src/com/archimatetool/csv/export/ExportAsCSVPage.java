@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -204,7 +203,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     }
 
     private String chooseFolderPath() {
-        DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
+        DirectoryDialog dialog = new DirectoryDialog(getShell());
         dialog.setText(Messages.ExportAsCSVPage_11);
         dialog.setMessage(Messages.ExportAsCSVPage_12);
         dialog.setFilterPath(fFolderTextField.getText());

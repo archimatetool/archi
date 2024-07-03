@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -300,7 +299,7 @@ public class ExportAsImagePage extends WizardPage {
     }
     
     private File chooseFile() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+        FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
         dialog.setText(Messages.ExportAsImagePage_7);
         
         File file = new File(fFileTextField.getText());

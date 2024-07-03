@@ -94,7 +94,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         
         // Make sure the file does not already exist
         if(fZipFile.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+            boolean result = MessageDialog.openQuestion(getShell(),
                     Messages.SaveCanvasAsTemplateWizard_1,
                     NLS.bind(Messages.SaveCanvasAsTemplateWizard_2, fZipFile));
             if(!result) {

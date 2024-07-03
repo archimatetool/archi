@@ -33,7 +33,10 @@ extends Action
 implements IWorkbenchAction
 {
     
+    private IWorkbenchWindow window;
+    
     public OpenModelAction(IWorkbenchWindow window) {
+        this.window = window;
         setText(Messages.OpenModelAction_0);
         setToolTipText(Messages.OpenModelAction_1);
         setId("com.archimatetool.editor.action.openModel"); //$NON-NLS-1$
@@ -42,7 +45,7 @@ implements IWorkbenchAction
     
     @Override
     public void run() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+        FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
@@ -89,5 +92,6 @@ implements IWorkbenchAction
 
     @Override
     public void dispose() {
+        window = null;
     } 
 }
