@@ -12,11 +12,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IParameter;
 import org.eclipse.core.commands.IParameterValues;
-import org.eclipse.core.commands.Parameterization;
 import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.ToolEntry;
@@ -135,20 +132,10 @@ public class PaletteKeyHandler extends AbstractHandler implements IParameterValu
             return null;
         }
 
-        IParameter parameter = null;
-        try {
-            parameter = command.getParameter(PARAMETER_ID);
-        }
-        catch(NotDefinedException ex) {
-            ex.printStackTrace();
-        }
-        
-        if(parameter == null) {
+        ParameterizedCommand parameterizedCommand = ParameterizedCommand.generateCommand(command, Map.of(PARAMETER_ID, parameterValue));
+        if(parameterizedCommand == null) {
             return null;
         }
-
-        ParameterizedCommand parameterizedCommand = new ParameterizedCommand(command,
-                new Parameterization[] { new Parameterization(parameter, parameterValue) });
         
         /*
          * If the workbench or editor part is still loading at this point, a given context might not yet be active
