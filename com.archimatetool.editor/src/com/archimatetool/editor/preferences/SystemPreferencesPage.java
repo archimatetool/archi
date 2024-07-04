@@ -19,8 +19,6 @@ import org.eclipse.ui.dialogs.PreferenceLinkArea;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.ui.ImageFactory;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -56,13 +54,13 @@ implements IWorkbenchPreferencePage {
         addLinkArea(pageArea, "org.eclipse.help.ui.browsersPreferencePage");
         
         // Keys
-        addLinkArea(pageArea, "org.eclipse.ui.preferencePages.Keys");
+        addLinkArea(pageArea, "org.eclipse.ui.preferencePages.Keys"); 
         
         // Metwork
         addLinkArea(pageArea, "com.archimatetool.editor.prefsNetwork");
 
         // Security
-        addLinkArea(pageArea, PlatformUtils.isMac() && ImageFactory.getDeviceZoom() == 100 ? "com.archimatetool.editor.security" : "org.eclipse.equinox.security.ui.storage");
+        addLinkArea(pageArea, "org.eclipse.equinox.security.ui.storage");
         
         // Browser
         addLinkArea(pageArea, "org.eclipse.ui.browser.preferencePage");
