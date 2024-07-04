@@ -70,10 +70,17 @@ public class SharedCursors extends Cursors {
                 }
             }
         }
+        
+        // It was the case that Linux Wayland was using the deviceZoom for Cursors, but testing with Ubuntu 24.04 Wayland it now uses 100%
         // On Mac and Linux X11 ImageData for cursors should always be created with 100% device zoom 
-        return Platform.getOS().equals(Platform.OS_MACOSX) ||
-                (Platform.getOS().equals(Platform.OS_LINUX) && "x11".equalsIgnoreCase(System.getenv("XDG_SESSION_TYPE"))) //$NON-NLS-1$ //$NON-NLS-2$
-                ? 100 
-                : deviceZoom;
+//        return Platform.getOS().equals(Platform.OS_MACOSX) ||
+//                (Platform.getOS().equals(Platform.OS_LINUX) && "x11".equalsIgnoreCase(System.getenv("XDG_SESSION_TYPE"))) //$NON-NLS-1$ //$NON-NLS-2$
+//                ? 100 
+//                : deviceZoom;
+
+        // On Windows use deviceZoom, on Mac and Linux use 100% 
+        return Platform.getOS().equals(Platform.OS_WIN32)
+                ? deviceZoom 
+                : 100;
     }
 }
