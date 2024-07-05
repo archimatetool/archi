@@ -12,13 +12,13 @@
  *******************************************************************************/
 package org.eclipse.gef;
 
-import org.eclipse.swt.graphics.Cursor;
-
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Cursors;
-
 import org.eclipse.gef.internal.Internal;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 
 /**
  * A shared collection of Cursors.
@@ -54,8 +54,19 @@ public class SharedCursors extends Cursors {
     }
 
     private static Cursor createCursor(String sourceName) {
+        // Loading via an ImageDescriptor first will load the @2x image on hi-dpi
         ImageDescriptor src = ImageDescriptor.createFromFile(Internal.class, sourceName);
-        return new Cursor(null, src.getImageData(getDeviceZoom()), 0, 0);
+        
+        // Because ImageDescriptor.getImageData(zoom) can return null if the device zoom is something like 150% or 175%
+        // (with VM argument -Dswt.autoScale=150) we must get the ImageData from an Image instead of the ImageDescriptor.
+        // An Image will always return an ImageData because it defaults to an existing image whatever the zoom.
+        
+        //return new Cursor(null, src.getImageData(getDeviceZoom()), 0, 0);
+
+        Image img = src.createImage();
+        ImageData id = img.getImageData(getDeviceZoom());
+        img.dispose();
+        return new Cursor(null, id, 0, 0);
     }
 
     private static int getDeviceZoom() {
