@@ -1051,6 +1051,14 @@
             icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
       </image>
       <image
+            commandId="org.eclipse.gef.zoom_in"
+            icon="img/zoomin.png">
+      </image>
+      <image
+            commandId="org.eclipse.gef.zoom_out"
+            icon="img/zoomout.png">
+      </image>
+      <image
             commandId="org.eclipse.gef.zoom_normal"
             icon="img/zoomnormal.png">
       </image>
@@ -1069,6 +1077,10 @@
       <image
             commandId="com.archimatetool.editor.action.openProfilesDialog"
             icon="img/specialization.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.palette.command"
+            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
       </image>
    </extension>
    <extension
