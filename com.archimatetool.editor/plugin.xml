@@ -687,10 +687,10 @@
             sequence="F11">
       </key>
       <key
-            commandId="com.archimatetool.editor.action.fullScreen"
+            commandId="org.eclipse.ui.window.fullscreenmode"
             platform="cocoa"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M2+F">
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M4+F">
       </key>
       <key
             commandId="org.eclipse.ui.edit.delete"
@@ -741,12 +741,6 @@
             commandId="com.archimatetool.com.paste_special"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+M2+V">
-      </key>
-      <key
-            commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
-            platform="cocoa"
-            schemeId="com.archimatetool.editor.keybindings"
-            sequence="M1+M4+F">
       </key>
       <key
             commandId="com.archimatetool.editor.action.deleteFromModel"
@@ -938,13 +932,6 @@
             description="%command.description"
             id="com.archimatetool.editor.pluginManager"
             name="%command.name.15">
-      </command>
-      <command
-            categoryId="org.eclipse.ui.category.window"
-            defaultHandler="com.archimatetool.editor.actions.MacFullScreenCommandHandler"
-            description="%command.description.16"
-            id="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
-            name="%command.name.16">
       </command>
       <command
             categoryId="com.archimatetool.editor.category"
@@ -1216,11 +1203,14 @@
             allPopups="false"
             locationURI="menu:window?before=nav_start">
          <command
-               commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
+               commandId="org.eclipse.ui.window.fullscreenmode"
                label="%command.label.4"
                style="push">
-            <visibleWhen
-                  checkEnabled="true">
+            <visibleWhen>
+               <systemTest
+                     property="osgi.ws"
+                     value="cocoa">
+               </systemTest>
             </visibleWhen>
          </command>
       </menuContribution>

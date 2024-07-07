@@ -9,6 +9,7 @@ import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
@@ -27,7 +28,7 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
 public class ArchimateDiagramEditorActionBarContributor
 extends AbstractDiagramEditorActionBarContributor {
     
-    protected String editDeleteMenuGroup = "editDeleteMenuGroup"; //$NON-NLS-1$
+    protected static final String editDeleteMenuGroup = "editDeleteMenuGroup"; //$NON-NLS-1$
 
     @Override
     protected void buildActions() {
@@ -75,8 +76,10 @@ extends AbstractDiagramEditorActionBarContributor {
         IMenuManager viewMenu = super.createViewMenu(menuManager);
         
         // Viewpoints
+        viewMenu.insertAfter("end_connection_router", new Separator()); //$NON-NLS-1$
         IMenuManager viewPointMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_0);
-        viewMenu.add(viewPointMenu);
+        viewMenu.insertAfter("end_connection_router", viewPointMenu); //$NON-NLS-1$
+
         for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(getAction(viewPoint.toString()));
         }

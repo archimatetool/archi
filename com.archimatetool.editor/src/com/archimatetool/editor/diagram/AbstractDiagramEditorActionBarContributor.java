@@ -71,10 +71,10 @@ extends ActionBarContributor {
 
     protected ZoomComboContributionItem fZoomCombo;
     
-    protected String GROUP_EDIT_MENU = "group_editMenu"; //$NON-NLS-1$
-    protected String GROUP_TOOLBAR_END = "group_toolbarEnd"; //$NON-NLS-1$
-    protected String GROUP_POSITION = "group_position"; //$NON-NLS-1$
-    private String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
+    protected static final String GROUP_EDIT_MENU = "group_editMenu"; //$NON-NLS-1$
+    protected static final String GROUP_TOOLBAR_END = "group_toolbarEnd"; //$NON-NLS-1$
+    protected static final String GROUP_POSITION = "group_position"; //$NON-NLS-1$
+    protected static final String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
     
     @Override
     protected void buildActions() {
@@ -273,18 +273,17 @@ extends ActionBarContributor {
         alignmentMenu.add(getAction(DefaultEditPartSizeAction.ID));
         alignmentMenu.add(getAction(ResetAspectRatioAction.ID));
         
-        viewMenu.add(new Separator(GROUP_CONNECTIONS ));
+        viewMenu.add(new Separator(GROUP_CONNECTIONS));
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_7, "menu_connection_router"); //$NON-NLS-1$
         viewMenu.add(connectionMenu);
         connectionMenu.add(getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
 // Doesn't work with Connection to Connection
 //      connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
-        viewMenu.add(new Separator());
+        viewMenu.add(new Separator("end_connection_router")); //$NON-NLS-1$
 
         if(!PlatformUtils.isMac()) {
             viewMenu.add(getAction(FullScreenAction.ID));
-            viewMenu.add(new Separator());
         }
         
         menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
