@@ -32,6 +32,7 @@ import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.internal.InternalGEFPlugin;
+import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.PaletteListener;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
@@ -547,8 +548,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             @Override
             public void mouseDown(MouseEvent e) {
                 ToolEntry toolEntry = findToolEntryAt(viewer, new Point(e.x, e.y));
-                if(toolEntry != null) {
-                    boolean shiftKey = (e.stateMask & SWT.SHIFT) != 0;
+                if(toolEntry instanceof CreationToolEntry) { // Don't apply to other tools like marquee selection
+                    boolean shiftKey = (e.stateMask & SWT.SHIFT) != 0; 
                     toolEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, !shiftKey);
                 }
             }
@@ -564,7 +565,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
                     FormatPainterInfo.INSTANCE.reset();
                 }
                 // Set Tool Entry sticky
-                else {
+                else if(toolEntry instanceof CreationToolEntry) { // Don't apply to other tools like marquee selection
                     toolEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
                 }
             }
