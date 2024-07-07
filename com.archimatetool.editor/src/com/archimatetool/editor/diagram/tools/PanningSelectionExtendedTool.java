@@ -14,25 +14,35 @@ import org.eclipse.gef.tools.PanningSelectionTool;
  */
 public class PanningSelectionExtendedTool extends PanningSelectionTool {
 
-	@Override
+    @Override
     protected boolean handleButtonDown(int which) {
-		if(which == 2) {
+        if(which == 2) {
             if(stateTransition(STATE_INITIAL, PAN)) {
                 refreshCursor();
             }
             which = 1;
-		}
-		
-		return super.handleButtonDown(which);
-	}
-
-	@Override
-    protected boolean handleButtonUp(int which) {
-		if(which == 2) {
-		    which = 1;
         }
 
-		return super.handleButtonUp(which);
-	}
+        /*
+         * A right-click on the canvas will show the plus cursor for the marquee selection tool.
+         * On macOS Sonoma the current cursor persists onto the context menu.
+         * This is a general problem with Sonoma, see https://github.com/eclipse-platform/eclipse.platform.swt/issues/773
+         * As the right-click is only for showing the context menu we don't need to see this cursor when right-clicking at all, so trap this here.
+         */
+        if(which == 3) {
+            return true;
+        }
+
+        return super.handleButtonDown(which);
+    }
+
+    @Override
+    protected boolean handleButtonUp(int which) {
+        if(which == 2) {
+            which = 1;
+        }
+
+        return super.handleButtonUp(which);
+    }
 
 }
