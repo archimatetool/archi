@@ -703,7 +703,9 @@ public class MarqueeSelectionTool extends AbstractTool {
      */
     @Override
     protected boolean isViewerImportant(EditPartViewer viewer) {
-        return isCurrentViewerGraphical();
+        // Added by Phillipus - see https://github.com/eclipse/gef-classic/issues/466
+        return viewer instanceof GraphicalViewer;
+        //return isCurrentViewerGraphical();
     }
 
     private boolean isCurrentViewerGraphical() {
