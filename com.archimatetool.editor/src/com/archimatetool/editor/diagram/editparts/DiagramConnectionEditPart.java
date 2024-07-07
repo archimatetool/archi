@@ -343,20 +343,10 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     }
         
     /**
-     * @return True if this EditPart's Viewer is in Full Screen Mode
-     */
-    protected boolean isInFullScreenMode() {
-        return getViewer() != null && getViewer().getProperty("full_screen") != null; //$NON-NLS-1$
-    }
-    
-    /**
-     * Show the Properties View.
-     * This will have no effect if the Viewer is in Full Screen Mode.
+     * Show the Properties View
      */
     protected void showPropertiesView() {
-        if(!isInFullScreenMode()) {
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
-        }
+        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
     }
 
     /**

@@ -159,13 +159,6 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     }
     
     /**
-     * @return True if this EditPart's Viewer is in Full Screen Mode
-     */
-    public boolean isInFullScreenMode() {
-        return getViewer() != null && getViewer().getProperty("full_screen") != null; //$NON-NLS-1$
-    }
-    
-    /**
      * @return True if this EditPart is locked
      */
     public boolean isLocked() {
@@ -173,13 +166,10 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     }
     
     /**
-     * Show the Properties View.
-     * This will have no effect if the Viewer is in Full Screen Mode.
+     * Show the Properties View
      */
     protected void showPropertiesView() {
-        if(!isInFullScreenMode()) {
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
-        }
+        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
     }
     
     /** 

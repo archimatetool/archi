@@ -8,30 +8,34 @@ package com.archimatetool.editor.diagram.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.commands.Command;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.keys.IBindingService;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
@@ -39,6 +43,7 @@ import com.archimatetool.editor.diagram.FloatingPalette;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -60,101 +65,101 @@ public class FullScreenAction extends WorkbenchPartAction {
     private Shell fNewShell;
     private Composite fOldParent;
     private PaletteViewer fOldPaletteViewer;
-
     private FloatingPalette fFloatingPalette;
+    private List<KeyBinding> keyBindings;
     
-    private class KeyBinding {
-        public KeyBinding(int modKeys, int key, IAction action) {
+    private static class KeyBinding {
+        public KeyBinding(int modKeys, int key, Object actionOrCommandId) {
             this.modKeys = modKeys;
             this.key = key;
-            this.action = action;
+            this.actionOrCommandId = actionOrCommandId;
         }
         
         int modKeys;
         int key;
-        IAction action;
+        Object actionOrCommandId;
     }
     
-    private List<KeyBinding> keyBindings = new ArrayList<KeyBinding>();
-
-    private KeyListener keyListener = new KeyAdapter() {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            // Escape pressed, close this Shell
-            if(e.keyCode == SWT.ESC) {
-                e.doit = false; // Consume key press
-                close();
-            }
-            
-            // Other key, find the action
-            IAction action = getKeyAction(e);
-            if(action != null && action.isEnabled()) {
-                action.run();
-            }
+    private Listener keyListener = (e) -> {
+        // Escape pressed, close this Shell
+        if(e.keyCode == SWT.ESC) {
+            e.doit = false; // Consume key press
+            close();
         }
 
-        private IAction getKeyAction(KeyEvent e) {
-            int mod = e.stateMask;
-            int key = Character.toLowerCase(e.keyCode);
-
-            for(KeyBinding kb : keyBindings) {
-                if(mod == kb.modKeys && key == kb.key) {
-                    return kb.action;
+        // Find the Action and run it
+        Object o = getKeyActionOrCommandId(e);
+        if(o instanceof IAction action && action.isEnabled()) {
+            action.run();
+        }
+        // Or find the Command and run it
+        else if(o instanceof String commandId) {
+            ICommandService commandService = getWorkbenchPart().getSite().getService(ICommandService.class);
+            Command command = commandService.getCommand(commandId);
+            if(command.isDefined() && command.isEnabled() ) {
+                try {
+                    IHandlerService handlerService = getWorkbenchPart().getSite().getService(IHandlerService.class);
+                    handlerService.executeCommand(commandId, null);
+                }
+                catch(Exception ex) {
+                    ex.printStackTrace();
                 }
             }
-            
-            return null;
         }
     };
     
-    private IMenuListener contextMenuListener = new IMenuListener() {
-        @Override
-        public void menuAboutToShow(IMenuManager manager) {
-            // Remove Actions that lead to loss of Shell focus
-            manager.remove(SelectElementInTreeAction.ID);
-            manager.remove(ActionFactory.PROPERTIES.getId());
-            
-            if(!fFloatingPalette.isOpen()) {
-                manager.add(new Action(Messages.FullScreenAction_1) {
-                    @Override
-                    public void run() {
-                        fFloatingPalette.open();
-                    };
-                });
-            }
-            
-            manager.add(new Action(Messages.FullScreenAction_2) {
+    private IMenuListener contextMenuListener = (manager) -> {
+        manager.add(new Separator());
+
+        if(!fFloatingPalette.isOpen()) {
+            manager.add(new Action(Messages.FullScreenAction_1) {
                 @Override
                 public void run() {
-                    close();
-                };
-                
-                @Override
-                public int getAccelerator() {
-                    return SWT.ESC;
+                    fFloatingPalette.open();
                 };
             });
         }
+        
+        manager.add(new Action(Messages.FullScreenAction_2) {
+            @Override
+            public void run() {
+                close();
+            };
+
+            @Override
+            public int getAccelerator() {
+                return SWT.ESC;
+            };
+        });
     };
     
-    /*
-     * If the workbench part that was closed (typically from an "Undo New View" Action) is this part then close full screen.
-     * Important to use partDeactivated event rather than partClosed event so we can regain proper focus so that the Undo stack is reset.
-     */
     private IPartListener partListener = new PartListenerAdapter() {
+        /*
+         * If the workbench part that was closed (typically from an "Undo New View" Action) is this part then close full screen.
+         * Important to use partDeactivated event rather than partClosed event so we can regain proper focus so that the Undo stack is reset.
+         */
         @Override
         public void partDeactivated(IWorkbenchPart part) {
             if(part == getWorkbenchPart()) {
                 close();
             }
         }
+        
+        /*
+         * If a part is opened (such as the Properties View) and it is in the same space as the editor then the
+         * full screen viewport shrinks. So close the full screen.
+         */
+        @Override
+        public void partOpened(IWorkbenchPart part) {
+            close();
+        };
     };
     
     public FullScreenAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
-        setActionDefinitionId(getId()); // register key binding
+        setActionDefinitionId(ID); // register key binding
     }
     
     @Override
@@ -163,17 +168,16 @@ public class FullScreenAction extends WorkbenchPartAction {
         fOldParent = fGraphicalViewer.getControl().getParent();
         fOldPaletteViewer = fGraphicalViewer.getEditDomain().getPaletteViewer();
         
-        // Set Property so clients know this is in full screen mode
-        fGraphicalViewer.setProperty("full_screen", true); //$NON-NLS-1$
-        
         addKeyBindings();
         
         // Add key and menu listeners
         fGraphicalViewer.getContextMenu().addMenuListener(contextMenuListener);
-        fGraphicalViewer.getControl().addKeyListener(keyListener);
+        fGraphicalViewer.getControl().addListener(SWT.KeyDown, keyListener);
 
         // Create new Shell
-        fNewShell = new Shell(Display.getCurrent(), SWT.NONE); 
+        // SWT.RESIZE is needed for Linux Wayland
+        int style = PlatformUtils.isWindows() || PlatformUtils.isLinuxX11() ? SWT.NONE : SWT.RESIZE;
+        fNewShell = new Shell(Display.getCurrent(), style);
         
         // To put the full screen on the current monitor
         fNewShell.setLocation(fOldParent.getShell().getLocation());
@@ -214,10 +218,15 @@ public class FullScreenAction extends WorkbenchPartAction {
     }
     
     private void close() {
+        // Safety check
+        if(fGraphicalViewer == null) {
+            return;
+        }
+        
         fFloatingPalette.close();
         
         fGraphicalViewer.getContextMenu().removeMenuListener(contextMenuListener);
-        fGraphicalViewer.getControl().removeKeyListener(keyListener);
+        fGraphicalViewer.getControl().removeListener(SWT.KeyDown, keyListener);
 
         // Remove Listen to Parts being closed
         getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().removePartListener(partListener);
@@ -226,47 +235,97 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().setParent(fOldParent);
         fOldParent.layout();
         
-        // Reset Property
-        fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
-
         // Enable the old parent shell
         fOldParent.getShell().setEnabled(true);
 
         // Focus
         getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();
 
-        fNewShell.dispose(); // Doing this last fixes a redraw issue on Windows e4 (toolbar gets munged)
+        dispose(); // Do this last
     }
 
     /**
      * Add common Key bindings to Actions
      */
     private void addKeyBindings() {
-        if(keyBindings.isEmpty()) {
-            ActionRegistry registry = getWorkbenchPart().getAdapter(ActionRegistry.class);
-            IBindingService service = getWorkbenchPart().getSite().getService(IBindingService.class);
-            
-            addKeyBinding(registry, service, ActionFactory.SELECT_ALL);
-            addKeyBinding(registry, service, ActionFactory.UNDO);
-            addKeyBinding(registry, service, ActionFactory.REDO);
-            addKeyBinding(registry, service, ActionFactory.DELETE);
-            addKeyBinding(registry, service, ActionFactory.CUT);
-            addKeyBinding(registry, service, ActionFactory.COPY);
-            addKeyBinding(registry, service, ActionFactory.PASTE);
-            addKeyBinding(registry, service, ArchiActionFactory.PASTE_SPECIAL);
-            addKeyBinding(registry, service, ActionFactory.RENAME);
+        keyBindings = new ArrayList<KeyBinding>();
+        
+        ActionRegistry registry = getWorkbenchPart().getAdapter(ActionRegistry.class);
+        IBindingService service = getWorkbenchPart().getSite().getService(IBindingService.class);
+
+        // Actions registered in the GEF ActionRegistry
+        addActionKeyBinding(registry, service, ActionFactory.SELECT_ALL);
+        addActionKeyBinding(registry, service, ActionFactory.UNDO);
+        addActionKeyBinding(registry, service, ActionFactory.REDO);
+        addActionKeyBinding(registry, service, ActionFactory.DELETE);
+        addActionKeyBinding(registry, service, ActionFactory.CUT);
+        addActionKeyBinding(registry, service, ActionFactory.COPY);
+        addActionKeyBinding(registry, service, ActionFactory.PASTE);
+        addActionKeyBinding(registry, service, ArchiActionFactory.PASTE_SPECIAL);
+        addActionKeyBinding(registry, service, ActionFactory.RENAME);
+
+        addActionKeyBinding(registry, service, GEFActionConstants.ZOOM_IN, GEFActionConstants.ZOOM_IN);
+        addActionKeyBinding(registry, service, GEFActionConstants.ZOOM_OUT, GEFActionConstants.ZOOM_OUT);
+        addActionKeyBinding(registry, service, ZoomNormalAction.ID, ZoomNormalAction.ID);
+
+        // Commands
+        addCommandKeyBinding(service, IWorkbenchCommandConstants.FILE_SAVE);
+    }
+    
+    /**
+     * Add a Key binding mapped to a Command Id
+     */
+    private void addCommandKeyBinding(IBindingService service, String commandId) {
+        KeyStroke ks = getKeyStroke(service, commandId);
+        if(ks != null) {
+            keyBindings.add(new KeyBinding(ks.getModifierKeys(), Character.toLowerCase(ks.getNaturalKey()), commandId));
         }
     }
     
     /**
-     * Add a Key binding mapped to an Action
+     * Add a Key binding mapped to a GEF Action
      */
-    private void addKeyBinding(ActionRegistry registry, IBindingService service, ActionFactory actionFactory) {
-        KeySequence seq = (KeySequence)service.getBestActiveBindingFor(actionFactory.getCommandId());
-        if(seq != null && seq.getKeyStrokes().length > 0) {
-            KeyStroke ks = seq.getKeyStrokes()[0];
-            keyBindings.add(new KeyBinding(ks.getModifierKeys(), Character.toLowerCase(ks.getNaturalKey()), registry.getAction(actionFactory.getId())));
+    private void addActionKeyBinding(ActionRegistry registry, IBindingService service, ActionFactory actionFactory) {
+        addActionKeyBinding(registry, service, actionFactory.getId(), actionFactory.getCommandId());
+    }
+    
+    /**
+     * Add a Key binding mapped to a GEF Action by its Action Id and Command Id 
+     */
+    private void addActionKeyBinding(ActionRegistry registry, IBindingService service, String actionId, String commandId) {
+        KeyStroke ks = getKeyStroke(service, commandId);
+        if(ks != null) {
+            keyBindings.add(new KeyBinding(ks.getModifierKeys(), Character.toLowerCase(ks.getNaturalKey()), registry.getAction(actionId)));
         }
+    }
+    
+    /**
+     * Get a registered key binding from the key event
+     */
+    private Object getKeyActionOrCommandId(Event e) {
+        // Can be null after dispose() is called
+        if(keyBindings == null) {
+            return null;
+        }
+
+        int mod = e.stateMask;
+        int key = Character.toLowerCase(e.keyCode);
+
+        for(KeyBinding kb : keyBindings) {
+            if(mod == kb.modKeys && key == kb.key) {
+                return kb.actionOrCommandId;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Get a Key Stroke for a Command Id
+     */
+    private KeyStroke getKeyStroke(IBindingService service, String commandId) {
+        KeySequence seq = (KeySequence)service.getBestActiveBindingFor(commandId);
+        return seq != null && seq.getKeyStrokes().length > 0 ? seq.getKeyStrokes()[0] : null;
     }
 
     @Override
@@ -276,9 +335,14 @@ public class FullScreenAction extends WorkbenchPartAction {
     
     @Override
     public void dispose() {
+        if(fNewShell != null) {
+            fNewShell.dispose();
+        }
+        
         fGraphicalViewer = null;
         keyBindings = null;
         fNewShell = null;
         fOldParent = null;
+        fFloatingPalette = null;
     }
 }

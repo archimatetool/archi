@@ -86,11 +86,9 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
         // REQ_DIRECT_EDIT is Single-click when already selected or a Rename action
         // REQ_OPEN is Double-click
         
-        // Open Diagram if not in Full Screen Mode
+        // Open Diagram
         if(request.getType() == RequestConstants.REQ_OPEN) {
-            if(!isInFullScreenMode()) {
-                EditorManager.openDiagramEditor(getModel().getReferencedModel());
-            }
+            EditorManager.openDiagramEditor(getModel().getReferencedModel());
         }
         else if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
             // Edit the text control if we clicked on it
