@@ -9,11 +9,9 @@ import java.util.Arrays;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 // line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
@@ -56,9 +54,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fLineColor;
     
     private static Color TARGET_FEEDBACK_COLOR = new Color(0, 0, 255);
-    
-    // Max width of text label
-    private static final int TEXT_LABEL_MAX_WIDTH = 300;
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
@@ -122,21 +117,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             fTextFlow = new TextFlow();
             //fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_HARD));
             
-            FlowPage flowPage = new FlowPage() {
-                @Override
-                public Dimension getPreferredSize(int wHint, int hHint) {
-                    if(fTextFlow.getText().length() == 0) {
-                        return new Dimension();
-                    }
-                    
-                    Dimension d = FigureUtilities.getTextExtents(fTextFlow.getText(), fTextFlow.getFont());
-                    if(d.width > TEXT_LABEL_MAX_WIDTH) {
-                        d = super.getPreferredSize(TEXT_LABEL_MAX_WIDTH, -1);
-                    }
-                    return d;
-                }
-            };
-            
+            FlowPage flowPage = new FlowPage();
             flowPage.add(fTextFlow);
             
             add(flowPage);
