@@ -12,6 +12,7 @@ package org.eclipse.draw2d;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
@@ -72,7 +73,10 @@ public class FigureUtilities {
      */
     protected static GC getGC() {
         if (gc == null) {
-            gc = new GC(new Shell());
+            // Phillipus set this to SWT.NONE to stop this Shell momentarily appearing when the workbench theme changes
+            // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=435915
+            //gc = new GC(new Shell());
+            gc = new GC(new Shell(SWT.NONE));
             appliedFont = gc.getFont();
         }
         return gc;
