@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.JFaceResources;
@@ -39,10 +41,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
+import org.eclipse.ui.internal.util.PrefUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
@@ -50,6 +55,7 @@ import com.archimatetool.editor.utils.StringUtils;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public class FontsPreferencePage extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
 
@@ -57,18 +63,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
 
     /**
-     * Font information for a control that is tied to a preference key
+     * Font information for a control that is tied to a theme font definition
      */
-    private static class FontInfo {
-        String prefsKey;
+    private class FontInfo {
+        String fontDefinitionId;
         String text;
         String description;
         FontData fontData;
         
-        FontInfo(String text, String description, String prefsKey) {
+        FontInfo(String text, String description, String fontDefinitionId) {
             this.text = text;
             this.description = description;
-            this.prefsKey = prefsKey;
+            this.fontDefinitionId = fontDefinitionId;
         }
         
         void performDefault() {
@@ -76,9 +82,48 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         FontData getFontData() {
+            if(fontData == null) {
+                fontData = ThemeUtils.getCurrentThemeFontData(fontDefinitionId);
+                if(fontData == null) {
+                    fontData = getDefaultFontData();
+                }
+            }
+            
+            return fontData;
+        }
+        
+        FontData getDefaultFontData() {
+            return getSystemFontData();
+        }
+        
+        void performOK() {
+            // Our font definitions are global to all themes so just write directly to the store
+            if(Objects.equals(getFontData(), getSystemFontData())) {
+                getPreferenceStore().setToDefault(fontDefinitionId);
+            }
+            else {
+                getPreferenceStore().setValue(fontDefinitionId, getFontData().toString());
+            }
+        }
+
+        FontData getSystemFontData() {
+            return JFaceResources.getDefaultFont().getFontData()[0];
+        }
+    }
+    
+    /**
+     * View objects/connections default font gets and sets its font info in a special way in FontFactory
+     */
+    private class ViewFontInfo extends FontInfo {
+        public ViewFontInfo() {
+            super(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, DEFAULT_VIEW_FONT);
+        }
+        
+        @Override
+        FontData getFontData() {
             // Get font data from Preferences store
             if(fontData == null) {
-                String fontDetails = ArchiPlugin.PREFERENCES.getString(prefsKey);
+                String fontDetails = ArchiPlugin.PREFERENCES.getString(fontDefinitionId);
                 if(StringUtils.isSet(fontDetails)) {
                     fontData = getSafeFontData(fontDetails);
                 }
@@ -89,10 +134,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             
             return fontData;
         }
-        
+
+        @Override
         FontData getDefaultFontData() {
-            // Get default font data from Preferences store (this could be in a suppplied preference file)
-            String fontDetails = ArchiPlugin.PREFERENCES.getDefaultString(prefsKey);
+            // Get default font data from Archi Preferences store (this could be in a suppplied preference file)
+            String fontDetails = ArchiPlugin.PREFERENCES.getDefaultString(fontDefinitionId);
             if(StringUtils.isSet(fontDetails)) {
                 return getSafeFontData(fontDetails);
             }
@@ -100,11 +146,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             return getSystemFontData();
         }
         
-        FontData getSystemFontData() {
-            return JFaceResources.getDefaultFont().getFontData()[0];
+        @Override
+        void performOK() {
+            FontFactory.setDefaultUserViewFont(getFontData());
         }
         
-        private FontData getSafeFontData(String fontDetails) {
+        @Override
+        FontData getSystemFontData() {
+            return FontFactory.getDefaultViewOSFontData();
+        }
+        
+        FontData getSafeFontData(String fontDetails) {
             try {
                 return new FontData(fontDetails);
             }
@@ -112,10 +164,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
             
             return getSystemFontData();
-        }
-
-        void performOK() {
-            ArchiPlugin.PREFERENCES.setValue(prefsKey, getFontData().equals(getSystemFontData()) ? "" : getFontData().toString()); //$NON-NLS-1$
         }
     }
 
@@ -129,9 +177,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private Label fDescriptionLabel;
     private Label fFontPreviewLabel;
+
+    private IWorkbench workbench;
     
     public FontsPreferencePage() {
-        setPreferenceStore(ArchiPlugin.PREFERENCES);
+        setPreferenceStore(PrefUtil.getInternalPreferenceStore());
         setDescription(Messages.FontsPreferencePage_21);
     }
     
@@ -348,17 +398,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      */
     private void addFontOptions() {
         // View object/connection default font gets and sets its font info in a special way in FontFactory
-        fontInfos.add(new FontInfo(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, DEFAULT_VIEW_FONT) {
-            @Override
-            void performOK() {
-                FontFactory.setDefaultUserViewFont(getFontData());
-            }
-            
-            @Override
-            FontData getSystemFontData() {
-                return FontFactory.getDefaultViewOSFontData();
-            }
-        });
+        fontInfos.add(new ViewFontInfo());
 
         // Single line text control font
         fontInfos.add(new FontInfo(Messages.FontsPreferencePage_10, Messages.FontsPreferencePage_13, SINGLE_LINE_TEXT_FONT));
@@ -409,6 +449,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             info.performOK();
         }
         
+        // Notify theme change if using themes
+        if(ThemeUtils.isCssThemingEnabled()) {
+            // this is taken from org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage#publishThemeRegistryModifiedEvent
+            IEventBroker eventBroker = workbench.getService(IEventBroker.class);
+            if(eventBroker != null) {
+                eventBroker.send(WorkbenchThemeManager.Events.THEME_REGISTRY_MODIFIED, null);
+            }
+        }
+        
+        PrefUtil.savePrefs();
+        
         return true;
     }
 
@@ -421,6 +472,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void init(IWorkbench workbench) {
+        this.workbench = workbench;
     }
     
 }

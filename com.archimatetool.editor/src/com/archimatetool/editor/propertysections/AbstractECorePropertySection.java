@@ -17,7 +17,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -233,18 +232,12 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      */
     protected PropertySectionTextControl createNameControl(Composite parent, String hint) {
         // Label
-        Label label = createLabel(parent, Messages.AbstractECorePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.AbstractECorePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        // CSS
-        label.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesNameLabel"); //$NON-NLS-1$ //$NON-NLS-2$
-
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
         textControl.setMessage(hint);
         
-        // CSS
-        textControl.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesNameText"); //$NON-NLS-1$ //$NON-NLS-2$
-
         PropertySectionTextControl textName = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.NAMEABLE__NAME) {
             @Override
             protected void textChanged(String oldText, String newText) {
@@ -274,17 +267,11 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      */
     protected PropertySectionTextControl createDocumentationControl(Composite parent, String hint) {
         // Label
-        Label label = createLabel(parent, Messages.AbstractECorePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
-        
-        // CSS
-        label.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesDocumentationLabel"); //$NON-NLS-1$ //$NON-NLS-2$
+        createLabel(parent, Messages.AbstractECorePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         styledTextControl.setMessage(hint);
-        
-        // CSS
-        styledTextControl.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesDocumentationText"); //$NON-NLS-1$ //$NON-NLS-2$
         
         PropertySectionTextControl textDoc = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
             @Override

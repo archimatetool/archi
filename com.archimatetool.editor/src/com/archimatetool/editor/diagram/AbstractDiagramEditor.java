@@ -70,9 +70,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -357,14 +355,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Listen to selections
         hookSelectionListener();
         
-        // Set CSS class name
-        viewer.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiFigureCanvas"); //$NON-NLS-1$ //$NON-NLS-2$
+        // Set CSS ID
+        ThemeUtils.registerCssId(viewer.getControl(), "ArchiFigureCanvas"); //$NON-NLS-1$
         
         // Set background color in case CSS theming is disabled
-        RGB rgb = ThemeUtils.getCurrentThemeColor(IPreferenceConstants.VIEW_BACKGROUND_COLOR);
-        if(rgb != null) {
-            viewer.getControl().setBackground(new Color(rgb));
-        }
+        ThemeUtils.setBackgroundColorIfCssThemingDisabled(viewer.getControl(), IPreferenceConstants.VIEW_BACKGROUND_COLOR);
     }
     
     private void hookSelectionListener() {

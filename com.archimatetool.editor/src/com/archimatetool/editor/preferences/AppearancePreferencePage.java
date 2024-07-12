@@ -154,7 +154,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        fUseThemes.setSelection(ThemeUtils.getThemeEngine() != null);
+        fUseThemes.setSelection(themeEngine != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
         

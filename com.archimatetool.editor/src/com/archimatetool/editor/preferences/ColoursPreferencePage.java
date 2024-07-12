@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.util.PrefUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -65,6 +66,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public class ColoursPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
@@ -710,17 +712,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             // Remove listener so we are not notified
             PlatformUI.getWorkbench().getThemeManager().removePropertyChangeListener(themeChangeListener);
             
-            boolean themeResetNeeded = false;
+            boolean themeColorChanged = false;
             
             for(String colorId : themeColors) {
                 Color color = fColorsCache.get(colorId);
                 if(color != null && !color.getRGB().equals(ThemeUtils.getCurrentThemeColor(colorId))) {
                     ThemeUtils.setCurrentThemeColor(colorId, color.getRGB());
-                    themeResetNeeded = true;
+                    themeColorChanged = true;
                 }
             }
             
-            if(themeResetNeeded) {
+            if(themeColorChanged) {
+                PrefUtil.savePrefs();
                 ThemeUtils.resetCurrentTheme();
             }
         }
@@ -732,7 +735,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void init(IWorkbench workbench) {
-        // Listen to external theme/color changes to update our theme colors to match current theme.
+        // Listen to external theme/color changes to update our theme colors to match current theme in case user changed the theme in prefs.
         // A side effect is that we trigger this event when setting a theme color so remove our listener when setting theme colors.
         themeChangeListener = event -> {
             if(themeColors.contains(event.getProperty())) {

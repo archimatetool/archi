@@ -46,13 +46,7 @@ implements IPreferenceConstants {
         
         // Fonts
         
-        store.setDefault(ANALYSIS_TABLE_FONT, "");
         store.setDefault(DEFAULT_VIEW_FONT, "");
-        store.setDefault(MULTI_LINE_TEXT_FONT, "");
-        store.setDefault(MODEL_TREE_FONT, "");
-        store.setDefault(NAVIGATOR_TREE_FONT, "");
-        store.setDefault(PROPERTIES_TABLE_FONT, "");
-        store.setDefault(SINGLE_LINE_TEXT_FONT, "");
 
         // ======================================= Connections =======================================
         

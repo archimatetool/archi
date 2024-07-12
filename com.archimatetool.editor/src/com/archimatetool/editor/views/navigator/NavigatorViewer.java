@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModelObject;
@@ -41,7 +41,11 @@ public class NavigatorViewer extends TreeViewer {
     public NavigatorViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
-        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(getTree(), "NavigatorTree"); //$NON-NLS-1$
+        
+        // Set font in case CSS theming is disabled
+        ThemeUtils.setFontIfCssThemingDisabled(getTree(), IPreferenceConstants.NAVIGATOR_TREE_FONT);
         
         setContentProvider(new NavigatorViewerContentProvider());
         setLabelProvider(new NavigatorViewerLabelProvider());

@@ -36,15 +36,16 @@ public interface IPreferenceConstants {
     String VIEW_BACKGROUND_COLOR = "com.archimatetool.editor.VIEW_BACKGROUND";
     String VISUALISER_BACKGROUND_COLOR = "com.archimatetool.editor.VISUALISER_BACKGROUND";
     
-    // Fonts
-    
-    String ANALYSIS_TABLE_FONT = "analysisTableFont";
+    // Default View Font
     String DEFAULT_VIEW_FONT = "defaultViewFont";
-    String MODEL_TREE_FONT = "modelTreeFont";
-    String MULTI_LINE_TEXT_FONT = "multiLineTextFont";
-    String NAVIGATOR_TREE_FONT = "navigatorTreeFont";
-    String PROPERTIES_TABLE_FONT = "propertiesTableFont";
-    String SINGLE_LINE_TEXT_FONT = "singleLineTextFont";
+    
+    // Theme Font Definition IDs
+    String ANALYSIS_TABLE_FONT = "com.archimatetool.editor.ANALYSIS_TABLE_FONT";
+    String MODEL_TREE_FONT = "com.archimatetool.editor.MODEL_TREE_FONT";
+    String MULTI_LINE_TEXT_FONT = "com.archimatetool.editor.MULTI_LINE_TEXT_FONT";
+    String NAVIGATOR_TREE_FONT = "com.archimatetool.editor.NAVIGATOR_TREE_FONT";
+    String PROPERTIES_TABLE_FONT = "com.archimatetool.editor.PROPERTIES_TABLE_FONT";
+    String SINGLE_LINE_TEXT_FONT = "com.archimatetool.editor.SINGLE_LINE_TEXT_FONT";
     
     // Mac use native item heights
     String MAC_ITEM_HEIGHT_PROPERTY_KEY = "org.eclipse.swt.internal.cocoa.useNativeItemHeight";

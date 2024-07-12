@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
@@ -26,8 +25,6 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -41,7 +38,7 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
@@ -74,29 +71,30 @@ public class TreeModelViewer extends TreeViewer {
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
     /**
-     * Application Preferences Listener
+     * Listener for preference change and theme font change
      */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            switch(event.getProperty()) {
-                case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
-                    refresh();
-                    break;
+    private IPropertyChangeListener prefsListener = event -> {
+        switch(event.getProperty()) {
+            case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
+                refresh();
+                break;
 
-                case IPreferenceConstants.MODEL_TREE_FONT:
-                    ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
-                    refresh();
-                    break;
-            }
+            case IPreferenceConstants.MODEL_TREE_FONT:
+                ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
+                refresh();
+                break;
         }
     };
-
+    
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
-        // Font
-        UIUtils.setFontFromPreferences(getTree(), IPreferenceConstants.MODEL_TREE_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(getTree(), "ModelTree"); //$NON-NLS-1$
+        
+        // No need to do this as we are setting the base font in ModelTreeViewerLabelProvider
+        // Set font in case CSS theming is disabled
+        // ThemeUtils.setFontIfCssThemingDisabled(getTree(), IPreferenceConstants.MODEL_TREE_FONT);
 
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
@@ -189,15 +187,23 @@ public class TreeModelViewer extends TreeViewer {
         // Filter
         fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
         
-        // Listen to Preferences
+        // Listen to Archi Preferences
         ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
         
-        getTree().addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
-                fViewpointFilterProvider = null;
+        // Listen to theme font changes
+        if(ThemeUtils.getThemeManager() != null) {
+            ThemeUtils.getThemeManager().addPropertyChangeListener(prefsListener);
+        }
+        
+        // Remove listeners and clean up
+        getTree().addDisposeListener(e -> {
+            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+            
+            if(ThemeUtils.getThemeManager() != null) {
+                ThemeUtils.getThemeManager().removePropertyChangeListener(prefsListener);
             }
+            
+            fViewpointFilterProvider = null;
         });
     }
     
@@ -374,6 +380,11 @@ public class TreeModelViewer extends TreeViewer {
         private Font fontBold;
         private Font fontBoldItalic;
         
+        ModelTreeViewerLabelProvider() {
+            // Call this so we can set the base font on the tree
+            resetFonts();
+        }
+        
         @Override
         public void update(ViewerCell cell) {
             cell.setText(getText(cell.getElement()));
@@ -386,6 +397,9 @@ public class TreeModelViewer extends TreeViewer {
             fontItalic = null;
             fontBold = null;
             fontBoldItalic = null;
+            
+            // This sets the base font on the tree so we can get the italic and bold variants from it
+            getTree().setFont(ThemeUtils.getCurrentThemeFont(IPreferenceConstants.MODEL_TREE_FONT));
         }
 
         private String getText(Object element) {
@@ -460,15 +474,7 @@ public class TreeModelViewer extends TreeViewer {
         
         private Font getItalicFont() {
             if(fontItalic == null) {
-                // Because of timing issues we have to get the italic font from user prefs not from the tree
-                String fontDetails = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.MODEL_TREE_FONT);
-                if(StringUtils.isSet(fontDetails)) {
-                    Font font = FontFactory.get(fontDetails);
-                    fontItalic = FontFactory.getItalic(font);
-                }
-                else {
-                    fontItalic = FontFactory.getItalic(getTree().getFont());
-                }
+                fontItalic = FontFactory.getItalic(getTree().getFont());
             }
             return fontItalic;
         }

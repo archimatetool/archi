@@ -24,6 +24,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StyledTextControl;
@@ -108,8 +109,11 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     protected Text createSingleTextControl(Composite parent, int style) {
         Text textControl = getWidgetFactory().createText(parent, null, style | SWT.SINGLE);
         
-        // Set font from preferences
-        UIUtils.setFontFromPreferences(textControl, IPreferenceConstants.SINGLE_LINE_TEXT_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(textControl, "SingleTextControl"); //$NON-NLS-1$
+        
+        // Set font in case CSS theming is disabled
+        ThemeUtils.setFontIfCssThemingDisabled(textControl, IPreferenceConstants.SINGLE_LINE_TEXT_FONT);
         
         // Single text control so strip CRLFs
         UIUtils.applyNewlineFilter(textControl);

@@ -5,16 +5,12 @@
  */
 package com.archimatetool.editor.ui;
 
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -145,79 +141,6 @@ public final class UIUtils {
             else if((e.detail & flags) != 0) {
                 e.doit = true;
             }
-        });
-    }
-    
-    /**
-     * Set the font for the control from the preferences. If prefsKey is blank set font to null
-     * @param control The control to set
-     * @param prefsKey The key from preferences
-     * @param updateOnPreferencesChange if true then the font on the control is changed when prefences change
-     */
-    public static void setFontFromPreferences(Control control, String prefsKey, boolean updateOnPreferencesChange) {
-        String fontDetails = ArchiPlugin.PREFERENCES.getString(prefsKey);
-
-        Font font = null;
-       
-        // We have a user font
-        if(StringUtils.isSet(fontDetails)) {
-            font = FontFactory.get(fontDetails);
-        }
-        // CSSSWTFontHelper will have set "defaultFont" when the control was set to a new font
-        else if(control.getData("defaultFont") instanceof Font) {
-            font = (Font)control.getData("defaultFont");
-        }
-        
-        // Themes are not enabled so simply set the font, even if null
-        if(ThemeUtils.getThemeEngine() == null) {
-            control.setFont(font);
-        }
-        // Themes are enabled and we have a font
-        else if(font != null) {
-            FontData fd = font.getFontData()[0];
-            StringBuilder sb = new StringBuilder();
-            
-            sb.append("font-family: \"");
-            sb.append(fd.getName());
-            sb.append("\";");
-            
-            sb.append(" font-size: ");
-            sb.append(fd.getHeight());
-            sb.append(";");
-            
-            sb.append(" font-weight: ");
-            sb.append((fd.getStyle() & SWT.BOLD) == SWT.BOLD ? "bold;" : "normal;");
-            
-            sb.append(" font-style: ");
-            sb.append((fd.getStyle() & SWT.ITALIC) == SWT.ITALIC ? "italic;" : "normal;");
-            
-            control.setData("style", sb.toString());
-            
-            control.getParent().reskin(SWT.ALL); // Need to do this on parent in case of font size change
-            control.getParent().layout();
-        }
-        
-        if(updateOnPreferencesChange) {
-            applyFontChangePreferenceListener(control, prefsKey);
-        }
-    }
-    
-    /**
-     * Apply a font change preference listener on a control. The control will update when preference changes.
-     * @param control
-     * @param prefsKey
-     */
-    public static void applyFontChangePreferenceListener(Control control, String prefsKey) {
-        IPropertyChangeListener listener = event -> {
-            if(prefsKey == event.getProperty()) {
-                setFontFromPreferences(control, prefsKey, false);
-            }
-        };
-        
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(listener);
-        
-        control.addDisposeListener((e) -> {
-            ArchiPlugin.PREFERENCES.removePropertyChangeListener(listener);
         });
     }
     

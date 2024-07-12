@@ -172,6 +172,36 @@
           label="%VISUALISER_BACKGROUND"
           value="255,255,255">
     </colorDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.MODEL_TREE_FONT"
+          label="%MODEL_TREE_FONT">
+    </fontDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.ANALYSIS_TABLE_FONT"
+          label="%ANALYSIS_TABLE_FONT">
+    </fontDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.MULTI_LINE_TEXT_FONT"
+          label="%MULTI_LINE_TEXT_FONT">
+    </fontDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.NAVIGATOR_TREE_FONT"
+          label="%NAVIGATOR_TREE_FONT">
+    </fontDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.PROPERTIES_TABLE_FONT"
+          label="%PROPERTIES_TABLE_FONT">
+    </fontDefinition>
+    <fontDefinition
+          categoryId="com.archimatetool.editor.themes"
+          id="com.archimatetool.editor.SINGLE_LINE_TEXT_FONT"
+          label="%SINGLE_LINE_TEXT_FONT">
+    </fontDefinition>
  </extension>
    
 </plugin>

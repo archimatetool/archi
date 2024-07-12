@@ -148,8 +148,11 @@ public class StyledTextControl {
         // Filter out any illegal xml characters
         UIUtils.applyInvalidCharacterFilter(fStyledText);
         
-        // Font
-        UIUtils.setFontFromPreferences(fStyledText, IPreferenceConstants.MULTI_LINE_TEXT_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(fStyledText, "StyledTextControl"); //$NON-NLS-1$
+        
+        // Set font in case CSS theming is disabled
+        ThemeUtils.setFontIfCssThemingDisabled(fStyledText, IPreferenceConstants.MULTI_LINE_TEXT_FONT);
         
         hookContextMenu();
     }

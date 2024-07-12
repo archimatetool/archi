@@ -5,22 +5,29 @@
  */
 package com.archimatetool.editor.ui;
 
+import java.util.Objects;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.css.swt.internal.theme.ThemeEngine;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
-import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.themes.ColorDefinition;
 import org.eclipse.ui.internal.themes.IThemeRegistry;
+import org.eclipse.ui.internal.themes.ThemeElementDefinition;
 import org.eclipse.ui.internal.themes.ThemeElementHelper;
 import org.eclipse.ui.internal.util.PrefUtil;
 import org.eclipse.ui.themes.IThemeManager;
-import org.osgi.framework.FrameworkUtil;
 
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -52,7 +59,9 @@ public final class ThemeUtils {
     private static IThemeEngine engine;
     
     /**
-     * @return The Theme engine. This will be null if THEME_ENABLED is false or the workbench is not running
+     * @return The Theme engine.
+     * This will be null if themeEnabled=false in org.eclipse.e4.ui.workbench.renderers.swt.prefs
+     * or the program argument "-cssTheme none" is set, or the workbench is not running.
      */
     public static IThemeEngine getThemeEngine() {
         if(engine == null && PlatformUI.isWorkbenchRunning()) {
@@ -65,7 +74,7 @@ public final class ThemeUtils {
     /**
      * @return true if the CSS Theme engine is running. False if theming is disabled.
      */
-    public static boolean isCSSThemingEnabled() {
+    public static boolean isCssThemingEnabled() {
         return getThemeEngine() != null;
     }
     
@@ -73,8 +82,8 @@ public final class ThemeUtils {
      * Reset current theme
      */
     public static void resetCurrentTheme() {
-        if(getThemeEngine() instanceof ThemeEngine) {
-            ((ThemeEngine)getThemeEngine()).resetCurrentTheme();
+        if(getThemeEngine() instanceof ThemeEngine themeEngine) {
+            themeEngine.resetCurrentTheme();
         }
     }
     
@@ -86,11 +95,63 @@ public final class ThemeUtils {
     }
     
     /**
-     * @return The workbench ThemeManager
+     * @return The workbench ThemeManager or null if the workbench is not running
      */
     public static IThemeManager getThemeManager() {
         return PlatformUI.isWorkbenchRunning() ? PlatformUI.getWorkbench().getThemeManager() : null;
     }
+    
+    /**
+     * Register a control's CSS class name by setting the "org.eclipse.e4.ui.css.CssClassName" data property to a CSS class name
+     * @param control The control to register
+     * @param className The CSS class name
+     */
+    public static void registerCssClassName(Control control, String className) {
+        control.setData("org.eclipse.e4.ui.css.CssClassName", className);
+    }
+    
+    /**
+     * Register a control's CSS unique ID by setting the "org.eclipse.e4.ui.css.id" data property to a CSS id name
+     * @param control The control to register
+     * @param className The CSS id
+     */
+    public static void registerCssId(Control control, String id) {
+        control.setData("org.eclipse.e4.ui.css.id", id);
+    }
+
+    /**
+     * @return Theme Preferences
+     */
+    public static IEclipsePreferences getThemePreferences() {
+        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.css.swt.theme.prefs
+        return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.css.swt.theme");
+    }
+    
+    /**
+     * @return SWT Renderer Preferences
+     */
+    public static IEclipsePreferences getSwtRendererPreferences() {
+        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
+        return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
+    }
+    
+    public static String getDefaultThemeName() {
+        // This is set in the main plugin.xml file as a property so get it from there
+        IEclipseContext context =  PlatformUI.getWorkbench().getService(IEclipseContext.class);
+        return context.get("cssTheme") instanceof String themeName ? themeName : E4_DEFAULT_THEME_ID;
+    }
+    
+    /**
+     * @return true if we are using a dark theme
+     */
+    public static boolean isDarkTheme() {
+        return getThemeEngine() != null && 
+                getThemeEngine().getActiveTheme() != null && getThemeEngine().getActiveTheme().getId().contains("dark");
+    }
+    
+    // ===============================================
+    // Color Definitions
+    // ===============================================
     
     /**
      * Set theme color definition value for current theme.
@@ -102,7 +163,7 @@ public final class ThemeUtils {
         }
         
         // Same color?
-        if(newValue.equals(getCurrentThemeColor(colorDefinitionId))) {
+        if(Objects.equals(newValue, getCurrentThemeColor(colorDefinitionId))) {
             return;
         }
         
@@ -112,15 +173,14 @@ public final class ThemeUtils {
             return;
         }
 
-        // Write color rgb to workbench preference file at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
+        // Write theme color rgb to workbench preference file at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
         String preferenceKey = createPreferenceKey(colorDef);
-        if(preferenceKey != null) {
-            PrefUtil.getInternalPreferenceStore().setValue(preferenceKey, StringConverter.asString(newValue));
-            PrefUtil.savePrefs();
+        if(Objects.equals(newValue, getDefaultThemeColor(colorDefinitionId))) { // If it's the default, remove it
+            PrefUtil.getInternalPreferenceStore().setToDefault(preferenceKey);
         }
-        
-        // Set theme color in theme manager
-        getThemeManager().getCurrentTheme().getColorRegistry().put(colorDefinitionId, newValue);
+        else {
+            PrefUtil.getInternalPreferenceStore().setValue(preferenceKey, StringConverter.asString(newValue));
+        }
     }
     
     /**
@@ -141,11 +201,9 @@ public final class ThemeUtils {
         
         // Check if there is a default set in preferences or plugin_customization.ini
         String preferenceKey = createPreferenceKey(colorDef);
-        if(preferenceKey != null) {
-            String setting = PrefUtil.getInternalPreferenceStore().getDefaultString(preferenceKey);
-            if(StringUtils.isSet(setting)) {
-                return StringConverter.asRGB(setting, colorDef.getValue());
-            }
+        String setting = PrefUtil.getInternalPreferenceStore().getDefaultString(preferenceKey);
+        if(StringUtils.isSet(setting)) {
+            return StringConverter.asRGB(setting, colorDef.getValue());
         }
         
         // Return ColorDefinition value
@@ -161,44 +219,95 @@ public final class ThemeUtils {
     }
     
     /**
-     * Create a preference key to write a ColorDefinition in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
-     * This code is based on that in {@link org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage}
+     * If theming is disabled set the background color on the control from the colorDefinitionId
      */
-    private static String createPreferenceKey(ColorDefinition colorDef) {
-        if(getThemeEngine() != null && (colorDef.isOverridden() || colorDef.isAddedByCss())) {
-            return ThemeElementHelper.createPreferenceKey(getThemeEngine().getActiveTheme(), getThemeManager().getCurrentTheme(), colorDef.getId());
+    public static void setBackgroundColorIfCssThemingDisabled(Control control, String colorDefinitionId) {
+        setControlPropertyIfCssThemingDisabled(control, colorDefinitionId, () -> {
+            RGB rgb = getCurrentThemeColor(colorDefinitionId);
+            if(rgb != null) {
+                control.setBackground(new Color(rgb));
+            }
+        });
+    }
+
+    // ===============================================
+    // Font Definitions
+    // ===============================================
+    
+    /**
+     * Get the FontData in the current theme for a font definition or null
+     */
+    public static FontData getCurrentThemeFontData(String fontDefinitionId) {
+        FontData[] fd = getCurrentThemeFontRegistry() != null ? getCurrentThemeFontRegistry().getFontData(fontDefinitionId) : null;
+        return fd != null ? fd[0] : null;
+    }
+    
+    /**
+     * Get the Font in the current theme for a font definition or null
+     */
+    public static Font getCurrentThemeFont(String fontDefinitionId) {
+        return getCurrentThemeFontRegistry() != null ? getCurrentThemeFontRegistry().get(fontDefinitionId) : null;
+    }
+
+    /**
+     * Get the current theme font data for a font definition or null
+     */
+    private static FontRegistry getCurrentThemeFontRegistry() {
+        return getThemeManager() != null ? getThemeManager().getCurrentTheme().getFontRegistry() : null;
+    }
+
+    /**
+     * If theming is disabled set the font on the control from the fontDefinitionId
+     */
+    public static void setFontIfCssThemingDisabled(Control control, String fontDefinitionId) {
+        setControlPropertyIfCssThemingDisabled(control, fontDefinitionId, () -> {
+            Font font = getCurrentThemeFont(fontDefinitionId);
+            if(font != null) {
+                control.setFont(font);
+            }
+        });
+    }
+    
+    // ===============================================
+    // Utils
+    // ===============================================
+    
+    /**
+     * Set a property on a control from the definitionId such as font or background color
+     * and update it when the theme changes.
+     */
+    private static void setControlPropertyIfCssThemingDisabled(Control control, String definitionId, Runnable action) {
+        // Only if CSS theming is disabled and we have a theme manager
+        if(isCssThemingEnabled() || getThemeManager() == null) {
+            return;
         }
         
-        return ThemeElementHelper.createPreferenceKey(getThemeManager().getCurrentTheme(), colorDef.getId());
+        // Run the action
+        action.run();
+        
+        // Listen to theme changes and run the action
+        IPropertyChangeListener themeListener = event -> {
+            if(event.getProperty() == definitionId) {
+                action.run();
+            }
+        };
+
+        getThemeManager().addPropertyChangeListener(themeListener);
+
+        control.addDisposeListener(e -> {
+            getThemeManager().removePropertyChangeListener(themeListener);
+        });
     }
     
     /**
-     * @return Theme Preferences
+     * Create a preference key to write a ThemeElementDefinition in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
+     * This is adapted from {@link org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage#createPreferenceKey}
      */
-    public static IEclipsePreferences getThemePreferences() {
-        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.css.swt.theme.prefs
-        return InstanceScope.INSTANCE.getNode(FrameworkUtil.getBundle(ThemeEngine.class).getSymbolicName());
-    }
-    
-    /**
-     * @return SWT Renderer Preferences
-     */
-    public static IEclipsePreferences getSwtRendererPreferences() {
-        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
-        return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
-    }
-    
-    public static String getDefaultThemeName() {
-        MApplication application = PlatformUI.getWorkbench().getService(MApplication.class);
-        IEclipseContext context = application.getContext();
-        return (String)context.get("cssTheme");
-    }
-    
-    /**
-     * @return true if we are using a dark theme
-     */
-    public static boolean isDarkTheme() {
-        return getThemeEngine() != null && 
-                getThemeEngine().getActiveTheme() != null && getThemeEngine().getActiveTheme().getId().contains("dark");
+    private static String createPreferenceKey(ThemeElementDefinition definition) {
+        if(getThemeEngine() != null && (definition.isOverridden() || definition.isAddedByCss())) {
+            return ThemeElementHelper.createPreferenceKey(getThemeEngine().getActiveTheme(), getThemeManager().getCurrentTheme(), definition.getId());
+        }
+        
+        return ThemeElementHelper.createPreferenceKey(getThemeManager().getCurrentTheme(), definition.getId());
     }
 }

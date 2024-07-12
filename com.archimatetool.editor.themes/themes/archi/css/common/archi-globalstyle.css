@@ -1,18 +1,18 @@
 /*******************************************************************************
- * Styling for Archi that over-rides some Eclipse stylings
+ * Styling for Archi that over-rides some Eclipse stylings and sets stylings
  *******************************************************************************/
 
 /* Draw2d FigureCanvas used in GEF Editor */
-FigureCanvas.ArchiFigureCanvas {
+#ArchiFigureCanvas {
     background-color: '#com-archimatetool-editor-VIEW_BACKGROUND';
 }
 
 /* Zest Graph used in Zest graphs */
-Graph.ArchiGraph {
+#ArchiGraph {
     background-color: '#com-archimatetool-editor-VISUALISER_BACKGROUND';
 }
 
-/* Set default colors here, so that user-set colors for the default light theme persists */
+/* Set default colors here in case a child theme does not declare them (ensures user-set colors for each theme persist) */
 
 ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
     color: #FFFFFF;
@@ -20,4 +20,30 @@ ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
 
 ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
     color: #FFFFFF;
+}
+
+/* Controls with user fonts */
+
+#ModelTree {
+    font-family: '#com-archimatetool-editor-MODEL_TREE_FONT';
+}
+
+#AnalysisTable {
+    font-family: '#com-archimatetool-editor-ANALYSIS_TABLE_FONT';
+}
+
+#StyledTextControl {
+    font-family: '#com-archimatetool-editor-MULTI_LINE_TEXT_FONT';
+}
+
+#NavigatorTree {
+    font-family: '#com-archimatetool-editor-NAVIGATOR_TREE_FONT';
+}
+
+#UserPropertiesTable {
+    font-family: '#com-archimatetool-editor-PROPERTIES_TABLE_FONT';
+}
+
+#SingleTextControl {
+    font-family: '#com-archimatetool-editor-SINGLE_LINE_TEXT_FONT';
 }

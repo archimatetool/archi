@@ -37,7 +37,7 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IArchimateConcept;
@@ -87,9 +87,12 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
         fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
         
-        // Font
-        UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(fTableViewer.getTable(), "AnalysisTable"); //$NON-NLS-1$
         
+        // Set font in case CSS theming is disabled
+        ThemeUtils.setFontIfCssThemingDisabled(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT);
+
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));

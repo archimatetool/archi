@@ -10,8 +10,6 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
 
@@ -90,15 +88,12 @@ public class ZestGraphViewer extends GraphViewer {
             }
         });
         
-        // Set CSS class name
-        getGraphControl().setData("org.eclipse.e4.ui.css.CssClassName", "ArchiGraph"); //$NON-NLS-1$ //$NON-NLS-2$
+        // Set CSS ID
+        ThemeUtils.registerCssId(getGraphControl(), "ArchiGraph"); //$NON-NLS-1$
         
         // Set background color in case CSS theming is disabled
-        RGB rgb = ThemeUtils.getCurrentThemeColor(IPreferenceConstants.VISUALISER_BACKGROUND_COLOR);
-        if(rgb != null) {
-            getGraphControl().setBackground(new Color(rgb));
-        }
-   }
+        ThemeUtils.setBackgroundColorIfCssThemingDisabled(getGraphControl(), IPreferenceConstants.VISUALISER_BACKGROUND_COLOR);
+    }
     
     void doApplyLayout() {
         super.applyLayout();

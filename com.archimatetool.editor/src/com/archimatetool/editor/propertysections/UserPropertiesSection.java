@@ -92,7 +92,7 @@ import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
@@ -263,9 +263,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 
-        // Font
-        UIUtils.setFontFromPreferences(fTableViewer.getTable(), IPreferenceConstants.PROPERTIES_TABLE_FONT, true);
+        // Set CSS ID
+        ThemeUtils.registerCssId(fTableViewer.getTable(), "UserPropertiesTable"); //$NON-NLS-1$
         
+        // Set font in case CSS theming is disabled
+        ThemeUtils.setFontIfCssThemingDisabled(fTableViewer.getTable(), IPreferenceConstants.PROPERTIES_TABLE_FONT);
+
         // Edit cell on double-click and add Tab key traversal
         TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
             @Override
