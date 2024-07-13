@@ -37,61 +37,61 @@ ThemesExtension { color-definition:
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=INACTIVE_TAB_OUTER_KEYLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=INACTIVE_TAB_INNER_KEYLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 	color: '#COLOR-WIDGET-NORMAL-SHADOW';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=INACTIVE_TAB_OUTLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_TAB_OUTER_KEYLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
 	color: '#COLOR-WIDGET-BACKGROUND';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_TAB_INNER_KEYLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
 	color: '#COLOR-LIST-SELECTION';
 	category: '#org-eclipse-ui-presentation-default';
-	label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_TAB_OUTLINE_COLOR');
+	label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTLINE_COLOR');
 }
 
 /* Already existing ColorDefinitions overridden for the E4 default theme */
@@ -122,7 +122,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_SELECTED_TEXT_COLOR {
     color: '#COLOR-LIST-SELECTION-TEXT';
     category: '#org-eclipse-ui-presentation-default';
-    label: url('platform:/plugin/com.archimatetool.editor.themes?message=ACTIVE_TAB_SELECTED_TEXT_COLOR');
+    label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_SELECTED_TEXT_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {

@@ -9,4 +9,5 @@ Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.editor.themes
 Require-Bundle: org.eclipse.e4.ui.css.swt.theme,
- org.eclipse.ui
+ org.eclipse.ui,
+ org.eclipse.ui.themes

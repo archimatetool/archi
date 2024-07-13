@@ -1,116 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   
-	<extension
-       name="Themes"
-       point="org.eclipse.e4.ui.css.swt.theme">
-        <theme
-              basestylesheeturi="themes/archi/css/basic/basic.css"
-              id="com.archimatetool.editor.theme.basic"
-              label="%theme.basic">
-        </theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic.css"
-			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="%theme.classic">
-		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="%theme.light"
-			os="linux">
-		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_default_mac.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="%theme.light"
-			os="macosx">
-		</theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4_default_win.css"
-            id="org.eclipse.e4.ui.css.theme.e4_default"
-            label="%theme.light"
-            os="win32">
-        </theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4-dark_win.css"
-            id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="%theme.dark"
-            os="win32">
-        </theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4-dark_linux.css"
-            id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="%theme.dark"
-            os="linux">
-        </theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4-dark_mac1013.css"
-            id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="%theme.dark"
-            os="macosx"
-            os_version="10.11,10.12,10.13">
-        </theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4-dark_mac.css"
-            id="org.eclipse.e4.ui.css.theme.e4_dark"
-            label="%theme.dark"
-            os="macosx">
-        </theme>
-        <theme
-            basestylesheeturi="themes/eclipse/css/e4_system.css"
+    <extension
+          name="Themes"
+          point="org.eclipse.e4.ui.css.swt.theme">
+      <theme
+            basestylesheeturi="themes/archi/css/basic/basic.css"
+            id="com.archimatetool.editor.theme.basic"
+            label="%theme.basic">
+      </theme>
+      <theme
+            basestylesheeturi="themes/eclipse/css/system/e4_system.css"
             id="org.eclipse.e4.ui.css.theme.e4_system"
             label="%theme.system">
-        </theme>
-	</extension>
-    <extension
-          name="StyleSheets"
-          point="org.eclipse.e4.ui.css.swt.theme">
-       <stylesheet
-             uri="themes/eclipse/css/dark/e4-dark_preferencestyle.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_dark">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             uri="themes/archi/css/common/archi-globalstyle.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_classic">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             uri="themes/eclipse/css/dark/archi-dark-styling.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_dark">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             uri="themes/eclipse/css/light/archi-light-styling.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_default">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             uri="themes/eclipse/css/system/archi-light-styling.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_system">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             os="macosx"
-             uri="themes/eclipse/css/system/archi-system-mac.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_system">
-          </themeid>
-       </stylesheet>
+      </theme>
 		
     </extension>
+   
+	<extension
+       name="StyleSheets"
+       point="org.eclipse.e4.ui.css.swt.theme">
+    <stylesheet
+          uri="themes/eclipse/css/light/archi-light-styling.css">
+       <themeid
+             refid="org.eclipse.e4.ui.css.theme.e4_default">
+       </themeid>
+    </stylesheet>
+    <stylesheet
+          uri="themes/eclipse/css/dark/archi-dark-styling.css">
+       <themeid
+             refid="org.eclipse.e4.ui.css.theme.e4_dark">
+       </themeid>
+    </stylesheet>
+    <stylesheet
+          uri="themes/archi/css/common/archi-globalstyle.css">
+       <themeid
+             refid="org.eclipse.e4.ui.css.theme.e4_classic">
+       </themeid>
+    </stylesheet>
+    <stylesheet
+          uri="themes/eclipse/css/system/archi-light-styling.css">
+       <themeid
+             refid="org.eclipse.e4.ui.css.theme.e4_system">
+       </themeid>
+    </stylesheet>
+    <stylesheet
+          os="macosx"
+          uri="themes/eclipse/css/system/archi-system-mac.css">
+       <themeid
+             refid="org.eclipse.e4.ui.css.theme.e4_system">
+       </themeid>
+    </stylesheet>
+	</extension>
  <extension
        point="org.eclipse.ui.themes">
     <themeElementCategory
           id="com.archimatetool.editor.themes"
-          label="%themeCategory.archi">
+          label="%themeCategory.archi"
+          parentId="org.eclipse.ui.themes.CssTheme">
     </themeElementCategory>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"

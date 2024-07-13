@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.preferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
@@ -146,7 +149,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         // Themes list
         if(themeEngine != null) {
-            fThemeComboViewer.setInput(themeEngine.getThemes().toArray());
+            List<ITheme> themes = new ArrayList<>();
+            
+            // Don't show the High Contrast theme
+            // See https://github.com/eclipse-platform/eclipse.platform.ui/blob/master/bundles/org.eclipse.ui.workbench/Eclipse%20UI/org/eclipse/ui/internal/dialogs/ViewsPreferencePage.java
+            for(ITheme theme : themeEngine.getThemes()) {
+                if(!"org.eclipse.e4.ui.css.theme.high-contrast".equals(theme.getId())) { //$NON-NLS-1$
+                    themes.add(theme);
+                }
+            }
+            
+            fThemeComboViewer.setInput(themes.toArray());
             
             ITheme activeTheme = themeEngine.getActiveTheme();
             if(activeTheme != null) {
@@ -154,7 +167,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        fUseThemes.setSelection(ThemeUtils.getThemeEngine() != null);
+        fUseThemes.setSelection(themeEngine != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
         fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
         

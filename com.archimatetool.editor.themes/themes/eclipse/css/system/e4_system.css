@@ -15,72 +15,77 @@
  *     Patrik Suzzi <psuzzi@gmail.com> - Bug 501250
  *******************************************************************************/
 
-@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
+@import url("platform:/plugin/org.eclipse.ui.themes/css/common/e4_globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_globalstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_ide_colorextensions.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_partstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light_tabstyle.css");
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/system/e4-light-drag-styling.css");
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #E1DEDB;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #E1DEDB;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #CDC7C2;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #CDC7C2;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-	color: #CDC7C2;
+	color: '#COLOR-LIST-SELECTION';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #EAE8E6;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #EAE8E6;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #D5D0CC;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #D5D0CC;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
-	color: #D5D0CC;
+	color: '#COLOR-WIDGET-NORMAL-SHADOW';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-	color: #F6F5F4;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-	color: #F6F5F4;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_START {
-	color: #EAE8E6;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
-	color: #EAE8E6;
+	color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 .MTrimmedWindow {
-	background-color: #F6F5F4;
+	background-color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 .MTrimBar {
-	background-color: #F6F5F4;
+	background-color: '#COLOR-WIDGET-BACKGROUND';
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar  {
-	background-color: COLOR-WIDGET-BACKGROUND #F6F5F4 100%;
+	background-color: COLOR-WIDGET-BACKGROUND '#COLOR-WIDGET-BACKGROUND' 100%;
 }
 
 .MPartStack {
@@ -88,14 +93,14 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
 }
 
 CTabFolder.MArea {
-	background-color: #F6F5F4;
-	swt-selected-tab-fill: #F6F5F4;
-	swt-unselected-tabs-color: #F6F5F4;
-	swt-outer-keyline-color: #F6F5F4;
-	swt-inner-keyline-color: #F6F5F4;
-	swt-tab-outline: #F6F5F4;
+	background-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-selected-tab-fill: '#COLOR-WIDGET-BACKGROUND';
+	swt-unselected-tabs-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-outer-keyline-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-inner-keyline-color: '#COLOR-WIDGET-BACKGROUND';
+	swt-tab-outline: '#COLOR-WIDGET-BACKGROUND';
 }
 
 CTabFolder Canvas {
-	background-color: #F8F7F6;
+	background-color: '#COLOR-WIDGET-BACKGROUND';
 }
