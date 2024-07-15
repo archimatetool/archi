@@ -71,12 +71,13 @@ public class TreeModelViewer extends TreeViewer {
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
     /**
-     * Listener for preference change and theme font change
+     * Listener for preference changes and theme font change
      */
     private IPropertyChangeListener prefsListener = event -> {
         switch(event.getProperty()) {
             case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
-                refresh();
+            case IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE:
+                updateInBackground(null);
                 break;
 
             case IPreferenceConstants.MODEL_TREE_FONT:
@@ -233,22 +234,69 @@ public class TreeModelViewer extends TreeViewer {
      * Refresh the tree in the background
      * @param element The root element or null for the whole tree
      */
-    void refreshInBackground(final Object element) {
-        getControl().getDisplay().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                if(!getControl().isDisposed()) { // check inside run loop
-                    try {
-                        getControl().setRedraw(false);
-                        // If element is not visible in case of drill-down then refresh the whole tree
-                        refresh(element != null ? (findItem(element) != null ? element : null) : null);
-                    }
-                    finally {
-                        getControl().setRedraw(true);
-                    }
+    void refreshInBackground(Object element) {
+        getControl().getDisplay().asyncExec(() -> {
+            if(!getControl().isDisposed()) { // check inside run loop
+                try {
+                    getControl().setRedraw(false);
+                    // If element is not visible in case of drill-down then refresh the whole tree
+                    refresh(element != null ? (findItem(element) != null ? element : null) : null);
+                }
+                finally {
+                    getControl().setRedraw(true);
                 }
             }
         });
+    }
+    
+    /**
+     * Update all tree items that are child items of element in the background.
+     * @param element The root element or null for the whole tree
+     */
+    void updateInBackground(final Object element) {
+        getControl().getDisplay().asyncExec(() -> {
+            if(!getControl().isDisposed()) { // check inside run loop
+                update(element);
+            }
+        });
+    }
+    
+    /**
+     * Update all tree items that are child items of element
+     * Iterating through all open TreeItems is way faster than refreshing the tree.
+     * @param element The root element or null for the whole tree
+     */
+    void update(Object element) {
+        try {
+            getControl().setRedraw(false);
+            TreeItem rootItem = element != null ? findTreeItem(element) : null;
+            if(rootItem != null) {
+                for(TreeItem treeItem : rootItem.getItems()) {
+                    update(treeItem);
+                }
+            }
+            else {
+                for(TreeItem treeItem : getTree().getItems()) {
+                    update(treeItem);
+                }
+            }
+        }
+        finally {
+            getControl().setRedraw(true);
+        }
+    }
+    
+    /**
+     * Update treeItem and all of its child TreeItems
+     */
+    void update(TreeItem treeItem) {
+        if(treeItem.getData() != null) {
+            update(treeItem.getData(), null);
+        }
+        
+        for(TreeItem childItem : treeItem.getItems()) {
+            update(childItem);
+        }
     }
     
     /**
@@ -393,7 +441,7 @@ public class TreeModelViewer extends TreeViewer {
             fontBoldItalic = null;
             
             // Need to refresh the tree asynchronously because a theme font change will set the font later
-            refreshInBackground(null);
+            updateInBackground(null);
         }
 
         private String getText(Object element) {

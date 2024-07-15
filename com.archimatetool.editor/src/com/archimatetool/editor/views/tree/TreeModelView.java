@@ -849,13 +849,10 @@ implements ITreeModelView, IUIRequestListener {
         // Attribute set
         if(type == Notification.SET) {
             // Viewpoint changed
-            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
-                if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
-                    if(notifier instanceof IDiagramModel) {
-                        IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
-                        getViewer().refreshInBackground(model);
-                    }
-                }
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT
+                        && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
+                        && notifier instanceof IDiagramModel dm) {
+                getViewer().updateInBackground(dm.getArchimateModel());
             }
             // Model renamed
             // This is too expensive in refreshing the whole tree
