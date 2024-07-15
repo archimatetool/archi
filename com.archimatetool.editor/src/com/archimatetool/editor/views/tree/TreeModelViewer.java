@@ -81,7 +81,6 @@ public class TreeModelViewer extends TreeViewer {
 
             case IPreferenceConstants.MODEL_TREE_FONT:
                 ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
-                refresh();
                 break;
         }
     };
@@ -89,12 +88,12 @@ public class TreeModelViewer extends TreeViewer {
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
-        // Set CSS ID
+        // Set CSS ID and apply the style so that we can immediately get the italic and bold fonts from the base font style
         ThemeUtils.registerCssId(getTree(), "ModelTree"); //$NON-NLS-1$
+        ThemeUtils.applyStyles(getTree(), false);
         
-        // No need to do this as we are setting the base font in ModelTreeViewerLabelProvider
         // Set font in case CSS theming is disabled
-        // ThemeUtils.setFontIfCssThemingDisabled(getTree(), IPreferenceConstants.MODEL_TREE_FONT);
+        ThemeUtils.setFontIfCssThemingDisabled(getTree(), IPreferenceConstants.MODEL_TREE_FONT);
 
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
@@ -380,11 +379,6 @@ public class TreeModelViewer extends TreeViewer {
         private Font fontBold;
         private Font fontBoldItalic;
         
-        ModelTreeViewerLabelProvider() {
-            // Call this so we can set the base font on the tree
-            resetFonts();
-        }
-        
         @Override
         public void update(ViewerCell cell) {
             cell.setText(getText(cell.getElement()));
@@ -398,8 +392,8 @@ public class TreeModelViewer extends TreeViewer {
             fontBold = null;
             fontBoldItalic = null;
             
-            // This sets the base font on the tree so we can get the italic and bold variants from it
-            getTree().setFont(ThemeUtils.getCurrentThemeFont(IPreferenceConstants.MODEL_TREE_FONT));
+            // Need to refresh the tree asynchronously because a theme font change will set the font later
+            refreshInBackground(null);
         }
 
         private String getText(Object element) {

@@ -113,10 +113,21 @@ public final class ThemeUtils {
     /**
      * Register a control's CSS unique ID by setting the "org.eclipse.e4.ui.css.id" data property to a CSS id name
      * @param control The control to register
-     * @param className The CSS id
+     * @param id The CSS id
      */
     public static void registerCssId(Control control, String id) {
         control.setData("org.eclipse.e4.ui.css.id", id);
+    }
+
+    /**
+     * If the CSS theme engine is available then force applying the style to the control and its children 
+     * @param control The control 
+     * @param applyStylesToChildNodes if the control's children should be updated as well
+     */
+    public static void applyStyles(Control control, boolean applyStylesToChildNodes) {
+        if(getThemeEngine() != null) {
+            getThemeEngine().applyStyles(control, applyStylesToChildNodes);
+        }
     }
 
     /**
