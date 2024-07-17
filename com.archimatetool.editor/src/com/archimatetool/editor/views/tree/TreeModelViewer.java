@@ -71,18 +71,11 @@ public class TreeModelViewer extends TreeViewer {
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
     /**
-     * Listener for preference changes and theme font change
+     * Listener for theme font change
      */
-    private IPropertyChangeListener prefsListener = event -> {
-        switch(event.getProperty()) {
-            case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
-            case IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE:
-                update();
-                break;
-
-            case IPreferenceConstants.MODEL_TREE_FONT:
-                ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
-                break;
+    private IPropertyChangeListener propertyChangeListener = event -> {
+        if(IPreferenceConstants.MODEL_TREE_FONT.equals(event.getProperty())) {
+            ((ModelTreeViewerLabelProvider)getLabelProvider()).resetFonts();
         }
     };
     
@@ -187,20 +180,15 @@ public class TreeModelViewer extends TreeViewer {
         // Filter
         fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
         
-        // Listen to Archi Preferences
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
-        
         // Listen to theme font changes
         if(ThemeUtils.getThemeManager() != null) {
-            ThemeUtils.getThemeManager().addPropertyChangeListener(prefsListener);
+            ThemeUtils.getThemeManager().addPropertyChangeListener(propertyChangeListener);
         }
         
-        // Remove listeners and clean up
+        // Remove listener and clean up
         getTree().addDisposeListener(e -> {
-            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
-            
             if(ThemeUtils.getThemeManager() != null) {
-                ThemeUtils.getThemeManager().removePropertyChangeListener(prefsListener);
+                ThemeUtils.getThemeManager().removePropertyChangeListener(propertyChangeListener);
             }
             
             fViewpointFilterProvider = null;

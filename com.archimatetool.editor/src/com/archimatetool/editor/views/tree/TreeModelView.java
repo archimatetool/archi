@@ -661,6 +661,13 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
+        switch(event.getProperty()) {
+            case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
+            case IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE:
+                getViewer().update();
+                break;
+        }
+
         if(event.getProperty().startsWith(IPreferenceConstants.FOLDER_COLOUR_PREFIX)) {
             getViewer().update();
         }
