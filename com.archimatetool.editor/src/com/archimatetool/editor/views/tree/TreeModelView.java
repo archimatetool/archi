@@ -662,7 +662,7 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
         if(event.getProperty().startsWith(IPreferenceConstants.FOLDER_COLOUR_PREFIX)) {
-            getViewer().refresh();
+            getViewer().update();
         }
     }
 

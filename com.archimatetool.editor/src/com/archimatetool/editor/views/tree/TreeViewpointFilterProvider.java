@@ -58,7 +58,7 @@ public class TreeViewpointFilterProvider {
                     if(activeDiagramModel != null && previousDiagramModel != null
                             && activeDiagramModel.getArchimateModel() == previousDiagramModel.getArchimateModel()) {
                         
-                        // Different viewpoint
+                        // ...and have different viewpoints
                         if(!Objects.equals(previousDiagramModel.getViewpoint(), activeDiagramModel.getViewpoint())) {
                             treeViewer.updateInBackground(activeDiagramModel.getArchimateModel());
                         }
@@ -83,7 +83,7 @@ public class TreeViewpointFilterProvider {
                 if(page != null && page.getActiveEditor() == null) {
                     activeDiagramModel = null;
                     if(isActive()) {
-                        treeViewer.updateInBackground(null);
+                        treeViewer.updateInBackground();
                     }
                 }
             }

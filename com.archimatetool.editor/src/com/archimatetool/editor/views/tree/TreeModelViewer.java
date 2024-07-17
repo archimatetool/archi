@@ -77,7 +77,7 @@ public class TreeModelViewer extends TreeViewer {
         switch(event.getProperty()) {
             case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
             case IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE:
-                updateInBackground(null);
+                update();
                 break;
 
             case IPreferenceConstants.MODEL_TREE_FONT:
@@ -231,15 +231,22 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Refresh the tree in the background
-     * @param element The root element or null for the whole tree
+     * Refresh the tree viewer in the background.
+     */
+    void refreshInBackground() {
+        refreshInBackground(null);
+    }
+
+    /**
+     * Refresh the tree viewer starting with the given element in the background.
+     * @param element The element, or null to refresh the root.
      */
     void refreshInBackground(Object element) {
         getControl().getDisplay().asyncExec(() -> {
             if(!getControl().isDisposed()) { // check inside run loop
                 try {
                     getControl().setRedraw(false);
-                    // If element is not visible in case of drill-down then refresh the whole tree
+                    // If element is not visible in case of drill-down then refresh the root element
                     refresh(element != null ? (findItem(element) != null ? element : null) : null);
                 }
                 finally {
@@ -250,10 +257,17 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Update all tree items that are child items of element in the background.
-     * @param element The root element or null for the whole tree
+     * Update all of the tree viewer's TreeItems in the background.
      */
-    void updateInBackground(final Object element) {
+    void updateInBackground() {
+        updateInBackground(null);
+    }
+
+    /**
+     * Update the tree item which represents the given element and all of its child tree items in the background.
+     * @param element The element, or null to update the root.
+     */
+    void updateInBackground(Object element) {
         getControl().getDisplay().asyncExec(() -> {
             if(!getControl().isDisposed()) { // check inside run loop
                 update(element);
@@ -262,22 +276,28 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Update all tree items that are child items of element
-     * Iterating through all open TreeItems is way faster than refreshing the tree.
-     * @param element The root element or null for the whole tree
+     * Update all of the tree viewer's TreeItems.
+     */
+    void update() {
+        update(null);
+    }
+    
+    /**
+     * Update the tree item which represents the given element and all of its child tree items.
+     * Iterating through all available TreeItems is much faster than refreshing the tree.
+     * @param element The element, or null to update the root.
      */
     void update(Object element) {
         try {
             getControl().setRedraw(false);
+            // If element is not visible in case of drill-down then update the root element (null)
             TreeItem rootItem = element != null ? findTreeItem(element) : null;
             if(rootItem != null) {
-                for(TreeItem treeItem : rootItem.getItems()) {
-                    update(treeItem);
-                }
+                updateTreeItem(rootItem);
             }
             else {
                 for(TreeItem treeItem : getTree().getItems()) {
-                    update(treeItem);
+                    updateTreeItem(treeItem);
                 }
             }
         }
@@ -289,13 +309,13 @@ public class TreeModelViewer extends TreeViewer {
     /**
      * Update treeItem and all of its child TreeItems
      */
-    void update(TreeItem treeItem) {
+    private void updateTreeItem(TreeItem treeItem) {
         if(treeItem.getData() != null) {
             update(treeItem.getData(), null);
         }
         
         for(TreeItem childItem : treeItem.getItems()) {
-            update(childItem);
+            updateTreeItem(childItem);
         }
     }
     
@@ -440,8 +460,8 @@ public class TreeModelViewer extends TreeViewer {
             fontBold = null;
             fontBoldItalic = null;
             
-            // Need to refresh the tree asynchronously because a theme font change will set the font later
-            updateInBackground(null);
+            // Need to update the tree asynchronously because a theme font change will set the font later
+            updateInBackground();
         }
 
         private String getText(Object element) {
