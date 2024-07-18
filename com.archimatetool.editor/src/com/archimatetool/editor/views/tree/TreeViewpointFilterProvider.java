@@ -115,20 +115,18 @@ public class TreeViewpointFilterProvider {
      * @return grey text color if the given concept is disallowed in a Viewpoint for the active model, or else null
      */
     Color getTextColor(Object object) {
-        if(isActive() && activeDiagramModel != null && object instanceof IArchimateConcept concept) {
+        if(isActive() && activeDiagramModel != null && object instanceof IArchimateConcept concept
+                      && concept.getArchimateModel() == activeDiagramModel.getArchimateModel()) { // From same model as active diagram
             IViewpoint viewpoint = ViewpointManager.INSTANCE.getViewpoint(activeDiagramModel.getViewpoint());
             if(viewpoint != null) {
-                // From same model as active diagram
-                if(concept.getArchimateModel() == activeDiagramModel.getArchimateModel()) {
-                    if(concept instanceof IArchimateRelationship relation) {
-                        IArchimateConcept source = relation.getSource();
-                        IArchimateConcept target = relation.getTarget();
-                        return viewpoint.isAllowedConcept(source.eClass())
-                                && viewpoint.isAllowedConcept(target.eClass()) ? null : colorGrey;
-                    }
-                    else if(object instanceof IArchimateElement element) {
-                        return viewpoint.isAllowedConcept(element.eClass()) ? null : colorGrey;
-                    }
+                if(concept instanceof IArchimateRelationship relation) {
+                    IArchimateConcept source = relation.getSource();
+                    IArchimateConcept target = relation.getTarget();
+                    return viewpoint.isAllowedConcept(source.eClass())
+                            && viewpoint.isAllowedConcept(target.eClass()) ? null : colorGrey;
+                }
+                else if(object instanceof IArchimateElement element) {
+                    return viewpoint.isAllowedConcept(element.eClass()) ? null : colorGrey;
                 }
             }
         }

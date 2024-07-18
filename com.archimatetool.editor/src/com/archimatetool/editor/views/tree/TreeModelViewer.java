@@ -106,8 +106,8 @@ public class TreeModelViewer extends TreeViewer {
                 }
                 
                 // Only user folders are sorted
-                if((e1 instanceof IFolder && e2 instanceof IFolder) && (((IFolder)e1).getType() != FolderType.USER 
-                        || ((IFolder)e2).getType() != FolderType.USER)) {
+                if((e1 instanceof IFolder folder1 && e2 instanceof IFolder folder2) && (folder1.getType() != FolderType.USER 
+                        || folder2.getType() != FolderType.USER)) {
                     return 0;
                 }
                 
@@ -155,18 +155,17 @@ public class TreeModelViewer extends TreeViewer {
         setCellModifier(new ICellModifier() {
             @Override
             public void modify(Object element, String property, Object value) {
-                if(element instanceof TreeItem) {
-                    Object data = ((TreeItem)element).getData();
-                    if(data instanceof INameable) {
-                        RenameCommandHandler.doRenameCommand((INameable)data, value.toString());
+                if(element instanceof TreeItem treeItem) {
+                    if(treeItem.getData() instanceof INameable nameable) {
+                        RenameCommandHandler.doRenameCommand(nameable, value.toString());
                     }
                 }
             }
             
             @Override
             public Object getValue(Object element, String property) {
-                if(element instanceof INameable) {
-                    return ((INameable)element).getName();
+                if(element instanceof INameable nameable) {
+                    return nameable.getName();
                 }
                 return null;
             }
@@ -328,8 +327,8 @@ public class TreeModelViewer extends TreeViewer {
      */
     protected SearchFilter getSearchFilter() {
         for(ViewerFilter filter : getFilters()) {
-            if(filter instanceof SearchFilter) {
-                return (SearchFilter)filter;
+            if(filter instanceof SearchFilter searchFilter) {
+                return searchFilter;
             }
         }
         
@@ -382,21 +381,21 @@ public class TreeModelViewer extends TreeViewer {
 
         @Override
         public Object[] getChildren(Object parentElement) {
-            if(parentElement instanceof IEditorModelManager) {
-            	return ((IEditorModelManager)parentElement).getModels().toArray();
+            if(parentElement instanceof IEditorModelManager editorModelManager) {
+            	return editorModelManager.getModels().toArray();
             }
             
-            if(parentElement instanceof IArchimateModel) {
-            	return ((IArchimateModel)parentElement).getFolders().toArray();
+            if(parentElement instanceof IArchimateModel model) {
+            	return model.getFolders().toArray();
             }
 
-            if(parentElement instanceof IFolder) {
-                List<Object> list = new ArrayList<Object>();
+            if(parentElement instanceof IFolder folder) {
+                List<Object> list = new ArrayList<>();
                 
                 // Folders
-                list.addAll(((IFolder)parentElement).getFolders());
+                list.addAll(folder.getFolders());
                 // Elements
-                list.addAll(((IFolder)parentElement).getElements());
+                list.addAll(folder.getElements());
                 
                 return list.toArray();
             }
@@ -406,8 +405,8 @@ public class TreeModelViewer extends TreeViewer {
 
         @Override
         public Object getParent(Object element) {
-            if(element instanceof EObject) {
-                return ((EObject)element).eContainer();
+            if(element instanceof EObject eObject) {
+                return eObject.eContainer();
             }
             return null;
         }
@@ -453,15 +452,11 @@ public class TreeModelViewer extends TreeViewer {
             String name = ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
             
             // If a dirty model show asterisk
-            if(element instanceof IArchimateModel) {
-                IArchimateModel model = (IArchimateModel)element;
-                if(IEditorModelManager.INSTANCE.isModelDirty(model)) {
-                    name = "*" + name; //$NON-NLS-1$
-                }
+            if(element instanceof IArchimateModel model && IEditorModelManager.INSTANCE.isModelDirty(model)) {
+                name = "*" + name; //$NON-NLS-1$
             }
-            
-            if(element instanceof IArchimateRelationship) {
-                IArchimateRelationship relationship = (IArchimateRelationship)element;
+            // If a relationship show source and target
+            else if(element instanceof IArchimateRelationship relationship) {
                 name += " ("; //$NON-NLS-1$
                 name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
                 name += " - "; //$NON-NLS-1$
@@ -486,9 +481,10 @@ public class TreeModelViewer extends TreeViewer {
                 isFiltering = true;
             }
             
-            // Unused elements
-            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept && 
-                    !DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
+            // Unused concepts
+            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
+                    && element instanceof IArchimateConcept concept
+                    && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept)) {
                 unusedConcept = true;
             }
             
