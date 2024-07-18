@@ -245,14 +245,14 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Update all of the tree viewer's TreeItems in the background.
+     * Update the tree viewer's elements in the background.
      */
     void updateInBackground() {
         updateInBackground(null);
     }
 
     /**
-     * Update the tree item which represents the given element and all of its child tree items in the background.
+     * Update the given element and all of its child elements in the background.
      * @param element The element, or null to update the root.
      */
     void updateInBackground(Object element) {
@@ -264,30 +264,22 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Update all of the tree viewer's TreeItems.
+     * Update all of the tree viewer's elements.
      */
     void update() {
         update(null);
     }
     
     /**
-     * Update the tree item which represents the given element and all of its child tree items.
-     * Iterating through all available TreeItems is much faster than refreshing the tree.
+     * Update the given element and all of its child elements.
      * @param element The element, or null to update the root.
      */
     void update(Object element) {
         try {
             getControl().setRedraw(false);
-            // If element is not visible in case of drill-down then update the root element (null)
-            TreeItem rootItem = element != null ? findTreeItem(element) : null;
-            if(rootItem != null) {
-                updateTreeItem(rootItem);
-            }
-            else {
-                for(TreeItem treeItem : getTree().getItems()) {
-                    updateTreeItem(treeItem);
-                }
-            }
+            // If element is null use the root element
+            element = element == null ? getRoot() : element;
+            updateElement(element);
         }
         finally {
             getControl().setRedraw(true);
@@ -295,15 +287,14 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * Update treeItem and all of its child TreeItems
+     * Update element and all of its child elements from the content provider
      */
-    private void updateTreeItem(TreeItem treeItem) {
-        if(treeItem.getData() != null) {
-            update(treeItem.getData(), null);
-        }
-        
-        for(TreeItem childItem : treeItem.getItems()) {
-            updateTreeItem(childItem);
+    private void updateElement(Object element) {
+        if(element != null) {
+            update(element, null);
+            for(Object child : ((ITreeContentProvider)getContentProvider()).getChildren(element)) {
+                updateElement(child);
+            }
         }
     }
     
