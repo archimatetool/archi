@@ -68,7 +68,12 @@ public class TreeModelViewer extends TreeViewer {
     /**
      * Show elements as grey if not in Viewpoint
      */
-    private TreeViewpointFilterProvider fViewpointFilterProvider;
+    private TreeViewpointFilterProvider viewpointFilterProvider;
+    
+    /**
+     * Label Provider needs this
+     */
+    private SearchFilter searchFilter;
     
     /**
      * Listener for theme font change
@@ -177,7 +182,7 @@ public class TreeModelViewer extends TreeViewer {
         });
         
         // Filter
-        fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
+        viewpointFilterProvider = new TreeViewpointFilterProvider(this);
         
         // Listen to theme font changes
         if(ThemeUtils.getThemeManager() != null) {
@@ -190,7 +195,8 @@ public class TreeModelViewer extends TreeViewer {
                 ThemeUtils.getThemeManager().removePropertyChangeListener(propertyChangeListener);
             }
             
-            fViewpointFilterProvider = null;
+            viewpointFilterProvider = null;
+            searchFilter = null;
         });
     }
     
@@ -323,16 +329,14 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * @return The Search Filter or null if not filtering
+     * Keep a reference to the SearchFilter
      */
-    protected SearchFilter getSearchFilter() {
-        for(ViewerFilter filter : getFilters()) {
-            if(filter instanceof SearchFilter searchFilter) {
-                return searchFilter;
-            }
+    @Override
+    public void addFilter(ViewerFilter filter) {
+        if(filter instanceof SearchFilter searchFilter) {
+            this.searchFilter = searchFilter;
         }
-        
-        return null;
+        super.addFilter(filter);
     }
     
     // Need package access to this method
@@ -427,10 +431,11 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public void update(ViewerCell cell) {
-            cell.setText(getText(cell.getElement()));
-            cell.setImage(getImage(cell.getElement()));
-            cell.setForeground(getForeground(cell.getElement()));
-            cell.setFont(getFont(cell.getElement()));
+            Object element = cell.getElement();
+            cell.setText(getText(element));
+            cell.setImage(getImage(element));
+            cell.setForeground(getForeground(element));
+            cell.setFont(getFont(element));
         }
         
         private void resetFonts() {
@@ -472,27 +477,19 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         private Font getFont(Object element) {
-            boolean isFiltering = false;
-            boolean unusedConcept = false;
-            
             // Using Search
-            SearchFilter filter = getSearchFilter();
-            if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
-                isFiltering = true;
+            boolean isSearching = searchFilter != null && searchFilter.isFiltering() && searchFilter.matchesFilter(element);
+            
+            // Unused concept
+            boolean isUnusedConcept = element instanceof IArchimateConcept concept
+                    && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
+                    && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept);
+            
+            if(isSearching) {
+                return isUnusedConcept ? getBoldItalicFont() : getBoldFont();
             }
             
-            // Unused concepts
-            if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
-                    && element instanceof IArchimateConcept concept
-                    && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept)) {
-                unusedConcept = true;
-            }
-            
-            if(isFiltering) {
-                return unusedConcept ? getBoldItalicFont() : getBoldFont();
-            }
-            
-            return unusedConcept ? getItalicFont() : null;
+            return isUnusedConcept ? getItalicFont() : null;
         }
         
         private Font getBoldFont() {
@@ -517,7 +514,7 @@ public class TreeModelViewer extends TreeViewer {
         }
 
         private Color getForeground(Object element) {
-            return fViewpointFilterProvider.getTextColor(element);
+            return viewpointFilterProvider.getTextColor(element);
         }
     }
     
