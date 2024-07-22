@@ -6,8 +6,10 @@
 package com.archimatetool.editor.views.tree.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -24,9 +26,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeViewerListener;
+import org.eclipse.jface.viewers.TreeExpansionEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -63,6 +67,8 @@ public class SearchWidget extends Composite {
     private Text fSearchText;
     
     private SearchFilter fSearchFilter;
+    private TreeViewer fViewer;
+    private Set<Object> fExpandedObjects;
     
     private IAction fActionFilterName;
     private IAction fActionFilterDoc;
@@ -70,10 +76,11 @@ public class SearchWidget extends Composite {
     private MenuManager fPropertiesMenu;
     private MenuManager fSpecializationsMenu;
     
-    private List<IAction> fObjectActions = new ArrayList<IAction>();
+    private List<IAction> fObjectActions = new ArrayList<>();
     
     private Timer fKeyDelayTimer;
-    private int fTimerDelay = 600;
+    
+    private static int TIMER_DELAY = 600;
     
     // Hook into the global edit Action Handlers and null them when the text control has the focus
     private Listener textControlListener = new Listener() {
@@ -99,10 +106,32 @@ public class SearchWidget extends Composite {
         }
     };
     
-    public SearchWidget(Composite parent, SearchFilter filter) {
-        super(parent, SWT.NULL);
+    /**
+     * Track user expanded/collapsed nodes so we can restore the tree to that state.
+     * Note this does not notify on programmatic expansion.
+     */
+    private ITreeViewerListener treeExpansionListener = new ITreeViewerListener() {
+        @Override
+        public void treeExpanded(TreeExpansionEvent event) {
+            fExpandedObjects.add(event.getElement());
+        }
         
-        fSearchFilter = filter;
+        @Override
+        public void treeCollapsed(TreeExpansionEvent event) {
+            fExpandedObjects.remove(event.getElement());
+        }
+    };
+    
+    public SearchWidget(TreeViewer viewer) {
+        super(viewer.getTree().getParent(), SWT.NULL);
+        
+        fViewer = viewer;
+        saveTreeState(); // save this now
+        
+        fSearchFilter = new SearchFilter();
+        fViewer.addFilter(fSearchFilter);
+        
+        fViewer.addTreeListener(treeExpansionListener);
         
         GridLayout layout = new GridLayout(2, false);
         setLayout(layout);
@@ -110,8 +139,6 @@ public class SearchWidget extends Composite {
         
         setupToolBar();
         setupSearchTextWidget();
-        
-        fSearchFilter.saveState();
     }
     
     @Override
@@ -120,7 +147,7 @@ public class SearchWidget extends Composite {
         return fSearchText.isDisposed() ? false : fSearchText.setFocus();
     }
 
-    protected void setupSearchTextWidget() {
+    private void setupSearchTextWidget() {
         fSearchText = UIUtils.createSingleTextControl(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH, false);
         fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
@@ -129,36 +156,32 @@ public class SearchWidget extends Composite {
         
         // Use auto search
         if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
-            fSearchText.addModifyListener(new ModifyListener() {
-                @Override
-                public void modifyText(ModifyEvent e) {
-                    // If we have a timer cancel it
-                    if(fKeyDelayTimer != null) {
-                        fKeyDelayTimer.cancel();
-                    }
-
-                    // Set this to run with a short delay to allow for key presses
-                    fKeyDelayTimer = new Timer();
-                    fKeyDelayTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Display.getDefault().asyncExec(() -> {
-                                if(!fSearchText.isDisposed()) {
-                                    fSearchFilter.setSearchText(fSearchText.getText());
-                                }
-                            });
-                        }
-                    }, fTimerDelay);
+            fSearchText.addModifyListener(event -> {
+                // If we have a timer cancel it
+                if(fKeyDelayTimer != null) {
+                    fKeyDelayTimer.cancel();
                 }
+
+                // Set this to run with a short delay to allow for key presses
+                fKeyDelayTimer = new Timer();
+                fKeyDelayTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Display.getDefault().syncExec(() -> { // This has to run in the UI thread
+                            if(!fSearchText.isDisposed()) {
+                                fSearchFilter.setSearchText(fSearchText.getText());
+                                refreshTree();
+                            }
+                        });
+                    }
+                }, TIMER_DELAY);
             });
         }
         // Search on Return key press
         else {
-            fSearchText.addListener(SWT.DefaultSelection, new Listener() {
-                @Override
-                public void handleEvent(Event e) {
-                    fSearchFilter.setSearchText(fSearchText.getText());
-                }
+            fSearchText.addListener(SWT.DefaultSelection, event -> {
+                fSearchFilter.setSearchText(fSearchText.getText());
+                refreshTree();
             });
         }
         
@@ -167,21 +190,22 @@ public class SearchWidget extends Composite {
         fSearchText.addListener(SWT.Deactivate, textControlListener);
     }
 
-    protected void setupToolBar() {
+    private void setupToolBar() {
         fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-            	fSearchFilter.setFilterOnName(isChecked(), true);
+            	fSearchFilter.setFilterOnName(isChecked());
+            	refreshTree();
             };
         };
         fActionFilterName.setToolTipText(Messages.SearchWidget_1);
         fActionFilterName.setChecked(true);
-        fSearchFilter.setFilterOnName(true, false);
         
         fActionFilterDoc = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-            	fSearchFilter.setFilterOnDocumentation(isChecked(), true);
+            	fSearchFilter.setFilterOnDocumentation(isChecked());
+            	refreshTree();
             }
         };
         fActionFilterDoc.setToolTipText(Messages.SearchWidget_3);
@@ -275,6 +299,7 @@ public class SearchWidget extends Composite {
             @Override
             public void run() {
             	fSearchFilter.setShowAllFolders(isChecked());
+            	refreshTree();
             }
         };
         action.setChecked(fSearchFilter.isShowAllFolders());
@@ -310,19 +335,20 @@ public class SearchWidget extends Composite {
         fSpecializationsMenu.removeAll();
         populateSpecializationsMenu();
 
-        fSearchFilter.resetFilters();
-
-        // Default to search on Name
+        // Filter on name
         fActionFilterName.setChecked(true);
-        fSearchFilter.setFilterOnName(true, false);
+
+        fSearchFilter.reset();
+        refreshTree();
     }
     
     public void softReset() {
-        // Clear & Reset Properties
+        // Clear & Reset Properties and Specializations
         fPropertiesMenu.removeAll();
         populatePropertiesMenu();
         populateSpecializationsMenu();
         fSearchFilter.resetPropertiesFilter();
+        refreshTree();
     }
 
 	private IAction createConceptAction(final EClass eClass) {
@@ -335,6 +361,7 @@ public class SearchWidget extends Composite {
                 else {
                     fSearchFilter.removeConceptFilter(eClass);
                 }
+                refreshTree();
             }
             
             @Override
@@ -377,6 +404,7 @@ public class SearchWidget extends Composite {
 	                else {
 	                    fSearchFilter.removePropertiesFilter(key);
 	                }
+	                refreshTree();
 	            }
 	        };
 
@@ -428,6 +456,7 @@ public class SearchWidget extends Composite {
                     else {
                         fSearchFilter.removeSpecializationsFilter(profile);
                     }
+                    refreshTree();
                 }
                 
                 @Override
@@ -451,5 +480,73 @@ public class SearchWidget extends Composite {
         }
         
         return false;
+    }
+    
+    private void refreshTree() {
+        // Not sure if async makes any difference. Expanding/conctracting tree nodes consumes the UI thread anyway
+        Display.getCurrent().asyncExec(() -> {
+            // fViewer can be null if this portion of code is called asynchronously:
+            // 1. Open this SearchWidget with some search text
+            // 2. Open or close a model that will take some time. TreeModelView will call softReset().
+            // 3. Quickly close this SearchWidget
+            // 4. At this point softReset() will have arrived here
+            if(fViewer == null || fViewer.getTree().isDisposed()) {
+                return;
+            }
+            
+            // Doing this first ensures that TreeViewer.refresh() is faster in many cases, especially on Windows
+            fViewer.collapseAll();
+
+            // Refresh the tree before expanding or restoring tree state
+            fViewer.refresh();
+            
+            // If we have something to show expand all nodes
+            if(fSearchFilter.isFiltering()) {
+                fViewer.expandAll();
+            }
+            // Else restore the tree
+            else {
+                restoreTreeState();
+            }
+        });
+    }
+    
+    private void saveTreeState() {
+        fExpandedObjects = new HashSet<>(Arrays.asList(fViewer.getVisibleExpandedElements()));  // only the visible ones
+    }
+
+    private void restoreTreeState() {
+        if(fExpandedObjects != null) {
+            try {
+                fViewer.getTree().setRedraw(false); // Need this on Windows
+                fViewer.setExpandedElements(fExpandedObjects.toArray());
+            }
+            finally {
+                fViewer.getTree().setRedraw(true);
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        
+        fViewer.removeTreeListener(treeExpansionListener);
+        
+        if(fSearchFilter.isFiltering()) {
+            IStructuredSelection selection = fViewer.getStructuredSelection(); // Store this before anything else
+            fViewer.collapseAll();               // Doing this first ensures that TreeViewer.removeFilter() is faster in many cases, especially on Windows
+            fViewer.removeFilter(fSearchFilter); // Do this before restoring tree state as it calls TreeViewer.refresh()
+            restoreTreeState();
+            fViewer.setSelection(selection, true);
+        }
+        else {
+            fViewer.removeFilter(fSearchFilter);
+        }
+        
+        fExpandedObjects = null;
+        fViewer = null;
+        fSearchFilter = null;
+        fObjectActions = null;
     }
 }

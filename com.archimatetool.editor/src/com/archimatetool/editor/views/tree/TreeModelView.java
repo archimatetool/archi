@@ -80,7 +80,6 @@ import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.editor.views.tree.actions.RenameAction;
 import com.archimatetool.editor.views.tree.actions.SaveModelAction;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
-import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -104,9 +103,7 @@ implements ITreeModelView, IUIRequestListener {
     
     private TreeModelViewer fTreeViewer;
     
-    private Composite fParentComposite;
     private SearchWidget fSearchWidget;
-    private SearchFilter fSearchFilter; // Keep track of Search Filter so we can restore expanded nodes state
     
     private IAction fActionToggleSearchField;
     
@@ -141,8 +138,6 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void doCreatePartControl(Composite parent) {
-        fParentComposite = parent;
-        
         GridLayout layout = new GridLayout();
         layout.marginHeight = 0;
         layout.marginWidth = 0;
@@ -183,10 +178,6 @@ implements ITreeModelView, IUIRequestListener {
         
         // Register us as a UIRequest Listener
         UIRequestManager.INSTANCE.addListener(this);
-        
-        // Search Filter
-        fSearchFilter = new SearchFilter(fTreeViewer);
-        fTreeViewer.addFilter(fSearchFilter);
         
         makeActions();
         hookContextMenu();
@@ -262,28 +253,20 @@ implements ITreeModelView, IUIRequestListener {
      * Show the Search Widget
      */
     private void showSearchWidget() {
-        fSearchWidget = new SearchWidget(fParentComposite, fSearchFilter);
+        fSearchWidget = new SearchWidget(fTreeViewer);
         fSearchWidget.moveAbove(fTreeViewer.getControl());
-        fParentComposite.layout();
+        fTreeViewer.getControl().getParent().layout();
         fSearchWidget.setFocus();
     }
     
     /**
-     * Hide the Search Widget
+     * Remove the Search Widget
      */
-    private void hideSearchWidget() {
+    private void removeSearchWidget() {
         if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
             fSearchWidget.dispose();
             fSearchWidget = null;
-            fParentComposite.layout();
-            
-            fTreeViewer.getTree().setRedraw(false);
-            try {
-                fSearchFilter.clear();
-            }
-            finally {
-                fTreeViewer.getTree().setRedraw(true);
-            }
+            fTreeViewer.getControl().getParent().layout();
         }
     }
     
@@ -350,7 +333,7 @@ implements ITreeModelView, IUIRequestListener {
                     showSearchWidget();
                 }
                 else {
-                    hideSearchWidget();
+                    removeSearchWidget();
                 }
             };
             
@@ -726,9 +709,7 @@ implements ITreeModelView, IUIRequestListener {
         // Garbage collection
         fTreeViewer = null;
         fFindReplaceProvider = null;
-        fSearchFilter = null;
         fSynchroniser = null;
-        fParentComposite = null;
         fDrillDownAdapter = null;
         fSearchWidget = null;
         

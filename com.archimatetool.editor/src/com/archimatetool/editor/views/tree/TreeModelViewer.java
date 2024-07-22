@@ -339,6 +339,14 @@ public class TreeModelViewer extends TreeViewer {
         super.addFilter(filter);
     }
     
+    @Override
+    public void removeFilter(ViewerFilter filter) {
+        if(filter instanceof SearchFilter) {
+            this.searchFilter = null;
+        }
+        super.removeFilter(filter);
+    }
+    
     // Need package access to this method
     @Override
     protected Object[] getSortedChildren(Object parentElementOrTreePath) {
