@@ -27,10 +27,9 @@ public class OpenDataFolderHandler extends AbstractHandler {
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        File folder = ArchiPlugin.INSTANCE.getUserDataFolder();
-        if(folder != null) {
+        if(isEnabled()) {
             try {
-                Desktop.getDesktop().open(folder);
+                Desktop.getDesktop().open(ArchiPlugin.INSTANCE.getUserDataFolder());
             }
             catch(IOException ex) {
                 ex.printStackTrace();
@@ -43,6 +42,7 @@ public class OpenDataFolderHandler extends AbstractHandler {
     @Override
     public boolean isEnabled() {
         File folder = ArchiPlugin.INSTANCE.getUserDataFolder();
-        return folder != null && folder.exists() && Desktop.getDesktop().isSupported(Action.OPEN);
+        // Check AWT Desktop is supported. Some Linux Wayland versions don't support it or need X11. 
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.OPEN) && folder != null && folder.exists();
     }
 }
