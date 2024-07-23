@@ -7,8 +7,6 @@ package com.archimatetool.editor.views.tree.actions;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -179,14 +177,8 @@ public class TreeModelViewActionFactory {
         
         List<IProfile> profiles = new ArrayList<>(folder.getArchimateModel().getProfiles());
         
-        Collections.sort(profiles, new Comparator<IProfile>() {
-            private Collator collator = Collator.getInstance();
-
-            @Override
-            public int compare(IProfile p1, IProfile p2) {
-                return collator.compare(p1.getName(), p2.getName());
-            }
-        });
+        Collator collator = Collator.getInstance();
+        profiles.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
         
         Set<EClass> classesSet = Set.of(classes);
         

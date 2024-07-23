@@ -5,8 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.Collator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -143,20 +142,16 @@ public class SpecializationSection extends AbstractECorePropertySection {
                     return new Object[0];
                 }
                 
-                List<IProfile> list = ArchimateModelUtils.findProfilesForConceptType(firstSelected.getArchimateModel(), firstSelected.eClass());
+                List<IProfile> profiles = ArchimateModelUtils.findProfilesForConceptType(firstSelected.getArchimateModel(), firstSelected.eClass());
                 
                 // Sort the Profiles by name
-                Collections.sort(list, new Comparator<IProfile>() {
-                    @Override
-                    public int compare(IProfile p1, IProfile p2) {
-                        return p1.getName().compareToIgnoreCase(p2.getName());
-                    }
-                });
+                Collator collator = Collator.getInstance();
+                profiles.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
 
                 // Add the "none" Profile at the top
-                list.add(0, NONE_PROFILE);
+                profiles.add(0, NONE_PROFILE);
                 
-                return list.toArray();
+                return profiles.toArray();
             }
         });
         

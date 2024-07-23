@@ -7,8 +7,6 @@ package com.archimatetool.editor.tools;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -502,14 +500,8 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      * Sort profiles on names
      */
     private void sortProfiles() {
-        Collections.sort(fProfilesCopy, new Comparator<IProfile>() {
-            Collator collator = Collator.getInstance();
-
-            @Override
-            public int compare(IProfile p1, IProfile p2) {
-                return collator.compare(p1.getName(), p2.getName());
-            }
-        });
+        Collator collator = Collator.getInstance();
+        fProfilesCopy.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
     }
     
     /**

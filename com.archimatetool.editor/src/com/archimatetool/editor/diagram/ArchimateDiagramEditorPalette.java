@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.diagram;
 
+import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -214,7 +214,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
         
         // Sort Profiles into Elements, then Relations
-        Collections.sort(profiles, Comparator.comparing(IProfile::getConceptClass, (c1, c2) -> {
+        Collator collator = Collator.getInstance();
+        profiles.sort(Comparator.comparing(IProfile::getConceptClass, (c1, c2) -> {
             if((IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(c1) && IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(c2))
                     || (IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(c1) && IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(c2))) {
                 return 0;
@@ -225,7 +226,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             }
             
             return 1;
-        }).thenComparing(IProfile::getName));
+        }).thenComparing(IProfile::getName, (name1, name2) -> collator.compare(name1, name2)));
         
         PaletteGroup group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_0);
         

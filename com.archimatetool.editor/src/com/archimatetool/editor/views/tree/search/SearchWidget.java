@@ -5,10 +5,9 @@
  */
 package com.archimatetool.editor.views.tree.search;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -378,16 +377,16 @@ public class SearchWidget extends Composite {
 
 	private void populatePropertiesMenu() {
 	    // Models that are loaded are the ones in the Models Tree
-	    Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
+	    Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
 
 	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
 	        getAllUniquePropertyKeysForModel(model, set);
 	    }
 	    
-	    List<String> list = new ArrayList<String>(set);
+	    List<String> list = new ArrayList<>(set);
 	    
-	    // Sort alphabetically
-        Collections.sort(list, (s1, s2) -> s1.compareToIgnoreCase(s2)); // Don't use Collator.getInstance() as it's too slow
+	    // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
+	    list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
 	    
         // Limit to a sensible menu size
         if(list.size() > 1000) {
@@ -439,12 +438,8 @@ public class SearchWidget extends Composite {
         }
         
         // Sort alphabetically
-        Collections.sort(profiles, new Comparator<IProfile>() {
-            @Override
-            public int compare(IProfile p1, IProfile p2) {
-                return p1.getName().compareToIgnoreCase(p2.getName());
-            }
-        });
+        Collator collator = Collator.getInstance();
+        profiles.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
 
         for(final IProfile profile : profiles) {
             IAction action = new Action(profile.getName(), IAction.AS_CHECK_BOX) {
