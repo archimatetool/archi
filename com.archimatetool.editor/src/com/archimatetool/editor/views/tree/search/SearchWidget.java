@@ -327,26 +327,31 @@ public class SearchWidget extends Composite {
         }
 
         // Clear & Reset Properties sub-menus
-        fPropertiesMenu.removeAll();
         populatePropertiesMenu();
         
         // Clear & Reset Specializations sub-menus
-        fSpecializationsMenu.removeAll();
         populateSpecializationsMenu();
 
         // Filter on name
         fActionFilterName.setChecked(true);
 
-        fSearchFilter.reset();
+        fSearchFilter.reset(); // This will clear concept, properties, and specializations filters 
         refreshTree();
     }
     
+    /**
+     * Clear and update Properties and Specializations and refresh the tree.
+     * Currently called when a model is opened or closed to update Properties and Specializations
+     */
     public void softReset() {
-        // Clear & Reset Properties and Specializations
-        fPropertiesMenu.removeAll();
+        // Clear & Reset Properties
         populatePropertiesMenu();
-        populateSpecializationsMenu();
         fSearchFilter.resetPropertiesFilter();
+        
+        // Clear & Reset Specializations
+        populateSpecializationsMenu();
+        fSearchFilter.resetSpecializationsFilter();
+        
         refreshTree();
     }
 
@@ -376,6 +381,8 @@ public class SearchWidget extends Composite {
     }
 
 	private void populatePropertiesMenu() {
+	    fPropertiesMenu.removeAll();
+	    
 	    // Models that are loaded are the ones in the Models Tree
 	    Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
 
@@ -426,6 +433,8 @@ public class SearchWidget extends Composite {
     }
     
     private void populateSpecializationsMenu() {
+        fSpecializationsMenu.removeAll();
+        
         // Models that are loaded are the ones in the Models Tree
         List<IProfile> profiles = new ArrayList<>();
 
