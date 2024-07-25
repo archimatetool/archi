@@ -67,21 +67,23 @@ public class SearchWidget extends Composite {
     
     private SearchFilter fSearchFilter;
     private TreeViewer fViewer;
-    private Set<Object> fExpandedObjects;
+    private Set<Object> fExpandedTreeObjects;
     
     private IAction fActionFilterName;
-    private IAction fActionFilterDoc;
+    private IAction fActionFilterDocumentation;
+    
+    private List<IAction> fConceptActions = new ArrayList<>();
     
     private MenuManager fPropertiesMenu;
     private MenuManager fSpecializationsMenu;
-    
-    private List<IAction> fObjectActions = new ArrayList<>();
     
     private Timer fKeyDelayTimer;
     
     private static int TIMER_DELAY = 600;
     
-    // Hook into the global edit Action Handlers and null them when the text control has the focus
+    /**
+     * Hook into the global edit Action Handlers and null them when the text control has the focus
+     */
     private Listener textControlListener = new Listener() {
         private GlobalActionDisablementHandler globalActionHandler;
         
@@ -112,12 +114,12 @@ public class SearchWidget extends Composite {
     private ITreeViewerListener treeExpansionListener = new ITreeViewerListener() {
         @Override
         public void treeExpanded(TreeExpansionEvent event) {
-            fExpandedObjects.add(event.getElement());
+            fExpandedTreeObjects.add(event.getElement());
         }
         
         @Override
         public void treeCollapsed(TreeExpansionEvent event) {
-            fExpandedObjects.remove(event.getElement());
+            fExpandedTreeObjects.remove(event.getElement());
         }
     };
     
@@ -136,8 +138,8 @@ public class SearchWidget extends Composite {
         setLayout(layout);
         setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        setupToolBar();
-        setupSearchTextWidget();
+        createToolBar();
+        createSearchTextWidget();
     }
     
     @Override
@@ -146,7 +148,7 @@ public class SearchWidget extends Composite {
         return fSearchText.isDisposed() ? false : fSearchText.setFocus();
     }
 
-    private void setupSearchTextWidget() {
+    private void createSearchTextWidget() {
         fSearchText = UIUtils.createSingleTextControl(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH, false);
         fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
@@ -189,29 +191,12 @@ public class SearchWidget extends Composite {
         fSearchText.addListener(SWT.Deactivate, textControlListener);
     }
 
-    private void setupToolBar() {
-        fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
-            @Override
-            public void run() {
-            	fSearchFilter.setFilterOnName(isChecked());
-            	refreshTree();
-            };
-        };
-        fActionFilterName.setToolTipText(Messages.SearchWidget_1);
-        fActionFilterName.setChecked(true);
-        
-        fActionFilterDoc = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
-            @Override
-            public void run() {
-            	fSearchFilter.setFilterOnDocumentation(isChecked());
-            	refreshTree();
-            }
-        };
-        fActionFilterDoc.setToolTipText(Messages.SearchWidget_3);
-
-        final ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
+    private void createToolBar() {
+        // Create a Toolbar
+        ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
         toolBarmanager.createControl(this);
 
+        // And a Dropdown
         AbstractDropDownAction dropDownAction = new AbstractDropDownAction(Messages.SearchWidget_4) {
             @Override
             public ImageDescriptor getImageDescriptor() {
@@ -220,9 +205,28 @@ public class SearchWidget extends Composite {
         };
         toolBarmanager.add(dropDownAction);
 
-        // Name & Documentation
+        // Filter on Name
+        fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setFilterOnName(isChecked());
+                refreshTree();
+            };
+        };
+        fActionFilterName.setToolTipText(Messages.SearchWidget_1);
+        fActionFilterName.setChecked(true); // default is true for name
         dropDownAction.add(fActionFilterName);
-        dropDownAction.add(fActionFilterDoc);
+        
+        // Filter on Documentation
+        fActionFilterDocumentation = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setFilterOnDocumentation(isChecked());
+                refreshTree();
+            }
+        };
+        fActionFilterDocumentation.setToolTipText(Messages.SearchWidget_3);
+        dropDownAction.add(fActionFilterDocumentation);
         
         // Properties
         fPropertiesMenu = new MenuManager(Messages.SearchWidget_5);
@@ -236,6 +240,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
+        // Concept sub-menus
         MenuManager strategyMenu = new MenuManager(Messages.SearchWidget_15);
         dropDownAction.add(strategyMenu);
         for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
@@ -294,6 +299,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
+        // Show All Folders
         IAction action = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
@@ -306,6 +312,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
+        // Reset
         action = new Action(Messages.SearchWidget_13) {
             @Override
             public void run() {
@@ -314,28 +321,34 @@ public class SearchWidget extends Composite {
         };
         dropDownAction.add(action);
         
+        // Need to update toolbar manager now
         toolBarmanager.update(true);
     }
     
+    /**
+     * Reset all filters, properties, specializations
+     */
     private void reset() {
-        // Clear Documentation
-        fActionFilterDoc.setChecked(false);
+        // Filter on Name menu item
+        fActionFilterName.setChecked(true);
 
-        // Clear Objects
-        for(IAction action : fObjectActions) {
+        // Don't filter on Documentation menu item
+        fActionFilterDocumentation.setChecked(false);
+
+        // Clear & uncheck Properties menu items
+        populatePropertiesMenu();
+        
+        // Clear & uncheck Specializations menu items
+        populateSpecializationsMenu();
+
+        // Uncheck Concept menu items
+        for(IAction action : fConceptActions) {
             action.setChecked(false);
         }
 
-        // Clear & Reset Properties sub-menus
-        populatePropertiesMenu();
+        // This will set name filter true, documentation filter false, and clear concepts, properties, and specializations filters 
+        fSearchFilter.reset();
         
-        // Clear & Reset Specializations sub-menus
-        populateSpecializationsMenu();
-
-        // Filter on name
-        fActionFilterName.setChecked(true);
-
-        fSearchFilter.reset(); // This will clear concept, properties, and specializations filters 
         refreshTree();
     }
     
@@ -355,6 +368,9 @@ public class SearchWidget extends Composite {
         refreshTree();
     }
 
+	/**
+	 * Create a concept action based on eClass
+	 */
 	private IAction createConceptAction(final EClass eClass) {
         IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
             @Override
@@ -375,7 +391,7 @@ public class SearchWidget extends Composite {
             }
         };
         
-        fObjectActions.add(action);
+        fConceptActions.add(action);
         
         return action;
     }
@@ -423,8 +439,8 @@ public class SearchWidget extends Composite {
     private void getAllUniquePropertyKeysForModel(IArchimateModel model, Set<String> set) {
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
-            if(element instanceof IProperty) {
-            	String key = ((IProperty)element).getKey();
+            if(element instanceof IProperty property) {
+            	String key = property.getKey();
             	if(StringUtils.isSetAfterTrim(key)) {
             	    set.add(key);
             	}
@@ -516,14 +532,14 @@ public class SearchWidget extends Composite {
     }
     
     private void saveTreeState() {
-        fExpandedObjects = new HashSet<>(Arrays.asList(fViewer.getVisibleExpandedElements()));  // only the visible ones
+        fExpandedTreeObjects = new HashSet<>(Arrays.asList(fViewer.getVisibleExpandedElements()));  // only the visible ones
     }
 
     private void restoreTreeState() {
-        if(fExpandedObjects != null) {
+        if(fExpandedTreeObjects != null) {
             try {
                 fViewer.getTree().setRedraw(false); // Need this on Windows
-                fViewer.setExpandedElements(fExpandedObjects.toArray());
+                fViewer.setExpandedElements(fExpandedTreeObjects.toArray());
             }
             finally {
                 fViewer.getTree().setRedraw(true);
@@ -548,9 +564,11 @@ public class SearchWidget extends Composite {
             fViewer.removeFilter(fSearchFilter);
         }
         
-        fExpandedObjects = null;
+        fExpandedTreeObjects = null;
         fViewer = null;
         fSearchFilter = null;
-        fObjectActions = null;
+        fConceptActions = null;
+        fPropertiesMenu = null;
+        fSpecializationsMenu = null;
     }
 }

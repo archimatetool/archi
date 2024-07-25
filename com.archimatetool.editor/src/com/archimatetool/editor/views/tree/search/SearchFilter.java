@@ -54,7 +54,7 @@ public class SearchFilter extends ViewerFilter {
         setFilterOnName(true);
         setFilterOnDocumentation(false);
         
-        resetConceptFilter();
+        resetConceptsFilter();
         resetPropertiesFilter();
         resetSpecializationsFilter();
     }
@@ -217,7 +217,7 @@ public class SearchFilter extends ViewerFilter {
         fConceptsFilter.remove(eClass);
     }
 
-    void resetConceptFilter() {
+    void resetConceptsFilter() {
         fConceptsFilter.clear();
     }
 
