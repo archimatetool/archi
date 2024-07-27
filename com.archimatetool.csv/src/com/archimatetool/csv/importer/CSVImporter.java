@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
@@ -324,8 +325,16 @@ public class CSVImporter implements CSVConstants {
             throw new CSVParseException(Messages.CSVImporter_4 + id);
         }
 
+        // Source and target ids
+        String sourceID = csvRecord.get(4);
+        String targetID = csvRecord.get(5);
+
+        // Find relation in model
         IArchimateRelationship relation = (IArchimateRelationship)findObjectInModel(id, eClass);
-        if(relation == null) {
+        
+        // Relation does not exist or does exist but source or target id has changed in CSV, so create a new one
+        if(relation == null ||
+                    !(Objects.equals(sourceID, relation.getSource().getId()) && Objects.equals(targetID, relation.getTarget().getId()))) {
             relation = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
             relation.setId(id);
             newModel.getDefaultFolderForObject(relation).getElements().add(relation);
@@ -333,16 +342,16 @@ public class CSVImporter implements CSVConstants {
             objectLookup.put(relation.getId(), relation);
         }
 
+        // Store in lookup table
+        relationshipSourceTargets.put(relation, new String[] { sourceID, targetID });
+
+        // Name
         String name = normalise(csvRecord.get(2));
         relation.setName(name);
 
+        // Documentation
         String documentation = csvRecord.get(3);
         relation.setDocumentation(documentation);
-
-        // Get source and target ids and store in lookup table
-        String sourceID = csvRecord.get(4);
-        String targetID = csvRecord.get(5);
-        relationshipSourceTargets.put(relation, new String[] { sourceID, targetID });
 
         // If we have a specialization name then create and add a new Profile
         String specializationName = csvRecord.size() > 6 ? csvRecord.get(6) : null;

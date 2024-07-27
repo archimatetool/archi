@@ -1,0 +1,6 @@
+"ID","Type","Name","Documentation","Specialization"
+"","ArchimateModel","Test Model","",""
+"e1","BusinessActor","BA1","",""
+"e2","BusinessActor","BA2","",""
+"e3","BusinessRole","Business Role","",""
+"e4","BusinessInterface","Business Interface","",""

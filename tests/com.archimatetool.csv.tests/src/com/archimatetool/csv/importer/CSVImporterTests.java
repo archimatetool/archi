@@ -58,6 +58,10 @@ public class CSVImporterTests {
     File elements3File = new File(testFolder, "test3-elements.csv");
     File relations3File = new File(testFolder, "test3-relations.csv");
     
+    File elements4File = new File(testFolder, "test4-elements.csv");
+    File relations4File = new File(testFolder, "test4-relations.csv");
+    File relations4aFile = new File(testFolder, "test4a-relations.csv");
+    
     private IArchimateModel model;
     private CSVImporter importer;
     
@@ -243,6 +247,42 @@ public class CSVImporterTests {
         target = relation.getTarget();
         assertNotNull(target);
         assertEquals("d9fe8c17", target.getId());
+    }
+    
+    /**
+     * Should be able to change the source and target IDs in an existing relationship
+     * and this should update the relationship in the model.
+     */
+    @Test
+    public void testImportRelationsWithChangedIds() throws Exception {
+        // Import elements and relations
+        importer.doImport(elements4File);
+        
+        // Get the elements and relations in the model
+        IArchimateElement e1 = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "e1");
+        IArchimateElement e2 = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "e2");
+        IArchimateElement e3 = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "e3");
+        IArchimateElement e4 = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "e4");
+        IArchimateRelationship r1 = (IArchimateRelationship)ArchimateModelUtils.getObjectByID(model, "r1");
+        IArchimateRelationship r2 = (IArchimateRelationship)ArchimateModelUtils.getObjectByID(model, "r2");
+        
+        // check relationships are connected properly
+        assertEquals(r1.getSource(), e1);
+        assertEquals(r1.getTarget(), e3);
+        assertEquals(r2.getSource(), e2);
+        assertEquals(r2.getTarget(), e4);
+        
+        // Create a new importer with this model
+        importer = new CSVImporter(model);
+        
+        // Now import the edited relations file where the relations source and target are changed
+        importer.doImport(relations4aFile);
+        
+        // check relationships are connected properly
+        assertEquals(r1.getSource(), e2);
+        assertEquals(r1.getTarget(), e4);
+        assertEquals(r2.getSource(), e1);
+        assertEquals(r2.getTarget(), e3);
     }
     
     @Test

@@ -50,7 +50,8 @@
     
     <h2>Importing CSV Data into a Model</h2>
     
-    <p>You can also import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
+    <h3>Import file format</h3>
+    <p>You can import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional if you are creating new concepts, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". The ID may be that of an existing concept if the CSV file has been exported, edited and re-imported. If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
     
     <p>When importing CSV data into an existing model you can provide just one or all three files (elements, relations, properties). Usually you will provide all three files. The format of the files is as follows:</p>
 
@@ -60,16 +61,29 @@
 
     <p>The prefix ("xxx") is optional but must be the same for all three files if used. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv". At the very least, the filenames need to contain the ".csv" extension and the names end with "elements", "relations" or "properties".</p>
     
-    <p>The best way to understand the required format is to export an existing model to CSV format, and open the resulting files in a text editor, or spreadsheet application</p>
+    <p>The best way to understand the required format is to export an existing model to CSV format, and open the exported files in a text editor.</p>
     
     <p>When importing the CSV file(s) into Archi you can select any of the three CSV files in the Import dialog box. If there are corresponding "*.csv" files then these file(s) will be automatically imported at the same time.</p>
-
-    <p>It is also possible to merge/update the imported CSV data into an existing model. If a model concept already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
+    
+    <h3>Importing, updating and merging</h3>
+    <p>It is also possible to merge/update the CSV data into an existing model by exporting the model to CSV files, editing them and re-importing. If a model concept or property already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
     
     <p style="font-style:italic;">"ID","Type","Name","Documentation", "Specialization"<br/>
        "9240f5bf","BusinessActor","New Name","Additional Documentation", "Specialization Name"
     </p>
 
+    <p>Or you could add new properties to concepts by editing the properties CSV file and referencing existing concept IDs with new property entries.</p>
+
+    <p>These are the rules when importing CSV data into a model:</p>
+    <ul>
+        <li>If an imported concept or property does not exist in the target model it is created and added to the model.</li>
+        <li>If an imported concept or property exists in the target model (identified by the ID field) its fields are updated with any new values in the CSV file, or ignored if all the fields are the same.</li>
+        <li>If a concept or property is not present in the CSV file (or has been deleted from an exported CSV file), then that concept or property is not updated or deleted in the target model. This ensures that you can update or add a sub-set of objects. Concepts and properties are added or updated, never deleted.</li>
+        <li>If you change either of the "Source" or "Target" identifiers for a relationship in the "relations" CSV file to another existing concept's identifier these are updated in the target model.</li>
+        <li>You cannot change the concept "Type" field in an existing CSV file or use invalid concept types.</li>
+    </ul>
+
+    <h3>Importing one or more CSV files</h3>
     <p>You can import just one or two CSV files into an existing model. If you import just an "elements.csv" file then only elements will be imported. If you then import a "relations.csv" file that uses the corresponding concept IDs you can import just the relations. The same is true for the "properties.csv" file.</p>
 
     <p>If you are manually creating CSV files make sure you save them using UTF-8 format to preserve all special characters.</p>
