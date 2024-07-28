@@ -203,6 +203,9 @@ public interface IArchiImages {
     // Cursors
     String CURSOR_IMG_MAGIC_CONNECTOR = IMGPATH + "magic-connector-cursor.png";
     
+    String CURSOR_FORMAT_PAINTER = IMGPATH + "formatpainter-cursor.png";
+    String CURSOR_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.png";
+    
     String CURSOR_IMG_ADD = IMGPATH + "add-cursor.png";
     String CURSOR_IMG_ADD_NOT = IMGPATH + "addnot-cursor.png";
     
