@@ -13,10 +13,7 @@ package org.eclipse.gef.tools;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.swt.widgets.Display;
-
 import org.eclipse.draw2d.geometry.Point;
-
 import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
@@ -24,6 +21,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.TargetRequest;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * The base implementation for tools which perform targeting of editparts.
@@ -93,7 +91,11 @@ public abstract class TargetingTool extends AbstractTool {
             return;
         if (exposeHelper.step(getLocation())) {
             handleAutoexpose();
-            Display.getCurrent().asyncExec(new QueuedAutoexpose());
+            // Reduce the rate at which the AutoexposeHelper is polled to reduce CPU usage.
+            // A value of 5 to 10 ms is enough. Mac needs at least 3 ms.
+            // See https://github.com/eclipse/gef-classic/issues/492
+            Display.getCurrent().timerExec(10, new QueuedAutoexpose());
+            //Display.getCurrent().asyncExec(new QueuedAutoexpose());
         } else
             setAutoexposeHelper(null);
     }
