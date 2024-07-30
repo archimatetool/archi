@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.model.commands;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
@@ -42,9 +44,7 @@ public class EObjectFeatureCommand extends Command {
     
     @Override
     public boolean canExecute() {
-        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                : false;
+        return !Objects.equals(fNewValue, fOldValue);
     }
     
     @Override
