@@ -87,6 +87,12 @@ public class DiagramModelArchimateConnectionTests extends DiagramModelConnection
     public void testGetArchimateRelationship() {
         assertSame(relationship, connection.getArchimateRelationship());
     }
+    
+    @Test
+    public void testSetArchimateRelationshipCanBeNull() {
+        connection.setArchimateRelationship(null);
+        assertNull(connection.getArchimateRelationship());
+    }
 
     @Test
     public void testGetArchimateConcept() {
@@ -99,6 +105,20 @@ public class DiagramModelArchimateConnectionTests extends DiagramModelConnection
         connection.setArchimateConcept(r);
         assertSame(r, connection.getArchimateConcept());
         assertSame(r, connection.getArchimateRelationship());
+    }
+    
+    @Test
+    public void testSetArchimateConceptCanBeNull() {
+        connection.setArchimateConcept(null);
+        assertNull(connection.getArchimateConcept());
+        assertNull(connection.getArchimateRelationship());
+    }
+    
+    @Test
+    public void testSetArchimateConceptThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            connection.setArchimateConcept(IArchimateFactory.eINSTANCE.createBusinessActor());
+        });
     }
 
     @Test

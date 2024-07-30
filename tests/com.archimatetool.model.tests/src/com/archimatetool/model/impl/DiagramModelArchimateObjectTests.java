@@ -66,6 +66,12 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     }
     
     @Test
+    public void testSetArchimateElementCanBeNull() {
+        object.setArchimateElement(null);
+        assertNull(object.getArchimateElement());
+    }
+    
+    @Test
     public void testGetArchimateConcept() {
         assertSame(element, object.getArchimateConcept());
     }
@@ -76,6 +82,20 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         object.setArchimateConcept(e);
         assertSame(e, object.getArchimateConcept());
         assertSame(e, object.getArchimateElement());
+    }
+    
+    @Test
+    public void testSetArchimateConceptCanBeNull() {
+        object.setArchimateConcept(null);
+        assertNull(object.getArchimateConcept());
+        assertNull(object.getArchimateElement());
+    }
+    
+    @Test
+    public void testSetArchimateConceptThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            object.setArchimateConcept(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        });
     }
 
     @Test

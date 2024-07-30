@@ -146,7 +146,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      */
     @Override
     public void setArchimateConcept(IArchimateConcept concept) {
-        if(!(concept instanceof IArchimateRelationship)) {
+        if(concept != null && !(concept instanceof IArchimateRelationship)) {
             throw new IllegalArgumentException("Should be of type IArchimateRelationship"); //$NON-NLS-1$
         }
         setArchimateRelationship((IArchimateRelationship)concept);

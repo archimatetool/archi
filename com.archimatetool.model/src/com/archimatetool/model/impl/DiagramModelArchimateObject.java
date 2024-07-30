@@ -357,7 +357,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      */
     @Override
     public void setArchimateConcept(IArchimateConcept concept) {
-        if(!(concept instanceof IArchimateElement)) {
+        if(concept != null && !(concept instanceof IArchimateElement)) {
             throw new IllegalArgumentException("Should be of type IArchimateElement"); //$NON-NLS-1$
         }
         setArchimateElement((IArchimateElement)concept);
