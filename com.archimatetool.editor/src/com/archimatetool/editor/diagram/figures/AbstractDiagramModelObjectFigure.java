@@ -357,9 +357,6 @@ implements IDiagramModelObjectFigure {
         
         // Apply gradient
         if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
-            // Ensure graphics#alpha is 255
-            // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=575778
-            graphics.setAlpha(255);
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
