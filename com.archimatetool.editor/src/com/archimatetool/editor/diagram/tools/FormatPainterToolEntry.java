@@ -9,13 +9,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.gef.Tool;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.palette.ToolEntry;
 
-import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -27,7 +23,7 @@ import com.archimatetool.model.IDiagramModelConnection;
  */
 public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeListener {
 
-    protected FormatPainterTool tool;
+    private FormatPainterTool tool;
     
     public FormatPainterToolEntry() {
         super("", "", null, null); //$NON-NLS-1$ //$NON-NLS-2$
@@ -39,36 +35,13 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     @Override
     public Tool createTool() {
-        tool = new FormatPainterTool() {
-            @Override
-            protected CompoundCommand createCommand(PaintFormat pf, IDiagramModelComponent targetComponent) {
-                CompoundCommand result = super.createCommand(pf, targetComponent);
-                
-                // Add any additional commands from Sub-classes
-                Command extraCommand = FormatPainterToolEntry.this.getCommand(pf.getSourceComponent(), targetComponent);
-                if(extraCommand != null && extraCommand.canExecute()) {
-                    result.add(extraCommand);
-                }
-                
-                return result;
-            }
-        };
-        tool.setProperties(getToolProperties());
+        tool = (FormatPainterTool)super.createTool();
         return tool;
     }
     
-    /**
-     * Sub-classes can add additional commands to the Main Command that will be executed when the format paint is applied
-     * @param sourceComponent 
-     * @param targetComponent 
-     */
-    public Command getCommand(IDiagramModelComponent sourceComponent, IDiagramModelComponent targetComponent) {
-        return null;
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(tool != null) {
+        if(tool != null) { // tool might not have been created yet
             tool.setDefaultCursor(FormatPainterInfo.INSTANCE.getCursor());
         }
         
@@ -76,15 +49,11 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
         setIcons();
     }
     
-    protected void setLabels() {
-        if(FormatPainterInfo.INSTANCE.isFat()) {
+    private void setLabels() {
+        if(FormatPainterInfo.INSTANCE.hasSourceComponent()) {
             setLabel(Messages.FormatPainterToolEntry_0);
-            
-            String description1 = Messages.FormatPainterToolEntry_1;
-            String description2 = Messages.FormatPainterToolEntry_2;
-            String description = (FormatPainterInfo.INSTANCE.getPaintFormat().getSourceComponent() instanceof IDiagramModelConnection) ?
-                    description1 : description2;
-            
+            String description = FormatPainterInfo.INSTANCE.getSourceComponent() instanceof IDiagramModelConnection ?
+                                    Messages.FormatPainterToolEntry_1 : Messages.FormatPainterToolEntry_2;
             description += "\n" + Messages.FormatPainterToolEntry_3; //$NON-NLS-1$
             setDescription(description);
         }
@@ -94,8 +63,8 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
         }
     }
     
-    protected void setIcons() {
-        if(FormatPainterInfo.INSTANCE.isFat()) {
+    private void setIcons() {
+        if(FormatPainterInfo.INSTANCE.hasSourceComponent()) {
             setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
             setSmallIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
         }
@@ -107,5 +76,6 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     public void dispose() {
         FormatPainterInfo.INSTANCE.removePropertyChangeListener(this);
+        tool = null;
     }
 }

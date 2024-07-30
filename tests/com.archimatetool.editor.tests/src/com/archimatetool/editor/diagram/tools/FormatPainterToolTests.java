@@ -9,19 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.jupiter.api.Test;
 
-import com.archimatetool.editor.diagram.commands.FillColorCommand;
-import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
 public class FormatPainterToolTests {
@@ -29,7 +25,7 @@ public class FormatPainterToolTests {
     // ---------------------------------------------------------------------------------------------
     // Tests
     // ---------------------------------------------------------------------------------------------
-
+    
     @Test
     public void testCreateCommandForDiagramModelArchimateObject() throws Exception {
         // Source component
@@ -41,23 +37,23 @@ public class FormatPainterToolTests {
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         
         // Set FormatPainterInfo to Source component
-        FormatPainterInfo.INSTANCE.updatePaintFormat(sourceComponent);
-        PaintFormat pf = FormatPainterInfo.INSTANCE.getPaintFormat();
+        FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
 
         // Execute command
         FormatPainterTool tool = new FormatPainterTool();
-        CompoundCommand compoundCmd = tool.createCommand(pf, targetComponent);
+        CompoundCommand compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
         
-        // Source and Target have same properties except for fill color so only one command
-        assertEquals(1, compoundCmd.getCommands().size());
+        // Should be no commands
+        assertEquals(0, compoundCmd.getCommands().size());
         
-        // Fill Color should be set even if fill colour source is null (default)
-        Command cmd = (Command)compoundCmd.getCommands().get(0);
-        assertTrue(cmd instanceof FillColorCommand);
-        Object newValue = TestUtils.getPrivateField(cmd, "fNewValue");
-        assertEquals("#ffffb5", newValue);
+        // Set the source fill color to its default actual value.
+        // The fill color command will not be added because the target's fill color (null) is effectively the same.
+        sourceComponent.setFillColor("#ffffb5");
+        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        assertEquals(0, compoundCmd.getCommands().size());
         
-        // Now change some properties on the source component
+        // Now change some attributes on the source component
+        sourceComponent.setFillColor("#eeeeee");
         sourceComponent.setFont("Consolas");
         sourceComponent.setFontColor("#eeeeee");
         sourceComponent.setLineColor("#eeeeee");
@@ -70,7 +66,10 @@ public class FormatPainterToolTests {
         sourceComponent.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
         sourceComponent.setDeriveElementLineColor(false);
         
-        compoundCmd = tool.createCommand(pf, targetComponent);
+        // But we have to reset the FormatPainterInfo with the source component because it makes a copy of it
+        FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
+        
+        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
         assertEquals(12, compoundCmd.getCommands().size());
     }
     
@@ -85,12 +84,11 @@ public class FormatPainterToolTests {
                 ArchimateTestModel.createDiagramModelArchimateConnection(IArchimateFactory.eINSTANCE.createAccessRelationship());
         
         // Set FormatPainterInfo to Source component
-        FormatPainterInfo.INSTANCE.updatePaintFormat(sourceComponent);
-        PaintFormat pf = FormatPainterInfo.INSTANCE.getPaintFormat();
+        FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
 
         // Execute command
         FormatPainterTool tool = new FormatPainterTool();
-        CompoundCommand compoundCmd = tool.createCommand(pf, targetComponent);
+        CompoundCommand compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
         
         // Should be no commands
         assertEquals(0, compoundCmd.getCommands().size());
@@ -102,7 +100,10 @@ public class FormatPainterToolTests {
         sourceComponent.setLineWidth(3);
         sourceComponent.setTextPosition(3);
         
-        compoundCmd = tool.createCommand(pf, targetComponent);
+        // But we have to reset the FormatPainterInfo with the source component because it makes a copy of it
+        FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
+        
+        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
         assertEquals(5, compoundCmd.getCommands().size());
     }
 

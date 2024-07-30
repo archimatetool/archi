@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.tools;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
@@ -26,7 +27,6 @@ import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
-import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.FeatureCommand;
@@ -73,12 +73,12 @@ public class FormatPainterTool extends AbstractTool {
             if(editpart != null && editpart.getModel() != null) {
                 Object object = editpart.getModel();
                 if(isPaintableObject(object)) {
-                    PaintFormat pf = FormatPainterInfo.INSTANCE.getPaintFormat();
-                    if(pf == null) {
-                        FormatPainterInfo.INSTANCE.updatePaintFormat((IDiagramModelComponent)object);
+                    IDiagramModelComponent sourceComponent = FormatPainterInfo.INSTANCE.getSourceComponent();
+                    if(sourceComponent == null) {
+                        FormatPainterInfo.INSTANCE.updateWithSourceComponent((IDiagramModelComponent)object);
                     }
                     else if(!isObjectLocked(object)) {
-                        Command cmd = createCommand(pf, (IDiagramModelComponent)object);
+                        Command cmd = createCommand(sourceComponent, (IDiagramModelComponent)object);
                         if(cmd.canExecute()) {
                             executeCommand(cmd);
                         }
@@ -104,18 +104,18 @@ public class FormatPainterTool extends AbstractTool {
                 FormatPainterInfo.INSTANCE.reset();
                 return true;
             }
-            else return handleButtonUp(1);
         }
+        
         return false;
     }
     
-    protected CompoundCommand createCommand(PaintFormat pf, IDiagramModelComponent targetComponent) {
+    protected CompoundCommand createCommand(IDiagramModelComponent sourceComponent, IDiagramModelComponent targetComponent) {
         CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
         IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(targetComponent);
         
         // IFontAttribute
-        if(pf.getSourceComponent() instanceof IFontAttribute source && targetComponent instanceof IFontAttribute target) {
+        if(sourceComponent instanceof IFontAttribute source && targetComponent instanceof IFontAttribute target) {
             Command cmd = new FontStyleCommand(target, source.getFont());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -128,7 +128,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ILineObject
-        if(pf.getSourceComponent() instanceof ILineObject source && targetComponent instanceof ILineObject target && provider != null) {
+        if(sourceComponent instanceof ILineObject source && targetComponent instanceof ILineObject target && provider != null) {
             // Line color
             if(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName())) {
                 Command cmd = new LineColorCommand(target, source.getLineColor());
@@ -147,7 +147,7 @@ public class FormatPainterTool extends AbstractTool {
         }
 
         // IBorderObject
-        if(pf.getSourceComponent() instanceof IBorderObject source && targetComponent instanceof IBorderObject target) {
+        if(sourceComponent instanceof IBorderObject source && targetComponent instanceof IBorderObject target) {
             Command cmd = new BorderColorCommand(target, source.getBorderColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -155,7 +155,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IBorderType
-        if(pf.getSourceComponent() instanceof IBorderType source && targetComponent instanceof IBorderType target && source.eClass() == target.eClass()) {
+        if(sourceComponent instanceof IBorderType source && targetComponent instanceof IBorderType target && source.eClass() == target.eClass()) {
             Command cmd = new EObjectFeatureCommand("", target, IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE, source.getBorderType()); //$NON-NLS-1$
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -163,7 +163,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ITextPosition
-        if(pf.getSourceComponent() instanceof ITextPosition source && targetComponent instanceof ITextPosition target) {
+        if(sourceComponent instanceof ITextPosition source && targetComponent instanceof ITextPosition target) {
             Command cmd = new TextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -171,7 +171,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ITextAlignment
-        if(pf.getSourceComponent() instanceof ITextAlignment source && targetComponent instanceof ITextAlignment target) {
+        if(sourceComponent instanceof ITextAlignment source && targetComponent instanceof ITextAlignment target) {
             Command cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
@@ -179,16 +179,25 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IDiagramModelObject
-        if(pf.getSourceComponent() instanceof IDiagramModelObject source && targetComponent instanceof IDiagramModelObject target) {
-            // Source fill colour is null which is "default"
-            String fillColorString = source.getFillColor();
-            if(fillColorString == null) {
-                fillColorString = ColorFactory.convertColorToString(ColorFactory.getDefaultFillColor(source));
+        if(sourceComponent instanceof IDiagramModelObject source && targetComponent instanceof IDiagramModelObject target) {
+            Command cmd;
+            
+            String sourcefillColor = source.getFillColor();
+            if(sourcefillColor == null) { // Source fill colour is null which is "default"
+                sourcefillColor = ColorFactory.convertColorToString(ColorFactory.getDefaultFillColor(source));
             }
             
-            Command cmd = new FillColorCommand(target, fillColorString);
-            if(cmd.canExecute()) {
-                result.add(cmd);
+            String targetfillColor = target.getFillColor();
+            if(targetfillColor == null) { // target fill colour is null which is "default"
+                targetfillColor = ColorFactory.convertColorToString(ColorFactory.getDefaultFillColor(target));
+            }
+            
+            // Compare actual fill colours rather than null fill colors
+            if(!Objects.equals(sourcefillColor, targetfillColor)) {
+                cmd = new FillColorCommand(target, sourcefillColor);
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
             
             // Alpha fill opacity
@@ -236,7 +245,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // Archimate objects
-        if(pf.getSourceComponent() instanceof IDiagramModelArchimateObject source && targetComponent instanceof IDiagramModelArchimateObject target) {
+        if(sourceComponent instanceof IDiagramModelArchimateObject source && targetComponent instanceof IDiagramModelArchimateObject target) {
             // Image Source
             Command cmd = new FeatureCommand("", target, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE, //$NON-NLS-1$
                     source.getImageSource(), IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE_DEFAULT);
@@ -246,7 +255,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IDiagramModelConnection
-        if(pf.getSourceComponent() instanceof IDiagramModelConnection source && targetComponent instanceof IDiagramModelConnection target) {
+        if(sourceComponent instanceof IDiagramModelConnection source && targetComponent instanceof IDiagramModelConnection target) {
             // Connection text position
             Command cmd = new ConnectionTextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
@@ -263,7 +272,7 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // IIconic
-        if(pf.getSourceComponent() instanceof IIconic source && targetComponent instanceof IIconic target) {
+        if(sourceComponent instanceof IIconic source && targetComponent instanceof IIconic target) {
             // If we have an image path and the source and target models are different, copy the image bytes
             String imagePath = source.getImagePath();
             if(imagePath != null && source.getArchimateModel() != target.getArchimateModel()) {
@@ -317,5 +326,4 @@ public class FormatPainterTool extends AbstractTool {
     protected String getCommandName() {
         return "FormatPaint"; //$NON-NLS-1$
     }
-
 }

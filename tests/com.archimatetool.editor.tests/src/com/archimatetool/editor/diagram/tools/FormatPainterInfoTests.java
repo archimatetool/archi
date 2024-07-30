@@ -7,31 +7,34 @@ package com.archimatetool.editor.diagram.tools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.swt.graphics.RGB;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestUtils;
 
+@SuppressWarnings("nls")
 public class FormatPainterInfoTests {
     
-    private FormatPainterInfo info;
+    private static FormatPainterInfo info = FormatPainterInfo.INSTANCE;
     
     @BeforeEach
     public void runBeforeEachTest() {
-        info = new FormatPainterInfo();
+        info.reset();
     }
     
-    @AfterEach
-    public void runAfterEachTest() {
+    @AfterAll
+    public static void runAfterAll() {
         info.dispose();
     }
 
@@ -40,49 +43,53 @@ public class FormatPainterInfoTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void testGetPaintFormat() {
-        // Should be null initially
-        PaintFormat pf = info.getPaintFormat();
-        assertNull(pf);
+    public void testInitialValues() throws Exception {
+        assertNull(info.getSourceComponent());
+        assertNull(info.getCursorColor());
+        assertSame(info.getCursor(), TestUtils.getPrivateField(info, "defaultCursor"));
     }
 
     @Test
-    public void testUpdatePaintFormat() {
+    public void testUpdateWithSourceComponent() throws Exception {
         // Set FormatPainterInfo to Source component
         IDiagramModelArchimateObject sourceComponent =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
-        info.updatePaintFormat(sourceComponent);
-        PaintFormat pf = info.getPaintFormat();
-        assertNotNull(pf);
-        assertEquals(sourceComponent, pf.getSourceComponent());
+        info.updateWithSourceComponent(sourceComponent);
         
-        // Check cursor
-        assertEquals(new RGB(255, 255, 181), pf.getCursorColor());
+        assertNotNull(info.getSourceComponent());
+        // FormatPaintInfo will make a copy of the source component
+        assertNotEquals(sourceComponent, info.getSourceComponent());
+        
+        // Colored cursor
+        assertSame(info.getCursor(), TestUtils.getPrivateField(info, "coloredCursor"));
+        
+        // Cursor color
+        assertEquals(new RGB(255, 255, 181), info.getCursorColor());
     }
     
     @Test
-    public void testIsFat() {
-        assertFalse(info.isFat());
+    public void testHasSourceComponent() {
+        assertFalse(info.hasSourceComponent());
 
         IDiagramModelArchimateObject sourceComponent =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
-        info.updatePaintFormat(sourceComponent);
-        assertTrue(info.isFat());
+        info.updateWithSourceComponent(sourceComponent);
+        
+        assertTrue(info.hasSourceComponent());
     }
 
     @Test
-    public void testReset() {
-        PaintFormat pf = info.getPaintFormat();
-        assertNull(pf);
-
+    public void testReset() throws Exception {
         IDiagramModelArchimateObject sourceComponent =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
-        info.updatePaintFormat(sourceComponent);
-        pf = info.getPaintFormat();
-        assertNotNull(pf);
+        info.updateWithSourceComponent(sourceComponent);
+        assertNotNull(info.getSourceComponent());
+        assertEquals(new RGB(255, 255, 181), info.getCursorColor());
+        assertSame(info.getCursor(), TestUtils.getPrivateField(info, "coloredCursor"));
         
         info.reset();
-        pf = info.getPaintFormat();
-        assertNull(pf);
+        assertNull(info.getSourceComponent());
+        assertNull(info.getCursorColor());
+        assertSame(info.getCursor(), TestUtils.getPrivateField(info, "defaultCursor"));
     }
 }
