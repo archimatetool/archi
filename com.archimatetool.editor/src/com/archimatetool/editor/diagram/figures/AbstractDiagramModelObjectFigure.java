@@ -339,7 +339,7 @@ implements IDiagramModelObjectFigure {
      */
     public Color getIconColor() {
         if(!isEnabled()) {
-            return ColorConstants.gray;
+            return ColorConstants.lightGray;
         }
         
         String val = fDiagramModelObject.getIconColor();
