@@ -204,7 +204,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(e.item instanceof GalleryItem) {
-                    ITemplate template = (ITemplate)((GalleryItem)e.item).getData();
+                    ITemplate template = (ITemplate)e.item.getData();
                     updateWizard(template);
                 }
                 else {

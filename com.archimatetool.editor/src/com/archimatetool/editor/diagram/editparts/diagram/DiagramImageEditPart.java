@@ -16,7 +16,6 @@ import org.eclipse.gef.RequestConstants;
 
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.editparts.IConstrainedSizeEditPart;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigure;
 import com.archimatetool.editor.diagram.policies.BasicConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
@@ -86,6 +85,6 @@ implements IConstrainedSizeEditPart {
 
     @Override
     protected void refreshFigure() {
-        ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
+        getFigure().refreshVisuals();
     }
 }

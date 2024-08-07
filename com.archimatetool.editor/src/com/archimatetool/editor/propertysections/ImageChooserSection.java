@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Menu;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
@@ -199,7 +198,7 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
     }
     
     protected IArchiveManager getArchiveManager() {
-        return (IArchiveManager)((IAdapter)getFirstSelectedObject()).getAdapter(IArchiveManager.class);
+        return (IArchiveManager)getFirstSelectedObject().getAdapter(IArchiveManager.class);
     }
     
     protected void showError(Throwable ex) {

@@ -220,8 +220,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(e.item instanceof GalleryItem) {
-                    fUserSelectedImagePath = (String)((GalleryItem)e.item).getData("imagepath"); //$NON-NLS-1$
-                    fUserSelectedModel = (IArchimateModel)((GalleryItem)e.item).getData("model"); //$NON-NLS-1$
+                    fUserSelectedImagePath = (String)e.item.getData("imagepath"); //$NON-NLS-1$
+                    fUserSelectedModel = (IArchimateModel)e.item.getData("model"); //$NON-NLS-1$
                 }
                 else {
                     fUserSelectedImagePath = null;

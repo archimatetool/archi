@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.tools.GenerateViewCommand;
-import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
@@ -42,7 +41,7 @@ public class GenerateViewAction extends ViewerAction {
         if(!selected.isEmpty()) {
             GenerateViewCommand command = new GenerateViewCommand(selected);
             if(command.openDialog(Display.getCurrent().getActiveShell())) {
-                CommandStack commandStack = (CommandStack)((IAdapter)selected.get(0)).getAdapter(CommandStack.class);
+                CommandStack commandStack = (CommandStack)selected.get(0).getAdapter(CommandStack.class);
                 commandStack.execute(command);
             }
         }

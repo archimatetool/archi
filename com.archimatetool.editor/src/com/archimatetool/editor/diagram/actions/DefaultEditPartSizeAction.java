@@ -17,7 +17,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -90,7 +89,7 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                     bounds.setHeight(imageBounds.height);
                 }
                 else {
-                    Dimension defaultSize = ((IDiagramModelObjectFigure)figure).getDefaultSize();
+                    Dimension defaultSize = figure.getDefaultSize();
                     bounds.setWidth(defaultSize.width);
                     bounds.setHeight(defaultSize.height);
                 }
