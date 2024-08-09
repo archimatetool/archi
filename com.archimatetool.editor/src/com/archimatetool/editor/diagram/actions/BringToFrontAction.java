@@ -86,7 +86,6 @@ public class BringToFrontAction extends SelectionAction {
 
     private static class BringToFrontCommand extends Command {
         private IDiagramModelContainer fParent;
-        private IDiagramModelObject fDiagramObject;
         private int fNewPos, fOldPos = -1;
         
         /*
@@ -95,11 +94,10 @@ public class BringToFrontAction extends SelectionAction {
          */
 
         public BringToFrontCommand(IDiagramModelObject diagramObject) {
-            fDiagramObject = diagramObject;
-            fParent = (IDiagramModelContainer)fDiagramObject.eContainer();
+            fParent = (IDiagramModelContainer)diagramObject.eContainer();
             if(fParent != null) {
                 fNewPos = fParent.getChildren().size() - 1;
-                fOldPos = fParent.getChildren().indexOf(fDiagramObject);
+                fOldPos = fParent.getChildren().indexOf(diagramObject);
             }
             setLabel(Messages.BringToFrontAction_0);
         }
@@ -122,7 +120,6 @@ public class BringToFrontAction extends SelectionAction {
         @Override
         public void dispose() {
             fParent = null;
-            fDiagramObject = null;
         }
     }
 }

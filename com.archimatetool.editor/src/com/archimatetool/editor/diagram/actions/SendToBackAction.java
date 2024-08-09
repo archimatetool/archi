@@ -86,7 +86,6 @@ public class SendToBackAction extends SelectionAction {
 
     private static class SendToBackCommand extends Command {
         private IDiagramModelContainer fParent;
-        private IDiagramModelObject fDiagramObject;
         private int fOldPos = -1;
         
         /*
@@ -95,10 +94,9 @@ public class SendToBackAction extends SelectionAction {
          */
         
         public SendToBackCommand(IDiagramModelObject diagramObject) {
-            fDiagramObject = diagramObject;
-            fParent = (IDiagramModelContainer)fDiagramObject.eContainer();
+            fParent = (IDiagramModelContainer)diagramObject.eContainer();
             if(fParent != null) {
-                fOldPos = fParent.getChildren().indexOf(fDiagramObject);
+                fOldPos = fParent.getChildren().indexOf(diagramObject);
             }
             setLabel(TEXT);
         }
@@ -121,7 +119,6 @@ public class SendToBackAction extends SelectionAction {
         @Override
         public void dispose() {
             fParent = null;
-            fDiagramObject = null;
         }
     }
 }
