@@ -1,0 +1,8 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings on Mac
+ *******************************************************************************/
+
+/* On Mac Labels in Groups in Tabbed Properties View have wrong background color, so unset it */
+.MPart TabbedPropertyComposite Group Label {
+    background-color: unset;
+}

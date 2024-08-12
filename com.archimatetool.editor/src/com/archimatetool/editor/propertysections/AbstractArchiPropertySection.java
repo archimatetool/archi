@@ -190,7 +190,8 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     protected Label createLabel(Composite parent, String text, int width, int verticalPosition) {
         Label label = getWidgetFactory().createLabel(parent, text, SWT.WRAP);
         
-        // On Mac Group is filled with grey and label is white
+        // On Mac a Group's backgound is grey but a child label is white so set the label's background to null.
+        // This takes care of light themes and when themes are disabled but for other cases we unset the label background in our CSS file.
         if(parent instanceof Group && PlatformUtils.isMac()) {
             label.setBackground(null);
         }

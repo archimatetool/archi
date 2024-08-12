@@ -104,6 +104,10 @@
                 refid="org.eclipse.e4.ui.css.theme.e4_system">
           </themeid>
        </stylesheet>
+       <stylesheet
+             os="macosx"
+             uri="themes/archi/css/common/archi-mac.css">
+       </stylesheet>
 		
     </extension>
  <extension
