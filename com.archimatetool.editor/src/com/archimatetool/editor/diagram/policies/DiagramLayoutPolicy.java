@@ -107,7 +107,7 @@ extends XYLayoutEditPolicy {
     /**
      * AddObjectCommand
      */
-    public static class AddObjectCommand extends Command {
+    public class AddObjectCommand extends Command {
         IDiagramModelContainer parent;
         IDiagramModelObject child;
         Rectangle bounds;
@@ -120,13 +120,31 @@ extends XYLayoutEditPolicy {
         
         @Override
         public void execute() {
-            child.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
-            parent.getChildren().add(child);
+            doExecute();
+            // Add to selected parts
+            selectEditPart();
         }
 
         @Override
         public void undo() {
             parent.getChildren().remove(child);
+        }
+        
+        @Override
+        public void redo() {
+            doExecute();
+            // Don't add to selected parts because user might have selected other objects since execute and undo
+        }
+        
+        protected void doExecute() {
+            child.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+            parent.getChildren().add(child);
+        }
+        
+        protected void selectEditPart() {
+            if(getHost().getViewer().getEditPartRegistry().get(child) instanceof EditPart editPart) {
+                getHost().getViewer().appendSelection(editPart);
+            }
         }
         
         @Override
