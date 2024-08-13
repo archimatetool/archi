@@ -63,6 +63,8 @@ public class SketchModelFactory implements ICreationFactory {
     public Object getNewObject() {
         EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
+
         // Actor
         if(object instanceof ISketchModelActor actor) {
             actor.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
@@ -79,8 +81,11 @@ public class SketchModelFactory implements ICreationFactory {
             sticky.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
 
             if(fParam instanceof RGB rgb) {
-                String color = ColorFactory.convertRGBToString(rgb);
-                sticky.setFillColor(color);
+                // set fill color if not default
+                if(!rgb.equals(provider.getDefaultColor().getRGB())) {
+                    String color = ColorFactory.convertRGBToString(rgb);
+                    sticky.setFillColor(color);
+                }
                 
                 Color lineColor = ColorFactory.getDefaultLineColor(sticky);
                 if(lineColor != null) {
@@ -106,8 +111,6 @@ public class SketchModelFactory implements ICreationFactory {
             ColorFactory.setDefaultColors(connection);
         }
         
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
-
         if(object instanceof ITextAlignment ta) {
             ta.setTextAlignment(provider.getDefaultTextAlignment());
         }

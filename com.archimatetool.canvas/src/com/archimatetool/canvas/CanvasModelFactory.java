@@ -30,6 +30,7 @@ import com.archimatetool.model.ITextPosition;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class CanvasModelFactory implements ICreationFactory {
     
     private EClass fTemplate;
@@ -59,50 +60,49 @@ public class CanvasModelFactory implements ICreationFactory {
         // Create the instance from the registered factory in case of extensions
         EObject object = fTemplate.getEPackage().getEFactoryInstance().create(fTemplate);
         
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
+
         // Sticky
-        if(object instanceof ICanvasModelSticky) {
-            ICanvasModelSticky sticky = (ICanvasModelSticky)object;
-            if(fParam instanceof RGB) {
-                String color = ColorFactory.convertRGBToString((RGB)fParam);
-                sticky.setFillColor(color);
+        if(object instanceof ICanvasModelSticky sticky) {
+            if(fParam instanceof RGB rgb) {
+                // set fill color if not default
+                if(!rgb.equals(provider.getDefaultColor().getRGB())) {
+                    String color = ColorFactory.convertRGBToString(rgb);
+                    sticky.setFillColor(color);
+                }
             }
-            sticky.setBorderColor("#C0C0C0"); //$NON-NLS-1$
+            sticky.setBorderColor("#C0C0C0");
         }
         
         // Block
-        else if(object instanceof ICanvasModelBlock) {
-            ICanvasModelBlock block = (ICanvasModelBlock)object;
-            block.setBorderColor("#000000"); //$NON-NLS-1$
+        else if(object instanceof ICanvasModelBlock block) {
+            block.setBorderColor("#000000");
         }
         
         // Image
-        else if(object instanceof ICanvasModelImage) {
-            ICanvasModelImage image = (ICanvasModelImage)object;
-            image.setBorderColor("#000000"); //$NON-NLS-1$
+        else if(object instanceof ICanvasModelImage image) {
+            image.setBorderColor("#000000");
         }
         
         // Canvas Connection
-        else if(object instanceof ICanvasModelConnection) {
-            ICanvasModelConnection connection = (ICanvasModelConnection)object;
-            if(fParam instanceof Integer) {
-                connection.setType((Integer)fParam);
+        else if(object instanceof ICanvasModelConnection connection) {
+            if(fParam instanceof Integer val) {
+                connection.setType(val);
             }
         }
         
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
-
-        if(object instanceof ITextAlignment) {
-            ((ITextAlignment)object).setTextAlignment(provider.getDefaultTextAlignment());
+        if(object instanceof ITextAlignment textAlignment) {
+            textAlignment.setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
-        if(object instanceof ITextPosition) {
-            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        if(object instanceof ITextPosition textPosition) {
+            textPosition.setTextPosition(provider.getDefaultTextPosition());
         }
         
         // Add new bounds with a default user size
-        if(object instanceof IDiagramModelObject) {
+        if(object instanceof IDiagramModelObject dmo) {
             Dimension size = provider.getDefaultSize();
-            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
+            dmo.setBounds(0, 0, size.width, size.height);
         }
         
         return object;
