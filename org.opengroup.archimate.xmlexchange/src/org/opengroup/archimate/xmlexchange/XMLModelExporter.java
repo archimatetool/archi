@@ -1033,7 +1033,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         try {
             FontData fontData = null;
             
-            String fontString = fontObject.getFont();
+            String fontString = FontFactory.getPlatformDependentFontString(fontObject.getFont());
             if(fontString != null) {
                 fontData = new FontData(fontString);
             }

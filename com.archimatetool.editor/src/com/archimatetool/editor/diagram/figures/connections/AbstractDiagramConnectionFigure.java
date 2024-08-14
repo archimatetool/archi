@@ -178,7 +178,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
      * Set the font in the label to that in the model, or failing that, as per user's default
      */
     protected void setLabelFont() {
-        String fontName = getModelConnection().getFont();
+        String fontName = FontFactory.getPlatformDependentFontString(getModelConnection().getFont());
         Font font = FontFactory.get(fontName);
         
         // Possible font scaling for non 96 DPI on Windows or if property set

@@ -169,6 +169,39 @@ public final class FontFactory {
     }
     
     /**
+     * Return a FontData string with adjusted font height if the FontData string is not for the current platform.
+     * @param fontDataString The FontData string
+     * @return The Font Data String for the current platform or the same string if there is no change.
+     */
+    public static String getPlatformDependentFontString(String fontDataString) {
+        if(StringUtils.isSet(fontDataString) && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PLATFORM_FONT_SCALING)) {
+            float factor = 0;
+            
+            // On Mac but fontdata contains Windows or Linux
+            if(PlatformUtils.isMac() && (fontDataString.contains("|WINDOWS|") || fontDataString.contains("|GTK|"))) {
+                factor = (float)96 / 72;
+            }
+            // On Windows or Linux but font came from Mac
+            else if(!PlatformUtils.isMac() && fontDataString.contains("|COCOA|")) {
+                factor = (float)72 / 96;
+            }
+            
+            if(factor != 0) {
+                try {
+                    FontData fd = new FontData(fontDataString);
+                    int newHeight = Math.round(fd.getHeight() * factor); // round up in this case
+                    fd.setHeight(newHeight);
+                    fontDataString = fd.toString();
+                }
+                catch(Exception ex) {
+                }
+            }
+        }
+        
+        return fontDataString;
+    }
+    
+    /**
      * @param font
      * @return The italic variant of the given font
      */

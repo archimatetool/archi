@@ -103,9 +103,6 @@ public interface IPreferenceConstants {
     // Whether to use a line offset in all cases for figures drawn on hi-res screens
     String USE_FIGURE_LINE_OFFSET = "figureLineOffset";
     
-    // Whether to add a note to the documentation field of relationships that have been changed to Association when setting a new concept type
-    String ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE = "addDocumentationNoteOnRelationChange";
-
     // Appearance
     
     String DEFAULT_ARCHIMATE_FIGURE_WIDTH = "defaultArchiMateFigureWidth";
@@ -135,7 +132,10 @@ public interface IPreferenceConstants {
     
     String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";
     
+    // Whether to add a note to the documentation field of relationships that have been changed to Association when setting a new concept type
+    String ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE = "addDocumentationNoteOnRelationChange";
     String SCALE_IMAGE_EXPORT = "scaleImageExport";
+    String PLATFORM_FONT_SCALING = "platformFontScaling";
     
     // Animation
     String ANIMATE_VIEW = "animateView";
