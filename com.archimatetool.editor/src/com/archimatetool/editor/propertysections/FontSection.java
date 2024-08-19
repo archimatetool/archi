@@ -131,12 +131,14 @@ public class FontSection extends AbstractECorePropertySection {
     };
 
     /**
-     * Listen to default font change and font scaling in Prefs
+     * Listen to default font change in Prefs
      */
-    private IPropertyChangeListener prefsListener = event -> {
-        if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_VIEW_FONT)
-                                || IPreferenceConstants.PLATFORM_FONT_SCALING.equals(event.getProperty())) {
-            update();
+    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent event) {
+            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_VIEW_FONT)) {
+                update();
+            }
         }
     };
 

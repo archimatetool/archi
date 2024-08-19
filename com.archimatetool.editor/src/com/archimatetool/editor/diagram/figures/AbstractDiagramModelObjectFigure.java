@@ -153,7 +153,7 @@ implements IDiagramModelObjectFigure {
      * Set the font to that in the model, or failing that, as per user's default
      */
     protected void setFont() {
-        String fontName = FontFactory.getPlatformDependentFontString(fDiagramModelObject.getFont());
+        String fontName = fDiagramModelObject.getFont();
         setFont(FontFactory.get(fontName));
         
         // Need to do this after font change

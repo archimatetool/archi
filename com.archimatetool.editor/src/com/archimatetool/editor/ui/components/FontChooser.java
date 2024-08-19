@@ -240,7 +240,7 @@ public class FontChooser extends EventManager {
     protected void updateFont() {
         fFontData = FontFactory.getDefaultUserViewFontData();
         
-        String fontValue = FontFactory.getPlatformDependentFontString(fFontObject.getFont());
+        String fontValue = fFontObject.getFont();
         if(fontValue != null) {
             try {
                 fFontData = new FontData(fontValue);
@@ -275,16 +275,24 @@ public class FontChooser extends EventManager {
     }
     
     /**
-     * Adds a property change listener to listen for font change events.
-     * @param listener a property change listener
+     * Adds a property change listener to this <code>ColorSelector</code>.
+     * Events are fired when the color in the control changes via the user
+     * clicking an selecting a new one in the color dialog. No event is fired in
+     * the case where <code>setColorValue(RGB)</code> is invoked.
+     * 
+     * @param listener
+     *            a property change listener
      */
     public void addListener(IPropertyChangeListener listener) {
         addListenerObject(listener);
     }
 
     /**
-     * Removes the given listener. Has no effect if the listener is not registered.
-     * @param listener a property change listener
+     * Removes the given listener from this <code>ColorSelector</code>. Has
+     * no effect if the listener is not registered.
+     * 
+     * @param listener
+     *            a property change listener
      */
     public void removeListener(IPropertyChangeListener listener) {
         removeListenerObject(listener);
@@ -292,6 +300,9 @@ public class FontChooser extends EventManager {
 
     /**
      * Fire the given event to listeners
+     * @param propertyName
+     * @param oldValue
+     * @param newValue
      */
     private void fireActionListenerEvent(String propertyName, Object oldValue, Object newValue) {
         final Object[] finalListeners = getListeners();

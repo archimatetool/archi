@@ -191,9 +191,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(property)) {
             getFigure().refreshVisuals();
         }
-        else if(IPreferenceConstants.PLATFORM_FONT_SCALING.equals(property)) {
-            getFigure().refreshVisuals();
-        }
     }
     
     @Override
