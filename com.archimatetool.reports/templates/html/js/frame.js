@@ -1,5 +1,7 @@
-﻿function setRootPanelHeight() {
-	$('.root-panel-body').css('height', $('.root-panel').outerHeight() - $('.root-panel-heading').outerHeight());
+function setRootPanelHeight() {
+    rootPanelHeight = $('.root-panel').outerHeight() || 0;
+    rootPanelHeadingHeight = $('.root-panel-heading').outerHeight() || 0;
+    $('.root-panel-body').css('height', rootPanelHeight - rootPanelHeadingHeight);
 }
 
 function strcmp(a, b){
