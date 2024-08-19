@@ -104,8 +104,6 @@ implements IPreferenceConstants {
         // Windows at hi-res needs this set to true
         store.setDefault(USE_FIGURE_LINE_OFFSET, PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100);
         
-        store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
-
         // Appearance
         
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_WIDTH, 120);
@@ -131,8 +129,10 @@ implements IPreferenceConstants {
         
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 
+        store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
         // Windows hi-res and Mac Retina use 200 zoom, Linux is 100
         store.setDefault(SCALE_IMAGE_EXPORT, (!PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) ? true : false);
+        store.setDefault(FONT_SCALING, false);
         
         // Animation
         store.setDefault(ANIMATE_VIEW, false);

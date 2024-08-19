@@ -15,7 +15,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -153,21 +152,13 @@ implements IDiagramModelObjectFigure {
      * Set the font to that in the model, or failing that, as per user's default
      */
     protected void setFont() {
-        String fontName = fDiagramModelObject.getFont();
+        String fontName = FontFactory.getScaledFontString(fDiagramModelObject.getFont());
         setFont(FontFactory.get(fontName));
         
         // Need to do this after font change
         if(getTextControl() != null) {
             getTextControl().revalidate();
         }
-    }
-    
-    @Override
-    public void setFont(Font font) {
-        // Possible font scaling for non 96 DPI on Windows or if property set
-        font = FontFactory.getScaledFont96DPI(font);
-        
-        super.setFont(font);
     }
     
     /**

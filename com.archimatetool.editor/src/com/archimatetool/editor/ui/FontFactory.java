@@ -10,6 +10,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -27,13 +28,7 @@ import com.archimatetool.editor.utils.StringUtils;
 @SuppressWarnings("nls")
 public final class FontFactory {
     
-    // Property to set if we will check to adjust font scaling
-    public static final String ADJUST_FONT_SIZE_PROPERTY = "com.archimatetool.adjustFontSize";
-    
-    // Whether to check to adjust font size on Windows non 96 DPI or if property set
-    private static final boolean CHECK_ADJUST_FONT_SIZE = PlatformUtils.isWindows() || "true".equals(System.getProperty(ADJUST_FONT_SIZE_PROPERTY));
-    
-    private static final String DEFAULT_VIEW_FONT_NAME = "defaultViewFont"; //$NON-NLS-1$
+    private static final String DEFAULT_VIEW_FONT_NAME = "defaultViewFont";
     
     /**
      * Font Registry
@@ -126,7 +121,7 @@ public final class FontFactory {
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("Lucida Grande", 12, SWT.NORMAL);
+            fd = new FontData("Lucida Grande", ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING) ? 9 : 12, SWT.NORMAL);
         }
 
         return fd;
@@ -138,34 +133,37 @@ public final class FontFactory {
     }
 
     /**
-     * Return a font scaled from 96 DPI if the current DPI is not 96
-     * This can happen on Windows if the DPI is not 96 or on Mac if we set a property.
-     * @return The adjusted font if DPI is not 96, or the same font if it is 96 DPI, or null if font is null
+     * Return a font string scaled from 96 DPI if the current DPI is not 96.
+     * This can happen on Windows if the DPI is not 96 or we are on Mac.
+     * @return The adjusted font if DPI is not 96, or the same font string if it is 96 DPI
      */
-    public static Font getScaledFont96DPI(Font font) {
-        if(font == null || !CHECK_ADJUST_FONT_SIZE) {
-            return font;
+    public static String getScaledFontString(String fontDataString) {
+        // Is Windows or is Mac with preference set
+        if(!(PlatformUtils.isWindows() ||
+                (PlatformUtils.isMac() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING)))) {
+            return fontDataString;
         }
         
-        int DPI = font.getDevice().getDPI().y;
+        int DPI = Display.getCurrent().getDPI().y;
         
         if(DPI != 96) {
-            FontData[] fd = font.getFontData();
-            
-            float factor = (float)96 / DPI;
-            int newHeight = (int)(fd[0].getHeight() * factor);
-            
-            fd[0].setHeight(newHeight);
-            String fontName = fd[0].toString();
-            
-            if(!FontRegistry.hasValueFor(fontName)) {
-                FontRegistry.put(fontName, fd);
+            // Font string is null or empty so use default FontData
+            if(!StringUtils.isSet(fontDataString)) {
+                fontDataString = getDefaultUserViewFontData().toString();
             }
             
-            font = FontRegistry.get(fontName);
+            try {
+                FontData fd = new FontData(fontDataString);
+                float factor = (float)96 / DPI;
+                int newHeight = (int)(fd.getHeight() * factor);
+                fd.setHeight(newHeight);
+                fontDataString = fd.toString();
+            }
+            catch(Exception ex) {
+            }
         }
-
-        return font;
+        
+        return fontDataString;
     }
     
     /**
