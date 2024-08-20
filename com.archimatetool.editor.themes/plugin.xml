@@ -6,6 +6,11 @@
        name="Themes"
        point="org.eclipse.e4.ui.css.swt.theme">
         <theme
+              basestylesheeturi="themes/archi/css/archi/archi.css"
+              id="com.archimatetool.editor.theme.archi"
+              label="Archi">
+        </theme>
+        <theme
               basestylesheeturi="themes/archi/css/basic/basic.css"
               id="com.archimatetool.editor.theme.basic"
               label="%theme.basic">

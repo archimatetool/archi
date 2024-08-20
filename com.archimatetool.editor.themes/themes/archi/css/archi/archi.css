@@ -1,0 +1,99 @@
+/*******************************************************************************
+ * Styling for Archi theme
+ *******************************************************************************/
+
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css"); 
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
+
+ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
+    color: #f8f8f8;
+}
+
+ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
+    color: #f8f8f8;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
+    color: #eaeff7;
+}
+
+ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {
+    color: #eaeff7;
+}
+
+.MPartStack {
+    swt-simple: true;
+    padding: 0px;
+    swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+    swt-draw-custom-tab-content-background: true;
+    
+    swt-selected-tab-fill: #F2F2F2 #F0F0F0 100% 100%;
+    swt-unselected-tabs-color: #E8E8E8 #E4E4E4 100% 100%;
+    swt-outer-keyline-color: #DADADA;
+    swt-inner-keyline-color: #FFFFFF;
+    swt-tab-outline: #DADADA;
+    
+    color: '#COLOR_WIDGET_FOREGROUND';
+}
+
+.MPartStack.active {
+    swt-draw-custom-tab-content-background: true;
+    swt-selected-tab-fill: #FFFFFF #FFFFFF 100% 100%;
+    swt-unselected-tabs-color: #F2F2F2 #F0F0F0 100% 100%;
+    swt-outer-keyline-color: #DADADA;
+    swt-inner-keyline-color: #FFFFFF;
+    swt-tab-outline: #DADADA;
+}
+
+/* Model Tree */
+.MPartStack#folderLeftTop {
+    swt-single: true;
+    swt-selected-tab-fill: #eaeff7 #eaeff7 100% 100%;
+    swt-unselected-tabs-color: #eaeff7 #eaeff7 100% 100%;
+}
+
+.MPartStack#folderLeftTop CTabItem {
+    swt-show-close: false;
+}
+
+.MPartStack#folderRight CTabItem {
+    swt-show-close: false;
+}
+
+.MPart#com-archimatetool-editor-treeModelView Tree {
+    background-color: #eaeff7;
+}
+
+CTabFolder.MArea {
+    swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+    padding: 0px;
+    background-color: #F0F0F0;
+    swt-selected-tab-fill: #F0F0F0;
+    swt-unselected-tabs-color: #F0F0F0;
+    swt-outer-keyline-color: #F0F0F0;
+    swt-inner-keyline-color: #F0F0F0;
+    swt-tab-outline: #F0F0F0;
+}
+
+CTabFolder Canvas {
+    background-color: #F8F8F8;
+}
+
+TabbedPropertyTitle > CLabel {
+    color: #405050;
+}
+
+TabbedPropertyTitle {
+    swt-backgroundGradientStart-color:  #eaeff7;
+    swt-backgroundGradientEnd-color:    #eaeff7;
+    swt-backgroundBottomKeyline1-color: #eaeff7;
+    swt-backgroundBottomKeyline2-color: #eaeff7;
+}
+
+TabbedPropertyList {
+    swt-tabNormalShadow-color   : #dadada;             /* color of shadow lines around the tabs */
+    swt-tabDarkShadow-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR'; /* line color of the tiny scroll triangle (at top / at bottom) */
+    swt-tabAreaBackground-color : #ffffff;
+    swt-tabBackground-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START';
+    color                       : #505050; /* text color in the tab / tab area */
+}
