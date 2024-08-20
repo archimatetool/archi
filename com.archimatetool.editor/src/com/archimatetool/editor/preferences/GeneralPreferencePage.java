@@ -46,7 +46,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fAddDocumentationNoteButton;
     private Button fScaleImagesButton;
-    private Button fScaleFontsButton;
     
     private Button fUseEdgeBrowserButton;
     
@@ -146,14 +145,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fScaleImagesButton.setLayoutData(createHorizontalGridData(2));
         fScaleImagesButton.setToolTipText(Messages.GeneralPreferencePage_14);
         
-        // Scale fonts on Mac
-        if(PlatformUtils.isMac()) {
-            fScaleFontsButton = new Button(otherGroup, SWT.CHECK);
-            fScaleFontsButton.setText(Messages.GeneralPreferencePage_25);
-            fScaleFontsButton.setLayoutData(createHorizontalGridData(2));
-            fScaleFontsButton.setToolTipText(Messages.GeneralPreferencePage_26);
-        }
-        
         // Internal Browser
         Group browserGroup = new Group(client, SWT.NULL);
         browserGroup.setText(Messages.GeneralPreferencePage_19);
@@ -230,10 +221,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fAddDocumentationNoteButton.setSelection(getPreferenceStore().getBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
         
-        if(fScaleFontsButton != null) {
-            fScaleFontsButton.setSelection(getPreferenceStore().getBoolean(FONT_SCALING));
-        }
-        
         if(fUseEdgeBrowserButton != null) {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getBoolean(EDGE_BROWSER));
         }
@@ -265,10 +252,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
         
         getPreferenceStore().setValue(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, fAddDocumentationNoteButton.getSelection());
-        
-        if(fScaleFontsButton != null) {
-            getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection());
-        }
         
         if(fUseEdgeBrowserButton != null) {
             getPreferenceStore().setValue(EDGE_BROWSER, fUseEdgeBrowserButton.getSelection());
@@ -303,10 +286,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
         
         fAddDocumentationNoteButton.setSelection(getPreferenceStore().getDefaultBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
-        
-        if(fScaleFontsButton != null) {
-            fScaleFontsButton.setSelection(getPreferenceStore().getDefaultBoolean(FONT_SCALING));
-        }
         
         if(fUseEdgeBrowserButton != null) {
             fUseEdgeBrowserButton.setSelection(getPreferenceStore().getDefaultBoolean(EDGE_BROWSER));

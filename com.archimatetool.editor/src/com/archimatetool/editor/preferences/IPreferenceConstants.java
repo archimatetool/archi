@@ -39,6 +39,9 @@ public interface IPreferenceConstants {
     // Default View Font
     String DEFAULT_VIEW_FONT = "defaultViewFont";
     
+    // Font scaling
+    String FONT_SCALING = "fontScaling";
+    
     // Theme Font Definition IDs
     String ANALYSIS_TABLE_FONT = "com.archimatetool.editor.ANALYSIS_TABLE_FONT";
     String MODEL_TREE_FONT = "com.archimatetool.editor.MODEL_TREE_FONT";
@@ -135,7 +138,6 @@ public interface IPreferenceConstants {
     // Whether to add a note to the documentation field of relationships that have been changed to Association when setting a new concept type
     String ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE = "addDocumentationNoteOnRelationChange";
     String SCALE_IMAGE_EXPORT = "scaleImageExport";
-    String FONT_SCALING = "fontScaling";
     
     // Animation
     String ANIMATE_VIEW = "animateView";

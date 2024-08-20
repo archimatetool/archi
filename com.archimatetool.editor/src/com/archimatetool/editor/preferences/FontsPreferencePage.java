@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
@@ -48,6 +49,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
@@ -120,6 +122,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         @Override
+        void performDefault() {
+            // If on Mac we need to temporarily apply the value of the scaling checkbox in preferences
+            // so that we can get the default scaled font size.
+            if(fScaleFontsButton != null) {
+                boolean currentValue = ArchiPlugin.PREFERENCES.getBoolean(FONT_SCALING); // save this
+                ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, fScaleFontsButton.getSelection()); // apply setting
+                fontData = getDefaultFontData(); // get font data
+                ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, currentValue); // apply previous value
+            }
+            else {
+                fontData = getDefaultFontData();
+            }
+        }
+        
+        @Override
         FontData getFontData() {
             // Get font data from Preferences store
             if(fontData == null) {
@@ -171,6 +188,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private TableViewer fTableViewer;
 
     private List<FontInfo> fontInfos = new ArrayList<>();
+    
+    private Button fScaleFontsButton;
 
     private Button fEditFontButton;
     private Button fDefaultFontButton;
@@ -182,7 +201,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     public FontsPreferencePage() {
         setPreferenceStore(PrefUtil.getInternalPreferenceStore());
-        setDescription(Messages.FontsPreferencePage_21);
+        // This is now shown in a label
+        //setDescription(Messages.FontsPreferencePage_21);
     }
     
     @Override
@@ -198,6 +218,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         client.addDisposeListener((e) -> {
             disposeLabelFont();
         });
+        
+        // Scale fonts on Mac
+        if(PlatformUtils.isMac()) {
+            fScaleFontsButton = new Button(client, SWT.CHECK);
+            fScaleFontsButton.setText(Messages.FontsPreferencePage_22);
+            fScaleFontsButton.setToolTipText(Messages.FontsPreferencePage_23);
+            fScaleFontsButton.setSelection(ArchiPlugin.PREFERENCES.getBoolean(FONT_SCALING));
+            fScaleFontsButton.setLayoutData(GridDataFactory.defaultsFor(fScaleFontsButton).span(2, 1).create());
+            // When button is selected apply default font and update table
+            fScaleFontsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+                fontInfos.get(0).performDefault();
+                fTableViewer.setSelection(fTableViewer.getSelection());
+            }));
+        }
         
         // Table
         createTable(client);
@@ -221,6 +255,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void createTable(Composite parent) {
+        Label label = new Label(parent, SWT.NONE);
+        label.setText(Messages.FontsPreferencePage_21);
+        label.setLayoutData(GridDataFactory.create(SWT.NONE).span(2, 1).create());
+        
         fTableViewer = new TableViewer(parent);
         
         GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTableViewer.getTable());
@@ -429,6 +467,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void performDefaults() {
+        if(fScaleFontsButton != null) {
+            fScaleFontsButton.setSelection(ArchiPlugin.PREFERENCES.getDefaultBoolean(FONT_SCALING));
+        }
+        
         for(FontInfo info : fontInfos) {
             info.performDefault();
         }
@@ -445,6 +487,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
+        if(fScaleFontsButton != null) {
+            ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, fScaleFontsButton.getSelection());
+        }
+        
         for(FontInfo info : fontInfos) {
             info.performOK();
         }

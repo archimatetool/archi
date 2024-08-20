@@ -237,6 +237,10 @@ public class Messages extends NLS {
 
     public static String FontsPreferencePage_21;
 
+    public static String FontsPreferencePage_22;
+
+    public static String FontsPreferencePage_23;
+
     public static String FontsPreferencePage_3;
 
     public static String FontsPreferencePage_4;
@@ -286,10 +290,6 @@ public class Messages extends NLS {
     public static String GeneralPreferencePage_23;
 
     public static String GeneralPreferencePage_24;
-
-    public static String GeneralPreferencePage_25;
-
-    public static String GeneralPreferencePage_26;
 
     public static String GeneralPreferencePage_3;
 
