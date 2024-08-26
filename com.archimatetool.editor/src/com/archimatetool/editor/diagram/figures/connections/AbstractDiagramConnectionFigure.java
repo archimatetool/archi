@@ -20,7 +20,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -178,9 +177,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
      * Set the font in the label to that in the model, or failing that, as per user's default
      */
     protected void setLabelFont() {
-        String fontName = FontFactory.getScaledFontString(getModelConnection().getFont());
-        Font font = FontFactory.get(fontName);
-        getConnectionLabel().setFont(font);
+        getConnectionLabel().setFont(FontFactory.getScaledFont(getModelConnection().getFont()));
     }
 
     /**

@@ -133,6 +133,14 @@ public final class FontFactory {
     }
 
     /**
+     * @param fontName
+     * @return A font for the fontName that might be scaled on Mac or Windows
+     */
+    public static Font getScaledFont(String fontName) {
+        return get(getScaledFontString(fontName));
+    }
+
+    /**
      * Return a font string scaled from 96 DPI if the current DPI is not 96.
      * This can happen on Windows if the DPI is not 96 or we are on Mac.
      * @return The adjusted font if DPI is not 96, or the same font string if it is 96 DPI
