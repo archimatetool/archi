@@ -146,9 +146,9 @@ public final class FontFactory {
      * @return The adjusted font if DPI is not 96, or the same font string if it is 96 DPI
      */
     public static String getScaledFontString(String fontDataString) {
-        // Is Windows or is Mac with preference set
-        if(!(PlatformUtils.isWindows() ||
-                (PlatformUtils.isMac() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING)))) {
+        // Don't check for DPI scaling on Linux or on Mac if preference not set. Always check on Windows.
+        if(PlatformUtils.isLinux() ||
+                (PlatformUtils.isMac() && !ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING))) {
             return fontDataString;
         }
         
