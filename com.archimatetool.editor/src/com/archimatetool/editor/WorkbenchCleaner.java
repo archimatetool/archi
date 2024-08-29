@@ -7,6 +7,7 @@ package com.archimatetool.editor;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -56,6 +57,9 @@ public class WorkbenchCleaner {
     
     // If this is set in Program arguments then clean the config area
     private static final String CLEAN_CONFIG = "-cleanConfig"; //$NON-NLS-1$
+    
+    // This over-rides -cleanConfig in case we are running from the command line and don't want to edit the Archi.ini file
+    private static final String NO_CLEAN_CONFIG = "-noCleanConfig"; //$NON-NLS-1$
     
     private static final String[] CONFIG_FILES_TO_DELETE = {
             // Files
@@ -111,7 +115,7 @@ public class WorkbenchCleaner {
     /**
      * Clean the workbench if requested
      */
-    private static void cleanWorkbench() {
+    static void cleanWorkbench() {
         // Not set
         if(cleanWorkBench == -1) {
             return;
@@ -134,9 +138,11 @@ public class WorkbenchCleaner {
      * Clean the config area on exit
      * See https://github.com/archimatetool/archi/issues/429
      */
-    private static void cleanConfigOnExit(boolean isRestart) {
-        // Don't clean if the "-cleanConfig" option is not set or we are in development mode
-        if(Platform.inDevelopmentMode() || !Arrays.asList(Platform.getApplicationArgs()).contains(CLEAN_CONFIG)) {
+    public static void cleanConfigOnExit(boolean isRestart) {
+        // Don't clean if we are in development mode or the "-noCleanConfig" option is set or "-cleanConfig" option is not set
+        List<String> appArgs = Arrays.asList(Platform.getApplicationArgs());
+        
+        if(Platform.inDevelopmentMode() || appArgs.contains(NO_CLEAN_CONFIG) || !appArgs.contains(CLEAN_CONFIG)) {
             return;
         }
         
@@ -156,7 +162,7 @@ public class WorkbenchCleaner {
         if(P2.USE_DROPINS) {
             File p2Folder = P2.getP2Location(); // Get this before running the shutdown hook
 
-            Runnable runnable = (() -> {
+            Runnable runnable = () -> {
                 // Delete config files
                 for(String path : CONFIG_FILES_TO_DELETE) {
                     delete(new File(configLocationFolder, path));
@@ -175,7 +181,7 @@ public class WorkbenchCleaner {
                 if(!installationFolder.equals(artifactsFile.getParentFile())) {
                     delete(artifactsFile);
                 }
-            });
+            };
             
             // Mac does not call shutdown hooks on Restart so run this now.
             // Note, not all files will be deleted in this case.

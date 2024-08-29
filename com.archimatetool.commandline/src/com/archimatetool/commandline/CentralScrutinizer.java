@@ -29,6 +29,7 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.WorkbenchCleaner;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -63,23 +64,29 @@ public class CentralScrutinizer implements IApplication {
     
     @Override
     public Object start(IApplicationContext context) throws Exception {
-        // Register providers
-        registerProviders();
-        
-        // Process options
-        CommandLine commandLine = processOptions();
-        
-        // Show help if set and exit
-        if(commandLine.hasOption("help")) { //$NON-NLS-1$
-            showHelp();
-            if(commandLine.hasOption("pause")) { //$NON-NLS-1$
-                pause();
+        try {
+            // Register providers
+            registerProviders();
+            
+            // Process options
+            CommandLine commandLine = processOptions();
+            
+            // Show help if set and exit
+            if(commandLine.hasOption("help")) { //$NON-NLS-1$
+                showHelp();
+                if(commandLine.hasOption("pause")) { //$NON-NLS-1$
+                    pause();
+                }
+                return EXIT_OK;
             }
-            return EXIT_OK;
+            
+            // Run provider options
+            return runProviderOptions(commandLine);
         }
-        
-        // Run provider options
-        return runProviderOptions(commandLine);
+        // Clean the workbench config area on exit
+        finally {
+            WorkbenchCleaner.cleanConfigOnExit(false);
+        }
     }
     
     // Collect registered command line providers
