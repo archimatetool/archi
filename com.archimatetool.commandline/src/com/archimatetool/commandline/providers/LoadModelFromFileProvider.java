@@ -58,7 +58,7 @@ public class LoadModelFromFileProvider extends AbstractCommandLineProvider {
             IArchimateModel model = IEditorModelManager.INSTANCE.load(file);
             
             if(model == null) {
-                throw new IOException(Messages.LoadModelFromFileProvider_3);
+                throw new IOException(NLS.bind(Messages.LoadModelFromFileProvider_3, filePath));
             }
             
             CommandLineState.setModel(model);
