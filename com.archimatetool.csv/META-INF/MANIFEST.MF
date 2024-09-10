@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV Export
 Bundle-SymbolicName: com.archimatetool.csv;singleton:=true
-Bundle-Version: 5.4.0.qualifier
+Bundle-Version: 5.4.1.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
