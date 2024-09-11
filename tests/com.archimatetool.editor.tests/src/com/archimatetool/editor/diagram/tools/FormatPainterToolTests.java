@@ -41,7 +41,7 @@ public class FormatPainterToolTests {
 
         // Execute command
         FormatPainterTool tool = new FormatPainterTool();
-        CompoundCommand compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        CompoundCommand compoundCmd = tool.createCommand(targetComponent);
         
         // Should be no commands
         assertEquals(0, compoundCmd.getCommands().size());
@@ -49,7 +49,7 @@ public class FormatPainterToolTests {
         // Set the source fill color to its default actual value.
         // The fill color command will not be added because the target's fill color (null) is effectively the same.
         sourceComponent.setFillColor("#ffffb5");
-        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        compoundCmd = tool.createCommand(targetComponent);
         assertEquals(0, compoundCmd.getCommands().size());
         
         // Now change some attributes on the source component
@@ -69,7 +69,7 @@ public class FormatPainterToolTests {
         // But we have to reset the FormatPainterInfo with the source component because it makes a copy of it
         FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
         
-        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        compoundCmd = tool.createCommand(targetComponent);
         assertEquals(12, compoundCmd.getCommands().size());
     }
     
@@ -88,7 +88,7 @@ public class FormatPainterToolTests {
 
         // Execute command
         FormatPainterTool tool = new FormatPainterTool();
-        CompoundCommand compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        CompoundCommand compoundCmd = tool.createCommand(targetComponent);
         
         // Should be no commands
         assertEquals(0, compoundCmd.getCommands().size());
@@ -103,7 +103,7 @@ public class FormatPainterToolTests {
         // But we have to reset the FormatPainterInfo with the source component because it makes a copy of it
         FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
         
-        compoundCmd = tool.createCommand(FormatPainterInfo.INSTANCE.getSourceComponent(), targetComponent);
+        compoundCmd = tool.createCommand(targetComponent);
         assertEquals(5, compoundCmd.getCommands().size());
     }
 

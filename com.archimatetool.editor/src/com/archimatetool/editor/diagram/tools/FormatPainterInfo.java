@@ -13,12 +13,14 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -41,6 +43,8 @@ public class FormatPainterInfo {
     public static FormatPainterInfo INSTANCE = new FormatPainterInfo();
     
     private IDiagramModelComponent sourceComponent;
+    private byte[] sourceImageBytes;
+    
     private RGB cursorColor;
     private Cursor coloredCursor, defaultCursor;
     private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
@@ -91,6 +95,10 @@ public class FormatPainterInfo {
         return sourceComponent;
     }
     
+    byte[] getSourceImageBytes() {
+        return sourceImageBytes;
+    }
+    
     RGB getCursorColor() {
         return cursorColor;
     }
@@ -99,6 +107,10 @@ public class FormatPainterInfo {
      * Set the source component from which we will copy the formatting
      */
     private void setSourceComponent(IDiagramModelComponent component) {
+        sourceComponent = null;
+        sourceImageBytes = null;
+        cursorColor = null;
+
         if(component != null) {
             // Make a snapshot copy of the source component so we don't reference the original object.
             // Before this change we used to hold a reference to the original object
@@ -108,12 +120,15 @@ public class FormatPainterInfo {
             // the FormatPainter would now hold that new value which might not be what the user expects.
             sourceComponent = (IDiagramModelComponent)component.getCopy();
         }
-        else {
-            sourceComponent = null;
+
+        // Copy image bytes, if any
+        if(component instanceof IIconic iconic && iconic.getImagePath() != null) {
+            IArchiveManager sourceArchiveManager = (IArchiveManager)component.getAdapter(IArchiveManager.class);
+            if(sourceArchiveManager != null) {
+                sourceImageBytes = sourceArchiveManager.getBytesFromEntry(iconic.getImagePath());
+            }
         }
 
-        cursorColor = null;
-        
         if(sourceComponent instanceof IDiagramModelConnection dmc) {
             // Line color
             String colorValue = dmc.getLineColor();

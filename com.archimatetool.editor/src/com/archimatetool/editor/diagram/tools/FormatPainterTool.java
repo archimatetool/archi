@@ -73,12 +73,11 @@ public class FormatPainterTool extends AbstractTool {
             if(editpart != null && editpart.getModel() != null) {
                 Object object = editpart.getModel();
                 if(isPaintableObject(object)) {
-                    IDiagramModelComponent sourceComponent = FormatPainterInfo.INSTANCE.getSourceComponent();
-                    if(sourceComponent == null) {
+                    if(FormatPainterInfo.INSTANCE.getSourceComponent() == null) {
                         FormatPainterInfo.INSTANCE.updateWithSourceComponent((IDiagramModelComponent)object);
                     }
                     else if(!isObjectLocked(object)) {
-                        Command cmd = createCommand(sourceComponent, (IDiagramModelComponent)object);
+                        Command cmd = createCommand((IDiagramModelComponent)object);
                         if(cmd.canExecute()) {
                             executeCommand(cmd);
                         }
@@ -109,10 +108,11 @@ public class FormatPainterTool extends AbstractTool {
         return false;
     }
     
-    protected CompoundCommand createCommand(IDiagramModelComponent sourceComponent, IDiagramModelComponent targetComponent) {
+    CompoundCommand createCommand(IDiagramModelComponent targetComponent) {
         CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(targetComponent);
+        IDiagramModelComponent sourceComponent = FormatPainterInfo.INSTANCE.getSourceComponent();
+        IObjectUIProvider targetUIProvider = ObjectUIFactory.INSTANCE.getProvider(targetComponent);
         
         // IFontAttribute
         if(sourceComponent instanceof IFontAttribute source && targetComponent instanceof IFontAttribute target) {
@@ -128,9 +128,9 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         // ILineObject
-        if(sourceComponent instanceof ILineObject source && targetComponent instanceof ILineObject target && provider != null) {
+        if(sourceComponent instanceof ILineObject source && targetComponent instanceof ILineObject target && targetUIProvider != null) {
             // Line color
-            if(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName())) {
+            if(targetUIProvider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName())) {
                 Command cmd = new LineColorCommand(target, source.getLineColor());
                 if(cmd.canExecute()) {
                     result.add(cmd);
@@ -138,7 +138,7 @@ public class FormatPainterTool extends AbstractTool {
             }
 
             // Line width
-            if(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName())) {
+            if(targetUIProvider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName())) {
                 Command cmd = new LineWidthCommand(target, source.getLineWidth());
                 if(cmd.canExecute()) {
                     result.add(cmd);
@@ -213,7 +213,7 @@ public class FormatPainterTool extends AbstractTool {
             }
             
             // Gradient
-            if(provider != null && provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT)) {
+            if(targetUIProvider != null && targetUIProvider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT)) {
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$
                 if(cmd.canExecute()) {
                     result.add(cmd);
@@ -221,7 +221,7 @@ public class FormatPainterTool extends AbstractTool {
             }
             
             // Derive line color
-            if(provider != null && provider.shouldExposeFeature(IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
+            if(targetUIProvider != null && targetUIProvider.shouldExposeFeature(IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR, source.getDeriveElementLineColor(), IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT); //$NON-NLS-1$
                 if(cmd.canExecute()) {
                     result.add(cmd);
@@ -229,7 +229,7 @@ public class FormatPainterTool extends AbstractTool {
             }
             
             // Icon Visibility and Color, but paste only if the target object has an icon
-            if(provider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)provider).hasIcon()) {
+            if(targetUIProvider instanceof IGraphicalObjectUIProvider && ((IGraphicalObjectUIProvider)targetUIProvider).hasIcon()) {
                 // Icon visible
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_ICON_VISIBLE, source.getIconVisibleState(), IDiagramModelObject.FEATURE_ICON_VISIBLE_DEFAULT); //$NON-NLS-1$
                 if(cmd.canExecute()) {
@@ -273,14 +273,13 @@ public class FormatPainterTool extends AbstractTool {
         
         // IIconic
         if(sourceComponent instanceof IIconic source && targetComponent instanceof IIconic target) {
-            // If we have an image path and the source and target models are different, copy the image bytes
+            // If we have an image path and the source has image bytes
             String imagePath = source.getImagePath();
-            if(imagePath != null && source.getArchimateModel() != target.getArchimateModel()) {
-                IArchiveManager sourceArchiveManager = (IArchiveManager)source.getAdapter(IArchiveManager.class);
+            if(imagePath != null && FormatPainterInfo.INSTANCE.getSourceImageBytes() != null) {
                 IArchiveManager targetArchiveManager = (IArchiveManager)target.getAdapter(IArchiveManager.class);
                 
                 try {
-                    imagePath = targetArchiveManager.copyImageBytes(sourceArchiveManager, imagePath);
+                    imagePath = targetArchiveManager.addByteContentEntry(imagePath, FormatPainterInfo.INSTANCE.getSourceImageBytes());
                 }
                 catch(IOException ex) {
                     ex.printStackTrace();
@@ -303,11 +302,11 @@ public class FormatPainterTool extends AbstractTool {
         return result;
     }
     
-    protected boolean isObjectLocked(Object object) {
+    private boolean isObjectLocked(Object object) {
         return object instanceof ILockable lockable && lockable.isLocked();
     }
 
-    protected boolean isPaintableObject(Object object) {
+    boolean isPaintableObject(Object object) {
         // Junctions are a no-no
         if(object instanceof IDiagramModelArchimateObject dmo) {
             IArchimateElement element = dmo.getArchimateElement();

@@ -57,8 +57,12 @@ public class FormatPainterInfoTests {
         info.updateWithSourceComponent(sourceComponent);
         
         assertNotNull(info.getSourceComponent());
+        
         // FormatPaintInfo will make a copy of the source component
         assertNotEquals(sourceComponent, info.getSourceComponent());
+        
+        // Image bytes are null
+        assertNull(info.getSourceImageBytes());
         
         // Colored cursor
         assertSame(info.getCursor(), TestUtils.getPrivateField(info, "coloredCursor"));
