@@ -335,8 +335,18 @@ public class SWTEventDispatcher extends EventDispatcher {
      * @return the ToolTipHelper
      */
     protected ToolTipHelper getToolTipHelper() {
-        if (toolTipHelper == null)
+        // Phillipus changed this.
+        // If a workbench part is detached and a tooltip is initially displayed, when the part is re-attached
+        // the parent Shell is disposed which in turn disposes of the PopupHelper's Shell.
+        // This will lead to an SWT Error when the Shell is accessed again.
+        // To fix this, if the ToolTipHelper's shell is disposed return a new one
+        
+        //if (toolTipHelper == null)
+        //    toolTipHelper = new ToolTipHelper(control);
+        
+        if(toolTipHelper == null || toolTipHelper.getShell().isDisposed()) {
             toolTipHelper = new ToolTipHelper(control);
+        }
         return toolTipHelper;
     }
 

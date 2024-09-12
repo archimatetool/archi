@@ -84,14 +84,7 @@ public abstract class PopUpHelper {
      * @since 2.0
      */
     protected Shell createShell() {
-        // Phillipus changed this.
-        // If a workbench part is detached and a tooltip is initially displayed, when the part is re-attached
-        // the parent Shell is disposed which in turn disposes of the PopupHelper's Shell.
-        // This will lead to an SWT Error when the Shell is accessed again.
-        // To fix this, create the PopupHelper Shell with the Control's Display instead of its Shell.
-        
-        //return new Shell(control.getShell(), shellStyle);
-        return new Shell(control.getDisplay(), shellStyle);
+        return new Shell(control.getShell(), shellStyle);
     }
 
     /**
