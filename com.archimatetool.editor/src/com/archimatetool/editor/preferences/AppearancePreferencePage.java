@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.preferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
@@ -12,7 +15,6 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -24,6 +26,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -57,6 +60,22 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private IThemeEngine themeEngine;
     private ITheme lastActiveTheme;
+    
+    /**
+     * Pseudo theme to set automatic light/dark on startup
+     */
+    private static ITheme AUTOMATIC_THEME = new ITheme() {
+        @Override
+        public String getId() {
+            return Display.isSystemDarkTheme() ? ThemeUtils.E4_DARK_THEME_ID : ThemeUtils.E4_DEFAULT_THEME_ID;
+        }
+
+        @Override
+        public String getLabel() {
+            return Messages.AppearancePreferencePage_7;
+        }
+    };
+
     
 	public AppearancePreferencePage() {
 		setPreferenceStore(ArchiPlugin.PREFERENCES);
@@ -134,8 +153,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fThemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
                 @Override
                 public void selectionChanged(SelectionChangedEvent event) {
-                    ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-                    themeEngine.setTheme(theme, false);
+                    ITheme theme = (ITheme)fThemeComboViewer.getStructuredSelection().getFirstElement();
+                    themeEngine.setTheme(theme.getId(), false); // set theme id, not theme in case of automatic theme
                 }
             });
         }
@@ -146,11 +165,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         // Themes list
         if(themeEngine != null) {
-            fThemeComboViewer.setInput(themeEngine.getThemes().toArray());
+            List<ITheme> themes = new ArrayList<>((themeEngine.getThemes()));
+            themes.add(AUTOMATIC_THEME);
             
-            ITheme activeTheme = themeEngine.getActiveTheme();
-            if(activeTheme != null) {
-                fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+            fThemeComboViewer.setInput(themes.toArray());
+            
+            // If themeid is not present the ThemeEngine will try to set light/dark theme based on OS theme
+            if(ThemeUtils.getThemePreferences().get(ThemeUtils.THEMEID_KEY, null) == null) {
+                fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
+            }
+            else {
+                ITheme activeTheme = themeEngine.getActiveTheme();
+                if(activeTheme != null) {
+                    fThemeComboViewer.setSelection(new StructuredSelection(activeTheme));
+                }
             }
         }
         
@@ -169,11 +197,25 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public boolean performOk() {
         // Theme
         if(themeEngine != null) {
-            ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
-            if(!theme.equals(lastActiveTheme)) {
-                themeEngine.setTheme(theme, true);
-                lastActiveTheme = theme;
+            ITheme theme = (ITheme)fThemeComboViewer.getStructuredSelection().getFirstElement();
+            
+            if(theme == AUTOMATIC_THEME) {
+                // Just remove the "themeid" key and then the ThemeEngine will use dark/light depending on OS theme on startup
+                IEclipsePreferences themePrefs = ThemeUtils.getThemePreferences();
+                themePrefs.remove(ThemeUtils.THEMEID_KEY);
+                try {
+                    themePrefs.flush();
+                }
+                catch(BackingStoreException ex) {
+                    ex.printStackTrace();
+                }
             }
+            else {
+                themeEngine.setTheme(theme, true);
+            }
+            
+            // Store this in both cases
+            lastActiveTheme = themeEngine.getActiveTheme();
         }
         
         // Status line
@@ -192,6 +234,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             swtPrefs.flush();
         }
         catch(BackingStoreException ex) {
+            ex.printStackTrace();
         }
         
         // Mac native item heights

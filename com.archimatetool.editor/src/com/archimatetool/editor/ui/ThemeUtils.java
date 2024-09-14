@@ -56,6 +56,11 @@ public final class ThemeUtils {
      */
     public static final String THEME_ENABLED = "themeEnabled";
     
+    /**
+     * Used in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.css.swt.theme.prefs to store current theme id
+     */
+    public static final String THEMEID_KEY = "themeid";
+    
     private static IThemeEngine engine;
     
     /**

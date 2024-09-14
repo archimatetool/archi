@@ -25,6 +25,8 @@ public class Messages extends NLS {
 
     public static String AppearancePreferencePage_6;
 
+    public static String AppearancePreferencePage_7;
+
     public static String ColoursPreferencePage_0;
 
     public static String ColoursPreferencePage_1;
