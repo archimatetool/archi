@@ -152,6 +152,9 @@ public class SearchWidget extends Composite {
         fSearchText = UIUtils.createSingleTextControl(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH, false);
         fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        // Bug on Mac, single-click doesn't work on the cancel icon
+        UIUtils.applyMacCancelIconListener(fSearchText);
+        
         // Mac bug workaround
         UIUtils.applyMacUndoBugFilter(fSearchText);
         

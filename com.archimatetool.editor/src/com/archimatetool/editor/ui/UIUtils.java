@@ -6,7 +6,10 @@
 package com.archimatetool.editor.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
@@ -113,6 +116,37 @@ public final class UIUtils {
             control.addListener(SWT.KeyDown, e -> {
                 if(e.keyCode == 'z' && (e.stateMask & SWT.COMMAND) != 0) {
                     e.doit = false;
+                }
+            });
+        }
+    }
+    
+    /**
+     * On Mac single-click on the Cancel icon in a text control doesn't work.
+     * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=551405
+     * @param text The Text control
+     */
+    public static void applyMacCancelIconListener(Text textControl) {
+        if(PlatformUtils.isMac() && (textControl.getStyle() & SWT.ICON_CANCEL) != 0) {
+            textControl.addMouseListener(new MouseAdapter() {
+                boolean mouseDownWasClickedOnCancelIcon;
+                
+                @Override
+                public void mouseDown(MouseEvent e) {
+                    mouseDownWasClickedOnCancelIcon = isCancelIconClicked(e);
+                }
+                
+                @Override
+                public void mouseUp(MouseEvent e) {
+                    if(mouseDownWasClickedOnCancelIcon && isCancelIconClicked(e)) {
+                        textControl.setText("");
+                    }
+                }
+                
+                private boolean isCancelIconClicked(MouseEvent e) {
+                    Rectangle bounds = textControl.getBounds();
+                    return !textControl.getText().isEmpty() && e.x > bounds.width - 25 && e.x < bounds.width - 5
+                            && e.y > 0 && e.y < bounds.height;
                 }
             });
         }
