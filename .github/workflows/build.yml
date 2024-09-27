@@ -1,0 +1,14 @@
+name: Build
+
+on: 
+  workflow_dispatch:
+
+jobs:
+
+  dummyjob:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: First Step
+      run: pwd
