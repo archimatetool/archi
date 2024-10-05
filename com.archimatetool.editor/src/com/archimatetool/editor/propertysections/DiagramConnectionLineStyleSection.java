@@ -17,7 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -117,11 +116,7 @@ public class DiagramConnectionLineStyleSection extends AbstractECorePropertySect
         protected int fValue = 0;
         
         public StyleSelector(Composite parent, String buttonText) {
-            Composite buttonClient = createComposite(parent, 1);
-            buttonClient.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false));
-            
-            fButton = getWidgetFactory().createButton(buttonClient, null, SWT.PUSH);
-            fButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            fButton = getWidgetFactory().createButton(parent, null, SWT.PUSH);
             fButton.setToolTipText(buttonText);
             
             fButton.addSelectionListener(new SelectionAdapter() {
