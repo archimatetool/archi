@@ -100,10 +100,8 @@ public class IconVisibleSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_VISIBLE)) {
-                refreshButton();
-            }
+        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_VISIBLE)) {
+            refreshButton();
         }
     }
     

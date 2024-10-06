@@ -98,11 +98,9 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
     protected void notifyChanged(Notification msg) {
         super.notifyChanged(msg);
         
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshButton();
-            }
+        Object feature = msg.getFeature();
+        if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            refreshButton();
         }
     }
     

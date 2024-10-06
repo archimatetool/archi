@@ -112,12 +112,10 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
+        Object feature = msg.getFeature();
 
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
-                update();
-            }
+        if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
+            update();
         }
     }
 

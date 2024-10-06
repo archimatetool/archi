@@ -58,20 +58,18 @@ public class FillColorSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR) {
-                updateColorControl(); // update also when executing command in case "default" is chosen
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR) {
+            updateColorControl(); // update also when executing command in case "default" is chosen
+        }
+        else if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_GRADIENT)) {
+            if(!fIsExecutingCommand) {
+                updateGradientControl();
             }
-            else if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_GRADIENT)) {
-                if(!fIsExecutingCommand) {
-                    updateGradientControl();
-                }
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        }
+        else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 
@@ -99,7 +97,6 @@ public class FillColorSection extends AbstractECorePropertySection {
         else if(fillColorComposite != null) {
             fillColorComposite.dispose();
             fillColorComposite = null;
-            return;
         }
     }
     
@@ -115,7 +112,6 @@ public class FillColorSection extends AbstractECorePropertySection {
         else if(gradientComposite != null) {
             gradientComposite.dispose();
             gradientComposite = null;
-            return;
         }
     }
     

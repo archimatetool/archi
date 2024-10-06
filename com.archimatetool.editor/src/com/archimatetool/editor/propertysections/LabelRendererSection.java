@@ -48,14 +48,9 @@ public class LabelRendererSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
-        }
-        
-        if(isFeatureNotification(msg, TextRenderer.FEATURE_NAME)) {
+        Object feature = msg.getFeature();
+            
+        if(isFeatureNotification(msg, TextRenderer.FEATURE_NAME) || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
             update();
         }
     }

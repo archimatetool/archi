@@ -122,14 +122,12 @@ public class HintContentSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE || 
-                    feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE || 
+                feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT ||
+                feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 

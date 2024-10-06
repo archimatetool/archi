@@ -93,10 +93,8 @@ public class ImageSourceSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            if(isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
-                refreshCombo();
-            }
+        if(isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
+            refreshCombo();
         }
     }
     

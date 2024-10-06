@@ -98,11 +98,9 @@ public class AccessRelationshipSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE) {
-                update();
-            }
+        Object feature = msg.getFeature();
+        if(feature == IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE) {
+            update();
         }
     }
 

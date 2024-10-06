@@ -50,12 +50,10 @@ public class AssociationRelationshipSection extends AbstractECorePropertySection
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.ASSOCIATION_RELATIONSHIP__DIRECTED) {
-                update();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.ASSOCIATION_RELATIONSHIP__DIRECTED) {
+            update();
         }
     }
     

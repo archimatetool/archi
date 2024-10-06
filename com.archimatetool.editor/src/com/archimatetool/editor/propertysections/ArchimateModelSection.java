@@ -94,22 +94,20 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            // Model Name
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refreshNameField();
-                updatePropertiesLabel(); // Update Main label
-            }
-            // Model File
-            else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__FILE) {
-                refreshFileField();
-            }
-            // Model Purpose
-            else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE) {
-                refreshPurposeField();
-            }
+        Object feature = msg.getFeature();
+
+        // Model Name
+        if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            refreshNameField();
+            updatePropertiesLabel(); // Update Main label
+        }
+        // Model File
+        else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__FILE) {
+            refreshFileField();
+        }
+        // Model Purpose
+        else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE) {
+            refreshPurposeField();
         }
     }
     

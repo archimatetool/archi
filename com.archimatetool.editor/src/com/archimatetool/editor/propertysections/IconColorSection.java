@@ -95,12 +95,10 @@ public class IconColorSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_COLOR) || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update(); // Update in all cases
-            }
+        Object feature = msg.getFeature();
+
+        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_ICON_COLOR) || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update(); // Update in all cases
         }
     }
 

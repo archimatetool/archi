@@ -107,12 +107,10 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.SKETCH_MODEL__BACKGROUND) {
-                update();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.SKETCH_MODEL__BACKGROUND) {
+            update();
         }
     }
 

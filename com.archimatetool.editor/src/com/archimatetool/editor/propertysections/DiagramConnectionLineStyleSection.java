@@ -84,13 +84,11 @@ public class DiagramConnectionLineStyleSection extends AbstractECorePropertySect
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE ||
+                feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 

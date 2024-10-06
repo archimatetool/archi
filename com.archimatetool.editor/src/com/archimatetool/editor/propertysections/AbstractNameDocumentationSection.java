@@ -36,22 +36,20 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
 
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            // Name event
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refreshNameField();
-                updatePropertiesLabel();
-            }
-            // Documentation event
-            else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
-                refreshDocumentationField();
-            }
-            // Locked
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        Object feature = msg.getFeature();
+
+        // Name event
+        if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
+            refreshNameField();
+            updatePropertiesLabel();
+        }
+        // Documentation event
+        else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
+            refreshDocumentationField();
+        }
+        // Locked
+        else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
     

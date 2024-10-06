@@ -225,12 +225,10 @@ public class IconSection extends ImageChooserSection {
             refreshPreviewImage();
         }
         
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
-                    || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION
-                    || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
-                refreshButton();
-            }
+        if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED
+                || feature == IArchimatePackage.Literals.ICONIC__IMAGE_POSITION
+                || isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_IMAGE_SOURCE)) {
+            refreshButton();
         }
     }
     

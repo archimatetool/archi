@@ -192,18 +192,16 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
+        Object feature = msg.getFeature();
 
-            if(feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT) {
-                updateTextAlignmentControls();
-            }
-            else if(feature == IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION) {
-                updateTextPositionControls();
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        if(feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT) {
+            updateTextAlignmentControls();
+        }
+        else if(feature == IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION) {
+            updateTextPositionControls();
+        }
+        else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 

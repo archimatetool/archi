@@ -34,14 +34,12 @@ public abstract class AbstractNameSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-                updatePropertiesLabel();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ||
+                feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
+            updatePropertiesLabel();
         }
     }
 

@@ -71,13 +71,11 @@ public class DiagramModelImageSection extends ImageChooserSection {
     protected void notifyChanged(Notification msg) {
         super.notifyChanged(msg);
         
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshDocumentationField();
-            }
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION ||
+                feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            refreshDocumentationField();
         }
     }
 

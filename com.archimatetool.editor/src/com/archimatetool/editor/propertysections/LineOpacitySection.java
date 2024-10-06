@@ -63,17 +63,15 @@ public class LineOpacitySection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_LINE_ALPHA)) {
-                if(!fIsExecutingCommand) {
-                    update();
-                }
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+        Object feature = msg.getFeature();
+
+        if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_LINE_ALPHA)) {
+            if(!fIsExecutingCommand) {
                 update();
             }
+        }
+        else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 

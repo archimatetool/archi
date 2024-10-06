@@ -17,7 +17,7 @@ import com.archimatetool.model.ILineObject;
 
 
 /**
- * Property Section for a Line
+ * Property Section for a Line Color and Width
  * 
  * @author Phillip Beauvoir
  */
@@ -59,20 +59,18 @@ public class LineSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        if(msg.getNotifier() == getFirstSelectedObject()) {
-            Object feature = msg.getFeature();
-            
-            if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR || isFeatureNotification(msg, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
-                updateColorControl(); // update also when executing command in case "default" or "derive from fill color" is chosen
+        Object feature = msg.getFeature();
+
+        if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR || isFeatureNotification(msg, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR)) {
+            updateColorControl(); // update also when executing command in case "default" or "derive from fill color" is chosen
+        }
+        else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
+            if(!fIsExecutingCommand) {
+                updateLineWidthControl();
             }
-            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
-                if(!fIsExecutingCommand) {
-                    updateLineWidthControl();
-                }
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                update();
-            }
+        }
+        else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            update();
         }
     }
 
@@ -100,7 +98,6 @@ public class LineSection extends AbstractECorePropertySection {
         else if(lineColorComposite != null) {
             lineColorComposite.dispose();
             lineColorComposite = null;
-            return;
         }
     }
     
@@ -116,7 +113,6 @@ public class LineSection extends AbstractECorePropertySection {
         else if(lineWidthComposite != null) {
             lineWidthComposite.dispose();
             lineWidthComposite = null;
-            return;
         }
     }
     
