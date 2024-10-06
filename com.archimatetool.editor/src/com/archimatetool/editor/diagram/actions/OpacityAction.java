@@ -144,7 +144,7 @@ public class OpacityAction extends SelectionAction {
             composite.setLayout(new GridLayout(2, true));
             
             Label label = new Label(composite, SWT.NONE);
-            label.setText(Messages.OpacityAction_0 + ": "); //$NON-NLS-1$
+            label.setText(Messages.OpacityAction_1 + ": "); //$NON-NLS-1$
             
             fSpinner = new Spinner(composite, SWT.BORDER);
             fSpinner.setMinimum(0);
