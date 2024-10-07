@@ -61,10 +61,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);
 
-        // Scale line dashes below 1.0
-        double scale = Math.min(FigureUtils.getGraphicsScale(graphics), 1.0);
-        
-        graphics.setLineDash(new float[] { (float)(8 * scale), (float)(4 * scale) });
+        setLineStyle(graphics);
         
         graphics.setBackgroundColor(getFillColor());
         graphics.setForegroundColor(getLineColor());

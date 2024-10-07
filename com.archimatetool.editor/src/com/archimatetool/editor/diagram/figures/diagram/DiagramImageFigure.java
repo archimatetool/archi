@@ -105,6 +105,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);
         
+        setLineStyle(graphics);
+        
         if(fImage != null) {
             // Faster but no transparency
             if(useScaledImage) {

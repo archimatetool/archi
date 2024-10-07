@@ -29,6 +29,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
+import com.archimatetool.model.impl.Grouping;
 
 
 
@@ -47,14 +48,17 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
     public static IDiagramModelArchimateObject createDiagramModelArchimateObject(IArchimateElement element) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
+        
         // Figure Type
         dmo.setType(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
         
-        // Add new bounds with a default user size
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
+        
+        // Add new bounds with a default user size
         Dimension size = provider.getDefaultSize();
         dmo.setBounds(0, 0, size.width, size.height);
         
+        // Text position and alignment
         dmo.setTextPosition(provider.getDefaultTextPosition());
         dmo.setTextAlignment(provider.getDefaultTextAlignment());
 
@@ -63,6 +67,11 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Gradient
         dmo.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+        
+        // Line Style for Grouping
+        if(element instanceof Grouping) {
+            dmo.setLineStyle(IDiagramModelObject.LINE_STYLE_DASHED);
+        }
         
         return dmo;
     }
@@ -77,6 +86,8 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         connection.setArchimateRelationship(relation);
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(connection);
+        
+        // Text alignment
         connection.setTextAlignment(provider.getDefaultTextAlignment());
         
         // Set user default colors as set in prefs
@@ -112,63 +123,58 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             return null;
         }
         
-        boolean isSpecialization =  fProfile != null && fProfile.getArchimateModel() != null;
+        boolean isSpecialization = fProfile != null && fProfile.getArchimateModel() != null;
         
         EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
         // Add Profile to Concept if set
-        if(object instanceof IArchimateConcept && isSpecialization) {
-            ((IArchimateConcept)object).getProfiles().add(fProfile);
+        if(object instanceof IArchimateConcept concept && isSpecialization) {
+            concept.getProfiles().add(fProfile);
         }
         
-        // Connection created from Relationship Template
-        if(object instanceof IArchimateRelationship) {
-            return createDiagramModelArchimateConnection((IArchimateRelationship)object);
+        // Archimate Connection created from Relationship Template
+        if(object instanceof IArchimateRelationship relationship) {
+            return createDiagramModelArchimateConnection(relationship);
         }
         
         // Archimate Diagram Object created from Archimate Element Template
-        else if(object instanceof IArchimateElement) {
-            IArchimateElement element = (IArchimateElement)object;
+        else if(object instanceof IArchimateElement element) {
             element.setName(isSpecialization ? fProfile.getName() : ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             return createDiagramModelArchimateObject(element);
         }
         
         // Group
-        else if(object instanceof IDiagramModelGroup) {
-            IDiagramModelGroup group = (IDiagramModelGroup)object;
+        else if(object instanceof IDiagramModelGroup group) {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
-            // Gradient
             group.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Note
-        else if(object instanceof IDiagramModelNote) {
-            IDiagramModelNote note = (IDiagramModelNote)object;
+        else if(object instanceof IDiagramModelNote note) {
             ColorFactory.setDefaultColors(note);
-            // Gradient
             note.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection
-        else if(object instanceof IDiagramModelConnection) {
-            ColorFactory.setDefaultColors((IDiagramModelConnection)object);
+        else if(object instanceof IDiagramModelConnection connection) {
+            ColorFactory.setDefaultColors(connection);
         }
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
 
-        if(object instanceof ITextAlignment) {
-            ((ITextAlignment)object).setTextAlignment(provider.getDefaultTextAlignment());
+        if(object instanceof ITextAlignment textAlignment) {
+            textAlignment.setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
-        if(object instanceof ITextPosition) {
-            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        if(object instanceof ITextPosition textPosition) {
+            textPosition.setTextPosition(provider.getDefaultTextPosition());
         }
         
         // Add new bounds with a default user size
-        if(object instanceof IDiagramModelObject) {
+        if(object instanceof IDiagramModelObject dmo) {
             Dimension size = provider.getDefaultSize();
-            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
+            dmo.setBounds(0, 0, size.width, size.height);
         }
 
         return object;

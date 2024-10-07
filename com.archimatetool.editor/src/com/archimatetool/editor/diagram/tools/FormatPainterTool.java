@@ -212,6 +212,14 @@ public class FormatPainterTool extends AbstractTool {
                 result.add(cmd);
             }
             
+            // Line Style
+            if(targetUIProvider != null && targetUIProvider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_STYLE)) {
+                cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_LINE_STYLE, source.getLineStyle(), IDiagramModelObject.FEATURE_LINE_STYLE_DEFAULT); //$NON-NLS-1$
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
+            }
+            
             // Gradient
             if(targetUIProvider != null && targetUIProvider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT)) {
                 cmd = new FeatureCommand("", target, IDiagramModelObject.FEATURE_GRADIENT, source.getGradient(), IDiagramModelObject.FEATURE_GRADIENT_DEFAULT); //$NON-NLS-1$

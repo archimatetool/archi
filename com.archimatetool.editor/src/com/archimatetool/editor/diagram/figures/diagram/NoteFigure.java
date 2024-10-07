@@ -116,6 +116,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
             setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
         }
         
         // Fill
