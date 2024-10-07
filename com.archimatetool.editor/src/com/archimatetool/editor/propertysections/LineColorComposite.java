@@ -37,13 +37,19 @@ class LineColorComposite {
     private ColorChooser fColorChooser;
     private Action fDeriveLineColorAction;
     private AbstractECorePropertySection section;
+    private Composite composite;
     
     LineColorComposite(AbstractECorePropertySection section, Composite parent) {
         this.section = section;
-        createColorControl(section.createComposite(parent, 2, false));
+        composite = section.createComposite(parent, 2, false);
+        createColorControl(composite);
         addListeners();
     }
 
+    Composite getComposite() {
+        return composite;
+    }
+    
     /**
      * Color listener
      */
@@ -169,6 +175,8 @@ class LineColorComposite {
     
     void dispose() {
         removeListeners();
+        composite.dispose();
+        composite = null;
         section = null;
         fColorChooser = null;
     }

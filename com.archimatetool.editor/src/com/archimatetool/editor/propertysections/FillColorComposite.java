@@ -32,13 +32,19 @@ class FillColorComposite {
     
     private ColorChooser fColorChooser;
     private AbstractECorePropertySection section;
+    private Composite composite;
     
     FillColorComposite(AbstractECorePropertySection section, Composite parent) {
         this.section = section;
-        createColorControl(section.createComposite(parent, 2, false));
+        composite = section.createComposite(parent, 2, false);
+        createColorControl(composite);
         addListeners();
     }
 
+    Composite getComposite() {
+        return composite;
+    }
+    
     /**
      * Color listener
      */
@@ -119,6 +125,8 @@ class FillColorComposite {
     
     void dispose() {
         removeListeners();
+        composite.dispose();
+        composite = null;
         section = null;
         fColorChooser = null;
     }

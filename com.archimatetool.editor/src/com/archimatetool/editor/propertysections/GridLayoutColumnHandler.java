@@ -39,7 +39,7 @@ public class GridLayoutColumnHandler {
         this.parent = parent;
         this.maxColumns = maxColumns;
         
-        parent.addDisposeListener((e) -> {
+        parent.addDisposeListener(e -> {
             ArchiPlugin.PREFERENCES.removePropertyChangeListener(listener);
             this.parent = null;
         });
@@ -52,10 +52,11 @@ public class GridLayoutColumnHandler {
         int numColumns = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
         ((GridLayout)parent.getLayout()).numColumns = numColumns;
         
-        // If there is more than one child composite set the width hint for the first child for the number of columns
-        if(parent.getChildren().length > 1) {
-            GridData gd = (GridData)parent.getChildren()[0].getLayoutData();
-            gd.widthHint = numColumns == 1 ? SWT.DEFAULT : ITabbedLayoutConstants.COMPOSITE_WIDTH;
+        // If numColumns == 1 set width of each child control to SWT.DEFAULT
+        // Else set all child controls except the last one to ITabbedLayoutConstants.COMPOSITE_WIDTH
+        for(int i = 0; i < parent.getChildren().length; i++) {
+            int width = numColumns == 1 ? SWT.DEFAULT : i < parent.getChildren().length - 1  ? ITabbedLayoutConstants.COMPOSITE_WIDTH : SWT.DEFAULT;
+            ((GridData)parent.getChildren()[i].getLayoutData()).widthHint = width;
         }
     }
 }

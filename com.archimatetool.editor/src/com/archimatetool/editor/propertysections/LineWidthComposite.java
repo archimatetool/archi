@@ -32,10 +32,16 @@ class LineWidthComposite {
     
     private Combo fComboLineWidth;
     private AbstractECorePropertySection section;
+    private Composite composite;
     
     LineWidthComposite(AbstractECorePropertySection section, Composite parent) {
         this.section = section;
-        createLineWidthControl(section.createComposite(parent, 2, false));
+        composite = section.createComposite(parent, 2, false);
+        createLineWidthControl(composite);
+    }
+    
+    Composite getComposite() {
+        return composite;
     }
 
     private void createLineWidthControl(Composite parent) {
@@ -73,6 +79,8 @@ class LineWidthComposite {
     }
 
     void dispose() {
+        composite.dispose();
+        composite = null;
         section = null;
         fComboLineWidth = null;
     }

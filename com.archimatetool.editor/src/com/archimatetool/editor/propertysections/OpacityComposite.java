@@ -26,10 +26,16 @@ abstract class OpacityComposite {
     
     private Spinner fSpinner;
     private AbstractECorePropertySection section;
+    private Composite composite;
     
     OpacityComposite(AbstractECorePropertySection section, Composite parent, String label) {
         this.section = section;
-        createSpinnerControl(section.createComposite(parent, 2, false), label);
+        composite = section.createComposite(parent, 2, false);
+        createSpinnerControl(composite, label);
+    }
+    
+    Composite getComposite() {
+        return composite;
     }
     
     private void createSpinnerControl(Composite parent, String label) {
@@ -84,6 +90,8 @@ abstract class OpacityComposite {
     }
     
     void dispose() {
+        composite.dispose();
+        composite = null;
         fSpinner = null;
         section = null;
     }

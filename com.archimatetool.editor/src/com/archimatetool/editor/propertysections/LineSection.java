@@ -6,7 +6,6 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -21,7 +20,7 @@ import com.archimatetool.model.ILineObject;
  * 
  * @author Phillip Beauvoir
  */
-public class LineSection extends AbstractECorePropertySection {
+public class LineSection extends AbstractMultiControlSection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -42,16 +41,12 @@ public class LineSection extends AbstractECorePropertySection {
         }
     }
     
-    private Composite parentComposite;
     private LineColorComposite lineColorComposite;
     private LineWidthComposite lineWidthComposite;
-    private GridLayoutColumnHandler columnHandler;
 
     @Override
     protected void createControls(Composite parent) {
-        parentComposite = parent;
-        
-        ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
+        init(parent, 2);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -78,41 +73,44 @@ public class LineSection extends AbstractECorePropertySection {
     protected void update() {
         updateColorControl();
         updateLineWidthControl();
-        
-        // Allow setting 1 or 2 columns
-        if(columnHandler == null) {
-            columnHandler = GridLayoutColumnHandler.create(parentComposite, 2);
-            columnHandler.updateColumns();
-        }
     }
     
     private void updateColorControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
+        boolean show = shouldShowControl(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
         
         if(show) {
             if(lineColorComposite == null) {
                 lineColorComposite = new LineColorComposite(this, parentComposite);
+                
+                // If we're showing the LineWidthComposite move the LineColorComposite above/before it
+                if(lineWidthComposite != null) {
+                    lineColorComposite.getComposite().moveAbove(lineWidthComposite.getComposite());
+                    layout();
+                }
             }
             lineColorComposite.updateControl();
         }
         else if(lineColorComposite != null) {
             lineColorComposite.dispose();
             lineColorComposite = null;
+            layout();
         }
     }
     
     private void updateLineWidthControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
+        boolean show = shouldShowControl(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
         
         if(show) {
             if(lineWidthComposite == null) {
                 lineWidthComposite = new LineWidthComposite(this, parentComposite);
+                layout();
             }
             lineWidthComposite.updateControl();
         }
         else if(lineWidthComposite != null) {
             lineWidthComposite.dispose();
             lineWidthComposite = null;
+            layout();
         }
     }
     
@@ -134,7 +132,5 @@ public class LineSection extends AbstractECorePropertySection {
             lineWidthComposite.dispose();
             lineWidthComposite = null;
         }
-        
-        columnHandler = null;
     }
 }

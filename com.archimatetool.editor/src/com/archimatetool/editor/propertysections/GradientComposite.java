@@ -36,12 +36,18 @@ class GradientComposite {
 
     private Combo fGradientCombo;
     private AbstractECorePropertySection section;
+    private Composite composite;
     
     GradientComposite(AbstractECorePropertySection section, Composite parent) {
         this.section = section;
-        createGradientControl(section.createComposite(parent, 2, false));
+        composite = section.createComposite(parent, 2, false);
+        createGradientControl(composite);
     }
 
+    Composite getComposite() {
+        return composite;
+    }
+    
     private void createGradientControl(Composite parent) {
         section.createLabel(parent, Messages.GradientSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
@@ -76,6 +82,8 @@ class GradientComposite {
     }
     
     void dispose() {
+        composite.dispose();
+        composite = null;
         section = null;
         fGradientCombo = null;
     }

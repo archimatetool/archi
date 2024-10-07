@@ -6,7 +6,6 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -20,7 +19,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class FillColorSection extends AbstractECorePropertySection {
+public class FillColorSection extends AbstractMultiControlSection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -41,16 +40,12 @@ public class FillColorSection extends AbstractECorePropertySection {
         }
     }
     
-    private Composite parentComposite;
     private FillColorComposite fillColorComposite;
     private GradientComposite gradientComposite;
-    private GridLayoutColumnHandler columnHandler;
     
     @Override
     protected void createControls(Composite parent) {
-        parentComposite = parent;
-        
-        ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
+        init(parent, 2);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -77,41 +72,45 @@ public class FillColorSection extends AbstractECorePropertySection {
     protected void update() {
         updateColorControl();
         updateGradientControl();
-        
-        // Allow setting 1 or 2 columns
-        if(columnHandler == null) {
-            columnHandler = GridLayoutColumnHandler.create(parentComposite, 2);
-            columnHandler.updateColumns();
-        }
     }
     
     private void updateColorControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName());
+        boolean show = shouldShowControl(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName());
         
         if(show) {
             if(fillColorComposite == null) {
                 fillColorComposite = new FillColorComposite(this, parentComposite);
+                
+                // If we're showing the GradientComposite move the FillColorComposite above/before it
+                if(gradientComposite != null) {
+                    fillColorComposite.getComposite().moveAbove(gradientComposite.getComposite());
+                    layout();
+                }
             }
+            
             fillColorComposite.updateControl();
         }
         else if(fillColorComposite != null) {
             fillColorComposite.dispose();
             fillColorComposite = null;
+            layout();
         }
     }
     
     private void updateGradientControl() {
-        boolean show = getFilter().shouldExposeFeature(getFirstSelectedObject(), IDiagramModelObject.FEATURE_GRADIENT);
+        boolean show = shouldShowControl(IDiagramModelObject.FEATURE_GRADIENT);
         
         if(show) {
             if(gradientComposite == null) {
                 gradientComposite = new GradientComposite(this, parentComposite);
+                layout();
             }
             gradientComposite.updateControl();
         }
         else if(gradientComposite != null) {
             gradientComposite.dispose();
             gradientComposite = null;
+            layout();
         }
     }
     
@@ -133,7 +132,5 @@ public class FillColorSection extends AbstractECorePropertySection {
             gradientComposite.dispose();
             gradientComposite = null;
         }
-        
-        columnHandler = null;
     }
 }
