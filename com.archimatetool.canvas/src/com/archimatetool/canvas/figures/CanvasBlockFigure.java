@@ -162,6 +162,8 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);
         
+        setLineStyle(graphics);
+        
         graphics.setBackgroundColor(background);
         graphics.fillRectangle(bounds);
         

@@ -130,6 +130,14 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
     
     /**
+     * Set line style
+     * @param graphics
+     */
+    protected void setLineStyle(Graphics graphics) {
+        getOwner().setLineStyle(graphics);
+    }
+    
+    /**
      * Apply a gradient to the given Graphics instance and bounds using current fill color, alpha and gradient settings
      */
     protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {

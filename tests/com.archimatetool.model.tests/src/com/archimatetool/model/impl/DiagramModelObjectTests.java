@@ -160,6 +160,13 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
+    public void testGetLineStyle() {
+        assertEquals(0, object.getLineStyle());
+        object.setLineStyle(1);
+        assertEquals(1, object.getLineStyle());
+    }
+    
+    @Test
     public void testAddConnection_Null_ThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
             object.addConnection(null);

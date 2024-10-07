@@ -45,6 +45,12 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     String FEATURE_DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor";
     boolean FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT = true;
     
+    String FEATURE_LINE_STYLE = "lineStyle";
+    int FEATURE_LINE_STYLE_DEFAULT = 0;
+    int LINE_STYLE_SOLID = 0;
+    int LINE_STYLE_DASHED = 1;
+    int LINE_STYLE_DOTTED = 2;
+    
     /**
      * @return the value of FEATURE_LINE_ALPHA
      */
@@ -99,6 +105,17 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
      * @param value value
      */
     void setDeriveElementLineColor(boolean value);
+    
+    /**
+     * @return the value of feature FEATURE_LINE_STYLE
+     */
+    int getLineStyle();
+    
+    /**
+     * Set the value of feature FEATURE_LINE_STYLE
+     * @param lineStyle
+     */
+    void setLineStyle(int lineStyle);
     
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.
