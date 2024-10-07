@@ -22,7 +22,9 @@ import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.ILineObject;
 
 
@@ -61,7 +63,7 @@ class LineColorComposite {
             String newColor = ColorFactory.convertRGBToString(rgb);
             
             for(EObject lineObject : section.getEObjects()) {
-                if(section.isAlive(lineObject)) {
+                if(isValidLineColorObject(lineObject)) {
                     Command cmd = new LineColorCommand((ILineObject)lineObject, newColor);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -71,7 +73,7 @@ class LineColorComposite {
         }
         else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
             for(EObject lineObject : section.getEObjects()) {
-                if(section.isAlive(lineObject)) {
+                if(isValidLineColorObject(lineObject)) {
                     // If user pref to save color is set then save the value, otherwise save as null
                     String rgbValue = null;
                     
@@ -115,8 +117,8 @@ class LineColorComposite {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject object : section.getEObjects()) {
-                    if(section.isAlive(object) && object instanceof IDiagramModelObject dmo) {
-                        Command cmd = new FeatureCommand(Messages.LineColorSection_4, dmo, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR,
+                    if(isValidDerivedLineColorObject(object)) {
+                        Command cmd = new FeatureCommand(Messages.LineColorSection_4, (IFeatures)object, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR,
                                 fDeriveLineColorAction.isChecked(), IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR_DEFAULT);
                         if(cmd.canExecute()) {
                             result.add(cmd);
@@ -171,6 +173,23 @@ class LineColorComposite {
             fColorChooser.getColorButton().setEnabled(true);
             fColorChooser.setDoShowDefaultMenuItem(true);
         }
+    }
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    private boolean isValidLineColorObject(EObject eObject) {
+        return section.isAlive(eObject) && 
+                section.getFilter().shouldExposeFeature(eObject, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
+    }
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    private boolean isValidDerivedLineColorObject(EObject eObject) {
+        return isValidLineColorObject(eObject) &&
+                eObject instanceof IDiagramModelObject && 
+                section.getFilter().shouldExposeFeature(eObject, IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR);
     }
     
     void dispose() {

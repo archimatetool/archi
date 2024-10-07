@@ -61,7 +61,7 @@ class GradientComposite {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject object : section.getEObjects()) {
-                    if(section.isAlive(object)) {
+                    if(isValidObject(object)) {
                         Command cmd = new FeatureCommand(Messages.GradientSection_1, (IFeatures)object,
                                 IDiagramModelObject.FEATURE_GRADIENT, fGradientCombo.getSelectionIndex() - 1, IDiagramModelObject.FEATURE_GRADIENT_DEFAULT);
                         if(cmd.canExecute()) {
@@ -73,6 +73,14 @@ class GradientComposite {
                 section.executeCommand(result.unwrap());
             }
         });
+    }
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    private boolean isValidObject(EObject eObject) {
+        return section.isAlive(eObject) && 
+                section.getFilter().shouldExposeFeature(eObject, IDiagramModelObject.FEATURE_GRADIENT);
     }
     
     void updateControl() {

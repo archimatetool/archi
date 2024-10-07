@@ -19,6 +19,7 @@ import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -56,7 +57,7 @@ class FillColorComposite {
             String newColor = ColorFactory.convertRGBToString(rgb);
 
             for(EObject dmo : section.getEObjects()) {
-                if(section.isAlive(dmo) && !section.isLocked(dmo)) {
+                if(isValidObject(dmo)) {
                     Command cmd = new FillColorCommand((IDiagramModelObject)dmo, newColor);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -66,7 +67,7 @@ class FillColorComposite {
         }
         else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
             for(EObject dmo : section.getEObjects()) {
-                if(section.isAlive(dmo) && !section.isLocked(dmo)) {
+                if(isValidObject(dmo)) {
                     // If user pref to save color is set then save the value, otherwise save as null
                     String rgbValue = null;
 
@@ -85,6 +86,14 @@ class FillColorComposite {
         
         section.executeCommand(result.unwrap());
     };
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    private boolean isValidObject(EObject eObject) {
+        return section.isAlive(eObject) && !section.isLocked(eObject) && 
+                section.getFilter().shouldExposeFeature(eObject, IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName());
+    }
     
     /**
      * Listen to default fill colour changes in Prefs

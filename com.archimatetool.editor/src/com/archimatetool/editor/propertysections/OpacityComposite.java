@@ -55,7 +55,7 @@ abstract class OpacityComposite {
             CompoundCommand result = new CompoundCommand();
 
             for(EObject dmo : section.getEObjects()) {
-                if(section.isAlive(dmo)) {
+                if(section.isAlive(dmo) && isValidObject(dmo)) {
                     Command cmd = getCommand((IDiagramModelObject)dmo, newValue);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -82,6 +82,11 @@ abstract class OpacityComposite {
     abstract Command getCommand(IDiagramModelObject dmo, int newValue);
     
     abstract int getValue();
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    abstract boolean isValidObject(EObject eObject);
     
     void updateControl() {
         IDiagramModelObject lastSelected = (IDiagramModelObject)section.getFirstSelectedObject();

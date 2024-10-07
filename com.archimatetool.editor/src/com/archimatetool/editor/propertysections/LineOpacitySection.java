@@ -6,6 +6,7 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -54,6 +55,11 @@ public class LineOpacitySection extends AbstractECorePropertySection {
             int getValue() {
                 IDiagramModelObject lastSelected = (IDiagramModelObject)getFirstSelectedObject();
                 return lastSelected.getLineAlpha();
+            }
+            
+            @Override
+            boolean isValidObject(EObject eObject) {
+                return getFilter().isRequiredType(eObject);
             }
         };
         

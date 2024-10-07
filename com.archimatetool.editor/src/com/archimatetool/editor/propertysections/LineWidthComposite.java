@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILineObject;
 
 
@@ -55,7 +56,7 @@ class LineWidthComposite {
             CompoundCommand result = new CompoundCommand();
 
             for(EObject obj : section.getEObjects()) {
-                if(section.isAlive(obj)) {
+                if(isValidObject(obj)) {
                     Command cmd = new LineWidthCommand((ILineObject)obj, fComboLineWidth.getSelectionIndex() + 1);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -76,6 +77,14 @@ class LineWidthComposite {
         fComboLineWidth.select(lineWidth - 1);
         
         fComboLineWidth.setEnabled(!section.isLocked(lineObject));
+    }
+    
+    /**
+     * In case of multi-selection we should check this
+     */
+    private boolean isValidObject(EObject eObject) {
+        return section.isAlive(eObject) && 
+                section.getFilter().shouldExposeFeature(eObject, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
     }
 
     void dispose() {
