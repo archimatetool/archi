@@ -21,6 +21,7 @@ import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
@@ -94,6 +95,9 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         action = actionRegistry.getAction(ActionFactory.DELETE.getId());
         menu.appendToGroup(GROUP_EDIT, action);
+        
+        // Delete Container
+        menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(DeleteContainerAction.ID));
         
         action = actionRegistry.getAction(LockObjectAction.ID);
         if(action.isEnabled()) {
