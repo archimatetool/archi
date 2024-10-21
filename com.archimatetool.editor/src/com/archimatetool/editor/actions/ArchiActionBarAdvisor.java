@@ -341,6 +341,7 @@ extends ActionBarAdvisor {
         menu.add(fActionCopy);
         menu.add(fActionPaste);
         menu.add(fActionPasteSpecial);
+        menu.add(new Separator());
         menu.add(fActionDelete);
         menu.add(new Separator(IWorkbenchActionConstants.CUT_EXT));
         

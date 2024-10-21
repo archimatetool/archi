@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram;
 
-import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -28,8 +27,6 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
 public class ArchimateDiagramEditorActionBarContributor
 extends AbstractDiagramEditorActionBarContributor {
     
-    protected static final String editDeleteMenuGroup = "editDeleteMenuGroup"; //$NON-NLS-1$
-
     @Override
     protected void buildActions() {
         super.buildActions();
@@ -65,8 +62,8 @@ extends AbstractDiagramEditorActionBarContributor {
         }
         editMenu.appendToGroup(GROUP_EDIT_MENU, textPositionMenu);
         
-        editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new GroupMarker(editDeleteMenuGroup));
-        editMenu.appendToGroup(editDeleteMenuGroup, getAction(DeleteFromModelAction.ID));
+        // Delete from Model
+        editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteFromModelAction.ID));
         
         return editMenu;
     }

@@ -97,6 +97,7 @@ import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -699,6 +700,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action.setText(Messages.AbstractDiagramEditor_2);
         action.setToolTipText(action.getText());
         getUpdateCommandStackActions().add((UpdateAction)action);
+        
+        // Delete Container
+        action = new DeleteContainerAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
         
         // Paste
         PasteAction pasteAction = new PasteAction(this, viewer);

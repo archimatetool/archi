@@ -959,6 +959,12 @@
             name="%command.name.20">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="Delete from View keeping children"
+            id="com.archimatetool.editor.action.deleteContainer"
+            name="Delete from View (keep children)">
+      </command>
+      <command
             categoryId="com.archimatetool.editor.category"
             description="%command.description.21"
             id="com.archimatetool.editor.selectInModelTree"

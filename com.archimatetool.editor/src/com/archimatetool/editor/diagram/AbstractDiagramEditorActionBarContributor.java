@@ -39,6 +39,7 @@ import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.FillColorAction;
@@ -75,7 +76,9 @@ extends ActionBarContributor {
     protected static final String GROUP_TOOLBAR_END = "group_toolbarEnd"; //$NON-NLS-1$
     protected static final String GROUP_POSITION = "group_position"; //$NON-NLS-1$
     protected static final String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
-    
+    protected static final String GROUP_EDIT_DELETE_MENU = "editDeleteMenuGroup"; //$NON-NLS-1$
+
+
     @Override
     protected void buildActions() {
         // Zoom in
@@ -201,6 +204,12 @@ extends ActionBarContributor {
         
         // Lock
         addRetargetAction(new LabelRetargetAction(LockObjectAction.ID, Messages.AbstractDiagramEditorActionBarContributor_3));
+        
+        // Delete Container
+        retargetAction = new RetargetAction(DeleteContainerAction.ID, DeleteContainerAction.TEXT);
+        retargetAction.setActionDefinitionId(DeleteContainerAction.ID); // key binding
+        retargetAction.setToolTipText(DeleteContainerAction.TOOLTIP_TEXT);
+        addRetargetAction(retargetAction);
     }
 
     @Override
@@ -331,6 +340,12 @@ extends ActionBarContributor {
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_CENTER_ID));
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_RIGHT_ID));
         editMenu.appendToGroup(GROUP_EDIT_MENU, textAlignmentMenu);
+        
+        // Group marker for additional delete actions
+        editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new GroupMarker(GROUP_EDIT_DELETE_MENU));
+
+        // Delete Container
+        editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteContainerAction.ID));
 
         return editMenu;
     }
