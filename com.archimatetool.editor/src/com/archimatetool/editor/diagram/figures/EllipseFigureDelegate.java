@@ -34,6 +34,8 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         // Line Width
         setLineWidth(graphics, bounds);
         
+        setLineStyle(graphics);
+        
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
