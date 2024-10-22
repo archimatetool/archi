@@ -22,23 +22,22 @@ import com.archimatetool.model.IDiagramModelObject;
 public final class DiagramCommandFactory {
 
     /**
-     * @param object
      * @return A new Delete Diagram Object Command
      */
     public static Command createDeleteDiagramObjectCommand(IDiagramModelObject object) {
-        CompoundCommand result = new CompoundCommand();
-        __addDeleteDiagramObjectCommands(object, result);
-        return result.unwrap();
+        return createDeleteDiagramObjectCommand(object, true);
     }
     
     /**
-     * Recurse and add child delete commands.
-     * We have to do this because if the object has children with connections going outside these need explicit Delete Commands too
-     * otherwise we end up with trailing connections...
-     * @param container
-     * @param result
+     * @return A new Delete Diagram Object Command with option of deleting child objects
      */
-    private static void __addDeleteDiagramObjectCommands(IDiagramModelObject object, CompoundCommand result) {
+    public static Command createDeleteDiagramObjectCommand(IDiagramModelObject object, boolean deleteChildren) {
+        CompoundCommand result = new CompoundCommand();
+        addDeleteDiagramObjectCommands(object, result, deleteChildren);
+        return result.unwrap();
+    }
+
+    private static void addDeleteDiagramObjectCommands(IDiagramModelObject object, CompoundCommand result, boolean deleteChildren) {
         result.add(new DeleteDiagramObjectCommand(object));
         
         for(IDiagramModelConnection connection : object.getSourceConnections()) {
@@ -49,9 +48,9 @@ public final class DiagramCommandFactory {
             result.add(createDeleteDiagramConnectionCommand(connection));
         }
 
-        if(object instanceof IDiagramModelContainer) {
-            for(IDiagramModelObject child : ((IDiagramModelContainer)object).getChildren()) {
-                __addDeleteDiagramObjectCommands(child, result);
+        if(deleteChildren && object instanceof IDiagramModelContainer container) {
+            for(IDiagramModelObject child : container.getChildren()) {
+                addDeleteDiagramObjectCommands(child, result, deleteChildren);
             }
         }
     }
@@ -62,11 +61,11 @@ public final class DiagramCommandFactory {
      */
     public static Command createDeleteDiagramConnectionCommand(IDiagramModelConnection connection) {
         CompoundCommand result = new CompoundCommand();
-        __addDeleteDiagramConnectionCommands(connection, result);
+        addDeleteDiagramConnectionCommands(connection, result);
         return result.unwrap();
     }
     
-    private static void __addDeleteDiagramConnectionCommands(IDiagramModelConnection connection, CompoundCommand result) {
+    private static void addDeleteDiagramConnectionCommands(IDiagramModelConnection connection, CompoundCommand result) {
         for(IDiagramModelConnection conn : connection.getSourceConnections()) {
             result.add(createDeleteDiagramConnectionCommand(conn));
         }
