@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.util.Util;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -41,6 +42,8 @@ import com.archimatetool.editor.utils.PlatformUtils;
 /**
  * Appearance Preferences Page
  * 
+ * Based on org.eclipse.ui.internal.dialogs.ViewsPreferencePage
+ * 
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("restriction")
@@ -60,6 +63,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private IThemeEngine themeEngine;
     private ITheme lastActiveTheme;
+    
+    // OS High Contrast mode
+    private boolean highContrastMode;
     
     /**
      * Pseudo theme to set automatic light/dark on startup
@@ -97,6 +103,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseThemes.setText(Messages.AppearancePreferencePage_4);
         fUseThemes.setLayoutData(createHorizontalGridData(2));
         
+        // Get system high contrast mode
+        highContrastMode = parent.getDisplay().getHighContrast();
+        
         // Themes, if enabled
         if(themeEngine != null) {
             Label label = new Label(client, SWT.NULL);
@@ -127,6 +136,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             });
             
             fThemeComboViewer.setComparator(new ViewerComparator());
+            
+            // Disable if we are in high contrast mode, and ony show that theme
+            fThemeComboViewer.getCombo().setEnabled(!highContrastMode);
         }
         
         // Use Round Tabs
@@ -165,13 +177,31 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         // Themes list
         if(themeEngine != null) {
-            List<ITheme> themes = new ArrayList<>((themeEngine.getThemes()));
+            List<ITheme> themes = new ArrayList<>();
             themes.add(AUTOMATIC_THEME);
+            
+            for(ITheme theme : themeEngine.getThemes()) {
+                /*
+                 * When we have Win32 OS - when the high contrast mode is enabled on the
+                 * platform, we display the 'high-contrast' special theme only. If not, we don't
+                 * want to mess the themes combo with the theme since it is the special
+                 * variation of the 'classic' one
+                 *
+                 * When we have GTK - we have to display the entire list of the themes since we
+                 * are not able to figure out if the high contrast mode is enabled on the
+                 * platform. The user has to manually select the theme if they need it
+                 */
+                if(!highContrastMode && !Util.isGtk() && theme.getId().equals(ThemeUtils.HIGH_CONTRAST_THEME_ID)) {
+                    continue;
+                }
+                
+                themes.add(theme);
+            }
             
             fThemeComboViewer.setInput(themes.toArray());
             
             // If themeid is not present the ThemeEngine will try to set light/dark theme based on OS theme
-            if(ThemeUtils.getThemePreferences().get(ThemeUtils.THEMEID_KEY, null) == null) {
+            if(!highContrastMode && ThemeUtils.getThemePreferences().get(ThemeUtils.THEMEID_KEY, null) == null) {
                 fThemeComboViewer.setSelection(new StructuredSelection(AUTOMATIC_THEME));
             }
             else {
@@ -211,7 +241,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 }
             }
             else {
-                themeEngine.setTheme(theme, true);
+                themeEngine.setTheme(theme, !highContrastMode); // Don't persist theme if on high contrast mode
             }
             
             // Store this in both cases

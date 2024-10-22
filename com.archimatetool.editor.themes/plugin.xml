@@ -63,6 +63,11 @@
             id="org.eclipse.e4.ui.css.theme.e4_system"
             label="%theme.system">
         </theme>
+        <theme
+              basestylesheeturi="themes/eclipse/css/high-contrast.css"
+              id="org.eclipse.e4.ui.css.theme.high-contrast"
+              label="%theme.high_contrast">
+        </theme>
 	</extension>
     <extension
           name="StyleSheets"

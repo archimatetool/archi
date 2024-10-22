@@ -43,6 +43,7 @@ public final class ThemeUtils {
     
     public static final String E4_DEFAULT_THEME_ID = "org.eclipse.e4.ui.css.theme.e4_default";
     public static final String E4_DARK_THEME_ID = "org.eclipse.e4.ui.css.theme.e4_dark";
+    public static final String HIGH_CONTRAST_THEME_ID = "org.eclipse.e4.ui.css.theme.high-contrast";
     
     /**
      * SWT CSS Tabs are square by default in Eclipse 4.16 and greater
