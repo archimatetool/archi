@@ -57,6 +57,8 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);
         
+        setLineStyle(graphics);
+        
         graphics.setAlpha(getAlpha());
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {

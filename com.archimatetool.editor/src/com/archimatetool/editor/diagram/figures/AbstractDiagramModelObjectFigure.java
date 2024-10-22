@@ -142,6 +142,27 @@ implements IDiagramModelObjectFigure {
         //graphics.setLineStyle(SWT.LINE_DASH);
         //graphics.setLineDash(new int[] { 4, 3 });
     }
+    
+    /**
+     * Set the line style
+     * @param graphics
+     */
+    protected void setLineStyle(Graphics graphics) {
+        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
+        
+        switch(getLineStyle()) {
+            case IDiagramModelObject.LINE_STYLE_SOLID:
+            default:
+                graphics.setLineStyle(Graphics.LINE_SOLID);
+                break;
+            case IDiagramModelObject.LINE_STYLE_DASHED:
+                graphics.setLineDash(new float[] { (float)(8 * scale), (float)(4 * scale) });
+                break;
+            case IDiagramModelObject.LINE_STYLE_DOTTED:
+                graphics.setLineDash(new float[] { (float)(2 * scale), (float)(2 * scale) });
+                break;
+        }
+    }
 
     /**
      * Set the UI
@@ -245,6 +266,10 @@ implements IDiagramModelObjectFigure {
     
     protected int getLineWidth() {
         return fDiagramModelObject.getLineWidth();
+    }
+    
+    protected int getLineStyle() {
+        return fDiagramModelObject.getLineStyle();
     }
     
     @Override

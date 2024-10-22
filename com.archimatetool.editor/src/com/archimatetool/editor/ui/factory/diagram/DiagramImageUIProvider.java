@@ -67,7 +67,8 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
         return featureName == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName() ||
                 featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()
                 || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()
-                || featureName == IDiagramModelObject.FEATURE_LINE_ALPHA;
+                || featureName == IDiagramModelObject.FEATURE_LINE_ALPHA
+                || featureName == IDiagramModelObject.FEATURE_LINE_STYLE;
     }
 
 }
