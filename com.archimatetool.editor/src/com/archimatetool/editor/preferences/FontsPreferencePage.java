@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -99,13 +98,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         void performOK() {
-            // Our font definitions are global to all themes so just write directly to the store
-            if(Objects.equals(getFontData(), getSystemFontData())) {
-                getPreferenceStore().setToDefault(fontDefinitionId);
-            }
-            else {
-                getPreferenceStore().setValue(fontDefinitionId, getFontData().toString());
-            }
+            ThemeUtils.setCurrentThemeFont(fontDefinitionId, getFontData(), getSystemFontData());
         }
 
         FontData getSystemFontData() {
@@ -126,10 +119,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             // If on Mac we need to temporarily apply the value of the scaling checkbox in preferences
             // so that we can get the default scaled font size.
             if(fScaleFontsButton != null) {
-                boolean currentValue = ArchiPlugin.PREFERENCES.getBoolean(FONT_SCALING); // save this
-                ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, fScaleFontsButton.getSelection()); // apply setting
+                boolean currentValue = getPreferenceStore().getBoolean(FONT_SCALING); // save this
+                getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection()); // apply setting
                 fontData = getDefaultFontData(); // get font data
-                ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, currentValue); // apply previous value
+                getPreferenceStore().setValue(FONT_SCALING, currentValue); // apply previous value
             }
             else {
                 fontData = getDefaultFontData();
@@ -140,7 +133,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         FontData getFontData() {
             // Get font data from Preferences store
             if(fontData == null) {
-                String fontDetails = ArchiPlugin.PREFERENCES.getString(fontDefinitionId);
+                String fontDetails = getPreferenceStore().getString(fontDefinitionId);
                 if(StringUtils.isSet(fontDetails)) {
                     fontData = getSafeFontData(fontDetails);
                 }
@@ -155,7 +148,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         @Override
         FontData getDefaultFontData() {
             // Get default font data from Archi Preferences store (this could be in a suppplied preference file)
-            String fontDetails = ArchiPlugin.PREFERENCES.getDefaultString(fontDefinitionId);
+            String fontDetails = getPreferenceStore().getDefaultString(fontDefinitionId);
             if(StringUtils.isSet(fontDetails)) {
                 return getSafeFontData(fontDetails);
             }
@@ -200,7 +193,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private IWorkbench workbench;
     
     public FontsPreferencePage() {
-        setPreferenceStore(PrefUtil.getInternalPreferenceStore());
+        setPreferenceStore(ArchiPlugin.PREFERENCES);
         // This is now shown in a label
         //setDescription(Messages.FontsPreferencePage_21);
     }
@@ -224,7 +217,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fScaleFontsButton = new Button(client, SWT.CHECK);
             fScaleFontsButton.setText(Messages.FontsPreferencePage_22);
             fScaleFontsButton.setToolTipText(Messages.FontsPreferencePage_23);
-            fScaleFontsButton.setSelection(ArchiPlugin.PREFERENCES.getBoolean(FONT_SCALING));
+            fScaleFontsButton.setSelection(getPreferenceStore().getBoolean(FONT_SCALING));
             fScaleFontsButton.setLayoutData(GridDataFactory.defaultsFor(fScaleFontsButton).span(2, 1).create());
             // When button is selected apply default font and update table
             fScaleFontsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
@@ -468,7 +461,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public void performDefaults() {
         if(fScaleFontsButton != null) {
-            fScaleFontsButton.setSelection(ArchiPlugin.PREFERENCES.getDefaultBoolean(FONT_SCALING));
+            fScaleFontsButton.setSelection(getPreferenceStore().getDefaultBoolean(FONT_SCALING));
         }
         
         for(FontInfo info : fontInfos) {
@@ -488,7 +481,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         if(fScaleFontsButton != null) {
-            ArchiPlugin.PREFERENCES.setValue(FONT_SCALING, fScaleFontsButton.getSelection());
+            getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection());
         }
         
         for(FontInfo info : fontInfos) {

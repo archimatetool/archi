@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.themes.ColorDefinition;
+import org.eclipse.ui.internal.themes.FontDefinition;
 import org.eclipse.ui.internal.themes.IThemeRegistry;
 import org.eclipse.ui.internal.themes.ThemeElementDefinition;
 import org.eclipse.ui.internal.themes.ThemeElementHelper;
@@ -171,7 +172,8 @@ public final class ThemeUtils {
     // ===============================================
     
     /**
-     * Set theme color definition value for current theme.
+     * Set (and save) the theme color definition value for the current theme in preferences.
+     * This is stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
      * Some of this code inspired by {@link org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage}
      */
     public static void setCurrentThemeColor(String colorDefinitionId, RGB newValue) {
@@ -190,7 +192,6 @@ public final class ThemeUtils {
             return;
         }
 
-        // Write theme color rgb to workbench preference file at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
         String preferenceKey = createPreferenceKey(colorDef);
         if(Objects.equals(newValue, getDefaultThemeColor(colorDefinitionId))) { // If it's the default, remove it
             PrefUtil.getInternalPreferenceStore().setToDefault(preferenceKey);
@@ -250,6 +251,31 @@ public final class ThemeUtils {
     // ===============================================
     // Font Definitions
     // ===============================================
+    
+    /**
+     * Set (and save) the font definition value for the current theme in preferences.
+     * This is stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
+     * Some of this code inspired by {@link org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage}
+     */
+    public static void setCurrentThemeFont(String fontDefinitionId, FontData fontData, FontData defaultFontData) {
+        if(!PlatformUI.isWorkbenchRunning() || fontData == null) {
+            return;
+        }
+        
+        // Get the font definition from the registry
+        FontDefinition fontDef = getThemeRegistry().findFont(fontDefinitionId);
+        if(fontDef == null) {
+            return;
+        }
+        
+        String preferenceKey = createPreferenceKey(fontDef);
+        if(Objects.equals(fontData, defaultFontData)) { // If it's the default, remove it
+            PrefUtil.getInternalPreferenceStore().setToDefault(preferenceKey);
+        }
+        else {
+            PrefUtil.getInternalPreferenceStore().setValue(preferenceKey, fontData.toString());
+        }
+    }
     
     /**
      * Get the FontData in the current theme for a font definition or null
