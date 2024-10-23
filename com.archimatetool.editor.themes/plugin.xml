@@ -85,6 +85,12 @@
           </themeid>
        </stylesheet>
        <stylesheet
+             uri="themes/eclipse/css/archi-high-contrast.css">
+          <themeid
+                refid="org.eclipse.e4.ui.css.theme.high-contrast">
+          </themeid>
+       </stylesheet>
+       <stylesheet
              uri="themes/eclipse/css/dark/archi-dark-styling.css">
           <themeid
                 refid="org.eclipse.e4.ui.css.theme.e4_dark">

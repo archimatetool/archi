@@ -1,0 +1,16 @@
+/*******************************************************************************
+ * Styling for Archi that over-rides some Eclipse stylings
+ *******************************************************************************/
+
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/archi/css/common/archi-globalstyle.css");
+
+/* Theme colors */
+
+ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {
+    color: '#COLOR_WIDGET_BACKGROUND';
+}
+
+ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
+    color: '#COLOR_WIDGET_BACKGROUND';
+}
+
