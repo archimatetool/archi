@@ -521,13 +521,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      */
     private String[] getAllUniquePropertyKeysForModel(int maxSize) {
         IArchimateModel model = getArchimateModel();
-        Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
-        int count = 0;
+        Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
         
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty p) {
-                if(maxSize != MAX_ITEMS_ALL && ++count > maxSize) { // Don't get more than this
+                if(maxSize != MAX_ITEMS_ALL && set.size() > maxSize) { // Don't get more than this
                     break;
                 }
                 String key = p.getKey();
@@ -548,13 +547,12 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
      */
     private String[] getAllUniquePropertyValuesForKeyForModel(String key, int maxSize) {
         IArchimateModel model = getArchimateModel();
-        Set<String> set = new LinkedHashSet<String>(); // LinkedHashSet is faster when sorting
-        int count = 0;
+        Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
 
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
             if(element instanceof IProperty p) {
-                if(maxSize != MAX_ITEMS_ALL && ++count > maxSize) { // Don't get more than this
+                if(maxSize != MAX_ITEMS_ALL && set.size() > maxSize) { // Don't get more than this
                     break;
                 }
                 if(p.getKey().equals(key)) {
