@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
@@ -324,6 +325,10 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     }
 
     private void deleteSelectedPropertyKeys() {
+        // This needs to be done first in case we are editing.
+        // On Windows it's OK, but on Mac TableViewer#setInput is called before the editing completes
+        fTableViewer.applyEditorValue();
+        
         for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
             fKeysMap.remove(o);
         }
@@ -545,7 +550,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             KeyEntry entry = fKeysMap.get(key);
             String newValue = (String)value;
             
-            if(!newValue.equals(entry.newName)) {
+            if(entry != null && !Objects.equals(newValue, entry.newName)) {
                 entry.newName = newValue;
                 fTableViewer.update(key, null);
                 getButton(IDialogConstants.OK_ID).setEnabled(true);
