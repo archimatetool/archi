@@ -151,6 +151,18 @@ public class Messages extends NLS {
 
     public static String GroupBorderTypeSection_1;
 
+    public static String HintContentSection_0;
+
+    public static String HintContentSection_1;
+
+    public static String HintContentSection_2;
+
+    public static String HintContentSection_3;
+
+    public static String HintContentSection_4;
+
+    public static String HintContentSection_5;
+
     public static String IconColorSection_0;
 
     public static String IconColorSection_1;

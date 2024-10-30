@@ -19,13 +19,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IHintProvider;
-import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -48,10 +47,10 @@ import com.archimatetool.model.impl.DiagramModelObject;
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#isLocked <em>Locked</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getBorderColor <em>Border Color</em>}</li>
- *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getHintTitle <em>Hint Title</em>}</li>
- *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getHintContent <em>Hint Content</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getHintTitle <em>Hint Title</em>}</li>
+ *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getHintContent <em>Hint Content</em>}</li>
  * </ul>
  *
  * @generated
@@ -158,46 +157,6 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
     protected String borderColor = BORDER_COLOR_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getHintTitle()
-     * @generated
-     * @ordered
-     */
-    protected static final String HINT_TITLE_EDEFAULT = ""; //$NON-NLS-1$
-
-    /**
-     * The cached value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getHintTitle()
-     * @generated
-     * @ordered
-     */
-    protected String hintTitle = HINT_TITLE_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getHintContent()
-     * @generated
-     * @ordered
-     */
-    protected static final String HINT_CONTENT_EDEFAULT = ""; //$NON-NLS-1$
-
-    /**
-     * The cached value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getHintContent()
-     * @generated
-     * @ordered
-     */
-    protected String hintContent = HINT_CONTENT_EDEFAULT;
-
-    /**
      * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -236,6 +195,46 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * @ordered
      */
     protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getHintTitle()
+     * @generated
+     * @ordered
+     */
+    protected static final String HINT_TITLE_EDEFAULT = ""; //$NON-NLS-1$
+
+    /**
+     * The cached value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getHintTitle()
+     * @generated
+     * @ordered
+     */
+    protected String hintTitle = HINT_TITLE_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getHintContent()
+     * @generated
+     * @ordered
+     */
+    protected static final String HINT_CONTENT_EDEFAULT = ""; //$NON-NLS-1$
+
+    /**
+     * The cached value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getHintContent()
+     * @generated
+     * @ordered
+     */
+    protected String hintContent = HINT_CONTENT_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -443,16 +442,6 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
             eNotify(new ENotificationImpl(this, Notification.SET, ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT, oldHintContent, hintContent));
     }
 
-    @Override
-    public String getHelpHintTitle() {
-        return getHintTitle();
-    }
-
-    @Override
-    public String getHelpHintContent() {
-        return getHintContent();
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -519,14 +508,14 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
                 return isLocked();
             case ICanvasPackage.CANVAS_MODEL_BLOCK__BORDER_COLOR:
                 return getBorderColor();
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
-                return getHintTitle();
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
-                return getHintContent();
             case ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT:
                 return getContent();
             case ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION:
                 return getTextPosition();
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
+                return getHintTitle();
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
+                return getHintContent();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -560,17 +549,17 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
             case ICanvasPackage.CANVAS_MODEL_BLOCK__BORDER_COLOR:
                 setBorderColor((String)newValue);
                 return;
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
-                setHintTitle((String)newValue);
-                return;
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
-                setHintContent((String)newValue);
-                return;
             case ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT:
                 setContent((String)newValue);
                 return;
             case ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
+                return;
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
+                setHintTitle((String)newValue);
+                return;
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
+                setHintContent((String)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -602,17 +591,17 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
             case ICanvasPackage.CANVAS_MODEL_BLOCK__BORDER_COLOR:
                 setBorderColor(BORDER_COLOR_EDEFAULT);
                 return;
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
-                setHintTitle(HINT_TITLE_EDEFAULT);
-                return;
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
-                setHintContent(HINT_CONTENT_EDEFAULT);
-                return;
             case ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT:
                 setContent(CONTENT_EDEFAULT);
                 return;
             case ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
+                setHintTitle(HINT_TITLE_EDEFAULT);
+                return;
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
+                setHintContent(HINT_CONTENT_EDEFAULT);
                 return;
         }
         super.eUnset(featureID);
@@ -638,14 +627,14 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
                 return locked != LOCKED_EDEFAULT;
             case ICanvasPackage.CANVAS_MODEL_BLOCK__BORDER_COLOR:
                 return BORDER_COLOR_EDEFAULT == null ? borderColor != null : !BORDER_COLOR_EDEFAULT.equals(borderColor);
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
-                return HINT_TITLE_EDEFAULT == null ? hintTitle != null : !HINT_TITLE_EDEFAULT.equals(hintTitle);
-            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
-                return HINT_CONTENT_EDEFAULT == null ? hintContent != null : !HINT_CONTENT_EDEFAULT.equals(hintContent);
             case ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT:
                 return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
             case ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE:
+                return HINT_TITLE_EDEFAULT == null ? hintTitle != null : !HINT_TITLE_EDEFAULT.equals(hintTitle);
+            case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT:
+                return HINT_CONTENT_EDEFAULT == null ? hintContent != null : !HINT_CONTENT_EDEFAULT.equals(hintContent);
         }
         return super.eIsSet(featureID);
     }
@@ -687,18 +676,6 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
                 default: return -1;
             }
         }
-        if (baseClass == IHelpHintProvider.class) {
-            switch (derivedFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IHintProvider.class) {
-            switch (derivedFeatureID) {
-                case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE: return ICanvasPackage.HINT_PROVIDER__HINT_TITLE;
-                case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT: return ICanvasPackage.HINT_PROVIDER__HINT_CONTENT;
-                default: return -1;
-            }
-        }
         if (baseClass == ITextContent.class) {
             switch (derivedFeatureID) {
                 case ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT: return IArchimatePackage.TEXT_CONTENT__CONTENT;
@@ -708,6 +685,13 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
         if (baseClass == ITextPosition.class) {
             switch (derivedFeatureID) {
                 case ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION: return IArchimatePackage.TEXT_POSITION__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IHintProvider.class) {
+            switch (derivedFeatureID) {
+                case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE: return IArchimatePackage.HINT_PROVIDER__HINT_TITLE;
+                case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT: return IArchimatePackage.HINT_PROVIDER__HINT_CONTENT;
                 default: return -1;
             }
         }
@@ -751,18 +735,6 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
                 default: return -1;
             }
         }
-        if (baseClass == IHelpHintProvider.class) {
-            switch (baseFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IHintProvider.class) {
-            switch (baseFeatureID) {
-                case ICanvasPackage.HINT_PROVIDER__HINT_TITLE: return ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE;
-                case ICanvasPackage.HINT_PROVIDER__HINT_CONTENT: return ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT;
-                default: return -1;
-            }
-        }
         if (baseClass == ITextContent.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_CONTENT__CONTENT: return ICanvasPackage.CANVAS_MODEL_BLOCK__CONTENT;
@@ -772,6 +744,13 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
         if (baseClass == ITextPosition.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IHintProvider.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.HINT_PROVIDER__HINT_TITLE: return ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE;
+                case IArchimatePackage.HINT_PROVIDER__HINT_CONTENT: return ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_CONTENT;
                 default: return -1;
             }
         }
@@ -796,14 +775,14 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
         result.append(locked);
         result.append(", borderColor: "); //$NON-NLS-1$
         result.append(borderColor);
-        result.append(", hintTitle: "); //$NON-NLS-1$
-        result.append(hintTitle);
-        result.append(", hintContent: "); //$NON-NLS-1$
-        result.append(hintContent);
         result.append(", content: "); //$NON-NLS-1$
         result.append(content);
         result.append(", textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
+        result.append(", hintTitle: "); //$NON-NLS-1$
+        result.append(hintTitle);
+        result.append(", hintContent: "); //$NON-NLS-1$
+        result.append(hintContent);
         result.append(')');
         return result.toString();
     }

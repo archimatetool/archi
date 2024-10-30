@@ -3,9 +3,8 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.canvas.propertysections;
+package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -15,17 +14,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IHintProvider;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.propertysections.AbstractECorePropertySection;
-import com.archimatetool.editor.propertysections.IObjectFilter;
-import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
-import com.archimatetool.editor.propertysections.ObjectFilter;
-import com.archimatetool.editor.propertysections.PropertySectionTextControl;
 import com.archimatetool.editor.ui.components.StyledTextControl;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IHintProvider;
 
 
 
@@ -42,16 +34,6 @@ public class HintContentSection extends AbstractECorePropertySection {
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
-        @Override
-        public boolean select(Object object) {
-            // Don't show this section on a View Reference
-            if(object instanceof IAdaptable && ((IAdaptable)object).getAdapter(IDiagramModelReference.class) != null) {
-                return false;
-            }
-            
-            return super.select(object);
-        }
-
         @Override
         public boolean isRequiredType(Object object) {
             return object instanceof IHintProvider;
@@ -73,7 +55,7 @@ public class HintContentSection extends AbstractECorePropertySection {
         Text text = createSingleTextControl(parent, SWT.NONE);
         text.setMessage(Messages.HintContentSection_2);
         
-        fTextTitleControl = new PropertySectionTextControl(text, ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE) {
+        fTextTitleControl = new PropertySectionTextControl(text, IArchimatePackage.Literals.HINT_PROVIDER__HINT_TITLE) {
             @Override
             protected void textChanged(String oldText, String newText) {
                 CompoundCommand result = new CompoundCommand();
@@ -81,7 +63,7 @@ public class HintContentSection extends AbstractECorePropertySection {
                 for(EObject provider : getEObjects()) {
                     if(isAlive(provider)) {
                         Command cmd = new EObjectFeatureCommand(Messages.HintContentSection_1, provider,
-                                ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE, newText);
+                                IArchimatePackage.Literals.HINT_PROVIDER__HINT_TITLE, newText);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -97,7 +79,7 @@ public class HintContentSection extends AbstractECorePropertySection {
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         styledTextControl.setMessage(Messages.HintContentSection_5);
         
-        fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT) {
+        fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.HINT_PROVIDER__HINT_CONTENT) {
             @Override
             protected void textChanged(String oldText, String newText) {
                 CompoundCommand result = new CompoundCommand();
@@ -105,7 +87,7 @@ public class HintContentSection extends AbstractECorePropertySection {
                 for(EObject provider : getEObjects()) {
                     if(isAlive(provider)) {
                         Command cmd = new EObjectFeatureCommand(Messages.HintContentSection_4, provider,
-                                ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT, newText);
+                                IArchimatePackage.Literals.HINT_PROVIDER__HINT_CONTENT, newText);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -122,12 +104,14 @@ public class HintContentSection extends AbstractECorePropertySection {
     
     @Override
     protected void notifyChanged(Notification msg) {
-        Object feature = msg.getFeature();
-
-        if(feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE || 
-                feature == ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT ||
-                feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-            update();
+        if(msg.getNotifier() == getFirstSelectedObject()) {
+            Object feature = msg.getFeature();
+            
+            if(feature == IArchimatePackage.Literals.HINT_PROVIDER__HINT_TITLE || 
+                    feature == IArchimatePackage.Literals.HINT_PROVIDER__HINT_CONTENT ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                update();
+            }
         }
     }
 

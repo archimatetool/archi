@@ -7,7 +7,7 @@ package com.archimatetool.editor.ui;
 
 
 /**
- * Hint Provider
+ * Hint Provider for application component hint providers
  * 
  * @author Phillip Beauvoir
  */

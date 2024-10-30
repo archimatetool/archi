@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.canvas.model.*;
-import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;
@@ -27,6 +26,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
@@ -95,14 +95,6 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     protected CanvasSwitch<Adapter> modelSwitch =
         new CanvasSwitch<Adapter>() {
             @Override
-            public Adapter caseHintProvider(IHintProvider object) {
-                return createHintProviderAdapter();
-            }
-            @Override
-            public Adapter caseHelpHintProvider(IHelpHintProvider object) {
-                return createHelpHintProviderAdapter();
-            }
-            @Override
             public Adapter caseNotesContent(INotesContent object) {
                 return createNotesContentAdapter();
             }
@@ -169,6 +161,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDiagramModel(IDiagramModel object) {
                 return createDiagramModelAdapter();
+            }
+            @Override
+            public Adapter caseHintProvider(IHintProvider object) {
+                return createHintProviderAdapter();
             }
             @Override
             public Adapter caseConnectable(IConnectable object) {
@@ -341,30 +337,16 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see com.archimatetool.canvas.model.IHintProvider
+     * @see com.archimatetool.model.IHintProvider
      * @generated
      */
     public Adapter createHintProviderAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.editor.ui.IHelpHintProvider <em>Help Hint Provider</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.editor.ui.IHelpHintProvider
-     * @generated
-     */
-    public Adapter createHelpHintProviderAdapter() {
         return null;
     }
 

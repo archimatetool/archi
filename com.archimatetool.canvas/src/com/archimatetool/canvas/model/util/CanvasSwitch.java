@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.archimatetool.canvas.model.*;
-import com.archimatetool.editor.ui.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;
@@ -26,6 +25,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
@@ -94,18 +94,6 @@ public class CanvasSwitch<T> extends Switch<T> {
     @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
-            case ICanvasPackage.HINT_PROVIDER: {
-                IHintProvider hintProvider = (IHintProvider)theEObject;
-                T result = caseHintProvider(hintProvider);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case ICanvasPackage.HELP_HINT_PROVIDER: {
-                IHelpHintProvider helpHintProvider = (IHelpHintProvider)theEObject;
-                T result = caseHelpHintProvider(helpHintProvider);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case ICanvasPackage.NOTES_CONTENT: {
                 INotesContent notesContent = (INotesContent)theEObject;
                 T result = caseNotesContent(notesContent);
@@ -117,7 +105,6 @@ public class CanvasSwitch<T> extends Switch<T> {
                 T result = caseCanvasModel(canvasModel);
                 if (result == null) result = caseDiagramModel(canvasModel);
                 if (result == null) result = caseHintProvider(canvasModel);
-                if (result == null) result = caseHelpHintProvider(canvasModel);
                 if (result == null) result = caseDiagramModelContainer(canvasModel);
                 if (result == null) result = caseDocumentable(canvasModel);
                 if (result == null) result = caseProperties(canvasModel);
@@ -165,10 +152,9 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(canvasModelBlock);
                 if (result == null) result = caseLockable(canvasModelBlock);
                 if (result == null) result = caseBorderObject(canvasModelBlock);
-                if (result == null) result = caseHelpHintProvider(canvasModelBlock);
-                if (result == null) result = caseHintProvider(canvasModelBlock);
                 if (result == null) result = caseTextContent(canvasModelBlock);
                 if (result == null) result = caseTextPosition(canvasModelBlock);
+                if (result == null) result = caseHintProvider(canvasModelBlock);
                 if (result == null) result = caseDiagramModelObject(canvasModelBlock);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelBlock);
                 if (result == null) result = caseConnectable(canvasModelBlock);
@@ -351,21 +337,6 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseHintProvider(IHintProvider object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Help Hint Provider</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Help Hint Provider</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseHelpHintProvider(IHelpHintProvider object) {
         return null;
     }
 

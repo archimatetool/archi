@@ -60,62 +60,6 @@ public interface ICanvasPackage extends EPackage {
     ICanvasPackage eINSTANCE = com.archimatetool.canvas.model.impl.CanvasPackage.init();
 
     /**
-     * The meta object id for the '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.canvas.model.IHintProvider
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHintProvider()
-     * @generated
-     */
-    int HINT_PROVIDER = 0;
-
-    /**
-     * The feature id for the '<em><b>Hint Title</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int HINT_PROVIDER__HINT_TITLE = 0;
-
-    /**
-     * The feature id for the '<em><b>Hint Content</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int HINT_PROVIDER__HINT_CONTENT = 1;
-
-    /**
-     * The number of structural features of the '<em>Hint Provider</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int HINT_PROVIDER_FEATURE_COUNT = 2;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.editor.ui.IHelpHintProvider <em>Help Hint Provider</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.editor.ui.IHelpHintProvider
-     * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHelpHintProvider()
-     * @generated
-     */
-    int HELP_HINT_PROVIDER = 1;
-
-    /**
-     * The number of structural features of the '<em>Help Hint Provider</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int HELP_HINT_PROVIDER_FEATURE_COUNT = 0;
-
-    /**
      * The meta object id for the '{@link com.archimatetool.canvas.model.INotesContent <em>Notes Content</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -123,7 +67,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getNotesContent()
      * @generated
      */
-    int NOTES_CONTENT = 2;
+    int NOTES_CONTENT = 0;
 
     /**
      * The feature id for the '<em><b>Notes</b></em>' attribute.
@@ -151,7 +95,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModel()
      * @generated
      */
-    int CANVAS_MODEL = 3;
+    int CANVAS_MODEL = 1;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -251,7 +195,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelSticky()
      * @generated
      */
-    int CANVAS_MODEL_STICKY = 4;
+    int CANVAS_MODEL_STICKY = 2;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -459,7 +403,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelBlock()
      * @generated
      */
-    int CANVAS_MODEL_BLOCK = 5;
+    int CANVAS_MODEL_BLOCK = 3;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -633,31 +577,13 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_BLOCK__BORDER_COLOR = IArchimatePackage.ICONIC_FEATURE_COUNT + 3;
 
     /**
-     * The feature id for the '<em><b>Hint Title</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__HINT_TITLE = IArchimatePackage.ICONIC_FEATURE_COUNT + 4;
-
-    /**
-     * The feature id for the '<em><b>Hint Content</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__HINT_CONTENT = IArchimatePackage.ICONIC_FEATURE_COUNT + 5;
-
-    /**
      * The feature id for the '<em><b>Content</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CANVAS_MODEL_BLOCK__CONTENT = IArchimatePackage.ICONIC_FEATURE_COUNT + 6;
+    int CANVAS_MODEL_BLOCK__CONTENT = IArchimatePackage.ICONIC_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -666,7 +592,25 @@ public interface ICanvasPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CANVAS_MODEL_BLOCK__TEXT_POSITION = IArchimatePackage.ICONIC_FEATURE_COUNT + 7;
+    int CANVAS_MODEL_BLOCK__TEXT_POSITION = IArchimatePackage.ICONIC_FEATURE_COUNT + 5;
+
+    /**
+     * The feature id for the '<em><b>Hint Title</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__HINT_TITLE = IArchimatePackage.ICONIC_FEATURE_COUNT + 6;
+
+    /**
+     * The feature id for the '<em><b>Hint Content</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__HINT_CONTENT = IArchimatePackage.ICONIC_FEATURE_COUNT + 7;
 
     /**
      * The number of structural features of the '<em>Model Block</em>' class.
@@ -685,7 +629,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelImage()
      * @generated
      */
-    int CANVAS_MODEL_IMAGE = 6;
+    int CANVAS_MODEL_IMAGE = 4;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -866,7 +810,7 @@ public interface ICanvasPackage extends EPackage {
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getCanvasModelConnection()
      * @generated
      */
-    int CANVAS_MODEL_CONNECTION = 7;
+    int CANVAS_MODEL_CONNECTION = 5;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1050,49 +994,6 @@ public interface ICanvasPackage extends EPackage {
 
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Hint Provider</em>'.
-     * @see com.archimatetool.canvas.model.IHintProvider
-     * @generated
-     */
-    EClass getHintProvider();
-
-    /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.canvas.model.IHintProvider#getHintTitle <em>Hint Title</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Hint Title</em>'.
-     * @see com.archimatetool.canvas.model.IHintProvider#getHintTitle()
-     * @see #getHintProvider()
-     * @generated
-     */
-    EAttribute getHintProvider_HintTitle();
-
-    /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.canvas.model.IHintProvider#getHintContent <em>Hint Content</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Hint Content</em>'.
-     * @see com.archimatetool.canvas.model.IHintProvider#getHintContent()
-     * @see #getHintProvider()
-     * @generated
-     */
-    EAttribute getHintProvider_HintContent();
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.editor.ui.IHelpHintProvider <em>Help Hint Provider</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Help Hint Provider</em>'.
-     * @see com.archimatetool.editor.ui.IHelpHintProvider
-     * @model instanceClass="com.archimatetool.editor.ui.IHelpHintProvider"
-     * @generated
-     */
-    EClass getHelpHintProvider();
-
-    /**
      * Returns the meta object for class '{@link com.archimatetool.canvas.model.INotesContent <em>Notes Content</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1185,42 +1086,6 @@ public interface ICanvasPackage extends EPackage {
      * @generated
      */
     interface Literals {
-        /**
-         * The meta object literal for the '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.canvas.model.IHintProvider
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHintProvider()
-         * @generated
-         */
-        EClass HINT_PROVIDER = eINSTANCE.getHintProvider();
-
-        /**
-         * The meta object literal for the '<em><b>Hint Title</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute HINT_PROVIDER__HINT_TITLE = eINSTANCE.getHintProvider_HintTitle();
-
-        /**
-         * The meta object literal for the '<em><b>Hint Content</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute HINT_PROVIDER__HINT_CONTENT = eINSTANCE.getHintProvider_HintContent();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.editor.ui.IHelpHintProvider <em>Help Hint Provider</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.editor.ui.IHelpHintProvider
-         * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHelpHintProvider()
-         * @generated
-         */
-        EClass HELP_HINT_PROVIDER = eINSTANCE.getHelpHintProvider();
-
         /**
          * The meta object literal for the '{@link com.archimatetool.canvas.model.INotesContent <em>Notes Content</em>}' class.
          * <!-- begin-user-doc -->

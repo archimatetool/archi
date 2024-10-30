@@ -86,6 +86,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
@@ -2467,6 +2468,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.HINT_PROVIDER: {
+                IHintProvider hintProvider = (IHintProvider)theEObject;
+                T result = caseHintProvider(hintProvider);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -3863,6 +3870,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseSketchModelActor(ISketchModelActor object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Hint Provider</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Hint Provider</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseHintProvider(IHintProvider object) {
         return null;
     }
 

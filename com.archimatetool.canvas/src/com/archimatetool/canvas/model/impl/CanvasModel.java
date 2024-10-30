@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.canvas.model.IHintProvider;
-import com.archimatetool.editor.ui.IHelpHintProvider;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.impl.DiagramModel;
 
 
@@ -132,16 +132,6 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
             eNotify(new ENotificationImpl(this, Notification.SET, ICanvasPackage.CANVAS_MODEL__HINT_CONTENT, oldHintContent, hintContent));
     }
 
-    @Override
-    public String getHelpHintTitle() {
-        return getHintTitle();
-    }
-
-    @Override
-    public String getHelpHintContent() {
-        return getHintContent();
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -219,13 +209,8 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
         if (baseClass == IHintProvider.class) {
             switch (derivedFeatureID) {
-                case ICanvasPackage.CANVAS_MODEL__HINT_TITLE: return ICanvasPackage.HINT_PROVIDER__HINT_TITLE;
-                case ICanvasPackage.CANVAS_MODEL__HINT_CONTENT: return ICanvasPackage.HINT_PROVIDER__HINT_CONTENT;
-                default: return -1;
-            }
-        }
-        if (baseClass == IHelpHintProvider.class) {
-            switch (derivedFeatureID) {
+                case ICanvasPackage.CANVAS_MODEL__HINT_TITLE: return IArchimatePackage.HINT_PROVIDER__HINT_TITLE;
+                case ICanvasPackage.CANVAS_MODEL__HINT_CONTENT: return IArchimatePackage.HINT_PROVIDER__HINT_CONTENT;
                 default: return -1;
             }
         }
@@ -241,13 +226,8 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
         if (baseClass == IHintProvider.class) {
             switch (baseFeatureID) {
-                case ICanvasPackage.HINT_PROVIDER__HINT_TITLE: return ICanvasPackage.CANVAS_MODEL__HINT_TITLE;
-                case ICanvasPackage.HINT_PROVIDER__HINT_CONTENT: return ICanvasPackage.CANVAS_MODEL__HINT_CONTENT;
-                default: return -1;
-            }
-        }
-        if (baseClass == IHelpHintProvider.class) {
-            switch (baseFeatureID) {
+                case IArchimatePackage.HINT_PROVIDER__HINT_TITLE: return ICanvasPackage.CANVAS_MODEL__HINT_TITLE;
+                case IArchimatePackage.HINT_PROVIDER__HINT_CONTENT: return ICanvasPackage.CANVAS_MODEL__HINT_CONTENT;
                 default: return -1;
             }
         }
