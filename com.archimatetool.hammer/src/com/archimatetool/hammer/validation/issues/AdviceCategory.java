@@ -30,7 +30,7 @@ public class AdviceCategory extends AbstractIssueCategory {
     }
     
     @Override
-    public String getHelpHintContent() {
+    public String getHintContent() {
         return Messages.AdviceCategory_1;
     }
 }

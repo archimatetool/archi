@@ -10630,6 +10630,25 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_ACTOR_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.IHelpHintProvider <em>Help Hint Provider</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.IHelpHintProvider
+     * @see com.archimatetool.model.impl.ArchimatePackage#getHelpHintProvider()
+     * @generated
+     */
+    int HELP_HINT_PROVIDER = 139;
+
+    /**
+     * The number of structural features of the '<em>Help Hint Provider</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int HELP_HINT_PROVIDER_FEATURE_COUNT = 0;
+
+    /**
      * The meta object id for the '{@link com.archimatetool.model.IHintProvider <em>Hint Provider</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10646,7 +10665,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int HINT_PROVIDER__HINT_TITLE = 0;
+    int HINT_PROVIDER__HINT_TITLE = HELP_HINT_PROVIDER_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Hint Content</b></em>' attribute.
@@ -10655,7 +10674,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int HINT_PROVIDER__HINT_CONTENT = 1;
+    int HINT_PROVIDER__HINT_CONTENT = HELP_HINT_PROVIDER_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Hint Provider</em>' class.
@@ -10664,7 +10683,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int HINT_PROVIDER_FEATURE_COUNT = 2;
+    int HINT_PROVIDER_FEATURE_COUNT = HELP_HINT_PROVIDER_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}' enum.
@@ -10674,7 +10693,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 139;
+    int FOLDER_TYPE = 140;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -10684,7 +10703,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 140;
+    int FILE = 141;
 
 
     /**
@@ -12826,6 +12845,17 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getHintProvider_HintContent();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IHelpHintProvider <em>Help Hint Provider</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Help Hint Provider</em>'.
+     * @see com.archimatetool.model.IHelpHintProvider
+     * @model instanceClass="com.archimatetool.model.IHelpHintProvider"
+     * @generated
+     */
+    EClass getHelpHintProvider();
+
+    /**
      * Returns the meta object for enum '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -14801,6 +14831,16 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute HINT_PROVIDER__HINT_CONTENT = eINSTANCE.getHintProvider_HintContent();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.IHelpHintProvider <em>Help Hint Provider</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.IHelpHintProvider
+         * @see com.archimatetool.model.impl.ArchimatePackage#getHelpHintProvider()
+         * @generated
+         */
+        EClass HELP_HINT_PROVIDER = eINSTANCE.getHelpHintProvider();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.FolderType <em>Folder Type</em>}' enum.

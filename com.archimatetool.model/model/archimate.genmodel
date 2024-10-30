@@ -337,5 +337,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//HintProvider/hintTitle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//HintProvider/hintContent"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//HelpHintProvider"/>
   </genPackages>
 </genmodel:GenModel>

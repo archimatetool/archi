@@ -52,12 +52,12 @@ public abstract class AbstractIssueCategory implements IIssueCategory {
     }
     
     @Override
-    public String getHelpHintTitle() {
+    public String getHintTitle() {
         return getName();
     }
     
     @Override
-    public String getHelpHintContent() {
+    public String getHintContent() {
         return null;
     }
 }

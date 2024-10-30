@@ -26,6 +26,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IHelpHintProvider;
 import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
@@ -161,6 +162,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDiagramModel(IDiagramModel object) {
                 return createDiagramModelAdapter();
+            }
+            @Override
+            public Adapter caseHelpHintProvider(IHelpHintProvider object) {
+                return createHelpHintProviderAdapter();
             }
             @Override
             public Adapter caseHintProvider(IHintProvider object) {
@@ -515,6 +520,20 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiagramModelAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IHelpHintProvider <em>Help Hint Provider</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IHelpHintProvider
+     * @generated
+     */
+    public Adapter createHelpHintProviderAdapter() {
         return null;
     }
 

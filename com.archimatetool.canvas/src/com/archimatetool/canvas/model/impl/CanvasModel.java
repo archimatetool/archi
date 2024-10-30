@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IHelpHintProvider;
 import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.impl.DiagramModel;
 
@@ -207,6 +208,11 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == IHelpHintProvider.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         if (baseClass == IHintProvider.class) {
             switch (derivedFeatureID) {
                 case ICanvasPackage.CANVAS_MODEL__HINT_TITLE: return IArchimatePackage.HINT_PROVIDER__HINT_TITLE;
@@ -224,6 +230,11 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == IHelpHintProvider.class) {
+            switch (baseFeatureID) {
+                default: return -1;
+            }
+        }
         if (baseClass == IHintProvider.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.HINT_PROVIDER__HINT_TITLE: return ICanvasPackage.CANVAS_MODEL__HINT_TITLE;

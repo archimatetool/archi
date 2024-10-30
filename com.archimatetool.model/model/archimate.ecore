@@ -474,7 +474,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SketchModelSticky" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//TextContent #//Properties #//TextPosition #//Iconic"/>
   <eClassifiers xsi:type="ecore:EClass" name="SketchModelActor" eSuperTypes="#//DiagramModelObject #//Documentable #//Properties"/>
-  <eClassifiers xsi:type="ecore:EClass" name="HintProvider" abstract="true" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="HintProvider" abstract="true" interface="true"
+      eSuperTypes="#//HelpHintProvider">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -484,4 +485,6 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HelpHintProvider" instanceClassName="com.archimatetool.model.IHelpHintProvider"
+      abstract="true" interface="true"/>
 </ecore:EPackage>

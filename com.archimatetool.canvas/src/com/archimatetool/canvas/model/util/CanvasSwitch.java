@@ -25,6 +25,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IHelpHintProvider;
 import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.IIconic;
 import com.archimatetool.model.IIdentifier;
@@ -108,6 +109,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(canvasModel);
                 if (result == null) result = caseDocumentable(canvasModel);
                 if (result == null) result = caseProperties(canvasModel);
+                if (result == null) result = caseHelpHintProvider(canvasModel);
                 if (result == null) result = caseFeatures(canvasModel);
                 if (result == null) result = caseDiagramModelComponent(canvasModel);
                 if (result == null) result = caseArchimateModelObject(canvasModel);
@@ -157,6 +159,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseHintProvider(canvasModelBlock);
                 if (result == null) result = caseDiagramModelObject(canvasModelBlock);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelBlock);
+                if (result == null) result = caseHelpHintProvider(canvasModelBlock);
                 if (result == null) result = caseConnectable(canvasModelBlock);
                 if (result == null) result = caseFontAttribute(canvasModelBlock);
                 if (result == null) result = caseLineObject(canvasModelBlock);
@@ -517,6 +520,21 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDiagramModel(IDiagramModel object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Help Hint Provider</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Help Hint Provider</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseHelpHintProvider(IHelpHintProvider object) {
         return null;
     }
 

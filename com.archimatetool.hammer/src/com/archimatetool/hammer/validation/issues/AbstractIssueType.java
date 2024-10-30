@@ -88,12 +88,12 @@ public abstract class AbstractIssueType implements IIssue {
     }
     
     @Override
-    public String getHelpHintTitle() {
+    public String getHintTitle() {
         return getName();
     }
     
     @Override
-    public String getHelpHintContent() {
+    public String getHintContent() {
         return getExplanation();
     }
     

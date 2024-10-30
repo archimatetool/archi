@@ -24,6 +24,7 @@ import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IHelpHintProvider;
 import com.archimatetool.model.IHintProvider;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IProperties;
@@ -688,6 +689,11 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
                 default: return -1;
             }
         }
+        if (baseClass == IHelpHintProvider.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         if (baseClass == IHintProvider.class) {
             switch (derivedFeatureID) {
                 case ICanvasPackage.CANVAS_MODEL_BLOCK__HINT_TITLE: return IArchimatePackage.HINT_PROVIDER__HINT_TITLE;
@@ -744,6 +750,11 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
         if (baseClass == ITextPosition.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return ICanvasPackage.CANVAS_MODEL_BLOCK__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IHelpHintProvider.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }
