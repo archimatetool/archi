@@ -11,7 +11,8 @@
                icon="img/icon.png"
                id="com.archimatetool.zest.menuitem.showZestView"
                label="%command.label"
-               style="push">
+               style="push"
+               tooltip="%command.name">
          </command>
       </menuContribution>
       <menuContribution
@@ -22,7 +23,8 @@
                icon="img/icon.png"
                id="com.archimatetool.zest.menuitem.showZestView"
                label="%command.label.0"
-               style="push">
+               style="push"
+               tooltip="%command.name">
          </command>
       </menuContribution>
    </extension>
