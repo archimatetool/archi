@@ -58,6 +58,7 @@
     </build>
 	
     <profiles>
+	    <!-- Profile for Mac. <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <profile>
             <id>osx</id>
             <activation>
@@ -65,20 +66,9 @@
                     <family>mac</family>
                 </os>
             </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.eclipse.tycho</groupId>
-                            <artifactId>tycho-surefire-plugin</artifactId>
-                            <version>${tycho-version}</version>
-                            <configuration>
-                                <argLine>-XstartOnFirstThread</argLine>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
+            <properties>
+                <tycho.testArgLine>-XstartOnFirstThread</tycho.testArgLine>
+            </properties>
         </profile>
     </profiles>
 
