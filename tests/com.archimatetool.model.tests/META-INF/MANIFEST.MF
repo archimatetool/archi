@@ -4,11 +4,6 @@ Bundle-Name: JUnit Tests for Archi Model
 Bundle-SymbolicName: com.archimatetool.model.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.model
-Import-Package: org.junit.jupiter.api,
- org.junit.jupiter.api.function,
- org.junit.jupiter.params,
- org.junit.jupiter.params.provider,
- org.junit.platform.suite.api
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17

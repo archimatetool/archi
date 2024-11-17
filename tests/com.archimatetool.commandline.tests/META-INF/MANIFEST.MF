@@ -4,8 +4,6 @@ Bundle-Name: JUnit Tests for Command Line
 Bundle-SymbolicName: com.archimatetool.commandline.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.commandline
-Import-Package: org.junit.jupiter.api,
- org.junit.platform.suite.api
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17

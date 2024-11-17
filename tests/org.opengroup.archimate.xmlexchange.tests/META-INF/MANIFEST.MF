@@ -4,8 +4,6 @@ Bundle-Name: JUnit Tests for ArchiMate Open Exchange Plugin
 Bundle-SymbolicName: org.opengroup.archimate.xmlexchange.tests
 Bundle-Version: 4.0.0
 Fragment-Host: org.opengroup.archimate.xmlexchange
-Import-Package: org.junit.jupiter.api,
- org.junit.platform.suite.api
 Bundle-Vendor: Archi, The Open Group
 Require-Bundle: com.archimatetool.testsupport,
  com.archimatetool.canvas

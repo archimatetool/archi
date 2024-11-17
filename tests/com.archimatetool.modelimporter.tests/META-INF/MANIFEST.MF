@@ -9,6 +9,4 @@ Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.modelimporter.tests
-Import-Package: com.archimatetool.testingtools,
- org.junit.jupiter.api,
- org.junit.platform.suite.api
+Import-Package: com.archimatetool.testingtools

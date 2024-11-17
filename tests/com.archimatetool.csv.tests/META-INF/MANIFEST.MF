@@ -4,9 +4,6 @@ Bundle-Name: JUnit Tests for CSV Import/Export
 Bundle-SymbolicName: com.archimatetool.csv.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.csv
-Import-Package: org.junit.jupiter.api,
- org.junit.jupiter.api.function,
- org.junit.platform.suite.api
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17

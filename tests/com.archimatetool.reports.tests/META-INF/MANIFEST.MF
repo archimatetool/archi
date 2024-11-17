@@ -7,7 +7,5 @@ Fragment-Host: com.archimatetool.reports
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Import-Package: com.archimatetool.testingtools,
- org.junit.jupiter.api,
- org.junit.platform.suite.api
+Import-Package: com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.reports.tests
