@@ -7,6 +7,7 @@ package com.archimatetool.editor.ui.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
@@ -82,7 +83,16 @@ public abstract class AbstractObjectUIProviderTests {
         assertTrue(provider.shouldExposeFeature((String)null));
     }
     
+    @ParamsTest
+    public void testGetDefaultFeatureValue(IObjectUIProvider provider) {
+        assertNull(provider.getDefaultFeatureValue((String)null));
+    }
     
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        assertNull(provider.getFeatureValue((String)null));
+    }
+
     protected EObject createInstanceForExpectedClass(EClass expectedClass) {
         return expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
     }

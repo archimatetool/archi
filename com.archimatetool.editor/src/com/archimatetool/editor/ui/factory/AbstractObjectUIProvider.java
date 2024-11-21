@@ -5,11 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
 
 
 
@@ -36,34 +32,4 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
         this.instance = instance;
     }
     
-    @Override
-    public String getDefaultName() {
-        return ""; //$NON-NLS-1$
-    }
-    
-    @Override
-    public EditPart createEditPart() {
-        return null;
-    }
-    
-    @Override
-    public Image getImage() {
-        return null;
-    }
-    
-    @Override
-    public ImageDescriptor getImageDescriptor() {
-        return null;
-    }
-    
-    @Override
-    @Deprecated
-    public boolean shouldExposeFeature(EAttribute feature) {
-        return shouldExposeFeature(feature.getName());
-    }
-    
-    @Override
-    public boolean shouldExposeFeature(String featureName) {
-        return true;
-    }
 }

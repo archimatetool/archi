@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -29,33 +28,52 @@ public interface IObjectUIProvider {
     /**
      * @return A new GEF EditPart for this type of class
      */
-    EditPart createEditPart();
+    default EditPart createEditPart() {
+        return null;
+    }
     
     /**
      * @return The default name for this type of object
      */
-    String getDefaultName();
+    default String getDefaultName() {
+        return ""; //$NON-NLS-1$
+    }
     
     /**
      * @return The iconic image to use for this object
      */
-    Image getImage();
+    default Image getImage() {
+        return null;
+    }
     
     /**
      * @return The iconic image descriptor to use for this object
      */
-    ImageDescriptor getImageDescriptor();
+    default ImageDescriptor getImageDescriptor() {
+        return null;
+    }
     
     /**
-     * @param feature The feature in question
+     * @param featureName The feature in question
      * @return True if this object should expose a feature in the UI
-     * @deprecated Use shouldExposeFeature(String featureName)
      */
-    boolean shouldExposeFeature(EAttribute feature);
-
+    default boolean shouldExposeFeature(String featureName) {
+        return true;
+    }
+    
     /**
-     * @param feature The feature in question
-     * @return True if this object should expose a feature in the UI
+     * @param featureName The feature in question
+     * @return a default value for a given feature. Default is null
      */
-    boolean shouldExposeFeature(String featureName);
+    default Object getDefaultFeatureValue(String featureName) {
+        return null;
+    }
+    
+    /**
+     * @param featureName The feature in question
+     * @return a value for a given feature. Default is null
+     */
+    default Object getFeatureValue(String featureName) {
+        return null;
+    }
 }
