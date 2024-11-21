@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -145,8 +146,11 @@ public class HTMLReportExporter {
         // Open it in external Browser
         IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
         IWebBrowser browser = support.getExternalBrowser();
-        // This method supports network URLs
-        browser.openURL(new URL("file", null, file[0].getAbsolutePath().replace(" ", "%20"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        // Firefox needs 5 forward slashes for Windows network paths so use 3 and construct URL like this
+        String path = "file:///" + file[0].getAbsolutePath().replaceAll(" ", "%20").replaceAll("\\\\", "/");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$//$NON-NLS-5$
+        browser.openURL(new URI(path).toURL());
+        // This works but not for Windows network paths on Firefox
+        // browser.openURL(file[0].toURI().toURL());
     }
     
     public void preview() throws Exception {

@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.actions;
 
-import java.net.URL;
+import java.net.URI;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PlatformUI;
@@ -33,8 +33,7 @@ public class WebBrowserAction extends Action {
         try {
             IWebBrowser browser = support.getExternalBrowser();
             if(browser != null) {
-                URL url = new URL(fUrl);
-                browser.openURL(url);
+                browser.openURL(new URI(fUrl).toURL());
             }
         }
         catch(Exception ex) {

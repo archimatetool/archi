@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -69,8 +70,7 @@ public class CheckForNewVersionAction extends Action {
                 return;
             }
             
-            URL url = new URL(versionFile);
-            String newVersion = getOnlineVersion(url);
+            String newVersion = getOnlineVersion(new URI(versionFile).toURL());
             
             // Get this app's main version number
             String thisVersion = ArchiPlugin.INSTANCE.getVersion();
@@ -94,8 +94,7 @@ public class CheckForNewVersionAction extends Action {
                     IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
                     IWebBrowser browser = support.getExternalBrowser();
                     if(browser != null) {
-                        URL url2 = new URL(downloadURL);
-                        browser.openURL(url2);
+                        browser.openURL(new URI(downloadURL).toURL());
                     }
                 }
             }
@@ -103,10 +102,7 @@ public class CheckForNewVersionAction extends Action {
                 MessageDialog.openInformation(null, Messages.CheckForNewVersionAction_1, Messages.CheckForNewVersionAction_4);
             }
         }
-        catch(MalformedURLException ex) {
-            ex.printStackTrace();
-        }
-        catch(IOException ex) {
+        catch(URISyntaxException | IOException ex) {
             ex.printStackTrace();
             showErrorMessage(Messages.CheckForNewVersionAction_5 + " " + ex.getMessage()); //$NON-NLS-1$
             return;

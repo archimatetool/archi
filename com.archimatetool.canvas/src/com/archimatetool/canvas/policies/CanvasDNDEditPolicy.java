@@ -8,8 +8,8 @@ package com.archimatetool.canvas.policies;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
@@ -121,11 +121,11 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
         }
         
         File file = null;
-        URL url = new URL(s);
+        URI uri = new URI(s);
         
-        // Local file:/// URL for a file that exists
-        if("file".equals(url.getProtocol())) {
-            file = new File(url.toURI());
+        // Local file:/// URI for a file that exists
+        if("file".equals(uri.getScheme())) {
+            file = new File(uri);
         }
         // Online URL that we should download to a temporary file
         else {
@@ -134,7 +134,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
             file.deleteOnExit();
             
             try(FileOutputStream fos = new FileOutputStream(file)) {
-                try(ReadableByteChannel rbc = Channels.newChannel(url.openStream())) {
+                try(ReadableByteChannel rbc = Channels.newChannel(uri.toURL().openStream())) {
                     fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                 }
             }
