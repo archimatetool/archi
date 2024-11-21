@@ -5,10 +5,14 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -183,11 +187,11 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      * Create Label control. Style is set to SWT.WRAP
      * @param parent Parent composite
      * @param text Text to display
-     * @param width Width of label in pixels
+     * @param width Preferred width of label in pixels. Might be bigger depending on OS font size.
      * @param v_position Vertical position. Should be SWT.CENTER or SWT.NONE
      * @return
      */
-    protected Label createLabel(Composite parent, String text, int width, int verticalPosition) {
+    protected Label createLabel(Composite parent, String text, int preferredWidth, int verticalPosition) {
         Label label = getWidgetFactory().createLabel(parent, text, SWT.WRAP);
         
         // On Mac a Group's backgound is grey but a child label is white so set the label's background to null.
@@ -197,7 +201,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         }
         
         GridData gd = new GridData(SWT.NONE, verticalPosition, false, false);
-        gd.widthHint = width;
+        gd.widthHint = getLabelWidth(label, preferredWidth);
         label.setLayoutData(gd);
         return label;
     }
@@ -220,6 +224,26 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         
         return tableComp;
     }
+    
+    private static Map<Integer, Integer> labelWidths = new HashMap<>();
+    
+    /**
+     * Get a label width given the preferred width.
+     * The label font will depend on OS, Java version and Display scale and resolution.
+     * @param label The Label
+     * @param preferredWidth The preferred width
+     * @return The maximum of preferred width or the text extents of the string "XXXXXXXXXXXXXX" in the Label's font size.
+     */
+    protected static int getLabelWidth(Label label, int preferredWidth) {
+        if(!labelWidths.containsKey(preferredWidth)) {
+            final String s = "XXXXXXXXXXXXXX"; //$NON-NLS-1$
+            GC gc = new GC(label);
+            labelWidths.put(preferredWidth, Math.max(gc.textExtent(s).x, preferredWidth));
+            gc.dispose();
+        }
+        return labelWidths.get(preferredWidth);
+    }
+    
     
     // =========================== Global Action Disablement ==================================
     // When a text control gets the focus we don't want global action handlers like Undo/Redo
@@ -288,12 +312,4 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
             }
         });
     }
-    
-    // Add Mac kludge.
-    // Sub-classes that have text controls should implement this
-    // and update the text controls that might be affected by the Mac bug
-    @Deprecated
-    protected void focusGained(Control control) {
-    }
-
 }
