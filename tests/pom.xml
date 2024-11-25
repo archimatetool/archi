@@ -12,13 +12,21 @@
 
     <artifactId>com.archimatetool.testing</artifactId>
     <packaging>pom</packaging>
-
+    
+    <properties>
+        <!-- Mockito/ByteBuddy needs this on Java 21+ -->
+        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
+        
+        <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
+        <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
+    </properties>
+    
     <!-- Orbit p2 repo provides Mockito and latest JUnit for tests -->
     <repositories>
         <repository>
             <id>Orbit</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0</url>
+            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0</url>
         </repository>
     </repositories>
 
@@ -26,8 +34,8 @@
         <module>com.archimatetool.testsupport</module>
 
         <module>com.archimatetool.canvas.tests</module>
-        <module>com.archimatetool.csv.tests</module>
         <module>com.archimatetool.commandline.tests</module>
+        <module>com.archimatetool.csv.tests</module>
         <module>com.archimatetool.editor.tests</module>
         <module>com.archimatetool.export.svg.tests</module>
 		<module>com.archimatetool.hammer.tests</module>
@@ -43,6 +51,20 @@
 
     <build>
         <plugins>
+            <!-- With this we can resolve ${org.mockito:mockito-core:jar} -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
@@ -59,14 +81,14 @@
     <profiles>
 	    <!-- Profile for Mac. <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <profile>
-            <id>osx</id>
+            <id>mac</id>
             <activation>
                 <os>
                     <family>mac</family>
                 </os>
             </activation>
             <properties>
-                <tycho.testArgLine>-XstartOnFirstThread</tycho.testArgLine>
+                <tycho.testArgLine>-XstartOnFirstThread ${mockito.args}</tycho.testArgLine>
             </properties>
         </profile>
     </profiles>
