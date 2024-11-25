@@ -30,7 +30,6 @@ jobs:
         
     - name: Run tests and build product
       run: |
-        cp .github/toolchains.xml ~/.m2/toolchains.xml
         xvfb-run mvn -V clean verify -P tests,product
 
     - name: Today's date
