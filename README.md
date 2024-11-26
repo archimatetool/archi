@@ -23,3 +23,7 @@ All developer resources are here:
 ## Contributing code to Archi
 
 Please see [How can I contribute code to Archi?](https://github.com/Phillipus/archi/wiki/How-can-I-contribute-code-to-Archi%3F)
+
+## Sponsors
+
+Free code signing on Windows provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/)
