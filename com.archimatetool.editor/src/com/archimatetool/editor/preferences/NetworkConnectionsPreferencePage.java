@@ -201,6 +201,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fProxyPortTextField.setText(getPreferenceStore().getDefaultString(PREFS_PROXY_PORT));
         fRequiresProxyAuthenticationButton.setSelection(getPreferenceStore().getDefaultBoolean(PREFS_PROXY_REQUIRES_AUTHENTICATION));
         updateProxyControls();
+        super.performDefaults();
     }
     
     private void updateProxyControls() {
