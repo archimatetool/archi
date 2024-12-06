@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
@@ -40,6 +41,7 @@ public class SearchFilter extends ViewerFilter {
     private Set<EClass> fConceptsFilter = new HashSet<>();
     private Set<String> fPropertiesFilter = new HashSet<>();
     private Set<IProfile> fSpecializationsFilter = new HashSet<>();
+    private boolean fFilterViews = false;
 
     private boolean fShowAllFolders = false;
 
@@ -57,6 +59,7 @@ public class SearchFilter extends ViewerFilter {
         resetConceptsFilter();
         resetPropertiesFilter();
         resetSpecializationsFilter();
+        setFilterViews(false);
     }
 
     @Override
@@ -105,12 +108,14 @@ public class SearchFilter extends ViewerFilter {
     public boolean matchesFilter(Object element) {
         boolean show = true;
         
-        // Concept or Specialization
-        if(isFilteringConcepts() || isFilteringSpecializations()) {
-            show &= shouldShowConcept(element) || shouldShowSpecialization(element);
+        // Concepts, Specializations or View
+        if(isFilteringConcepts() || isFilteringSpecializations() || isFilteringViews()) {
+            show = (isFilteringConcepts() && shouldShowConcept(element))
+                    || (isFilteringSpecializations() && shouldShowSpecialization(element))
+                    || (isFilteringViews() && element instanceof IDiagramModel);
         }
         
-        // Name or Documentation or Property
+        // Name, Documentation or Property
         if(isFilteringName() || isFilteringDocumentation() || isFilteringPropertyKeys()) {
             show &= (isFilteringName() && shouldShowObjectWithName(element))
                     || (isFilteringDocumentation() && shouldShowObjectWithDocumentation(element))
@@ -174,7 +179,7 @@ public class SearchFilter extends ViewerFilter {
     }
 
     public boolean isFiltering() {
-        return isFilteringName() || isFilteringDocumentation() || isFilteringConcepts() || isFilteringPropertyKeys() || isFilteringSpecializations();
+        return isFilteringName() || isFilteringDocumentation() || isFilteringConcepts() || isFilteringPropertyKeys() || isFilteringSpecializations() || isFilteringViews();
     }
 
     private boolean isFilteringName() {
@@ -252,4 +257,13 @@ public class SearchFilter extends ViewerFilter {
     boolean isShowAllFolders() {
         return fShowAllFolders;
     }
+    
+    void setFilterViews(boolean set) {
+        fFilterViews = set;
+    }
+    
+    boolean isFilteringViews() {
+        return fFilterViews;
+    }
+
 }

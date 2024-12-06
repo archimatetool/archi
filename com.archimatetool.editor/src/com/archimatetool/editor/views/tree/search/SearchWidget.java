@@ -71,6 +71,7 @@ public class SearchWidget extends Composite {
     
     private IAction fActionFilterName;
     private IAction fActionFilterDocumentation;
+    private IAction fActionFilterViews;
     
     private List<IAction> fConceptActions = new ArrayList<>();
     
@@ -236,12 +237,12 @@ public class SearchWidget extends Composite {
         dropDownAction.add(fPropertiesMenu);
         populatePropertiesMenu();
         
+        dropDownAction.add(new Separator());
+        
         // Specializations
         fSpecializationsMenu = new MenuManager(Messages.SearchWidget_16);
         dropDownAction.add(fSpecializationsMenu);
         populateSpecializationsMenu();
-        
-        dropDownAction.add(new Separator());
         
         // Concept sub-menus
         MenuManager strategyMenu = new MenuManager(Messages.SearchWidget_15);
@@ -300,6 +301,17 @@ public class SearchWidget extends Composite {
             relationsMenu.add(createConceptAction(eClass));
         }
         
+        // Views
+        fActionFilterViews = new Action(Messages.SearchWidget_17, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setFilterViews(isChecked());
+                refreshTree();
+            }
+        };
+        fActionFilterViews.setChecked(fSearchFilter.isFilteringViews());
+        dropDownAction.add(fActionFilterViews);
+
         dropDownAction.add(new Separator());
         
         // Show All Folders
@@ -348,6 +360,9 @@ public class SearchWidget extends Composite {
         for(IAction action : fConceptActions) {
             action.setChecked(false);
         }
+        
+        // Views
+        fActionFilterViews.setChecked(false);
 
         // This will set name filter true, documentation filter false, and clear concepts, properties, and specializations filters 
         fSearchFilter.reset();
