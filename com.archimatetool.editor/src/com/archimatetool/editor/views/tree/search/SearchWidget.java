@@ -8,10 +8,12 @@ package com.archimatetool.editor.views.tree.search;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
@@ -429,12 +431,32 @@ public class SearchWidget extends Composite {
 	    // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
 	    list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
 	    
-        // Limit to a sensible menu size
-        if(list.size() > 1000) {
-            list = list.subList(0, 999);
-        }
+        Map<String, MenuManager> subMenus = new HashMap<>();
+        final int maxSubMenuItems = 50; // Max number items in a sub-menu
+        MenuManager subMenu = fPropertiesMenu;
+        int count = 0;
 
-	    for(String key : list) {
+        for(String key : list) {
+	        // If there are too many properties use sub-menus
+	        if(list.size() > maxSubMenuItems) {
+	            String subMenuName = Integer.toString(count++ / maxSubMenuItems + 1);
+	            subMenu = subMenus.get(subMenuName);
+	            if(subMenu == null) {
+	                subMenu = new MenuManager(subMenuName);
+	                subMenus.put(subMenuName, subMenu);
+	                fPropertiesMenu.add(subMenu);
+	            }
+	            
+	            // Use first letter
+//	            String firstLetter = key.substring(0, 1);
+//	            subMenu = subMenus.get(firstLetter);
+//	            if(subMenu == null) {
+//	                subMenu = new MenuManager(firstLetter);
+//	                subMenus.put(firstLetter, subMenu);
+//	                fPropertiesMenu.add(subMenu);
+//	            }
+	        }
+
 	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
 	            @Override
 	            public void run() {
@@ -448,7 +470,7 @@ public class SearchWidget extends Composite {
 	            }
 	        };
 
-	        fPropertiesMenu.add(action);
+	        subMenu.add(action);
 	    }
 
 	    fPropertiesMenu.update(true);
