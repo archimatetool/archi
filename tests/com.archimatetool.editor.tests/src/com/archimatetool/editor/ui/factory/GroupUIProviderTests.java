@@ -18,7 +18,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 
 public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -59,6 +62,16 @@ public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests
     @ParamsTest
     public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
+    }
+
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        ((AbstractObjectUIProvider)provider).setInstance(group);
+        
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
     }
 
 }

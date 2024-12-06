@@ -23,6 +23,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceE
 import com.archimatetool.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 
 public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -73,4 +74,13 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
         assertTrue(provider.hasIcon());
     }
 
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        IDiagramModelReference ref = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        ((AbstractObjectUIProvider)provider).setInstance(ref);
+        
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
+    }
 }

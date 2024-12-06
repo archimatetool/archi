@@ -50,6 +50,8 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);
+        
+        setLineStyle(graphics);
 
         graphics.setBackgroundColor(getFillColor());
 

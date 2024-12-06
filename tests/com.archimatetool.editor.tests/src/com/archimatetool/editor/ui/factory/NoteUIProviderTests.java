@@ -17,7 +17,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.editor.ui.factory.diagram.NoteUIProvider;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 
 public class NoteUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -45,5 +48,15 @@ public class NoteUIProviderTests extends AbstractGraphicalObjectUIProviderTests 
     @ParamsTest
     public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
+    }
+    
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        ((AbstractObjectUIProvider)provider).setInstance(note);
+        
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
     }
 }

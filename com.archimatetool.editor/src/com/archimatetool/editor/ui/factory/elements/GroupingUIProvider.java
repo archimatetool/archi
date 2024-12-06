@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.GroupingFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -73,5 +74,14 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public int getDefaultTextPosition() {
         return ITextPosition.TEXT_POSITION_TOP;
+    }
+    
+    @Override
+    public Object getDefaultFeatureValue(String featureName) {
+        if(IDiagramModelObject.FEATURE_LINE_STYLE.equals(featureName)) {
+            return IDiagramModelObject.LINE_STYLE_DASHED;
+        }
+        
+        return super.getDefaultFeatureValue(featureName);
     }
 }

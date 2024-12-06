@@ -431,13 +431,13 @@
          </propertySection>
          <propertySection
                afterSection="lineSection"
-               class="com.archimatetool.editor.propertysections.LineOpacitySection"
-               filter="com.archimatetool.editor.propertysections.LineOpacitySection$Filter"
-               id="lineOpacitySection"
+               class="com.archimatetool.editor.propertysections.LineSection2"
+               filter="com.archimatetool.editor.propertysections.LineSection2$Filter"
+               id="lineSection2"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="lineOpacitySection"
+               afterSection="lineSection2"
                class="com.archimatetool.editor.propertysections.IconColorSection"
                filter="com.archimatetool.editor.propertysections.IconColorSection$Filter"
                id="iconColorSection"
@@ -451,7 +451,7 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="lineOpacitySection"
+               afterSection="lineSection2"
                class="com.archimatetool.editor.propertysections.GroupBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.GroupBorderTypeSection$Filter"
                id="groupBorderTypeSection"
@@ -491,7 +491,7 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="lineOpacitySection"
+               afterSection="lineSection2"
                class="com.archimatetool.editor.propertysections.NoteBorderTypeSection"
                filter="com.archimatetool.editor.propertysections.NoteBorderTypeSection$Filter"
                id="noteBorderTypeSection"

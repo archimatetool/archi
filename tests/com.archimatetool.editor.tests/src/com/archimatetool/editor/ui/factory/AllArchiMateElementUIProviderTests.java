@@ -78,7 +78,11 @@ import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ValueStreamUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
 import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 
 public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -211,6 +215,34 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         }
         else {
             super.testGetDefaultTextAlignment(provider);
+        }
+    }
+    
+    @Override
+    @ParamsTest
+    public void testGetDefaultFeatureValue(IObjectUIProvider provider) {
+        if(provider instanceof GroupingUIProvider) {
+            assertEquals(IDiagramModelObject.LINE_STYLE_DASHED, provider.getDefaultFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
+        }
+        else {
+            super.testGetDefaultFeatureValue(provider);
+        }
+    }
+    
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(provider.providerFor()));
+        ((AbstractObjectUIProvider)provider).setInstance(dmo);
+        
+        if(provider instanceof GroupingUIProvider) {
+            assertEquals(IDiagramModelObject.LINE_STYLE_DASHED, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
+        }
+        else {
+            assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
         }
     }
 }

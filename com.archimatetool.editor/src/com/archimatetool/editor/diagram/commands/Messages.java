@@ -43,6 +43,8 @@ public class Messages extends NLS {
 
     public static String DiagramModelObjectAlphaCommand_0;
 
+    public static String DiagramModelObjectLineStyleCommand_0;
+
     public static String DiagramModelObjectOutlineAlphaCommand_0;
 
     public static String FillColorCommand_0;

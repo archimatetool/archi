@@ -19,6 +19,7 @@ import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectAlphaCommand;
+import com.archimatetool.editor.diagram.commands.DiagramModelObjectLineStyleCommand;
 import com.archimatetool.editor.diagram.commands.DiagramModelObjectOutlineAlphaCommand;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
@@ -112,6 +113,8 @@ public class FormatPainterTool extends AbstractTool {
         CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
         IDiagramModelComponent sourceComponent = FormatPainterInfo.INSTANCE.getSourceComponent();
+        
+        IObjectUIProvider sourceUIProvider = ObjectUIFactory.INSTANCE.getProvider(sourceComponent);
         IObjectUIProvider targetUIProvider = ObjectUIFactory.INSTANCE.getProvider(targetComponent);
         
         // IFontAttribute
@@ -210,6 +213,14 @@ public class FormatPainterTool extends AbstractTool {
             cmd = new DiagramModelObjectOutlineAlphaCommand(target, source.getLineAlpha());
             if(cmd.canExecute()) {
                 result.add(cmd);
+            }
+            
+            // Line Style
+            if(targetUIProvider != null && sourceUIProvider != null && targetUIProvider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_STYLE)) {
+                cmd = new DiagramModelObjectLineStyleCommand(target, (int)sourceUIProvider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
             
             // Gradient

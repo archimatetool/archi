@@ -12,6 +12,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ParamsTest;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -44,6 +45,13 @@ public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObj
     @ParamsTest
     public void testGetDefaultTextPosition(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextPosition.TEXT_POSITION_TOP, provider.getDefaultTextPosition());
+    }
+
+    @Override
+    @ParamsTest
+    public void testGetDefaultFeatureValue(IObjectUIProvider provider) {
+        super.testGetDefaultFeatureValue(provider);
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getDefaultFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
     }
 
 }

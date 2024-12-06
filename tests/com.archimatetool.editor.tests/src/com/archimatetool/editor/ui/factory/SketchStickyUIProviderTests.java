@@ -17,7 +17,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchStickyUIProvider;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ITextAlignment;
 
 public class SketchStickyUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -45,5 +48,15 @@ public class SketchStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
     @ParamsTest
     public void testGetDefaultTextAlignment(IGraphicalObjectUIProvider provider) {
         assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, provider.getDefaultTextAlignment());
+    }
+    
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        ISketchModelSticky sticky = IArchimateFactory.eINSTANCE.createSketchModelSticky();
+        ((AbstractObjectUIProvider)provider).setInstance(sticky);
+        
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
     }
 }

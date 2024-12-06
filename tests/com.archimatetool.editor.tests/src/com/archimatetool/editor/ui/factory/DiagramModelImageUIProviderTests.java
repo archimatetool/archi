@@ -18,7 +18,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelObject;
 
 public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
@@ -47,4 +50,15 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()));
         assertFalse(provider.shouldExposeFeature((String)null));
     }
+    
+    @Override
+    @ParamsTest
+    public void testGetFeatureValue(IObjectUIProvider provider) {
+        super.testGetFeatureValue(provider);
+        IDiagramModelImage dmi = IArchimateFactory.eINSTANCE.createDiagramModelImage();
+        ((AbstractObjectUIProvider)provider).setInstance(dmi);
+        
+        assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE));
+    }
+
 }

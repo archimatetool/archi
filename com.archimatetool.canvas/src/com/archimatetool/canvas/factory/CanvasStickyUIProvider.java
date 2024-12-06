@@ -62,6 +62,7 @@ public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
     public boolean shouldExposeFeature(String featureName) {
         if(featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
                 featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName() ||
+                featureName == IDiagramModelObject.FEATURE_LINE_STYLE ||
                 featureName == IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR ||
                 featureName == IDiagramModelObject.FEATURE_GRADIENT) {
             return false;

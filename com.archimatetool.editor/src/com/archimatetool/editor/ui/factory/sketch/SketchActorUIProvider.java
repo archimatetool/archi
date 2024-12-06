@@ -70,7 +70,8 @@ public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
                 featureName == IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR ||
                 featureName == IDiagramModelObject.FEATURE_LINE_ALPHA ||
                 featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName() ||
-                featureName == IDiagramModelObject.FEATURE_GRADIENT) {
+                featureName == IDiagramModelObject.FEATURE_GRADIENT ||
+                featureName == IDiagramModelObject.FEATURE_LINE_STYLE) {
             return false;
         }
         

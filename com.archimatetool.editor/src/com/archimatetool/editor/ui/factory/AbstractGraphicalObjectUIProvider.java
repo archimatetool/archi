@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui.factory;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -53,5 +54,24 @@ implements IGraphicalObjectUIProvider {
     @Override
     public boolean hasIcon() {
         return false;
+    }
+    
+    @Override
+    public Object getDefaultFeatureValue(String featureName) {
+        if(IDiagramModelObject.FEATURE_LINE_STYLE.equals(featureName)) {
+            return IDiagramModelObject.LINE_STYLE_SOLID;
+        }
+        
+        return super.getDefaultFeatureValue(featureName);
+    }
+    
+    @Override
+    public Object getFeatureValue(String featureName) {
+        if(IDiagramModelObject.FEATURE_LINE_STYLE.equals(featureName) && instance instanceof IDiagramModelObject dmo) {
+            int value = dmo.getLineStyle();
+            return (value == IDiagramModelObject.LINE_STYLE_DEFAULT) ? getDefaultFeatureValue(featureName) : value;
+        }
+        
+        return super.getFeatureValue(featureName);
     }
 }
