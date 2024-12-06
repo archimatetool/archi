@@ -42,6 +42,7 @@ import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -64,6 +65,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
@@ -334,6 +336,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         }
         
         fTableViewer.setInput(fKeysMap);
+        fTableViewer.setSelection(StructuredSelection.EMPTY);
         getButton(IDialogConstants.OK_ID).setEnabled(true);
     }
 
@@ -365,7 +368,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     protected void okPressed() {
         super.okPressed();
 
-        CompoundCommand compoundCmd = new CompoundCommand(Messages.UserPropertiesManagerDialog_11) {
+        CompoundCommand compoundCmd = new NonNotifyingCompoundCommand(Messages.UserPropertiesManagerDialog_11) {
             @Override
             public void execute() {
                 BusyIndicator.showWhile(null, new Runnable() {
