@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Command Line
 Bundle-SymbolicName: com.archimatetool.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 5.4.3.qualifier
+Bundle-Version: 5.5.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,

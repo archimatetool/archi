@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.editor.feature"
       label="Archi Editor"
-      version="5.4.3.qualifier"
+      version="5.5.0.qualifier"
       provider-name="Archi">
 
    <description>
