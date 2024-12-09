@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeViewerListener;
 import org.eclipse.jface.viewers.TreeExpansionEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,6 +47,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
+import com.archimatetool.editor.ui.dialog.UserPropertiesKeySelectionDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -75,7 +77,6 @@ public class SearchWidget extends Composite {
     
     private List<IAction> fConceptActions = new ArrayList<>();
     
-    private MenuManager fPropertiesMenu;
     private MenuManager fSpecializationsMenu;
     
     private Timer fKeyDelayTimer;
@@ -233,9 +234,21 @@ public class SearchWidget extends Composite {
         dropDownAction.add(fActionFilterDocumentation);
         
         // Properties
-        fPropertiesMenu = new MenuManager(Messages.SearchWidget_5);
-        dropDownAction.add(fPropertiesMenu);
-        populatePropertiesMenu();
+        IAction actionProperties = new Action(Messages.SearchWidget_5, IAction.AS_PUSH_BUTTON) {
+            @Override
+            public void run() {
+                UserPropertiesKeySelectionDialog dialog = new UserPropertiesKeySelectionDialog(getShell(), getAllUniquePropertyKeys(),
+                        new ArrayList<>(fSearchFilter.getPropertiesFilter()));
+                if(dialog.open() != Window.CANCEL) {
+                    fSearchFilter.resetPropertiesFilter();
+                    for(String key : dialog.getSelectedKeys()) {
+                        fSearchFilter.addPropertiesFilter(key);
+                    }
+                    refreshTree();
+                }
+            }
+        };
+        dropDownAction.add(actionProperties);
         
         dropDownAction.add(new Separator());
         
@@ -315,26 +328,26 @@ public class SearchWidget extends Composite {
         dropDownAction.add(new Separator());
         
         // Show All Folders
-        IAction action = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
+        IAction actionFolders = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
             	fSearchFilter.setShowAllFolders(isChecked());
             	refreshTree();
             }
         };
-        action.setChecked(fSearchFilter.isShowAllFolders());
-        dropDownAction.add(action);
+        actionFolders.setChecked(fSearchFilter.isShowAllFolders());
+        dropDownAction.add(actionFolders);
         
         dropDownAction.add(new Separator());
         
         // Reset
-        action = new Action(Messages.SearchWidget_13) {
+        IAction actionReset = new Action(Messages.SearchWidget_13) {
             @Override
             public void run() {
             	reset();
             }
         };
-        dropDownAction.add(action);
+        dropDownAction.add(actionReset);
         
         // Need to update toolbar manager now
         toolBarmanager.update(true);
@@ -350,9 +363,6 @@ public class SearchWidget extends Composite {
         // Don't filter on Documentation menu item
         fActionFilterDocumentation.setChecked(false);
 
-        // Clear & uncheck Properties menu items
-        populatePropertiesMenu();
-        
         // Clear & uncheck Specializations menu items
         populateSpecializationsMenu();
 
@@ -376,7 +386,6 @@ public class SearchWidget extends Composite {
      */
     public void softReset() {
         // Clear & Reset Properties
-        populatePropertiesMenu();
         fSearchFilter.resetPropertiesFilter();
         
         // Clear & Reset Specializations
@@ -414,56 +423,33 @@ public class SearchWidget extends Composite {
         return action;
     }
 
-	private void populatePropertiesMenu() {
-	    fPropertiesMenu.removeAll();
-	    
-	    // Models that are loaded are the ones in the Models Tree
-	    Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
-
-	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-	        getAllUniquePropertyKeysForModel(model, set);
-	    }
-	    
-	    List<String> list = new ArrayList<>(set);
-	    
-	    // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
-	    list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
-	    
-        // Limit to a sensible menu size
-        if(list.size() > 1000) {
-            list = list.subList(0, 999);
-        }
-
-	    for(String key : list) {
-	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
-	            @Override
-	            public void run() {
-	                if(isChecked()) {
-	                    fSearchFilter.addPropertiesFilter(key);
-	                }
-	                else {
-	                    fSearchFilter.removePropertiesFilter(key);
-	                }
-	                refreshTree();
-	            }
-	        };
-
-	        fPropertiesMenu.add(action);
-	    }
-
-	    fPropertiesMenu.update(true);
-	}
-
-    private void getAllUniquePropertyKeysForModel(IArchimateModel model, Set<String> set) {
-        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
-            EObject element = iter.next();
-            if(element instanceof IProperty property) {
-            	String key = property.getKey();
-            	if(StringUtils.isSetAfterTrim(key)) {
-            	    set.add(key);
-            	}
+    private List<String> getAllUniquePropertyKeys() {
+        // Maximum amount of items to display when getting all unique keys
+        final int MAX_ITEMS = 1000000;
+        
+        Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
+        
+        for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+            for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+                EObject element = iter.next();
+                if(element instanceof IProperty property) {
+                    String key = property.getKey();
+                    if(StringUtils.isSetAfterTrim(key)) {
+                        set.add(key);
+                        if(set.size() > MAX_ITEMS) { // Don't get more than this
+                            break;
+                        }
+                    }
+                }
             }
         }
+        
+        List<String> list = new ArrayList<>(set);
+        
+        // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
+        list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
+
+        return list;
     }
     
     private void populateSpecializationsMenu() {
@@ -586,7 +572,6 @@ public class SearchWidget extends Composite {
         fViewer = null;
         fSearchFilter = null;
         fConceptActions = null;
-        fPropertiesMenu = null;
         fSpecializationsMenu = null;
     }
 }
