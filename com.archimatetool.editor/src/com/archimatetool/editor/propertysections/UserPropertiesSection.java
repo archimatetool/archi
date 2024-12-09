@@ -299,7 +299,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         TableViewerColumn columnKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
         columnKey.getColumn().setText(Messages.UserPropertiesSection_0);
-        tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(20, true));
+        tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(30, true));
         columnKey.setEditingSupport(new KeyEditingSupport(fTableViewer));
 
         // Click on Key Table Header
@@ -312,7 +312,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
 
         TableViewerColumn columnValue = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
         columnValue.getColumn().setText(Messages.UserPropertiesSection_1);
-        tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(77, true));
+        tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(67, true));
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
 
         // Content Provider
