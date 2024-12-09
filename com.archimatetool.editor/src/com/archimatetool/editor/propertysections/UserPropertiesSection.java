@@ -41,7 +41,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -52,7 +51,6 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -68,14 +66,10 @@ import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -93,9 +87,9 @@ import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundComman
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
+import com.archimatetool.editor.ui.dialog.UserPropertiesKeySelectionDialog;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
@@ -1097,7 +1091,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         @Override
         public void run() {
             if(isAlive(getFirstSelectedElement())) {
-                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL));
+                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), List.of(getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL)));
                 if(dialog.open() != Window.CANCEL) {
                     List<String> newKeys = dialog.getSelectedKeys();
                     if(newKeys == null || newKeys.isEmpty()) {
@@ -1367,147 +1361,28 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     //
     // -----------------------------------------------------------------------------------------------------------------
 
-    private static class MultipleAddDialog extends ExtendedTitleAreaDialog {
-        private CheckboxTableViewer tableViewer;
-        private Button buttonSelectAll, buttonDeselectAll;
-
-        private String[] keys;
-        private List<String> selectedKeys;
-
-        public MultipleAddDialog(Shell parentShell, String[] keys) {
-            super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
-            setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
-            setShellStyle(getShellStyle() | SWT.RESIZE);
-            this.keys = keys;
-        }
-
-        @Override
-        protected void configureShell(Shell shell) {
-            super.configureShell(shell);
-            shell.setText(Messages.UserPropertiesSection_15);
-        }
-
-        @Override
-        protected Control createButtonBar(Composite parent) {
-            Control c = super.createButtonBar(parent);
-            if(keys.length == 0) {
-                getButton(IDialogConstants.OK_ID).setEnabled(false);
-                buttonSelectAll.setEnabled(false);
-                buttonDeselectAll.setEnabled(false);
-            }
-            return c;
+    private static class MultipleAddDialog extends UserPropertiesKeySelectionDialog {
+        public MultipleAddDialog(Shell parentShell, List<String> keys) {
+            super(parentShell, keys, null);
         }
 
         @Override
         protected Control createDialogArea(Composite parent) {
-            // Help
-            PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
-
+            Composite composite = (Composite)super.createDialogArea(parent);
             setTitle(Messages.UserPropertiesSection_16);
             setMessage(Messages.UserPropertiesSection_17);
-
-            Composite composite = (Composite)super.createDialogArea(parent);
-
-            Composite client = new Composite(composite, SWT.NULL);
-            GridLayout layout = new GridLayout(2, false);
-            client.setLayout(layout);
-            client.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-            createTableControl(client);
-            createButtonPanel(client);
-
             return composite;
         }
 
-        private void createTableControl(Composite parent) {
-            Composite tableComp = new Composite(parent, SWT.BORDER);
-            TableColumnLayout tableLayout = new TableColumnLayout();
-            tableComp.setLayout(tableLayout);
-            tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-            tableViewer = CheckboxTableViewer.newCheckList(tableComp, SWT.MULTI | SWT.FULL_SELECTION);
-            tableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-            
-            tableViewer.getTable().setLinesVisible(true);
-
-            // Column
-            TableViewerColumn columnKey = new TableViewerColumn(tableViewer, SWT.NONE, 0);
-            tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(100, true));
-            
-            // Content Provider
-            tableViewer.setContentProvider(new IStructuredContentProvider() {
-                @Override
-                public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-                }
-
-                @Override
-                public Object[] getElements(Object inputElement) {
-                    return keys;
-                }
-
-                @Override
-                public void dispose() {
-                }
-            });
-            
-            // Label Provider
-            tableViewer.setLabelProvider(new LabelProvider());
-            tableViewer.setInput(keys);
-        }
-
-        private void createButtonPanel(Composite parent) {
-            Composite client = new Composite(parent, SWT.NULL);
-
-            GridLayout layout = new GridLayout();
-            layout.marginHeight = 0;
-            layout.marginWidth = 0;
-            client.setLayout(layout);
-
-            GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-            client.setLayoutData(gd);
-
-            buttonSelectAll = new Button(client, SWT.PUSH);
-            buttonSelectAll.setText(Messages.UserPropertiesSection_18);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            buttonSelectAll.setLayoutData(gd);
-            buttonSelectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
-                tableViewer.setCheckedElements(keys);
-            }));
-
-            buttonDeselectAll = new Button(client, SWT.PUSH);
-            buttonDeselectAll.setText(Messages.UserPropertiesSection_19);
-            gd = new GridData(GridData.FILL_HORIZONTAL);
-            buttonDeselectAll.setLayoutData(gd);
-            buttonDeselectAll.addSelectionListener(SelectionListener.widgetSelectedAdapter(e ->  {
-                tableViewer.setCheckedElements(new Object[] {});
-            }));
-        }
-        
         @Override
         protected void createButtonsForButtonBar(Composite parent) {
             createButton(parent, IDialogConstants.OK_ID, Messages.UserPropertiesSection_6, true);
             createButton(parent, IDialogConstants.CLIENT_ID, Messages.UserPropertiesSection_23, false);
             createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-        }
-        
-        @Override
-        protected void buttonPressed(int buttonId) {
-            selectedKeys = new ArrayList<>();
-            for(Object o : tableViewer.getCheckedElements()) {
-                selectedKeys.add((String)o);
+            
+            if(keys.size() == 0) {
+                getButton(IDialogConstants.CLIENT_ID).setEnabled(false);
             }
-
-            setReturnCode(buttonId);
-            close();
-        }
-        
-        List<String> getSelectedKeys() {
-            return selectedKeys;
-        }
-
-        @Override
-        protected Point getDefaultDialogSize() {
-            return new Point(400, 250);
         }
     }
 
