@@ -9,6 +9,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -119,10 +120,22 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
                 refreshSourceConnections();
                 refreshTargetConnections();
                 refreshChildren();
+                
+                recurse(getRoot());
+                
                 break;
 
             default:
                 super.eCoreChanged(msg);
+        }
+    }
+    
+    protected void recurse(EditPart editPart) {
+        for(Object object : editPart.getChildren()) {
+            if(object instanceof GraphicalEditPart child) {
+                child.refresh();
+                recurse(child);
+            }
         }
     }
     
