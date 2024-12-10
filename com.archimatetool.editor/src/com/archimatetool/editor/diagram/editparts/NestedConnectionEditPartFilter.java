@@ -11,6 +11,7 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelContainer;
 
 
 /**
@@ -26,6 +27,16 @@ public class NestedConnectionEditPartFilter implements IConnectionEditPartFilter
         // and this box contains that box and that box qualifies, don't show the connection
         if(ConnectionPreferences.useNestedConnections() && connection instanceof IDiagramModelArchimateConnection) {
             return !DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection);
+        }
+        
+        if(ConnectionPreferences.useNestedConnections()) {
+            if(connection.getSource() instanceof IDiagramModelContainer source && source.getChildren().contains(connection.getTarget())) {
+                return false;
+            }
+            
+            if(connection.getTarget() instanceof IDiagramModelContainer target && target.getChildren().contains(connection.getSource())) {
+                return false;
+            }
         }
         
         return true;

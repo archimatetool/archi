@@ -109,21 +109,7 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
             return;
         }
 
-        switch(msg.getEventType()) {
-            // Children added or removed or moved - need to refresh connections
-            case Notification.ADD:
-            case Notification.ADD_MANY:
-            case Notification.REMOVE:
-            case Notification.REMOVE_MANY:
-            case Notification.MOVE:
-                refreshSourceConnections();
-                refreshTargetConnections();
-                refreshChildren();
-                break;
-
-            default:
-                super.eCoreChanged(msg);
-        }
+        super.eCoreChanged(msg);
     }
     
     @Override
@@ -141,13 +127,7 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-        // Hidden connections
-        if(IPreferenceConstants.HIDDEN_RELATIONS_TYPES.equals(event.getProperty()) ||
-                IPreferenceConstants.USE_NESTED_CONNECTIONS.equals(event.getProperty())) {
-            refreshSourceConnections();
-            refreshTargetConnections();
-        }
-        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
+        if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
             refreshFigure();
         }
         else {
