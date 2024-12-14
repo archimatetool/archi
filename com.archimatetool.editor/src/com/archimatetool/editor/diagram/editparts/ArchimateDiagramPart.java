@@ -31,8 +31,6 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
         if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             addEditPartFilter(new ViewpointEditPartFilter());
         }
-        // Add a Nested Connection Filter
-        addEditPartFilter(new NestedConnectionEditPartFilter());
     }
 
     @Override

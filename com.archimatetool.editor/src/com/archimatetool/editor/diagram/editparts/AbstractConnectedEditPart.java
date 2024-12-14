@@ -64,15 +64,9 @@ implements NodeEditPart {
             case Notification.REMOVE:
             case Notification.REMOVE_MANY:
             case Notification.MOVE:
-                if(feature == IArchimatePackage.Literals.CONNECTABLE__SOURCE_CONNECTIONS) {
-                    refreshSourceConnections();
-                }
-                else if(feature == IArchimatePackage.Literals.CONNECTABLE__TARGET_CONNECTIONS) {
-                    refreshTargetConnections();
-                }
-                else {
-                    refreshChildren();
-                }
+                refreshSourceConnections();
+                refreshTargetConnections();
+                refreshChildren();
                 break;
 
             case Notification.SET:
@@ -83,11 +77,11 @@ implements NodeEditPart {
                 // Locked
                 else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                     updateEditPolicies(); // Update Edit Policies of this and parent
-                    if(getParent() instanceof AbstractDiagramPart) {
-                        ((AbstractDiagramPart)getParent()).updateEditPolicies();
+                    if(getParent() instanceof AbstractDiagramPart part) {
+                        part.updateEditPolicies();
                     }
-                    else if(getParent() instanceof AbstractBaseEditPart) {
-                        ((AbstractBaseEditPart)getParent()).updateEditPolicies();
+                    else if(getParent() instanceof AbstractBaseEditPart part) {
+                        part.updateEditPolicies();
                     }
                 }
                 else {
@@ -109,7 +103,13 @@ implements NodeEditPart {
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-        if(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR.equals(event.getProperty())) {
+        // Hidden connections
+        if(IPreferenceConstants.HIDDEN_RELATIONS_TYPES.equals(event.getProperty()) ||
+                IPreferenceConstants.USE_NESTED_CONNECTIONS.equals(event.getProperty())) {
+            refreshSourceConnections();
+            refreshTargetConnections();
+        }
+        else if(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR.equals(event.getProperty())) {
             refreshConnectionAnchors();
         }
         
@@ -119,6 +119,22 @@ implements NodeEditPart {
     @Override
     protected Adapter getECoreAdapter() {
         return adapter;
+    }
+    
+    /**
+     * Make this public
+     */
+    @Override
+    public void refreshSourceConnections() {
+        super.refreshSourceConnections();
+    }
+    
+    /**
+     * Make this public
+     */
+    @Override
+    public void refreshTargetConnections() {
+        super.refreshTargetConnections();
     }
     
     @Override

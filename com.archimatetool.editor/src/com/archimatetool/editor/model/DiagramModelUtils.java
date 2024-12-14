@@ -271,65 +271,40 @@ public class DiagramModelUtils {
      * @param connection The connection to check
      * @return true if a connection should be hidden when its source (parent) element contains its target (child) element
      */
-    public static boolean shouldBeHiddenConnection(IDiagramModelArchimateConnection connection) {
+    public static boolean shouldBeHiddenConnection(IDiagramModelConnection connection) {
         if(!ConnectionPreferences.useNestedConnections()) {
             return false;
         }
 
-        // Only if the connection's source and target are both ArchiMate concepts
-        if(!(connection.getSource() instanceof IDiagramModelArchimateComponent) && !(connection.getTarget() instanceof IDiagramModelArchimateComponent)) {
-            return false;
+        // This is an Archimate connection
+        // and the connection's source is an Archimate object and the connection's target is an Archimate object
+        // and the connection's source contains the connection's target or the connection's target contains the connection's source
+        if(connection instanceof IDiagramModelArchimateConnection dmc
+                                 && connection.getSource() instanceof IDiagramModelArchimateObject source
+                                 && connection.getTarget() instanceof IDiagramModelArchimateObject target
+                                 && (source == target.eContainer() || target == source.eContainer())) {
+            return isNestedConnectionTypeRelationship(dmc.getArchimateRelationship());
         }
-            
-        IDiagramModelArchimateComponent source = (IDiagramModelArchimateComponent)connection.getSource();
-        IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)connection.getTarget();
         
-        // If the connection's source element contains the target element, or the connection's target element contains the source element
-        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
-            if(((IDiagramModelContainer)source).getChildren().contains((IDiagramModelArchimateObject)target) 
-                    || ((IDiagramModelContainer)target).getChildren().contains((IDiagramModelArchimateObject)source)) {
-                // And it's a relationship type we have chosen to hide
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
-                    if(connection.getArchimateRelationship().eClass() == eClass) {
-                        return true;
-                    }
-                }
-            }
+        // This is a plain connection
+        // and the connection's source is an object and the connection's target is an object
+        // and the connection's source contains the connection's target or the connection's target contains the connection's source
+        if(connection.getSource() instanceof IDiagramModelObject source
+                                  && connection.getTarget() instanceof IDiagramModelObject target
+                                  && (source == target.eContainer() || target == source.eContainer())) {
+            return true;
         }
-
-        // If connection's source is an element and target is a connection
-        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
-            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
-            IConnectable connectionSource = ((IDiagramModelArchimateConnection)target).getSource();
-            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)target).getTarget();
-
-            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
-                // And it's a relationship type we have chosen to hide
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
-                    if(connection.getArchimateRelationship().eClass() == eClass) {
-                        return true;
-                    }
-                }
-            }
+        
+        // If the connection's source is a connection and is a hidden type
+        if(connection.getSource() instanceof IDiagramModelConnection dmc) {
+            return shouldBeHiddenConnection(dmc);
         }
-
-        // If connection's target is an element and source is a connection
-        // TODO: Not sure if this directionality should be allowed
-        if(target instanceof IDiagramModelArchimateObject && source instanceof IDiagramModelArchimateConnection) {
-            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
-            IConnectable connectionSource = ((IDiagramModelArchimateConnection)source).getSource();
-            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)source).getTarget();
-
-            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
-                // And it's a relationship type we have chosen to hide
-                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
-                    if(connection.getArchimateRelationship().eClass() == eClass) {
-                        return true;
-                    }
-                }
-            }
+        
+        // If the connection's target is a connection and is a hidden type
+        if(connection.getTarget() instanceof IDiagramModelConnection dmc) {
+            return shouldBeHiddenConnection(dmc);
         }
-
+        
         return false;
     }
     

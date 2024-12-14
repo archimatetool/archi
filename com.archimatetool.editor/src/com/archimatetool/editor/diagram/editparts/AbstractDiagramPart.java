@@ -53,6 +53,11 @@ implements IEditPartFilterProvider {
     
     private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
     
+    protected AbstractDiagramPart() {
+        // Add a Nested Connection Filter
+        addEditPartFilter(new NestedConnectionEditPartFilter());
+    }
+
     /**
      * Message from the ECore Adapter
      * @param msg
