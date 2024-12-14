@@ -345,15 +345,9 @@ public class Messages extends NLS {
 
     public static String UserPropertiesSection_14;
 
-    public static String UserPropertiesSection_15;
-
     public static String UserPropertiesSection_16;
 
     public static String UserPropertiesSection_17;
-
-    public static String UserPropertiesSection_18;
-
-    public static String UserPropertiesSection_19;
 
     public static String UserPropertiesSection_2;
 

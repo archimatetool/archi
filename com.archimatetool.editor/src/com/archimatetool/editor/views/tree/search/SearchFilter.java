@@ -234,6 +234,10 @@ public class SearchFilter extends ViewerFilter {
         fPropertiesFilter.remove(key);
     }
     
+    Set<String> getPropertiesFilter() {
+        return fPropertiesFilter;
+    }
+    
     void resetPropertiesFilter() {
         fPropertiesFilter.clear();
     }

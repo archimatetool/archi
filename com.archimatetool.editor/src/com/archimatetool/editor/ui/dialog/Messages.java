@@ -27,6 +27,16 @@ public class Messages extends NLS {
     public static String RelationshipsMatrixDialog_1;
 
     public static String RelationshipsMatrixDialog_2;
+
+    public static String UserPropertiesKeySelectionDialog_0;
+
+    public static String UserPropertiesKeySelectionDialog_1;
+
+    public static String UserPropertiesKeySelectionDialog_2;
+
+    public static String UserPropertiesKeySelectionDialog_3;
+
+    public static String UserPropertiesKeySelectionDialog_4;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
