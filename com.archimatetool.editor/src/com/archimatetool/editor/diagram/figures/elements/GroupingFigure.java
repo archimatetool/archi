@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -58,10 +59,11 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             setDisabledState(graphics);
         }
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
-
-        setLineStyle(graphics);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         graphics.setBackgroundColor(getFillColor());
         graphics.setForegroundColor(getLineColor());
@@ -131,17 +133,21 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 drawIconImage(graphics, bounds);
             }
 
-            graphics.setAlpha(getLineAlpha());
-            graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
-            graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
-            graphics.drawLine(bounds.x + tabWidth, bounds.y, bounds.x + tabWidth, bounds.y + tabHeight);
+            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+                graphics.setAlpha(getLineAlpha());
+                graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
+                graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
+                graphics.drawLine(bounds.x + tabWidth, bounds.y, bounds.x + tabWidth, bounds.y + tabHeight);
+            }
         }
         
         disposeGradientPattern(graphics, gradient);
 
         // Outlines
-        graphics.setAlpha(getLineAlpha());
-        graphics.drawPolygon(mainRectangle);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.drawPolygon(mainRectangle);
+        }
         
         graphics.popState();
         

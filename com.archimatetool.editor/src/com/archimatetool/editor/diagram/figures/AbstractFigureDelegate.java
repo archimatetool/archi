@@ -129,6 +129,10 @@ public class AbstractFigureDelegate implements IFigureDelegate {
         getOwner().setLineWidth(graphics, lineWidth, bounds);
     }
     
+    protected int getLineStyle() {
+        return getOwner().getLineStyle();
+    }
+    
     /**
      * Set line style
      * @param graphics

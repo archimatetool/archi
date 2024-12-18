@@ -23,6 +23,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -102,10 +103,11 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
-        
-        setLineStyle(graphics);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         if(fImage != null) {
             // Faster but no transparency
@@ -130,7 +132,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(getBorderColor() != null) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);

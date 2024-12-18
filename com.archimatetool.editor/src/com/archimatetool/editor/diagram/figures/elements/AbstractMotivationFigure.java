@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -42,10 +43,11 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
-        
-        setLineStyle(graphics);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
        
         PointList points = new PointList();
         points.addPoint(bounds.x + FLANGE, bounds.y);
@@ -76,9 +78,11 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         disposeGradientPattern(graphics, gradient);
 
         // Line
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawPolygon(points);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
+            graphics.drawPolygon(points);
+        }
 
         // Image Icon
         Rectangle imageArea = new Rectangle(bounds.x + FLANGE / 2, bounds.y + FLANGE / 2, bounds.width - FLANGE, bounds.height - FLANGE);

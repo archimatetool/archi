@@ -54,10 +54,11 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
-        
-        setLineStyle(graphics);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         graphics.setAlpha(getAlpha());
         
@@ -111,18 +112,20 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             }
 
             // Line
-            graphics.setForegroundColor(getLineColor());
-            graphics.setAlpha(getLineAlpha());
-            
-            Path path = new Path(null);
-            path.moveTo(bounds.x, bounds.y + tabHeight);
-            path.lineTo(bounds.x, bounds.y);
-            path.lineTo(bounds.x + tabWidth, bounds.y);
-            path.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
-            graphics.drawPath(path);
-            path.dispose();
-            
-            graphics.drawRectangle(bounds.x, bounds.y + tabHeight, bounds.width, bounds.height - tabHeight);
+            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+                graphics.setForegroundColor(getLineColor());
+                graphics.setAlpha(getLineAlpha());
+                
+                Path path = new Path(null);
+                path.moveTo(bounds.x, bounds.y + tabHeight);
+                path.lineTo(bounds.x, bounds.y);
+                path.lineTo(bounds.x + tabWidth, bounds.y);
+                path.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
+                graphics.drawPath(path);
+                path.dispose();
+                
+                graphics.drawRectangle(bounds.x, bounds.y + tabHeight, bounds.width, bounds.height - tabHeight);
+            }
         }
         else {
             graphics.setBackgroundColor(getFillColor());
@@ -139,9 +142,11 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             }
 
             // Line
-            graphics.setForegroundColor(getLineColor());
-            graphics.setAlpha(getLineAlpha());
-            graphics.drawRectangle(bounds);
+            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+                graphics.setForegroundColor(getLineColor());
+                graphics.setAlpha(getLineAlpha());
+                graphics.drawRectangle(bounds);
+            }
         }
 
         graphics.popState();

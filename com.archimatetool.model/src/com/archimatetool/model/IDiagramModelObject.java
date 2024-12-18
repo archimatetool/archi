@@ -50,6 +50,7 @@ public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILine
     int LINE_STYLE_SOLID = 0;
     int LINE_STYLE_DASHED = 1;
     int LINE_STYLE_DOTTED = 2;
+    int LINE_STYLE_NONE = 3;
     int FEATURE_LINE_STYLE_DEFAULT = LINE_STYLE_DEFAULT;
     
     /**

@@ -25,6 +25,7 @@ import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -114,7 +115,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         bounds.height--;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
+        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
         }
@@ -151,7 +152,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Icon
         drawIconImage(graphics, bounds);
 
-        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
+        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);

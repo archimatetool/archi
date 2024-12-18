@@ -62,6 +62,7 @@ class LineStyleComposite {
             menuManager.add(createAction(Messages.LineStyleComposite_1, IDiagramModelObject.LINE_STYLE_SOLID, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID)));
             menuManager.add(createAction(Messages.LineStyleComposite_2, IDiagramModelObject.LINE_STYLE_DASHED, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_DASHED)));
             menuManager.add(createAction(Messages.LineStyleComposite_3, IDiagramModelObject.LINE_STYLE_DOTTED, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_DOTTED)));
+            menuManager.add(createAction(Messages.LineStyleComposite_4, IDiagramModelObject.LINE_STYLE_NONE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_NONE)));
             
             Menu menu = menuManager.createContextMenu(button.getShell());
             Rectangle buttonBounds = button.getBounds();
@@ -132,6 +133,9 @@ class LineStyleComposite {
                 break;
             case IDiagramModelObject.LINE_STYLE_DOTTED:
                 button.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_DOTTED));
+                break;
+            case IDiagramModelObject.LINE_STYLE_NONE:
+                button.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_NONE));
                 break;
         }
         

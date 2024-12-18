@@ -9,6 +9,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 /**
@@ -31,10 +33,11 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         bounds.width--;
         bounds.height--;
 
-        // Line Width
-        setLineWidth(graphics, bounds);
-        
-        setLineStyle(graphics);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         graphics.setAlpha(getAlpha());
         
@@ -51,9 +54,11 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
 
         // Outline
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(bounds);
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
+            graphics.drawOval(bounds);
+        }
         
         // Image Icon
         Rectangle imageArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),

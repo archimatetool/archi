@@ -255,6 +255,8 @@ public class Messages extends NLS {
 
     public static String LineStyleComposite_3;
 
+    public static String LineStyleComposite_4;
+
     public static String LineWidthSection_0;
 
     public static String LineWidthSection_1;
