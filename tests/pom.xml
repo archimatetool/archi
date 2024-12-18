@@ -12,7 +12,16 @@
 
     <artifactId>com.archimatetool.testing</artifactId>
     <packaging>pom</packaging>
-
+    
+    <properties>
+        <!-- Add this to stop warning message when using Mockito/ByteBuddy -->
+        <!-- "OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended" -->
+        <mockito.args>-Xshare:off</mockito.args>
+        
+        <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
+        <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
+    </properties>
+    
     <!-- Orbit p2 repo provides Mockito and latest JUnit for tests -->
     <repositories>
         <repository>
@@ -26,8 +35,8 @@
         <module>com.archimatetool.testsupport</module>
 
         <module>com.archimatetool.canvas.tests</module>
-        <module>com.archimatetool.csv.tests</module>
         <module>com.archimatetool.commandline.tests</module>
+        <module>com.archimatetool.csv.tests</module>
         <module>com.archimatetool.editor.tests</module>
         <module>com.archimatetool.export.svg.tests</module>
 		<module>com.archimatetool.hammer.tests</module>
@@ -59,14 +68,14 @@
     <profiles>
 	    <!-- Profile for Mac. <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <profile>
-            <id>osx</id>
+            <id>mac</id>
             <activation>
                 <os>
                     <family>mac</family>
                 </os>
             </activation>
             <properties>
-                <tycho.testArgLine>-XstartOnFirstThread</tycho.testArgLine>
+                <tycho.testArgLine>-XstartOnFirstThread ${mockito.args}</tycho.testArgLine>
             </properties>
         </profile>
     </profiles>
