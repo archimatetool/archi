@@ -152,7 +152,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Icon
         drawIconImage(graphics, bounds);
 
-        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);

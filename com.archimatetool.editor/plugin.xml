@@ -1345,6 +1345,10 @@
             class="com.archimatetool.editor.model.compatibility.handlers.Archimate32Handler"
             id="com.archimatetool.editor.compatibility.archimate32converter">
       </compatibilityHandler>
+      <compatibilityHandler
+            class="com.archimatetool.editor.model.compatibility.handlers.NoteBorderStyleHandler"
+            id="com.archimatetool.editor.noteBorderStyle">
+      </compatibilityHandler>
    </extension>
    <extension
          point="com.archimatetool.editor.imageExportProvider">
