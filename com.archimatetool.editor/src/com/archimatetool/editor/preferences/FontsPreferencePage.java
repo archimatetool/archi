@@ -42,7 +42,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
-import org.eclipse.ui.internal.util.PrefUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
@@ -497,7 +496,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        PrefUtil.savePrefs();
+        PrefUtils.savePrefs();
         
         return true;
     }

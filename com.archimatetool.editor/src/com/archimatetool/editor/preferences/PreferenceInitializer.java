@@ -6,8 +6,6 @@
 package com.archimatetool.editor.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.core.runtime.preferences.DefaultScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -167,11 +165,5 @@ implements IPreferenceConstants {
         store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt");
         
         store.setDefault(PROPERTIES_SINGLE_COLUMN, false);
-        
-        // Set Eclipse theming default enabled to true to counteract possible future regressions
-        // See https://github.com/eclipse-platform/eclipse.platform.ui/issues/629
-        // See https://github.com/eclipse-platform/eclipse.platform.ui/pull/630
-        IEclipsePreferences preferences = DefaultScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
-        preferences.putBoolean("themeEnabled", true);
     }
 }

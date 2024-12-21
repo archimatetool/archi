@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.PreferenceManager;
@@ -84,14 +82,6 @@ extends WorkbenchAdvisor
                     }
                 }
             }
-        }
-        
-        // We use Eclipse's org.eclipse.ui.internal.handlers.FullScreenHandler which shows
-        // a popup with a message to tell you this and a "do not show again" checkbox.
-        // This is hard to see and unnecessary, so set this preference now so it doesn't show.
-        IEclipsePreferences prefs = InstanceScope.INSTANCE.getNode("org.eclipse.ui.workbench");
-        if(prefs != null) {
-            prefs.putBoolean("org.eclipse.ui.window.fullscreenmode.donotshowinfoagain", true);
         }
         
         // Initialise Proxy
