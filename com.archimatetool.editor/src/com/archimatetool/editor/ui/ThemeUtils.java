@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.css.swt.internal.theme.ThemeEngine;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -269,11 +270,17 @@ public final class ThemeUtils {
         }
         
         String preferenceKey = createPreferenceKey(fontDef);
+        
+        // Also write a ".default" preference key so that if the user exports Archi's preferences
+        // They can get both keys to add to their custom preferences file
+        
         if(Objects.equals(fontData, defaultFontData)) { // If it's the default, remove it
             PrefUtil.getInternalPreferenceStore().setToDefault(preferenceKey);
+            PrefUtil.getInternalPreferenceStore().setToDefault("default." + preferenceKey);
         }
         else {
             PrefUtil.getInternalPreferenceStore().setValue(preferenceKey, fontData.toString());
+            PrefUtil.getInternalPreferenceStore().setValue("default." + preferenceKey, fontData.toString());
         }
     }
     
@@ -297,6 +304,34 @@ public final class ThemeUtils {
      */
     private static FontRegistry getCurrentThemeFontRegistry() {
         return getThemeManager() != null ? getThemeManager().getCurrentTheme().getFontRegistry() : null;
+    }
+    
+    /**
+     * Get the default FontData value for a font definition or null
+     */
+    public static FontData getDefaultThemeFontData(String fontDefinitionId) {
+        FontDefinition fontDef = getThemeRegistry().findFont(fontDefinitionId);
+        if(fontDef == null) {
+            return null;
+        }
+        
+        String preferenceKey = createPreferenceKey(fontDef);
+
+        // Check if there is a default setting in custom preferences or plugin_customization.ini
+        // We use our own key for this since Eclipse will have set the default value to that set in the theme's plugin.xml file
+        String value = PrefUtil.getInternalPreferenceStore().getDefaultString("default." + preferenceKey);
+        if(StringUtils.isSet(value)) {
+            try {
+                return new FontData(value);
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        // Else check the default value set in the theme plugin.xml file, if any.
+        // If not set this will return the system font
+        return PreferenceConverter.getDefaultFontData(PrefUtil.getInternalPreferenceStore(), preferenceKey);
     }
 
     /**
