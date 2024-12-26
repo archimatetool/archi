@@ -1,4 +1,4 @@
-Copyright (c) 2014-2024 The Open Group
+Copyright (c) 2014-2025 Phillip Beauvoir, Jean-Baptiste Sarrodie, The Open Group
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
