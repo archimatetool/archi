@@ -114,8 +114,10 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         bounds.width--;
         bounds.height--;
         
+        boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawBorder) {
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
         }
@@ -152,7 +154,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Icon
         drawIconImage(graphics, bounds);
 
-        if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawBorder) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);

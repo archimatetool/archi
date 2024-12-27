@@ -103,7 +103,9 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         bounds.width--;
         bounds.height--;
         
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        if(drawBorder) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -132,7 +134,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawBorder) {
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);

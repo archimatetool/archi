@@ -59,7 +59,9 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             setDisabledState(graphics);
         }
         
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -133,7 +135,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 drawIconImage(graphics, bounds);
             }
 
-            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            if(drawOutline) {
                 graphics.setAlpha(getLineAlpha());
                 graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
                 graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
@@ -144,7 +146,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         disposeGradientPattern(graphics, gradient);
 
         // Outlines
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.drawPolygon(mainRectangle);
         }

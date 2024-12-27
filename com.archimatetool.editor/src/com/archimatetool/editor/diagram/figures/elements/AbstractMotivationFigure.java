@@ -43,7 +43,9 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         bounds.width--;
         bounds.height--;
         
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -78,7 +80,7 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         disposeGradientPattern(graphics, gradient);
 
         // Line
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);

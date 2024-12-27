@@ -38,7 +38,9 @@ implements IRoundedRectangleFigure {
         bounds.width--;
         bounds.height--;
         
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -60,7 +62,7 @@ implements IRoundedRectangleFigure {
         disposeGradientPattern(graphics, gradient);
         
         // Outline
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);

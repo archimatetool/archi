@@ -54,7 +54,9 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         bounds.width--;
         bounds.height--;
         
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -112,7 +114,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             }
 
             // Line
-            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            if(drawOutline) {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
                 
@@ -142,7 +144,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             }
 
             // Line
-            if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            if(drawOutline) {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
                 graphics.drawRectangle(bounds);

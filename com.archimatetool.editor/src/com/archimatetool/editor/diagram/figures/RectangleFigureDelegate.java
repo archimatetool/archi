@@ -32,8 +32,10 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         
         bounds.width--;
         bounds.height--;
+        
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
 
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
             setLineWidth(graphics, bounds);
             setLineStyle(graphics);
@@ -55,7 +57,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
         
         // Outline
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
             graphics.drawRectangle(bounds);
