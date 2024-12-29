@@ -5,6 +5,9 @@
  */
 package com.archimatetool.canvas.templates.model;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.ICanvasImages;
@@ -24,10 +27,10 @@ public class CanvasModelTemplate extends AbstractTemplate {
     public CanvasModelTemplate() {
     }
     
-    public CanvasModelTemplate(String id) {
-        super(id);
+    public CanvasModelTemplate(File file) throws IOException {
+        super(file);
     }
-
+    
     @Override
     public String getType() {
         return XML_CANVAS_TEMPLATE_ATTRIBUTE_TYPE_MODEL;

@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.jdom.JDOMUtils;
 
 
@@ -62,7 +63,6 @@ public abstract class TemplateManager implements ITemplateXMLTags {
         }
         
         ITemplate template = createTemplate(templateFile);
-        template.setFile(templateFile);
         addUserTemplate(template);
         // Add to user group
         if(group != null) {
@@ -152,44 +152,43 @@ public abstract class TemplateManager implements ITemplateXMLTags {
             doc = JDOMUtils.readXMLFile(getUserTemplatesManifestFile());
         }
         catch(Exception ex) {
-            ex.printStackTrace();
+            Logger.logError("Error loading templates manifest", ex); //$NON-NLS-1$
             return;
         }
         
-        HashMap<String, ITemplate> userTemplateMap = new HashMap<String, ITemplate>();
+        HashMap<String, ITemplate> userTemplateMap = new HashMap<>();
         
         Element rootElement = doc.getRootElement();
 
         // Templates
-        for(Object child : rootElement.getChildren(XML_TEMPLATE_ELEMENT_TEMPLATE)) {
-            Element templateElement = (Element)child;
-            String type = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_TYPE);
-            ITemplate template = createTemplate(type);
-            if(template != null) {
-                String id = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_ID);
-                String path = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_FILE);
-                if(id != null && path != null) {
-                    File file = new File(path);
-                    if(file.exists()) {
+        for(Element templateElement : rootElement.getChildren(XML_TEMPLATE_ELEMENT_TEMPLATE)) {
+            //String type = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_TYPE);
+            String id = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_ID);
+            String path = templateElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_FILE);
+            if(id != null && path != null) {
+                File file = new File(path);
+                if(file.exists()) {
+                    try {
+                        ITemplate template = createTemplate(file);
                         template.setID(id);
-                        template.setFile(file);
                         fUserTemplates.add(template);
                         userTemplateMap.put(id, template);
+                    }
+                    catch(IOException ex) {
+                        Logger.logError("Error loading template", ex); //$NON-NLS-1$
                     }
                 }
             }
         }
 
         // Groups
-        for(Object child : rootElement.getChildren(XML_TEMPLATE_ELEMENT_GROUP)) {
-            Element groupElement = (Element)child;
+        for(Element groupElement : rootElement.getChildren(XML_TEMPLATE_ELEMENT_GROUP)) {
             ITemplateGroup templateGroup = new TemplateGroup();
             templateGroup.setName(groupElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_NAME));
             fUserTemplateGroups.add(templateGroup);
 
             // Template refs
-            for(Object child2 : groupElement.getChildren(XML_TEMPLATE_ELEMENT_TEMPLATE_REF)) {
-                Element templateRefElement = (Element)child2;
+            for(Element templateRefElement : groupElement.getChildren(XML_TEMPLATE_ELEMENT_TEMPLATE_REF)) {
                 String ref = templateRefElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_REF);
                 if(ref != null) {
                     ITemplate template = userTemplateMap.get(ref);
@@ -287,22 +286,7 @@ public abstract class TemplateManager implements ITemplateXMLTags {
     public abstract File getUserTemplatesManifestFile();
     
     /**
-     * Create a new Template entry of type
-     * @param type
-     * @return a new Template entry of type or null
-     */
-    protected abstract ITemplate createTemplate(String type);
-    
-    /**
      * @return An image that represents this Template Manager
      */
     public abstract Image getMainImage();
-
-    /**
-     * Check for valid template file
-     * @param file The file to check
-     * @return true if file is a valid template file
-     * @throws IOException if an error loading occurs or if it is the wrong format
-     */
-    protected abstract boolean isValidTemplateFile(File file) throws IOException;
 }

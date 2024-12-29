@@ -301,20 +301,15 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         final File file = new File(path);
         
         // Create template and Finish
-        BusyIndicator.showWhile(null, new Runnable() { 
-            @Override
-            public void run() {
-                try {
-                    ITemplate template = fTemplateManager.createTemplate(file);
-                    template.setFile(file);
-                    fSelectedTemplate = template;
-                    ((ExtendedWizardDialog)getContainer()).finishPressed();
-                }
-                catch(IOException ex) {
-                    MessageDialog.openError(getShell(), Messages.NewModelFromTemplateWizardPage_5, ex.getMessage());
-                    selectFirstTableItem();
-                    getContainer().getShell().setVisible(true);
-                }
+        BusyIndicator.showWhile(null, () -> { 
+            try {
+                fSelectedTemplate = fTemplateManager.createTemplate(file);
+                ((ExtendedWizardDialog)getContainer()).finishPressed();
+            }
+            catch(IOException ex) {
+                MessageDialog.openError(getShell(), Messages.NewModelFromTemplateWizardPage_5, ex.getMessage());
+                selectFirstTableItem();
+                getContainer().getShell().setVisible(true);
             }
         });
     }
@@ -366,7 +361,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
     private void registerMouseMoveHandler() {
         fGallery.addMouseMoveListener(new MouseMoveListener() {
             int mouse_movement_factor = 6;
-            int index = 0;
+            int index = 1;
             GalleryItem selectedItem;
             int last_x;
             
@@ -377,7 +372,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                 // Not enough thumbnails
                 if(item != null) {
                     ITemplate template = (ITemplate)item.getData();
-                    if(template.getThumbnailCount() < 2) {
+                    if(template.getThumbnailCount() <= 1) {
                         return;
                     }
                 }
@@ -389,7 +384,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                     }
                     
                     selectedItem = item;
-                    index = 0;
+                    index = 1;
                     last_x = event.x;
                 }
                 
@@ -397,15 +392,13 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                     ITemplate template = (ITemplate)item.getData();
                     
                     if(event.x < last_x - mouse_movement_factor) {
-                        index--;
-                        if(index < 0) {
-                            index = template.getThumbnailCount() - 1;
+                        if(--index < 1) {
+                            index = template.getThumbnailCount();
                         }
                     }
                     else if(event.x > last_x + mouse_movement_factor) {
-                        index++;
-                        if(index == template.getThumbnailCount()) {
-                            index = 0;
+                        if(++index > template.getThumbnailCount()) {
+                            index = 1;
                         }
                     }
                     else {

@@ -34,6 +34,7 @@ import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
@@ -246,7 +247,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
         dialog.setText(Messages.SaveCanvasAsTemplateWizardPage_9);
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        // On Mac, the extension is appended to the file name again. This is because it's not a registered extension like *.png or *.xml
+        // Not setting filter extensions avoids this.
+        if(!PlatformUtils.isMac()) {
+            dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
         File file = new File(fFileTextField.getText());
         dialog.setFileName(file.getName());
         
