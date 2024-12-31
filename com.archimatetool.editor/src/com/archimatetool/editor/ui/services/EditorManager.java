@@ -161,6 +161,28 @@ public class EditorManager {
     }
     
     /**
+     * Activate all Diagram Editor Parts for a model in order to update their memento save state
+     * Called by "Save As" so that inactive editor parts are not left with old file references when re-opening them.
+     */
+    public static void activateDiagramEditors(IArchimateModel model) {
+        if(model == null || !PlatformUI.isWorkbenchRunning()) {
+            return;
+        }
+        
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        for(IEditorReference ref : page.getEditorReferences()) {
+            try {
+                if(ref.getEditorInput() instanceof DiagramEditorInput input && input.getDiagramModel().getArchimateModel() == model) {
+                    ref.getEditor(true);
+                }
+            }
+            catch(PartInitException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
      * @param diagramModel
      * @return All editor references that have diagramModel in their editor input
      */

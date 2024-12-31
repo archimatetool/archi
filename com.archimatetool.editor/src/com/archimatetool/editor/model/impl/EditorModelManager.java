@@ -552,6 +552,10 @@ implements IEditorModelManager {
             return false;
         }
         
+        // Activate inactive editor parts now otherwise they will reference the previous file name stored in the part's persistence memento
+        // and when re-activated show a blank editor part and a "This View is no longer available" message.
+        EditorManager.activateDiagramEditors(model);
+        
         // Set new file
         model.setFile(file);
         
