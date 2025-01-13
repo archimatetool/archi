@@ -130,13 +130,12 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    @Deprecated
-    public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
-        selectObjects(archimateConcepts);
-    }
-    
-    @Override
     public void selectObjects(Object[] objects) {
+        // Safety check in case this is a zombie editor part
+        if(getModel() == null) {
+            return;
+        }
+
         Set<Object> selection = new HashSet<>();
         
         for(Object object : objects) {

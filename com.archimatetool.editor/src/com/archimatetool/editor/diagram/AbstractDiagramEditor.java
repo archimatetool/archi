@@ -972,7 +972,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     public void selectObjects(Object[] objects) {
         // Safety check in case this is called via Display#asyncExec()
-        if(getGraphicalViewer() == null || getGraphicalViewer().getControl() == null) {
+        if(getGraphicalViewer() == null || getGraphicalViewer().getControl() == null || getModel() == null) {
             return;
         }
         

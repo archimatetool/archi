@@ -317,7 +317,7 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
-        fActionLinkToEditor = new LinkToEditorAction(fSynchroniser);
+        fActionLinkToEditor = new LinkToEditorAction();
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
