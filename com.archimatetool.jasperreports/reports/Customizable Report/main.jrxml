@@ -105,7 +105,7 @@
 	</background>
 	<title>
 		<band height="600">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Title" x="1" y="317" width="515" height="30" uuid="2d4ddc5a-2ceb-4009-8924-7162bf312526"/>
 				<textElement textAlignment="Left">
 					<font size="22"/>
@@ -191,7 +191,7 @@
 	<detail>
 		<band height="45">
 			<printWhenExpression><![CDATA[$F{name} != null]]></printWhenExpression>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Normal" x="0" y="30" width="515" height="15" uuid="38784cb9-ab24-4fac-9438-ab7792b48648"/>
 				<textFieldExpression><![CDATA[$F{purpose}]]></textFieldExpression>
 			</textField>
@@ -219,13 +219,13 @@
 						<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="16" width="515">
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true" uuid="61c6657c-7156-49a1-b0f3-4b5faaf93126">
 								<printWhenExpression><![CDATA[! $F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>
 							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
 						</textField>
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" uuid="3ee6d5f0-8af5-401b-a82f-682568f2efef">
 								<printWhenExpression><![CDATA[! $F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>

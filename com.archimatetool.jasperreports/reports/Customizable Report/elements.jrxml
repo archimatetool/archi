@@ -33,7 +33,7 @@
 	</title>
 	<detail>
 		<band height="34">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Normal" positionType="Float" x="0" y="0" width="515" height="16">
 					<property name="net.sf.jasperreports.export.pdf.tag.h2"/>
 				</reportElement>
@@ -55,12 +55,12 @@
 		</band>
 		<band height="32">
 			<printWhenExpression><![CDATA[$F{relation_source} != null]]></printWhenExpression>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Table row" positionType="Float" x="150" y="0" width="365" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{relation_source}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Table row" positionType="Float" x="150" y="16" width="365" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{relation_target}]]></textFieldExpression>
@@ -85,12 +85,12 @@
 						<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ElementsDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="16" width="515">
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
 						</textField>
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" isRemoveLineWhenBlank="true"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
@@ -108,12 +108,12 @@
 						<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewChildrenDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="16" width="515">
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
 						</textField>
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" isRemoveLineWhenBlank="true"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
@@ -124,7 +124,7 @@
 		</band>
 		<band height="26">
 			<printWhenExpression><![CDATA[$F{documentation} != null]]></printWhenExpression>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Documentation" positionType="Float" x="1" y="8" width="514" height="18"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{documentation}]]></textFieldExpression>

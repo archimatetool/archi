@@ -99,7 +99,7 @@ public class JasperReportsExporter {
         fLocale = locale == null ? Locale.getDefault() : locale;
         
         // Stop logging
-        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
+        // System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
     }
     
     /** 
