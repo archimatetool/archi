@@ -165,5 +165,7 @@ implements IPreferenceConstants {
         store.setDefault(UPDATE_URL, "https://www.archimatetool.com/archi-version.txt");
         
         store.setDefault(PROPERTIES_SINGLE_COLUMN, false);
+        
+        store.setDefault(SEARCHFILTER_NAME, true);
     }
 }

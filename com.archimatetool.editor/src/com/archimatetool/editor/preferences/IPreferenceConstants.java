@@ -175,4 +175,13 @@ public interface IPreferenceConstants {
     
     // Single column layout in Properties View
     String PROPERTIES_SINGLE_COLUMN = "propertiesSingleColumn";
+    
+    // Search Filter
+    String SEARCHFILTER_NAME = "searchFilterName";
+    String SEARCHFILTER_DOCUMENTATION = "searchFilterDocumentation";
+    String SEARCHFILTER_PROPETY_VALUES = "searchFilterPropertyValues";
+    String SEARCHFILTER_VIEWS = "searchFilterViews";
+    String SEARCHFILTER_SHOW_ALL_FOLDERS = "searchFilterShowAllFolders";
+    String SEARCHFILTER_MATCH_CASE = "searchFilterMatchCase";
+    String SEARCHFILTER_USE_REGEX = "searchFilterUseRegex";
 }
