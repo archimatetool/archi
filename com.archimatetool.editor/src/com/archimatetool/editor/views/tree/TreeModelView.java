@@ -7,6 +7,8 @@ package com.archimatetool.editor.views.tree;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -138,6 +140,9 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void doCreatePartControl(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
         GridLayout layout = new GridLayout();
         layout.marginHeight = 0;
         layout.marginWidth = 0;
@@ -147,13 +152,10 @@ implements ITreeModelView, IUIRequestListener {
         fTreeViewer = new TreeModelViewer(parent, SWT.NULL);
         fTreeViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         
-        fTreeViewer.setInput(IEditorModelManager.INSTANCE);
-        
+        // Drill down
         fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
-        /*
-         * Listen to Double-click and press Return Action
-         */
+        // Listen to Double-click and press Return Action
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
@@ -188,14 +190,14 @@ implements ITreeModelView, IUIRequestListener {
         // Drag support
         new TreeModelViewerDragDropHandler(fTreeViewer);
         
-        // Expand tree elements
-        TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+        // Set model input now
+        fTreeViewer.setInput(IEditorModelManager.INSTANCE);
         
+        // Expand tree elements after model input
+        TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+
         // This will update previous Undo/Redo text if Tree was closed before
         updateActions();
-        
-        // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
     @Override
@@ -565,28 +567,28 @@ implements ITreeModelView, IUIRequestListener {
         // Local menu items go here
         IMenuManager manager = actionBars.getMenuManager();
         
-        // Folder type filter
-        class FolderFilter extends ViewerFilter {
-            FolderType type;
-            
-            FolderFilter(FolderType type) {
-                this.type = type;
-            }
-            
-            @Override
-            public boolean select(Viewer viewer, Object parentElement, Object element) {
-                return element instanceof IFolder ? ((IFolder)element).getType() != type : true;
-            }
-        }
-        
         // Filter folder action
         class FolderFilterAction extends Action {
-            ViewerFilter filter;
+            FolderType folderType;
+            String prefsKey;
             
-            FolderFilterAction(FolderType type) {
-                setText(StringUtils.escapeAmpersandsInText(type.getLabel()));
-                setChecked(true);
-                filter = new FolderFilter(type);
+            ViewerFilter filter = new ViewerFilter() {
+                @Override
+                public boolean select(Viewer viewer, Object parentElement, Object element) {
+                    return element instanceof IFolder folder ? folder.getType() != folderType : true;
+                }
+            };
+            
+            FolderFilterAction(FolderType folderType) {
+                this.folderType = folderType;
+                prefsKey = "modelTreeFolderHidden_" + folderType.getName(); //$NON-NLS-1$
+                setText(StringUtils.escapeAmpersandsInText(folderType.getLabel()));
+                
+                boolean hidden = ArchiPlugin.PREFERENCES.getBoolean(prefsKey);
+                setChecked(!hidden);
+                if(hidden) {
+                    getViewer().addFilter(filter);
+                }
             }
             
             @Override
@@ -597,21 +599,59 @@ implements ITreeModelView, IUIRequestListener {
                 else {
                     getViewer().addFilter(filter);
                 }
+                
+                ArchiPlugin.PREFERENCES.setValue(prefsKey, !isChecked());
             }
         }
         
         MenuManager filterMenu = new MenuManager(Messages.TreeModelView_5);
         manager.add(filterMenu);
         
-        filterMenu.add(new FolderFilterAction(FolderType.STRATEGY));
-        filterMenu.add(new FolderFilterAction(FolderType.BUSINESS));
-        filterMenu.add(new FolderFilterAction(FolderType.APPLICATION));
-        filterMenu.add(new FolderFilterAction(FolderType.TECHNOLOGY));
-        filterMenu.add(new FolderFilterAction(FolderType.MOTIVATION));
-        filterMenu.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
-        filterMenu.add(new FolderFilterAction(FolderType.OTHER));
-        filterMenu.add(new FolderFilterAction(FolderType.RELATIONS));
-        filterMenu.add(new FolderFilterAction(FolderType.DIAGRAMS));
+        List<FolderFilterAction> filterActions = new ArrayList<>();
+        
+        filterActions.add(new FolderFilterAction(FolderType.STRATEGY));
+        filterActions.add(new FolderFilterAction(FolderType.BUSINESS));
+        filterActions.add(new FolderFilterAction(FolderType.APPLICATION));
+        filterActions.add(new FolderFilterAction(FolderType.TECHNOLOGY));
+        filterActions.add(new FolderFilterAction(FolderType.MOTIVATION));
+        filterActions.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
+        filterActions.add(new FolderFilterAction(FolderType.OTHER));
+        filterActions.add(new FolderFilterAction(FolderType.RELATIONS));
+        filterActions.add(new FolderFilterAction(FolderType.DIAGRAMS));
+        
+        for(Action action : filterActions) {
+            filterMenu.add(action);
+        }
+        
+        filterMenu.add(new Separator());
+        
+        // Show All
+        filterMenu.add(new Action(Messages.TreeModelView_6) {
+            @Override
+            public void run() {
+                List<ViewerFilter> filtersToRemove = new ArrayList<>();
+                
+                for(FolderFilterAction action : filterActions) {
+                    if(!action.isChecked()) {
+                        action.setChecked(true);
+                        ArchiPlugin.PREFERENCES.setValue(action.prefsKey, false);
+                        filtersToRemove.add(action.filter);
+                    }
+                }
+                
+                if(filtersToRemove.isEmpty()) {
+                    return;
+                }
+                
+                // Remove the filters in one operation by calling Viewer#setFilters.
+                // This ensures that the tree is refreshed only once.
+                ViewerFilter[] filters = Arrays.stream(getViewer().getFilters())
+                                               .filter(e -> !filtersToRemove.contains(e))
+                                               .toArray(ViewerFilter[]::new);
+                
+                getViewer().setFilters(filters);
+            }
+        });
     }
     
     /**
