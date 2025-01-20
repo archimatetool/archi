@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 
@@ -148,6 +150,30 @@ public class ArchimateModelUtilsTests {
         
         element = ArchimateModelUtils.getObjectByID(model, newElement2.getId());
         assertSame(newElement2, element);
+    }
+    
+    @Test
+    public void testGetObjectIDMap() {
+        // Not null if model is null
+        assertNotNull(ArchimateModelUtils.getObjectIDMap(null));
+        
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        assertEquals(1, ArchimateModelUtils.getObjectIDMap(model).size());
+        
+        model.setDefaults();
+
+        IArchimateElement newElement1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
+        model.getDefaultFolderForObject(newElement1).getElements().add(newElement1);
+        
+        IArchimateElement newElement2 = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getDefaultFolderForObject(newElement2).getElements().add(newElement2);
+        
+        Map<String, EObject> map = ArchimateModelUtils.getObjectIDMap(model);
+        assertSame(model, map.get(model.getId()));
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            IIdentifier eObject = (IIdentifier)iter.next();
+            assertSame(eObject, map.get(eObject.getId()));
+        }
     }
     
     @Test

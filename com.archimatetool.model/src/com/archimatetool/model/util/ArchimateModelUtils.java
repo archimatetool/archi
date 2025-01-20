@@ -211,7 +211,31 @@ public class ArchimateModelUtils {
 
         return null;
     }
-
+    
+    /**
+     * Get a map of model object IDs to objects.
+     * @param model The Archimate Model, can be null
+     * @return a map of object IDs to objects, never null but will be empty if model is null
+     */
+    public static Map<String, EObject> getObjectIDMap(IArchimateModel model) {
+        Map<String, EObject> map = new HashMap<>();
+        
+        if(model == null) {
+            return map;
+        }
+        
+        if(model.getId() != null) {
+            map.put(model.getId(), model);
+        }
+        
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            if(iter.next() instanceof IIdentifier object && object.getId() != null) {
+                map.put(object.getId(), object);
+            }
+        }
+        
+        return map;
+    }
     
     /**
      * @return A list of all EClass types in the Strategy layer in preferred order
