@@ -155,6 +155,11 @@ implements ITreeModelView, IUIRequestListener {
         // Drill down
         fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
+        // Set drill down to home when disposing parent (not when the tree is disposed as the content provider is null at that point)
+        parent.addDisposeListener(e -> {
+            setDrillDownHome();
+        });
+        
         // Listen to Double-click and press Return Action
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
@@ -209,22 +214,14 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void saveState(IMemento memento) {
-        // saveState() is called periodically by Eclipse so only do this when closing the workbench
+        // saveState() is called periodically by Eclipse when auto-saving the workbench so only reset the drill-down when closing the Workbench.
+        // This period is set in org.eclipse.ui.internal.IPreferenceConstants#WORKBENCH_SAVE_INTERVAL and the default is 5 minutes.
         if(PlatformUI.getWorkbench().isClosing()) {
-            // Reset drill-down
-            if(fDrillDownAdapter.canGoHome()) {
-                try {
-                    getViewer().getControl().setRedraw(false);
-                    fDrillDownAdapter.goHome();
-                }
-                finally {
-                    getViewer().getControl().setRedraw(true);
-                }
-            }
-            
-            // Save expanded tree state
-            TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
+            setDrillDownHome();
         }
+        
+        // Save expanded tree state
+        TreeStateHelper.INSTANCE.saveStateToMemento(fTreeViewer, memento);
     }
     
     /**
@@ -672,12 +669,25 @@ implements ITreeModelView, IUIRequestListener {
     }
     
     /**
-     * Reset drilldown if it is showing a deleted object
+     * Check the tree's input is not a deleted object. If it is, set drilldown to home
      */
-    private void checkDrillDown() {
-        if(fTreeViewer.getInput() instanceof IArchimateModelObject && ((IArchimateModelObject)fTreeViewer.getInput()).getArchimateModel() == null) {
-            if(fDrillDownAdapter.canGoHome()) {
+    private void checkDrillDownHasValidInput() {
+        if(fTreeViewer.getInput() instanceof IArchimateModelObject modelObject && modelObject.getArchimateModel() == null) {
+            setDrillDownHome();
+        }
+    }
+    
+    /**
+     * Set the drill down to home
+     */
+    private void setDrillDownHome() {
+        if(fDrillDownAdapter.canGoHome()) { // Important check!
+            try {
+                getViewer().getControl().setRedraw(false);
                 fDrillDownAdapter.goHome();
+            }
+            finally {
+                getViewer().getControl().setRedraw(true);
             }
         }
     }
@@ -785,9 +795,7 @@ implements ITreeModelView, IUIRequestListener {
         // New Model created or opened
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED || propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
             // Go Home
-            if(fDrillDownAdapter.canGoHome()) {
-                fDrillDownAdapter.goHome();
-            }
+            setDrillDownHome();
             
             getViewer().refreshTreePreservingExpandedNodes();
 
@@ -810,7 +818,7 @@ implements ITreeModelView, IUIRequestListener {
             TreeModelCutAndPaste.INSTANCE.clear();
             
             // Check Drilldown state
-            checkDrillDown();
+            checkDrillDownHasValidInput();
 
             // Search Filter soft reset
             if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
@@ -894,7 +902,7 @@ implements ITreeModelView, IUIRequestListener {
         }
         else {
             super.eCoreChanged(msg);
-            checkDrillDown();
+            checkDrillDownHasValidInput();
         }
     }
     
@@ -949,7 +957,7 @@ implements ITreeModelView, IUIRequestListener {
             getViewer().getControl().setRedraw(true);
         }
         
-        checkDrillDown();
+        checkDrillDownHasValidInput();
     }
 
     // =================================================================================
