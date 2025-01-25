@@ -6,14 +6,11 @@
 package com.archimatetool.editor.views.tree;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IMemento;
 
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -41,31 +38,31 @@ public class TreeStateHelper {
     private static final String MEMENTO_FILE = "file";
     private static final String MEMENTO_ELEMENTS = "elements";
     
-    // Expanded tree elements
-    private List<Object> expandedElements;
-    
-    // State has been restored from memento the first time the Tree is created
-    private boolean restoredFromMemento;
+    private IMemento memento;
     
     private TreeStateHelper() {}
 
     /**
      * Set the Memento when the tree is first created.
-     * We store expanded elements now, as the tree has not yet been created.
-     * We will use the expanded elements later in restoreExpandedTreeElements.
-     * This is called from {@link TreeModelView#init(org.eclipse.ui.IViewSite, IMemento)}, but we only want to do this once.
+     * We will restore any expanded elements later in restoreExpandedTreeElements.
+     * This is called from {@link TreeModelView#init(org.eclipse.ui.IViewSite, IMemento)}.
      */
     void setMemento(IMemento memento) {
-        if(restoredFromMemento || memento == null) {
+        this.memento = memento;
+    }
+
+    /**
+     * Restore expanded elements on TreeView part creation.
+     * This is called from {@link TreeModelView#doCreatePartControl(org.eclipse.swt.widgets.Composite)
+     */
+    void restoreExpandedTreeElements(TreeModelViewer viewer) {
+        if(memento == null) {
             return;
         }
         
-        restoredFromMemento = true;
-        
         IMemento expandedMem = memento.getChild(MEMENTO_EXPANDED);
+        
         if(expandedMem != null) {
-            expandedElements = new ArrayList<>();
-            
             try {
                 for(IMemento elementMem : expandedMem.getChildren(MEMENTO_MODEL)) {
                     String filePath = elementMem.getString(MEMENTO_FILE);
@@ -81,7 +78,7 @@ public class TreeStateHelper {
                                 for(String id : elements.split(ELEMENT_SEP_CHAR)) {
                                     EObject object = objectMap.get(id);
                                     if(object != null) {
-                                        expandedElements.add(object);
+                                        viewer.expandToLevel(object, 1);
                                     }
                                 }
                                 break;
@@ -95,39 +92,19 @@ public class TreeStateHelper {
                 Logger.logError("Error restoring tree state", ex);
             }
         }
-    }
 
-    /**
-     * Restore expanded elements on TreeView part creation.
-     * This is called from {@link TreeModelView#doCreatePartControl(org.eclipse.swt.widgets.Composite)
-     */
-    void restoreExpandedTreeElements(TreeViewer viewer) {
-        // Store expanded tree elements if the TreeViewer is closed so they can be restored when it's re-opened
-        // We could restore from the memento but this is more efficient and the drill-down is reset when closing the Tree.
-        viewer.getTree().addDisposeListener(e -> {
-            expandedElements = new ArrayList<>();
-            for(Object element : viewer.getVisibleExpandedElements()) {
-                expandedElements.add(element);
-            }
-        });
-
-        if(expandedElements != null) {
-            for(Object element : expandedElements) {
-                viewer.expandToLevel(element, 1);
-            }
-            expandedElements = null;
-        }
+        memento = null;
     }
     
     /**
      * Save expanded state of tree elements to a memento.
      * This is called from {@link TreeModelView#saveState(IMemento)}
      */
-    void saveStateToMemento(TreeViewer viewer, IMemento memento) {
+    void saveStateToMemento(TreeModelViewer viewer, IMemento memento) {
         Map<File, String> map = new HashMap<>();
         
-        for(Object object : viewer.getVisibleExpandedElements()) {
-            if(object instanceof IArchimateModelObject modelObject) {
+        for(Object object : viewer.getRootVisibleExpandedElements()) {
+            if(object instanceof IArchimateModelObject modelObject && modelObject.getArchimateModel() != null) { // Check it wasn't deleted
                 // Only store if model has been saved to file
                 File file = modelObject.getArchimateModel().getFile();
                 if(file != null) {

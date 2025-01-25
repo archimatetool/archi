@@ -155,11 +155,6 @@ implements ITreeModelView, IUIRequestListener {
         // Drill down
         fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
-        // Set drill down to home when disposing parent (not when the tree is disposed as the content provider is null at that point)
-        parent.addDisposeListener(e -> {
-            setDrillDownHome();
-        });
-        
         // Listen to Double-click and press Return Action
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
@@ -208,18 +203,18 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
-        // Restore expanded tree state from file when opening for first time
+        // Set memento with expanded tree state when creating the Tree
         TreeStateHelper.INSTANCE.setMemento(memento);
     }
     
+    /**
+     * This is called:
+     * 1. Every 5 minutes by the workbench autosaving the workbench state (this can be set in org.eclipse.ui.internal.IPreferenceConstants#WORKBENCH_SAVE_INTERVAL)
+     * 2. When this ViewPart is closed
+     * 3. When the app quits (which is really 2)
+     */
     @Override
     public void saveState(IMemento memento) {
-        // saveState() is called periodically by Eclipse when auto-saving the workbench so only reset the drill-down when closing the Workbench.
-        // This period is set in org.eclipse.ui.internal.IPreferenceConstants#WORKBENCH_SAVE_INTERVAL and the default is 5 minutes.
-        if(PlatformUI.getWorkbench().isClosing()) {
-            setDrillDownHome();
-        }
-        
         // Save expanded tree state
         TreeStateHelper.INSTANCE.saveStateToMemento(fTreeViewer, memento);
     }
