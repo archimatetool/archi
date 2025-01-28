@@ -273,8 +273,6 @@ public class Messages extends NLS {
 
     public static String NoteBorderTypeSection_1;
 
-    public static String NoteBorderTypeSection_2;
-
     public static String PropertiesLabelProvider_0;
 
     public static String SketchElementSection_0;

@@ -20,6 +20,8 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
 
     int BORDER_DOGEAR = 0; // Default
     int BORDER_RECTANGLE = 1;
+    
+    // TODO: Remove this
     int BORDER_NONE = 2;
 
 } // IDiagramModelNote

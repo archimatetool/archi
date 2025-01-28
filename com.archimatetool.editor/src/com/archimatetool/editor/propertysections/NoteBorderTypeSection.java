@@ -17,8 +17,7 @@ public class NoteBorderTypeSection extends BorderTypeSection {
     
     private static final String[] noteComboItems = {
             Messages.NoteBorderTypeSection_0,
-            Messages.NoteBorderTypeSection_1,
-            Messages.NoteBorderTypeSection_2
+            Messages.NoteBorderTypeSection_1
     };
     
     /**
