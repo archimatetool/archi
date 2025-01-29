@@ -135,9 +135,9 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        // create OK and Cancel buttons by default
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-        createButton(parent, IDialogConstants.CANCEL_ID, Messages.NewNestedRelationDialog_3, false);
+        super.createButtonsForButtonBar(parent);
+        // Cancel button is "None"
+        getButton(IDialogConstants.CANCEL_ID).setText(Messages.NewNestedRelationDialog_3);
     }
     
     public NestedConnectionInfo getSelected() {

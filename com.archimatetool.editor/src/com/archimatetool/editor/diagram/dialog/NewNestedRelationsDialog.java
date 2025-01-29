@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -255,6 +256,13 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
     @Override
     protected Point getDefaultDialogSize() {
         return new Point(600, 400);
+    }
+    
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        super.createButtonsForButtonBar(parent);
+        // Cancel button is "None"
+        getButton(IDialogConstants.CANCEL_ID).setText(Messages.NewNestedRelationsDialog_8);
     }
     
     private class RelationsTableViewer extends TableViewer {
