@@ -19,6 +19,7 @@ import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -112,29 +113,38 @@ class FillColorComposite {
     }
     
     void updateControl() {
-        IDiagramModelObject lastSelected = (IDiagramModelObject)section.getFirstSelectedObject();
+        IDiagramModelObject firstSelected = (IDiagramModelObject)section.getFirstSelectedObject();
 
-        String colorValue = lastSelected.getFillColor();
-        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
+        RGB rgb = ColorFactory.convertStringToRGB(firstSelected.getFillColor());
         if(rgb == null) {
-            rgb = ColorFactory.getDefaultFillColor(lastSelected).getRGB();
+            rgb = ColorFactory.getDefaultFillColor(firstSelected).getRGB();
         }
 
         fColorChooser.setColorValue(rgb);
+        fColorChooser.setEnabled(!section.isLocked(firstSelected));
 
-        fColorChooser.setEnabled(!section.isLocked(lastSelected));
-
+        // Set default enabled based on all selected objects.
+        // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
+        boolean isDefaultColor = true;
         // If user pref is to save the color then it's a different meaning of default
-        boolean isDefaultColor = (colorValue == null);
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(lastSelected).getRGB());
+        boolean saveUserDefaultColor = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
+        
+        for(IArchimateModelObject object : section.getEObjects()) {
+            if(object instanceof IDiagramModelObject dmo) {
+                if(saveUserDefaultColor) {
+                    isDefaultColor &= (dmo.getFillColor() != null && rgb.equals(ColorFactory.getDefaultFillColor(dmo).getRGB()));
+                }
+                else {
+                    isDefaultColor &= dmo.getFillColor() == null;
+                }
+            }
         }
+        
         fColorChooser.setIsDefaultColor(isDefaultColor);
     }
     
     void dispose() {
         removeListeners();
-        composite.dispose();
         composite = null;
         section = null;
         fColorChooser = null;
