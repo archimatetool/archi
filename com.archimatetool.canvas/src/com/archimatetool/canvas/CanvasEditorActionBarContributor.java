@@ -6,14 +6,12 @@
 package com.archimatetool.canvas;
 
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.AbstractDiagramEditorActionBarContributor;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
-import com.archimatetool.editor.diagram.actions.TextPositionAction;
 
 
 
@@ -28,13 +26,6 @@ extends AbstractDiagramEditorActionBarContributor {
     @Override
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
-        
-        // Text Positions
-        IMenuManager textPositionMenu = new MenuManager(Messages.CanvasEditorActionBarContributor_0);
-        for(String id : TextPositionAction.ACTION_IDS) {
-            textPositionMenu.add(getAction(id));
-        }
-        editMenu.appendToGroup(GROUP_EDIT_MENU, textPositionMenu);
         
         // Border Color
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(BorderColorAction.ID));

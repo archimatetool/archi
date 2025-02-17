@@ -69,6 +69,8 @@ public class Messages extends NLS {
 
     public static String AbstractDiagramEditorActionBarContributor_12;
 
+    public static String AbstractDiagramEditorActionBarContributor_13;
+
     public static String AbstractDiagramEditorActionBarContributor_2;
 
     public static String AbstractDiagramEditorActionBarContributor_3;
@@ -114,8 +116,6 @@ public class Messages extends NLS {
     public static String ArchimateDiagramEditor_0;
 
     public static String ArchimateDiagramEditorActionBarContributor_0;
-
-    public static String ArchimateDiagramEditorActionBarContributor_1;
 
     public static String ArchimateDiagramEditorContextMenuProvider_0;
 
