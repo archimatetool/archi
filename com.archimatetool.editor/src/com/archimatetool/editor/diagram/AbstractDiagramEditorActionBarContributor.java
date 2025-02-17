@@ -34,8 +34,6 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
-import com.archimatetool.editor.diagram.actions.BringForwardAction;
-import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
@@ -48,11 +46,11 @@ import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction.ObjectPositionActionDefinition;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
-import com.archimatetool.editor.diagram.actions.SendBackwardAction;
-import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction.TextAlignmentActionDefinition;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
@@ -169,21 +167,9 @@ extends ActionBarContributor {
         }
 
         // Order Actions
-        retargetAction = new RetargetAction(BringToFrontAction.ID, BringToFrontAction.TEXT);
-        retargetAction.setActionDefinitionId(BringToFrontAction.ID); // key binding
-        addRetargetAction(retargetAction);
-        
-        retargetAction = new RetargetAction(BringForwardAction.ID, BringForwardAction.TEXT);
-        retargetAction.setActionDefinitionId(BringForwardAction.ID); // key binding
-        addRetargetAction(retargetAction);
-        
-        retargetAction = new RetargetAction(SendToBackAction.ID, SendToBackAction.TEXT);
-        retargetAction.setActionDefinitionId(SendToBackAction.ID); // key binding
-        addRetargetAction(retargetAction);
-
-        retargetAction = new RetargetAction(SendBackwardAction.ID, SendBackwardAction.TEXT);
-        retargetAction.setActionDefinitionId(SendBackwardAction.ID); // key binding
-        addRetargetAction(retargetAction);
+        for(RetargetAction action : ObjectPositionAction.createRetargetActions()) {
+            addRetargetAction(action);
+        }
         
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,
@@ -256,10 +242,9 @@ extends ActionBarContributor {
         
         IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5, "menu_order"); //$NON-NLS-1$
         viewMenu.add(orderMenu);
-        orderMenu.add(getAction(BringToFrontAction.ID));
-        orderMenu.add(getAction(BringForwardAction.ID));
-        orderMenu.add(getAction(SendToBackAction.ID));
-        orderMenu.add(getAction(SendBackwardAction.ID));
+        for(ObjectPositionActionDefinition def : ObjectPositionAction.getActionDefinitions()) {
+            orderMenu.add(getAction(def.id()));
+        }
         
         viewMenu.add(new GroupMarker(GROUP_POSITION));
         IMenuManager alignmentMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_6, "menu_position"); //$NON-NLS-1$

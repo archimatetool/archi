@@ -17,18 +17,16 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
-import com.archimatetool.editor.diagram.actions.BringForwardAction;
-import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction.ObjectPositionActionDefinition;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
-import com.archimatetool.editor.diagram.actions.SendBackwardAction;
-import com.archimatetool.editor.diagram.actions.SendToBackAction;
 
 
 /**
@@ -124,10 +122,9 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         menu.add(new Separator(GROUP_ORDER));
         IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_1, "menu_order"); //$NON-NLS-1$
         menu.add(orderMenu);
-        orderMenu.add(actionRegistry.getAction(BringToFrontAction.ID));
-        orderMenu.add(actionRegistry.getAction(BringForwardAction.ID));
-        orderMenu.add(actionRegistry.getAction(SendToBackAction.ID));
-        orderMenu.add(actionRegistry.getAction(SendBackwardAction.ID));
+        for(ObjectPositionActionDefinition def : ObjectPositionAction.getActionDefinitions()) {
+            orderMenu.add(actionRegistry.getAction(def.id()));
+        }
         
         menu.add(new GroupMarker(GROUP_POSITION));
         IMenuManager alignmentMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_2, "menu_position"); //$NON-NLS-1$
