@@ -36,7 +36,6 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
-import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
@@ -47,14 +46,17 @@ import com.archimatetool.editor.diagram.actions.FontAction;
 import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
-import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
+import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
+import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
+import com.archimatetool.editor.diagram.actions.TextAlignmentAction.TextAlignmentActionDefinition;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
+import com.archimatetool.editor.diagram.actions.TextPositionAction.TextPositionActionDefinition;
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
@@ -336,10 +338,17 @@ extends ActionBarContributor {
         
         // Text Alignment
         IMenuManager textAlignmentMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_8);
-        textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_LEFT_ID));
-        textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_CENTER_ID));
-        textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_RIGHT_ID));
+        for(TextAlignmentActionDefinition def : TextAlignmentAction.getActionDefinitions()) {
+            textAlignmentMenu.add(getAction(def.id()));
+        }
         editMenu.appendToGroup(GROUP_EDIT_MENU, textAlignmentMenu);
+        
+        // Text Position
+        IMenuManager textPositionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_13);
+        for(TextPositionActionDefinition def : TextPositionAction.getActionDefinitions()) {
+            textPositionMenu.add(getAction(def.id()));
+        }
+        editMenu.appendToGroup(GROUP_EDIT_MENU, textPositionMenu);
         
         // Group marker for additional delete actions
         editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new GroupMarker(GROUP_EDIT_DELETE_MENU));
