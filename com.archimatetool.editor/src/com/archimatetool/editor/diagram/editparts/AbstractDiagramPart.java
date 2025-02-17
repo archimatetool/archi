@@ -208,6 +208,13 @@ implements IEditPartFilterProvider {
     }
     
     @Override
+    public boolean isSelectable() {
+        // This part is not selectable.
+        // This ensures that when objects are selected using the "touched" marquee selection tools the objects can be dragged.
+        return false;
+    }
+    
+    @Override
     public <T> T getAdapter(Class<T> adapter) {
         if(adapter == SnapToHelper.class) {
             return adapter.cast(new SnapEditPartAdapter(this).getSnapToHelper());
