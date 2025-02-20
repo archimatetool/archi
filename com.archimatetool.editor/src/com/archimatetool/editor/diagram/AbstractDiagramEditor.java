@@ -91,8 +91,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
-import com.archimatetool.editor.diagram.actions.BringForwardAction;
-import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
@@ -108,6 +106,7 @@ import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
@@ -117,8 +116,6 @@ import com.archimatetool.editor.diagram.actions.PropertiesAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SelectAllAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
-import com.archimatetool.editor.diagram.actions.SendBackwardAction;
-import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ToggleGridEnabledAction;
@@ -871,29 +868,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new ConnectionRouterAction.ManhattanConnectionRouterAction(this);
         registry.registerAction(action);
         
-        // Send Backward
-        action = new SendBackwardAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Bring Forward
-        action = new BringForwardAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Send to Back
-        action = new SendToBackAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Bring To Front
-        action = new BringToFrontAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        // Object Position Actions
+        for(ObjectPositionAction a : ObjectPositionAction.createActions(this)) {
+            registry.registerAction(a);
+            getSelectionActions().add(a.getId());
+            getUpdateCommandStackActions().add(a);
+        }
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
