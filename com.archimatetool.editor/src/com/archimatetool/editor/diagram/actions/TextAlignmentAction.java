@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
@@ -117,7 +117,7 @@ public class TextAlignmentAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart editPart && editPart.getModel() instanceof ITextAlignment textAlignmentObject
                     && !(textAlignmentObject instanceof ILockable lockable && lockable.isLocked())
-                    && ObjectUIFactory.INSTANCE.getProvider(textAlignmentObject) instanceof IObjectUIProvider provider
+                    && ObjectUIFactory.INSTANCE.getProvider(textAlignmentObject) instanceof IGraphicalObjectUIProvider provider
                     && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName())) {
                 list.add(textAlignmentObject);
             }

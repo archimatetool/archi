@@ -124,14 +124,14 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     }
     
     /**
-     * Update with the last known selection
+     * Update with the last known selections
      */
     private void updateSelection() {
         // In this case we have created a new TreeViewer and synchroniser, so create a new selection event
         if(lastSelectionEvent == null) {
             IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-            if(activeEditor instanceof IDiagramModelEditor editor && editor.getGraphicalViewer() instanceof GraphicalViewer viewer) { // check this is not a zombie editor part
-                selectionChanged(new SelectionChangedEvent(viewer, viewer.getSelection()));
+            if(activeEditor instanceof IDiagramModelEditor editor && editor.getGraphicalViewer() != null) { // check this is not a zombie editor part
+                selectionChanged(new SelectionChangedEvent(editor.getGraphicalViewer(), editor.getGraphicalViewer().getSelection()));
             }
         }
         else {

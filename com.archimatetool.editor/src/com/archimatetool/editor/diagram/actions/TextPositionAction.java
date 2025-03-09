@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
@@ -117,7 +117,7 @@ public class TextPositionAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart editPart && editPart.getModel() instanceof ITextPosition textPositionObject
                     && !(textPositionObject instanceof ILockable lockable && lockable.isLocked())
-                    && ObjectUIFactory.INSTANCE.getProvider(textPositionObject) instanceof IObjectUIProvider provider
+                    && ObjectUIFactory.INSTANCE.getProvider(textPositionObject) instanceof IGraphicalObjectUIProvider provider
                     && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName())) {
                 list.add(textPositionObject);
             }
