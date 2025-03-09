@@ -84,6 +84,6 @@ Export-Package: .,
  com.archimatetool.editor.views.tree.actions,
  com.archimatetool.editor.views.tree.commands,
  com.archimatetool.editor.views.tree.search
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-ExtensibleAPI: true
 Automatic-Module-Name: com.archimatetool.editor

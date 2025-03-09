@@ -7,5 +7,5 @@ Fragment-Host: org.opengroup.archimate.xmlexchange
 Bundle-Vendor: Archi, The Open Group
 Require-Bundle: com.archimatetool.testsupport,
  com.archimatetool.canvas
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests

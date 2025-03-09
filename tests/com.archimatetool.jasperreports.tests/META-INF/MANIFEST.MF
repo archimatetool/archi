@@ -6,6 +6,6 @@ Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.jasperreports
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: com.archimatetool.testingtools
 Automatic-Module-Name: com.archimatetool.jasperreports.tests

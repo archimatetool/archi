@@ -4,7 +4,7 @@ Bundle-Name: Archi JUnit Test Support
 Bundle-SymbolicName: com.archimatetool.testsupport
 Bundle-Version: 4.0.0
 Bundle-Vendor: Archi
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.tests
 Require-Bundle: org.eclipse.core.runtime,

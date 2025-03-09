@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.help.ui,
  com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: com.archimatetool.hammer.ArchiHammerPlugin
 Export-Package: com.archimatetool.hammer,
  com.archimatetool.hammer.validation,

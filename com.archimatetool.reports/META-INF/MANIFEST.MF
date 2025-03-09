@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.reports;singleton:=true
 Bundle-Version: 5.5.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,

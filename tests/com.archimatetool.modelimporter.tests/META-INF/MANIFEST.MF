@@ -6,7 +6,7 @@ Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.modelimporter
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.modelimporter.tests
 Import-Package: com.archimatetool.testingtools

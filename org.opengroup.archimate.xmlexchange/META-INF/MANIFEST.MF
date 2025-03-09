@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.editor,
  com.archimatetool.jdom;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: org.opengroup.archimate.xmlexchange.XMLExchangePlugin
 Export-Package: org.opengroup.archimate.xmlexchange
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange

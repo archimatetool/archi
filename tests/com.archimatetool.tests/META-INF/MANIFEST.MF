@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.tests
 Bundle-Version: 4.0.0
 Import-Package: org.junit.platform.suite.api
 Bundle-Vendor: Archi
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.archimatetool.canvas,
  com.archimatetool.commandline,
  com.archimatetool.csv,

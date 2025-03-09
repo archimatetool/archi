@@ -7,5 +7,5 @@ Fragment-Host: com.archimatetool.canvas
 Import-Package: com.archimatetool.testingtools
 Require-Bundle: com.archimatetool.testsupport
 Bundle-Vendor: Archi
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.canvas.tests
