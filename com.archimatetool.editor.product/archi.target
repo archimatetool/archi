@@ -10,8 +10,8 @@
         <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.10.0.202406032230-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0"/>
-        <unit id="org.mockito.mockito-core" version="5.12.0"/>
+        <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0"/>
+        <unit id="org.mockito.mockito-core" version="5.14.2"/>
     </location>
 </locations>
 </target>

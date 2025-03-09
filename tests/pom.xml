@@ -14,9 +14,8 @@
     <packaging>pom</packaging>
     
     <properties>
-        <!-- Add this to stop warning message when using Mockito/ByteBuddy -->
-        <!-- "OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended" -->
-        <mockito.args>-Xshare:off</mockito.args>
+    	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
+        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
         
         <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
@@ -27,7 +26,7 @@
         <repository>
             <id>Orbit</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0</url>
+            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0</url>
         </repository>
     </repositories>
 
@@ -52,6 +51,20 @@
 
     <build>
         <plugins>
+            <!-- With this we can resolve ${org.mockito:mockito-core:jar} -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
