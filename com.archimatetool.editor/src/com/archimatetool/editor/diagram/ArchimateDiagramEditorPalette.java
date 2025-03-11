@@ -113,7 +113,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
         group.add(groupEntry);
-        PaletteKeyHandler.setKeyBinding(noteEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
+        PaletteKeyHandler.setKeyBinding(groupEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
         
         // Connection
         ToolEntry entry = createConnectionCreationToolEntry(
