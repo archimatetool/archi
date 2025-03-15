@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -54,16 +55,34 @@ public class PrintDiagramAction extends WorkbenchPartAction {
 
         if(data != null) {
             IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
-
-            Shell tempShell = new Shell();
-            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
             
-            PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(new Printer(data), viewer);
-            op.setUseScaledGraphics(false); // this should stop font clipping
-            op.setPrintMode(printMode);
-            op.run(getWorkbenchPart().getTitle());
-
-            tempShell.dispose();
+            Shell tempShell = null;
+            Printer printer = null;
+            
+            try {
+                tempShell = new Shell();
+                GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
+                printer = new Printer(data);
+                
+                PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(printer, viewer);
+                op.setPrintMode(printMode);
+                
+                // Setting scaled graphics off seems to be OK on Mac but not on Windows and Linux
+                // "Fit Page" doesn't work. See https://github.com/archimatetool/archi/issues/1133
+                if(PlatformUtils.isMac()) {
+                    op.setUseScaledGraphics(false);
+                }
+                
+                op.run(getWorkbenchPart().getTitle());
+            }
+            finally {
+                if(tempShell != null) {
+                    tempShell.dispose();
+                }
+                if(printer != null) {
+                    printer.dispose();
+                }
+            }
         }
     }
 }
