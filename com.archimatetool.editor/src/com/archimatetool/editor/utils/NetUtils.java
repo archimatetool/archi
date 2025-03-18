@@ -143,6 +143,7 @@ public final class NetUtils  {
             @Override
             public void connectFailed(URI uri, SocketAddress sa, IOException ex) {
                 ex.printStackTrace();
+                Logger.logError("Proxy connect failed", ex);
             }
         });
     }
