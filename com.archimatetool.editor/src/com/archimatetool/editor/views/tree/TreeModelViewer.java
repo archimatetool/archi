@@ -121,19 +121,7 @@ public class TreeModelViewer extends TreeViewer {
                     return 0;
                 }
                 
-                // Get rendered text or name
-                String label1 = getAncestorFolderRenderText((IArchimateModelObject)e1);
-                if(label1 == null) {
-                    label1 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e1));
-                }
-
-                // Get rendered text or name
-                String label2 = getAncestorFolderRenderText((IArchimateModelObject)e2);
-                if(label2 == null) {
-                    label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
-                }
-                
-                return getComparator().compare(label1, label2);
+                return getComparator().compare(getElementText(e1), getElementText(e2));
             }
             
             @Override
@@ -360,6 +348,34 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
+     * @return the text label for element
+     */
+    private String getElementText(Object element) {
+        if(!(element instanceof IArchimateModelObject modelObject)) {
+            return ""; //$NON-NLS-1$
+        }
+        
+        // If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it
+        String text = getAncestorFolderRenderText(modelObject);
+        if(text != null) {
+            return text;
+        }
+        
+        text = ArchiLabelProvider.INSTANCE.getLabelNormalised(modelObject);
+        
+        // If a relationship show source and target
+        if(element instanceof IArchimateRelationship relationship) {
+            text += " ("; //$NON-NLS-1$
+            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
+            text += " - "; //$NON-NLS-1$
+            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
+            text += ")"; //$NON-NLS-1$
+        }
+        
+        return text;
+    }
+    
+    /**
      * If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it and return it
      * But let's keep a limit to its length
      */
@@ -481,27 +497,14 @@ public class TreeModelViewer extends TreeViewer {
 
         private String getText(Object element) {
             // If a Concept or a View's parent or ancestor parent folder has a text expression, evaluate it
-            String text = getAncestorFolderRenderText((IArchimateModelObject)element);
-            if(text != null) {
-                return text;
-            }
+            String text = getElementText(element);
             
-            String name = ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
-            
-            // If a dirty model show asterisk
+            // If a dirty model show an asterisk
             if(element instanceof IArchimateModel model && IEditorModelManager.INSTANCE.isModelDirty(model)) {
-                name = "*" + name; //$NON-NLS-1$
-            }
-            // If a relationship show source and target
-            else if(element instanceof IArchimateRelationship relationship) {
-                name += " ("; //$NON-NLS-1$
-                name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
-                name += " - "; //$NON-NLS-1$
-                name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
-                name += ")"; //$NON-NLS-1$
+                text = "*" + text; //$NON-NLS-1$
             }
             
-            return name;
+            return text;
         }
         
         private Image getImage(Object element) {
