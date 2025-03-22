@@ -16,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.model.ModelChecker;
@@ -29,6 +31,8 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IAssignmentRelationship;
+import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -48,24 +52,52 @@ public class SetConceptTypeCommandFactoryTests {
     }
     
     @Test
-    public void commandIsNullWhenElementTypeIsSame() {
-        assertNull(SetConceptTypeCommandFactory.createSetElementTypeCommand(IArchimatePackage.eINSTANCE.getBusinessActor(),
-                IArchimateFactory.eINSTANCE.createBusinessActor(), false));
+    public void commandIsEmptyWhenElementTypeIsSame() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getDefaultFolderForObject(element).getElements().add(element);
+        
+        CompoundCommand command = SetConceptTypeCommandFactory.createSetElementTypeCommand(IArchimatePackage.eINSTANCE.getBusinessActor(),
+                                                                                           Set.of(element));
+        command.execute();
+        
+        // Command will have one compound sub-command
+        assertEquals(1, command.getCommands().size());
+        
+        // And that command will be empty
+        assertTrue(((CompoundCommand)command.getCommands().get(0)).isEmpty());
     }
     
     @Test
-    public void commandIsNullWhenRelationTypeIsSame() {
-        assertNull(SetConceptTypeCommandFactory.createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getFlowRelationship(),
-                IArchimateFactory.eINSTANCE.createFlowRelationship()));
+    public void commandIsEmptyWhenRelationTypeIsSame() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createCompositionRelationship();
+        relation.setSource(element);
+        relation.setTarget(element);
+        model.getDefaultFolderForObject(relation).getElements().add(relation);
+        
+        CompoundCommand command = SetConceptTypeCommandFactory.createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getCompositionRelationship(),
+                                                                                            Set.of(relation));
+        
+        command.execute();
+        assertTrue(command.isEmpty());
     }
 
     @Test
-    public void commandIsNullWhenRelationTypeIsInValid() {
+    public void commandIsEmptyWhenRelationTypeIsInValid() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation.setSource(IArchimateFactory.eINSTANCE.createBusinessActor());
-        relation.setTarget(IArchimateFactory.eINSTANCE.createBusinessActor());
+        relation.setSource(element);
+        relation.setTarget(element);
+        model.getDefaultFolderForObject(relation).getElements().add(relation);
         
-        assertNull(SetConceptTypeCommandFactory.createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getAccessRelationship(), relation));
+        CompoundCommand command = SetConceptTypeCommandFactory.createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getAccessRelationship(),
+                                                                                            Set.of(relation));
+        
+        command.execute();
+        assertTrue(command.isEmpty());
     }
     
     @Test
@@ -73,10 +105,7 @@ public class SetConceptTypeCommandFactoryTests {
         ArchimateTestModel tm = loadModel();
         
         // Business Role "Customer"
-        IArchimateElement element = (IArchimateElement)tm.getObjectByID("521");
-        assertNotNull(element);
-        assertEquals(IArchimatePackage.eINSTANCE.getBusinessRole(), element.eClass());
-        
+        IBusinessRole element = (IBusinessRole)tm.getObjectByID("521");
         element.setDocumentation("Documentation");
         element.getProperties().add(IArchimateFactory.eINSTANCE.createProperty("key", "name"));
         element.getFeatures().putString("f", "1");
@@ -85,12 +114,10 @@ public class SetConceptTypeCommandFactoryTests {
         List<IArchimateRelationship> sourceRelations = new ArrayList<>(element.getSourceRelationships());
         List<IArchimateRelationship> targetRelations =  new ArrayList<>(element.getTargetRelationships());
         
+        // Change to Application Component class
         EClass eClass = IArchimatePackage.eINSTANCE.getApplicationComponent();
         
-        Command cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, element, false);
-        assertNotNull(cmd);
-        
-        assertTrue(cmd.canExecute());
+        Command cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, Set.of(element));
         
         // Execute the command
         cmd.execute();
@@ -106,9 +133,8 @@ public class SetConceptTypeCommandFactoryTests {
         checkModel(tm.getModel());
 
         // Element should be back
-        element = (IArchimateElement)tm.getObjectByID("521");
+        element = (IBusinessRole)tm.getObjectByID("521");
         assertNotNull(element);
-        assertEquals(IArchimatePackage.eINSTANCE.getBusinessRole(), element.eClass());
         assertEquals("Customer", element.getName());
         assertEquals(sourceRelations.size(), element.getSourceRelationships().size());
         assertEquals(targetRelations.size(), element.getTargetRelationships().size());
@@ -158,34 +184,49 @@ public class SetConceptTypeCommandFactoryTests {
         ArchimateTestModel tm = loadModel();
         
         // Business Role "Customer"
-        IArchimateElement element = (IArchimateElement)tm.getObjectByID("521");
+        IBusinessRole element = (IBusinessRole)tm.getObjectByID("521");
         assertNotNull(element);
         
+        // Change to Application Component class
         EClass eClass = IArchimatePackage.eINSTANCE.getApplicationComponent();
         
-        Command cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, element, false);
-        assertNotNull(cmd);
+        CompoundCommand cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, Set.of(element));
         
+        // Should have one compound sub-command
         cmd.execute();
+        assertEquals(1, cmd.getCommands().size());
         
-        cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, element, false);
-        assertNull(cmd);
+        // And that compound command will have 2 sub-commands
+        assertEquals(2, ((CompoundCommand)cmd.getCommands().get(0)).size());
+        
+        // Repeating the same thing should have one compound sub-command
+        cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, Set.of(element));
+        cmd.execute();
+        assertEquals(1, cmd.getCommands().size());
+        // Which will be empty
+        assertTrue(((CompoundCommand)cmd.getCommands().get(0)).isEmpty());
     }
     
     @Test
     public void duplicateRelationCommandsAreHandled() throws IOException {
         ArchimateTestModel tm = loadModel();
         
-        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("770");
+        // Assignment Relationship
+        IAssignmentRelationship relation = (IAssignmentRelationship)tm.getObjectByID("770");
+        
+        // Change to Flow Relationship
         EClass eClass = IArchimatePackage.eINSTANCE.getFlowRelationship();
         
-        Command cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, relation);
-        assertNotNull(cmd);
+        CompoundCommand cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, Set.of(relation));
         
+        // Should have commands
         cmd.execute();
+        assertEquals(1, cmd.getCommands().size());
         
-        cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, relation);
-        assertNull(cmd);
+        // Repeating the same thing should have no commands
+        cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, Set.of(relation));
+        cmd.execute();
+        assertEquals(0, cmd.getCommands().size());
     }
     
     @Test
@@ -193,10 +234,7 @@ public class SetConceptTypeCommandFactoryTests {
         ArchimateTestModel tm = loadModel();
         
         // Assignment Relation between "Customer" Business Role and "Request for Insurance" Business Event
-        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("770");
-        assertNotNull(relation);
-        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
-        
+        IAssignmentRelationship relation = (IAssignmentRelationship)tm.getObjectByID("770");
         relation.setName("Test");
         relation.setDocumentation("Documentation");
         relation.getProperties().add(IArchimateFactory.eINSTANCE.createProperty("key", "name"));
@@ -206,12 +244,10 @@ public class SetConceptTypeCommandFactoryTests {
         IArchimateElement sourceElement = (IArchimateElement)relation.getSource();
         IArchimateElement targetElement = (IArchimateElement)relation.getTarget();
         
+        // Change to Flow Relationship
         EClass eClass = IArchimatePackage.eINSTANCE.getFlowRelationship();
         
-        Command cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, relation);
-        assertNotNull(cmd);
-        
-        assertTrue(cmd.canExecute());
+        CompoundCommand cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, Set.of(relation));
         
         // Execute the command
         cmd.execute();
@@ -227,9 +263,8 @@ public class SetConceptTypeCommandFactoryTests {
         checkModel(tm.getModel());
 
         // Element should be back
-        relation = (IArchimateRelationship)tm.getObjectByID("770");
+        relation = (IAssignmentRelationship)tm.getObjectByID("770");
         assertNotNull(relation);
-        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
         assertEquals("Test", relation.getName());
         
         // Redo the command

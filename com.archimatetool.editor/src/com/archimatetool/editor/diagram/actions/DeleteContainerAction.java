@@ -16,7 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.commands.AddListMemberCommand;
-import com.archimatetool.editor.model.commands.AlwaysExecutingCompoundCommand;
+import com.archimatetool.editor.model.commands.AlwaysExecutingChainedCompoundCommand;
 import com.archimatetool.editor.model.commands.RemoveListMemberCommand;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
@@ -53,8 +53,8 @@ public class DeleteContainerAction extends SelectionAction {
     @Override
     public void run() {
         // Execute each command before proceeding to the next in case of multi-selection of embedded containers
-        // Use a AlwaysExecutingCompoundCommand to ensure redo/undo always execute because cmd#canExecute may return false
-        CompoundCommand compoundCommand = new AlwaysExecutingCompoundCommand(TEXT) {
+        // Use a AlwaysExecutingChainedCompoundCommand to ensure redo/undo always executes and chains sub-commands
+        CompoundCommand compoundCommand = new AlwaysExecutingChainedCompoundCommand(TEXT) {
             @Override
             public void execute() {
                 for(IDiagramModelObject dmo : getObjectsToBeDeleted()) {
@@ -76,12 +76,6 @@ public class DeleteContainerAction extends SelectionAction {
                         add(new AddListMemberCommand<>(parent.getChildren(), child));
                     }
                 }
-            }
-            
-            @Override
-            public void add(Command command) {
-                super.add(command);
-                command.execute(); // execute command
             }
         };
         

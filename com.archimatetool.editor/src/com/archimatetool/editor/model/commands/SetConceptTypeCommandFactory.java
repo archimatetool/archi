@@ -1,7 +1,14 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
 package com.archimatetool.editor.model.commands;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -40,19 +47,47 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 public class SetConceptTypeCommandFactory {
     
     /**
-     * Command to execute.
-     * 
-     * After the command has executed the new concept can be accessed with 
+     * A compound command that always executes and all sub-commands are executed after adding
+     * and returns the new concept that was created
      */
-    public static abstract class SetConceptTypeCommand extends AlwaysExecutingCompoundCommand {
-        public SetConceptTypeCommand(String label) {
+    private static abstract class SetConceptTypeCommand extends AlwaysExecutingChainedCompoundCommand {
+        SetConceptTypeCommand(String label) {
             super(label);
         }
         
         /**
          * @return The new concept created when this command has executed
          */
-        public abstract IArchimateConcept getNewConcept();
+        abstract IArchimateConcept getNewConcept();
+    }
+    
+    public static CompoundCommand createSetElementTypeCommand(EClass eClass, Set<IArchimateElement> elements) {
+        Command command = new AlwaysExecutingChainedCompoundCommand(Messages.SetConceptTypeCommandFactory_0) {
+            @Override
+            public void execute() {
+                List<SetConceptTypeCommand> commands = new ArrayList<>();
+                
+                // Add and execute element type commands
+                for(IArchimateElement element : elements) {
+                    SetConceptTypeCommand cmd = createSetElementTypeCommand(eClass, element);
+                    if(cmd != null) {
+                        commands.add(cmd);
+                        add(cmd);
+                    }
+                }
+                
+                // Then change any invalid source/target relations
+                for(SetConceptTypeCommand cmd : commands) {
+                    add(changeInvalidRelations(eClass, cmd.getNewConcept(),
+                            ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE)));
+                }
+            }
+        };
+        
+        // Wrap the commands in a NonNotifyingCompoundCommand to minimise event noise
+        NonNotifyingCompoundCommand compoundCommand = new NonNotifyingCompoundCommand();
+        compoundCommand.add(command);
+        return compoundCommand;
     }
     
     /**
@@ -60,7 +95,7 @@ public class SetConceptTypeCommandFactory {
      * @param element The element to change
      * @return The Command or null if the element's EClass equals eClass or element has already been removed from the model
      */
-    public static SetConceptTypeCommand createSetElementTypeCommand(EClass eClass, IArchimateElement element, boolean doAddDocumentationNote) {
+    private static SetConceptTypeCommand createSetElementTypeCommand(EClass eClass, IArchimateElement element) {
         // Same type, or element has already been removed from model, or Junction
         if(eClass.equals(element.eClass()) || element.getArchimateModel() == null ||
                 eClass == IArchimatePackage.eINSTANCE.getJunction() ||
@@ -88,13 +123,13 @@ public class SetConceptTypeCommandFactory {
                 // Copy Documentation
                 newElement.setDocumentation(element.getDocumentation());
                 
-                // Don't change Specialization because the class will be different
+                // Don't set Specialization/Profile because the class will be different
                 
                 // Add the new element to a folder in the model
                 add(new AddListMemberCommand<EObject>(getFolderForNewConcept(element, newElement).getElements(), newElement));
                 
                 // Set source relations of old element to new element
-                for(IArchimateRelationship relation : element.getSourceRelationships()) {
+                for(IArchimateRelationship relation : new ArrayList<>(element.getSourceRelationships())) {
                     add(new Command() {
                         IArchimateConcept oldSource = relation.getSource();
                         
@@ -116,7 +151,7 @@ public class SetConceptTypeCommandFactory {
                 }
                 
                 // Set target relations of old element to new element
-                for(IArchimateRelationship relation : element.getTargetRelationships()) {
+                for(IArchimateRelationship relation : new ArrayList<>(element.getTargetRelationships())) {
                     add(new Command() {
                         IArchimateConcept oldTarget = relation.getTarget();
                         
@@ -188,12 +223,6 @@ public class SetConceptTypeCommandFactory {
                 
                 // Remove the old element from its folder
                 add(new RemoveListMemberCommand<EObject>(((IFolder)element.eContainer()).getElements(), element));
-                
-                // Change any invalid source/target relations
-                add(changeInvalidRelations(eClass, element, doAddDocumentationNote));
-                
-                // Now execute these commands
-                super.execute();
             }
 
             @Override
@@ -207,16 +236,29 @@ public class SetConceptTypeCommandFactory {
 
     /**
      * @param eClass The EClass to set to
+     * @param element The relations to change
+     * @return A Command to set relationship types
+     */
+    public static CompoundCommand createSetRelationTypeCommand(EClass eClass, Set<IArchimateRelationship> relations) {
+        // Wrap the commands in a NonNotifyingCompoundCommand
+        NonNotifyingCompoundCommand compoundCommand = new NonNotifyingCompoundCommand();
+        
+        for(IArchimateRelationship relation : relations) {
+            compoundCommand.add(createSetRelationTypeCommand(eClass, relation, false));
+        }
+        
+        return compoundCommand;
+    }
+
+    /**
+     * @param eClass The EClass to set to
      * @param element The relation to change
+     * @param doAddDocumentationNote If true append a note to the documentation field that the relationship was changed to Association
      * @return The Command or null if the relation's EClass equals eClass or if the relation would be invalid or relation has already been removed from the model
      */
-    public static SetConceptTypeCommand createSetRelationTypeCommand(EClass eClass, IArchimateRelationship relation) {
-        return createSetRelationTypeCommand(eClass, relation, false);
-    }
-    
     private static SetConceptTypeCommand createSetRelationTypeCommand(EClass eClass, IArchimateRelationship relation, boolean doAddDocumentationNote) {
         // Same type or relation has already been removed from model or invalid type
-        if(eClass.equals(relation.eClass()) || relation.getArchimateModel() == null || !isValidTypeForConcept(eClass, relation)) {
+        if(eClass.equals(relation.eClass()) || relation.getArchimateModel() == null || !isValidTypeForRelationship(eClass, relation)) {
             return null;
         }
 
@@ -251,7 +293,7 @@ public class SetConceptTypeCommandFactory {
                     newRelation.setDocumentation(documentation);
                 }
                 
-                // Don't change Specialization because the class will be different
+                // Don't set Specialization/Profile because the class will be different
 
                 // Add the new relation to a folder in the model and connect it to old relation's source and target
                 add(new Command() {
@@ -282,7 +324,7 @@ public class SetConceptTypeCommandFactory {
                 });
                 
                 // Set source relations of old relation to new relation
-                for(IArchimateRelationship r : relation.getSourceRelationships()) {
+                for(IArchimateRelationship r : new ArrayList<>(relation.getSourceRelationships())) {
                     add(new Command() {
                         IArchimateConcept oldSource = r.getSource();
                         
@@ -304,7 +346,7 @@ public class SetConceptTypeCommandFactory {
                 }
                 
                 // Set target relations of old relation to new relation
-                for(IArchimateRelationship r : relation.getTargetRelationships()) {
+                for(IArchimateRelationship r : new ArrayList<>(relation.getTargetRelationships())) {
                     add(new Command() {
                         IArchimateConcept oldTarget = r.getTarget();
                         
@@ -374,10 +416,7 @@ public class SetConceptTypeCommandFactory {
                 
                 // Last thing - change any invalid source/target relations
                 // This is not really necessary as all relations from relations are Association
-                add(changeInvalidRelations(eClass, relation, doAddDocumentationNote));
-                
-                // Now execute these commands
-                super.execute();
+                add(changeInvalidRelations(eClass, newRelation, doAddDocumentationNote));
             }
 
             @Override
@@ -387,6 +426,64 @@ public class SetConceptTypeCommandFactory {
         };
         
         return compoundCmd;
+    }
+
+    /**
+     * Check if the given element will have valid relations if we change its type to eClass.
+     * We check against the member elements because each element in elements will be changed to eClass
+     * and that will be the final type.
+     */
+    public static boolean isValidTypeForElement(EClass eClass, IArchimateElement element, Set<IArchimateElement> elements) {
+        // Check source relationships
+        for(IArchimateRelationship rel : element.getSourceRelationships()) {
+            // If the target element is going to be changed to the desired EClass then check against that EClass
+            if(elements.contains(rel.getTarget())) {
+                if(!ArchimateModelUtils.isValidRelationship(eClass, eClass, rel.eClass())) {
+                    return false;
+                }
+            }
+            else if(!ArchimateModelUtils.isValidRelationship(eClass, rel.getTarget().eClass(), rel.eClass())) {
+                return false;
+            }
+        }
+        
+        // Check target relationships
+        for(IArchimateRelationship rel : element.getTargetRelationships()) {
+            // If the source element is going to be changed to the desired EClass then check against that EClass
+            if(elements.contains(rel.getSource())) {
+                if(!ArchimateModelUtils.isValidRelationship(eClass, eClass, rel.eClass())) {
+                    return false;
+                }
+            }
+            else if(!ArchimateModelUtils.isValidRelationship(rel.getSource().eClass(), eClass, rel.eClass())) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public static boolean isValidTypeForRelationship(EClass eClass, IArchimateRelationship relationship) {
+        // Check source and target ends
+        if(!ArchimateModelUtils.isValidRelationship(relationship.getSource(), relationship.getTarget(), eClass)) {
+            return false;
+        }
+        
+        // Check source relationships
+        for(IArchimateRelationship rel : relationship.getSourceRelationships()) {
+            if(!ArchimateModelUtils.isValidRelationship(eClass, rel.getTarget().eClass(), rel.eClass())) {
+                return false;
+            }
+        }
+        
+        // Check target relationships
+        for(IArchimateRelationship rel : relationship.getTargetRelationships()) {
+            if(!ArchimateModelUtils.isValidRelationship(rel.getSource().eClass(), eClass, rel.eClass())) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     // ------------------------------------------------------------------------------------------
@@ -419,32 +516,6 @@ public class SetConceptTypeCommandFactory {
         }
         
         return compoundCmd.canExecute() ? compoundCmd : null;
-    }
-
-    public static boolean isValidTypeForConcept(EClass eClass, IArchimateConcept concept) {
-        // Check source relationships
-        for(IArchimateRelationship rel : concept.getSourceRelationships()) {
-            if(!ArchimateModelUtils.isValidRelationship(eClass, rel.getTarget().eClass(), rel.eClass())) {
-                return false;
-            }
-        }
-        
-        // Check target relationships
-        for(IArchimateRelationship rel : concept.getTargetRelationships()) {
-            if(!ArchimateModelUtils.isValidRelationship(rel.getSource().eClass(), eClass, rel.eClass())) {
-                return false;
-            }
-        }
-        
-        // If a relationship, check ends
-        if(concept instanceof IArchimateRelationship) {
-            if(!ArchimateModelUtils.isValidRelationship(((IArchimateRelationship)concept).getSource(),
-                    ((IArchimateRelationship)concept).getTarget(), eClass)) {
-                return false;
-            }
-        }
-        
-        return true;
     }
 
     private static IFolder getFolderForNewConcept(IArchimateConcept oldConcept, IArchimateConcept newConcept) {
