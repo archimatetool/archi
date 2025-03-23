@@ -1,6 +1,8 @@
 package com.archimatetool.editor.model.commands;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -397,16 +399,23 @@ public class SetConceptTypeCommandFactory {
     private static Command changeInvalidRelations(EClass eClass, IArchimateConcept concept, boolean doAddDocumentationNote) {
         CompoundCommand compoundCmd = new CompoundCommand();
         
+        // Use a Set in case the source and target relation is the same (circular relationship)
+        Set<IArchimateRelationship> relations = new HashSet<>();
+
         for(IArchimateRelationship relation : concept.getSourceRelationships()) {
             if(!ArchimateModelUtils.isValidRelationship(eClass, relation.getTarget().eClass(), relation.eClass())) {
-                compoundCmd.add(createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getAssociationRelationship(), relation, doAddDocumentationNote));
+                relations.add(relation);
             }
         }
         
         for(IArchimateRelationship relation : concept.getTargetRelationships()) {
             if(!ArchimateModelUtils.isValidRelationship(relation.getSource().eClass(), eClass, relation.eClass())) {
-                compoundCmd.add(createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getAssociationRelationship(), relation, doAddDocumentationNote));
+                relations.add(relation);
             }
+        }
+        
+        for(IArchimateRelationship relation : relations) {
+            compoundCmd.add(createSetRelationTypeCommand(IArchimatePackage.eINSTANCE.getAssociationRelationship(), relation, doAddDocumentationNote));
         }
         
         return compoundCmd.canExecute() ? compoundCmd : null;
