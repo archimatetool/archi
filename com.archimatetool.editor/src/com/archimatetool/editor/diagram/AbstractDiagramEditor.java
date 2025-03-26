@@ -1004,10 +1004,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
 
         /*
-         * Return the singleton Outline Page
+         * Return the Outline Page
          */
-        if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null) {
-            return adapter.cast(new OverviewOutlinePage(this));
+        if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null
+                                                && getGraphicalViewer().getRootEditPart() instanceof ScalableFreeformRootEditPart editPart) {
+            return adapter.cast(new OverviewOutlinePage(editPart));
         }
         
         /*
@@ -1034,7 +1035,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
 
         // Find/Replace Provider
         if(adapter == IFindReplaceProvider.class) {
-            if(fFindReplaceProvider == null) {
+            if(fFindReplaceProvider == null && getGraphicalViewer() != null) {
                 fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
             }
             return adapter.cast(fFindReplaceProvider);
@@ -1087,5 +1088,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         fDiagramModel = null;
 
         fContextActivation = null;
+        fFindReplaceProvider = null;
     }
 }
