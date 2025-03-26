@@ -1,7 +1,13 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
 package com.archimatetool.editor.actions;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -29,6 +35,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -51,7 +58,7 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         ISelectionService selectionService = serviceLocator.getService(ISelectionService.class);
         
         IStructuredSelection selection = (IStructuredSelection)selectionService.getSelection();
-        if(selection == null) {
+        if(selection == null || selection.isEmpty()) {
             return;
         }
         
@@ -62,17 +69,21 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         
         for(Object o : selection) {
             IArchimateConcept concept = null;
+            
             if(o instanceof IArchimateConcept) {
                 concept = (IArchimateConcept)o;
             }
-            else if(o instanceof IAdaptable) {
-                concept = ((IAdaptable)o).getAdapter(IArchimateConcept.class);
+            else if(o instanceof IAdaptable adaptable) {
+                concept = adaptable.getAdapter(IArchimateConcept.class);
             }
-            if(concept instanceof IArchimateElement && !(concept.eClass() == IArchimatePackage.eINSTANCE.getJunction())) { // Not Junctions
-                selectedElements.add((IArchimateElement)concept);
+            
+            // Element, but not a Junction
+            if(concept instanceof IArchimateElement element && element.eClass() != IArchimatePackage.eINSTANCE.getJunction()) {
+                selectedElements.add(element);
             }
-            else if(concept instanceof IArchimateRelationship) {
-                selectedRelations.add((IArchimateRelationship)concept);
+            // Relationship
+            else if(concept instanceof IArchimateRelationship relationship) {
+                selectedRelations.add(relationship);
             }
         }
         
@@ -153,7 +164,7 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
                 boolean hasInvalidConnections = false;
                 
                 for(IArchimateElement element : elements) {
-                    if(!SetConceptTypeCommandFactory.isValidTypeForConcept(eClass, element)) {
+                    if(!SetConceptTypeCommandFactory.isValidTypeForElement(eClass, element, elements)) {
                         hasInvalidConnections = true;
                     }
                 }
@@ -170,8 +181,8 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         action.setEnabled(false);
         
         // Enable menu item if any selected element is different to the target type
-        for(IArchimateElement e : elements) {
-            if(!e.eClass().equals(eClass)) {
+        for(IArchimateElement element : elements) {
+            if(element.eClass() != eClass) {
                 action.setEnabled(true);
             }
         }
@@ -191,8 +202,8 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         action.setEnabled(false);
         
         // Enable menu item if any selected relation is different to the target type and is valid
-        for(IArchimateRelationship r : relations) {
-            if(!r.eClass().equals(eClass) && ArchimateModelUtils.isValidRelationship(r.getSource().eClass(), r.getTarget().eClass(), eClass)) {
+        for(IArchimateRelationship relation : relations) {
+            if(relation.eClass() != eClass && SetConceptTypeCommandFactory.isValidTypeForRelationship(eClass, relation)) {
                 action.setEnabled(true);
             }
         }
@@ -204,62 +215,53 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
     private void changeElementTypes(EClass eClass, Set<IArchimateElement> elements) {
         /*
          * If changing types from more than one model we need to use the
-         * Command Stack allocated to each model. And then allocate one CompoundCommand per Command Stack.
+         * Command Stack allocated to each model. And then execute one CompoundCommand per Command Stack.
          */
-        Hashtable<CommandStack, CompoundCommand> commandMap = new Hashtable<CommandStack, CompoundCommand>();
-
-        for(IArchimateElement element : elements) {
-            CompoundCommand compoundCmd = getCompoundCommand(element, commandMap);
-            if(compoundCmd != null) {
-                compoundCmd.add(SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, element,
-                        ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE)));
-            }
-        }
+        Map<IArchimateModel, Set<IArchimateElement>> elementsMap = getConceptMap(elements);
         
-        // Execute the Commands on the CommandStack(s) - there could be more than one if more than one model open in the Tree
-        for(Entry<CommandStack, CompoundCommand> entry : commandMap.entrySet()) {
-            entry.getKey().execute(entry.getValue());
+        for(Entry<IArchimateModel, Set<IArchimateElement>> entry : elementsMap.entrySet()) {
+            CommandStack stack = (CommandStack)entry.getKey().getAdapter(CommandStack.class);
+            CompoundCommand cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, entry.getValue(),
+                                  ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
+            if(stack != null && cmd != null) {
+                // Wrap the command in a NonNotifyingCompoundCommand to minimise event noise
+                stack.execute(new NonNotifyingCompoundCommand(cmd));
+            }
         }
     }
     
     private void changeRelationTypes(EClass eClass, Set<IArchimateRelationship> relations) {
         /*
          * If changing types from more than one model we need to use the
-         * Command Stack allocated to each model. And then allocate one CompoundCommand per Command Stack.
+         * Command Stack allocated to each model. And then execute one CompoundCommand per Command Stack.
          */
-        Hashtable<CommandStack, CompoundCommand> commandMap = new Hashtable<CommandStack, CompoundCommand>();
-
-        for(IArchimateRelationship relation : relations) {
-            CompoundCommand compoundCmd = getCompoundCommand(relation, commandMap);
-            if(compoundCmd != null) {
-                compoundCmd.add(SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, relation));
+        Map<IArchimateModel, Set<IArchimateRelationship>> relationsMap = getConceptMap(relations);
+        
+        for(Entry<IArchimateModel, Set<IArchimateRelationship>> entry : relationsMap.entrySet()) {
+            CommandStack stack = (CommandStack)entry.getKey().getAdapter(CommandStack.class);
+            CompoundCommand cmd = SetConceptTypeCommandFactory.createSetRelationTypeCommand(eClass, entry.getValue());
+            if(stack != null && cmd != null) {
+                // Wrap the command in a NonNotifyingCompoundCommand to minimise event noise
+                stack.execute(new NonNotifyingCompoundCommand(cmd));
             }
         }
-        
-        // Execute the Commands on the CommandStack(s) - there could be more than one if more than one model open in the Tree
-        for(Entry<CommandStack, CompoundCommand> entry : commandMap.entrySet()) {
-            entry.getKey().execute(entry.getValue());
-        }
     }
-
+    
     /**
-     * Get, and if need be create, a CompoundCommand to which to change the type for each concept in a model
+     * Get a mapping of IArchimateModel to a set of IArchimateConcepts
      */
-    private CompoundCommand getCompoundCommand(IArchimateConcept concept, Hashtable<CommandStack, CompoundCommand> commandMap) {
-        // Get the Command Stack registered to the object
-        CommandStack stack = (CommandStack)concept.getAdapter(CommandStack.class);
-        if(stack == null) {
-            System.err.println("CommandStack was null in getCompoundCommand"); //$NON-NLS-1$
-            return null;
+    private <T extends IArchimateConcept> Map<IArchimateModel, Set<T>> getConceptMap(Set<T> concepts) {
+        Map<IArchimateModel, Set<T>> map = new HashMap<>();
+        
+        for(T concept : concepts) {
+            Set<T> elementsSet = map.get(concept.getArchimateModel());
+            if(elementsSet == null) {
+                elementsSet = new HashSet<>();
+                map.put(concept.getArchimateModel(), elementsSet);
+            }
+            elementsSet.add(concept);
         }
         
-        // Now get or create a Compound Command
-        CompoundCommand compoundCommand = commandMap.get(stack);
-        if(compoundCommand == null) {
-            compoundCommand = new NonNotifyingCompoundCommand();
-            commandMap.put(stack, compoundCommand);
-        }
-        
-        return compoundCommand;
+        return map;
     }
 }
