@@ -11,7 +11,7 @@
     <name>Archi Tool</name>
 
     <properties>
-        <revision>5.5.0-SNAPSHOT</revision>
+        <revision>5.6.0-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
