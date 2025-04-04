@@ -35,7 +35,7 @@ public class ArchimateDiagramModelFactoryTests {
     public void testCreateDiagramModelArchimateObject() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessProcess();
         
-        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         
         store.setValue(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName(), 1);
         store.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
@@ -62,7 +62,7 @@ public class ArchimateDiagramModelFactoryTests {
     
     @Test
     public void testGetNewObjectArchimateConnection() {
-        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         
         store.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
         store.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#ababab");

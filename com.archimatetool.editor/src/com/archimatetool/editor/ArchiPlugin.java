@@ -44,8 +44,16 @@ public class ArchiPlugin extends AbstractUIPlugin {
 
     /**
      * The shared instance
+     * Deprecated since Archi 5.6. Use getInstance().
      */
     public static ArchiPlugin INSTANCE;
+    
+    /**
+     * @return the shared instance
+     */
+    public static ArchiPlugin getInstance() {
+        return INSTANCE;
+    }
     
     public ArchiPlugin() {
         INSTANCE = this;

@@ -514,7 +514,7 @@ public class TreeModelViewer extends TreeViewer {
             
             // Unused concept
             boolean isUnusedConcept = element instanceof IArchimateConcept concept
-                    && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
+                    && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
                     && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept);
             
             if(isSearching) {

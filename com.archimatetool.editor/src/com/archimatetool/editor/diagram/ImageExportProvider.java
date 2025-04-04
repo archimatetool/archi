@@ -100,7 +100,7 @@ public class ImageExportProvider implements IImageExportProvider {
      */
     protected void loadPreferences() {
         // Value of scale
-        int scale = ArchiPlugin.INSTANCE.getPreferenceStore().getInt(PREFS_IMAGE_SCALE);
+        int scale = ArchiPlugin.getInstance().getPreferenceStore().getInt(PREFS_IMAGE_SCALE);
         if(scale < SCALE_MIN || scale > SCALE_MAX) {
             scale = 100;
         }
@@ -113,6 +113,6 @@ public class ImageExportProvider implements IImageExportProvider {
     protected void savePreferences() {
         // Value of scale
         int scale = fScaleSpinner.getSelection();
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(PREFS_IMAGE_SCALE, scale);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(PREFS_IMAGE_SCALE, scale);
     }
 }

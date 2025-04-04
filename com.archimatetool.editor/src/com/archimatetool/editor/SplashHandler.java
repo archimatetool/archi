@@ -28,7 +28,7 @@ public class SplashHandler extends AbstractSplashHandler {
         // Certainly need this on Linux
         shell.setBackgroundMode(SWT.INHERIT_FORCE);
 
-        String version = Messages.SplashHandler_0 + " " + ArchiPlugin.INSTANCE.getVersion(); //$NON-NLS-1$
+        String version = Messages.SplashHandler_0 + " " + ArchiPlugin.getInstance().getVersion(); //$NON-NLS-1$
 
         // Have to use a child composite to draw on.
         // Set to SWT.NO_BACKGROUND which allows the underlying native splash image to show and fixes the macOS Sonoma flipped image problem.

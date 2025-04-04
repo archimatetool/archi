@@ -456,7 +456,7 @@ public final class CopySnapshot {
         // Create new copies of Archimate concepts or not
         if(pasteSpecial) {
         	// Now decide what to do depending of preferences
-	        switch(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DIAGRAM_PASTE_SPECIAL_BEHAVIOR)) {
+	        switch(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DIAGRAM_PASTE_SPECIAL_BEHAVIOR)) {
 	        	case 0:
 	        		// Force by-ref
 	        		fDoCreateNewArchimateComponents = !isSourceAndTargetArchiMateModelSame();

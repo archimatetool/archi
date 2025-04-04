@@ -16,12 +16,19 @@ public class ImporterPlugin extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "com.archimatetool.modelimporter"; //$NON-NLS-1$
 
 	// The shared instance
-	public static ImporterPlugin INSTANCE;
+	private static ImporterPlugin instance;
 	
+    /**
+     * @return the shared instance
+     */
+    public static ImporterPlugin getInstance() {
+        return instance;
+    }
+
 	/**
 	 * The constructor
 	 */
 	public ImporterPlugin() {
-	    INSTANCE = this;
+	    instance = this;
 	}
 }

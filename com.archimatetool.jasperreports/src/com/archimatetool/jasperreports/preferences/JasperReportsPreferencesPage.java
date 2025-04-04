@@ -42,7 +42,7 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
     private Text fUserReportsFolderTextField;
     
 	public JasperReportsPreferencesPage() {
-		setPreferenceStore(JasperReportsPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(JasperReportsPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override
@@ -108,7 +108,7 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
     
     @Override
     protected void performDefaults() {
-        fUserReportsFolderTextField.setText(JasperReportsPlugin.INSTANCE.getDefaultUserTemplatesFolder().getAbsolutePath());
+        fUserReportsFolderTextField.setText(JasperReportsPlugin.getInstance().getDefaultUserTemplatesFolder().getAbsolutePath());
         super.performDefaults();
     }
     

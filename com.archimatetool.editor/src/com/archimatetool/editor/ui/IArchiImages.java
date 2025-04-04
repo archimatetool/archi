@@ -16,7 +16,7 @@ import com.archimatetool.editor.ArchiPlugin;
 @SuppressWarnings("nls")
 public interface IArchiImages {
     
-    ImageFactory ImageFactory = new ImageFactory(ArchiPlugin.INSTANCE);
+    ImageFactory ImageFactory = new ImageFactory(ArchiPlugin.getInstance());
 
     String IMGPATH = "img/";
     

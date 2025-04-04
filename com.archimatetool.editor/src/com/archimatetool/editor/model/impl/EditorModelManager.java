@@ -87,7 +87,7 @@ implements IEditorModelManager {
     /**
      * Backing File
      */
-    private File backingFile = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "models.xml"); //$NON-NLS-1$
+    private File backingFile = new File(ArchiPlugin.getInstance().getWorkspaceFolder(), "models.xml"); //$NON-NLS-1$
     
     /**
      * Listen to the App closing so we can ask to save
@@ -203,7 +203,7 @@ implements IEditorModelManager {
         
         if(model != null) {
             // Open Views of newly opened model if set in Preferences up to a maximum for safety
-            if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.OPEN_DIAGRAMS_ON_LOAD)) {
+            if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.OPEN_DIAGRAMS_ON_LOAD)) {
                 int max = 0;
                 for(IDiagramModel dm : model.getDiagramModels()) {
                     if(max++ < 30) {
@@ -514,7 +514,7 @@ implements IEditorModelManager {
         File file = model.getFile();
         
         // Save backup (if set in Preferences)
-        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.BACKUP_ON_SAVE) && file.exists()) {
+        if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.BACKUP_ON_SAVE) && file.exists()) {
             FileUtils.copyFile(file, new File(model.getFile().getAbsolutePath() + ".bak"), false); //$NON-NLS-1$
         }
         

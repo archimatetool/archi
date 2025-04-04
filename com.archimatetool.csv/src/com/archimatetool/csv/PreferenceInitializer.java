@@ -20,7 +20,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-        IPreferenceStore store = CSVImportExportPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = CSVImportExportPlugin.getInstance().getPreferenceStore();
         
         store.setDefault(CSV_EXPORT_PREFS_SEPARATOR, 0);
         store.setDefault(CSV_EXPORT_PREFS_EXCEL_COMPATIBLE, false);

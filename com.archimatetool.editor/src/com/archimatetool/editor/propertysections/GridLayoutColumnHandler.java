@@ -40,16 +40,16 @@ public class GridLayoutColumnHandler {
         this.maxColumns = maxColumns;
         
         parent.addDisposeListener(e -> {
-            ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(listener);
+            ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(listener);
             this.parent = null;
         });
         
-        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(listener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(listener);
     }
     
     public void updateColumns() {
         // Set Grid Layout columns
-        int numColumns = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
+        int numColumns = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
         ((GridLayout)parent.getLayout()).numColumns = numColumns;
         
         // If numColumns == 1 set width of each child control to SWT.DEFAULT

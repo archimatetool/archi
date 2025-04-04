@@ -118,13 +118,13 @@ public class DiagramModelUtilsNestedRelationsTests {
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
         // Set prefs to say no
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);
 
         connection.connect(dmo3, dmo4);
         assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
         // Set prefs to say yes
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, true);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, true);
         
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         

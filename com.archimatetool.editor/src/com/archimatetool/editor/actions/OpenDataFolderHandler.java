@@ -26,7 +26,7 @@ public class OpenDataFolderHandler extends AbstractHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         if(isEnabled()) {
-            Program.launch(ArchiPlugin.INSTANCE.getUserDataFolder().getAbsolutePath());
+            Program.launch(ArchiPlugin.getInstance().getUserDataFolder().getAbsolutePath());
         }
         
         return null;
@@ -34,7 +34,7 @@ public class OpenDataFolderHandler extends AbstractHandler {
     
     @Override
     public boolean isEnabled() {
-        File folder = ArchiPlugin.INSTANCE.getUserDataFolder();
+        File folder = ArchiPlugin.getInstance().getUserDataFolder();
         return folder != null && folder.exists();
     }
 }

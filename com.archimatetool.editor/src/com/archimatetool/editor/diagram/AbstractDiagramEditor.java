@@ -261,7 +261,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         setPartName(input.getName());
 
         // Listen to App Prefs changes
-        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(appPreferencesListener);
     }
 
     @Override
@@ -404,7 +404,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Update Shell title bar with file name of current model
      */
     protected void updateShellTitleBarWithFileName() {
-        String appname = ArchiPlugin.INSTANCE.getProductName();
+        String appname = ArchiPlugin.getInstance().getProductName();
         File file = getModel().getArchimateModel().getFile();
         
         if(file != null) {
@@ -448,7 +448,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Apply grid Prefs
      */
     protected void applyUserGridPreferences() {
-        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         
         // Grid Spacing
         int gridSize = store.getInt(IPreferenceConstants.GRID_SIZE);
@@ -471,7 +471,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     protected PaletteViewerProvider createPaletteViewerProvider() {
         // Ensure palette is showing or not
-        boolean showPalette = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PALETTE_STATE);
+        boolean showPalette = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PALETTE_STATE);
         getPalettePreferences().setPaletteState(showPalette ? FlyoutPaletteComposite.STATE_PINNED_OPEN : FlyoutPaletteComposite.STATE_COLLAPSED);
 
         return new PaletteViewerProvider(getEditDomain()) {
@@ -1060,13 +1060,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.dispose();
         
         // Remove Preference listener
-        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(appPreferencesListener);
         
         // Remove eCore adapter listener objects
         eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);
         
         // Update shell text
-        getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());
+        getSite().getShell().setText(ArchiPlugin.getInstance().getProductName());
         
         // Disable Actions
         disableActions();

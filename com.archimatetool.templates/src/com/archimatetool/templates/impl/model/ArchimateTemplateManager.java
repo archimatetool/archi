@@ -37,7 +37,7 @@ public class ArchimateTemplateManager extends TemplateManager {
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {
         ITemplateGroup group = new TemplateGroup(Messages.ArchimateTemplateManager_0);
-        File folder = ArchiTemplatesPlugin.INSTANCE.getTemplatesFolder();
+        File folder = ArchiTemplatesPlugin.getInstance().getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
                 if(file.getName().toLowerCase().endsWith(ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
@@ -55,7 +55,7 @@ public class ArchimateTemplateManager extends TemplateManager {
 
     @Override
     public File getUserTemplatesManifestFile() {
-        return new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "templates.xml"); //$NON-NLS-1$
+        return new File(ArchiPlugin.getInstance().getWorkspaceFolder(), "templates.xml"); //$NON-NLS-1$
     }
 
     @Override

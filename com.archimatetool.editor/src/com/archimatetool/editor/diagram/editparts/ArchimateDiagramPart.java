@@ -28,7 +28,7 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
     
     public ArchimateDiagramPart() {
         // Add a Viewpoint Child EditPart Filter if set in Preferences (hides rather than ghosts)
-        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             addEditPartFilter(new ViewpointEditPartFilter());
         }
     }
@@ -44,7 +44,7 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
         
         // Viewpoint changed
         if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT &&
-                ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+                ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             refreshChildrenFigures();
         }
         else {

@@ -576,7 +576,7 @@ implements ITreeModelView, IUIRequestListener {
                 prefsKey = "modelTreeFolderHidden_" + folderType.getName(); //$NON-NLS-1$
                 setText(StringUtils.escapeAmpersandsInText(folderType.getLabel()));
                 
-                boolean hidden = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(prefsKey);
+                boolean hidden = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(prefsKey);
                 setChecked(!hidden);
                 if(hidden) {
                     getViewer().addFilter(filter);
@@ -592,7 +592,7 @@ implements ITreeModelView, IUIRequestListener {
                     getViewer().addFilter(filter);
                 }
                 
-                ArchiPlugin.INSTANCE.getPreferenceStore().setValue(prefsKey, !isChecked());
+                ArchiPlugin.getInstance().getPreferenceStore().setValue(prefsKey, !isChecked());
             }
         }
         
@@ -626,7 +626,7 @@ implements ITreeModelView, IUIRequestListener {
                 for(FolderFilterAction action : filterActions) {
                     if(!action.isChecked()) {
                         action.setChecked(true);
-                        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(action.prefsKey, false);
+                        ArchiPlugin.getInstance().getPreferenceStore().setValue(action.prefsKey, false);
                         filtersToRemove.add(action.filter);
                     }
                 }
@@ -881,7 +881,7 @@ implements ITreeModelView, IUIRequestListener {
         if(type == Notification.SET) {
             // Viewpoint changed
             if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT
-                        && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
+                        && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
                         && notifier instanceof IDiagramModel dm) {
                 getViewer().updateInBackground(dm.getArchimateModel());
             }

@@ -6,7 +6,6 @@
 package com.archimatetool.csv;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -17,33 +16,16 @@ public class CSVImportExportPlugin extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "com.archimatetool.csv"; //$NON-NLS-1$
 
 	// The shared instance
-	private static CSVImportExportPlugin plugin;
+	private static CSVImportExportPlugin instance;
 	
-	/**
-	 * The constructor
-	 */
+    /**
+     * @return the shared instance
+     */
+    public static CSVImportExportPlugin getInstance() {
+        return instance;
+    }
+
 	public CSVImportExportPlugin() {
+	    instance = this;
 	}
-
-	@Override
-    public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
-
-	@Override
-    public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static CSVImportExportPlugin getDefault() {
-		return plugin;
-	}
-
 }

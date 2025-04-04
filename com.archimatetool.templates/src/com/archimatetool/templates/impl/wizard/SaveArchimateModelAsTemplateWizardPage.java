@@ -103,7 +103,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         String defaultFileName = Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
         
         // Get last folder used
-        String lastFolderName = ArchiPlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FOLDER);
+        String lastFolderName = ArchiPlugin.getInstance().getPreferenceStore().getString(PREFS_LAST_FOLDER);
         File lastFolder = new File(lastFolderName);
         if(lastFolder.exists() && lastFolder.isDirectory()) {
             fFileTextField.setText(new File(lastFolder, defaultFileName).getPath());
@@ -352,7 +352,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         // Store current folder
         File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
         if(parentFile != null) {
-            ArchiPlugin.INSTANCE.getPreferenceStore().setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
         }
     }
 

@@ -52,7 +52,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private CheckboxTableViewer fTableViewerNewRelations, fTableViewerReversedRelations, fTableViewerHiddenRelations;
     
     public ConnectionsARMPreferencePage() {
-        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+        setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
         setDescription(Messages.ConnectionsARMPreferencePage_0);
     }
     

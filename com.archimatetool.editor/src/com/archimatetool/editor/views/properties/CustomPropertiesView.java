@@ -45,11 +45,11 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
         // Add an action to allow single column layouts
         IAction action = new Action(Messages.CustomPropertiesView_0, IAction.AS_CHECK_BOX) {};
         menuManager.add(action);
-        action.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN));
+        action.setChecked(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN));
         
         action.addPropertyChangeListener(event -> {
             if(IAction.CHECKED.equals(event.getProperty())) {
-                ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN, action.isChecked());
+                ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN, action.isChecked());
                 
                 // Scroll bars need resizing
                 if(getCurrentPage() instanceof TabbedPropertySheetPage) {

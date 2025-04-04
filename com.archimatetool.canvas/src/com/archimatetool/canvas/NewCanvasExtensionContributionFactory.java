@@ -175,7 +175,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
             fCurrentFolder = null;
             
             // Evaluate visibility here (otherwise we might see an empty "New" menu item if Canvas is not enabled)
-            if(!CanvasEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED)) {
+            if(!CanvasEditorPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED)) {
                 return EvaluationResult.FALSE;
             }
             

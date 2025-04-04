@@ -19,7 +19,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchiZestPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiZestPlugin.getInstance().getPreferenceStore();
         
 		store.setDefault(VISUALISER_DEPTH, 0);
 		store.setDefault(VISUALISER_ELEMENTS, "");

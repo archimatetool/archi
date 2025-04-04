@@ -22,18 +22,23 @@ public class CanvasEditorPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.canvas"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static CanvasEditorPlugin INSTANCE;
+    // The shared instance
+    private static CanvasEditorPlugin instance;
     
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
+    /**
+     * @return the shared instance
+     */
+    public static CanvasEditorPlugin getInstance() {
+        return instance;
+    }
+
     public CanvasEditorPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
     
     /**

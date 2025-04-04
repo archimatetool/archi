@@ -182,7 +182,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
             return;
         }
 
-        IPreferenceStore preferenceStore = ArchiPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore preferenceStore = ArchiPlugin.getInstance().getPreferenceStore();
         
         // New value via preferences
         preferenceStore.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);

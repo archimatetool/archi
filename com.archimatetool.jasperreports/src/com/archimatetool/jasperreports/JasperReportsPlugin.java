@@ -28,18 +28,23 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.jasperreports";
 
-    /**
-     * The shared instance
-     */
-    public static JasperReportsPlugin INSTANCE;
+    // The shared instance
+    private static JasperReportsPlugin instance;
 
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
+    /**
+     * @return the shared instance
+     */
+    public static JasperReportsPlugin getInstance() {
+        return instance;
+    }
+
     public JasperReportsPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return Default JR user templates folder
      */
     public File getDefaultUserTemplatesFolder() {
-        return new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "jasper-reports");
+        return new File(ArchiPlugin.getInstance().getUserDataFolder(), "jasper-reports");
     }
 
     /**

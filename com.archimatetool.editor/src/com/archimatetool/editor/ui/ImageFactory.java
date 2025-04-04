@@ -62,7 +62,7 @@ public class ImageFactory {
      * If Preferences are set to not use a scaled device zoom then return 100
      */
     public static int getImageDeviceZoom() {
-        boolean scaleImages = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
+        boolean scaleImages = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
         int deviceZoom = getDeviceZoom();
         // If scaling prefs x2 is true and device zoom is 100 then return 200
         // Else return device zoom

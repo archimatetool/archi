@@ -34,7 +34,7 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
     private static Color DEFAULT_COLOR = new Color(255, 199, 63);
     
     public static Color getFolderColor(FolderType type) {
-        String colorValue = ArchiPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
+        String colorValue = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
         
         if(StringUtils.isSet(colorValue)) {
             return ColorFactory.get(colorValue);
@@ -44,7 +44,7 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
     }
     
     public static Color getDefaultFolderColor(FolderType type) {
-        String colorValue = ArchiPlugin.INSTANCE.getPreferenceStore().getDefaultString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
+        String colorValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(IPreferenceConstants.FOLDER_COLOUR_PREFIX + type.getName());
         
         if(StringUtils.isSet(colorValue)) {
             return ColorFactory.get(colorValue);

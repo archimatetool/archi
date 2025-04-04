@@ -39,8 +39,8 @@ public final class XMLValidator {
         
         // Local XSDs
         Schema schema = factory.newSchema(new Source[]{
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD)),
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
+                new StreamSource(XMLExchangePlugin.getInstance().getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD)),
+                new StreamSource(XMLExchangePlugin.getInstance().getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
         });
 
         Validator validator = schema.newValidator();
@@ -73,7 +73,7 @@ public final class XMLValidator {
             // in the main XSD file so that we don't have to go online to get it (takes ages)
             if("http://www.w3.org/2001/xml.xsd".equals(systemId)) { //$NON-NLS-1$
                 try {
-                    InputStream is = XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.XML_XSD);
+                    InputStream is = XMLExchangePlugin.getInstance().getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.XML_XSD);
                     return new Input(publicId, systemId, is);
                 }
                 catch(IOException ex) {
@@ -84,7 +84,7 @@ public final class XMLValidator {
             // Resolve included XSDs
             if(XMLExchangePlugin.ARCHIMATE3_VIEW_XSD.equals(systemId) || XMLExchangePlugin.ARCHIMATE3_MODEL_XSD.equals(systemId)) {
                 try {
-                    InputStream is = XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + systemId);
+                    InputStream is = XMLExchangePlugin.getInstance().getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + systemId);
                     return new Input(publicId, systemId, is);
                 }
                 catch(IOException ex) {

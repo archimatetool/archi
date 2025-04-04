@@ -81,7 +81,7 @@ public final class NetUtils  {
         setDefaultProxy();
         
         // On preference change setup again
-        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(event -> {
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(event -> {
             if(event.getProperty() == IPreferenceConstants.PREFS_PROXY_ENABLED || 
                                         event.getProperty() == IPreferenceConstants.PREFS_PROXY_REQUIRES_AUTHENTICATION ||
                                         event.getProperty() == IPreferenceConstants.PREFS_PROXY_HOST || 
@@ -152,35 +152,35 @@ public final class NetUtils  {
      * Whether we are using a proxy as set in preferences
      */
     public static boolean isProxyEnabled() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PREFS_PROXY_ENABLED);
+        return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PREFS_PROXY_ENABLED);
     }
     
     /**
      * Whether we are using authentication for the proxy as set in preferences
      */
     public static boolean isProxyAuthenticated() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PREFS_PROXY_REQUIRES_AUTHENTICATION);
+        return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PREFS_PROXY_REQUIRES_AUTHENTICATION);
     }
 
     /**
      * Return the Proxy Host as set in preferences
      */
     public static String getProxyHost() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.PREFS_PROXY_HOST);
+        return ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.PREFS_PROXY_HOST);
     }
 
     /**
      * Return the Proxy Port as set in preferences
      */
     public static int getProxyPort() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.PREFS_PROXY_PORT);
+        return ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.PREFS_PROXY_PORT);
     }
     
     /**
      * Return the network timeout in milliseconds
      */
     public static int getNetworkTimeout() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.PREFS_NETWORK_TIMEOUT);
+        return ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.PREFS_NETWORK_TIMEOUT);
     }
 
     private static Proxy getHTTPProxy() {

@@ -30,11 +30,11 @@ public class ToggleGridVisibleAction extends Action {
 
     @Override
     public boolean isChecked() {
-        return ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.GRID_VISIBLE);
+        return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.GRID_VISIBLE);
     }
 
     @Override
     public void run() {
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.GRID_VISIBLE, !isChecked());
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.GRID_VISIBLE, !isChecked());
     }
 }

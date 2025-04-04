@@ -20,10 +20,8 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.archimatetool.help"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiHelpPlugin INSTANCE;
+	// The shared instance
+    private static ArchiHelpPlugin instance;
 
     /**
      * The File location of this plugin folder
@@ -31,10 +29,17 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
     private static File fPluginFolder;
 
     /**
+     * @return the shared instance
+     */
+    public static ArchiHelpPlugin getInstance() {
+        return instance;
+    }
+
+    /**
      * The constructor.
      */
     public ArchiHelpPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 	
     /**

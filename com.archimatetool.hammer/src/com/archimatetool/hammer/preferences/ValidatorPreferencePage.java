@@ -46,7 +46,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     };
     
 	public ValidatorPreferencePage() {
-		setPreferenceStore(ArchiHammerPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(ArchiHammerPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override

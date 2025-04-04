@@ -108,7 +108,7 @@ public class SetConstraintObjectCommand extends CompoundCommand implements IAnim
      * If the option is set, move children in relation to new resize x, y
      */
     protected void createChildConstraintCommands() {
-        if(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) != 0 ||
+        if(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) != 0 ||
                 fRequest == null ||
                 !(fObject instanceof IDiagramModelContainer)) {
             return;

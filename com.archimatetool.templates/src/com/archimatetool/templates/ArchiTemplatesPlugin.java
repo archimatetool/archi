@@ -22,18 +22,23 @@ public class ArchiTemplatesPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.templates"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiTemplatesPlugin INSTANCE;
+    // The shared instance
+    private static ArchiTemplatesPlugin instance;
     
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
+    /**
+     * @return the shared instance
+     */
+    public static ArchiTemplatesPlugin getInstance() {
+        return instance;
+    }
+
     public ArchiTemplatesPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 
     /**

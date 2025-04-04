@@ -16,13 +16,17 @@ public class ArchiWidgetsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.widgets"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiWidgetsPlugin INSTANCE;
+    // The shared instance
+    private static ArchiWidgetsPlugin instance;
     
+    /**
+     * @return the shared instance
+     */
+    public static ArchiWidgetsPlugin getInstance() {
+        return instance;
+    }
 
     public ArchiWidgetsPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 }

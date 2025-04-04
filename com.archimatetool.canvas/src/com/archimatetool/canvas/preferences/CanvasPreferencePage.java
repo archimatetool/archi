@@ -34,7 +34,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fCanvasEditorEnabledButton;
     
 	public CanvasPreferencePage() {
-		setPreferenceStore(CanvasEditorPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(CanvasEditorPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override

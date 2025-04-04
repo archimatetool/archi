@@ -79,7 +79,7 @@ public class DropinsPluginHandler {
     public List<Bundle> getInstalledPlugins() throws IOException {
         List<Bundle> list = new ArrayList<Bundle>();
         
-        for(Bundle bundle : ArchiPlugin.INSTANCE.getBundle().getBundleContext().getBundles()) {
+        for(Bundle bundle : ArchiPlugin.getInstance().getBundle().getBundleContext().getBundles()) {
             File file = getDropinsBundleFile(bundle);
             if(file != null) {
                 list.add(bundle);
@@ -341,7 +341,7 @@ public class DropinsPluginHandler {
      */
     private File getUserDropinsFolder() {
         if(userDropinsFolder == null) {
-            userDropinsFolder = ArchiPlugin.INSTANCE.getUserDropinsFolder();
+            userDropinsFolder = ArchiPlugin.getInstance().getUserDropinsFolder();
         }
         
         return userDropinsFolder;

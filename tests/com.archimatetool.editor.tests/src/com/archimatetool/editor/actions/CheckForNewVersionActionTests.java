@@ -48,7 +48,7 @@ public class CheckForNewVersionActionTests {
     @Test
     public void testNewVersionIsGreater() {
         String newVersion = "100.1.1";
-        String thisVersion = ArchiPlugin.INSTANCE.getVersion();
+        String thisVersion = ArchiPlugin.getInstance().getVersion();
         assertNotNull(thisVersion);
         assertEquals(1, StringUtils.compareVersionNumbers(newVersion, thisVersion));
     }

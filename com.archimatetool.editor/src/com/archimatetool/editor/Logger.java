@@ -108,8 +108,8 @@ public final class Logger {
      */
     public static void log(int severity, String message, Throwable t) {
         if(enabled) {
-            ArchiPlugin.INSTANCE.getLog().log(
-                    new Status(severity, ArchiPlugin.INSTANCE.getId(), IStatus.OK, message, t));
+            ArchiPlugin.getInstance().getLog().log(
+                    new Status(severity, ArchiPlugin.getInstance().getId(), IStatus.OK, message, t));
         }
     }
 }

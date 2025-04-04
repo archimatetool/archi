@@ -24,11 +24,11 @@ public class LinkToEditorAction extends Action {
     public LinkToEditorAction() {
         super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED));
-        setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.LINK_VIEW));
+        setChecked(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.LINK_VIEW));
     }
     
     @Override
     public void run() {
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.LINK_VIEW, isChecked());
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.LINK_VIEW, isChecked());
     }
 }

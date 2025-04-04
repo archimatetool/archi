@@ -94,7 +94,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         setTextAlignment(getModelConnection().getTextAlignment());
         
-        getFlowPage().setOpaque(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
+        getFlowPage().setOpaque(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
         
         repaint(); // repaint when figure changes
     }
@@ -218,7 +218,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     @Override
     public IFigure getToolTip() {
-        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
             return null;
         }
         
@@ -281,7 +281,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
 
         if(StringUtils.isSet(getConnectionLabel().getText()) && 
-                ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
+                ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
             clipTextLabel(graphics);
         }
         else {

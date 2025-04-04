@@ -253,7 +253,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             parent = (IDiagramModelContainer)targetEditPart.getModel();
         }
         
-        boolean elementsFirst = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.MAGIC_CONNECTOR_POLARITY);
+        boolean elementsFirst = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.MAGIC_CONNECTOR_POLARITY);
         boolean modKeyPressed = getCurrentInput().isModKeyDown(SWT.MOD1);
         elementsFirst ^= modKeyPressed;
         
@@ -539,7 +539,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      * @return True if type is an allowed target type for a given Viewpoint
      */
     private boolean isAllowedTargetTypeInViewpoint(IDiagramModelArchimateComponent diagramComponent, EClass type) {
-        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS)) {
             return true;
         }
         
@@ -597,7 +597,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             redo();
             
             // Select EditPart and edit name
-            if(fViewer != null && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
+            if(fViewer != null && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
                 EditPart editPart = (EditPart)fViewer.getEditPartRegistry().get(fChild);
                 if(editPart != null) {
                     // Async this otherwise the edit label is not aligned

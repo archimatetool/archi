@@ -116,7 +116,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                 IDiagramModel dm = (IDiagramModel)element;
                 
                 // Display label according to ancestor folder's label expression, if present and preference is set
-                if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE)) {
+                if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE)) {
                     String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(dm);
                     if(expression != null) {
                         String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().renderWithExpression(dm, expression));

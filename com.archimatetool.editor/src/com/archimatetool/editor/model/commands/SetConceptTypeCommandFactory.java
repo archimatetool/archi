@@ -159,7 +159,7 @@ public class SetConceptTypeCommandFactory {
                             IDiagramModelContainer parent = (IDiagramModelContainer)dmo.eContainer();
                             int index = parent.getChildren().indexOf(dmo);
                             int oldType = dmo.getType();
-                            int newType = ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + newElement.eClass().getName());
+                            int newType = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + newElement.eClass().getName());
                             
                             @Override
                             public void execute() {

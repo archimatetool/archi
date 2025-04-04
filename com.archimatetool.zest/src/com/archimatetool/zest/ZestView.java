@@ -408,7 +408,7 @@ implements IZestView, ISelectionListener {
         }
 
         // Set depth from prefs
-        int depth = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
+        int depth = ArchiZestPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
         getContentProvider().setDepth(depth);
         fDepthActions[depth].setChecked(true);
     }
@@ -423,7 +423,7 @@ implements IZestView, ISelectionListener {
                 int depth = Integer.valueOf(getId());
                 getContentProvider().setDepth(depth);
                 // store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);
@@ -438,7 +438,7 @@ implements IZestView, ISelectionListener {
 
     private void createViewpointActions() {
         // Get viewpoint from prefs
-        String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        String viewpointID = ArchiZestPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
         getContentProvider().setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
 
         // Viewpoint actions
@@ -463,7 +463,7 @@ implements IZestView, ISelectionListener {
                 // Set viewpoint filter
                 getContentProvider().setViewpointFilter(vp);
                 // Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
 
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
@@ -511,7 +511,7 @@ implements IZestView, ISelectionListener {
         fOtherElementActions = createElementActionsGroup(ArchimateModelUtils.getOtherClasses());
 
         // Get selected elements from prefs
-        String elementPrefs = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENTS);
+        String elementPrefs = ArchiZestPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ELEMENTS);
         
         // All
         if("".equals(elementPrefs)) { //$NON-NLS-1$
@@ -586,7 +586,7 @@ implements IZestView, ISelectionListener {
                 for(EClass eClass : getContentProvider().getElementFilters()) {
                     elements += eClass.getName() + " "; //$NON-NLS-1$
                 }
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ELEMENTS, elements);
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ELEMENTS, elements);
             }
         };
 
@@ -611,7 +611,7 @@ implements IZestView, ISelectionListener {
         }
         
         // Get selected relationships from prefs
-        String relationsPrefs = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIPS);
+        String relationsPrefs = ArchiZestPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIPS);
         
         // All
         if("".equals(relationsPrefs)) { //$NON-NLS-1$
@@ -671,7 +671,7 @@ implements IZestView, ISelectionListener {
                 for(EClass eClass : getContentProvider().getRelationshipFilters()) {
                     relations += eClass.getName() + " "; //$NON-NLS-1$
                 }
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIPS, relations);
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIPS, relations);
             }
         };
 
@@ -688,7 +688,7 @@ implements IZestView, ISelectionListener {
         fDirectionActions[2] = createDirectionMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
 
         // Set direction from prefs
-        int direction = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
+        int direction = ArchiZestPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
         getContentProvider().setDirection(direction);
         fDirectionActions[direction].setChecked(true);
     }
@@ -702,7 +702,7 @@ implements IZestView, ISelectionListener {
                 // Set orientation
                 getContentProvider().setDirection(orientation);
                 // Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);

@@ -34,7 +34,7 @@ public class CanvasTemplateManager extends TemplateManager {
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {
         ITemplateGroup group = new TemplateGroup(Messages.CanvasTemplateManager_0);
-        File folder = CanvasEditorPlugin.INSTANCE.getTemplatesFolder();
+        File folder = CanvasEditorPlugin.getInstance().getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
                 if(file.getName().toLowerCase().endsWith(CANVAS_TEMPLATE_FILE_EXTENSION)) {
@@ -52,7 +52,7 @@ public class CanvasTemplateManager extends TemplateManager {
 
     @Override
     public File getUserTemplatesManifestFile() {
-        return new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "canvasses.xml"); //$NON-NLS-1$
+        return new File(ArchiPlugin.getInstance().getWorkspaceFolder(), "canvasses.xml"); //$NON-NLS-1$
     }
 
     @Override

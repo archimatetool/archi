@@ -24,18 +24,24 @@ public class ArchiReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.reports"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiReportsPlugin INSTANCE;
+    // The shared instance
+    private static ArchiReportsPlugin instance;
 
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
+    /**
+     * @return the shared instance
+     */
+    public static ArchiReportsPlugin getInstance() {
+        return instance;
+    }
+
+
     public ArchiReportsPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
     
     @Override

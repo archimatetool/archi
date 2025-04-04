@@ -64,7 +64,7 @@ public class CheckForNewVersionAction extends Action {
     @Override
     public void run() {
         try {
-            String versionFile = ArchiPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.UPDATE_URL);
+            String versionFile = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.UPDATE_URL);
             
             if(!StringUtils.isSet(versionFile)) {
                 return;
@@ -73,10 +73,10 @@ public class CheckForNewVersionAction extends Action {
             String newVersion = getOnlineVersion(new URI(versionFile).toURL());
             
             // Get this app's main version number
-            String thisVersion = ArchiPlugin.INSTANCE.getVersion();
+            String thisVersion = ArchiPlugin.getInstance().getVersion();
             
             if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
-                String downloadURL = ArchiPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.DOWNLOAD_URL);
+                String downloadURL = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DOWNLOAD_URL);
                 
                 // No download URL
                 if(!StringUtils.isSet(downloadURL)) {
@@ -115,7 +115,7 @@ public class CheckForNewVersionAction extends Action {
     
     @Override
     public boolean isEnabled() {
-        String versionFile = ArchiPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.UPDATE_URL);
+        String versionFile = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.UPDATE_URL);
         return StringUtils.isSet(versionFile);
     }
     

@@ -72,7 +72,7 @@ import com.archimatetool.reports.ArchiReportsPlugin;
  */
 public class HTMLReportExporter {
     
-    public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "html-report-preview"); //$NON-NLS-1$
+    public static File PREVIEW_FOLDER = new File(ArchiPlugin.getInstance().getWorkspaceFolder(), "html-report-preview"); //$NON-NLS-1$
     
     static final String PREFS_LAST_FOLDER = "Reports_LastFolder"; //$NON-NLS-1$
     
@@ -226,7 +226,7 @@ public class HTMLReportExporter {
         objectsFolder.mkdirs(); // Make dir
 
         // Instantiate templates files
-        File mainFile = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
+        File mainFile = new File(ArchiReportsPlugin.getInstance().getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
         STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
         ST stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
         
@@ -274,7 +274,7 @@ public class HTMLReportExporter {
     private void copyHTMLSkeleton(File targetFolder) throws IOException {
         setProgressSubTask(Messages.HTMLReportExporter_9);
         
-        File srcDir = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
+        File srcDir = new File(ArchiReportsPlugin.getInstance().getTemplatesFolder(), "html"); //$NON-NLS-1$
         FileUtils.copyFolder(srcDir, targetFolder);
     }
     
@@ -481,7 +481,7 @@ public class HTMLReportExporter {
         dialog.setText(Messages.HTMLReportExporter_2);
         dialog.setMessage(Messages.HTMLReportExporter_3);
         
-        IPreferenceStore store = ArchiReportsPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiReportsPlugin.getInstance().getPreferenceStore();
         String lastFolder = store.getString(PREFS_LAST_FOLDER);
         if(StringUtils.isSet(lastFolder)) {
             dialog.setFilterPath(getLastDirectory(lastFolder));

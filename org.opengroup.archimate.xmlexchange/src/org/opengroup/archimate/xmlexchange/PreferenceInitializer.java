@@ -16,7 +16,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-        IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = XMLExchangePlugin.getInstance().getPreferenceStore();
         
         store.setDefault(XMLEXCHANGE_PREFS_ORGANISATION, true);
         store.setDefault(XMLEXCHANGE_PREFS_INCLUDE_XSD, false);

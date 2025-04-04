@@ -72,7 +72,7 @@ class FillColorComposite {
                     // If user pref to save color is set then save the value, otherwise save as null
                     String rgbValue = null;
 
-                    if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                    if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                         Color color = ColorFactory.getDefaultFillColor(dmo);
                         rgbValue = ColorFactory.convertColorToString(color);
                     }
@@ -127,7 +127,7 @@ class FillColorComposite {
         // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
         boolean isDefaultColor = true;
         // If user pref is to save the color then it's a different meaning of default
-        boolean saveUserDefaultColor = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
+        boolean saveUserDefaultColor = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
         
         for(IArchimateModelObject object : section.getEObjects()) {
             if(object instanceof IDiagramModelObject dmo) {
@@ -155,7 +155,7 @@ class FillColorComposite {
             fColorChooser.addListener(colorListener);
         }
         
-        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void removeListeners() {
@@ -163,6 +163,6 @@ class FillColorComposite {
             fColorChooser.removeListener(colorListener);
         }
         
-        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 }

@@ -75,10 +75,10 @@ public class SketchModelFactory implements ICreationFactory {
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             
             // Derive element line color
-            sticky.setDeriveElementLineColor(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR));
+            sticky.setDeriveElementLineColor(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR));
             
             // Gradient
-            sticky.setGradient(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+            sticky.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
 
             if(fParam instanceof RGB rgb) {
                 // set fill color if not default
@@ -99,7 +99,7 @@ public class SketchModelFactory implements ICreationFactory {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
             // Gradient
-            group.setGradient(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+            group.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection

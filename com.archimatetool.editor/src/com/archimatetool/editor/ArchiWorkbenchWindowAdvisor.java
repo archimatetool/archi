@@ -31,7 +31,7 @@ extends WorkbenchWindowAdvisor {
         super(configurer);
         
         // Status Line
-        boolean doShowStatusLine = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_STATUS_LINE);
+        boolean doShowStatusLine = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_STATUS_LINE);
         configurer.setShowStatusLine(doShowStatusLine);
     }
 

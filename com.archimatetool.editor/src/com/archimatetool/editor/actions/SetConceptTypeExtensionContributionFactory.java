@@ -222,7 +222,7 @@ public class SetConceptTypeExtensionContributionFactory extends ExtensionContrib
         for(Entry<IArchimateModel, Set<IArchimateElement>> entry : elementsMap.entrySet()) {
             CommandStack stack = (CommandStack)entry.getKey().getAdapter(CommandStack.class);
             CompoundCommand cmd = SetConceptTypeCommandFactory.createSetElementTypeCommand(eClass, entry.getValue(),
-                                  ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
+                                  ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
             if(stack != null && cmd != null) {
                 // Wrap the command in a NonNotifyingCompoundCommand to minimise event noise
                 stack.execute(new NonNotifyingCompoundCommand(cmd));

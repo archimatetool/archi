@@ -208,7 +208,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
              * @return True if type is an allowed relation type for a given Viewpoint
              */
             private boolean isAllowedRelationInViewpoint(IDiagramModelArchimateComponent dmc, EClass type) {
-                if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+                if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
                     return true;
                 }
                 

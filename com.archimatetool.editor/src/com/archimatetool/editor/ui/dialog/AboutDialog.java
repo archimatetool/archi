@@ -143,9 +143,9 @@ public class AboutDialog extends TrayDialog {
             imageHeight = 300;
         }
         
-        final String version = Messages.AboutDialog_2 + ArchiPlugin.INSTANCE.getVersion();
-        final String build = Messages.AboutDialog_3 + ArchiPlugin.INSTANCE.getBuild();
-        final String copyright = ArchiPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
+        final String version = Messages.AboutDialog_2 + ArchiPlugin.getInstance().getVersion();
+        final String build = Messages.AboutDialog_3 + ArchiPlugin.getInstance().getBuild();
+        final String copyright = ArchiPlugin.getInstance().getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         FontData fd = imageControl.getFont().getFontData()[0];
         fd.setHeight(fd.getHeight() - 1);
@@ -197,7 +197,7 @@ public class AboutDialog extends TrayDialog {
         checkNewVersionButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
-            URL url = ArchiPlugin.INSTANCE.getBundle().getEntry("LICENSE.txt"); //$NON-NLS-1$
+            URL url = ArchiPlugin.getInstance().getBundle().getEntry("LICENSE.txt"); //$NON-NLS-1$
             if(url != null) {
                 try(InputStream in = url.openStream()) {
                     String content = new String(in.readAllBytes());

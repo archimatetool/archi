@@ -196,7 +196,7 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
      * Load any user prefs
      */
     protected void loadPreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         // Viewbox button selected
         fSetViewboxButton.setSelection(store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
@@ -237,7 +237,7 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
      * Save any user prefs
      */
     protected void savePreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         // Viewbox button selected
         store.setValue(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());

@@ -67,7 +67,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fUseFigureLineOffsetButton;
     
 	public DiagramPreferencePage() {
-		setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override

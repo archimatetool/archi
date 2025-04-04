@@ -75,7 +75,7 @@ public class CustomColorDialog {
         RGB[] rgbs = getRGBs();
         if(rgbs != null) {
             for(int i = 0; i < rgbs.length; i++) {
-                ArchiPlugin.INSTANCE.getPreferenceStore().setValue("colorChooser_" + i, ColorFactory.convertRGBToString(rgbs[i])); //$NON-NLS-1$
+                ArchiPlugin.getInstance().getPreferenceStore().setValue("colorChooser_" + i, ColorFactory.convertRGBToString(rgbs[i])); //$NON-NLS-1$
             }
         }
     }
@@ -87,7 +87,7 @@ public class CustomColorDialog {
         List<RGB> rgbs = new ArrayList<RGB>();
         
         for(int i = 0; i < CUSTOM_COLOR_COUNT; i++) {
-            String value = ArchiPlugin.INSTANCE.getPreferenceStore().getString("colorChooser_" + i); //$NON-NLS-1$
+            String value = ArchiPlugin.getInstance().getPreferenceStore().getString("colorChooser_" + i); //$NON-NLS-1$
             RGB rgb = ColorFactory.convertStringToRGB(value);
             if(rgb != null) {
                 rgbs.add(rgb);

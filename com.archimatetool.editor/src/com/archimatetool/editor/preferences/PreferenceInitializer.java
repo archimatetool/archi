@@ -29,7 +29,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
 		
 	    // ======================================= Appearance =======================================
 		

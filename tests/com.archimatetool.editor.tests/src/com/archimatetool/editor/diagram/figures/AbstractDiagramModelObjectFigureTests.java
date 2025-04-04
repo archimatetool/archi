@@ -126,9 +126,9 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @ParamsTest
     public void testGetTooltip(AbstractDiagramModelObjectFigure figure) {
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VIEW_TOOLTIPS, true);
         assertTrue(figure.getToolTip() instanceof ToolTipFigure);
-        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VIEW_TOOLTIPS, false);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VIEW_TOOLTIPS, false);
         assertNull(figure.getToolTip());
     }
     

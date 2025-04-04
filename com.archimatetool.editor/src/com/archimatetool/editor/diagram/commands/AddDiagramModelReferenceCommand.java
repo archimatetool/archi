@@ -42,7 +42,7 @@ public class AddDiagramModelReferenceCommand extends Command {
         Dimension size = provider.getDefaultSize();
         fReference.setBounds(x, y, size.width, size.height);
         
-        fReference.setGradient(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+        fReference.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         
         ColorFactory.setDefaultColors(fReference);
     }

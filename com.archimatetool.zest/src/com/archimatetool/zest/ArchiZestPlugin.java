@@ -16,13 +16,17 @@ public class ArchiZestPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.zest"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiZestPlugin INSTANCE;
+    // The shared instance
+    private static ArchiZestPlugin instance;
     
+    /**
+     * @return the shared instance
+     */
+    public static ArchiZestPlugin getInstance() {
+        return instance;
+    }
 
     public ArchiZestPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 }

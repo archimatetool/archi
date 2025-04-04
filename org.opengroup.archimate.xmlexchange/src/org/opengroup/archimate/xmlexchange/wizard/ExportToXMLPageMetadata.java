@@ -174,7 +174,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
         fTableViewer.setLabelProvider(new LabelCellProvider());
         
         for(int i = 0; i < dcNames.length; i++) {
-            IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
+            IPreferenceStore store = XMLExchangePlugin.getInstance().getPreferenceStore();
             String lastValue = store.getString(PREFS_LAST_VALUE + dcNames[i]);
             fData.put(dcNames[i], lastValue);
         }
@@ -199,7 +199,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
     }
     
     void storePreferences() {
-        IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = XMLExchangePlugin.getInstance().getPreferenceStore();
         for(Entry<String, String> entry : fData.entrySet()) {
             store.setValue(PREFS_LAST_VALUE + entry.getKey(), entry.getValue());
         }

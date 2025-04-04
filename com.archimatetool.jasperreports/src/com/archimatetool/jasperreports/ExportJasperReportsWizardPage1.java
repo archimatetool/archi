@@ -78,7 +78,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
-        IPreferenceStore store = JasperReportsPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = JasperReportsPlugin.getInstance().getPreferenceStore();
         
         Composite fieldContainer = new Composite(container, SWT.NULL);
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -396,7 +396,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
     }
 
     void storePreferences() {
-        IPreferenceStore store = JasperReportsPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = JasperReportsPlugin.getInstance().getPreferenceStore();
         store.setValue(PREFS_LAST_FOLDER, getExportFolder().getAbsolutePath());
         store.setValue(PREFS_LAST_FILENAME, getExportFilename());
         store.setValue(PREFS_EXPORT_OPTIONS, getExportOptions());
