@@ -120,7 +120,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     }
     
     private boolean doSync() {
-        return doSync && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.LINK_VIEW);
+        return doSync && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.LINK_VIEW);
     }
     
     /**
@@ -207,7 +207,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         }
         
         // Preference listener
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void unregisterListeners() {
@@ -224,7 +224,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         }
         
         // Preference listener
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 
     private void registerEditor(IDiagramModelEditor editor) {

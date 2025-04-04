@@ -225,7 +225,7 @@ public class EditorModelManagerTests {
         File tmpFile = TestUtils.createTempFile(".archimate");
         model.setFile(tmpFile);
         
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.BACKUP_ON_SAVE, false);
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.BACKUP_ON_SAVE, false);
         
         boolean result = editorModelManager.saveModel(model);
         assertTrue(result);

@@ -206,14 +206,14 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
     }
     
     void savePreferences() {
-        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         store.setValue(PREFS_ALLCONNECTIONS, fAddAllConnections);
         store.setValue(PREFS_LASTVIEWPOINT, fSelectedViewpoint.getID());
     }
 
     void loadPreferences() {
-        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         fAddAllConnectionsButton.setSelection(store.getBoolean(PREFS_ALLCONNECTIONS));
         

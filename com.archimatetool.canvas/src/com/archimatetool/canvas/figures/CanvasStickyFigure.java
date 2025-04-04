@@ -185,7 +185,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
     
     @Override
     public IFigure getToolTip() {
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
+        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
             return null;
         }
         

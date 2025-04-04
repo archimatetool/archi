@@ -198,7 +198,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
         fSpecializationEntries.clear();
         
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_PALETTE)) {
+        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_PALETTE)) {
             fDiagramModel.getArchimateModel().eAdapters().remove(eAdapter);
             return;
         }
@@ -304,7 +304,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private boolean isAllowedConceptForViewpoint(EClass eClass) {
         // Preference to show all pallette elements regardless of Viewpoint
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
             return true;
         }
         

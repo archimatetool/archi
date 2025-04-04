@@ -261,7 +261,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         setPartName(input.getName());
 
         // Listen to App Prefs changes
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(appPreferencesListener);
     }
 
     @Override
@@ -448,7 +448,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Apply grid Prefs
      */
     protected void applyUserGridPreferences() {
-        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         // Grid Spacing
         int gridSize = store.getInt(IPreferenceConstants.GRID_SIZE);
@@ -471,7 +471,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     protected PaletteViewerProvider createPaletteViewerProvider() {
         // Ensure palette is showing or not
-        boolean showPalette = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PALETTE_STATE);
+        boolean showPalette = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.PALETTE_STATE);
         getPalettePreferences().setPaletteState(showPalette ? FlyoutPaletteComposite.STATE_PINNED_OPEN : FlyoutPaletteComposite.STATE_COLLAPSED);
 
         return new PaletteViewerProvider(getEditDomain()) {
@@ -1060,7 +1060,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.dispose();
         
         // Remove Preference listener
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(appPreferencesListener);
         
         // Remove eCore adapter listener objects
         eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);

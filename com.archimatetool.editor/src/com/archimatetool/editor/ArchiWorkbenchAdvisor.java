@@ -51,7 +51,7 @@ extends WorkbenchAdvisor
                 "true".equals(System.getProperty("showheap")));
         
         // Edge Browser on Windows
-        if(PlatformUtils.isWindows() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.EDGE_BROWSER)) {
+        if(PlatformUtils.isWindows() && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDGE_BROWSER)) {
             System.setProperty("org.eclipse.swt.browser.DefaultType", "edge");
         }
         

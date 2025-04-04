@@ -78,7 +78,7 @@ class LineColorComposite {
                     // If user pref to save color is set then save the value, otherwise save as null
                     String rgbValue = null;
                     
-                    if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                    if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                         Color color = ColorFactory.getDefaultLineColor(lineObject);
                         rgbValue = ColorFactory.convertColorToString(color);
                     }
@@ -147,7 +147,7 @@ class LineColorComposite {
         // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
         boolean isDefaultColor = true;
         // If user pref is to save the color then it's a different meaning of default
-        boolean saveUserDefaultColor = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
+        boolean saveUserDefaultColor = ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
         
         for(IArchimateModelObject object : section.getEObjects()) {
             if(object instanceof ILineObject lo) {
@@ -210,7 +210,7 @@ class LineColorComposite {
             fColorChooser.addListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void removeListeners() {
@@ -218,6 +218,6 @@ class LineColorComposite {
             fColorChooser.removeListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 }

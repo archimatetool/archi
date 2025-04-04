@@ -181,7 +181,7 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     @Override
     protected void refreshFigure() {
         // Set Enabled according to current Viewpoint
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             getFigure().setEnabled(ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModel()));
         }
         else {

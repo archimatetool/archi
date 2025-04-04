@@ -35,7 +35,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
         boolean enabled = true;
 
         // Set Enabled according to current Viewpoint
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getDiagramModelArchimateConnection());
         }
         

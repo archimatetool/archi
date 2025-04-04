@@ -104,7 +104,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Prefs listener
         prefsListener = this::applicationPreferencesChanged;
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void hookSelectionListener() {
@@ -469,7 +469,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
         
         // Remove Prefs listener
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
         
         // Update shell text
         getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());

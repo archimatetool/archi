@@ -30,11 +30,11 @@ public class ToggleGridEnabledAction extends Action {
 
     @Override
     public boolean isChecked() {
-        return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.GRID_SNAP);
+        return ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.GRID_SNAP);
     }
 
     @Override
     public void run() {
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.GRID_SNAP, !isChecked());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.GRID_SNAP, !isChecked());
     }
 }

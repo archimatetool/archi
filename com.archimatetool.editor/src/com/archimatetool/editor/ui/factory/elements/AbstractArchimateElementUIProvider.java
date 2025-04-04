@@ -48,12 +48,12 @@ implements IArchimateElementUIProvider {
     
     @Override
     public int getDefaultTextAlignment() {
-        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT);
+        return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_ALIGNMENT);
     }
     
     @Override
     public int getDefaultTextPosition() {
-        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
+        return ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION);
     }
 
     @Override
@@ -72,8 +72,8 @@ implements IArchimateElementUIProvider {
      * @return The default figure size from Preferences
      */
     protected static Dimension getDefaultUserPreferenceSize() {
-        return new Dimension(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH),
-                             ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
+        return new Dimension(ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH),
+                             ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
     }
 
     /**

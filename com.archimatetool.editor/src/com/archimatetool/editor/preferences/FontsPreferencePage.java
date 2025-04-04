@@ -193,7 +193,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private IWorkbench workbench;
     
     public FontsPreferencePage() {
-        setPreferenceStore(ArchiPlugin.PREFERENCES);
+        setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
         // This is now shown in a label
         //setDescription(Messages.FontsPreferencePage_21);
     }

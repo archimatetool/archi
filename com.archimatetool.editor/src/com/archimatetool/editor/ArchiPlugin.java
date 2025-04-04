@@ -14,10 +14,8 @@ import java.nio.file.Paths;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 
 
@@ -49,34 +47,10 @@ public class ArchiPlugin extends AbstractUIPlugin {
      */
     public static ArchiPlugin INSTANCE;
     
-    /**
-     * The shared Preference store
-     */
-    public static IPreferenceStore PREFERENCES;
-
     public ArchiPlugin() {
-    }
-
-    /**
-     * This method is called upon plug-in activation
-     */
-    @Override
-    public void start(BundleContext context) throws Exception {
-        super.start(context);
-        
         INSTANCE = this;
-        PREFERENCES = getPreferenceStore();
     }
 
-    /**
-     * This method is called when the plug-in is stopped
-     */
-    @Override
-    public void stop(BundleContext context) throws Exception {
-        // super must be *last*
-        super.stop(context);
-    }
-    
     /**
      * @return The User data folder use for Archi data
      */ 

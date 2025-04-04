@@ -210,7 +210,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             addECoreAdapter();
             
             // Listen to Prefs changes to set default Font
-            ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+            ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
         }
     }
     
@@ -222,7 +222,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             // Remove Listener to changes in Diagram Model Object
             removeECoreAdapter();
             
-            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
         }
     }
     

@@ -170,7 +170,7 @@ public class TreeModelViewActionFactory {
     private List<IAction> createSpecializationActions(EClass[] classes, IFolder folder) {
         List<IAction> actions = new ArrayList<>();
         
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_MODEL_TREE)
+        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_MODEL_TREE)
                 || folder.getArchimateModel().getProfiles().isEmpty()) {
             return actions;
         }
@@ -259,7 +259,7 @@ public class TreeModelViewActionFactory {
                 sketchModel.setName(Messages.TreeModelViewActionFactory_3);
                 
                 // Defaults
-                int defaultBackground = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.SKETCH_DEFAULT_BACKGROUND);
+                int defaultBackground = ArchiPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.SKETCH_DEFAULT_BACKGROUND);
                 sketchModel.setBackground(defaultBackground);
                 
                 // Execute Command

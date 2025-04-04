@@ -149,7 +149,7 @@ implements NodeEditPart {
     
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), connection, true);
     	}
     	
@@ -158,7 +158,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     		return new OrthogonalAnchor(getFigure(), connection, false);
     	}
     	
@@ -167,7 +167,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, true);
     	}
     	
@@ -176,7 +176,7 @@ implements NodeEditPart {
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-    	if(canUseOrthogonalAnchor() && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, false);
     	}
     	

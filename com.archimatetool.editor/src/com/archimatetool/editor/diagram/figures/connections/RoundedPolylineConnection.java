@@ -65,7 +65,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 
 	@Override
 	public Rectangle getBounds() {
-		if (ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
+		if (ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
 			return super.getBounds().getCopy().expand(10, 10);
 		else
 			return super.getBounds();
@@ -104,7 +104,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			Point next = bendpoints.getPoint(i + 1);
 			
 			// If line-curves are enabled draw bendpoints using ellipse approximation
-			if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
+			if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
 				// Switch to polar coordinates
 				PolarPoint prev_p = new PolarPoint(bp, prev);
 				PolarPoint next_p = new PolarPoint(bp, next);
@@ -178,7 +178,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		linepoints.addPoint(start);
 		
 		// If line-jumps are enabled, draw them using half circles
-		if (ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
+		if (ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
 			// Compute angle between line segment and horizontal line
 			PolarPoint end_p = new PolarPoint(start, end);
 			double angle = end_p.theta % Math.PI;

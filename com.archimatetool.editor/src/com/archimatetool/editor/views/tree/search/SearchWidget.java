@@ -168,7 +168,7 @@ public class SearchWidget extends Composite {
         UIUtils.applyMacUndoBugFilter(fSearchText);
         
         // Use auto search
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
+        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
             fSearchText.addModifyListener(event -> {
                 // If we have a timer cancel it
                 if(fKeyDelayTimer != null) {
@@ -409,36 +409,36 @@ public class SearchWidget extends Composite {
     }
     
     private void loadPreferences() {
-        fActionFilterName.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_NAME));
+        fActionFilterName.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_NAME));
         fSearchFilter.setFilterOnName(fActionFilterName.isChecked());
         
-        fActionFilterDocumentation.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION));
+        fActionFilterDocumentation.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION));
         fSearchFilter.setFilterOnDocumentation(fActionFilterDocumentation.isChecked());
         
-        fActionFilterPropertyValues.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES));
+        fActionFilterPropertyValues.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES));
         fSearchFilter.setFilterOnPropertyValues(fActionFilterPropertyValues.isChecked());
         
-        fActionFilterViews.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_VIEWS));
+        fActionFilterViews.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_VIEWS));
         fSearchFilter.setFilterViews(fActionFilterViews.isChecked());
         
-        fActionShowAllFolders.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS));
+        fActionShowAllFolders.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS));
         fSearchFilter.setShowAllFolders(fActionShowAllFolders.isChecked());
 
-        fActionMatchCase.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_MATCH_CASE));
+        fActionMatchCase.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_MATCH_CASE));
         fSearchFilter.setMatchCase(fActionMatchCase.isChecked());
         
-        fActionUseRegex.setChecked(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SEARCHFILTER_USE_REGEX));
+        fActionUseRegex.setChecked(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.SEARCHFILTER_USE_REGEX));
         fSearchFilter.setUseRegex(fActionUseRegex.isChecked());
     }
     
     private void savePreferences() {
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_NAME, fSearchFilter.getFilterOnName());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION, fSearchFilter.getFilterOnDocumentation());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES, fSearchFilter.getFilterOnPropertyValues());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_VIEWS, fSearchFilter.isFilteringViews());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS, fSearchFilter.getShowAllFolders());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_MATCH_CASE, fSearchFilter.getMatchCase());
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.SEARCHFILTER_USE_REGEX, fSearchFilter.getUseRegex());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_NAME, fSearchFilter.getFilterOnName());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION, fSearchFilter.getFilterOnDocumentation());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES, fSearchFilter.getFilterOnPropertyValues());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_VIEWS, fSearchFilter.isFilteringViews());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS, fSearchFilter.getShowAllFolders());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_MATCH_CASE, fSearchFilter.getMatchCase());
+        ArchiPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.SEARCHFILTER_USE_REGEX, fSearchFilter.getUseRegex());
     }
     
     /**

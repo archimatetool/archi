@@ -84,7 +84,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     
 	public AppearancePreferencePage() {
-		setPreferenceStore(ArchiPlugin.PREFERENCES);
+		setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
 		setDescription(Messages.AppearancePreferencePage_0);
 	}
 	

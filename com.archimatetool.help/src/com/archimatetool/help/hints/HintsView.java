@@ -197,7 +197,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             
             // Don't allow external hosts if set
             browser.addLocationListener(LocationListener.changingAdapter(e -> {
-                if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED)) {
+                if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED)) {
                     e.doit = isLocalURL(e.location); // can link to local locations
                 }
             }));
@@ -301,7 +301,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         fTitleLabel.setText(title);
         
         // Enable/Disable JS
-        fBrowser.setJavascriptEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HINTS_BROWSER_JS_ENABLED));
+        fBrowser.setJavascriptEnabled(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.HINTS_BROWSER_JS_ENABLED));
 
         // We have some content
         if(content != null) {

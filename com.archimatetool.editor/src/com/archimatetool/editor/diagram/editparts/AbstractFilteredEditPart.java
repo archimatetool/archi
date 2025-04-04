@@ -43,7 +43,7 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
             
             // Listen to Application Prefs changes
             prefsListener = this::applicationPreferencesChanged;
-            ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+            ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
             removeECoreAdapter();
 
             // Remove Prefs listener
-            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
         }
     }
 

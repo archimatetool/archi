@@ -104,7 +104,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
 	public ColoursPreferencePage() {
-		setPreferenceStore(ArchiPlugin.PREFERENCES);
+		setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
 	}
 	
     @Override

@@ -71,7 +71,7 @@ implements IArchimateDiagramEditor {
         getPaletteRoot().updateViewpoint();
         
         // If the preference is to hide elements then refresh the model contents
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(!ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             getGraphicalViewer().setContents(getModel()); 
         }
     }

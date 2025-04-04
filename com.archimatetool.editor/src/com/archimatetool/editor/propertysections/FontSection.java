@@ -158,7 +158,7 @@ public class FontSection extends AbstractECorePropertySection {
         // Allow setting 1 or 2 columns
         GridLayoutColumnHandler.create(parent, 2).updateColumns();
 
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().addPropertyChangeListener(prefsListener);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -239,7 +239,7 @@ public class FontSection extends AbstractECorePropertySection {
             fColorChooser.removeListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.INSTANCE.getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 
 }
