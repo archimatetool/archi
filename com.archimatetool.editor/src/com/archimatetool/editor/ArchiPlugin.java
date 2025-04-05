@@ -38,11 +38,6 @@ public class ArchiPlugin extends AbstractUIPlugin {
     public static final String DROPINS_DIRECTORY = "org.eclipse.equinox.p2.reconciler.dropins.directory";
 
     /**
-     * The File location of this plugin folder
-     */
-    private static File fPluginFolder;
-
-    /**
      * The shared instance
      * Deprecated since Archi 5.6. Use getInstance().
      */
@@ -118,18 +113,14 @@ public class ArchiPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/");
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/"));
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
     
     /**

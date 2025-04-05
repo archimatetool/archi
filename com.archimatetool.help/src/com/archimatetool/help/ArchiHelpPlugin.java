@@ -24,11 +24,6 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
     private static ArchiHelpPlugin instance;
 
     /**
-     * The File location of this plugin folder
-     */
-    private static File fPluginFolder;
-
-    /**
      * @return the shared instance
      */
     public static ArchiHelpPlugin getInstance() {
@@ -53,17 +48,13 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/"); //$NON-NLS-1$
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/")); //$NON-NLS-1$
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

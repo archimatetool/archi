@@ -32,11 +32,6 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
     private static JasperReportsPlugin instance;
 
     /**
-     * The File location of this plugin folder
-     */
-    private static File fPluginFolder;
-
-    /**
      * @return the shared instance
      */
     public static JasperReportsPlugin getInstance() {
@@ -95,17 +90,13 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/");
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/"));
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }
