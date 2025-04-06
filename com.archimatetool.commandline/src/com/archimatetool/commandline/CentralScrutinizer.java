@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.cli.CommandLine;
@@ -42,24 +41,13 @@ import com.archimatetool.editor.utils.StringUtils;
  */
 public class CentralScrutinizer implements IApplication {
 
-    /**
-     * Constructor
-     */
     public CentralScrutinizer() {
     }
     
-    private class ProviderInfo {
-        String id;
-        String name;
-        String description;
-        
-        public ProviderInfo(String id, String name, String description) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-        }
-    }
+    // CLI Provider Info as registered in plugin.xml extension point
+    private record ProviderInfo(String id, String name, String description) {}
 
+    // Registed CLI Providers
     private Map<ICommandLineProvider, ProviderInfo> providers;
     
     @Override
@@ -109,7 +97,7 @@ public class CentralScrutinizer implements IApplication {
                 ICommandLineProvider provider = (ICommandLineProvider)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 
                 if(id != null && provider != null) {
-                    ProviderInfo info = new ProviderInfo(id, name, description);
+                    ProviderInfo info = new ProviderInfo(id, StringUtils.isSet(name) ? name : id, StringUtils.safeString(description));
                     providers.put(provider, info);
                 }
             } 
@@ -135,7 +123,7 @@ public class CentralScrutinizer implements IApplication {
         }
         
         // Filter out any non-valid arguments
-        List<String> args = new ArrayList<String>();
+        List<String> args = new ArrayList<>();
         boolean nextArgument = false;
         
         for(String arg : Platform.getApplicationArgs()) {
@@ -162,8 +150,8 @@ public class CentralScrutinizer implements IApplication {
     
     // Run providers' options
     private int runProviderOptions(CommandLine commandLine) {
-        // Ensure Display is initialised
-        ensureDefaultDisplay();
+        // Ensure Current Display is initialised by simply calling this
+        Display.getDefault();
         
         // Invoke providers' run() method
         for(ICommandLineProvider provider : providers.keySet()) {
@@ -193,7 +181,7 @@ public class CentralScrutinizer implements IApplication {
         HelpFormatter formatter = new HelpFormatter();
         //formatter.setOptionComparator(null);
 
-        int width = 140;
+        final int width = 140;
         
         PrintWriter pw = new PrintWriter(System.out);
         
@@ -211,15 +199,14 @@ public class CentralScrutinizer implements IApplication {
         System.out.println(Messages.CentralScrutinizer_4);
         System.out.println("---------------------"); //$NON-NLS-1$
         
-        for(Entry<ICommandLineProvider, ProviderInfo> info : providers.entrySet()) {
-            String pluginName = info.getValue().name;
-            if(!StringUtils.isSet(pluginName)) {
-                pluginName = info.getValue().id;
-            }
-            
-            String pluginDescription = StringUtils.safeString(info.getValue().description);
-
-            System.out.println(" [" + pluginName + "] " + pluginDescription);  //$NON-NLS-1$//$NON-NLS-2$
+        // Sort providers by name
+        List<ProviderInfo> infos = new ArrayList<>(providers.values());
+        infos.sort((ProviderInfo info1, ProviderInfo info2) -> {
+            return info1.name.compareToIgnoreCase(info2.name);
+        });
+        
+        for(ProviderInfo info : infos) {
+            System.out.println(" [" + info.name() + "] " + info.description());  //$NON-NLS-1$//$NON-NLS-2$
         }
 
         System.out.println();
@@ -251,15 +238,6 @@ public class CentralScrutinizer implements IApplication {
         }
         catch(IOException ex) {
             ex.printStackTrace();
-        }
-    }
-    
-    /**
-     * This ensures that the default display is created
-     */
-    private void ensureDefaultDisplay() {
-        if(Display.getCurrent() == null) {
-            Display.getDefault();
         }
     }
 }
