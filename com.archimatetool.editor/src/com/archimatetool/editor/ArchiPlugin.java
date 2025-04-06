@@ -84,29 +84,15 @@ public class ArchiPlugin extends AbstractUIPlugin {
      * @return The Workspace folder
      */
     public File getWorkspaceFolder() {
-        /*
-         * Get Data Folder.  Try for one set by a user system property first, otherwise
-         * use the workbench instance data location
-         */
-        String strFolder = System.getProperty("com.archimatetool.editor.workspaceFolder");
-        if(strFolder != null) {
-            return new File(strFolder);
-        }
-        
         Location instanceLoc = Platform.getInstanceLocation();
+        
         if(instanceLoc == null) {
             Logger.logWarning("Instance Location is null. Using user.home");
-            return new File(System.getProperty("user.home"));
+            return new File(System.getProperty("user.home"), "Archi");
         }
-        else {
-            URL url = instanceLoc.getURL();
-            if(url != null) {
-                return new File(url.getPath());
-            }
-            else {
-                return new File(System.getProperty("user.home"));
-            }
-        }
+        
+        URL url = instanceLoc.getURL();
+        return url != null ? new File(url.getPath()) : new File(System.getProperty("user.home"), "Archi");
     }
     
     /**
