@@ -59,6 +59,11 @@ public class Archi4Migrator {
             }
         }
         
+        // Check these are not null. URL cam be null if -Dosgi.instance.area=@noDefault
+        if(Platform.getInstanceLocation() == null || Platform.getInstanceLocation().getURL() == null) {
+            return false;
+        }
+        
         // Our current instance location
         currentLocation = new File(Platform.getInstanceLocation().getURL().getPath());
         
