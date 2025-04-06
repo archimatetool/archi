@@ -5,9 +5,6 @@
  */
 package com.archimatetool.editor;
 
-import java.io.IOException;
-import java.net.URL;
-
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -17,9 +14,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.preferences.PrefUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
-
-
-
 
 /**
  * The main application class for standalone RCP operation.
@@ -34,9 +28,6 @@ public class Application implements IApplication {
      */
     public static String ID = ArchiPlugin.PLUGIN_ID + ".app";
 
-    /**
-     * Constructor
-     */
     public Application() {
     }
 
@@ -63,7 +54,7 @@ public class Application implements IApplication {
         // Initialise internal preferences
         PrefUtils.init();
         
-        // Create Main Display
+        // Create Display
         Display display = PlatformUI.createDisplay();
 
         // Hook into opening documents from the desktop
@@ -92,37 +83,5 @@ public class Application implements IApplication {
 
     @Override
     public void stop() {
-    }
-
-    /**
-     * Set the file location of the data store.<p>
-     * We want to do this for an RCP standalone app but not when this is running
-     * as a plugin becauae the location of the Workbench instance will be set
-     * already. This has to be done before the Workbench starts. Note that the
-     * launch configuration in the Eclipse IDE should have "@noDefault" as the
-     * workspace for the launch configuration.
-     * 
-     * @param url A url to a folder
-     */
-    @SuppressWarnings("unused")
-    private void setWorkbenchDataLocation(URL url) throws IllegalStateException, IOException {
-        /*
-         * Ascertain the existing location. If it is null, we can set it. When
-         * run from the Eclipse IDE, setting the workspace location in the
-         * launch configuration to "@noDefault" will set it as null.
-         */
-        Location instanceLoc = Platform.getInstanceLocation();
-        if(instanceLoc == null) {
-            Logger.logError("Instance Location is null, cannot set it in setWorkbenchDataLocation(URL)",
-                    null);
-        }
-        else if(!instanceLoc.isSet()) {
-            instanceLoc.release();
-            /*
-             * If this is set to true, you can't run another instance of the app
-             * with this workspace open
-             */
-            instanceLoc.set(url, false);
-        }
     }
 }
