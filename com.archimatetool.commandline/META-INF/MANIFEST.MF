@@ -12,6 +12,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.archimatetool.commandline,
  org.apache.commons.cli
-Bundle-ClassPath: lib/commons-cli-1.4.jar,
+Bundle-ClassPath: lib/commons-cli-1.9.0.jar,
  .
 Automatic-Module-Name: com.archimatetool.commandline
