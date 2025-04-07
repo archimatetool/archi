@@ -15,7 +15,8 @@
     
     <properties>
     	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
-        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
+        <!-- TODO: this can be changed to ${org.mockito:mockito-core:jar} with orbit 4.34 and later -->
+        <mockito.args>-Xshare:off -javaagent:${net.bytebuddy:byte-buddy-agent:jar}</mockito.args>
         
         <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
@@ -26,7 +27,7 @@
         <repository>
             <id>Orbit</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0</url>
+            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0</url>
         </repository>
     </repositories>
 
@@ -51,7 +52,7 @@
 
     <build>
         <plugins>
-            <!-- With this we can resolve ${org.mockito:mockito-core:jar} -->
+            <!-- With this we can resolve ${net.bytebuddy:byte-buddy-agent:jar} or ${org.mockito:mockito-core:jar} -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
