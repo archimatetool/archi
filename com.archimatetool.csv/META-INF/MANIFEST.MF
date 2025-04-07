@@ -16,6 +16,7 @@ Export-Package: com.archimatetool.csv,
 Bundle-Activator: com.archimatetool.csv.CSVImportExportPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- lib/commons-csv-1.10.0.jar,
- lib/commons-io-2.14.0.jar
+ lib/commons-csv-1.14.0.jar,
+ lib/commons-io-2.18.0.jar,
+ lib/commons-codec-1.18.0.jar
 Automatic-Module-Name: com.archimatetool.csv
