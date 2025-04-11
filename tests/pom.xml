@@ -15,22 +15,12 @@
     
     <properties>
     	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
-        <!-- TODO: this can be changed to ${org.mockito:mockito-core:jar} with orbit 4.34 and later -->
-        <mockito.args>-Xshare:off -javaagent:${net.bytebuddy:byte-buddy-agent:jar}</mockito.args>
+        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
         
         <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
     </properties>
     
-    <!-- Get Mockito from here -->
-    <repositories>
-        <repository>
-            <id>Update Site</id>
-            <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.32</url>
-        </repository>
-    </repositories>
-
     <modules>
         <module>com.archimatetool.testsupport</module>
 
