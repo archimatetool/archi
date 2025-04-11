@@ -22,12 +22,12 @@
         <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
     </properties>
     
-    <!-- Orbit p2 repo provides Mockito and latest JUnit for tests -->
+    <!-- Get Mockito from here -->
     <repositories>
         <repository>
-            <id>Orbit</id>
+            <id>Update Site</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0</url>
+            <url>https://download.eclipse.org/eclipse/updates/4.32</url>
         </repository>
     </repositories>
 
