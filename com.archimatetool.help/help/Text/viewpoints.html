@@ -12,13 +12,39 @@
 
     <h1 class="pagebreak">Viewpoints</h1>
     
-    <p>The ArchiMate Specification states that "Viewpoints are a means to focus on particular aspects and layers of the architecture. These aspects and layers are determined by the concerns of a stakeholder with whom communication takes place. What should and should not be visible from a specific viewpoint is therefore entirely dependent on the argumentation with respect to a stakeholder's concerns."</p>
+    <p>The ArchiMate Specification states that "Viewpoints are a means to focus on particular aspects and layers of the architecture. These aspects and layers are determined by the concerns of a stakeholder with whom communication takes place. What should and should not be visible from a specific Viewpoint is therefore entirely dependent on the argumentation with respect to a stakeholder's concerns."</p>
     
-    <p>In practice, a Viewpoint is a sub-set of elements and relationships aimed at a stakeholder. Archi allows you to specify the following Viewpoints:</p>
-    
-    <img src="../Images/viewpoints_menu.png" alt="Viewpoints"/>
-    <p class="caption">Supported Viewpoints</p>
-    
+    <p>In practice, a Viewpoint is a sub-set of elements and relationships aimed at a stakeholder. Archi allows you to set the following ArchiMate Viewpoints:</p>
+
+    <ul>
+        <li>None</li>
+        <li>Application Cooperation</li>
+        <li>Application Structure</li>
+        <li>Application Usage</li>
+        <li>Business Process Cooperation</li>
+        <li>Capability Map</li>
+        <li>Goal Realization</li>
+        <li>Implementation and Deployment</li>
+        <li>Implementation and Migration</li>
+        <li>Information Structure</li>
+        <li>Layered</li>
+        <li>Migration</li>
+        <li>Motivation</li>
+        <li>Organization</li>
+        <li>Outcome Realization</li>
+        <li>Physical</li>
+        <li>Product</li>
+        <li>Project</li>
+        <li>Requirements Realization</li>
+        <li>Resource Map</li>
+        <li>Service Realization</li>
+        <li>Stakeholder</li>
+        <li>Strategy</li>
+        <li>Technology</li>
+        <li>Technology Usage</li>
+        <li>Value Stream</li>
+    </ul>
+
     <p>When creating a new View in Archi, the default Viewpoint is set to "None", meaning that all concepts can be added to the View. Setting a Viewpoint on a View means that a sub-set of elements is available to place on the View. Some other ArchiMate authoring tools require you to specify the Viewpoint in advance when creating the View. Unfortunately, this means that you cannot change your mind should you wish to later change the Viewpoint in the View. Archi, however, implements <strong>Dynamic Viewpoints</strong> so that you can change the Viewpoint at any time and those elements that are not permitted for that Viewpoint are "ghosted" out. Dynamic Viewpoints allow you to change your mind. You don't have to decide up-front what the Viewpoint will be. You can experiment with different Viewpoints for the same View. And if you decide to keep the Viewpoint, you can simply remove any disallowed elements from the View.</p>
     
     <br/>
@@ -29,26 +55,26 @@
     
     <p>In the following example we start with a View that has the default "None" Viewpoint:</p>
     
-    <img src="../Images/viewpoint_none.png" alt="Dynamic Viewpoint"/>
+    <img src="../Images/viewpoint_none.png" alt="Dynamic Viewpoint" width="700" height="587" />
     <p class="caption">A View with the "None" Viewpoint</p>
     
     <p>Notice that all elements from all the ArchiMate layers (Business, Application, and Technology) are displayed. Also, the Palette has all elements available.</p>
     
-    <p>If we now change the Viewpoint to "Infrastructure" then any elements that do not belong in this Viewpoint are "ghosted" out in the View. Notice, also, that only the elements permitted for the current Viewpoint are available in the Palette, whilst the others are not available:</p>
+    <p>If we now change the Viewpoint to "Technology Usage" then any elements that do not belong in this Viewpoint are "ghosted" out in the View. Notice, also, that only the elements permitted for the current Viewpoint are available in the Palette, whilst the others are not available:</p>
     
-    <img src="../Images/viewpoint_changed.png" alt="Dynamic Viewpoint 2"/>
+    <img src="../Images/viewpoint_changed.png" alt="Dynamic Viewpoint 2" width="700" height="585" />
     <p class="caption">The same View with the "Technology Usage" Viewpoint</p>
     
     <p>If we look at the elements in the Model Tree we can see that non-permitted elements for the Viewpoint are also greyed out:</p>
     
-    <img src="../Images/viewpoint_tree.png"/>
+    <img src="../Images/viewpoint_tree.png" width="351" height="437" />
     <p class="caption">Elements not permitted for the Viewpoint are greyed out</p>
     
-    <p>If we choose to, we can drag and drop any element from the Model Tree to the View but the resulting element in the View will be greyed out. This means that we can work with the Viewpoint any way we want to but we are reminded at all times of what should and shouldn't be added to the Viewpoint.</p>
+    <p>We can drag and drop any element from the Model Tree to the View but the resulting element in the View will be greyed out. This means that we can work with the Viewpoint any way we want to but we are reminded at all times of what should and shouldn't be added to the Viewpoint.</p>
     
     <p>If you are unsure of the constraints for a Viewpoint select it then open the <a href="hints.html">Hints Window</a>. A full explanation is available for the Viewpoint:</p>
     
-    <img src="../Images/viewpoint_hint.png"/>
+    <img src="../Images/viewpoint_hint.png" width="358" height="462" />
     <p class="caption">A Hint for a Viewpoint</p>
     
     <p>&nbsp;</p>
