@@ -28,11 +28,9 @@ public class PropertiesLabelProvider implements ILabelProvider {
 
     @Override
     public Image getImage(Object object) {
-        if(!(object instanceof IStructuredSelection)) {
+        if(!(object instanceof IStructuredSelection selection)) {
             return null;
         }
-        
-        IStructuredSelection selection = (IStructuredSelection)object;
         
         // If we have selected more than one object check if they are all the same type
         if(selection.size() > 1) {
@@ -53,11 +51,9 @@ public class PropertiesLabelProvider implements ILabelProvider {
 
     @Override
     public String getText(Object object) {
-        if(!(object instanceof IStructuredSelection)) {
+        if(!(object instanceof IStructuredSelection selection)) {
             return " "; //$NON-NLS-1$
         }
-        
-        IStructuredSelection selection = (IStructuredSelection)object;
         
         if(selection.size() > 1) {
             return Messages.PropertiesLabelProvider_0;
@@ -68,8 +64,8 @@ public class PropertiesLabelProvider implements ILabelProvider {
         firstSelected = ArchiLabelProvider.INSTANCE.getWrappedElement(firstSelected);
         
         // An Archimate Concept is a special text
-        if(firstSelected instanceof IArchimateConcept) {
-            return getArchimateConceptText((IArchimateConcept)firstSelected);
+        if(firstSelected instanceof IArchimateConcept concept) {
+            return getArchimateConceptText(concept);
         }
 
         // Check the main label provider
@@ -81,10 +77,10 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
     
-    String getArchimateConceptText(IArchimateConcept archimateConcept) {
+    String getArchimateConceptText(IArchimateConcept concept) {
         String text = ""; //$NON-NLS-1$
-        String name = normalise(archimateConcept.getName());
-        String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
+        String name = normalise(concept.getName());
+        String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(concept.eClass());
         
         if(StringUtils.isSet(name)) {
             text = name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -93,12 +89,11 @@ public class PropertiesLabelProvider implements ILabelProvider {
             text = typeName;
         }
         
-        if(archimateConcept instanceof IArchimateRelationship) {
-            IArchimateRelationship relationship = (IArchimateRelationship)archimateConcept;
+        if(concept instanceof IArchimateRelationship relationship) {
             text += " ("; //$NON-NLS-1$
-            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
+            text += normalise(ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource()));
             text += " - "; //$NON-NLS-1$
-            text += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
+            text += normalise(ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget()));
             text += ")"; //$NON-NLS-1$
         }
         
@@ -110,14 +105,11 @@ public class PropertiesLabelProvider implements ILabelProvider {
      * Some Classes like AbstractIssueType (in the Model Checker) will use this to return the right type
      */
     private Object getAdaptable(Object object) {
-        if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(IArchimateModelObject.class);
-        }
-        return object;
+        return object instanceof IAdaptable adaptable ? adaptable.getAdapter(IArchimateModelObject.class) : object;
     }
     
     /**
-     * Remove Ampersands as well as newlines
+     * Remove ampersands as well as newlines
      */
     private String normalise(String text) {
         return StringUtils.normaliseNewLineCharacters(StringUtils.escapeAmpersandsInText(text));
