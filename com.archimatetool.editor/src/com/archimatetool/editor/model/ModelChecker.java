@@ -32,6 +32,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
@@ -60,7 +61,7 @@ public class ModelChecker {
      * @return True if OK, false if not OK
      */
     public boolean checkAll() {
-        fErrorMessages = new ArrayList<String>();
+        fErrorMessages = new ArrayList<>();
         
         // Don't model check
         if(NO_MODELCHECK) {
@@ -68,7 +69,7 @@ public class ModelChecker {
         }
         
         // Instance count map
-        Map<IArchimateConcept, Integer> dmcMap = new HashMap<IArchimateConcept, Integer>();
+        Map<IArchimateConcept, Integer> dmcMap = new HashMap<>();
         
         // fErrorMessages.addAll(checkFolderStructure()); // not that important
         
@@ -77,35 +78,40 @@ public class ModelChecker {
             EObject eObject = iter.next();
             
             // Identifier
-            if(eObject instanceof IIdentifier) {
-                fErrorMessages.addAll(checkHasIdentifier((IIdentifier)eObject));
+            if(eObject instanceof IIdentifier identifier) {
+                fErrorMessages.addAll(checkHasIdentifier(identifier));
             }
             
             // Relation
-            if(eObject instanceof IArchimateRelationship) {
-                fErrorMessages.addAll(checkRelationship((IArchimateRelationship)eObject));
+            if(eObject instanceof IArchimateRelationship relationship) {
+                fErrorMessages.addAll(checkRelationship(relationship));
             }
             
             // Diagram Model Object
-            if(eObject instanceof IDiagramModelArchimateObject) {
-                fErrorMessages.addAll(checkDiagramModelArchimateObject((IDiagramModelArchimateObject)eObject));
+            if(eObject instanceof IDiagramModelObject dmo) {
+                fErrorMessages.addAll(checkDiagramModeleObject(dmo));
+            }
+            
+            // Diagram Model ArchiMate Object
+            if(eObject instanceof IDiagramModelArchimateObject dmo) {
+                fErrorMessages.addAll(checkDiagramModelArchimateObject(dmo));
                 incrementInstanceCount((IDiagramModelArchimateComponent)eObject, dmcMap);
             }
             
             // Diagram Model Connection
-            if(eObject instanceof IDiagramModelArchimateConnection) {
-                fErrorMessages.addAll(checkDiagramModelArchimateConnection((IDiagramModelArchimateConnection)eObject));
+            if(eObject instanceof IDiagramModelArchimateConnection dmc) {
+                fErrorMessages.addAll(checkDiagramModelArchimateConnection(dmc));
                 incrementInstanceCount((IDiagramModelArchimateConnection)eObject, dmcMap);
             }
             
             // Folder
-            if(eObject instanceof IFolder) {
-                fErrorMessages.addAll(checkFolder((IFolder)eObject));
+            if(eObject instanceof IFolder folder) {
+                fErrorMessages.addAll(checkFolder(folder));
             }
             
             // Profiles
-            if(eObject instanceof IProfiles) {
-                fErrorMessages.addAll(checkProfiles((IProfiles)eObject));
+            if(eObject instanceof IProfiles profiles) {
+                fErrorMessages.addAll(checkProfiles(profiles));
             }
         }
         
@@ -190,7 +196,7 @@ public class ModelChecker {
     }
     
     List<String> checkRelationship(IArchimateRelationship relation) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         String name = " (" + relation.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         
@@ -219,8 +225,21 @@ public class ModelChecker {
         return messages;
     }
     
+    List<String> checkDiagramModeleObject(IDiagramModelObject dmo) {
+        List<String> messages = new ArrayList<>();
+        
+        String name = dmo.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + dmo.getDiagramModel().getName() + "' (" + dmo.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+        // No bounds
+        if(dmo.getBounds() == null) {
+            messages.add(Messages.ModelChecker_30 + name);
+        }
+        
+        return messages;
+    }
+
     List<String> checkDiagramModelArchimateObject(IDiagramModelArchimateObject dmo) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         String name = dmo.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + dmo.getDiagramModel().getName() + "' (" + dmo.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -239,7 +258,7 @@ public class ModelChecker {
     }
     
     List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection connection) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         String name = connection.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + connection.getDiagramModel().getName() + "' (" + connection.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -275,7 +294,7 @@ public class ModelChecker {
     }
     
     List<String> checkFolder(IFolder folder) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         // Only allowed these types in folder's elements list
         for(EObject eObject : folder.getElements()) {
@@ -289,7 +308,7 @@ public class ModelChecker {
     }
     
     List<String> checkProfiles(IProfiles profilesObject) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         for(IProfile profile : profilesObject.getProfiles()) {
             String name = " " + profile.getId(); //$NON-NLS-1$
@@ -324,7 +343,7 @@ public class ModelChecker {
      * Check the actual IDiagramModelArchimateComponent instance count against the concept's reported instance count
      */
     private List<String> checkDiagramComponentInstanceCount(Map<IArchimateConcept, Integer> map) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         // Now check the total count against the reported count of the concept
         for(Entry<IArchimateConcept, Integer> entry : map.entrySet()) {

@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -112,6 +113,22 @@ public class ModelCheckerTests {
         assertEquals(2, messages.size());
         assertTrue(messages.get(0).startsWith("Relationship has orphaned source element"));
         assertTrue(messages.get(1).startsWith("Relationship has orphaned target element"));
+    }
+
+    @Test
+    public void checkDiagramModelObject() {
+        model.getDefaultDiagramModel().setName("dm");
+        
+        IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        model.getDefaultDiagramModel().getChildren().add(note);
+        
+        List<String> messages = modelChecker.checkDiagramModeleObject(note);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Missing bounds in 'dm'"));
+
+        note.setBounds(IArchimateFactory.eINSTANCE.createBounds(0, 0, 123, 123));
+        messages = modelChecker.checkDiagramModeleObject(note);
+        assertEquals(0, messages.size());
     }
 
     @Test
