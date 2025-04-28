@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Archisurance" id="11f5304f" version="5.0.0">
-  <folder name="Strategy" id="b93703cf-9575-4d9f-b27f-3423eba81f8a" type="strategy"/>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" xmlns:canvas="http://www.archimatetool.com/archimate/canvas" name="Archisurance" id="11f5304f" version="5.0.0">
+  <folder name="Strategy" id="b93703cf-9575-4d9f-b27f-3423eba81f8a" type="strategy">
+    <property key="F1" value="S"/>
+    <element xsi:type="archimate:Resource" name="Resource" id="9784239c-1fe2-40fb-9d4f-6a5fa0ef6786">
+      <property key="Property 1" value="Value 1"/>
+    </element>
+  </folder>
   <folder name="Business" id="8c90fdfa" type="business">
     <folder name="Processes" id="2966482c">
       <element xsi:type="archimate:BusinessEvent" name="Request for Insurance" id="650"/>
@@ -49,7 +54,11 @@
     </folder>
     <folder name="Actors" id="fa63373b">
       <element xsi:type="archimate:BusinessActor" name="Client" id="1337"/>
-      <element xsi:type="archimate:BusinessActor" name="Archisurance" id="275"/>
+      <element xsi:type="archimate:BusinessActor" name="Archisurance" id="275">
+        <property key="Property1" value="Another Value of Property 1"/>
+        <property key="Property2" value="Another Value of Property 2"/>
+        <property key="Property3" value="Value of Property 3"/>
+      </element>
       <element xsi:type="archimate:BusinessActor" name="Customer Relations" id="282"/>
       <element xsi:type="archimate:BusinessActor" name="Intermediary Relations" id="289"/>
       <element xsi:type="archimate:BusinessActor" name="Front Office" id="296"/>
@@ -76,7 +85,9 @@
       <element xsi:type="archimate:BusinessRole" name="Insurant" id="1368"/>
       <element xsi:type="archimate:BusinessRole" name="Intermediary" id="507"/>
       <element xsi:type="archimate:BusinessRole" name="Insurer" id="514"/>
-      <element xsi:type="archimate:BusinessRole" name="Customer" id="521"/>
+      <element xsi:type="archimate:BusinessRole" name="Customer" id="521">
+        <property key="Property" value="Hello"/>
+      </element>
       <element xsi:type="archimate:BusinessRole" name="Customer's Bank" id="528"/>
     </folder>
   </folder>
@@ -146,7 +157,9 @@
     <element xsi:type="archimate:Value" name="Be Insured" id="1250"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="0e121c60" type="implementation_migration"/>
-  <folder name="Other" id="a6bcb2c7-3510-43ac-97da-0bea4f36ddf5" type="other"/>
+  <folder name="Other" id="a6bcb2c7-3510-43ac-97da-0bea4f36ddf5" type="other">
+    <element xsi:type="archimate:Grouping" name="Grouping" id="1edc89ca-f657-4994-91ef-b6f6174a52e0"/>
+  </folder>
   <folder name="Relations" id="408ff6d3" type="relations">
     <folder name="Business" id="10ad9578">
       <folder name="Functions" id="3de37d5c">
@@ -344,6 +357,7 @@
       <element xsi:type="archimate:ServingRelationship" id="776f61b0" source="1462" target="1399"/>
       <element xsi:type="archimate:ServingRelationship" id="bc36ad29" source="1462" target="861"/>
     </folder>
+    <element xsi:type="archimate:CompositionRelationship" id="d89221f3-3122-4dd6-9b23-fab9862c9f33" source="1edc89ca-f657-4994-91ef-b6f6174a52e0" target="9784239c-1fe2-40fb-9d4f-6a5fa0ef6786"/>
   </folder>
   <folder name="Views" id="e64e9b49" type="diagrams">
     <element xsi:type="archimate:ArchimateDiagramModel" name="Goal and Principle View" id="16fe3cf9" viewpoint="goal_realization">
@@ -1398,6 +1412,61 @@
         <sourceConnection xsi:type="archimate:Connection" id="1b4d9427" source="4331" target="4332" archimateRelationship="e479d313"/>
       </child>
     </element>
+    <element xsi:type="archimate:SketchModel" name="New Sketch" id="3870395c-377b-4fe1-ba9f-5437f4204d2b">
+      <child xsi:type="archimate:SketchModelActor" id="073383b9-1192-45fc-807e-2e6c3fa3648f" name="Actor">
+        <bounds x="225" y="90" width="75" height="100"/>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="e85148b3-bee3-4d87-8c18-d8f44ea18669" model="4165">
+        <bounds x="36" y="90" width="120" height="55"/>
+      </child>
+      <child xsi:type="archimate:SketchModelSticky" id="6677d5b7-1c9d-4996-9eb5-64a417788037" name="Sticky" lineColor="#5c5c5c" textAlignment="1" fillColor="#ffffff">
+        <bounds x="439" y="210" width="135" height="70"/>
+      </child>
+    </element>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="A View" id="9e9cb71c-3504-4de0-beee-0a0f3c27fdaf">
+      <child xsi:type="archimate:Note" id="8ca8f8f4-1d9e-481b-bfe3-847f66e51510" targetConnections="2e124152-0bca-4f46-9d4f-1d9f69879071" textAlignment="1">
+        <bounds x="42" y="58" width="185" height="80"/>
+        <property key="P1" value="V1"/>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="b819b049-76b7-49b9-b4e8-0d574cc7aab6" targetConnections="d8966eb6-19f4-4b04-aadd-7d84a26d4f73" model="4165">
+        <bounds x="23" y="183" width="120" height="55"/>
+        <sourceConnection id="f2c4f854-1766-47ea-9392-47cdddf85ce0" source="b819b049-76b7-49b9-b4e8-0d574cc7aab6" target="2b82e9b6-40fb-4b63-a3d0-ad18807e4ca5"/>
+        <sourceConnection id="2e124152-0bca-4f46-9d4f-1d9f69879071" source="b819b049-76b7-49b9-b4e8-0d574cc7aab6" target="8ca8f8f4-1d9e-481b-bfe3-847f66e51510"/>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="4f93d7ab-95ee-44f1-a793-bcbed8f30380" targetConnections="98bb80f2-4b7d-4aac-a11c-a0f5c820abf1 40d5957d-15c1-410e-9a7d-07df029b5892" model="3870395c-377b-4fe1-ba9f-5437f4204d2b">
+        <bounds x="23" y="324" width="120" height="55"/>
+        <sourceConnection id="17051713-fd0f-4d12-972d-a5f23755f5bc" source="4f93d7ab-95ee-44f1-a793-bcbed8f30380" target="1f1e1d12-f53a-4be5-bf16-07103923aa77"/>
+        <sourceConnection id="d8966eb6-19f4-4b04-aadd-7d84a26d4f73" source="4f93d7ab-95ee-44f1-a793-bcbed8f30380" target="b819b049-76b7-49b9-b4e8-0d574cc7aab6"/>
+      </child>
+      <child xsi:type="archimate:Group" id="2b82e9b6-40fb-4b63-a3d0-ad18807e4ca5" name="Group" targetConnections="f2c4f854-1766-47ea-9392-47cdddf85ce0" textAlignment="1">
+        <bounds x="312" y="72" width="445" height="133"/>
+        <sourceConnection id="40d5957d-15c1-410e-9a7d-07df029b5892" source="2b82e9b6-40fb-4b63-a3d0-ad18807e4ca5" target="4f93d7ab-95ee-44f1-a793-bcbed8f30380"/>
+        <property key="P1" value="V1"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="1f1e1d12-f53a-4be5-bf16-07103923aa77" targetConnections="17051713-fd0f-4d12-972d-a5f23755f5bc" lineWidth="2" fillColor="#edff93" archimateElement="1edc89ca-f657-4994-91ef-b6f6174a52e0">
+        <bounds x="420" y="276" width="265" height="115"/>
+        <feature name="lineStyle" value="2"/>
+        <sourceConnection xsi:type="archimate:Connection" id="a41917a3-f63b-45b4-8e75-8d559a9b7478" source="1f1e1d12-f53a-4be5-bf16-07103923aa77" target="e5a21845-8bbe-4cdb-a3f1-b75fe7b6eb2f" archimateRelationship="d89221f3-3122-4dd6-9b23-fab9862c9f33"/>
+        <child xsi:type="archimate:DiagramObject" id="e5a21845-8bbe-4cdb-a3f1-b75fe7b6eb2f" targetConnections="a41917a3-f63b-45b4-8e75-8d559a9b7478" fontColor="#d76057" lineColor="#c5c14e" fillColor="#baf19d" archimateElement="9784239c-1fe2-40fb-9d4f-6a5fa0ef6786">
+          <bounds x="63" y="43" width="120" height="55"/>
+          <feature name="deriveElementLineColor" value="false"/>
+        </child>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="69ad556e-2e8f-4fef-8135-2cc54e924749" model="33c51fac-f19b-4070-8a2c-bc3383a43c35">
+        <bounds x="23" y="432" width="120" height="55"/>
+        <sourceConnection id="98bb80f2-4b7d-4aac-a11c-a0f5c820abf1" source="69ad556e-2e8f-4fef-8135-2cc54e924749" target="4f93d7ab-95ee-44f1-a793-bcbed8f30380"/>
+      </child>
+    </element>
+    <element xsi:type="canvas:CanvasModel" name="New Canvas" id="33c51fac-f19b-4070-8a2c-bc3383a43c35">
+      <child xsi:type="canvas:CanvasModelBlock" id="5d93f315-0fd0-4272-ba7f-dbd041b6207f" textAlignment="1" borderColor="#000000">
+        <bounds x="12" y="74" width="200" height="200"/>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="a5f49352-71f6-4478-89cf-ebdb0b24e2d2" model="3870395c-377b-4fe1-ba9f-5437f4204d2b">
+        <bounds x="36" y="360" width="120" height="55"/>
+      </child>
+    </element>
   </folder>
+  <property key="Property1" value="Value of Property 1"/>
+  <property key="Property2" value="Value of Property 2"/>
   <purpose>An example of a fictional Insurance company.</purpose>
 </archimate:model>

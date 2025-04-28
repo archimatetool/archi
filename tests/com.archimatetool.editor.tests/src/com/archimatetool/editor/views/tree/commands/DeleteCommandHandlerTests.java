@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.views.tree.commands;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -105,12 +106,12 @@ public class DeleteCommandHandlerTests {
     @Test
     public void testDelete_CannotDeleteMainFolders() {
         // Cannot delete the main folders
-        assertEquals(8,  model.getFolders().size());
+        Object[] folders = model.getFolders().toArray();
         
-        DeleteCommandHandler commandHandler = new DeleteCommandHandler(model.getFolders().toArray());
+        DeleteCommandHandler commandHandler = new DeleteCommandHandler(folders);
         commandHandler.delete();
         
-        assertEquals(8,  model.getFolders().size());
+        assertArrayEquals(folders, model.getFolders().toArray());
     }
     
     @Test

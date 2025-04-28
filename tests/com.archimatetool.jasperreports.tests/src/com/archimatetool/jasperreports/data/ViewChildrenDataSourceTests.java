@@ -20,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
@@ -32,7 +31,6 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ViewChildrenDataSourceTests {
     
-    private static IArchimateModel model;
     private static IDiagramModel dm;
     
     private ViewChildrenDataSource ds;
@@ -41,8 +39,8 @@ public class ViewChildrenDataSourceTests {
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
         ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
-        model = tm.loadModel();
-        dm = model.getDiagramModels().get(1);
+        tm.loadModel();
+        dm = (IDiagramModel)tm.getObjectByID("4056"); // Layered View
     }
     
     @BeforeEach

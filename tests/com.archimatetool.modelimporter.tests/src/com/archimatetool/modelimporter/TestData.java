@@ -19,15 +19,7 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class TestData {
 
-    private static File testFolder;
-    
-    public static File TEST_MODEL_FILE = new File(getTestDataFolder(), "test.archimate");
-
-    public static File getTestDataFolder() {
-        if(testFolder == null) {
-            testFolder = TestUtils.getLocalBundleFolder("com.archimatetool.modelimporter.tests", "testdata");
-        }
-        return testFolder;
-    }
+    public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("com.archimatetool.modelimporter.tests", "testdata");
+    public static File TEST_MODEL_FILE = new File(TESTDATA_FOLDER, "test.archimate");
 
 }

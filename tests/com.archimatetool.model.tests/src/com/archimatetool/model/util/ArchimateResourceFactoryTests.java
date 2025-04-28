@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.jupiter.api.Test;
 
-import com.archimatetool.model.TestSupport;
+import com.archimatetool.tests.TestData;
 
 
 
@@ -32,7 +32,7 @@ public class ArchimateResourceFactoryTests {
 
     @Test
     public void testCreateNewResource_File() {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         Resource resource = ArchimateResourceFactory.createNewResource(file);
         
         assertEquals(file, new File(resource.getURI().toFileString()));
@@ -43,7 +43,7 @@ public class ArchimateResourceFactoryTests {
  
     @Test
     public void testCreateNewResource_URI() {
-        URI uri = URI.createFileURI(TestSupport.TEST_MODEL_FILE_ARCHISURANCE.getPath());
+        URI uri = URI.createFileURI(TestData.TEST_MODEL_FILE_ARCHISURANCE.getPath());
         Resource resource = ArchimateResourceFactory.createNewResource(uri);
         
         assertEquals(uri, resource.getURI());
@@ -64,7 +64,7 @@ public class ArchimateResourceFactoryTests {
     public void testCreateResource() {
         ArchimateResourceFactory factory = new ArchimateResourceFactory();
         
-        URI uri = URI.createFileURI(TestSupport.TEST_MODEL_FILE_ARCHISURANCE.getPath());
+        URI uri = URI.createFileURI(TestData.TEST_MODEL_FILE_ARCHISURANCE.getPath());
         
         Resource resource = factory.createResource(uri);
         

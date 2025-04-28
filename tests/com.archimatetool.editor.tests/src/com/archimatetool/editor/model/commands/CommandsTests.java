@@ -55,8 +55,9 @@ public class CommandsTests {
 
     @Test
     public void testDeleteDiagramModelCommand() {
-        IDiagramModel dm = model.getDiagramModels().get(0);
+        IDiagramModel dm = (IDiagramModel)tm.getObjectByID("3641"); // "ArchiMate View"
         assertNotNull(dm);
+        int position = model.getDiagramModels().indexOf(dm);
 
         DeleteDiagramModelCommand cmd = new DeleteDiagramModelCommand(dm);
         cmd.execute();
@@ -65,7 +66,7 @@ public class CommandsTests {
         assertFalse(model.getDiagramModels().contains(dm));
         
         cmd.undo();
-        assertEquals(0, model.getDiagramModels().indexOf(dm));
+        assertEquals(position, model.getDiagramModels().indexOf(dm));
     }
 
     @Test
@@ -74,6 +75,7 @@ public class CommandsTests {
         assertNotNull(element);
         
         IFolder parent = (IFolder)element.eContainer();
+        int position = parent.getElements().indexOf(element);
 
         DeleteArchimateElementCommand cmd = new DeleteArchimateElementCommand(element);
         cmd.execute();
@@ -82,7 +84,7 @@ public class CommandsTests {
         assertFalse(parent.getElements().contains(element));
         
         cmd.undo();
-        assertEquals(0, parent.getElements().indexOf(element));
+        assertEquals(position, parent.getElements().indexOf(element));
     }
 
     @Test
@@ -94,6 +96,7 @@ public class CommandsTests {
         assertTrue(relationship.getTarget().getTargetRelationships().contains(relationship));
 
         IFolder parent = (IFolder)relationship.eContainer();
+        int position = parent.getElements().indexOf(relationship);
         
         DeleteArchimateRelationshipCommand cmd = new DeleteArchimateRelationshipCommand(relationship);
         cmd.execute();
@@ -105,7 +108,7 @@ public class CommandsTests {
         assertFalse(relationship.getTarget().getTargetRelationships().contains(relationship));
 
         cmd.undo();
-        assertEquals(11, parent.getElements().indexOf(relationship));
+        assertEquals(position, parent.getElements().indexOf(relationship));
     }
     
     @Test
@@ -114,6 +117,7 @@ public class CommandsTests {
         assertNotNull(folder);
         
         IFolder parent = (IFolder)folder.eContainer();
+        int position = parent.getFolders().indexOf(folder);
 
         DeleteFolderCommand cmd = new DeleteFolderCommand(folder);
         cmd.execute();
@@ -122,7 +126,7 @@ public class CommandsTests {
         assertFalse(parent.getFolders().contains(folder));
         
         cmd.undo();
-        assertEquals(1, parent.getFolders().indexOf(folder));
+        assertEquals(position, parent.getFolders().indexOf(folder));
     }
     
     @Test

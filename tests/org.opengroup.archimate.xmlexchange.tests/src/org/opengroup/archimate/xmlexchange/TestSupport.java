@@ -6,11 +6,8 @@
 package org.opengroup.archimate.xmlexchange;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
+import com.archimatetool.tests.TestUtils;
 
 
 /**
@@ -21,28 +18,8 @@ import org.eclipse.core.runtime.Platform;
 @SuppressWarnings("nls")
 public class TestSupport {
     
-    public static File testFolder = getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
-    
-    public static File xmlFile1 = new File(testFolder, "sample1.xml");
-    public static File xmlFile2 = new File(testFolder, "archisurance.xml");
-    
-    public static File archiFile1 = new File(testFolder, "archisurance.archimate");
-    
-    
-    /**
-     * @param bundleName
-     * @param path
-     * @return A File folder path relative to bundle
-     */
-    public static File getLocalBundleFolder(String bundleName, String path) {
-        URL url = Platform.getBundle(bundleName).getEntry("/");
-        try {
-            url = FileLocator.resolve(url);
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        return new File(url.getPath(), path);
-    }
+    public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
+    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(TESTDATA_FOLDER, "Archisurance.archimate");
+    public static File XML_FILE1 = new File(TESTDATA_FOLDER, "Sample1.xml");
     
 }

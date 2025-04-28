@@ -255,14 +255,14 @@ public class CopySnapshotTests {
     private void loadTestModel1() throws IOException {
         tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModelWithCommandStack();
-        sourceDiagramModel = model.getDiagramModels().get(1);
+        sourceDiagramModel = (IDiagramModel)tm.getObjectByID("4056"); // Layered View
         targetDiagramModel = tm.addNewArchimateDiagramModel();
     }
     
     private void loadTestModel2() throws IOException {
         tm = new ArchimateTestModel(new File(TestSupport.getTestDataFolder(), "models/testCopySnapshot.archimate"));
         model = tm.loadModelWithCommandStack();
-        sourceDiagramModel = model.getDiagramModels().get(0);
+        sourceDiagramModel = (IDiagramModel)tm.getObjectByID("fc8a98df");
         targetDiagramModel = tm.addNewArchimateDiagramModel();
     }
     

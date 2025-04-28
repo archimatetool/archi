@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBusinessActor;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -30,39 +31,38 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ElementsDataSourceTests {
     
+    private static ArchimateTestModel tm;
     private static IArchimateModel model;
-    
-    private ElementsDataSource ds;
     
     @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
     }
     
     @Test
     public void constructor_DiagramModel() {
-        ds = new ElementsDataSource(model.getDiagramModels().get(1));
+        ElementsDataSource ds = new ElementsDataSource((IDiagramModel)tm.getObjectByID("4056")); // Layered View
         assertEquals(30, ds.size());
     }
     
     @Test
     public void getPropertiesDataSourceNotNull() throws JRException {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         ds.next();
         assertNotNull(ds.getPropertiesDataSource());
     }
 
     @Test
     public void getElementFirstNull() {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         assertNull(ds.getElement());
     }
 
     @Test
     public void next() throws JRException {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         
         for(int i = 0; i < 17; i++) {
             assertTrue(ds.next());
@@ -72,7 +72,7 @@ public class ElementsDataSourceTests {
     
     @Test
     public void getFieldValue() throws JRException {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         
         ds.next();
         
@@ -89,16 +89,16 @@ public class ElementsDataSourceTests {
 
     @Test
     public void size() {
-        ds = new ElementsDataSource(model, "elements");
+        ElementsDataSource ds = new ElementsDataSource(model, "elements");
         assertEquals(120, ds.size());
 
         ds = new ElementsDataSource(model, "relations");
-        assertEquals(178, ds.size());
+        assertEquals(176, ds.size());
     }
     
     @Test
     public void moveFirst() throws JRException {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         
         assertNull(ds.getElement());
         
@@ -117,7 +117,7 @@ public class ElementsDataSourceTests {
     
     @Test
     public void getReferencedViews() throws JRException {
-        ds = new ElementsDataSource(model, "BusinessActor");
+        ElementsDataSource ds = new ElementsDataSource(model, "BusinessActor");
         
         assertNull(ds.getReferencedViews());
         

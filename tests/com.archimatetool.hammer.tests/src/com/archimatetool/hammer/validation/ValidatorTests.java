@@ -59,7 +59,7 @@ public class ValidatorTests {
 
     @Test
     public void testGetArchimateRelationships() {
-        assertEquals(178, validator.getArchimateRelationships().size());
+        assertEquals(176, validator.getArchimateRelationships().size());
     }
     
     @Test

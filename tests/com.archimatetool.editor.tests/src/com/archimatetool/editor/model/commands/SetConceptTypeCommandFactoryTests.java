@@ -195,8 +195,8 @@ public class SetConceptTypeCommandFactoryTests {
     public void duplicateRelationCommandsAreHandled() throws IOException {
         ArchimateTestModel tm = loadModel();
         
-        // Assignment Relationship
-        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("770");
+        // Triggering Relationship
+        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("95f13189");
         
         // Change to Flow Relationship
         EClass eClass = IArchimatePackage.eINSTANCE.getFlowRelationship();
@@ -217,10 +217,10 @@ public class SetConceptTypeCommandFactoryTests {
     public void changeRelationshipCommand() throws IOException {
         ArchimateTestModel tm = loadModel();
         
-        // Assignment Relation between "Customer" Business Role and "Request for Insurance" Business Event
-        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("770");
+        // Triggering Relation between "Customer" Business Role and "Request for Insurance" Business Event
+        IArchimateRelationship relation = (IArchimateRelationship)tm.getObjectByID("95f13189");
         assertNotNull(relation);
-        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
+        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), relation.eClass());
         
         relation.setName("Test");
         relation.setDocumentation("Documentation");
@@ -250,10 +250,10 @@ public class SetConceptTypeCommandFactoryTests {
         // Model Check
         checkModel(tm.getModel());
 
-        // Element should be back
-        relation = (IArchimateRelationship)tm.getObjectByID("770");
+        // Relation should be back
+        relation = (IArchimateRelationship)tm.getObjectByID("95f13189");
         assertNotNull(relation);
-        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
+        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), relation.eClass());
         assertEquals("Test", relation.getName());
         
         // Redo the command
