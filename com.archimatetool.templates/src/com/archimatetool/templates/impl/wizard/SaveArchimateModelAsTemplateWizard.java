@@ -98,25 +98,20 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         fDoStoreInCollection = fPage2.doStoreInCollection();
         fSelectedTemplateGroup = fPage2.getTemplateGroup();
         
-        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    createZipFile(fZipFile);
-                    
-                    if(fDoStoreInCollection) {
-                        fTemplateManager.addTemplateEntry(fZipFile, fSelectedTemplateGroup);
-                    }
+        BusyIndicator.showWhile(Display.getCurrent(), () -> {
+            try {
+                createZipFile(fZipFile);
+                if(fDoStoreInCollection) {
+                    fTemplateManager.addTemplateEntry(fZipFile, fSelectedTemplateGroup);
                 }
-                catch(final IOException ex) {
-                    ex.printStackTrace();
-                    Display.getCurrent().asyncExec(new Runnable() { // Display after wizard closes
-                        @Override
-                        public void run() {
-                            MessageDialog.openError(getShell(), Messages.SaveArchimateModelAsTemplateWizard_3, ex.getMessage());
-                        }
-                    });
-                }
+            }
+            catch(IOException ex) {
+                ex.printStackTrace();
+                fZipFile.delete();
+                
+                Display.getCurrent().asyncExec(() -> { // Display this dialog after the wizard closes
+                    MessageDialog.openError(getShell(), Messages.SaveArchimateModelAsTemplateWizard_3, ex.getMessage());
+                });
             }
         });
         
@@ -193,7 +188,9 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         UUIDFactory.generateNewIDs(tempModel);
         
         // Check model
-        if(!new ModelChecker(tempModel).checkAll()) {
+        ModelChecker mc = new ModelChecker(tempModel);
+        if(!mc.checkAll()) {
+            mc.logErrorMesssages();
             throw new IOException(Messages.SaveArchimateModelAsTemplateWizard_4);
         }
         
