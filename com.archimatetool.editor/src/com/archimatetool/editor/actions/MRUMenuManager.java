@@ -213,6 +213,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         RecentFileAction(File file) {
             this.file = file;
             setText(getShortPath(file));
+            setToolTipText(file.getPath());
         }
         
         @Override
