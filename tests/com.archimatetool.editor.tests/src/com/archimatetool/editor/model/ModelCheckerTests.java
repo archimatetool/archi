@@ -6,12 +6,14 @@
 package com.archimatetool.editor.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +26,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
@@ -50,14 +53,22 @@ public class ModelCheckerTests {
         File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         IArchimateModel model = new EditorModelManager().load(file);
         assertNotNull(model);
+        
         ModelChecker modelChecker = new ModelChecker(model);
         assertTrue(modelChecker.checkAll());
     }
     
     @Test
+    public void checkModel() throws Exception {
+        model.setId(null); // Check model has ID
+        assertFalse(modelChecker.checkAll());
+        assertEquals(1, modelChecker.getErrorMessages().size());
+    }
+
+    @Test
     public void checkFolderStructure() {
         List<String> messages = modelChecker.checkFolderStructure();
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
         model.getFolders().remove(0);
         messages = modelChecker.checkFolderStructure();
@@ -76,16 +87,52 @@ public class ModelCheckerTests {
         concept.setName("Test");
         
         List<String> messages = modelChecker.checkHasIdentifier(concept);
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
         concept.setId(null);
         messages = modelChecker.checkHasIdentifier(concept);
         assertEquals(1, messages.size());
-        assertEquals("No identifier set on Test", messages.get(0));
+        assertEquals("No identifier set on 'Test'", messages.get(0));
     }
 
     @Test
-    public void checkRelation() {
+    public void checkObjectInCorrectFolder_Element() {
+        IArchimateConcept concept = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IFolder subFolder = IArchimateFactory.eINSTANCE.createFolder();
+        subFolder.getElements().add(concept);
+        model.getFolder(FolderType.APPLICATION).getElements().add(subFolder);
+        
+        List<String> messages = modelChecker.checkObjectInCorrectFolder(concept);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Object is in wrong folder type"));
+    }
+    
+    @Test
+    public void checkObjectInCorrectFolder_Relationship() {
+        IArchimateConcept concept = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IFolder subFolder = IArchimateFactory.eINSTANCE.createFolder();
+        subFolder.getElements().add(concept);
+        model.getFolder(FolderType.APPLICATION).getElements().add(subFolder);
+        
+        List<String> messages = modelChecker.checkObjectInCorrectFolder(concept);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Object is in wrong folder type"));
+    }
+    
+    @Test
+    public void checkObjectInCorrectFolder_DiagramModel() {
+        IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        IFolder subFolder = IArchimateFactory.eINSTANCE.createFolder();
+        subFolder.getElements().add(dm);
+        model.getFolder(FolderType.APPLICATION).getElements().add(subFolder);
+        
+        List<String> messages = modelChecker.checkObjectInCorrectFolder(dm);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Object is in wrong folder type"));
+    }
+
+    @Test
+    public void checkRelationship() {
         IArchimateElement src = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateElement tgt = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateRelationship relation = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
@@ -93,7 +140,7 @@ public class ModelCheckerTests {
         relation.setTarget(tgt);
 
         List<String> messages = modelChecker.checkRelationship(relation);
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
         relation.setSource(null);
         relation.setTarget(null);
@@ -125,8 +172,14 @@ public class ModelCheckerTests {
         model.getDefaultDiagramModel().getChildren().add(dmo);
         
         List<String> messages = modelChecker.checkDiagramModelArchimateObject(dmo);
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
+        dmo.setArchimateElement(null);
+        messages = modelChecker.checkDiagramModelArchimateObject(dmo);
+        assertEquals(1, messages.size());
+        assertTrue(messages.get(0).startsWith("Diagram Element has missing referenced ArchiMate element in 'dm'"));
+
+        dmo.setArchimateElement(element);
         model.getFolder(FolderType.BUSINESS).getElements().remove(element);
         
         messages = modelChecker.checkDiagramModelArchimateObject(dmo);
@@ -153,7 +206,7 @@ public class ModelCheckerTests {
         dmc1.connect(dmo1, dmo2);
         
         List<String> messages = modelChecker.checkDiagramModelArchimateConnection(dmc1);
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
         model.getFolder(FolderType.RELATIONS).getElements().remove(relation);
         model.getFolder(FolderType.BUSINESS).getElements().remove(actor);
@@ -167,19 +220,19 @@ public class ModelCheckerTests {
     }
     
     @Test
-    public void checkFolder() {
+    public void checkFolderContainsCorrectObjects() {
         IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
         folder.getElements().add(IArchimateFactory.eINSTANCE.createBusinessObject());
         folder.getElements().add(IArchimateFactory.eINSTANCE.createAccessRelationship());
         folder.getElements().add(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
         
-        List<String> messages = modelChecker.checkFolder(folder);
-        assertEquals(0, messages.size());
+        List<String> messages = modelChecker.checkFolderContainsCorrectObjects(folder);
+        assertTrue(messages.isEmpty());
         
         IFolder object = IArchimateFactory.eINSTANCE.createFolder();
         folder.getElements().add(object);
         
-        messages = modelChecker.checkFolder(folder);
+        messages = modelChecker.checkFolderContainsCorrectObjects(folder);
         assertEquals(1, messages.size());
         assertEquals("Folder contains wrong child object (Folder: " + folder.getId() + " Object: " + object.getId() + ")", messages.get(0));
     }
@@ -197,7 +250,7 @@ public class ModelCheckerTests {
         element.getProfiles().add(profile);
         
         List<String> messages = modelChecker.checkProfiles(element);
-        assertEquals(0, messages.size());
+        assertTrue(messages.isEmpty());
         
         // Remove from model
         model.getProfiles().remove(profile);
@@ -211,5 +264,21 @@ public class ModelCheckerTests {
         messages = modelChecker.checkProfiles(element);
         assertEquals(2, messages.size());
         assertTrue(messages.get(1).startsWith("Profile has wrong concept type"));
+    }
+    
+    @Test
+    public void checkObject() {
+        List<String> messages = modelChecker.checkObject(IArchimateFactory.eINSTANCE.createBusinessActor());
+        assertTrue(messages.isEmpty());
+        
+        ModelChecker extendedChecker = new ModelChecker(model) {
+            @Override
+            protected List<String> checkObject(EObject eObject) {
+                return List.of("New Error");
+            }
+        };
+        
+        assertFalse(extendedChecker.checkAll());
+        assertTrue(extendedChecker.getErrorMessages().get(0).equals("New Error"));
     }
 }

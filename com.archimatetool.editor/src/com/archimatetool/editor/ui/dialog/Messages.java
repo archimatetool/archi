@@ -22,6 +22,8 @@ public class Messages extends NLS {
 
     public static String AboutDialog_7;
 
+    public static String ErrorMessageDialog_0;
+
     public static String RelationshipsMatrixDialog_0;
 
     public static String RelationshipsMatrixDialog_1;

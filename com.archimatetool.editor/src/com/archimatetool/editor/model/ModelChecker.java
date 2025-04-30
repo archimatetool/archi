@@ -16,11 +16,12 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.dialog.ErrorMessageDialog;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -48,19 +49,18 @@ public class ModelChecker {
     // If this is set in Program arguments then don't model check
     private static boolean NO_MODELCHECK = Arrays.asList(Platform.getApplicationArgs()).contains("-noModelCheck"); //$NON-NLS-1$
 
-    private IArchimateModel fModel;
-    
-    private List<String> fErrorMessages;
+    protected IArchimateModel model;
+    protected List<String> errorMessages;
     
     public ModelChecker(IArchimateModel model) {
-        fModel = model;
+        this.model = model;
     }
     
     /**
      * @return True if OK, false if not OK
      */
     public boolean checkAll() {
-        fErrorMessages = new ArrayList<String>();
+        errorMessages = new ArrayList<>();
         
         // Don't model check
         if(NO_MODELCHECK) {
@@ -68,247 +68,302 @@ public class ModelChecker {
         }
         
         // Instance count map
-        Map<IArchimateConcept, Integer> dmcMap = new HashMap<IArchimateConcept, Integer>();
+        Map<IArchimateConcept, Integer> dmcMap = new HashMap<>();
         
-        // fErrorMessages.addAll(checkFolderStructure()); // not that important
+        // Model ID
+        errorMessages.addAll(checkHasIdentifier(model));
         
-        // Iterate through all objects in the model...
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+        // not that important
+        // addErrorMessages(checkFolderStructure());
+        
+        // Iterate through all child objects in the model...
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             
             // Identifier
-            if(eObject instanceof IIdentifier) {
-                fErrorMessages.addAll(checkHasIdentifier((IIdentifier)eObject));
+            if(eObject instanceof IIdentifier identifier) {
+                errorMessages.addAll(checkHasIdentifier(identifier));
             }
             
             // Relation
-            if(eObject instanceof IArchimateRelationship) {
-                fErrorMessages.addAll(checkRelationship((IArchimateRelationship)eObject));
+            if(eObject instanceof IArchimateRelationship relationship) {
+                errorMessages.addAll(checkRelationship(relationship));
             }
             
-            // Diagram Model Object
-            if(eObject instanceof IDiagramModelArchimateObject) {
-                fErrorMessages.addAll(checkDiagramModelArchimateObject((IDiagramModelArchimateObject)eObject));
-                incrementInstanceCount((IDiagramModelArchimateComponent)eObject, dmcMap);
+            // Diagram Model ArchiMate Object
+            if(eObject instanceof IDiagramModelArchimateObject dmo) {
+                errorMessages.addAll(checkDiagramModelArchimateObject(dmo));
+                incrementInstanceCount(dmo, dmcMap);
             }
             
-            // Diagram Model Connection
-            if(eObject instanceof IDiagramModelArchimateConnection) {
-                fErrorMessages.addAll(checkDiagramModelArchimateConnection((IDiagramModelArchimateConnection)eObject));
-                incrementInstanceCount((IDiagramModelArchimateConnection)eObject, dmcMap);
+            // Diagram Model ArchiMate Connection
+            if(eObject instanceof IDiagramModelArchimateConnection dmc) {
+                errorMessages.addAll(checkDiagramModelArchimateConnection(dmc));
+                incrementInstanceCount(dmc, dmcMap);
             }
             
-            // Folder
-            if(eObject instanceof IFolder) {
-                fErrorMessages.addAll(checkFolder((IFolder)eObject));
+            // Concept or Diagram is in correct Folder
+            if(eObject instanceof IArchimateConcept || eObject instanceof IDiagramModel) {
+                errorMessages.addAll(checkObjectInCorrectFolder((IArchimateModelObject)eObject));
+            }
+            
+            // Folders contain correct objects
+            if(eObject instanceof IFolder folder) {
+                errorMessages.addAll(checkFolderContainsCorrectObjects(folder));
             }
             
             // Profiles
-            if(eObject instanceof IProfiles) {
-                fErrorMessages.addAll(checkProfiles((IProfiles)eObject));
+            if(eObject instanceof IProfiles profiles) {
+                errorMessages.addAll(checkProfiles(profiles));
             }
+            
+            // Extension
+            errorMessages.addAll(checkObject(eObject));
         }
         
         // Now check Diagram Model Object reference count
-        fErrorMessages.addAll(checkDiagramComponentInstanceCount(dmcMap));
+        errorMessages.addAll(checkDiagramComponentInstanceCount(dmcMap));
         
-        return fErrorMessages.isEmpty();
+        return errorMessages.isEmpty();
     }
     
     public List<String> getErrorMessages() {
-        return fErrorMessages;
+        return errorMessages;
     }
     
     public void showErrorDialog(Shell shell) {
-        if(fErrorMessages == null || fErrorMessages.isEmpty()) {
+        if(errorMessages == null || errorMessages.isEmpty()) {
             return;
         }
         
-        // Log all messages
-        for(String s : fErrorMessages) {
-            logMessage(s);
+        // Sort messages
+        errorMessages.sort(null);
+        
+        // Log these messages to log file
+        logErrorMesssages();
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(String message : errorMessages) {
+            sb.append(message);
+            sb.append('\n');
         }
         
-        // Show some messages to user
-        String message = Messages.ModelChecker_0 + " " + fModel.getName() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-        int maxNumberOfMessages = Math.min(10, fErrorMessages.size());
-        
-        for(int i = 0; i < maxNumberOfMessages; i++) {
-            message += fErrorMessages.get(i) + "\n"; //$NON-NLS-1$
-        }
-        
-        if(maxNumberOfMessages < fErrorMessages.size()) {
-            message += Messages.ModelChecker_26;
-        }
-        
-        MessageDialog.openError(shell, Messages.ModelChecker_1, message);
+        ErrorMessageDialog.open(shell, Messages.ModelChecker_1,
+                                       Messages.ModelChecker_0 + " " + model.getName(), //$NON-NLS-1$
+                                       sb.toString());
     }
     
-    List<String> checkFolderStructure() {
-        List<String> messages = new ArrayList<String>();
+    public void logErrorMesssages() {
+        if(errorMessages == null || errorMessages.isEmpty()) {
+            return;
+        }
         
-        if(fModel.getFolder(FolderType.STRATEGY) == null) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Model Error: "); //$NON-NLS-1$
+        sb.append(model.getName());
+        
+        if(model.getFile() != null) {
+            sb.append(" ["); //$NON-NLS-1$
+            sb.append(model.getFile().getAbsolutePath());
+            sb.append("]"); //$NON-NLS-1$
+        }
+        
+        sb.append(':');
+        sb.append('\n');
+        
+        for(String message : errorMessages) {
+            sb.append("   "); //$NON-NLS-1$
+            sb.append(message);
+            sb.append('\n');
+        }
+        
+        Logger.logError(sb.toString());
+    }
+
+    protected List<String> checkFolderStructure() {
+        List<String> messages = new ArrayList<>();
+        
+        if(model.getFolder(FolderType.STRATEGY) == null) {
             messages.add(Messages.ModelChecker_23);
         }
-        if(fModel.getFolder(FolderType.BUSINESS) == null) {
+        if(model.getFolder(FolderType.BUSINESS) == null) {
             messages.add(Messages.ModelChecker_2);
         }
-        if(fModel.getFolder(FolderType.APPLICATION) == null) {
+        if(model.getFolder(FolderType.APPLICATION) == null) {
             messages.add(Messages.ModelChecker_3);
         }
-        if(fModel.getFolder(FolderType.TECHNOLOGY) == null) {
+        if(model.getFolder(FolderType.TECHNOLOGY) == null) {
             messages.add(Messages.ModelChecker_4);
         }
-        if(fModel.getFolder(FolderType.OTHER) == null) {
+        if(model.getFolder(FolderType.OTHER) == null) {
             messages.add(Messages.ModelChecker_5);
         }
-        if(fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
+        if(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
             messages.add(Messages.ModelChecker_6);
         }
-        if(fModel.getFolder(FolderType.MOTIVATION) == null) {
+        if(model.getFolder(FolderType.MOTIVATION) == null) {
             messages.add(Messages.ModelChecker_7);
         }
-        if(fModel.getFolder(FolderType.RELATIONS) == null) {
+        if(model.getFolder(FolderType.RELATIONS) == null) {
             messages.add(Messages.ModelChecker_8);
         }
-        if(fModel.getFolder(FolderType.DIAGRAMS) == null) {
+        if(model.getFolder(FolderType.DIAGRAMS) == null) {
             messages.add(Messages.ModelChecker_9);
         }
         
         return messages;
     }
     
-    List<String> checkHasIdentifier(IIdentifier eObject) {
-        List<String> messages = new ArrayList<String>();
-        
-        if(!StringUtils.isSet(eObject.getId())) {
-            String message = Messages.ModelChecker_10 + " " + ArchiLabelProvider.INSTANCE.getLabel(eObject); //$NON-NLS-1$
-            messages.add(message);
-        }
-        
-        return messages;
+    protected List<String> checkHasIdentifier(IIdentifier eObject) {
+        return StringUtils.isSet(eObject.getId()) ? List.of() :
+                         List.of(NLS.bind(Messages.ModelChecker_10, ArchiLabelProvider.INSTANCE.getLabel(eObject)));
     }
     
-    List<String> checkRelationship(IArchimateRelationship relation) {
-        List<String> messages = new ArrayList<String>();
+    protected List<String> checkRelationship(IArchimateRelationship relation) {
+        List<String> messages = new ArrayList<>();
         
-        String name = " (" + relation.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+        String name = "(" + relation.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         
         // Source missing
         if(relation.getSource() == null) {
-            String message = Messages.ModelChecker_19 + name;
-            messages.add(message);
+            messages.add(NLS.bind(Messages.ModelChecker_19, name));
         }
         // Source orphaned from model
         else if(relation.getSource().getArchimateModel() == null) {
-            String message = Messages.ModelChecker_20 + name;
-            messages.add(message);
+            messages.add(NLS.bind(Messages.ModelChecker_20, name));
         }
         
         // Target missing
         if(relation.getTarget() == null) {
-            String message = Messages.ModelChecker_21 + name;
-            messages.add(message);
+            messages.add(NLS.bind(Messages.ModelChecker_21, name));
         }
         // Target orphaned from model
         else if(relation.getTarget().getArchimateModel() == null) {
-            String message = Messages.ModelChecker_22 + name;
-            messages.add(message);
+            messages.add(NLS.bind(Messages.ModelChecker_22, name));
         }
         
         return messages;
     }
     
-    List<String> checkDiagramModelArchimateObject(IDiagramModelArchimateObject dmo) {
-        List<String> messages = new ArrayList<String>();
-        
-        String name = dmo.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + dmo.getDiagramModel().getName() + "' (" + dmo.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    protected List<String> checkDiagramModelArchimateObject(IDiagramModelArchimateObject dmo) {
+        String name = dmo.getDiagramModel() == null ? Messages.ModelChecker_11 : "'" + dmo.getDiagramModel().getName() + "' (" + dmo.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         IArchimateElement element = dmo.getArchimateElement();
         
         // No referenced element
         if(element == null) {
-            messages.add(Messages.ModelChecker_12 + name);
-        }
-        // Orphaned element
-        else if(element.getArchimateModel() == null) {
-            messages.add(Messages.ModelChecker_13 + name);
+            return List.of(NLS.bind(Messages.ModelChecker_12, name));
         }
         
-        return messages;
+        // Orphaned element
+        if(element.getArchimateModel() == null) {
+            return List.of(NLS.bind(Messages.ModelChecker_13, name));
+        }
+        
+        return List.of();
     }
     
-    List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection connection) {
-        List<String> messages = new ArrayList<String>();
+    protected List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection connection) {
+        List<String> messages = new ArrayList<>();
         
-        String name = connection.getDiagramModel() == null ? Messages.ModelChecker_11 : " '" + connection.getDiagramModel().getName() + "' (" + connection.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String name = connection.getDiagramModel() == null ? Messages.ModelChecker_11 : "'" + connection.getDiagramModel().getName() + "' (" + connection.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         IArchimateRelationship relation = connection.getArchimateRelationship();
         
         // No referenced relation
         if(relation == null) {
-            messages.add(Messages.ModelChecker_15 + name);
+            messages.add(NLS.bind(Messages.ModelChecker_15, name));
         }
         else {
             // Orphaned relation
             if(relation.getArchimateModel() == null) {
-                messages.add(Messages.ModelChecker_16 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_16, name));
             }
             // Orphaned relation source
             if(relation.getSource() != null && relation.getSource().getArchimateModel() == null) {
-                messages.add(Messages.ModelChecker_17 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_17, name));
             }
             // Orphaned relation target
             if(relation.getTarget() != null && relation.getTarget().getArchimateModel() == null) {
-                messages.add(Messages.ModelChecker_18 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_18, name));
             }
             // Relationship ends != connection ends
             if(((IDiagramModelArchimateComponent)connection.getSource()).getArchimateConcept() != relation.getSource()) {
-                messages.add(Messages.ModelChecker_14 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_14, name));
             }
             if(((IDiagramModelArchimateComponent)connection.getTarget()).getArchimateConcept() != relation.getTarget()) {
-                messages.add(Messages.ModelChecker_27 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_27, name));
             }
         }
         
         return messages;
     }
     
-    List<String> checkFolder(IFolder folder) {
-        List<String> messages = new ArrayList<String>();
+    protected List<String> checkObjectInCorrectFolder(IArchimateModelObject object) {
+        if(!(object.eContainer() instanceof IFolder folder)) {
+            return List.of();
+        }
+        
+        IFolder topFolder = folder.getArchimateModel().getDefaultFolderForObject(object);
+        
+        if(folder == topFolder) {
+            return List.of();
+        }
+        
+        EObject e = folder;
+        while((e = e.eContainer()) != null) {
+            if(e == topFolder) {
+                return List.of();
+            }
+        }
+        
+        return List.of(NLS.bind(Messages.ModelChecker_26, new String[] {object.getName(), object.getId(), folder.getName()}));
+    }
+    
+    protected List<String> checkFolderContainsCorrectObjects(IFolder folder) {
+        List<String> messages = new ArrayList<>();
         
         // Only allowed these types in folder's elements list
         for(EObject eObject : folder.getElements()) {
             if(!(eObject instanceof IArchimateConcept || eObject instanceof IDiagramModel)) {
-                String name = " (Folder: " + folder.getId() + " Object: " + ((IIdentifier)eObject).getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                messages.add(Messages.ModelChecker_25 + name);
+                String name = "(Folder: " + folder.getId() + " Object: " + ((IIdentifier)eObject).getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                messages.add(NLS.bind(Messages.ModelChecker_25, name));
             }
         }
         
         return messages;
     }
     
-    List<String> checkProfiles(IProfiles profilesObject) {
-        List<String> messages = new ArrayList<String>();
+    protected List<String> checkProfiles(IProfiles profilesObject) {
+        List<String> messages = new ArrayList<>();
         
         for(IProfile profile : profilesObject.getProfiles()) {
-            String name = " " + profile.getId(); //$NON-NLS-1$
-            
             // Profile must exist in this model
             if(profile.getArchimateModel() != ((IArchimateModelObject)profilesObject).getArchimateModel()) {
-                messages.add(Messages.ModelChecker_28 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_28, profile.getId()));
             }
             
             // Profile must have matching concept type
             EClass eClass = profile.getConceptClass(); 
             if(eClass == null || eClass != profilesObject.eClass()) {
-                messages.add(Messages.ModelChecker_29 + name);
+                messages.add(NLS.bind(Messages.ModelChecker_29, profile.getId()));
             }
         }
         
         return messages;
     }
     
+    /**
+     * Sub-classes can add a check by over-riding this
+     * @param eObject The object in the model to check
+     * @return an array of error messages which can be empty
+     */
+    protected List<String> checkObject(EObject eObject) {
+        return List.of();
+    }
+
     /**
      * For each IDiagramModelArchimateComponent encountered increment the instance count
      */
@@ -324,31 +379,18 @@ public class ModelChecker {
      * Check the actual IDiagramModelArchimateComponent instance count against the concept's reported instance count
      */
     private List<String> checkDiagramComponentInstanceCount(Map<IArchimateConcept, Integer> map) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         
         // Now check the total count against the reported count of the concept
         for(Entry<IArchimateConcept, Integer> entry : map.entrySet()) {
             IArchimateConcept concept = entry.getKey();
             int count = entry.getValue();
             if(concept.getReferencingDiagramComponents().size() != count) {
-                String name = " (" + concept.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-                messages.add(Messages.ModelChecker_24 + name);
+                String name = "(" + concept.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+                messages.add(NLS.bind(Messages.ModelChecker_24, name));
             }
         }
         
         return messages;
-    }
-
-    void logMessage(String message) {
-        String s = "Model Error: ";  //$NON-NLS-1$
-        s += fModel.getName();
-        
-        if(fModel.getFile() != null) {
-            s += " [" + fModel.getFile().getAbsolutePath() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        
-        s += " " + message; //$NON-NLS-1$
-        
-        Logger.logError(s);
     }
 }
