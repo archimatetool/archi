@@ -8,11 +8,14 @@ package org.opengroup.archimate.xmlexchange;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
@@ -25,6 +28,12 @@ import com.archimatetool.tests.TestUtils;
  */
 @SuppressWarnings("nls")
 public class XMLModelExporterTests {
+    
+    @AfterAll
+    public static void runOnceAfterAllTests() throws IOException {
+        // Clean up
+        FileUtils.deleteFolder(TestUtils.TMP_FOLDER);
+    }
     
     @Test
     public void testExportModel() throws Exception {
