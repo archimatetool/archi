@@ -10,17 +10,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.model.ModelChecker;
+import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.tests.TestUtils;
 
 /**
  * XML Model Importer Tests
@@ -36,6 +40,12 @@ public class XMLModelImporterTests {
         importer = new XMLModelImporter();
     }
 
+    @AfterAll
+    public static void runOnceAfterAllTests() throws IOException {
+        // Clean up
+        FileUtils.deleteFolder(TestUtils.TMP_FOLDER);
+    }
+    
     @Test
     public void testArchimateModelExists() throws Exception {
         IArchimateModel model = importer.createArchiMateModel(TestSupport.XML_FILE1);

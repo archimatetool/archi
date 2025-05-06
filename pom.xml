@@ -96,8 +96,6 @@
                 <artifactId>tycho-packaging-plugin</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
-                    <!-- Replace the "-SNAPSHOT" version when generating jars -->
-                    <finalName>${project.artifactId}_${unqualifiedVersion}.${buildQualifier}</finalName>
                     <!-- Don't add pom.xml and pom.properties files to META-INF folder  -->
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
