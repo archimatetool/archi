@@ -132,15 +132,25 @@ public class ModelChecker {
     }
     
     public void showErrorDialog(Shell shell) {
+        String summary = createMessageSummary();
+        if(summary != null) {
+            // Log these messages to log file
+            logErrorMesssages();
+            
+            // Show dialog
+            ErrorMessageDialog.open(shell, Messages.ModelChecker_1,
+                    Messages.ModelChecker_0 + " " + model.getName(), //$NON-NLS-1$
+                    summary);
+        }
+    }
+    
+    public String createMessageSummary() {
         if(errorMessages == null || errorMessages.isEmpty()) {
-            return;
+            return null;
         }
         
         // Sort messages
         errorMessages.sort(null);
-        
-        // Log these messages to log file
-        logErrorMesssages();
         
         StringBuilder sb = new StringBuilder();
         
@@ -149,9 +159,7 @@ public class ModelChecker {
             sb.append('\n');
         }
         
-        ErrorMessageDialog.open(shell, Messages.ModelChecker_1,
-                                       Messages.ModelChecker_0 + " " + model.getName(), //$NON-NLS-1$
-                                       sb.toString());
+        return sb.toString();
     }
     
     public void logErrorMesssages() {
