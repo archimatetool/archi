@@ -7,22 +7,15 @@ package com.archimatetool.templates.impl.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import org.eclipse.swt.graphics.Image;
-import org.jdom2.Attribute;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.ZipUtils;
-import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.templates.ArchiTemplatesPlugin;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
-import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
 
@@ -38,21 +31,22 @@ public class ArchimateTemplateManager extends TemplateManager {
     
     public static final String ARCHIMATE_TEMPLATE_FILE_EXTENSION = ".architemplate"; //$NON-NLS-1$
     
-    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getWorkspaceFolder(), "templates.xml"); //$NON-NLS-1$
-    
     public ArchimateTemplateManager() {
     }
     
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {
-        ITemplateGroup group = new TemplateGroup(Messages.ArchimateTemplateManager_2);
-        File folder = ArchiTemplatesPlugin.INSTANCE.getTemplatesFolder();
+        ITemplateGroup group = new TemplateGroup(Messages.ArchimateTemplateManager_0);
+        File folder = ArchiTemplatesPlugin.getInstance().getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
                 if(file.getName().toLowerCase().endsWith(ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
-                    ITemplate template = new ArchimateModelTemplate();
-                    template.setFile(file);
-                    group.addTemplate(template);
+                    try {
+                        group.addTemplate(createTemplate(file));
+                    }
+                    catch(IOException ex) {
+                        Logger.logError("Error loading template", ex); //$NON-NLS-1$
+                    }
                 }
             }
         }
@@ -61,7 +55,7 @@ public class ArchimateTemplateManager extends TemplateManager {
 
     @Override
     public File getUserTemplatesManifestFile() {
-        return fUserTemplatesFile;
+        return new File(ArchiPlugin.getInstance().getWorkspaceFolder(), "templates.xml"); //$NON-NLS-1$
     }
 
     @Override
@@ -71,53 +65,11 @@ public class ArchimateTemplateManager extends TemplateManager {
 
     @Override
     public ITemplate createTemplate(File file) throws IOException {
-        if(isValidTemplateFile(file)) {
-            return new ArchimateModelTemplate(null);
-        }
-        else {
-            throw new IOException(Messages.ArchimateTemplateManager_0);
-        }
+        return new ArchimateModelTemplate(file);
     }
 
-    @Override
-    protected ITemplate createTemplate(String type) {
-        if(ArchimateModelTemplate.XML_TEMPLATE_ATTRIBUTE_TYPE_MODEL.equals(type)) {
-            return new ArchimateModelTemplate();
-        }
-        return null;
-    }
-    
     @Override
     public Image getMainImage() {
         return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS);
-    }
-    
-    @Override
-    protected boolean isValidTemplateFile(File file) throws IOException {
-        if(file == null || !file.exists()) {
-            return false;
-        }
-        
-        // Ensure the template is of the right kind
-        String xmlString = ZipUtils.extractZipEntry(file, ZIP_ENTRY_MANIFEST, Charset.forName("UTF-8")); //$NON-NLS-1$
-        if(xmlString == null) {
-            return false;
-        }
-
-        // If the attribute "type" exists then return true if its value is "model".
-        // If the attribute doesn't exist it was from an older version (before 2.1)
-        try {
-            Document doc = JDOMUtils.readXMLString(xmlString);
-            Element root = doc.getRootElement();
-            Attribute attType = root.getAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TYPE);
-            if(attType != null) {
-                return ArchimateModelTemplate.XML_TEMPLATE_ATTRIBUTE_TYPE_MODEL.equals(attType.getValue());
-            }
-        }
-        catch(JDOMException ex) {
-            return false;
-        }
-         
-        return true;
     }
 }

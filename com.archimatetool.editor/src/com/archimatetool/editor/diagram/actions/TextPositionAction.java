@@ -17,8 +17,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextPosition;
@@ -32,43 +32,39 @@ import com.archimatetool.model.ITextPosition;
  */
 public class TextPositionAction extends SelectionAction {
     
-    public static final String ACTION_TOP_ID = "TextPositionActionTop"; //$NON-NLS-1$
-    public static final String ACTION_CENTRE_ID = "TextPositionActionCentre"; //$NON-NLS-1$
-    public static final String ACTION_BOTTOM_ID = "TextPositionActionBottom"; //$NON-NLS-1$
+    public static final String ACTION_TOP_ID = "com.archimatetool.editor.textPositionTop"; //$NON-NLS-1$
+    public static final String ACTION_CENTRE_ID = "com.archimatetool.editor.textPositionCentre"; //$NON-NLS-1$
+    public static final String ACTION_BOTTOM_ID = "com.archimatetool.editor.textPositionBottom"; //$NON-NLS-1$
     
-    public static final String ACTION_TOP_TEXT = Messages.TextPositionAction_0;
-    public static final String ACTION_CENTRE_TEXT = Messages.TextPositionAction_1;
-    public static final String ACTION_BOTTOM_TEXT = Messages.TextPositionAction_2;
+    public static final record TextPositionActionDefinition(String id, int position, String label) {}
     
-    public static final String ACTION_IDS[] = {
-            ACTION_TOP_ID,
-            ACTION_CENTRE_ID,
-            ACTION_BOTTOM_ID
-    };
-    
-    public static final String ACTION_TEXTS[] = {
-            ACTION_TOP_TEXT,
-            ACTION_CENTRE_TEXT,
-            ACTION_BOTTOM_TEXT
-    };
-    
+    public static final TextPositionActionDefinition[] getActionDefinitions() {
+        return new TextPositionActionDefinition[] {
+                new TextPositionActionDefinition(ACTION_TOP_ID, ITextPosition.TEXT_POSITION_TOP, Messages.TextPositionAction_0),
+                new TextPositionActionDefinition(ACTION_CENTRE_ID, ITextPosition.TEXT_POSITION_CENTRE, Messages.TextPositionAction_1),
+                new TextPositionActionDefinition(ACTION_BOTTOM_ID, ITextPosition.TEXT_POSITION_BOTTOM, Messages.TextPositionAction_2)
+        };
+    }
+
     public static List<RetargetAction> createRetargetActions() {
-        List<RetargetAction> list = new ArrayList<RetargetAction>();
+        List<RetargetAction> list = new ArrayList<>();
         
-        for(int i = 0; i < ACTION_IDS.length; i++) {
-            list.add(new RetargetAction(ACTION_IDS[i], ACTION_TEXTS[i], IAction.AS_RADIO_BUTTON));
+        for(TextPositionActionDefinition a : getActionDefinitions()) {
+            RetargetAction action = new RetargetAction(a.id(), a.label(), IAction.AS_RADIO_BUTTON);
+            action.setActionDefinitionId(a.id()); // Command key binding support
+            list.add(action);
         }
-     
+        
         return list;
     }
     
     public static List<TextPositionAction> createActions(IWorkbenchPart part) {
-        List<TextPositionAction> list = new ArrayList<TextPositionAction>();
+        List<TextPositionAction> list = new ArrayList<>();
         
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP, ACTION_TOP_ID, ACTION_TOP_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_CENTRE, ACTION_CENTRE_ID, ACTION_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM, ACTION_BOTTOM_ID, ACTION_BOTTOM_TEXT));
-     
+        for(TextPositionActionDefinition a : getActionDefinitions()) {
+            list.add(new TextPositionAction(part, a.position(), a.id(), a.label()));
+        }
+        
         return list;
     }
     
@@ -78,76 +74,56 @@ public class TextPositionAction extends SelectionAction {
         super(part, AS_RADIO_BUTTON);
         fPosition = position;
         setId(id);
+        setActionDefinitionId(id); // Command key binding support
         setText(text);
     }
 
     @Override
-    protected boolean calculateEnabled() {
-        setChecked(false);
-        
-        List<?> selected = getSelectedObjects();
-        
-        ITextPosition model = (ITextPosition)getFirstValidSelectedModelObject(selected);
-
-        if(model != null && selected.size() == 1) {
-            setChecked(model.getTextPosition() == fPosition);
-        }
-        
-        return model != null;
-    }
-    
-    private Object getFirstValidSelectedModelObject(List<?> selection) {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    return model;
-                }
-            }
-        }
-        
-        return null;
+    public void run() {
+        execute(createCommand());
     }
     
     @Override
-    public void run() {
-        List<?> selection = getSelectedObjects();
+    protected boolean calculateEnabled() {
+        List<ITextPosition> selected = getValidSelectedObjects();
         
-        Object model = getFirstValidSelectedModelObject(selection);
-        if(model != null) {
-            execute(createCommand(selection));
+        boolean checked = !selected.isEmpty();
+        for(ITextPosition tp : selected) {
+            if(tp.getTextPosition() != fPosition) {
+                checked = false;
+            }
         }
+        setChecked(checked);
+        
+        return !selected.isEmpty();
     }
     
-    private Command createCommand(List<?> selection) {
+    private Command createCommand() {
         CompoundCommand result = new CompoundCommand(Messages.TextPositionAction_9);
         
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    Command cmd = new TextPositionCommand((ITextPosition)model, fPosition);
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
-                }
+        for(ITextPosition object : getValidSelectedObjects()) {
+            Command cmd = new TextPositionCommand(object, fPosition);
+            if(cmd.canExecute()) {
+                result.add(cmd);
             }
         }
 
         return result.unwrap();
     }
     
-    private boolean shouldEnable(Object model) {
-        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-            return false;
+    private List<ITextPosition> getValidSelectedObjects() {
+        List<ITextPosition> list = new ArrayList<>();
+        
+        for(Object object : getSelectedObjects()) {
+            if(object instanceof EditPart editPart && editPart.getModel() instanceof ITextPosition textPositionObject
+                    && !(textPositionObject instanceof ILockable lockable && lockable.isLocked())
+                    && ObjectUIFactory.INSTANCE.getProvider(textPositionObject) instanceof IGraphicalObjectUIProvider provider
+                    && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName())) {
+                list.add(textPositionObject);
+            }
         }
         
-        if(model instanceof ITextPosition) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextPosition)model));
-            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName());
-        }
-        
-        return false;
+        return list;
     }
 
 }

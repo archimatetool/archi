@@ -13,10 +13,9 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -144,9 +143,9 @@ public class AboutDialog extends TrayDialog {
             imageHeight = 300;
         }
         
-        final String version = Messages.AboutDialog_2 + ArchiPlugin.INSTANCE.getVersion();
-        final String build = Messages.AboutDialog_3 + ArchiPlugin.INSTANCE.getBuild();
-        final String copyright = ArchiPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
+        final String version = Messages.AboutDialog_2 + ArchiPlugin.getInstance().getVersion();
+        final String build = Messages.AboutDialog_3 + ArchiPlugin.getInstance().getBuild();
+        final String copyright = ArchiPlugin.getInstance().getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         FontData fd = imageControl.getFont().getFontData()[0];
         fd.setHeight(fd.getHeight() - 1);
@@ -156,19 +155,18 @@ public class AboutDialog extends TrayDialog {
             smallFont.dispose();
         });
 
-        imageControl.addPaintListener(new PaintListener() {
-            @Override
-            public void paintControl(PaintEvent e) {
-                int fontHeight = e.gc.getFontMetrics().getHeight() + 2;
-                
-                e.gc.drawImage(image, 0, 0);
-                e.gc.drawString(version, 19, 166, true);
-                e.gc.drawString(build, 19, 166 + fontHeight, true);
+        imageControl.addPaintListener(e -> {
+            int fontHeight = e.gc.getFontMetrics().getHeight() + 2;
 
-                e.gc.setFont(smallFont);
-                fontHeight = e.gc.getFontMetrics().getHeight() + 2;
-                e.gc.drawString(copyright, 12, imageHeight - fontHeight - 5, true);
-            }
+            e.gc.setForeground(new Color(35, 35, 140));
+
+            e.gc.drawImage(image, 0, 0);
+            e.gc.drawString(version, 19, 166, true);
+            e.gc.drawString(build, 19, 166 + fontHeight, true);
+
+            e.gc.setFont(smallFont);
+            fontHeight = e.gc.getFontMetrics().getHeight() + 2;
+            e.gc.drawString(copyright, 12, imageHeight - fontHeight - 5, true);
         });
     }
     
@@ -199,7 +197,7 @@ public class AboutDialog extends TrayDialog {
         checkNewVersionButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
-            URL url = ArchiPlugin.INSTANCE.getBundle().getEntry("LICENSE.txt"); //$NON-NLS-1$
+            URL url = ArchiPlugin.getInstance().getBundle().getEntry("LICENSE.txt"); //$NON-NLS-1$
             if(url != null) {
                 try(InputStream in = url.openStream()) {
                     String content = new String(in.readAllBytes());

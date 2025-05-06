@@ -91,8 +91,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
-import com.archimatetool.editor.diagram.actions.BringForwardAction;
-import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
@@ -108,6 +106,7 @@ import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LineWidthAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ObjectPositionAction;
 import com.archimatetool.editor.diagram.actions.OpacityAction;
 import com.archimatetool.editor.diagram.actions.OutlineOpacityAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
@@ -117,8 +116,6 @@ import com.archimatetool.editor.diagram.actions.PropertiesAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SelectAllAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
-import com.archimatetool.editor.diagram.actions.SendBackwardAction;
-import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ToggleGridEnabledAction;
@@ -264,7 +261,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         setPartName(input.getName());
 
         // Listen to App Prefs changes
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(appPreferencesListener);
     }
 
     @Override
@@ -407,7 +404,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Update Shell title bar with file name of current model
      */
     protected void updateShellTitleBarWithFileName() {
-        String appname = ArchiPlugin.INSTANCE.getProductName();
+        String appname = ArchiPlugin.getInstance().getProductName();
         File file = getModel().getArchimateModel().getFile();
         
         if(file != null) {
@@ -451,7 +448,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Apply grid Prefs
      */
     protected void applyUserGridPreferences() {
-        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         
         // Grid Spacing
         int gridSize = store.getInt(IPreferenceConstants.GRID_SIZE);
@@ -474,7 +471,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     protected PaletteViewerProvider createPaletteViewerProvider() {
         // Ensure palette is showing or not
-        boolean showPalette = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.PALETTE_STATE);
+        boolean showPalette = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PALETTE_STATE);
         getPalettePreferences().setPaletteState(showPalette ? FlyoutPaletteComposite.STATE_PINNED_OPEN : FlyoutPaletteComposite.STATE_COLLAPSED);
 
         return new PaletteViewerProvider(getEditDomain()) {
@@ -871,29 +868,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new ConnectionRouterAction.ManhattanConnectionRouterAction(this);
         registry.registerAction(action);
         
-        // Send Backward
-        action = new SendBackwardAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Bring Forward
-        action = new BringForwardAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Send to Back
-        action = new SendToBackAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
-        
-        // Bring To Front
-        action = new BringToFrontAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        // Object Position Actions
+        for(ObjectPositionAction a : ObjectPositionAction.createActions(this)) {
+            registry.registerAction(a);
+            getSelectionActions().add(a.getId());
+            getUpdateCommandStackActions().add(a);
+        }
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
@@ -972,7 +952,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     @Override
     public void selectObjects(Object[] objects) {
         // Safety check in case this is called via Display#asyncExec()
-        if(getGraphicalViewer() == null || getGraphicalViewer().getControl() == null) {
+        if(getGraphicalViewer() == null || getGraphicalViewer().getControl() == null || getModel() == null) {
             return;
         }
         
@@ -1024,10 +1004,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
 
         /*
-         * Return the singleton Outline Page
+         * Return the Outline Page
          */
-        if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null) {
-            return adapter.cast(new OverviewOutlinePage(this));
+        if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null
+                                                && getGraphicalViewer().getRootEditPart() instanceof ScalableFreeformRootEditPart editPart) {
+            return adapter.cast(new OverviewOutlinePage(editPart));
         }
         
         /*
@@ -1054,7 +1035,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
 
         // Find/Replace Provider
         if(adapter == IFindReplaceProvider.class) {
-            if(fFindReplaceProvider == null) {
+            if(fFindReplaceProvider == null && getGraphicalViewer() != null) {
                 fFindReplaceProvider = new DiagramEditorFindReplaceProvider(getGraphicalViewer());
             }
             return adapter.cast(fFindReplaceProvider);
@@ -1079,13 +1060,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.dispose();
         
         // Remove Preference listener
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(appPreferencesListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(appPreferencesListener);
         
         // Remove eCore adapter listener objects
         eCoreAdapter.remove(getModel(), getModel() != null ? getModel().getArchimateModel() : null);
         
         // Update shell text
-        getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());
+        getSite().getShell().setText(ArchiPlugin.getInstance().getProductName());
         
         // Disable Actions
         disableActions();
@@ -1107,5 +1088,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         fDiagramModel = null;
 
         fContextActivation = null;
+        fFindReplaceProvider = null;
     }
 }

@@ -13,8 +13,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectClasses({
     XMLExchangeUtilsTests.class,
     XMLModelExporterTests.class,
-    XMLModelImporterTests.class,
-    XMLValidatorTests.class
+    XMLModelImporterTests.class
 })
 @SuiteDisplayName("All XML Exchange Tests")
 public class AllTests {

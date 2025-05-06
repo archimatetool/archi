@@ -13,7 +13,6 @@ public class Messages extends NLS {
 
     public static String ArchimateTemplateManager_0;
 
-    public static String ArchimateTemplateManager_2;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

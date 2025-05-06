@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -42,7 +41,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
-import org.eclipse.ui.internal.util.PrefUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
@@ -94,7 +92,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         FontData getDefaultFontData() {
-            return getSystemFontData();
+            // Get default font that might be set in a pluginCustomization settings file
+            FontData fontData = ThemeUtils.getDefaultThemeFontData(fontDefinitionId);
+            return fontData != null ? fontData : getSystemFontData();
         }
         
         void performOK() {
@@ -102,7 +102,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
 
         FontData getSystemFontData() {
-            return JFaceResources.getDefaultFont().getFontData()[0];
+            return getShell().getDisplay().getSystemFont().getFontData()[0];
+        }
+        
+        FontData getSafeFontData(String fontDetails) {
+            try {
+                return new FontData(fontDetails);
+            }
+            catch(Exception ex) {
+            }
+            
+            return getSystemFontData();
         }
     }
     
@@ -165,16 +175,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         FontData getSystemFontData() {
             return FontFactory.getDefaultViewOSFontData();
         }
-        
-        FontData getSafeFontData(String fontDetails) {
-            try {
-                return new FontData(fontDetails);
-            }
-            catch(Exception ex) {
-            }
-            
-            return getSystemFontData();
-        }
     }
 
     // Table
@@ -193,7 +193,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private IWorkbench workbench;
     
     public FontsPreferencePage() {
-        setPreferenceStore(ArchiPlugin.PREFERENCES);
+        setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
         // This is now shown in a label
         //setDescription(Messages.FontsPreferencePage_21);
     }
@@ -497,7 +497,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        PrefUtil.savePrefs();
+        PrefUtils.savePrefs();
         
         return true;
     }

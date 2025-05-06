@@ -109,13 +109,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // XSD
         if(fIncludeXSD) {
             File file1 = new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_MODEL_XSD);
-            XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.ARCHIMATE3_MODEL_XSD, file1);
+            XMLExchangePlugin.getInstance().copyXSDFile(XMLExchangePlugin.ARCHIMATE3_MODEL_XSD, file1);
             
             File file2 = new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_VIEW_XSD);
-            XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.ARCHIMATE3_VIEW_XSD, file2);
+            XMLExchangePlugin.getInstance().copyXSDFile(XMLExchangePlugin.ARCHIMATE3_VIEW_XSD, file2);
             
             File file3 = new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD);
-            XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD, file3);
+            XMLExchangePlugin.getInstance().copyXSDFile(XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD, file3);
         }
     }
     

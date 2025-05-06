@@ -16,7 +16,7 @@ import com.archimatetool.editor.ArchiPlugin;
 @SuppressWarnings("nls")
 public interface IArchiImages {
     
-    ImageFactory ImageFactory = new ImageFactory(ArchiPlugin.INSTANCE);
+    ImageFactory ImageFactory = new ImageFactory(ArchiPlugin.getInstance());
 
     String IMGPATH = "img/";
     
@@ -192,6 +192,7 @@ public interface IArchiImages {
     String LINE_SOLID = IMGPATH + "line-solid.png";
     String LINE_DASHED = IMGPATH + "line-dashed.png";
     String LINE_DOTTED = IMGPATH + "line-dotted.png";
+    String LINE_NONE = IMGPATH + "line-none.png";
     
     String ARROW_SOURCE_FILL = IMGPATH + "arrow-source-fill.png";
     String ARROW_TARGET_FILL = IMGPATH + "arrow-target-fill.png";

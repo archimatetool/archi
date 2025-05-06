@@ -34,6 +34,7 @@ import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
@@ -95,7 +96,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         String defaultFileName = Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION;
         
         // Get last folder used
-        String lastFolderName = CanvasEditorPlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FOLDER);
+        String lastFolderName = CanvasEditorPlugin.getInstance().getPreferenceStore().getString(PREFS_LAST_FOLDER);
         File lastFolder = new File(lastFolderName);
         if(lastFolder.exists() && lastFolder.isDirectory()) {
             fFileTextField.setText(new File(lastFolder, defaultFileName).getPath());
@@ -246,7 +247,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
         dialog.setText(Messages.SaveCanvasAsTemplateWizardPage_9);
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        // On Mac, the extension is appended to the file name again. This is because it's not a registered extension like *.png or *.xml
+        // Not setting filter extensions avoids this.
+        if(!PlatformUtils.isMac()) {
+            dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
         File file = new File(fFileTextField.getText());
         dialog.setFileName(file.getName());
         
@@ -300,7 +307,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         // Store current folder
         File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
         if(parentFile != null) {
-            IPreferenceStore store = CanvasEditorPlugin.INSTANCE.getPreferenceStore();
+            IPreferenceStore store = CanvasEditorPlugin.getInstance().getPreferenceStore();
             store.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
         }
     }

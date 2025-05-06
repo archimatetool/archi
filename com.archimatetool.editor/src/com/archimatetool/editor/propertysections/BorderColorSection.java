@@ -56,17 +56,16 @@ public class BorderColorSection extends AbstractECorePropertySection {
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
+            RGB rgb = fColorChooser.getColorValue();
+            String newColor = ColorFactory.convertRGBToString(rgb);
+
             CompoundCommand result = new CompoundCommand();
 
-            for(EObject bo : getEObjects()) {
-                if(isAlive(bo)) {
-                    RGB rgb = fColorChooser.getColorValue();
-                    String newColor = ColorFactory.convertRGBToString(rgb);
-                    if(!newColor.equals(((IBorderObject)bo).getBorderColor())) {
-                        Command cmd = new BorderColorCommand((IBorderObject)bo, newColor);
-                        if(cmd.canExecute()) {
-                            result.add(cmd);
-                        }
+            for(EObject eObject : getEObjects()) {
+                if(isAlive(eObject) && eObject instanceof IBorderObject bo) {
+                    Command cmd = new BorderColorCommand(bo, newColor);
+                    if(cmd.canExecute()) {
+                        result.add(cmd);
                     }
                 }
             }
@@ -95,14 +94,15 @@ public class BorderColorSection extends AbstractECorePropertySection {
         fColorChooser.setDoShowPreferencesMenuItem(false);
         
         // No border action
-        fNoBorderAction = new Action(Messages.BorderColorSection_1) {
+        fNoBorderAction = new Action(Messages.BorderColorSection_1, SWT.CHECK) {
             @Override
             public void run() {
                 CompoundCommand result = new CompoundCommand();
 
-                for(EObject bo : getEObjects()) {
-                    if(isAlive(bo)) {
-                        Command cmd = new BorderColorCommand((IBorderObject)bo, null);
+                for(EObject eObject : getEObjects()) {
+                    if(isAlive(eObject) && eObject instanceof IBorderObject bo) {
+                        String color = isChecked() ? null : "#000000"; //$NON-NLS-1$
+                        Command cmd = new BorderColorCommand(bo, color);
                         if(cmd.canExecute()) {
                             result.add(cmd);
                         }
@@ -140,7 +140,7 @@ public class BorderColorSection extends AbstractECorePropertySection {
         
         fColorChooser.setEnabled(!isLocked(bo));
         
-        fNoBorderAction.setEnabled(colorValue != null);
+        fNoBorderAction.setChecked(colorValue == null);
         fColorChooser.setDoShowColorImage(colorValue != null);
     }
     

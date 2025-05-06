@@ -6,6 +6,7 @@
 package com.archimatetool.zest;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -16,7 +17,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.zest.core.widgets.GraphNode;
 
@@ -32,7 +32,7 @@ import com.archimatetool.model.IArchimateElement;
  */
 public class DrillDownManager implements ISelectionChangedListener {
 
-    private Stack<Object> fBackStack = new Stack<Object>();
+    private Stack<IArchimateConcept> fBackStack = new Stack<>();
 
     private IAction fActionHome;
     private IAction fActionBack;
@@ -44,7 +44,7 @@ public class DrillDownManager implements ISelectionChangedListener {
     private IArchimateConcept fHomeConcept;
     private IArchimateConcept fCurrentConcept;
     
-    private HashMap<Object, NodePositions> fPositions = new HashMap<Object, NodePositions>();
+    private Map<Object, NodePositions> fPositions = new HashMap<>();
 
     DrillDownManager(ZestView view) {
         fView = view;
@@ -97,44 +97,46 @@ public class DrillDownManager implements ISelectionChangedListener {
     }
     
     void goInto() {
-        IStructuredSelection sel = (IStructuredSelection)fGraphViewer.getSelection();
-        IArchimateConcept concept = (IArchimateConcept)sel.getFirstElement();
-        
-        if(isValidObject(concept)) {
-            saveCurrentState();
-
-            fBackStack.push(fCurrentConcept);
-            fCurrentConcept = concept;
-            setGraphViewerInput(concept);
-            
-            updateNavigationButtons();
-            
-            restoreLastState();
-            
-            fView.updateLabel();
+        IArchimateConcept concept = (IArchimateConcept)fGraphViewer.getStructuredSelection().getFirstElement();
+        if(!isValidObject(concept)) {
+            return;
         }
+        
+        saveCurrentState();
+
+        fBackStack.push(fCurrentConcept);
+        fCurrentConcept = concept;
+        setGraphViewerInput(concept);
+        
+        updateNavigationButtons();
+        
+        restoreLastState();
+        
+        fView.updateLabel();
     }
     
     void goBack() {
-        if(!fBackStack.isEmpty()) {
-            saveCurrentState();
-            
-            IArchimateConcept concept = (IArchimateConcept)fBackStack.pop();
-            
-            if(isDeletedObject(concept)) {
-                reset();
-                return;
-            }
-            
-            fCurrentConcept = concept;
-            setGraphViewerInput(concept);
-            
-            updateNavigationButtons();
-            
-            restoreLastState();
-            
-            fView.updateLabel();
+        if(fBackStack.isEmpty()) {
+           return; 
         }
+        
+        saveCurrentState();
+
+        IArchimateConcept concept = fBackStack.pop();
+
+        if(isDeletedObject(concept)) {
+            reset();
+            return;
+        }
+
+        fCurrentConcept = concept;
+        setGraphViewerInput(concept);
+
+        updateNavigationButtons();
+
+        restoreLastState();
+
+        fView.updateLabel();
     }
 
     void addNavigationActions(IToolBarManager toolBar) {
@@ -238,9 +240,7 @@ public class DrillDownManager implements ISelectionChangedListener {
     }
     
     private void updateNavigationButtons() {
-        IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
-        Object selected = selection.getFirstElement();
-        
+        Object selected = fGraphViewer.getStructuredSelection().getFirstElement();
         fActionHome.setEnabled(fHomeConcept != null && fHomeConcept != fCurrentConcept);
         fActionBack.setEnabled(!fBackStack.isEmpty());
         fActionGoInto.setEnabled(isValidObject(selected));
@@ -260,10 +260,10 @@ public class DrillDownManager implements ISelectionChangedListener {
     }
     
     /*
-     * Stores an Element's node positions
+     * Saves and restores Element node positions
      */
     private class NodePositions {
-        private HashMap<Object, Point> nodePositions = new HashMap<Object, Point>();
+        private Map<Object, Point> nodePositions = new HashMap<>();
         
         void saveNodePositions() {
             for(Object n : fGraphViewer.getGraphControl().getNodes()) {
@@ -274,18 +274,30 @@ public class DrillDownManager implements ISelectionChangedListener {
         }
         
         void restoreNodePositions() {
+            // It can happen when adding a new element and connecting it that some connected node positions are 0,0
+            // If this is so, then do a layout
+            boolean doLayout = false;
+            
             for(Object n : fGraphViewer.getGraphControl().getNodes()) {
                 GraphNode node = (GraphNode)n;
                 Object element = node.getData();
                 Point pt = nodePositions.get(element);
-                if(pt != null) {
+                if(pt != null && pt.x != 0 && pt.y != 0) {
                     node.setLocation(pt.x, pt.y);
                 }
                 else {
-                    nodePositions.put(element, node.getLocation());
+                    pt = node.getLocation();
+                    nodePositions.put(element, pt);
                 }
+                
+                if(pt.x == 0 && pt.y == 0) {
+                    doLayout = true;
+                }
+            }
+            
+            if(doLayout) {
+                fGraphViewer.doApplyLayout();
             }
         }
     }
-
 }

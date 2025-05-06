@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Model Importer Command Line
 Bundle-SymbolicName: com.archimatetool.modelimporter.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.commandline,
  com.archimatetool.modelimporter
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.modelimporter.commandline

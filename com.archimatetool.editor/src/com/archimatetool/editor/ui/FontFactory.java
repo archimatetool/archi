@@ -75,7 +75,7 @@ public final class FontFactory {
         // We don't have it
         if(!FontRegistry.hasValueFor(DEFAULT_VIEW_FONT_NAME)) {
             // So check user prefs...
-            String fontDetails = ArchiPlugin.PREFERENCES.getString(IPreferenceConstants.DEFAULT_VIEW_FONT);
+            String fontDetails = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_VIEW_FONT);
             if(StringUtils.isSet(fontDetails)) {
                 try {
                     // Put font details from user prefs
@@ -101,7 +101,7 @@ public final class FontFactory {
         FontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
 
         // Then set value as this will send property change
-        ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.DEFAULT_VIEW_FONT, fd.toString());
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.DEFAULT_VIEW_FONT, fd.toString());
     }
     
     /**
@@ -121,7 +121,7 @@ public final class FontFactory {
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("Lucida Grande", ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING) ? 9 : 12, SWT.NORMAL);
+            fd = new FontData("Lucida Grande", ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING) ? 9 : 12, SWT.NORMAL);
         }
 
         return fd;
@@ -148,7 +148,7 @@ public final class FontFactory {
     public static String getScaledFontString(String fontDataString) {
         // Don't check for DPI scaling on Linux or on Mac if preference not set. Always check on Windows.
         if(PlatformUtils.isLinux() ||
-                (PlatformUtils.isMac() && !ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.FONT_SCALING))) {
+                (PlatformUtils.isMac() && !ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING))) {
             return fontDataString;
         }
         

@@ -60,7 +60,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Spinner fAnimationVisualiserTimeSpinner;
 
 	public GeneralPreferencePage() {
-		setPreferenceStore(ArchiPlugin.PREFERENCES);
+		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override

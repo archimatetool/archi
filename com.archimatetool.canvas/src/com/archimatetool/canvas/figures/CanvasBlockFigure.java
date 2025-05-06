@@ -26,6 +26,7 @@ import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -159,10 +160,13 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        setLineStyle(graphics);
+        if(drawBorder) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         graphics.setBackgroundColor(background);
         graphics.fillRectangle(bounds);
@@ -171,7 +175,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         drawIconImage(graphics, bounds);
         
         // Border
-        if(getBorderColor() != null) {
+        if(drawBorder) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);

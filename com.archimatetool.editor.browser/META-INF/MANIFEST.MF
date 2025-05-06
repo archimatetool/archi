@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Browser Component
 Bundle-SymbolicName: com.archimatetool.editor.browser;singleton:=true
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: com.archimatetool.editor.browser.BrowserPlugin
 Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.editor.browser
 Automatic-Module-Name: com.archimatetool.editor.browser

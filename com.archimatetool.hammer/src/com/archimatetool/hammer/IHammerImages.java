@@ -17,7 +17,7 @@ import com.archimatetool.editor.ui.ImageFactory;
  */
 public interface IHammerImages {
     
-    ImageFactory ImageFactory = new ImageFactory(ArchiHammerPlugin.INSTANCE);
+    ImageFactory ImageFactory = new ImageFactory(ArchiHammerPlugin.getInstance());
 
     String IMGPATH = "img/"; //$NON-NLS-1$
     

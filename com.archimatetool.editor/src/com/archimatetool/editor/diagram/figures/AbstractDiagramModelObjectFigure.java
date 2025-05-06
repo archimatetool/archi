@@ -43,7 +43,7 @@ public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
     
     // Use line width offset handling
-    boolean useLineOffset = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
+    boolean useLineOffset = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
     
     private IDiagramModelObject fDiagramModelObject;
     
@@ -395,7 +395,7 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public IFigure getToolTip() {
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEW_TOOLTIPS)) {
             return null;
         }
         

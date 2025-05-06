@@ -84,7 +84,7 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         String fileName = StringUtils.isSet(fModelName) ? fModelName + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
         
         // Get last folder used
-        String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(XMLEXCHANGE_PREFS_LAST_FILE_LOCATION);
+        String lastFolderName = XMLExchangePlugin.getInstance().getPreferenceStore().getString(XMLEXCHANGE_PREFS_LAST_FILE_LOCATION);
         File lastFolder = new File(lastFolderName);
         
         if(lastFolder.exists() && lastFolder.isDirectory()) {
@@ -122,17 +122,17 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         gd.horizontalSpan = 2;
         
         fOrganiseButton = new Button(optionsGroup, SWT.CHECK);
-        fOrganiseButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_ORGANISATION));
+        fOrganiseButton.setSelection(XMLExchangePlugin.getInstance().getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_ORGANISATION));
         fOrganiseButton.setText(Messages.ExportToXMLPage_5);
         fOrganiseButton.setLayoutData(gd);
         
         fValidateAfterExportButton = new Button(optionsGroup, SWT.CHECK);
-        fValidateAfterExportButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_VALIDATE_AFTER_EXPORT));
+        fValidateAfterExportButton.setSelection(XMLExchangePlugin.getInstance().getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_VALIDATE_AFTER_EXPORT));
         fValidateAfterExportButton.setText(Messages.ExportToXMLPage_11);
         fValidateAfterExportButton.setLayoutData(gd);
         
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
-        fIncludeXSDButton.setSelection(XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_INCLUDE_XSD));
+        fIncludeXSDButton.setSelection(XMLExchangePlugin.getInstance().getPreferenceStore().getBoolean(XMLEXCHANGE_PREFS_INCLUDE_XSD));
         fIncludeXSDButton.setText(Messages.ExportToXMLPage_6);
         fIncludeXSDButton.setLayoutData(gd);
         
@@ -145,7 +145,7 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         gd.widthHint = 70;
         fLanguageCombo.setLayoutData(gd);
         
-        String lastLanguage = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(XMLEXCHANGE_PREFS_LANGUAGE);
+        String lastLanguage = XMLExchangePlugin.getInstance().getPreferenceStore().getString(XMLEXCHANGE_PREFS_LANGUAGE);
         if(StringUtils.isSet(lastLanguage)) {
             fLanguageCombo.setText(lastLanguage);
         }
@@ -223,7 +223,7 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
     }
 
     void storePreferences() {
-        IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = XMLExchangePlugin.getInstance().getPreferenceStore();
         
         File file = new File(getFileName());
         if(file.getParentFile().exists()) {

@@ -36,7 +36,7 @@ implements IWorkbenchPreferencePage {
     private static String HELP_ID = "com.archimatetool.help.prefsSystem";
     
 	public SystemPreferencesPage() {
-		setPreferenceStore(ArchiPlugin.PREFERENCES);
+		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 		setDescription(Messages.SystemPreferencesPage_0);
 	}
 	

@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi HTML Reports Command Line
 Bundle-SymbolicName: com.archimatetool.reports.commandline;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.reports,
  com.archimatetool.commandline
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.reports.commandline

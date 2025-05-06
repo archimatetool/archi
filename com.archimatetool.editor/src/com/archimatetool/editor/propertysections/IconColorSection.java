@@ -18,6 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
@@ -104,17 +105,23 @@ public class IconColorSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        IDiagramModelObject lastSelected = (IDiagramModelObject)getFirstSelectedObject();
+        IDiagramModelObject firstSelected = (IDiagramModelObject)getFirstSelectedObject();
         
-        String colorValue = lastSelected.getIconColor();
-        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
-        if(rgb == null) {
-            rgb = new RGB(0, 0, 0);
+        RGB rgb = ColorFactory.convertStringToRGB(firstSelected.getIconColor());
+        fColorChooser.setColorValue(rgb != null ? rgb : new RGB(0, 0, 0)); // Null is black
+        
+        fColorChooser.setEnabled(!isLocked(firstSelected));
+        
+        // Set default enabled based on all selected objects.
+        // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
+        boolean isDefaultColor = true;
+        for(IArchimateModelObject object : getEObjects()) {
+            if(object instanceof IDiagramModelObject dmo) {
+                isDefaultColor &= IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT.equals(dmo.getIconColor());
+            }
         }
         
-        fColorChooser.setColorValue(rgb);
-        fColorChooser.setIsDefaultColor(IDiagramModelObject.FEATURE_ICON_COLOR_DEFAULT.equals(colorValue));
-        fColorChooser.setEnabled(!isLocked(lastSelected));
+        fColorChooser.setIsDefaultColor(isDefaultColor);
     }
     
     @Override

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Help
 Bundle-SymbolicName: com.archimatetool.help;singleton:=true
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.help.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.archimatetool.help,
  com.archimatetool.help.cheatsheets,
  com.archimatetool.help.hints

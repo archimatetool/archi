@@ -76,6 +76,11 @@ public class TreeModelViewer extends TreeViewer {
     private SearchFilter searchFilter;
     
     /**
+     * Root expanded visible tree elements, saved when DrillDownAdapter is used.
+     */
+    private Object[] rootVisibleExpandedElements;
+    
+    /**
      * Listener for theme font change
      */
     private IPropertyChangeListener propertyChangeListener = event -> {
@@ -197,6 +202,7 @@ public class TreeModelViewer extends TreeViewer {
             
             viewpointFilterProvider = null;
             searchFilter = null;
+            rootVisibleExpandedElements = null;
         });
     }
     
@@ -371,6 +377,16 @@ public class TreeModelViewer extends TreeViewer {
         return null;
     }
     
+    /**
+     * Get the root expanded elements in case the DrillDownAdapter is active.
+     * Note that some of these elements might have been deleted when the tree was drilled into.
+     * Returns either the root expanded elements that were visible before the DrillDownAdapter was drilled into,
+     * or the current visible expanded elements if the DrillDownAdapter is "Home".
+     */
+    Object[] getRootVisibleExpandedElements() {
+        return rootVisibleExpandedElements != null ? rootVisibleExpandedElements : getVisibleExpandedElements();
+    }
+    
     // ========================= Model Providers =====================================
     
     /**
@@ -380,6 +396,14 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+            // The DrillDownAdapter sets the new input when calling DrillDownAdapter#goInto().
+            // We save the current expanded elements in the root state so we can persist these when we save the expanded tree state
+            if(oldInput == IEditorModelManager.INSTANCE && newInput != null) { // Drilldown has moved out of "Home"
+                rootVisibleExpandedElements = getVisibleExpandedElements();
+            }
+            else if(newInput == IEditorModelManager.INSTANCE) { // Drilldown is "Home"
+                rootVisibleExpandedElements = null;
+            }
         }
         
         @Override
@@ -490,7 +514,7 @@ public class TreeModelViewer extends TreeViewer {
             
             // Unused concept
             boolean isUnusedConcept = element instanceof IArchimateConcept concept
-                    && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
+                    && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
                     && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept);
             
             if(isSearching) {

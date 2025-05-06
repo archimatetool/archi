@@ -55,10 +55,22 @@ public class ViewModelDataSourceTests {
         assertEquals("No viewpoint", ds.getViewpointName());
         
         ds.next();
-        assertEquals("Application Usage viewpoint", ds.getViewpointName());
+        assertEquals("No viewpoint", ds.getViewpointName());
 
         ds.next();
         assertEquals("Application Cooperation viewpoint", ds.getViewpointName());
+
+        ds.next();
+        assertEquals("Application Structure viewpoint", ds.getViewpointName());
+
+        ds.next();
+        assertEquals("No viewpoint", ds.getViewpointName());
+
+        ds.next();
+        assertEquals("No viewpoint", ds.getViewpointName());
+
+        ds.next();
+        assertEquals("Business Process Cooperation viewpoint", ds.getViewpointName());
     }
     
     @Test

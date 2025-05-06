@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV Export
 Bundle-SymbolicName: com.archimatetool.csv;singleton:=true
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor,
@@ -16,6 +16,7 @@ Export-Package: com.archimatetool.csv,
 Bundle-Activator: com.archimatetool.csv.CSVImportExportPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- lib/commons-csv-1.10.0.jar,
- lib/commons-io-2.14.0.jar
+ lib/commons-csv-1.14.0.jar,
+ lib/commons-io-2.18.0.jar,
+ lib/commons-codec-1.18.0.jar
 Automatic-Module-Name: com.archimatetool.csv

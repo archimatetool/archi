@@ -22,7 +22,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchiHammerPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiHammerPlugin.getInstance().getPreferenceStore();
         
 		store.setDefault(PREFS_HAMMER_CHECK_EMPTY_VIEWS, true);
 		store.setDefault(PREFS_HAMMER_CHECK_INVALID_RELATIONS, true);

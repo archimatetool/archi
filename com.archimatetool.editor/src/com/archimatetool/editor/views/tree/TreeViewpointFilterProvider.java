@@ -135,6 +135,6 @@ public class TreeViewpointFilterProvider {
     }
     
     boolean isActive() {
-        return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE);
+        return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE);
     }
 }

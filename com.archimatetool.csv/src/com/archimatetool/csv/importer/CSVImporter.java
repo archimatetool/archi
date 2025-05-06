@@ -6,7 +6,6 @@
 package com.archimatetool.csv.importer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
@@ -19,7 +18,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
@@ -86,6 +84,9 @@ public class CSVImporter implements CSVConstants {
     // Lookup cache
     Map<String, IArchimateModelObject> objectLookup = new HashMap<>();
 
+    // Error message that we expect to see when attempting to import with different delimiters
+    final static String EXPECTED_ERROR_MESSAGE = "Invalid character between encapsulated token and delimiter"; //$NON-NLS-1$
+    
     public CSVImporter(IArchimateModel model) {
         targetModel = model;
     }
@@ -480,23 +481,25 @@ public class CSVImporter implements CSVConstants {
      * @throws IOException
      */
     List<CSVRecord> getRecords(File file) throws IOException {
-        final String expectedErrorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
         final char[] delimiters = {',', ';', '\t'};
         
-        IOException ex = new IOException();
+        IOException ex = new IOException("Failed to parse CSV!"); //$NON-NLS-1$
         
+        // Iterate through these delimiters...
         for(char delimiter : delimiters) {
-            BOMInputStream bomIn = BOMInputStream.builder().setInputStream(new FileInputStream(file)).get();
-            InputStreamReader is = new InputStreamReader(bomIn, "UTF-8"); //$NON-NLS-1$
-            CSVFormat csvFormat = Builder.create().setDelimiter(delimiter).build();
+            // To handle files that start with a Byte Order Mark (BOM), like some Excel CSV files, you need an extra step to deal with the optional BOM bytes.
+            BOMInputStream bomIn = BOMInputStream.builder().setFile(file).get();
+            InputStreamReader reader = new InputStreamReader(bomIn, "UTF-8"); //$NON-NLS-1$
+            CSVFormat csvFormat = CSVFormat.Builder.create().setDelimiter(delimiter).get();
             
-            try(CSVParser parser = new CSVParser(is, csvFormat))  {
+            try(CSVParser parser = CSVParser.parse(reader, csvFormat))  {
                 return parser.getRecords();
             }
-            catch(UncheckedIOException ex1) {
-                ex = ex1.getCause();
-                // If it's not the expected Exception then break and throw it
-                if(!(ex.getMessage() != null && ex.getMessage().contains(expectedErrorMessage))) {
+            catch(UncheckedIOException ex1) { // This will be thrown if the delimiter doesn't match the one in the file
+                ex = ex1.getCause(); // Get the actual exception
+                // In this case we expect to see this error message.
+                // But if it's not the expected exception and message then break and throw the exception
+                if(!(ex.getMessage() != null && ex.getMessage().contains(EXPECTED_ERROR_MESSAGE))) {
                     break;
                 }
             }

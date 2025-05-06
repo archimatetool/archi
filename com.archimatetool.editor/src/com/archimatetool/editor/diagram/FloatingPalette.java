@@ -150,11 +150,11 @@ public class FloatingPalette {
     private void saveState(Shell shell) {
         Rectangle bounds = shell.getBounds();
         String s = "" + bounds.x + "," + bounds.y + "," + bounds.width + "," + bounds.height + "," + fPaletteState.isOpen; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-        ArchiPlugin.PREFERENCES.setValue("pallete_floater_state", s); //$NON-NLS-1$
+        ArchiPlugin.getInstance().getPreferenceStore().setValue("pallete_floater_state", s); //$NON-NLS-1$
     }
     
     private void loadState() {
-        String s = ArchiPlugin.PREFERENCES.getString("pallete_floater_state"); //$NON-NLS-1$
+        String s = ArchiPlugin.getInstance().getPreferenceStore().getString("pallete_floater_state"); //$NON-NLS-1$
         if(StringUtils.isSet(s)) {
             try {
                 String[] bits = s.split(","); //$NON-NLS-1$

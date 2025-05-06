@@ -14,10 +14,8 @@ import java.nio.file.Paths;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 
 
@@ -40,43 +38,22 @@ public class ArchiPlugin extends AbstractUIPlugin {
     public static final String DROPINS_DIRECTORY = "org.eclipse.equinox.p2.reconciler.dropins.directory";
 
     /**
-     * The File location of this plugin folder
-     */
-    private static File fPluginFolder;
-
-    /**
      * The shared instance
+     * Deprecated since Archi 5.6. Use getInstance().
      */
     public static ArchiPlugin INSTANCE;
     
     /**
-     * The shared Preference store
+     * @return the shared instance
      */
-    public static IPreferenceStore PREFERENCES;
-
-    public ArchiPlugin() {
-    }
-
-    /**
-     * This method is called upon plug-in activation
-     */
-    @Override
-    public void start(BundleContext context) throws Exception {
-        super.start(context);
-        
-        INSTANCE = this;
-        PREFERENCES = getPreferenceStore();
-    }
-
-    /**
-     * This method is called when the plug-in is stopped
-     */
-    @Override
-    public void stop(BundleContext context) throws Exception {
-        // super must be *last*
-        super.stop(context);
+    public static ArchiPlugin getInstance() {
+        return INSTANCE;
     }
     
+    public ArchiPlugin() {
+        INSTANCE = this;
+    }
+
     /**
      * @return The User data folder use for Archi data
      */ 
@@ -107,47 +84,29 @@ public class ArchiPlugin extends AbstractUIPlugin {
      * @return The Workspace folder
      */
     public File getWorkspaceFolder() {
-        /*
-         * Get Data Folder.  Try for one set by a user system property first, otherwise
-         * use the workbench instance data location
-         */
-        String strFolder = System.getProperty("com.archimatetool.editor.workspaceFolder");
-        if(strFolder != null) {
-            return new File(strFolder);
-        }
-        
         Location instanceLoc = Platform.getInstanceLocation();
+        
         if(instanceLoc == null) {
             Logger.logWarning("Instance Location is null. Using user.home");
-            return new File(System.getProperty("user.home"));
+            return new File(System.getProperty("user.home"), "Archi");
         }
-        else {
-            URL url = instanceLoc.getURL();
-            if(url != null) {
-                return new File(url.getPath());
-            }
-            else {
-                return new File(System.getProperty("user.home"));
-            }
-        }
+        
+        URL url = instanceLoc.getURL();
+        return url != null ? new File(url.getPath()) : new File(System.getProperty("user.home"), "Archi");
     }
     
     /**
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/");
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/"));
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
     
     /**

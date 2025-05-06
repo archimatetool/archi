@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi
 Bundle-SymbolicName: com.archimatetool.editor;singleton:=true
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Activator: com.archimatetool.editor.ArchiPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
@@ -84,6 +84,6 @@ Export-Package: .,
  com.archimatetool.editor.views.tree.actions,
  com.archimatetool.editor.views.tree.commands,
  com.archimatetool.editor.views.tree.search
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-ExtensibleAPI: true
 Automatic-Module-Name: com.archimatetool.editor

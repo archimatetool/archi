@@ -24,8 +24,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.jdom2.Document;
-import org.jdom2.Element;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasModelTemplate;
@@ -33,15 +31,14 @@ import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.ZipUtils;
-import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.UUIDFactory;
+import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
-import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
@@ -134,33 +131,22 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     }
     
     private void createZipFile(File zipFile) throws IOException {
-        ZipOutputStream zOut = null;
-        
-        try {
-            // Make sure parent folder exists
-            File parent = zipFile.getParentFile();
-            if(parent != null) {
-                parent.mkdirs();
-            }
-            
-            // Delete any existing zip first
-            zipFile.delete();
-            
-            // Start a zip stream
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(zipFile));
-            zOut = new ZipOutputStream(out);
+        // Make sure parent folder exists
+        File parent = zipFile.getParentFile();
+        if(parent != null) {
+            parent.mkdirs();
+        }
 
-            // Model File
-            File modelFile = saveModelToTempFile();
-            ZipUtils.addFileToZip(modelFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
-            if(modelFile != null) {
-                modelFile.delete();
-            }
-            
+        try(ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)))) {
             // Manifest
             String manifest = createManifest();
             ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut, Charset.forName("UTF-8")); //$NON-NLS-1$
-            
+
+            // Model File
+            File tempFile = saveModelToTempFile();
+            ZipUtils.addFileToZip(tempFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
+            tempFile.delete();
+
             // Thumbnail
             if(fIncludeThumbnail) {
                 Image image = TemplateUtils.createThumbnailImage(fCanvasModel);
@@ -168,48 +154,19 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
                 image.dispose();
             }
         }
-        finally {
-            if(zOut != null) {
-                try {
-                    zOut.flush();
-                    zOut.close();
-                }
-                catch(IOException ex) {
-                }
-            }
-        }
     }
     
     private String createManifest() throws IOException {
-        Document doc = new Document();
-        Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
-        doc.setRootElement(root);
+        // Create a new template and create the manifest from that
+        ITemplate template = new CanvasModelTemplate();
         
-        // Type
-        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TYPE, CanvasModelTemplate.XML_CANVAS_TEMPLATE_ATTRIBUTE_TYPE_MODEL);
-
-        // Timestamp
-        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TIMESTAMP, Long.toString(System.currentTimeMillis()));
-        
-        // Name
-        Element elementName = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_NAME);
-        elementName.setText(fTemplateName);
-        root.addContent(elementName);
-        
-        // Description
-        Element elementDescription = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_DESCRIPTION);
-        elementDescription.setText(fTemplateDescription);
-        root.addContent(elementDescription);
-        
-        // Thumbnail
+        template.setName(fTemplateName);
+        template.setDescription(fTemplateDescription);
         if(fIncludeThumbnail) {
-            String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png"; //$NON-NLS-1$
-            Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
-            elementKeyThumb.setText(keyThumb);
-            root.addContent(elementKeyThumb);
+            template.setKeyThumbnailPath(TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png"); //$NON-NLS-1$
         }
-        
-        return JDOMUtils.write2XMLString(doc);
+
+        return template.createManifest();
     }
     
     private File saveModelToTempFile() throws IOException {
@@ -245,19 +202,19 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         ICanvasModel copyCanvas = EcoreUtil.copy(canvasModel);
         
         // Gather up diagram model references
-        List<IDiagramModelReference> toRemove = new ArrayList<IDiagramModelReference>();
+        List<IDiagramModelReference> toRemove = new ArrayList<>();
         
         for(Iterator<EObject> iter = copyCanvas.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             // Diagram model references and their connections will be orphaned
-            if(eObject instanceof IDiagramModelReference) {
-                toRemove.add((IDiagramModelReference)eObject);
+            if(eObject instanceof IDiagramModelReference ref) {
+                toRemove.add(ref);
             }
         }
         
         // Remove them
-        for(IDiagramModelReference eObject : toRemove) {
-            DiagramCommandFactory.createDeleteDiagramObjectCommand(eObject).execute();
+        for(IDiagramModelReference ref : toRemove) {
+            DiagramCommandFactory.createDeleteDiagramObjectCommand(ref).execute();
         }
         
         // Generate new IDs

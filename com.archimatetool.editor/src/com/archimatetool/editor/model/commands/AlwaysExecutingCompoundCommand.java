@@ -14,6 +14,10 @@ import org.eclipse.gef.commands.CompoundCommand;
  * @author Phillip Beauvoir
  */
 public class AlwaysExecutingCompoundCommand extends CompoundCommand {
+    
+    public AlwaysExecutingCompoundCommand() {
+    }
+    
     public AlwaysExecutingCompoundCommand(String label) {
         super(label);
     }

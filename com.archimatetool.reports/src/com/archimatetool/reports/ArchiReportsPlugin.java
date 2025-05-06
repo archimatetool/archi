@@ -24,18 +24,19 @@ public class ArchiReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.reports"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiReportsPlugin INSTANCE;
+    // The shared instance
+    private static ArchiReportsPlugin instance;
 
     /**
-     * The File location of this plugin folder
+     * @return the shared instance
      */
-    private static File fPluginFolder;
+    public static ArchiReportsPlugin getInstance() {
+        return instance;
+    }
+
 
     public ArchiReportsPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
     
     @Override
@@ -62,17 +63,13 @@ public class ArchiReportsPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/"); //$NON-NLS-1$
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/")); //$NON-NLS-1$
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

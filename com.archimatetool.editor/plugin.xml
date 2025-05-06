@@ -825,6 +825,11 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
+      <category
+            description="Archi Commands"
+            id="com.archimatetool.editor.category"
+            name="Archi">
+      </category>
       <command
             categoryId="org.eclipse.ui.category.file"
             description="%command.description.1"
@@ -960,9 +965,9 @@
       </command>
       <command
             categoryId="org.eclipse.ui.category.edit"
-            description="Delete from View keeping children"
+            description="%command.name.27"
             id="com.archimatetool.editor.action.deleteContainer"
-            name="Delete from View (keep children)">
+            name="%command.description.27">
       </command>
       <command
             categoryId="com.archimatetool.editor.category"
@@ -1007,11 +1012,42 @@
                values="com.archimatetool.editor.diagram.PaletteKeyHandler">
          </commandParameter>
       </command>
-      <category
-            description="Archi Commands"
-            id="com.archimatetool.editor.category"
-            name="Archi">
-      </category>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.28"
+            id="com.archimatetool.editor.textAlignmentLeft"
+            name="%command.name.28">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.29"
+            id="com.archimatetool.editor.textAlignmentCentre"
+            name="%command.name.29">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.30"
+            id="com.archimatetool.editor.textAlignmentRight"
+            name="%command.name.30">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.31"
+            id="com.archimatetool.editor.textPositionTop"
+            name="%command.name.31">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.32"
+            id="com.archimatetool.editor.textPositionCentre"
+            name="%command.name.32">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.description.33"
+            id="com.archimatetool.editor.textPositionBottom"
+            name="%command.name.33">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.commandImages">
@@ -1074,6 +1110,30 @@
       <image
             commandId="com.archimatetool.editor.palette.command"
             icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textAlignmentLeft"
+            icon="img/alignleft.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textAlignmentCentre"
+            icon="img/aligncenter.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textAlignmentRight"
+            icon="img/alignright.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textPositionTop"
+            icon="img/aligntop.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textPositionCentre"
+            icon="img/alignmiddle.png">
+      </image>
+      <image
+            commandId="com.archimatetool.editor.textPositionBottom"
+            icon="img/alignbottom.png">
       </image>
    </extension>
    <extension

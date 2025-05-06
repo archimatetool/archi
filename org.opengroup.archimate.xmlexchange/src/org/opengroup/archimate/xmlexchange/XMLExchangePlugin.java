@@ -26,13 +26,18 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     public static final String DUBLINCORE_XSD = "dc.xsd"; //$NON-NLS-1$
     public static final String XML_XSD = "xml.xsd"; //$NON-NLS-1$
 
+    // The shared instance
+    private static XMLExchangePlugin instance;
+
     /**
-     * The shared instance
+     * @return the shared instance
      */
-    public static XMLExchangePlugin INSTANCE;
+    public static XMLExchangePlugin getInstance() {
+        return instance;
+    }
 
     public XMLExchangePlugin() {
-        INSTANCE = this;
+        instance = this;
     }
     
     public void copyXSDFile(String xsdFile, File outputFile) throws IOException {

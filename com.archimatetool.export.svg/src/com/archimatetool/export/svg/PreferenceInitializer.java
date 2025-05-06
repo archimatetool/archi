@@ -21,7 +21,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         store.setDefault(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, true);
         store.setDefault(SVG_EXPORT_PREFS_VIEWBOX, "");

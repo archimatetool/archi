@@ -4,7 +4,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 
-    private static final String BUNDLE_NAME = Messages.class.getPackageName() + ".messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "com.archimatetool.csv.messages"; //$NON-NLS-1$
 
     public static String CSVConstants_15;
 

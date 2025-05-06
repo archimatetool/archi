@@ -96,7 +96,7 @@ public class Validator {
         
         // ------------------ Checkers -----------------------------
         
-        IPreferenceStore store = ArchiHammerPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiHammerPlugin.getInstance().getPreferenceStore();
         
         // Invalid Relations
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_INVALID_RELATIONS)) {

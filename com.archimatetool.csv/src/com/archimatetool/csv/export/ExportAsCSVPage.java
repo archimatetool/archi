@@ -247,7 +247,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     }
 
     void storePreferences() {
-        IPreferenceStore store = CSVImportExportPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = CSVImportExportPlugin.getInstance().getPreferenceStore();
         store.setValue(CSV_EXPORT_PREFS_LAST_FOLDER, getExportFolderPath());
         store.setValue(CSV_EXPORT_PREFS_SEPARATOR, getDelimiterIndex());
         store.setValue(CSV_EXPORT_PREFS_FILE_PREFIX, getFilenamePrefix());
@@ -257,7 +257,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     }
     
     void loadPreferences() {
-        IPreferenceStore store = CSVImportExportPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = CSVImportExportPlugin.getInstance().getPreferenceStore();
         
         // Last saved folder
         String lastFolderPath = store.getString(CSV_EXPORT_PREFS_LAST_FOLDER);

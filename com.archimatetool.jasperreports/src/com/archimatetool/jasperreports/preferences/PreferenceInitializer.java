@@ -23,8 +23,8 @@ implements IPreferenceConstants, IJasperPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = JasperReportsPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = JasperReportsPlugin.getInstance().getPreferenceStore();
         
-		store.setDefault(JASPER_USER_REPORTS_FOLDER, JasperReportsPlugin.INSTANCE.getDefaultUserTemplatesFolder().getAbsolutePath());
+		store.setDefault(JASPER_USER_REPORTS_FOLDER, JasperReportsPlugin.getInstance().getDefaultUserTemplatesFolder().getAbsolutePath());
     }
 }

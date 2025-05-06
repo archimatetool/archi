@@ -9,6 +9,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 /**
@@ -30,12 +32,15 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         
         bounds.width--;
         bounds.height--;
-
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
         
-        setLineStyle(graphics);
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
 
+        if(drawOutline) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
+        
         graphics.setAlpha(getAlpha());
         
         if(!isEnabled()) {
@@ -52,9 +57,11 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         disposeGradientPattern(graphics, gradient);
         
         // Outline
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(bounds);
+        if(drawOutline) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
+            graphics.drawRectangle(bounds);
+        }
         
         // Icon
         // getOwner().drawIconImage(graphics, bounds);

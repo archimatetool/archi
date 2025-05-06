@@ -76,7 +76,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     };
     
     public DiagramAppearancePreferencePage() {
-        setPreferenceStore(ArchiPlugin.PREFERENCES);
+        setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
     }
 
     @Override

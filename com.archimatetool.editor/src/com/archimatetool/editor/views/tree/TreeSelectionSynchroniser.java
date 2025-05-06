@@ -10,9 +10,8 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -54,15 +53,15 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     private PartListenerAdapter partListenerAdapter = new PartListenerAdapter() {
         @Override
         public void partOpened(IWorkbenchPart part) {
-            if(part instanceof IDiagramModelEditor) {
-                registerEditor((IDiagramModelEditor)part);
+            if(part instanceof IDiagramModelEditor editor) {
+                registerEditor(editor);
             }
         }
         
         @Override
         public void partClosed(IWorkbenchPart part) {
-            if(part instanceof IDiagramModelEditor) {
-                unregisterEditor((IDiagramModelEditor)part);
+            if(part instanceof IDiagramModelEditor editor) {
+                unregisterEditor(editor);
             }
             
             // This is important for garbage collection!
@@ -79,10 +78,8 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             }
             
             // Select all types of diagram in Tree
-            if(part instanceof IDiagramModelEditor) {
-                IDiagramModelEditor editor = (IDiagramModelEditor)part;
-                
-                // Editor model could be null if model's file was deleted/renamed and app opened
+            if(part instanceof IDiagramModelEditor editor) {
+                // Editor model could be null if model's file was deleted/renamed and app opened (zombie editor part)
                 if(editor.getModel() != null && doSync()) {
                     fTreeViewer.setSelection(new StructuredSelection(editor.getModel()), true);
                 }
@@ -91,12 +88,18 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             }                
         }
     };
+    
+    private IPropertyChangeListener prefsListener = event -> {
+        if(event.getProperty().equals(IPreferenceConstants.LINK_VIEW) && event.getNewValue() == Boolean.TRUE) {
+            updateSelection();
+        }
+    };
 
     TreeSelectionSynchroniser(TreeModelViewer treeViewer) {
         fTreeViewer = treeViewer;
         registerListeners();
         
-        treeViewer.getTree().addDisposeListener((e) -> {
+        treeViewer.getTree().addDisposeListener(e -> {
             unregisterListeners();
             
             // Ensure this stuff can be garbage collected
@@ -104,6 +107,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             lastActiveEditor = null;
             lastSelectionEvent = null;
             partListenerAdapter = null;
+            prefsListener = null;
         });
     }
     
@@ -116,20 +120,18 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     }
     
     private boolean doSync() {
-        return doSync && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.LINK_VIEW);
+        return doSync && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.LINK_VIEW);
     }
     
     /**
-     * Update with the last known selection
+     * Update with the last known selections
      */
-    public void updateSelection() {
+    private void updateSelection() {
         // In this case we have created a new TreeViewer and synchroniser, so create a new selection event
         if(lastSelectionEvent == null) {
             IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-            if(activeEditor instanceof IDiagramModelEditor) {
-                GraphicalViewer source = ((IDiagramModelEditor)activeEditor).getGraphicalViewer();
-                ISelection selection = source.getSelection();
-                selectionChanged(new SelectionChangedEvent(source, selection));
+            if(activeEditor instanceof IDiagramModelEditor editor && editor.getGraphicalViewer() != null) { // check this is not a zombie editor part
+                selectionChanged(new SelectionChangedEvent(editor.getGraphicalViewer(), editor.getGraphicalViewer().getSelection()));
             }
         }
         else {
@@ -152,24 +154,23 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         isSelecting = true;
         
-        ISelection selection = event.getSelection();
         Object source = event.getSource();
+        Object[] selectedObjects = event.getStructuredSelection().toArray();
         
         // Selection from a Diagram Editor, so select objects in the Tree
         if(source instanceof GraphicalViewer) {
-            List<Object> selected = new ArrayList<Object>();
+            List<Object> selected = new ArrayList<>();
             
-            for(Object o : ((IStructuredSelection)selection).toArray()) {
-                if(o instanceof EditPart) {
-                    Object model = ((EditPart)o).getModel();
+            for(Object o : selectedObjects) {
+                if(o instanceof EditPart editPart) {
+                    Object model = editPart.getModel();
                     // Archimate concept
-                    if(model instanceof IDiagramModelArchimateComponent) {
-                        model = ((IDiagramModelArchimateComponent)model).getArchimateConcept();
-                        selected.add(model);
+                    if(model instanceof IDiagramModelArchimateComponent dmc) {
+                        selected.add(dmc.getArchimateConcept());
                     }
                     // Diagram model reference
-                    else if (model instanceof IDiagramModelReference) {
-                        selected.add(((IDiagramModelReference)model).getReferencedModel());
+                    else if (model instanceof IDiagramModelReference dmr) {
+                        selected.add(dmr.getReferencedModel());
                     }
                     // Diagram model
                     else if(model instanceof IDiagramModel) {
@@ -185,7 +186,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         else if(source instanceof TreeViewer) {
             // Select these (or an empty selection) in the Diagram Editors
             for(IDiagramModelEditor editor : getOpenEditors()) {
-                editor.selectObjects(((IStructuredSelection)selection).toArray());
+                editor.selectObjects(selectedObjects);
             }
         }
         
@@ -204,6 +205,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         for(IDiagramModelEditor editor : getOpenEditors()) {
             registerEditor(editor);
         }
+        
+        // Preference listener
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void unregisterListeners() {
@@ -218,17 +222,20 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         for(IDiagramModelEditor editor : getOpenEditors()) {
             unregisterEditor(editor);
         }
+        
+        // Preference listener
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 
     private void registerEditor(IDiagramModelEditor editor) {
-        GraphicalViewer viewer = editor.getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = editor.getGraphicalViewer();
         if(viewer != null) {
             viewer.addSelectionChangedListener(this);
         }
     }
     
     private void unregisterEditor(IDiagramModelEditor editor) {
-        GraphicalViewer viewer = editor.getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = editor.getGraphicalViewer();
         if(viewer != null) {
             viewer.removeSelectionChangedListener(this);
         }
@@ -239,9 +246,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         for(IEditorReference ref : page.getEditorReferences()) {
-            IEditorPart part = ref.getEditor(false);
-            if(part instanceof IDiagramModelEditor) {
-                list.add((IDiagramModelEditor)part);
+            // Editor model could be null if model's file was deleted/renamed and app opened (zombie editor part)
+            if(ref.getEditor(false) instanceof IDiagramModelEditor editor && editor.getModel() != null) {
+                list.add(editor);
             }
         }
         

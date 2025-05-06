@@ -27,7 +27,7 @@ public class DiagramModelObjectLineStyleCommand extends FeatureCommand {
     
     @Override
     public boolean canExecute() {
-        return super.canExecute() && style >= IDiagramModelObject.LINE_STYLE_SOLID && style <= IDiagramModelObject.LINE_STYLE_DOTTED;
+        return super.canExecute() && style >= IDiagramModelObject.LINE_STYLE_SOLID && style <= IDiagramModelObject.LINE_STYLE_NONE;
     }
     
     /**

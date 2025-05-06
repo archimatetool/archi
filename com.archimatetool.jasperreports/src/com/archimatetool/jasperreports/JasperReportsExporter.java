@@ -99,7 +99,7 @@ public class JasperReportsExporter {
         fLocale = locale == null ? Locale.getDefault() : locale;
         
         // Stop logging
-        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
+        // System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
     }
     
     /** 
@@ -199,7 +199,7 @@ public class JasperReportsExporter {
         setProgressSubTask(Messages.JasperReportsExporter_2);
         
         // Set the location of the default Jasper Properties File
-        File propsFile = new File(JasperReportsPlugin.INSTANCE.getPluginFolder(), "jasperreports.properties"); //$NON-NLS-1$
+        File propsFile = new File(JasperReportsPlugin.getInstance().getPluginFolder(), "jasperreports.properties"); //$NON-NLS-1$
         System.setProperty(DefaultJasperReportsContext.PROPERTIES_FILE, propsFile.getAbsolutePath());
 
         // Set the location of the Images

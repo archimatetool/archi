@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -27,6 +26,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.editor.ui.components.FontChooser;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
@@ -158,7 +158,7 @@ public class FontSection extends AbstractECorePropertySection {
         // Allow setting 1 or 2 columns
         GridLayoutColumnHandler.create(parent, 2).updateColumns();
 
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -203,19 +203,23 @@ public class FontSection extends AbstractECorePropertySection {
     }
     
     private void updateColorControl() {
-        String colorValue = ((IFontAttribute)getFirstSelectedObject()).getFontColor();
-        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
+        IFontAttribute firstSelected = (IFontAttribute)getFirstSelectedObject();
         
-        if(rgb != null) {
-            fColorChooser.setColorValue(rgb);
-        }
-        else {
-            // Null is the default system color
-            fColorChooser.setColorValue(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND).getRGB());
+        RGB rgb = ColorFactory.convertStringToRGB(firstSelected.getFontColor());
+        fColorChooser.setColorValue(rgb != null ? rgb : new RGB(0, 0, 0)); // Null is black
+        
+        fColorChooser.setEnabled(!isLocked(firstSelected));
+        
+        // Set default enabled based on all selected objects.
+        // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
+        boolean isDefaultColor = true;
+        for(IArchimateModelObject object : getEObjects()) {
+            if(object instanceof IFontAttribute fontObject) {
+                isDefaultColor &= fontObject.getFontColor() == null;
+            }
         }
         
-        fColorChooser.setEnabled(!isLocked(getFirstSelectedObject()));
-        fColorChooser.setIsDefaultColor(colorValue == null);
+        fColorChooser.setIsDefaultColor(isDefaultColor);
     }
 
     @Override
@@ -235,7 +239,7 @@ public class FontSection extends AbstractECorePropertySection {
             fColorChooser.removeListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 
 }

@@ -44,7 +44,7 @@ public class Archi4Migrator {
 
     public static boolean check() throws Exception {
         // Is there one set as a property in Archi.ini?
-        previousLocation = ArchiPlugin.INSTANCE.getUserPropertyLocation("workspaceMigrationLocation");
+        previousLocation = ArchiPlugin.getInstance().getUserPropertyLocation("workspaceMigrationLocation");
         
         if(previousLocation == null) {
             // Default Archi 4 instance locations
@@ -57,6 +57,11 @@ public class Archi4Migrator {
             else {
                 previousLocation = new File(System.getProperty("user.home") + "/.archi4");
             }
+        }
+        
+        // Check these are not null. URL cam be null if -Dosgi.instance.area=@noDefault
+        if(Platform.getInstanceLocation() == null || Platform.getInstanceLocation().getURL() == null) {
+            return false;
         }
         
         // Our current instance location
@@ -99,7 +104,7 @@ public class Archi4Migrator {
                 monitor.beginTask("Copying files...", -1);
                 
                 // Previous dropins files if user specified
-                File previousDropinsLocation = ArchiPlugin.INSTANCE.getUserPropertyLocation("dropinsMigrationLocation");
+                File previousDropinsLocation = ArchiPlugin.getInstance().getUserPropertyLocation("dropinsMigrationLocation");
                 
                 // Previous location files
                 for(File file : previousLocationFiles) {
@@ -127,8 +132,8 @@ public class Archi4Migrator {
                             FileUtils.copyFolder(file, new File(currentLocation, file.getName()));
                         }
                         // Other folders go to the new documents folder (if it's not the same as the user data folder)
-                        else if(!previousLocation.equals(ArchiPlugin.INSTANCE.getUserDataFolder())) {
-                            FileUtils.copyFolder(file, new File(ArchiPlugin.INSTANCE.getUserDataFolder(), file.getName()));
+                        else if(!previousLocation.equals(ArchiPlugin.getInstance().getUserDataFolder())) {
+                            FileUtils.copyFolder(file, new File(ArchiPlugin.getInstance().getUserDataFolder(), file.getName()));
                         }
                     }
 
@@ -141,7 +146,7 @@ public class Archi4Migrator {
                 // Copy previous dropins folder if user specified (and if it's not the same as the current one)
                 if(previousDropinsLocation != null && previousDropinsLocation.isDirectory()) {
                     // Current dropins location, can be null
-                    File currentDropinsLocation = ArchiPlugin.INSTANCE.getUserDropinsFolder();
+                    File currentDropinsLocation = ArchiPlugin.getInstance().getUserDropinsFolder();
                     if(currentDropinsLocation == null) {
                         currentDropinsLocation = new File(currentLocation, "dropins");
                     }
@@ -207,7 +212,7 @@ public class Archi4Migrator {
                       "User data such as scripts and repositories will be copied from " +
                       "'" + previousLocation.getAbsolutePath() + "'" +
                       " to " +
-                      "'" + ArchiPlugin.INSTANCE.getUserDataFolder().getAbsolutePath() + "'."
+                      "'" + ArchiPlugin.getInstance().getUserDataFolder().getAbsolutePath() + "'."
                     );
             
             return area;

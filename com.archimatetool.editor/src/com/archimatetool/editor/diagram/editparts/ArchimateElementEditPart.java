@@ -16,9 +16,9 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
-import com.archimatetool.editor.diagram.policies.ArchimateContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateContainerLayoutPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
+import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.ContainerHighlightEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
@@ -60,7 +60,7 @@ public class ArchimateElementEditPart extends AbstractArchimateElementEditPart {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new ArchimateContainerLayoutPolicy());
         
         // Orphaning
-        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ArchimateContainerEditPolicy());
+        installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());
         
         // Snap to Geometry feedback
         installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$

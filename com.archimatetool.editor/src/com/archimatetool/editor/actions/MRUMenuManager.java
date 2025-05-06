@@ -60,7 +60,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         List<File> list = new ArrayList<File>();
         
         for(int i = 0; i < getPreferencesMRUMax(); i++) {
-            String path = ArchiPlugin.PREFERENCES.getString(MRU_PREFS_KEY + i);
+            String path = ArchiPlugin.getInstance().getPreferenceStore().getString(MRU_PREFS_KEY + i);
             if(StringUtils.isSet(path)) {
                 list.add(new File(path));
             }
@@ -96,12 +96,12 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     private void saveList() {
         // Clear
         for(int i = 0; i < 50; i++) {
-            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, "");
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(MRU_PREFS_KEY + i, "");
         }
         
         // Save
         for(int i = 0; i < getMRUList().size(); i++) {
-            ArchiPlugin.PREFERENCES.setValue(MRU_PREFS_KEY + i, getMRUList().get(i).getAbsolutePath());
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(MRU_PREFS_KEY + i, getMRUList().get(i).getAbsolutePath());
         }
     }
     
@@ -129,7 +129,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     }
     
     int getPreferencesMRUMax() {
-        int max = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.MRU_MAX);
+        int max = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.MRU_MAX);
         if(max < 3) {
             max = 3;
         }
@@ -213,6 +213,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         RecentFileAction(File file) {
             this.file = file;
             setText(getShortPath(file));
+            setToolTipText(file.getPath());
         }
         
         @Override

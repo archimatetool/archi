@@ -139,7 +139,7 @@ public class PDFExportProvider extends AbstractExportProvider implements IPrefer
      * Load any user prefs
      */
     protected void loadPreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         // Text as Shapes selected
         fTextAsShapesButton.setSelection(store.getBoolean(PDF_EXPORT_PREFS_TEXT_AS_SHAPES));
@@ -155,7 +155,7 @@ public class PDFExportProvider extends AbstractExportProvider implements IPrefer
      * Save any user prefs
      */
     protected void savePreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         // Text as shapes button selected
         store.setValue(PDF_EXPORT_PREFS_TEXT_AS_SHAPES, fTextAsShapesButton.getSelection());

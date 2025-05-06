@@ -33,10 +33,10 @@ public class ZestGraphViewer extends GraphViewer {
     private IPropertyChangeListener prefsListener = event -> {
         if(AnimationUtil.supportsAnimation()) {
             if(IPreferenceConstants.ANIMATE_VISUALISER_NODES.equals(event.getProperty())) {
-                getGraphControl().setAnimationEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
+                getGraphControl().setAnimationEnabled(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
             }
             else if(IPreferenceConstants.ANIMATE_VISUALISER_TIME.equals(event.getProperty())) {
-                getGraphControl().setAnimationTime(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+                getGraphControl().setAnimationTime(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
             }
         }
     };
@@ -48,16 +48,16 @@ public class ZestGraphViewer extends GraphViewer {
         
         // Animate nodes
         if(AnimationUtil.supportsAnimation()) {
-            getGraphControl().setAnimationEnabled(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
-            getGraphControl().setAnimationTime(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+            getGraphControl().setAnimationEnabled(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
+            getGraphControl().setAnimationTime(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
         }
         
         // Preference listener
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
         
         // Un-Preference listener
         getGraphControl().addDisposeListener(e -> {
-            ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+            ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
         });
         
         // Mouse Wheel listener

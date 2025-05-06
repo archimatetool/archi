@@ -20,21 +20,21 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.archimatetool.help"; //$NON-NLS-1$
 
-    /**
-     * The shared instance
-     */
-    public static ArchiHelpPlugin INSTANCE;
+	// The shared instance
+    private static ArchiHelpPlugin instance;
 
     /**
-     * The File location of this plugin folder
+     * @return the shared instance
      */
-    private static File fPluginFolder;
+    public static ArchiHelpPlugin getInstance() {
+        return instance;
+    }
 
     /**
      * The constructor.
      */
     public ArchiHelpPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 	
     /**
@@ -48,17 +48,13 @@ public class ArchiHelpPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/"); //$NON-NLS-1$
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/")); //$NON-NLS-1$
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

@@ -53,6 +53,11 @@ implements IEditPartFilterProvider {
     
     private Adapter adapter = new LightweightEContentAdapter(this::eCoreChanged, IFeature.class);
     
+    protected AbstractDiagramPart() {
+        // Add a Nested Connection Filter
+        addEditPartFilter(new NestedConnectionEditPartFilter());
+    }
+
     /**
      * Message from the ECore Adapter
      * @param msg
@@ -147,7 +152,7 @@ implements IEditPartFilterProvider {
         FreeformLayer figure = new FreeformLayer();
         
         // Add a border so that user can grab edges of an object
-        int marginWidth = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.MARGIN_WIDTH);
+        int marginWidth = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.MARGIN_WIDTH);
         figure.setBorder(new MarginBorder(marginWidth));
         
         figure.setLayoutManager(new FreeformLayout());
@@ -199,7 +204,14 @@ implements IEditPartFilterProvider {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
         
         // Anti-aliasing
-        cLayer.setAntialias(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANTI_ALIAS) ? SWT.ON : SWT.DEFAULT);
+        cLayer.setAntialias(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANTI_ALIAS) ? SWT.ON : SWT.DEFAULT);
+    }
+    
+    @Override
+    public boolean isSelectable() {
+        // This part is not selectable.
+        // This ensures that when objects are selected using the "touched" marquee selection tools the objects can be dragged.
+        return false;
     }
     
     @Override

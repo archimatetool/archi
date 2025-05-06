@@ -36,7 +36,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         provider = svgProvider;
         
         // Set prefs to defaults
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX);
         
@@ -84,7 +84,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
 
     @Test
     public void testDefaultPreferences() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         assertTrue(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
         assertEquals("", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
     }
@@ -101,7 +101,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         
         svgProvider.savePreferences();
 
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
         assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
         assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_TEXT_AS_SHAPES));
@@ -110,7 +110,7 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     
     @Test
     public void testPreferencesWereLoaded() {
-        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
 
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED, false);
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX, "5 6");

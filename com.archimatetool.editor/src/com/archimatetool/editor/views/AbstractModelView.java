@@ -104,7 +104,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // Prefs listener
         prefsListener = this::applicationPreferencesChanged;
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void hookSelectionListener() {
@@ -161,7 +161,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Update Shell title bar with file name of current model
      */
     protected void updateShellTitleBarWithFileName() {
-        String appname = ArchiPlugin.INSTANCE.getProductName();
+        String appname = ArchiPlugin.getInstance().getProductName();
         
         if(getActiveArchimateModel() != null && getActiveArchimateModel().getFile() != null) {
             getSite().getShell().setText(appname + " - " + getActiveArchimateModel().getFile().getPath()); //$NON-NLS-1$
@@ -469,9 +469,9 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
         
         // Remove Prefs listener
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
         
         // Update shell text
-        getSite().getShell().setText(ArchiPlugin.INSTANCE.getProductName());
+        getSite().getShell().setText(ArchiPlugin.getInstance().getProductName());
     }
 }

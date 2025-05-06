@@ -5,17 +5,16 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
 
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.util.ArchimateResourceFactory;
+import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -28,11 +27,26 @@ import com.archimatetool.tests.TestUtils;
 public class XMLModelExporterTests {
     
     @Test
-    public void testExportModel() throws IOException, SAXException {
-        Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.archiFile1);
-        resource.load(null);
+    public void testExportModel() throws Exception {
+        // Export
+        File outputFile = export(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
+        // Validate
+        XMLValidator validator = new XMLValidator();
+        validator.validateXML(outputFile);
+        
+        // XSD files were copied
+        assertTrue(new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD).exists());
+        assertTrue(new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_MODEL_XSD).exists());
+        assertTrue(new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE3_VIEW_XSD).exists());
+    }
+
+    /**
+     * Export model file to XML
+     */
+    static File export(File file) throws Exception {
+        ArchimateTestModel tm = new ArchimateTestModel(file);
+        IArchimateModel model = tm.loadModel();
         
         XMLModelExporter exporter = new XMLModelExporter();
         
@@ -52,13 +66,13 @@ public class XMLModelExporterTests {
         // Add Organization
         exporter.setSaveOrganisation(true);
         
+        // Export XSD
+        exporter.setIncludeXSD(true);
+        
         // Export
         File outputFile = TestUtils.createTempFile(".xml");
         exporter.exportModel(model, outputFile);
         
-        // And Validate
-        XMLValidator validator = new XMLValidator();
-        validator.validateXML(outputFile);
+        return outputFile;
     }
-
 }

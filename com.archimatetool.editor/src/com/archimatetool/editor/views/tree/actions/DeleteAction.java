@@ -59,7 +59,7 @@ public class DeleteAction extends ViewerAction {
             }
         }
         // Else if preference is set to warn user in all cases
-        else if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_WARNING_ON_DELETE_FROM_TREE)) {
+        else if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_WARNING_ON_DELETE_FROM_TREE)) {
             if(!MessageDialog.openQuestion(
                     Display.getDefault().getActiveShell(),
                     Messages.DeleteAction_1,

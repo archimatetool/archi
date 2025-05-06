@@ -132,7 +132,7 @@ public class NewModelWithCanvasExtensionContributionFactory extends ExtensionCon
     private Expression visibleExpression = new Expression() {
         @Override
         public EvaluationResult evaluate(IEvaluationContext context) throws CoreException {
-            boolean isVisible = CanvasEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED);
+            boolean isVisible = CanvasEditorPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.CANVAS_EDITOR_ENABLED);
             return isVisible ? EvaluationResult.TRUE : EvaluationResult.FALSE;
         }
     };

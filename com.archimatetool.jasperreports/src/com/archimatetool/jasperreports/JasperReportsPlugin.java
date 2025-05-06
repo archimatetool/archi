@@ -28,18 +28,18 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.jasperreports";
 
-    /**
-     * The shared instance
-     */
-    public static JasperReportsPlugin INSTANCE;
+    // The shared instance
+    private static JasperReportsPlugin instance;
 
     /**
-     * The File location of this plugin folder
+     * @return the shared instance
      */
-    private static File fPluginFolder;
+    public static JasperReportsPlugin getInstance() {
+        return instance;
+    }
 
     public JasperReportsPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return Default JR user templates folder
      */
     public File getDefaultUserTemplatesFolder() {
-        return new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "jasper-reports");
+        return new File(ArchiPlugin.getInstance().getUserDataFolder(), "jasper-reports");
     }
 
     /**
@@ -90,17 +90,13 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {
-        if(fPluginFolder == null) {
-            URL url = getBundle().getEntry("/");
-            try {
-                url = FileLocator.resolve(url);
-            }
-            catch(IOException ex) {
-                ex.printStackTrace();
-            }
-            fPluginFolder = new File(url.getPath());
+        try {
+            URL url = FileLocator.resolve(getBundle().getEntry("/"));
+            return new File(url.getPath());
         }
-        
-        return fPluginFolder;
+        catch(IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

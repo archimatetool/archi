@@ -17,15 +17,7 @@ import java.io.File;
 @SuppressWarnings("nls")
 public class TestData {
 
-    private static File testFolder;
-    
-    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(getTestDataFolder(), "models/Archisurance.archimate");
-
-    public static File getTestDataFolder() {
-        if(testFolder == null) {
-            testFolder = TestUtils.getLocalBundleFolder("com.archimatetool.testsupport", "testdata");
-        }
-        return testFolder;
-    }
+    public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("com.archimatetool.testsupport", "testdata");;
+    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(TESTDATA_FOLDER, "models/Archisurance.archimate");
 
 }

@@ -30,11 +30,11 @@ public class ToggleSnapToAlignmentGuidesAction extends Action {
 
 	@Override
     public boolean isChecked() {
-	    return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.GRID_SHOW_GUIDELINES);
+	    return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.GRID_SHOW_GUIDELINES);
 	}
 
 	@Override
     public void run() {
-	    ArchiPlugin.PREFERENCES.setValue(IPreferenceConstants.GRID_SHOW_GUIDELINES, !isChecked());
+	    ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.GRID_SHOW_GUIDELINES, !isChecked());
 	}
 }

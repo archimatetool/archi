@@ -7,6 +7,8 @@ package com.archimatetool.editor.views.tree;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -138,6 +140,9 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void doCreatePartControl(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
         GridLayout layout = new GridLayout();
         layout.marginHeight = 0;
         layout.marginWidth = 0;
@@ -147,13 +152,10 @@ implements ITreeModelView, IUIRequestListener {
         fTreeViewer = new TreeModelViewer(parent, SWT.NULL);
         fTreeViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         
-        fTreeViewer.setInput(IEditorModelManager.INSTANCE);
-        
+        // Drill down
         fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
-        /*
-         * Listen to Double-click and press Return Action
-         */
+        // Listen to Double-click and press Return Action
         fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
@@ -188,41 +190,33 @@ implements ITreeModelView, IUIRequestListener {
         // Drag support
         new TreeModelViewerDragDropHandler(fTreeViewer);
         
-        // Expand tree elements
-        TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+        // Set model input now
+        fTreeViewer.setInput(IEditorModelManager.INSTANCE);
         
+        // Expand tree elements after model input
+        TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+
         // This will update previous Undo/Redo text if Tree was closed before
         updateActions();
-        
-        // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
-        // Restore expanded tree state from file when opening for first time
+        // Set memento with expanded tree state when creating the Tree
         TreeStateHelper.INSTANCE.setMemento(memento);
     }
     
+    /**
+     * This is called:
+     * 1. Every 5 minutes by the workbench autosaving the workbench state (this can be set in org.eclipse.ui.internal.IPreferenceConstants#WORKBENCH_SAVE_INTERVAL)
+     * 2. When this ViewPart is closed
+     * 3. When the app quits (which is really 2)
+     */
     @Override
     public void saveState(IMemento memento) {
-        // saveState() is called periodically by Eclipse so only do this when closing the workbench
-        if(PlatformUI.getWorkbench().isClosing()) {
-            // Reset drill-down
-            if(fDrillDownAdapter.canGoHome()) {
-                try {
-                    getViewer().getControl().setRedraw(false);
-                    fDrillDownAdapter.goHome();
-                }
-                finally {
-                    getViewer().getControl().setRedraw(true);
-                }
-            }
-            
-            // Save expanded tree state
-            TreeStateHelper.INSTANCE.saveStateOnApplicationClose(fTreeViewer, memento);
-        }
+        // Save expanded tree state
+        TreeStateHelper.INSTANCE.saveStateToMemento(fTreeViewer, memento);
     }
     
     /**
@@ -317,7 +311,7 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
-        fActionLinkToEditor = new LinkToEditorAction(fSynchroniser);
+        fActionLinkToEditor = new LinkToEditorAction();
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
@@ -565,28 +559,28 @@ implements ITreeModelView, IUIRequestListener {
         // Local menu items go here
         IMenuManager manager = actionBars.getMenuManager();
         
-        // Folder type filter
-        class FolderFilter extends ViewerFilter {
-            FolderType type;
-            
-            FolderFilter(FolderType type) {
-                this.type = type;
-            }
-            
-            @Override
-            public boolean select(Viewer viewer, Object parentElement, Object element) {
-                return element instanceof IFolder ? ((IFolder)element).getType() != type : true;
-            }
-        }
-        
         // Filter folder action
         class FolderFilterAction extends Action {
-            ViewerFilter filter;
+            FolderType folderType;
+            String prefsKey;
             
-            FolderFilterAction(FolderType type) {
-                setText(StringUtils.escapeAmpersandsInText(type.getLabel()));
-                setChecked(true);
-                filter = new FolderFilter(type);
+            ViewerFilter filter = new ViewerFilter() {
+                @Override
+                public boolean select(Viewer viewer, Object parentElement, Object element) {
+                    return element instanceof IFolder folder ? folder.getType() != folderType : true;
+                }
+            };
+            
+            FolderFilterAction(FolderType folderType) {
+                this.folderType = folderType;
+                prefsKey = "modelTreeFolderHidden_" + folderType.getName(); //$NON-NLS-1$
+                setText(StringUtils.escapeAmpersandsInText(folderType.getLabel()));
+                
+                boolean hidden = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(prefsKey);
+                setChecked(!hidden);
+                if(hidden) {
+                    getViewer().addFilter(filter);
+                }
             }
             
             @Override
@@ -597,21 +591,59 @@ implements ITreeModelView, IUIRequestListener {
                 else {
                     getViewer().addFilter(filter);
                 }
+                
+                ArchiPlugin.getInstance().getPreferenceStore().setValue(prefsKey, !isChecked());
             }
         }
         
         MenuManager filterMenu = new MenuManager(Messages.TreeModelView_5);
         manager.add(filterMenu);
         
-        filterMenu.add(new FolderFilterAction(FolderType.STRATEGY));
-        filterMenu.add(new FolderFilterAction(FolderType.BUSINESS));
-        filterMenu.add(new FolderFilterAction(FolderType.APPLICATION));
-        filterMenu.add(new FolderFilterAction(FolderType.TECHNOLOGY));
-        filterMenu.add(new FolderFilterAction(FolderType.MOTIVATION));
-        filterMenu.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
-        filterMenu.add(new FolderFilterAction(FolderType.OTHER));
-        filterMenu.add(new FolderFilterAction(FolderType.RELATIONS));
-        filterMenu.add(new FolderFilterAction(FolderType.DIAGRAMS));
+        List<FolderFilterAction> filterActions = new ArrayList<>();
+        
+        filterActions.add(new FolderFilterAction(FolderType.STRATEGY));
+        filterActions.add(new FolderFilterAction(FolderType.BUSINESS));
+        filterActions.add(new FolderFilterAction(FolderType.APPLICATION));
+        filterActions.add(new FolderFilterAction(FolderType.TECHNOLOGY));
+        filterActions.add(new FolderFilterAction(FolderType.MOTIVATION));
+        filterActions.add(new FolderFilterAction(FolderType.IMPLEMENTATION_MIGRATION));
+        filterActions.add(new FolderFilterAction(FolderType.OTHER));
+        filterActions.add(new FolderFilterAction(FolderType.RELATIONS));
+        filterActions.add(new FolderFilterAction(FolderType.DIAGRAMS));
+        
+        for(Action action : filterActions) {
+            filterMenu.add(action);
+        }
+        
+        filterMenu.add(new Separator());
+        
+        // Show All
+        filterMenu.add(new Action(Messages.TreeModelView_6) {
+            @Override
+            public void run() {
+                List<ViewerFilter> filtersToRemove = new ArrayList<>();
+                
+                for(FolderFilterAction action : filterActions) {
+                    if(!action.isChecked()) {
+                        action.setChecked(true);
+                        ArchiPlugin.getInstance().getPreferenceStore().setValue(action.prefsKey, false);
+                        filtersToRemove.add(action.filter);
+                    }
+                }
+                
+                if(filtersToRemove.isEmpty()) {
+                    return;
+                }
+                
+                // Remove the filters in one operation by calling Viewer#setFilters.
+                // This ensures that the tree is refreshed only once.
+                ViewerFilter[] filters = Arrays.stream(getViewer().getFilters())
+                                               .filter(e -> !filtersToRemove.contains(e))
+                                               .toArray(ViewerFilter[]::new);
+                
+                getViewer().setFilters(filters);
+            }
+        });
     }
     
     /**
@@ -632,12 +664,25 @@ implements ITreeModelView, IUIRequestListener {
     }
     
     /**
-     * Reset drilldown if it is showing a deleted object
+     * Check the tree's input is not a deleted object. If it is, set drilldown to home
      */
-    private void checkDrillDown() {
-        if(fTreeViewer.getInput() instanceof IArchimateModelObject && ((IArchimateModelObject)fTreeViewer.getInput()).getArchimateModel() == null) {
-            if(fDrillDownAdapter.canGoHome()) {
+    private void checkDrillDownHasValidInput() {
+        if(fTreeViewer.getInput() instanceof IArchimateModelObject modelObject && modelObject.getArchimateModel() == null) {
+            setDrillDownHome();
+        }
+    }
+    
+    /**
+     * Set the drill down to home
+     */
+    private void setDrillDownHome() {
+        if(fDrillDownAdapter.canGoHome()) { // Important check!
+            try {
+                getViewer().getControl().setRedraw(false);
                 fDrillDownAdapter.goHome();
+            }
+            finally {
+                getViewer().getControl().setRedraw(true);
             }
         }
     }
@@ -745,9 +790,7 @@ implements ITreeModelView, IUIRequestListener {
         // New Model created or opened
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED || propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
             // Go Home
-            if(fDrillDownAdapter.canGoHome()) {
-                fDrillDownAdapter.goHome();
-            }
+            setDrillDownHome();
             
             getViewer().refreshTreePreservingExpandedNodes();
 
@@ -770,7 +813,7 @@ implements ITreeModelView, IUIRequestListener {
             TreeModelCutAndPaste.INSTANCE.clear();
             
             // Check Drilldown state
-            checkDrillDown();
+            checkDrillDownHasValidInput();
 
             // Search Filter soft reset
             if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
@@ -838,7 +881,7 @@ implements ITreeModelView, IUIRequestListener {
         if(type == Notification.SET) {
             // Viewpoint changed
             if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT
-                        && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
+                        && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
                         && notifier instanceof IDiagramModel dm) {
                 getViewer().updateInBackground(dm.getArchimateModel());
             }
@@ -854,7 +897,7 @@ implements ITreeModelView, IUIRequestListener {
         }
         else {
             super.eCoreChanged(msg);
-            checkDrillDown();
+            checkDrillDownHasValidInput();
         }
     }
     
@@ -909,7 +952,7 @@ implements ITreeModelView, IUIRequestListener {
             getViewer().getControl().setRedraw(true);
         }
         
-        checkDrillDown();
+        checkDrillDownHasValidInput();
     }
 
     // =================================================================================

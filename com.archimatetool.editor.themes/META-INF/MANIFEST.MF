@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Themes for Archi
 Bundle-SymbolicName: com.archimatetool.editor.themes;singleton:=true
-Bundle-Version: 5.5.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-Version: 5.6.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Localization: plugin
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir

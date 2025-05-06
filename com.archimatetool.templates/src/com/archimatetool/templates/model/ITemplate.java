@@ -57,6 +57,13 @@ public interface ITemplate {
      * @return An image to represent this template
      */
     Image getImage();
+    
+    /**
+     * Set key thumbnail path
+     * 
+     * @param path
+     */
+    void setKeyThumbnailPath(String path);
 
     /**
      * @return The Key Thumbnail Image to use
@@ -83,7 +90,7 @@ public interface ITemplate {
     /**
      * @param file
      */
-    void setFile(File file);
+    void setFile(File file) throws IOException;
     
     /**
      * @return
@@ -91,7 +98,13 @@ public interface ITemplate {
     String getType();
     
     /**
-     * Save the template file
+     * @return the Manifest
+     * @throws IOException 
+     */
+    String createManifest() throws IOException;
+    
+    /**
+     * Re-save this template
      * @throws IOException 
      */
     void save() throws IOException;

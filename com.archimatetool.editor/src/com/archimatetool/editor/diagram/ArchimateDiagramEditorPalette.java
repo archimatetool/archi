@@ -113,7 +113,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
         group.add(groupEntry);
-        PaletteKeyHandler.setKeyBinding(noteEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
+        PaletteKeyHandler.setKeyBinding(groupEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
         
         // Connection
         ToolEntry entry = createConnectionCreationToolEntry(
@@ -198,7 +198,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
         fSpecializationEntries.clear();
         
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_PALETTE)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_PALETTE)) {
             fDiagramModel.getArchimateModel().eAdapters().remove(eAdapter);
             return;
         }
@@ -304,7 +304,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private boolean isAllowedConceptForViewpoint(EClass eClass) {
         // Preference to show all pallette elements regardless of Viewpoint
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
             return true;
         }
         

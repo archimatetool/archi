@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.model.commands;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -26,6 +27,17 @@ public class NonNotifyingCompoundCommand extends CompoundCommand {
         super(label);
     }
     
+    public NonNotifyingCompoundCommand(Command... commands) {
+        for(Command command : commands) {
+            add(command);
+        }
+    }
+    
+    public NonNotifyingCompoundCommand(String label, Command... commands) {
+        this(commands);
+        setLabel(label);
+    }
+
     @Override
     public void execute() {
         IEditorModelManager.INSTANCE.firePropertyChange(this,

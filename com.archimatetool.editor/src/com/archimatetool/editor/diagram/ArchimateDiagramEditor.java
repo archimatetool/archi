@@ -71,7 +71,7 @@ implements IArchimateDiagramEditor {
         getPaletteRoot().updateViewpoint();
         
         // If the preference is to hide elements then refresh the model contents
-        if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             getGraphicalViewer().setContents(getModel()); 
         }
     }
@@ -130,13 +130,12 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    @Deprecated
-    public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
-        selectObjects(archimateConcepts);
-    }
-    
-    @Override
     public void selectObjects(Object[] objects) {
+        // Safety check in case this is a zombie editor part
+        if(getModel() == null) {
+            return;
+        }
+
         Set<Object> selection = new HashSet<>();
         
         for(Object object : objects) {

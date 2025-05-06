@@ -58,7 +58,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private boolean proxyUserNameChanged;
     
 	public NetworkConnectionsPreferencePage() {
-		setPreferenceStore(ArchiPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override
@@ -178,11 +178,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         try {
             if(proxyUserNameChanged) {
-                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
+                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.getInstance().getBundle());
                 SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_USERNAME, fProxyUserNameTextField.getText(), true);
             }
             if(proxyPasswordChanged) {
-                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.INSTANCE.getBundle());
+                ISecurePreferences archiNode = SecureStorageUtils.getSecurePreferences(ArchiPlugin.getInstance().getBundle());
                 SecureStorageUtils.putOrRemove(archiNode, IPreferenceConstants.PREFS_PROXY_PASSWORD, fProxyUserPasswordTextField.getText(), true);
             }
         }

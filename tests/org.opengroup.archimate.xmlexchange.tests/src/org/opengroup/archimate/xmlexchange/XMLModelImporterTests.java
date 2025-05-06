@@ -9,9 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.editor.model.ModelChecker;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -33,12 +36,15 @@ public class XMLModelImporterTests {
         importer = new XMLModelImporter();
     }
 
-
     @Test
     public void testArchimateModelExists() throws Exception {
-        IArchimateModel model = importer.createArchiMateModel(TestSupport.xmlFile1);
+        IArchimateModel model = importer.createArchiMateModel(TestSupport.XML_FILE1);
         
         assertNotNull(model);
+        
+        // Check Model
+        ModelChecker checker = new ModelChecker(model);
+        checker.checkAll();
         
         // Model has default folders
         assertFalse(model.getFolders().isEmpty());
@@ -49,7 +55,7 @@ public class XMLModelImporterTests {
     
     @Test
     public void testArchimateModelHasCorrectElementsAndRelations() throws Exception {
-        IArchimateModel model = importer.createArchiMateModel(TestSupport.xmlFile1);
+        IArchimateModel model = importer.createArchiMateModel(TestSupport.XML_FILE1);
         
         IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
@@ -67,5 +73,18 @@ public class XMLModelImporterTests {
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
         assertEquals(element1, relation.getSource());
         assertEquals(element2, relation.getTarget());
+    }
+    
+    @Test
+    public void testImportValid() throws Exception {
+        // Export to XML
+        File outputFile = XMLModelExporterTests.export(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        
+        // Import from XML
+        IArchimateModel model = importer.createArchiMateModel(outputFile);
+        
+        // Check Model
+        ModelChecker checker = new ModelChecker(model);
+        checker.checkAll();
     }
 }

@@ -44,7 +44,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.util.PrefUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -66,7 +65,6 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction")
 public class ColoursPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
@@ -106,7 +104,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
 	public ColoursPreferencePage() {
-		setPreferenceStore(ArchiPlugin.PREFERENCES);
+		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
 	
     @Override
@@ -723,7 +721,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
             
             if(themeColorChanged) {
-                PrefUtil.savePrefs();
+                PrefUtils.savePrefs();
                 ThemeUtils.resetCurrentTheme();
             }
         }

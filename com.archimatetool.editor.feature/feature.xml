@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.editor.feature"
       label="Archi Editor"
-      version="5.5.0.qualifier"
+      version="5.6.0.qualifier"
       provider-name="Archi">
 
    <description>
@@ -10,7 +10,7 @@
    </description>
 
    <copyright>
-      Copyright (c) 2013-2024 Phillip Beauvoir, Jean-Baptiste Sarrodie, The Open Group
+      Copyright (c) 2013-2025 Phillip Beauvoir, Jean-Baptiste Sarrodie, The Open Group
    </copyright>
 
    <license url="LICENSE.txt">

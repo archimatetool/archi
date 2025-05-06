@@ -9,7 +9,6 @@ import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.help.HelpSystem;
@@ -36,52 +35,48 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  */
 public class OverviewOutlinePage extends Page implements IContentOutlinePage, IContextProvider {
 
-    private Canvas fCanvas;
-    private ScrollableThumbnail fThumbnail;
-    private ScalableFreeformRootEditPart fEditPart;
+    private ScalableFreeformRootEditPart editPart;
+    private Canvas canvas;
+    private ScrollableThumbnail thumbnail;
 
     public static String HELP_ID = "com.archimatetool.help.outlineViewHelp"; //$NON-NLS-1$
     
     /**
-     * Creates a new OverviewOutlinePage instance.
-     * @param abstractDiagramEditor 
+     * Creates a new OverviewOutlinePage instance for editPart
      */
-    public OverviewOutlinePage(IDiagramModelEditor editor) {
-        fEditPart = (ScalableFreeformRootEditPart)editor.getAdapter(EditPart.class);
+    public OverviewOutlinePage(ScalableFreeformRootEditPart editPart) {
+        this.editPart = editPart;
     }
     
     @Override
     public void createControl(Composite parent) {
-        if(fEditPart == null) {
-            return;
-        }
+        // Create Canvas and LWS
+        canvas = new Canvas(parent, SWT.NONE);
+        LightweightSystem lws = new LightweightSystem(canvas);
         
-        // create canvas and lws
-        fCanvas = new Canvas(parent, SWT.NONE);
-        LightweightSystem lws = new LightweightSystem(fCanvas);
-        
-        fThumbnail = new ScrollableThumbnail((Viewport)fEditPart.getFigure());
-        fThumbnail.setUseScaledGraphics(false);
-        fThumbnail.setSource(fEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
-        fThumbnail.setBorder(new MarginBorder(3));
-        lws.setContents(fThumbnail);
+        // Thumbnail is contents of LWS
+        thumbnail = new ScrollableThumbnail((Viewport)editPart.getFigure());
+        thumbnail.setUseScaledGraphics(false);
+        thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
+        thumbnail.setBorder(new MarginBorder(3));
+        lws.setContents(thumbnail);
         
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(fCanvas, HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(canvas, HELP_ID);
     }
 
     @Override
     public void dispose() {
-        if(fThumbnail != null) {
-            fThumbnail.deactivate();
-            fThumbnail = null;
+        if(thumbnail != null) {
+            thumbnail.deactivate();
+            thumbnail = null;
         }
         super.dispose();
     }
     
     @Override
     public Control getControl() {
-        return fCanvas;
+        return canvas;
     }
 
     @Override

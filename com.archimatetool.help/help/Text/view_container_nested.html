@@ -16,14 +16,14 @@
     
     <p>In the following screenshot the elements "Register", "Accept", "Valuate" and "Pay" are child elements of the parent "Handle Claim Process" element:</p>
     
-    <img src="../Images/container1.png"/>
+    <img src="../Images/container1.png" width="684" height="120" />
     <p class="caption">Child elements contained by a parent element</p>
     
     <br/>
     
     <p>While dragging elements into or over other elements a visual cue is provided to indicate that the dragged element will be moved into the parent (container) element. This is a blue highlight around the target element as the element is dragged over it:</p>
     
-    <img src="../Images/container2.png"/>
+    <img src="../Images/container2.png" width="687" height="175" />
     <p class="caption">A Child Element being Dragged into a Container Element. The Container highlighted in blue</p>
     
     <br/>
@@ -40,21 +40,21 @@
     
     <p>Suppose the user has a Business Process element named "Handle Claim Process" that will act as a container element ("parent") for four sub-processes, "Register", "Accept", "Valuate" and "Pay". The relationship between the parent process and the sub-processes would normally be expressed as four Composition relationships. These can be drawn conventionally using connecting lines as follows:</p>
     
-    <img src="../Images/container3.png"/>
+    <img src="../Images/container3.png" width="680" height="211" />
     <p class="caption">Composition relationship between parent and child processes</p>
     
     <p>However, this is visually not as clear as if the sub-processes were placed inside of the container parent process.</p>
     
     <p>We can solve this problem by enabling the ARM system in <a href="prefs_connections.html">Preferences</a>. This ensures that when the sub-processes are placed in the parent element the connections are hidden in the View, but are still present in the actual semantic model. Dragging the child elements in and out of the parent element hides and shows the explicit relationships. The hidden connections are "implicit" connections.</p>
     
-    <img src="../Images/container1.png"/>
+    <img src="../Images/container1.png" width="684" height="120" />
     <p class="caption">The Connections now hidden from the View</p>
     
     <h3>Adding new elements to a parent element</h3>
     
     <p>Adding new elements to a parent element in a View from the Palette or dragging and dropping from the Model Tree results in a dialog box asking if a new relationship should be created between the parent and child elements:</p>
     
-    <img src="../Images/container6.png"/>
+    <img src="../Images/container6.png" width="511" height="343" />
     <p class="caption">Dialog to create a new nested relationship</p>
     
     <p>Note that the dialog will only display valid relationships between the parent and child elements, and only those that are specified in <a href="prefs_connections.html">Preferences</a>. Valid relations between the child and parent elements can also be selected. These are shown as "(reverse)".</p>
@@ -65,7 +65,7 @@
     
     <p>If more than one element is moved (drag and drop operation) to a parent element in a View or is dragged and dropped from the Model Tree onto a parent element, and there are no existing preferred relationships between the parent and the child elements then a dialog box is displayed offering to create new relationships between the parent element and the child elements. You can choose a different type of relationship for each child element:</p>
     
-    <img src="../Images/container7.png"/>
+    <img src="../Images/container7.png" width="731" height="393" />
     <p class="caption">Dialog for creating more than one relationship</p>
     
     <p>If you do not wish to create a new relationship for an element, select "(none)" from the drop-down combo box. To select the same type of relationship in the drop-down combo-box, hold down the Ctrl / Command key and select.</p>

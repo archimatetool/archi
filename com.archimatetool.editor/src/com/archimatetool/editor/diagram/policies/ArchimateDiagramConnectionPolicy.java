@@ -155,7 +155,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                 super.execute();
                 
                 // Show message that it affected other Viewss
-                if(affectsOtherViews && ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SHOW_WARNING_ON_RECONNECT)) {
+                if(affectsOtherViews && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_WARNING_ON_RECONNECT)) {
                     boolean answer = MessageDialog.openQuestion(
                             Display.getDefault().getActiveShell(),
                             Messages.ArchimateDiagramConnectionPolicy_0,

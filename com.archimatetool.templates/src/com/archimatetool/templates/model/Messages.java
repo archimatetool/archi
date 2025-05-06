@@ -11,6 +11,12 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.templates.model.messages"; //$NON-NLS-1$
 
+    public static String AbstractTemplate_0;
+
+    public static String AbstractTemplate_1;
+
+    public static String AbstractTemplate_2;
+
     public static String TemplateManager_0;
     static {
         // initialize resource bundle

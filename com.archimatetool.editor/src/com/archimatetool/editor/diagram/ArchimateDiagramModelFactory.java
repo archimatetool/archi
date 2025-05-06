@@ -48,7 +48,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
         // Figure Type
-        dmo.setType(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
+        dmo.setType(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
         
         // Add new bounds with a default user size
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
@@ -62,7 +62,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         ColorFactory.setDefaultColors(dmo);
         
         // Gradient
-        dmo.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+        dmo.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         
         return dmo;
     }
@@ -139,7 +139,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
             // Gradient
-            group.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+            group.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Note
@@ -147,7 +147,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             IDiagramModelNote note = (IDiagramModelNote)object;
             ColorFactory.setDefaultColors(note);
             // Gradient
-            note.setGradient(ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.DEFAULT_GRADIENT));
+            note.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection

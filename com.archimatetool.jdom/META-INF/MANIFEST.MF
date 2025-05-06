@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JDOM and Jaxen Utils
 Bundle-SymbolicName: com.archimatetool.jdom
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.jdom,
@@ -37,7 +37,7 @@ Export-Package: com.archimatetool.jdom,
  org.jdom2.xpath,
  org.jdom2.xpath.jaxen,
  org.jdom2.xpath.util
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: jaxen-1.2.0.jar,
  jdom-2.0.6.1.jar,
  com.archimatetool.jdom.jar

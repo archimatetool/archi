@@ -22,6 +22,7 @@ import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFeatures;
@@ -77,7 +78,7 @@ class LineColorComposite {
                     // If user pref to save color is set then save the value, otherwise save as null
                     String rgbValue = null;
                     
-                    if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                    if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                         Color color = ColorFactory.getDefaultLineColor(lineObject);
                         rgbValue = ColorFactory.convertColorToString(color);
                     }
@@ -132,35 +133,39 @@ class LineColorComposite {
     }
     
     void updateControl() {
-        ILineObject lineObject = (ILineObject)section.getFirstSelectedObject();
+        ILineObject firstSelected = (ILineObject)section.getFirstSelectedObject();
         
-        String colorValue = lineObject.getLineColor();
-        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
+        RGB rgb = ColorFactory.convertStringToRGB(firstSelected.getLineColor());
         if(rgb == null) {
-            rgb = ColorFactory.getDefaultLineColor(lineObject).getRGB();
+            rgb = ColorFactory.getDefaultLineColor(firstSelected).getRGB();
         }
         
         fColorChooser.setColorValue(rgb);
-
-        // Locked
-        boolean enabled = !section.isLocked(lineObject);
+        fColorChooser.setEnabled(!section.isLocked(firstSelected));
         
-        fColorChooser.setEnabled(enabled);
+        // Set default enabled based on all selected objects.
+        // Note that the default button might not show the correct enabled state depending on what's selected at the time of the action.
+        boolean isDefaultColor = true;
+        // If user pref is to save the color then it's a different meaning of default
+        boolean saveUserDefaultColor = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
         
-        if(!enabled) {
-            return;
+        for(IArchimateModelObject object : section.getEObjects()) {
+            if(object instanceof ILineObject lo) {
+                if(saveUserDefaultColor) {
+                    isDefaultColor &= (lo.getLineColor() != null && rgb.equals(ColorFactory.getDefaultLineColor(lo).getRGB()));
+                }
+                else {
+                    isDefaultColor &= lo.getLineColor() == null;
+                }
+            }
         }
         
-        // If the user pref is to save the color in the file, then it's a different meaning of default
-        boolean isDefaultColor = (colorValue == null);
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(lineObject).getRGB());
-        }
         fColorChooser.setIsDefaultColor(isDefaultColor);
         
-        // If this is an element line enable or disable some things
-        if(lineObject instanceof IDiagramModelObject dmo) {
+        // If this is an object line enable or disable some things
+        if(firstSelected instanceof IDiagramModelObject dmo) {
             boolean deriveElementLineColor = dmo.getDeriveElementLineColor();
+            
             fColorChooser.setDoShowColorImage(!deriveElementLineColor);
             fColorChooser.getColorButton().setEnabled(!deriveElementLineColor);
             fColorChooser.setDoShowDefaultMenuItem(!deriveElementLineColor);
@@ -168,6 +173,7 @@ class LineColorComposite {
             fColorChooser.addMenuAction(fDeriveLineColorAction);
             fDeriveLineColorAction.setChecked(deriveElementLineColor);
         }
+        // Connection line
         else {
             fColorChooser.setDoShowColorImage(true);
             fColorChooser.getColorButton().setEnabled(true);
@@ -194,7 +200,6 @@ class LineColorComposite {
     
     void dispose() {
         removeListeners();
-        composite.dispose();
         composite = null;
         section = null;
         fColorChooser = null;
@@ -205,7 +210,7 @@ class LineColorComposite {
             fColorChooser.addListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.addPropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
     }
     
     private void removeListeners() {
@@ -213,6 +218,6 @@ class LineColorComposite {
             fColorChooser.removeListener(colorListener);
         }
         
-        ArchiPlugin.PREFERENCES.removePropertyChangeListener(prefsListener);
+        ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
     }
 }

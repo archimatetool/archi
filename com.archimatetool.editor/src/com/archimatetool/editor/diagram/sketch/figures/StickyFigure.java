@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ISketchModelSticky;
 
 
@@ -48,10 +49,13 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        setLineStyle(graphics);
+        if(drawOutline) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
 
         graphics.setBackgroundColor(getFillColor());
 
@@ -65,9 +69,11 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         drawIconImage(graphics, bounds);
 
         // Outline
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+        if(drawOutline) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
+            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+        }
         
         graphics.popState();
     }

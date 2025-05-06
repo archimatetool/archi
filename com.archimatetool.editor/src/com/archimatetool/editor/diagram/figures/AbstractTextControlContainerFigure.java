@@ -176,7 +176,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     protected TextFlow createTextFlowControl(Locator textLocator) {
         TextFlow textFlow = new TextFlow();
         
-        int wordWrapStyle = ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
+        int wordWrapStyle = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, wordWrapStyle));
         
         FlowPage page = new FlowPage();

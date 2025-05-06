@@ -11,15 +11,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.ZipOutputStream;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.FileUtils;
@@ -35,39 +37,27 @@ import com.archimatetool.jdom.JDOMUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
     
     private String fID;
-    private String fName;
-    private String fDescription;
-    private File fFile;
-    
-    private boolean fManifestLoaded;
-    
+    private String fName = ""; //$NON-NLS-1$
+    private String fDescription = ""; //$NON-NLS-1$
     private String fKeyThumbnailPath;
+
+    private File fFile;
     
     private Map<Integer, Image> fThumbnails = new HashMap<>();
     private int fThumbnailCount = -1;
     
     public AbstractTemplate() {
     }
-
-    /**
-     * @param id If this is null a new id will be generated
-     */
-    public AbstractTemplate(String id) {
-        if(id == null) {
-            id = UUID.randomUUID().toString();
-        }
-        fID = id;
+    
+    public AbstractTemplate(File file) throws IOException {
+        setFile(file);
     }
 
     @Override
     public String getName() {
-        if(!fManifestLoaded) {
-            loadManifest();
-        }
         return fName;
     }
     
@@ -78,9 +68,6 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
 
     @Override
     public String getDescription() {
-        if(!fManifestLoaded) {
-            loadManifest();
-        }
         return fDescription;
     }
     
@@ -96,7 +83,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             
             try {
                 for(String s : ZipUtils.getZipFileEntryNames(fFile)) {
-                    if(s.endsWith(".png")) {
+                    if(s.endsWith(".png")) { //$NON-NLS-1$
                         fThumbnailCount++;
                     }
                 }
@@ -110,16 +97,17 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
     }
 
     @Override
+    public void setKeyThumbnailPath(String path) {
+        fKeyThumbnailPath = path;
+    }
+    
+    @Override
     public Image getKeyThumbnail() {
-        if(!fManifestLoaded) {
-            loadManifest();
-        }
-        
         if(fKeyThumbnailPath != null) {
             try {
-                String imageNumber = fKeyThumbnailPath.replaceAll("[^0-9]+", "");
+                String imageNumber = fKeyThumbnailPath.replaceAll("[^0-9]+", ""); //$NON-NLS-1$ //$NON-NLS-2$
                 int index = Integer.parseInt(imageNumber);
-                return getThumbnail(index - 1);
+                return getThumbnail(index);
             }
             catch(Exception ex) {
             }
@@ -133,7 +121,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         Image image = fThumbnails.get(index);
         
         if(image == null) {
-            image = loadImage(getThumbnailEntryName(index));
+            image = loadThumbnailImage(getThumbnailEntryName(index));
             if(image != null) {
                 fThumbnails.put(index, image);
             }
@@ -148,12 +136,17 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
     }
 
     @Override
-    public void setFile(File file) {
+    public void setFile(File file) throws IOException {
         fFile = file;
+        loadManifest(file);
     }
 
     @Override
     public String getID() {
+        if(fID == null) {
+            fID = UUID.randomUUID().toString();
+        }
+        
         return fID;
     }
 
@@ -168,127 +161,123 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             return;
         }
         
-        // Create Manifest as JDOM
+        // Extract zip contents to temp folder
+        File tmpFolder = Files.createTempDirectory("architemplate").toFile(); //$NON-NLS-1$
+        ZipUtils.unpackZip(fFile, tmpFolder);
+        
+        // Save this manifest to the temp folder
+        JDOMUtils.write2XMLFile(createManifestDocument(), new File(tmpFolder, TemplateManager.ZIP_ENTRY_MANIFEST));
+        
+        // Create a new zip file from the temp folder
+        try(ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(fFile)))) {
+            ZipUtils.addFolderToZip(tmpFolder, zOut, null, null);
+        }
+        
+        // Clean up
+        FileUtils.deleteFolder(tmpFolder);
+    }
+    
+    @Override
+    public String createManifest() throws IOException {
+        return JDOMUtils.write2XMLString(createManifestDocument());
+    }
+    
+    private Document createManifestDocument() {
         Document doc = new Document();
         Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
         doc.setRootElement(root);
         
+        // Type
+        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TYPE, getType());
+        
+        // Timestamp
+        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TIMESTAMP, Long.toString(System.currentTimeMillis()));
+        
+        // Name
         Element elementName = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_NAME);
         elementName.setText(getName());
         root.addContent(elementName);
         
+        // Description
         Element elementDescription = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_DESCRIPTION);
         elementDescription.setText(getDescription());
         root.addContent(elementDescription);
         
+        // Key thumbnail
         if(fKeyThumbnailPath != null) {
             Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
             elementKeyThumb.setText(fKeyThumbnailPath);
             root.addContent(elementKeyThumb);
         }
-        
-        // Open a zip stream
-        File tmpFile = File.createTempFile("architemplate", null);
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmpFile));
-        ZipOutputStream zOut = new ZipOutputStream(out);
-        
-        // Add Manifest
-        String manifest = JDOMUtils.write2XMLString(doc);
-        ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut, Charset.forName("UTF-8"));
-        
-        // Add Model
-        // Save to temporary file rather than string because the actual encoding can either be ANSI or UTF-8 depending on content
-        File modelFile = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MODEL, File.createTempFile("archi", null));
-        ZipUtils.addFileToZip(modelFile, TemplateManager.ZIP_ENTRY_MODEL, zOut);
-        modelFile.delete();
 
-        // Thumbnails
-        for(int i = 0; i < getThumbnailCount(); i++) {
-            Image image = getThumbnail(i);
-            if(image != null) {
-                ZipUtils.addImageToZip(image, getThumbnailEntryName(i), zOut, SWT.IMAGE_PNG, null);
-            }
-        }
-        
-        zOut.flush();
-        zOut.close();
-
-        // Delete and copy
-        fFile.delete();
-        FileUtils.copyFile(tmpFile, fFile, false);
-        tmpFile.delete();
+        return doc;
     }
     
-    private void loadManifest() {
-        // Default first
-        fManifestLoaded = true;
-        fName = "";
-        fDescription = "";
+    private void loadManifest(File file) throws IOException {
+        if(file == null || !file.exists()) {
+            throw new IOException(Messages.AbstractTemplate_0);
+        }
         
-        if(fFile != null && fFile.exists()) {
-            try {
-                // Manifest
-                String manifest = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MANIFEST, Charset.forName("UTF-8"));
-                if(manifest != null) {
-                    Document doc = JDOMUtils.readXMLString(manifest);
-                    Element rootElement = doc.getRootElement();
-                    
-                    // Name
-                    Element nameElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_NAME);
-                    if(nameElement != null) {
-                        fName = nameElement.getText();
-                    }
-                    
-                    // Description
-                    Element descriptionElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_DESCRIPTION);
-                    if(nameElement != null) {
-                        fDescription = descriptionElement.getText();
-                    }
-                    
-                    // Key thumbnail
-                    Element keyThumbnailElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
-                    if(keyThumbnailElement != null) {
-                        fKeyThumbnailPath = keyThumbnailElement.getText();
-                    }
-                }
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
+        // Manifest
+        String manifest = ZipUtils.extractZipEntry(file, TemplateManager.ZIP_ENTRY_MANIFEST, Charset.forName("UTF-8")); //$NON-NLS-1$
+        if(manifest == null) {
+            throw new IOException(Messages.AbstractTemplate_2);
+        }
+
+        Document doc = null;
+        try {
+            doc = JDOMUtils.readXMLString(manifest);
+        }
+        catch(JDOMException ex) {
+            throw new IOException(ex);
+        }
+        
+        Element rootElement = doc.getRootElement();
+
+        // Check type, if any
+        // If the attribute doesn't exist it was from an older version (before 2.1)
+        // Or the manifest was edited in the TemplateManagerDialog and type wasn' saved (before this was fixed)
+        String attType = rootElement.getAttributeValue(XML_TEMPLATE_ATTRIBUTE_TYPE);
+        if(attType != null && !Objects.equals(getType(), attType)) {
+            throw new IOException(Messages.AbstractTemplate_1);
+        }
+
+        // Name
+        Element nameElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_NAME);
+        if(nameElement != null) {
+            fName = nameElement.getText();
+        }
+
+        // Description
+        Element descriptionElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_DESCRIPTION);
+        if(nameElement != null) {
+            fDescription = descriptionElement.getText();
+        }
+
+        // Key thumbnail
+        Element keyThumbnailElement = rootElement.getChild(XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
+        if(keyThumbnailElement != null) {
+            fKeyThumbnailPath = keyThumbnailElement.getText();
         }
     }
     
-    private Image loadImage(String imgName) {
-        Image image = null;
-        
+    private Image loadThumbnailImage(String imgName) {
         if(fFile != null && fFile.exists() && imgName != null) {
-            InputStream stream = null;
-            try {
-                stream = ZipUtils.getZipEntryStream(fFile, imgName);
+            try(InputStream stream = ZipUtils.getZipEntryStream(fFile, imgName)) {
                 if(stream != null) {
-                    image = new Image(null, stream);
+                    return new Image(null, stream);
                 }
             }
             catch(IOException ex) {
                 ex.printStackTrace();
             }
-            finally {
-                try {
-                    if(stream != null) {
-                        stream.close();
-                    }
-                }
-                catch(IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
         
-        return image;
+        return null;
     }
 
     private String getThumbnailEntryName(int index) {
-        return TemplateManager.ZIP_ENTRY_THUMBNAILS + (index + 1) + ".png";
+        return TemplateManager.ZIP_ENTRY_THUMBNAILS + index + ".png"; //$NON-NLS-1$
     }
     
     @Override

@@ -37,11 +37,11 @@ public final class AnimationUtil {
     }
 
     public static boolean doAnimate() {
-       return ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.ANIMATE_VIEW);
+       return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VIEW);
     }
     
     public static int animationSpeed() {
-        return ArchiPlugin.PREFERENCES.getInt(IPreferenceConstants.ANIMATION_VIEW_TIME);
+        return ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATION_VIEW_TIME);
     }
 
     /**

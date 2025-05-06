@@ -135,9 +135,9 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        // create OK and Cancel buttons by default
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-        createButton(parent, IDialogConstants.CANCEL_ID, Messages.NewNestedRelationDialog_3, false);
+        super.createButtonsForButtonBar(parent);
+        // Cancel button is "None"
+        getButton(IDialogConstants.CANCEL_ID).setText(Messages.NewNestedRelationDialog_3);
     }
     
     public NestedConnectionInfo getSelected() {
@@ -208,7 +208,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
              * @return True if type is an allowed relation type for a given Viewpoint
              */
             private boolean isAllowedRelationInViewpoint(IDiagramModelArchimateComponent dmc, EClass type) {
-                if(!ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+                if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
                     return true;
                 }
                 

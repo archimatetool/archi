@@ -207,7 +207,7 @@ public class P2Handler {
         }
 
         if(!status.isOK()) {
-            ArchiPlugin.INSTANCE.getLog().log(status);
+            ArchiPlugin.getInstance().getLog().log(status);
         }
 
         return status;

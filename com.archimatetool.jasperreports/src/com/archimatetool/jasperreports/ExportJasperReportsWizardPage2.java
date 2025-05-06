@@ -75,11 +75,11 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     // report-folder patch by Jean-Baptiste Sarrodie (aka Jaiguru)
     private void discoverReports() {
-        File inbuiltReportsFolder = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
+        File inbuiltReportsFolder = JasperReportsPlugin.getInstance().getJasperReportsFolder();
         scanFolder(inbuiltReportsFolder);
 
         // User reports
-        File userReportsFolder = JasperReportsPlugin.INSTANCE.getUserTemplatesFolder();
+        File userReportsFolder = JasperReportsPlugin.getInstance().getUserTemplatesFolder();
         scanFolder(userReportsFolder);
         
         // Null terminator for custom selection

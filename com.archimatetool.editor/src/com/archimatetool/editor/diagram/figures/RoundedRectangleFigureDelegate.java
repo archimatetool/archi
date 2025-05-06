@@ -10,6 +10,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 
@@ -36,10 +38,13 @@ implements IRoundedRectangleFigure {
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        setLineStyle(graphics);
+        if(drawOutline) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
 
         graphics.setAlpha(getAlpha());
 
@@ -57,9 +62,11 @@ implements IRoundedRectangleFigure {
         disposeGradientPattern(graphics, gradient);
         
         // Outline
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
+        if(drawOutline) {
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
+            graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
+        }
 
         // Image Icon
         Rectangle imageArea = new Rectangle(bounds.x + 2, bounds.y + 2, bounds.width - 4, bounds.height - 4);

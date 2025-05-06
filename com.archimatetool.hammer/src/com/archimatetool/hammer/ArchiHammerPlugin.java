@@ -19,13 +19,15 @@ public class ArchiHammerPlugin extends AbstractUIPlugin {
 
     public static final String PLUGIN_ID = "com.archimatetool.hammer"; //$NON-NLS-1$
     
-    /**
-     * The shared instance
-     */
-    public static ArchiHammerPlugin INSTANCE;
+    // The shared instance
+    private static ArchiHammerPlugin instance;
+    
+    public static ArchiHammerPlugin getInstance() {
+        return instance;
+    }
 
     public ArchiHammerPlugin() {
-        INSTANCE = this;
+        instance = this;
     }
 
     /**

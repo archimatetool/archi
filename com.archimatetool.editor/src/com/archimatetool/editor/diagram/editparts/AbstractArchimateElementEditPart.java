@@ -5,6 +5,10 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPart;
@@ -16,7 +20,10 @@ import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolic
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.util.LightweightEContentAdapter;
@@ -116,8 +123,11 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
             case Notification.REMOVE:
             case Notification.REMOVE_MANY:
             case Notification.MOVE:
+                // This object's connections have to refreshed now in case we delete this
                 refreshSourceConnections();
                 refreshTargetConnections();
+                // Update any related connecions as well
+                refreshRelatedConnections();
                 refreshChildren();
                 break;
 
@@ -126,10 +136,52 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         }
     }
     
+    /**
+     * Refresh all connections and their connections in case we have nested connection->connections
+     */
+    protected void refreshRelatedConnections() {
+        // Get the EditPartRegistry 
+        Map<?, ?> editPartRegistry = getRoot().getViewer().getEditPartRegistry();
+        
+        // Get the model objects that might need updating
+        for(IDiagramModelObject dmo : getObjectsToUpdateConnections(getModel())) {
+            // If we have the EditPart then update its connections
+            if(editPartRegistry.get(dmo) instanceof AbstractConnectedEditPart editPart) {
+                editPart.refreshSourceConnections();
+                editPart.refreshTargetConnections();
+            }
+        }
+    }
+    
+    /**
+     * Get all connected objects that might need to to be refreshed when nesting when there are connection to connections.
+     * However, this gets objects that don't need updating when there are no connection to connections so could do with some more work.
+     */
+    protected Set<IDiagramModelObject> getObjectsToUpdateConnections(IConnectable connectable) {
+        Set<IDiagramModelObject> set = new HashSet<>();
+        
+        // All source and target connections of the connectable
+        Set<IDiagramModelConnection> connections = new HashSet<>(connectable.getSourceConnections());
+        connections.addAll(connectable.getTargetConnections());
+        
+        // Add source and target objects if not this object
+        for(IDiagramModelConnection connection : connections) {
+            if(connection.getSource() instanceof IDiagramModelObject dmo && dmo != getModel()) {
+                set.add(dmo);
+            }
+            if(connection.getTarget() instanceof IDiagramModelObject dmo && dmo != getModel()) {
+                set.add(dmo);
+            }
+            set.addAll(getObjectsToUpdateConnections(connection));
+        }
+        
+        return set;
+    }
+    
     @Override
     protected void refreshFigure() {
         // Set Enabled according to current Viewpoint
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+        if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
             getFigure().setEnabled(ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModel()));
         }
         else {
@@ -141,13 +193,7 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-        // Hidden connections
-        if(IPreferenceConstants.HIDDEN_RELATIONS_TYPES.equals(event.getProperty()) ||
-                IPreferenceConstants.USE_NESTED_CONNECTIONS.equals(event.getProperty())) {
-            refreshSourceConnections();
-            refreshTargetConnections();
-        }
-        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
+        if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
             refreshFigure();
         }
         else {

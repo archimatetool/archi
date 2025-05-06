@@ -53,7 +53,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowReconnectionWarningButton;
 
     public ConnectionsPreferencePage() {
-        setPreferenceStore(ArchiPlugin.PREFERENCES);
+        setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
     }
     
     @Override

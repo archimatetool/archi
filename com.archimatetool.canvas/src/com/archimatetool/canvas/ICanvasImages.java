@@ -17,7 +17,7 @@ import com.archimatetool.editor.ui.ImageFactory;
  */
 public interface ICanvasImages {
     
-    ImageFactory ImageFactory = new ImageFactory(CanvasEditorPlugin.INSTANCE);
+    ImageFactory ImageFactory = new ImageFactory(CanvasEditorPlugin.getInstance());
 
     String IMGPATH = "img/"; //$NON-NLS-1$
     

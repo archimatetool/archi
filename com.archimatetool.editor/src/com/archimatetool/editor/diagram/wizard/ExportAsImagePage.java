@@ -130,7 +130,7 @@ public class ExportAsImagePage extends WizardPage {
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Get last folder
-        String lastFolder = ArchiPlugin.PREFERENCES.getString(PREFS_LAST_FOLDER);
+        String lastFolder = ArchiPlugin.getInstance().getPreferenceStore().getString(PREFS_LAST_FOLDER);
         if(StringUtils.isSet(lastFolder)) {
             File file = new File(lastFolder);
             fFileTextField.setText(new File(file, fName).getAbsolutePath());
@@ -176,7 +176,7 @@ public class ExportAsImagePage extends WizardPage {
 
         // Now set the combo and set to last user selected
         if(!fImageProviders.isEmpty()) {
-            String selectedProviderID = ArchiPlugin.PREFERENCES.getString(PREFS_LAST_PROVIDER);
+            String selectedProviderID = ArchiPlugin.getInstance().getPreferenceStore().getString(PREFS_LAST_PROVIDER);
             ImageExportProviderInfo provider = getImageProviderInfoFromID(selectedProviderID);
             if(provider == null) {
                 provider = fImageProviders.get(0);
@@ -349,11 +349,11 @@ public class ExportAsImagePage extends WizardPage {
         // Store current folder
         File parentFile = new File(getFileName()).getAbsoluteFile().getParentFile(); // Make sure to use absolute file
         if(parentFile != null) {
-            ArchiPlugin.PREFERENCES.setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(PREFS_LAST_FOLDER, parentFile.getAbsolutePath());
         }
         
         if(fSelectedProvider != null) {
-            ArchiPlugin.PREFERENCES.setValue(PREFS_LAST_PROVIDER, fSelectedProvider.getID());
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(PREFS_LAST_PROVIDER, fSelectedProvider.getID());
         }
     }
     

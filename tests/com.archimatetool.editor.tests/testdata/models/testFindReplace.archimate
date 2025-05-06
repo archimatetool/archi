@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="FindMe 0" id="cd65c1fd" version="4.0.0">
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="FindMe 0" id="cd65c1fd" version="5.0.0">
+  <folder name="Strategy" id="id-97df697088814420a9f3b21e0c8cdbd2" type="strategy"/>
   <folder name="Business" id="0c8b0515" type="business">
     <folder name="f1" id="04081912">
       <folder name="2" id="38f66001">
-        <element xsi:type="archimate:Product" id="30005633" name="FindMe 4"/>
-        <element xsi:type="archimate:BusinessActor" id="2f8182cb" name="FindMe 3"/>
+        <element xsi:type="archimate:Product" name="FindMe 4" id="30005633"/>
+        <element xsi:type="archimate:BusinessActor" name="FindMe 3" id="2f8182cb"/>
       </folder>
       <folder name="1" id="c24a37d0">
-        <element xsi:type="archimate:BusinessActor" id="44cb6838" name="FindMe 2"/>
-        <element xsi:type="archimate:BusinessActor" id="b3b3a0b2" name="FindMe 1"/>
-        <element xsi:type="archimate:BusinessRole" id="27b50268" name="Business Role"/>
+        <element xsi:type="archimate:BusinessActor" name="FindMe 2" id="44cb6838"/>
+        <element xsi:type="archimate:BusinessActor" name="FindMe 1" id="b3b3a0b2"/>
+        <element xsi:type="archimate:BusinessRole" name="Business Role" id="27b50268"/>
       </folder>
     </folder>
   </folder>
   <folder name="Application" id="01d3a91a" type="application">
-    <element xsi:type="archimate:ApplicationComponent" id="b1b02884" name="FindMe 6"/>
-    <element xsi:type="archimate:ApplicationService" id="796b2c1d" name="FindMe 5"/>
-    <element xsi:type="archimate:ApplicationComponent" id="7f1e32de" name="Application Component"/>
+    <element xsi:type="archimate:ApplicationComponent" name="FindMe 6" id="b1b02884"/>
+    <element xsi:type="archimate:ApplicationService" name="FindMe 5" id="796b2c1d"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Application Component" id="7f1e32de"/>
   </folder>
-  <folder name="Technology" id="a6414d86" type="technology"/>
+  <folder name="Technology &amp; Physical" id="a6414d86" type="technology"/>
   <folder name="Motivation" id="4575392a" type="motivation">
-    <element xsi:type="archimate:Stakeholder" id="db95a2b5" name="FindMe 7"/>
+    <element xsi:type="archimate:Stakeholder" name="FindMe 7" id="db95a2b5"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="b9270ad8" type="implementation_migration"/>
   <folder name="Other" id="b77bc390" type="other">
-    <element xsi:type="archimate:Junction" id="503c4cf4" name="FindMe 8"/>
+    <element xsi:type="archimate:Junction" name="FindMe 8" id="503c4cf4"/>
   </folder>
   <folder name="Relations" id="bb382708" type="relations">
     <folder name="New Folder" id="f04f5133">
-      <element xsi:type="archimate:SpecializationRelationship" id="9d271a81" name="FindMe 9" source="b3b3a0b2" target="2f8182cb"/>
+      <element xsi:type="archimate:SpecializationRelationship" name="FindMe 9" id="9d271a81" source="b3b3a0b2" target="2f8182cb"/>
     </folder>
   </folder>
   <folder name="Views" id="84172b06" type="diagrams">
-    <element xsi:type="archimate:ArchimateDiagramModel" id="6a346079" name="FindMe 10">
-      <child xsi:type="archimate:DiagramObject" id="75169540" textAlignment="2" archimateElement="b3b3a0b2">
+    <element xsi:type="archimate:ArchimateDiagramModel" name="FindMe 10" id="6a346079">
+      <child xsi:type="archimate:DiagramObject" id="75169540" archimateElement="b3b3a0b2">
         <bounds x="36" y="72" width="169" height="180"/>
         <sourceConnection xsi:type="archimate:Connection" id="d5138494" source="75169540" target="c76c0d2a" archimateRelationship="9d271a81"/>
-        <child xsi:type="archimate:DiagramObject" id="c1c958bd" textAlignment="2" archimateElement="44cb6838">
-          <bounds x="24" y="96"/>
+        <child xsi:type="archimate:DiagramObject" id="c1c958bd" archimateElement="44cb6838">
+          <bounds x="24" y="96" width="120" height="55"/>
         </child>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="c76c0d2a" textAlignment="2" targetConnections="d5138494" archimateElement="2f8182cb">
-        <bounds x="372" y="134"/>
+      <child xsi:type="archimate:DiagramObject" id="c76c0d2a" targetConnections="d5138494" archimateElement="2f8182cb">
+        <bounds x="372" y="134" width="120" height="55"/>
       </child>
-      <child xsi:type="archimate:Group" id="a3039807" name="Group">
-        <bounds x="408" y="348"/>
-        <child xsi:type="archimate:DiagramObject" id="18e44c2a" textAlignment="2" archimateElement="27b50268">
-          <bounds x="24" y="30"/>
+      <child xsi:type="archimate:Group" id="a3039807" name="Group" textAlignment="1">
+        <bounds x="408" y="348" width="400" height="140"/>
+        <child xsi:type="archimate:DiagramObject" id="18e44c2a" archimateElement="27b50268">
+          <bounds x="24" y="30" width="120" height="55"/>
         </child>
-        <child xsi:type="archimate:DiagramObject" id="7c9e914b" textAlignment="2" archimateElement="30005633">
-          <bounds x="228" y="30"/>
+        <child xsi:type="archimate:DiagramObject" id="7c9e914b" archimateElement="30005633">
+          <bounds x="228" y="30" width="120" height="55"/>
         </child>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="022e1fa8" textAlignment="2" archimateElement="7f1e32de">
-        <bounds x="540" y="60"/>
+      <child xsi:type="archimate:DiagramObject" id="022e1fa8" archimateElement="7f1e32de">
+        <bounds x="540" y="60" width="120" height="55"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="2b0cb580" name="Z View"/>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="Z View" id="2b0cb580"/>
   </folder>
 </archimate:model>

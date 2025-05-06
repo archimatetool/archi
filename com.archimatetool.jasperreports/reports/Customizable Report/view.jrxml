@@ -82,7 +82,7 @@
 					<printWhenExpression><![CDATA[$V{REPORT_ENTRY} != 1]]></printWhenExpression>
 				</reportElement>
 			</break>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Title 2" x="0" y="1" width="515" height="19"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$P{HIDE_VIEW_NUMBERING}.equals("true") ? $F{name}.replaceAll("^[0-9.]*  *", "") : $F{name}]]></textFieldExpression>
@@ -123,7 +123,7 @@
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$R{text.documentation}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Documentation" x="0" y="38" width="515" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{documentation}]]></textFieldExpression>
@@ -152,14 +152,14 @@
 						<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="16" width="515">
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true">
 								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>
 							<textElement/>
 							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
 						</textField>
-						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16">
 								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
 							</reportElement>

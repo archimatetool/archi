@@ -505,7 +505,7 @@ public class CSVImporterTests {
             testGetRecords(' ');
         });
         
-        assertTrue(ex.getMessage().contains("invalid char between encapsulated token and delimiter"));
+        assertTrue(ex.getMessage().contains(CSVImporter.EXPECTED_ERROR_MESSAGE));
     }
 
     private void testGetRecords(char delimiter) throws Exception {

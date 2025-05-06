@@ -15,7 +15,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 import com.archimatetool.editor.diagram.commands.CreateNestedArchimateConnectionsWithDialogCommand;
-import com.archimatetool.editor.diagram.commands.DeleteNestedConnectionsCommand;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -42,11 +41,6 @@ public class ArchimateContainerLayoutPolicy extends ArchimateDiagramLayoutPolicy
         
         List<IDiagramModelArchimateObject> childObjectsForNewConnections = new ArrayList<IDiagramModelArchimateObject>();
         
-        // Delete connections between parent and child if Prefs set and if parent is an Archimate object
-        boolean doDeleteNestedConnections = ConnectionPreferences.useNestedConnections();
-                
-        List<IDiagramModelArchimateObject> childObjectsForDeletedConnections = new ArrayList<IDiagramModelArchimateObject>();
-        
         for(Object editPart : request.getEditParts()) {
             GraphicalEditPart child = (GraphicalEditPart)editPart;
             AddObjectCommand addCommand = createAddCommand(request, child, translateToModelConstraint(getConstraintFor(request, child)));
@@ -56,17 +50,6 @@ public class ArchimateContainerLayoutPolicy extends ArchimateDiagramLayoutPolicy
             if(doAddNestedConnections && addCommand.child instanceof IDiagramModelArchimateObject) {
             	childObjectsForNewConnections.add((IDiagramModelArchimateObject)addCommand.child);
             }
-            
-            // If we need to delete some nested connections
-            if(doDeleteNestedConnections && addCommand.child instanceof IDiagramModelArchimateObject) {
-                childObjectsForDeletedConnections.add((IDiagramModelArchimateObject)addCommand.child);
-            }
-        }
-        
-        // We have some child objects for deletion connections
-        if(!childObjectsForDeletedConnections.isEmpty()) {
-            Command cmd = new DeleteNestedConnectionsCommand((IDiagramModelArchimateObject)parent, childObjectsForDeletedConnections);
-            command.add(cmd);
         }
         
         // We have some child objects so add the sub command

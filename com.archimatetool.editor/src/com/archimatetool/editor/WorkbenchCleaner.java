@@ -196,10 +196,14 @@ public class WorkbenchCleaner {
     }
     
     /**
-     * @return a osgi data Location as a File object or null
+     * @return an osgi data Location as a File or null
      */
     private static File getLocationAsFile(Location location) {
-        return location == null ? null : new File(location.getURL().getPath());
+        if(location == null || location.getURL() == null) {
+            return null;
+        }
+        
+        return new File(location.getURL().getPath());
     }
     
     private static void delete(File file) {

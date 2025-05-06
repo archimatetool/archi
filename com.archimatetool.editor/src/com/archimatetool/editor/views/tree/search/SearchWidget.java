@@ -24,12 +24,15 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeViewerListener;
 import org.eclipse.jface.viewers.TreeExpansionEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -46,6 +49,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.GlobalActionDisablementHandler;
+import com.archimatetool.editor.ui.dialog.UserPropertiesKeySelectionDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -71,16 +75,21 @@ public class SearchWidget extends Composite {
     
     private IAction fActionFilterName;
     private IAction fActionFilterDocumentation;
+    private IAction fActionFilterPropertyValues;
     private IAction fActionFilterViews;
+    private IAction fActionShowAllFolders;
+    private IAction fActionMatchCase;
+    private IAction fActionUseRegex;
     
     private List<IAction> fConceptActions = new ArrayList<>();
     
-    private MenuManager fPropertiesMenu;
     private MenuManager fSpecializationsMenu;
     
     private Timer fKeyDelayTimer;
     
     private static int TIMER_DELAY = 600;
+    
+    private static Color ERROR_COLOR = new Color(255, 0, 0);
     
     /**
      * Hook into the global edit Action Handlers and null them when the text control has the focus
@@ -160,7 +169,7 @@ public class SearchWidget extends Composite {
         UIUtils.applyMacUndoBugFilter(fSearchText);
         
         // Use auto search
-        if(ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
+        if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.TREE_SEARCH_AUTO)) {
             fSearchText.addModifyListener(event -> {
                 // If we have a timer cancel it
                 if(fKeyDelayTimer != null) {
@@ -172,12 +181,8 @@ public class SearchWidget extends Composite {
                 fKeyDelayTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        Display.getDefault().syncExec(() -> { // This has to run in the UI thread
-                            if(!fSearchText.isDisposed()) {
-                                fSearchFilter.setSearchText(fSearchText.getText());
-                                refreshTree();
-                            }
-                        });
+                        // This has to run in the UI thread
+                        Display.getDefault().syncExec(() -> updateSearch());
                     }
                 }, TIMER_DELAY);
             });
@@ -185,14 +190,30 @@ public class SearchWidget extends Composite {
         // Search on Return key press
         else {
             fSearchText.addListener(SWT.DefaultSelection, event -> {
-                fSearchFilter.setSearchText(fSearchText.getText());
-                refreshTree();
+                updateSearch();
             });
         }
         
         // Hook into the global edit Action Handlers and null them when the text control has the focus
         fSearchText.addListener(SWT.Activate, textControlListener);
         fSearchText.addListener(SWT.Deactivate, textControlListener);
+    }
+    
+    private void updateSearch() {
+        if(!fSearchText.isDisposed()) {
+            fSearchFilter.setSearchText(fSearchText.getText());
+            setValidSearchTextHint();
+            refreshTree();
+        }
+    }
+    
+    /**
+     * If we're using regex check that it's valid regex and set color to red and tooltip if not
+     */
+    private void setValidSearchTextHint() {
+        boolean validSearchText = fSearchFilter.isValidSearchString();
+        fSearchText.setForeground(validSearchText ? null : ERROR_COLOR);
+        fSearchText.setToolTipText(validSearchText ? null : Messages.SearchWidget_20);
     }
 
     private void createToolBar() {
@@ -209,7 +230,7 @@ public class SearchWidget extends Composite {
         };
         toolBarmanager.add(dropDownAction);
 
-        // Filter on Name
+        // Name
         fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
@@ -218,10 +239,9 @@ public class SearchWidget extends Composite {
             };
         };
         fActionFilterName.setToolTipText(Messages.SearchWidget_1);
-        fActionFilterName.setChecked(true); // default is true for name
         dropDownAction.add(fActionFilterName);
         
-        // Filter on Documentation
+        // Documentation
         fActionFilterDocumentation = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
@@ -232,10 +252,34 @@ public class SearchWidget extends Composite {
         fActionFilterDocumentation.setToolTipText(Messages.SearchWidget_3);
         dropDownAction.add(fActionFilterDocumentation);
         
-        // Properties
-        fPropertiesMenu = new MenuManager(Messages.SearchWidget_5);
-        dropDownAction.add(fPropertiesMenu);
-        populatePropertiesMenu();
+        // Property Values
+        fActionFilterPropertyValues = new Action(Messages.SearchWidget_21, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setFilterOnPropertyValues(isChecked());
+                refreshTree();
+            };
+        };
+        fActionFilterPropertyValues.setToolTipText(Messages.SearchWidget_22);
+        dropDownAction.add(fActionFilterPropertyValues);
+        
+        // Property Keys
+        IAction actionProperties = new Action(Messages.SearchWidget_5, IAction.AS_PUSH_BUTTON) {
+            @Override
+            public void run() {
+                UserPropertiesKeySelectionDialog dialog = new UserPropertiesKeySelectionDialog(getShell(), getAllUniquePropertyKeys(),
+                        new ArrayList<>(fSearchFilter.getPropertyKeyFilter()));
+                if(dialog.open() != Window.CANCEL) {
+                    fSearchFilter.resetPropertyKeyFilter();
+                    for(String key : dialog.getSelectedKeys()) {
+                        fSearchFilter.addPropertyKeyFilter(key);
+                    }
+                    refreshTree();
+                }
+            }
+        };
+        actionProperties.setToolTipText(Messages.SearchWidget_23);
+        dropDownAction.add(actionProperties);
         
         dropDownAction.add(new Separator());
         
@@ -309,35 +353,97 @@ public class SearchWidget extends Composite {
                 refreshTree();
             }
         };
-        fActionFilterViews.setChecked(fSearchFilter.isFilteringViews());
+        fActionFilterViews.setToolTipText(Messages.SearchWidget_24);
         dropDownAction.add(fActionFilterViews);
 
         dropDownAction.add(new Separator());
         
         // Show All Folders
-        IAction action = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
+        fActionShowAllFolders = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
             	fSearchFilter.setShowAllFolders(isChecked());
             	refreshTree();
             }
         };
-        action.setChecked(fSearchFilter.isShowAllFolders());
-        dropDownAction.add(action);
+        fActionShowAllFolders.setToolTipText(Messages.SearchWidget_25);
+        dropDownAction.add(fActionShowAllFolders);
         
+        // Match Case
+        fActionMatchCase = new Action(Messages.SearchWidget_18, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setMatchCase(isChecked());
+                refreshTree();
+            }
+        };
+        fActionMatchCase.setToolTipText(Messages.SearchWidget_26);
+        dropDownAction.add(fActionMatchCase);
+        
+        // Regex
+        fActionUseRegex = new Action(Messages.SearchWidget_19, IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+                fSearchFilter.setUseRegex(isChecked());
+                setValidSearchTextHint();
+                refreshTree();
+            }
+        };
+        fActionUseRegex.setToolTipText(Messages.SearchWidget_27);
+        dropDownAction.add(fActionUseRegex);
+
         dropDownAction.add(new Separator());
         
         // Reset
-        action = new Action(Messages.SearchWidget_13) {
+        IAction actionReset = new Action(Messages.SearchWidget_13) {
             @Override
             public void run() {
             	reset();
             }
         };
-        dropDownAction.add(action);
+        dropDownAction.add(actionReset);
+        
+        loadPreferences();
         
         // Need to update toolbar manager now
         toolBarmanager.update(true);
+    }
+    
+    private void loadPreferences() {
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
+        
+        fActionFilterName.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_NAME));
+        fSearchFilter.setFilterOnName(fActionFilterName.isChecked());
+        
+        fActionFilterDocumentation.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION));
+        fSearchFilter.setFilterOnDocumentation(fActionFilterDocumentation.isChecked());
+        
+        fActionFilterPropertyValues.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES));
+        fSearchFilter.setFilterOnPropertyValues(fActionFilterPropertyValues.isChecked());
+        
+        fActionFilterViews.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_VIEWS));
+        fSearchFilter.setFilterViews(fActionFilterViews.isChecked());
+        
+        fActionShowAllFolders.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS));
+        fSearchFilter.setShowAllFolders(fActionShowAllFolders.isChecked());
+
+        fActionMatchCase.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_MATCH_CASE));
+        fSearchFilter.setMatchCase(fActionMatchCase.isChecked());
+        
+        fActionUseRegex.setChecked(store.getBoolean(IPreferenceConstants.SEARCHFILTER_USE_REGEX));
+        fSearchFilter.setUseRegex(fActionUseRegex.isChecked());
+    }
+    
+    private void savePreferences() {
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
+        
+        store.setValue(IPreferenceConstants.SEARCHFILTER_NAME, fSearchFilter.getFilterOnName());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION, fSearchFilter.getFilterOnDocumentation());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES, fSearchFilter.getFilterOnPropertyValues());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_VIEWS, fSearchFilter.isFilteringViews());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_SHOW_ALL_FOLDERS, fSearchFilter.getShowAllFolders());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_MATCH_CASE, fSearchFilter.getMatchCase());
+        store.setValue(IPreferenceConstants.SEARCHFILTER_USE_REGEX, fSearchFilter.getUseRegex());
     }
     
     /**
@@ -349,10 +455,10 @@ public class SearchWidget extends Composite {
 
         // Don't filter on Documentation menu item
         fActionFilterDocumentation.setChecked(false);
-
-        // Clear & uncheck Properties menu items
-        populatePropertiesMenu();
         
+        // Don't filter on Property Values menu item
+        fActionFilterPropertyValues.setChecked(false);
+
         // Clear & uncheck Specializations menu items
         populateSpecializationsMenu();
 
@@ -375,9 +481,8 @@ public class SearchWidget extends Composite {
      * Currently called when a model is opened or closed to update Properties and Specializations
      */
     public void softReset() {
-        // Clear & Reset Properties
-        populatePropertiesMenu();
-        fSearchFilter.resetPropertiesFilter();
+        // Clear & Reset Property keys
+        fSearchFilter.resetPropertyKeyFilter();
         
         // Clear & Reset Specializations
         populateSpecializationsMenu();
@@ -414,56 +519,33 @@ public class SearchWidget extends Composite {
         return action;
     }
 
-	private void populatePropertiesMenu() {
-	    fPropertiesMenu.removeAll();
-	    
-	    // Models that are loaded are the ones in the Models Tree
-	    Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
-
-	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-	        getAllUniquePropertyKeysForModel(model, set);
-	    }
-	    
-	    List<String> list = new ArrayList<>(set);
-	    
-	    // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
-	    list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
-	    
-        // Limit to a sensible menu size
-        if(list.size() > 1000) {
-            list = list.subList(0, 999);
-        }
-
-	    for(String key : list) {
-	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
-	            @Override
-	            public void run() {
-	                if(isChecked()) {
-	                    fSearchFilter.addPropertiesFilter(key);
-	                }
-	                else {
-	                    fSearchFilter.removePropertiesFilter(key);
-	                }
-	                refreshTree();
-	            }
-	        };
-
-	        fPropertiesMenu.add(action);
-	    }
-
-	    fPropertiesMenu.update(true);
-	}
-
-    private void getAllUniquePropertyKeysForModel(IArchimateModel model, Set<String> set) {
-        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
-            EObject element = iter.next();
-            if(element instanceof IProperty property) {
-            	String key = property.getKey();
-            	if(StringUtils.isSetAfterTrim(key)) {
-            	    set.add(key);
-            	}
+    private List<String> getAllUniquePropertyKeys() {
+        // Maximum amount of items to display when getting all unique keys
+        final int MAX_ITEMS = 1000000;
+        
+        Set<String> set = new LinkedHashSet<>(); // LinkedHashSet is faster when sorting
+        
+        for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+            for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+                EObject element = iter.next();
+                if(element instanceof IProperty property) {
+                    String key = property.getKey();
+                    if(StringUtils.isSetAfterTrim(key)) {
+                        set.add(key);
+                        if(set.size() > MAX_ITEMS) { // Don't get more than this
+                            break;
+                        }
+                    }
+                }
             }
         }
+        
+        List<String> list = new ArrayList<>(set);
+        
+        // Sort alphabetically, but don't use Collator.getInstance() as it's too slow
+        list.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
+
+        return list;
     }
     
     private void populateSpecializationsMenu() {
@@ -569,6 +651,8 @@ public class SearchWidget extends Composite {
     public void dispose() {
         super.dispose();
         
+        savePreferences();
+        
         fViewer.removeTreeListener(treeExpansionListener);
         
         if(fSearchFilter.isFiltering()) {
@@ -586,7 +670,6 @@ public class SearchWidget extends Composite {
         fViewer = null;
         fSearchFilter = null;
         fConceptActions = null;
-        fPropertiesMenu = null;
         fSpecializationsMenu = null;
     }
 }

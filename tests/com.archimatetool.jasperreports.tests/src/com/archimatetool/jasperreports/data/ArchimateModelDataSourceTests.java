@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRField;
 @SuppressWarnings("nls")
 public class ArchimateModelDataSourceTests {
     
+    private static ArchimateTestModel tm;
     private static IArchimateModel model;
     
     private ArchimateModelDataSource ds;
@@ -42,7 +43,7 @@ public class ArchimateModelDataSourceTests {
     @BeforeAll
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
     }
     
@@ -148,7 +149,7 @@ public class ArchimateModelDataSourceTests {
    
     @Test
     public void getConceptsInDiagram() {
-        IDiagramModel dm = model.getDiagramModels().get(1);
+        IDiagramModel dm = (IDiagramModel)tm.getObjectByID("4056"); // "Layered View"
         assertEquals(30, ArchimateModelDataSource.getConceptsInDiagram(dm, "elements").size());
         assertEquals(28, ArchimateModelDataSource.getConceptsInDiagram(dm, "relations").size());
         assertEquals(58, ArchimateModelDataSource.getConceptsInDiagram(dm, "elements|relations").size());

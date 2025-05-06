@@ -2,22 +2,23 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Jasper Reports
 Bundle-SymbolicName: com.archimatetool.jasperreports;singleton:=true
-Bundle-Version: 5.5.0.qualifier
+Bundle-Version: 5.6.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
- lib/commons-beanutils-1.9.4.jar,
+ lib/commons-beanutils-1.10.0.jar,
  lib/commons-collections-3.2.2.jar,
+ lib/commons-collections4-4.4.jar,
  lib/commons-digester-2.1.jar,
- lib/commons-logging-1.2.jar,
- lib/itext-2.1.7.js6.jar,
- lib/jasperreports-6.7.1.jar,
- lib/jasperreports-fonts-6.7.1.jar,
- lib/ecj-4.9.jar,
- lib/jackson-core-2.16.0.jar,
- lib/jackson-databind-2.16.0.jar
+ lib/commons-logging-1.3.4.jar,
+ lib/ecj-3.21.0.jar,
+ lib/jasperreports-6.12.2.jar,
+ lib/jasperreports-fonts-6.12.2.jar,
+ lib/jackson-core-2.18.2.jar,
+ lib/jackson-databind-2.18.2.jar,
+ lib/openpdf-2.0.3.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor

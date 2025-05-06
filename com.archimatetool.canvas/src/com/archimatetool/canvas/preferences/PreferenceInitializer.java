@@ -22,7 +22,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = CanvasEditorPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = CanvasEditorPlugin.getInstance().getPreferenceStore();
         
 		store.setDefault(CANVAS_EDITOR_ENABLED, true);
     }

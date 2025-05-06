@@ -43,7 +43,7 @@ public class ImageExportProviderTests {
         shell = new Shell();
         
         // Set prefs to defaults
-        IPreferenceStore store = ArchiPlugin.PREFERENCES;
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         store.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 0);
         
         rootFigure = new FreeformLayer();
@@ -112,12 +112,12 @@ public class ImageExportProviderTests {
         
         provider.savePreferences();
 
-        assertEquals(345, ArchiPlugin.PREFERENCES.getInt(ImageExportProvider.PREFS_IMAGE_SCALE));
+        assertEquals(345, ArchiPlugin.getInstance().getPreferenceStore().getInt(ImageExportProvider.PREFS_IMAGE_SCALE));
     }
     
     @Test
     public void testPreferencesWereLoaded() {
-        ArchiPlugin.PREFERENCES.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
         
         provider.init(null, shell, rootFigure);
         

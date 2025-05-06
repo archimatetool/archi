@@ -23,6 +23,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -38,7 +39,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     private Color fBorderColor;
     
     // This is way faster than Draw2D re-drawing the original image at scale
-    boolean useScaledImage = ArchiPlugin.PREFERENCES.getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
+    boolean useScaledImage = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
     
     public DiagramImageFigure(IDiagramModelImage diagramModelImage) {
         super(diagramModelImage);
@@ -102,10 +103,13 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         bounds.width--;
         bounds.height--;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        setLineStyle(graphics);
+        if(drawBorder) {
+            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
+            setLineWidth(graphics, bounds);
+            setLineStyle(graphics);
+        }
         
         if(fImage != null) {
             // Faster but no transparency
@@ -130,7 +134,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(getBorderColor() != null) {
+        if(drawBorder) {
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
