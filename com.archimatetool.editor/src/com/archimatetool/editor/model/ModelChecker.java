@@ -119,9 +119,9 @@ public class ModelChecker {
         return fErrorMessages;
     }
     
-    public void showErrorDialog(Shell shell) {
+    public String buildMessageSummary() {
         if(fErrorMessages == null || fErrorMessages.isEmpty()) {
-            return;
+            return null;
         }
         
         // Log all messages
@@ -141,6 +141,15 @@ public class ModelChecker {
             message += Messages.ModelChecker_26;
         }
         
+        return message;
+    }
+    
+    public void showErrorDialog(Shell shell) {
+    	String message = buildMessageSummary();
+        if(message == null) {
+            return;
+        }
+                
         MessageDialog.openError(shell, Messages.ModelChecker_1, message);
     }
     
