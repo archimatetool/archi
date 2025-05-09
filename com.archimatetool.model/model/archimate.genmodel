@@ -5,7 +5,7 @@
     editorDirectory="/com.archimatetool.editor2/src" modelPluginID="com.archimatetool.model"
     modelName="Archimate" editPluginClass="com.archimatetool.model.provider.ArchimateEditPlugin"
     nonNLSMarkers="true" testSuiteClass="com.archimatetool.model.tests.ArchimateAllTests"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0" copyrightFields="false"
     editPluginID="com.archimatetool.model.edit" editorPluginID="com.archimatetool.editor2"
     language="" interfaceNamePattern="I{0}" classNamePattern="{0}" runtimePlatform="RCP">
   <foreignModel>archimate.ecore</foreignModel>
