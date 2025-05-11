@@ -15,5 +15,5 @@ Export-Package: org.eclipse.draw2d,
  org.eclipse.draw2d.widgets
 Require-Bundle: org.eclipse.swt;visibility:=reexport;bundle-version="[3.4.0,4.0.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.eclipse.draw2d
