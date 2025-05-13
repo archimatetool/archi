@@ -1077,7 +1077,7 @@
       </image>
       <image
             commandId="com.archimatetool.editor.action.showPaletteView"
-            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
+            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.png">
       </image>
       <image
             commandId="org.eclipse.gef.zoom_in"
@@ -1109,7 +1109,7 @@
       </image>
       <image
             commandId="com.archimatetool.editor.palette.command"
-            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif">
+            icon="platform:/plugin/org.eclipse.gef/icons/palette_view.png">
       </image>
       <image
             commandId="com.archimatetool.editor.textAlignmentLeft"
@@ -1337,7 +1337,7 @@
          </command>
          <command
                commandId="com.archimatetool.editor.action.showPaletteView"
-               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif"
+               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.png"
                label="%command.label.12"
                style="push"
                tooltip="%command.tooltip.3">
@@ -1376,7 +1376,7 @@
          </command>
          <command
                commandId="com.archimatetool.editor.action.showPaletteView"
-               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.gif"
+               icon="platform:/plugin/org.eclipse.gef/icons/palette_view.png"
                label="%command.label.17"
                style="push"
                tooltip="%command.tooltip.8">

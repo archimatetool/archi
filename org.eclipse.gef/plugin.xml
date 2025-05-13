@@ -46,7 +46,7 @@
 			point="org.eclipse.ui.views">
 		<view
 				name="%Palette.Label"
-				icon="icons/palette_view.gif"
+				icon="icons/palette_view.png"
 				category="org.eclipse.ui"
 				class="org.eclipse.gef.ui.views.palette.PaletteView"
 				id="org.eclipse.gef.ui.palette_view">
