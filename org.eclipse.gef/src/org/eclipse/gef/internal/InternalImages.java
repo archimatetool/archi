@@ -84,7 +84,7 @@ public class InternalImages {
      * Can be used to access the cached pinned image by using
      * {@link #get(String)}.
      */
-    public static final String IMG_PALETTE = "icons/palette_view.gif";//$NON-NLS-1$
+    public static final String IMG_PALETTE = "icons/palette_view.png";//$NON-NLS-1$
 
     static {
         DESC_BOLD = createDescriptor("icons/style_bold.gif"); //$NON-NLS-1$
