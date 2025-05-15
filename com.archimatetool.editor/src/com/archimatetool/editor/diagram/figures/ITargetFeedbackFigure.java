@@ -18,11 +18,24 @@ public interface ITargetFeedbackFigure extends IFigure {
     
     /**
      * Show some feedback
+     * @deprecated Use showTargetFeedback(true)
      */
-    void showTargetFeedback();
+    @Deprecated
+    default void showTargetFeedback() {
+    }
 
     /**
      * Erase some feedback
+     * @deprecated Use showTargetFeedback(false)
      */
-    void eraseTargetFeedback();
+    @Deprecated
+    default void eraseTargetFeedback() {
+    }
+    
+    /**
+     * Show target feedback on this figure
+     * @param show
+     */
+    default void showTargetFeedback(boolean show) {
+    }
 }

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -25,13 +24,6 @@ import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 public class ContainerHighlightEditPolicy extends GraphicalEditPolicy {
 
     @Override
-    public void eraseTargetFeedback(Request request) {
-        if(getFeedbackFigure() != null) {
-            getFeedbackFigure().eraseTargetFeedback();
-        }
-    }
-
-    @Override
     public EditPart getTargetEditPart(Request request) {
         if(request == null || request.getType() == null) {
             return null;
@@ -48,14 +40,16 @@ public class ContainerHighlightEditPolicy extends GraphicalEditPolicy {
                 || request.getType().equals(DiagramDropRequest.REQ_DIAGRAM_DROP)
                 ) {
             
-            if(getFeedbackFigure() != null) {
-                getFeedbackFigure().showTargetFeedback();
+            if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+                figure.showTargetFeedback(true);
             }
         }
     }
-
-    private ITargetFeedbackFigure getFeedbackFigure() {
-        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
-        return (figure instanceof ITargetFeedbackFigure) ? (ITargetFeedbackFigure)figure : null;
+    
+    @Override
+    public void eraseTargetFeedback(Request request) {
+        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+            figure.showTargetFeedback(false);
+        }
     }
 }

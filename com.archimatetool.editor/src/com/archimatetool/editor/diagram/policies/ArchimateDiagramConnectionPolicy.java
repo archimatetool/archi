@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.policies;
 
 import java.util.List;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -116,8 +115,8 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
         // Get the type of connection (plain) or relationship (if archimate connection) and check if it is valid
         EClass type = connection.eClass();
-        if(connection instanceof IDiagramModelArchimateConnection) {
-            type = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship().eClass();
+        if(connection instanceof IDiagramModelArchimateConnection archimateConnection) {
+            type = archimateConnection.getArchimateRelationship().eClass();
         }
 
         if(isSourceCommand) {
@@ -132,8 +131,9 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
         
         // Archimate type reconnection
-        if(connection instanceof IDiagramModelArchimateConnection && newComponent instanceof IDiagramModelArchimateComponent) {
-            return createArchimateReconnectCommand((IDiagramModelArchimateConnection)connection, (IDiagramModelArchimateComponent)newComponent, isSourceCommand);
+        if(connection instanceof IDiagramModelArchimateConnection archimateConnection
+                && newComponent instanceof IDiagramModelArchimateComponent archimateComponent) {
+            return createArchimateReconnectCommand(archimateConnection, archimateComponent, isSourceCommand);
         }
         
         // Plain reconnection
@@ -250,9 +250,8 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
     @Override
     public void eraseTargetFeedback(Request request) {
-        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
-        if(figure instanceof ITargetFeedbackFigure) {
-            ((ITargetFeedbackFigure)figure).eraseTargetFeedback();
+        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+            figure.showTargetFeedback(false);
         }
     }
     
@@ -284,9 +283,8 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     }
     
     private void showTargetFeedback() {
-        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
-        if(figure instanceof ITargetFeedbackFigure) {
-            ((ITargetFeedbackFigure)figure).showTargetFeedback();
+        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+            figure.showTargetFeedback(true);
         }
     }
     
@@ -310,8 +308,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
         
         // Archimate Concept source
-        if(source instanceof IDiagramModelArchimateComponent) {
-            IDiagramModelArchimateComponent dmc = (IDiagramModelArchimateComponent)source;
+        if(source instanceof IDiagramModelArchimateComponent dmc) {
             return ArchimateModelUtils.isValidRelationshipStart(dmc.getArchimateConcept(), relationshipType);
         }
         
@@ -356,7 +353,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
 
         // Connection from Archimate concept to Archimate concept (but not from relation to relation)
-        if((source instanceof IDiagramModelArchimateComponent && target instanceof IDiagramModelArchimateComponent) && 
+        if((source instanceof IDiagramModelArchimateComponent archimateSource && target instanceof IDiagramModelArchimateComponent archimateTarget) && 
               !(source instanceof IDiagramModelArchimateConnection && target instanceof IDiagramModelArchimateConnection)) {
             
             // Special case if relationshipType == null. Means that the Magic connector is being used
@@ -364,10 +361,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                 return true;
             }
             
-            IArchimateConcept sourceConcept = ((IDiagramModelArchimateComponent)source).getArchimateConcept();
-            IArchimateConcept targetConcept = ((IDiagramModelArchimateComponent)target).getArchimateConcept();
-            
-            return ArchimateModelUtils.isValidRelationship(sourceConcept, targetConcept, relationshipType);
+            return ArchimateModelUtils.isValidRelationship(archimateSource.getArchimateConcept(), archimateTarget.getArchimateConcept(), relationshipType);
         }
         
         return false;
