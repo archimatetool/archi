@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Point;
 
+import com.archimatetool.editor.diagram.figures.ISelectableFigure;
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -19,7 +20,7 @@ import com.archimatetool.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFigure, ITextFigure {
+public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFigure, ISelectableFigure, ITextFigure {
     
     // Strategies for drawing the connection label
     int CONNECTION_LABEL_TRANSPARENT = 0;

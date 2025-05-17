@@ -38,6 +38,7 @@ import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.policies.ManualBendpointEditPolicy;
+import com.archimatetool.editor.diagram.policies.SelectedEditPartPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.services.ViewManager;
@@ -283,6 +284,9 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         
         // Add a policy for manual bendpoints
         refreshBendpointEditPolicy();
+        
+        // Add a policy to highlight this when selected
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectedEditPartPolicy(true));
     }
 
     @Override

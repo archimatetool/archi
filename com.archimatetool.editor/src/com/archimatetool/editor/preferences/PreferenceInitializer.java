@@ -53,6 +53,7 @@ implements IPreferenceConstants {
         
         store.setDefault(ANTI_ALIAS, true);
         store.setDefault(MAGIC_CONNECTOR_POLARITY, false);
+        store.setDefault(SHOW_SELECTED_CONNECTIONS, false);
         store.setDefault(USE_ORTHOGONAL_ANCHOR, true);
         store.setDefault(USE_LINE_CURVES, true);
         store.setDefault(USE_LINE_JUMPS, true);
