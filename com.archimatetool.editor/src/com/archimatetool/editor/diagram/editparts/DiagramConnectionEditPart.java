@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import org.eclipse.draw2d.RelativeBendpoint;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -64,25 +62,20 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     /**
      * Listen to default font change in Prefs
      */
-    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-            applicationPreferencesChanged(event);
-        }
+    private IPropertyChangeListener prefsListener = event -> {
+        applicationPreferencesChanged(event);
     };
     
     /**
      * Figure Listener 
      */
-    private PropertyChangeListener figureListener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            // Connection Router change
-            String property = evt.getPropertyName();
-            if(Connection.PROPERTY_CONNECTION_ROUTER.equals(property)){
-                refreshBendpoints();
-                refreshBendpointEditPolicy();
-            }
+    private PropertyChangeListener figureListener = event -> {
+        String property = event.getPropertyName();
+        
+        // Connection Router change
+        if(Connection.PROPERTY_CONNECTION_ROUTER.equals(property)){
+            refreshBendpoints();
+            refreshBendpointEditPolicy();
         }
     };
     
@@ -250,10 +243,9 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
         // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            if(request instanceof LocationRequest) {
+            if(request instanceof LocationRequest locationRequest) {
                 // Edit the text control if we clicked on it
-                if(!(getModel() instanceof ILockable && ((ILockable)getModel()).isLocked())
-                            && getFigure().didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
+                if(!isLocked() && getFigure().didClickConnectionLabel(locationRequest.getLocation().getCopy())) {
                     createDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
@@ -303,7 +295,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     }
     
     protected boolean isLocked() {
-        return getModel() instanceof ILockable && ((ILockable)getModel()).isLocked();
+        return getModel() instanceof ILockable lockable && lockable.isLocked();
     }
     
     /**
@@ -314,9 +306,9 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             return;
         }
         
-        List<Bendpoint> figureConstraint = new ArrayList<Bendpoint>();
+        List<Bendpoint> figureConstraint = new ArrayList<>();
         
-        EList<IDiagramModelBendpoint> bendpoints = getModel().getBendpoints();
+        List<IDiagramModelBendpoint> bendpoints = getModel().getBendpoints();
         for(int i = 0; i < bendpoints.size(); i++) {
             IDiagramModelBendpoint bendpoint = bendpoints.get(i);
             
