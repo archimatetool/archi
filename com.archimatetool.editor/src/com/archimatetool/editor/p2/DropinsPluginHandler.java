@@ -77,7 +77,7 @@ public class DropinsPluginHandler {
      * @return All user installed plug-ins in any of the three "dropins" locations
      */
     public List<Bundle> getInstalledPlugins() throws IOException {
-        List<Bundle> list = new ArrayList<Bundle>();
+        List<Bundle> list = new ArrayList<>();
         
         for(Bundle bundle : ArchiPlugin.getInstance().getBundle().getBundleContext().getBundles()) {
             File file = getDropinsBundleFile(bundle);
@@ -105,7 +105,7 @@ public class DropinsPluginHandler {
             return status();
         }
         
-        List<IStatus> stats = new ArrayList<IStatus>();
+        List<IStatus> stats = new ArrayList<>();
         
         Exception[] exception = new Exception[1];
         
@@ -266,7 +266,7 @@ public class DropinsPluginHandler {
     private File[] findMatchingPlugins(File pluginsFolder, File newPlugin) {
         String pluginName = getPluginName(newPlugin.getName());
         
-        return pluginsFolder.listFiles((file) -> {
+        return pluginsFolder.listFiles(file -> {
             String targetPluginName = getPluginName(file.getName());
             return targetPluginName.equals(pluginName) && !newPlugin.getName().equals(file.getName());
         });
@@ -339,9 +339,10 @@ public class DropinsPluginHandler {
     /**
      * @return location of user dropins folder as set in Archi.ini
      */
-    private File getUserDropinsFolder() {
+    private File getUserDropinsFolder() throws IOException {
         if(userDropinsFolder == null) {
-            userDropinsFolder = ArchiPlugin.getInstance().getUserDropinsFolder();
+            // Normalise the file with File#getCanonicalFile() for Mac
+            userDropinsFolder = ArchiPlugin.getInstance().getUserDropinsFolder().getCanonicalFile();
         }
         
         return userDropinsFolder;
@@ -393,7 +394,7 @@ public class DropinsPluginHandler {
         dialog.setFilterExtensions(new String[] { "*.archiplugin", "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
         
         if(path != null) {
             // Issue on OpenJDK if path is like C: or D: - no slash is added when creating File
