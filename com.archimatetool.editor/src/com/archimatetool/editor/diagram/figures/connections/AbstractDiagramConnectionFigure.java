@@ -47,8 +47,9 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fLineColor;
     
     protected static Color highlightedColor = new Color(0, 0, 255);
-    
-    protected boolean showTargetFeedback = false;
+
+	protected boolean isSelected = false;
+	protected boolean showTargetFeedback = false;
 
     @Override
     public void setModelConnection(IDiagramModelConnection connection) {
@@ -240,13 +241,18 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     }
     
     @Override
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+    
+    @Override
     public void showTargetFeedback(boolean show) {
         showTargetFeedback = show;
     }
 
     @Override
     public void paintFigure(Graphics graphics) {
-        if(showTargetFeedback) {
+        if(showTargetFeedback || (isSelected && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SELECTED_CONNECTIONS))) {
             setLineWidth(getModelConnection().getLineWidth() + 1);
             setForegroundColor(highlightedColor);
         }

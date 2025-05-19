@@ -59,6 +59,7 @@ public interface IPreferenceConstants {
     
     String ANTI_ALIAS = "antiAlias";
     String MAGIC_CONNECTOR_POLARITY = "polarityMagicConnector";
+    String SHOW_SELECTED_CONNECTIONS = "showSelectedConnections";
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor";
     String USE_LINE_CURVES = "lineCurves";
     String USE_LINE_JUMPS = "lineJumps";

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.preferences;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -41,6 +42,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fUseOrthogonalAnchorButton;
     private Button fUseLineCurvesButton;
     private Button fUseLineJumpsButton;
+    private Button fHighlightSelectedConnectionsButton;
     
     private Combo fConnectionLabelStrategyCombo;
     
@@ -74,61 +76,54 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Group magicConnectorGroup = new Group(client, SWT.NULL);
         magicConnectorGroup.setText(Messages.ConnectionsPreferencePage_3);
         magicConnectorGroup.setLayout(new GridLayout());
-        magicConnectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(magicConnectorGroup);
 
         fMagicConnectorPolarity1Button = new Button(magicConnectorGroup, SWT.RADIO);
         fMagicConnectorPolarity1Button.setText(Messages.ConnectionsPreferencePage_4);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        fMagicConnectorPolarity1Button.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fMagicConnectorPolarity1Button);
         
         fMagicConnectorPolarity2Button = new Button(magicConnectorGroup, SWT.RADIO);
         fMagicConnectorPolarity2Button.setText(Messages.ConnectionsPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fMagicConnectorPolarity2Button.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fMagicConnectorPolarity2Button);
         
         // Drawing
         Group connectorGroup = new Group(client, SWT.NULL);
         connectorGroup.setText(Messages.ConnectionsPreferencePage_6);
         connectorGroup.setLayout(new GridLayout(2, false));
-        connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(connectorGroup);
         
         fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
         fDoAntiAliasButton.setText(Messages.ConnectionsPreferencePage_7);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fDoAntiAliasButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fDoAntiAliasButton);
         
         fUseOrthogonalAnchorButton = new Button(connectorGroup, SWT.CHECK);
         fUseOrthogonalAnchorButton.setText(Messages.ConnectionsPreferencePage_8);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fUseOrthogonalAnchorButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fUseOrthogonalAnchorButton);
         
         fUseLineCurvesButton = new Button(connectorGroup, SWT.CHECK);
         fUseLineCurvesButton.setText(Messages.ConnectionsPreferencePage_9);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fUseLineCurvesButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fUseLineCurvesButton);
 
         fUseLineJumpsButton = new Button(connectorGroup, SWT.CHECK);
         fUseLineJumpsButton.setText(Messages.ConnectionsPreferencePage_10);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fUseLineJumpsButton.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fUseLineJumpsButton);
+        
+        fHighlightSelectedConnectionsButton = new Button(connectorGroup, SWT.CHECK);
+        fHighlightSelectedConnectionsButton.setText(Messages.ConnectionsPreferencePage_14);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fHighlightSelectedConnectionsButton);
         
         Label label = new Label(connectorGroup, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_11);
         
         fConnectionLabelStrategyCombo = new Combo(connectorGroup, SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fConnectionLabelStrategyCombo.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fConnectionLabelStrategyCombo);
         fConnectionLabelStrategyCombo.setItems(CONNECTION_LABEL_STRATEGIES);
         
         // General
         Group generalGroup = new Group(client, SWT.NULL);
         generalGroup.setText(Messages.ConnectionsPreferencePage_12);
         generalGroup.setLayout(new GridLayout());
-        generalGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(generalGroup);
         
         fShowReconnectionWarningButton = new Button(generalGroup, SWT.CHECK);
         fShowReconnectionWarningButton.setText(Messages.ConnectionsPreferencePage_13);
@@ -146,6 +141,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_JUMPS));
+        fHighlightSelectedConnectionsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SELECTED_CONNECTIONS));
         
         fConnectionLabelStrategyCombo.select(getPreferenceStore().getInt(CONNECTION_LABEL_STRATEGY));
         
@@ -160,6 +156,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
         getPreferenceStore().setValue(USE_LINE_JUMPS, fUseLineJumpsButton.getSelection());
+        getPreferenceStore().setValue(SHOW_SELECTED_CONNECTIONS, fHighlightSelectedConnectionsButton.getSelection());
         
         getPreferenceStore().setValue(CONNECTION_LABEL_STRATEGY, fConnectionLabelStrategyCombo.getSelectionIndex());
         
@@ -177,6 +174,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
+        fHighlightSelectedConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SELECTED_CONNECTIONS));
         
         fConnectionLabelStrategyCombo.select(getPreferenceStore().getDefaultInt(CONNECTION_LABEL_STRATEGY));
         
