@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -14,6 +13,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.model.IDiagramModelObject;
@@ -27,10 +27,11 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public abstract class AbstractContainerFigure extends AbstractDiagramModelObjectFigure
 implements IContainerFigure {
-
-    protected boolean SHOW_TARGET_FEEDBACK = false;
     
-    private IFigure fMainFigure;
+    protected static Color highlightedColor = new Color(0, 0, 255);
+
+    protected boolean showTargetFeedback = false;
+    private IFigure mainFigure;
     
     protected AbstractContainerFigure() {
     }
@@ -43,15 +44,15 @@ implements IContainerFigure {
      * @return The main figure to draw on
      */
     public IFigure getMainFigure() {
-        if(fMainFigure == null) {
-            fMainFigure = new FreeformLayer();
-            fMainFigure.setLayoutManager(new XYLayout());
+        if(mainFigure == null) {
+            mainFigure = new FreeformLayer();
+            mainFigure.setLayoutManager(new XYLayout());
             
             // Have to add this if we want Animation to work on figures
-            AnimationUtil.addFigureForAnimation(fMainFigure);
+            AnimationUtil.addFigureForAnimation(mainFigure);
         }
         
-        return fMainFigure;
+        return mainFigure;
     }
     
     @Override
@@ -95,7 +96,7 @@ implements IContainerFigure {
     protected void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
         drawFigure(graphics);
-        if(SHOW_TARGET_FEEDBACK) {
+        if(showTargetFeedback) {
             drawTargetFeedback(graphics);
         }
     }
@@ -125,7 +126,7 @@ implements IContainerFigure {
         }
         
         bounds.shrink(1, 1);
-        graphics.setForegroundColor(ColorConstants.blue);
+        graphics.setForegroundColor(highlightedColor);
         graphics.setLineWidth(2);
         graphics.drawRectangle(bounds);
         
@@ -133,19 +134,10 @@ implements IContainerFigure {
     }
     
     @Override
-    public void eraseTargetFeedback() {
-        if(SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = false;
+    public void showTargetFeedback(boolean show) {
+        if(showTargetFeedback != show) {
+            showTargetFeedback = show;
             repaint();
         }
     }
-
-    @Override
-    public void showTargetFeedback() {
-        if(!SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = true;
-            repaint();
-        }
-    }
-    
 }

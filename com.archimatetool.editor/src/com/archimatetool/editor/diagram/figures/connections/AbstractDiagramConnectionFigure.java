@@ -12,9 +12,6 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-// line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
-// Use alternate PolylineConnection
-//import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
@@ -41,39 +38,36 @@ import com.archimatetool.model.IDiagramModelConnection;
  */
 public abstract class AbstractDiagramConnectionFigure
 extends RoundedPolylineConnection implements IDiagramConnectionFigure {
-//extends PolylineConnection implements IDiagramConnectionFigure {
 
-    private TextFlow fTextFlow;
-    
+    private TextFlow textFlow;
+    private IDiagramModelConnection diagramModelConnection;
+
     protected int fTextPosition = -1;
-    
-    private IDiagramModelConnection fDiagramModelConnection;
-
     protected Color fFontColor;
     protected Color fLineColor;
     
-    private static Color TARGET_FEEDBACK_COLOR = new Color(0, 0, 255);
+    protected static Color highlightedColor = new Color(0, 0, 255);
     
-    protected boolean SHOW_TARGET_FEEDBACK = false;
-    
-	@Override
+    protected boolean showTargetFeedback = false;
+
+    @Override
     public void setModelConnection(IDiagramModelConnection connection) {
-	    fDiagramModelConnection = connection;
+	    diagramModelConnection = connection;
 	    
 	    setFigureProperties();
         
         // Have to add this if we want Animation to work!
         AnimationUtil.addConnectionForRoutingAnimation(this);
-	}
-	
-	@Override
+    }
+
+    @Override
     public IDiagramModelConnection getModelConnection() {
-	    return fDiagramModelConnection;
-	}
-	
-	protected void setFigureProperties() {
-	}
-	
+        return diagramModelConnection;
+    }
+
+    protected void setFigureProperties() {
+    }
+
     @Override
     public void refreshVisuals() {
         // If the text position has been changed by user update it
@@ -112,17 +106,17 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 
     @Override
     public TextFlow getConnectionLabel() {
-        if(fTextFlow == null) {
-            fTextFlow = new TextFlow();
+        if(textFlow == null) {
+            textFlow = new TextFlow();
             //fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_HARD));
             
             FlowPage flowPage = new FlowPage();
-            flowPage.add(fTextFlow);
+            flowPage.add(textFlow);
             
             add(flowPage);
         }
         
-        return fTextFlow;
+        return textFlow;
     }
     
     protected FlowPage getFlowPage() {
@@ -165,14 +159,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         getConnectionLabel().setText(text);
     }
     
-    /**
-     * Deprecated - use setText() instead
-     */
-    @Deprecated
-    protected void setConnectionText() {
-        setText();
-    }
-
     /**
      * Set the font in the label to that in the model, or failing that, as per user's default
      */
@@ -254,32 +240,22 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     }
     
     @Override
-    public void showTargetFeedback() {
-        if(!SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = true;
-            repaint();
-        }
+    public void showTargetFeedback(boolean show) {
+        showTargetFeedback = show;
     }
-    
-    @Override
-    public void eraseTargetFeedback() {
-        if(SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = false;
-            repaint();
-        }
-    }
-    
+
     @Override
     public void paintFigure(Graphics graphics) {
-        if(SHOW_TARGET_FEEDBACK) {
-            setForegroundColor(TARGET_FEEDBACK_COLOR);
+        if(showTargetFeedback) {
             setLineWidth(getModelConnection().getLineWidth() + 1);
+            setForegroundColor(highlightedColor);
         }
         else {
             setLineWidth();
             setForegroundColor(fLineColor);
         }
 
+        // Label strategy
         if(StringUtils.isSet(getConnectionLabel().getText()) && 
                 ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
             clipTextLabel(graphics);
