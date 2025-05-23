@@ -5,14 +5,13 @@
  */
 package com.archimatetool.editor.diagram.sketch;
 
-import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.Layer;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -71,43 +70,30 @@ implements ISketchEditor {
     
     @Override
     protected void createRootEditPart(GraphicalViewer viewer) {
-        /*
-         * Over-ride ExtendedScalableFreeformRootEditPart to set a background image
-         */
-        RootEditPart rootPart = new ScalableFreeformRootEditPart(false) {
-            @Override
-            protected void createLayers(LayeredPane layeredPane) {
-                // Insert Background Image behind other layers
-                // Note - background image is not on a Printable Layer, so won't print!
-                fBackgroundImageLayer = new BackgroundImageLayer();
-                layeredPane.add(fBackgroundImageLayer, SCALABLE_LAYERS);
-                updateBackgroundImage();
-                super.createLayers(layeredPane);
-            }
-        };
+        super.createRootEditPart(viewer);
         
-        viewer.setRootEditPart(rootPart);
+        // Insert the background image layer behind all other layers
+        ScalableFreeformRootEditPart rootPart = (ScalableFreeformRootEditPart)viewer.getRootEditPart();
+        Layer layer = (Layer)rootPart.getLayer(LayerConstants.SCALABLE_LAYERS);
+        fBackgroundImageLayer = new BackgroundImageLayer();
+        layer.add(fBackgroundImageLayer, BackgroundImageLayer.NAME, 0);
+        updateBackgroundImage();
     }
     
     @Override
     public void updateBackgroundImage() {
         switch(getModel().getBackground()) {
-            case 0:
+            case 0 -> {
                 fBackgroundImageLayer.setImage(null);
-                break;
+            }
 
-            case 1:
-                Image img = IArchiImages.ImageFactory.getImage(IArchiImages.BROWN_PAPER_BACKGROUND);
-                fBackgroundImageLayer.setImage(img);
-                break;
-                
-            case 2:
-                img = IArchiImages.ImageFactory.getImage(IArchiImages.CORK_BACKGROUND);
-                fBackgroundImageLayer.setImage(img);
-                break;
-                
-            default:
-                break;
+            case 1 -> {
+                fBackgroundImageLayer.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.BROWN_PAPER_BACKGROUND));
+            }
+            
+            case 2 -> {
+                fBackgroundImageLayer.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.CORK_BACKGROUND));
+            }
         }
     }
     
