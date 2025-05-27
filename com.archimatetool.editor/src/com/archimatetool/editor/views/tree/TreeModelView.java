@@ -25,6 +25,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -46,10 +47,12 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.DrillDownAdapter;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -358,6 +361,11 @@ implements ITreeModelView, IUIRequestListener {
             public ImageDescriptor getImageDescriptor() {
                 return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COLLAPSEALL);
             }
+            
+            @Override
+            public String getActionDefinitionId() {
+                return IWorkbenchCommandConstants.NAVIGATE_COLLAPSE_ALL;
+            }
         };
         
         fActionExpandSelected = new Action(Messages.TreeModelView_4) {
@@ -375,7 +383,17 @@ implements ITreeModelView, IUIRequestListener {
             public ImageDescriptor getImageDescriptor() {
                 return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_EXPANDALL);
             }
+            
+            @Override
+            public String getActionDefinitionId() {
+                return IWorkbenchCommandConstants.NAVIGATE_EXPAND_ALL;
+            }
         };
+        
+        // Add these actions to the key binding service
+        IHandlerService handlerService = getSite().getService(IHandlerService.class);
+        handlerService.activateHandler(IWorkbenchCommandConstants.NAVIGATE_COLLAPSE_ALL, new ActionHandler(fActionCollapseSelected));
+        handlerService.activateHandler(IWorkbenchCommandConstants.NAVIGATE_EXPAND_ALL, new ActionHandler(fActionExpandSelected));
     }
     
     /**
