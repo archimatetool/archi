@@ -20,13 +20,6 @@
     <img src="../Images/csv-export.png" alt="export-csv" width="511" height="486" />
     <p class="caption">Exporting the model to CSV</p>
     
-    <br/>
-    <p>The CSV field format for elements is - "ID", "Type", "Name", "Documentation", "Specialization"</p>
-    <p>The CSV field format for relations is - "ID","Type", "Name", "Documentation", "Source", "Target", "Specialization"</p>
-    <p>The CSV field format for properties is - "ID", "Key", "Value"</p>
-
-    <p><em>Note - the "Specialization" field is optional when importing.</em></p>
-    
     <h3>Export Options</h3>
     <p><strong>Output Folder</strong><br/>
     Select the folder for the output files.</p>
@@ -51,9 +44,9 @@
     <h2>Importing CSV Data into a Model</h2>
     
     <h3>Import file format</h3>
-    <p>You can import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional if you are creating new concepts, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". The ID may be that of an existing concept if the CSV file has been exported, edited and re-imported. If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
-    
-    <p>When importing CSV data into an existing model you can provide just one or all three files (elements, relations, properties). Usually you will provide all three files. The format of the files is as follows:</p>
+    <p>You can import CSV data into an existing model. The CSV files need to be in the format as described below. Element and relationship IDs are optional if you are creating new concepts, but you need to provide an ID for an element or relationship if it is referenced by another concept or property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". The ID may be that of an existing concept if the CSV file has been exported, edited and re-imported. If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
+
+    <p>When importing CSV data into an existing model you can provide just one or all three files (elements, relations, properties). Usually you will provide all three files. The format of the file names is as follows:</p>
 
     <p>"xxx-elements.csv"<br/>
     "xxx-relations.csv"<br/>
@@ -61,9 +54,126 @@
 
     <p>The prefix ("xxx") is optional but must be the same for all three files if used. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv". At the very least, the filenames need to contain the ".csv" extension and the names end with "elements", "relations" or "properties".</p>
     
-    <p>The best way to understand the required format is to export an existing model to CSV format, and open the exported files in a text editor.</p>
+    <p class="boxout"><img src="../Images/tip.png" class="tipImage" alt="tip" width="40" height="40" />The best way to understand the required format for each file is to export an Archi model to CSV format, and open the exported files in a text editor.</p>
+
+    <h3>Format for elements.csv file</h3>
+    <p>The first row is the "header" row and is as follows:</p>
+
+    <pre>"ID","Type","Name","Documentation","Specialization"</pre>
+
+    <p>This is followed by one or more rows of data. For example:</p>
+
+    <pre>
+"ID","Type","Name","Documentation","Specialization"
+"id-275af0e8c76","BusinessActor","Archisurance","This is the company",""
+"id-1800f4e23cb","ApplicationComponent","Web portal","","Portal"
+    </pre>
+
+    <table>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>The unique identifier of the element. This is required if it is referenced in the relations.csv and properties.csv files.</td>
+        </tr>
+        <tr>
+            <td><strong>Type</strong></td>
+            <td>Type of element. For example, "BusinessActor", "ApplicationComponent".</td>
+        </tr>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>The name of the element</td>
+        </tr>
+        <tr>
+            <td><strong>Documentation</strong></td>
+            <td>The documentation of the element. Can be empty.</td>
+        </tr>
+        <tr>
+            <td><strong>Specialization</strong></td>
+            <td>The name of the Specialization of the element. Can be empty.</td>
+        </tr>
+    </table>
+
+    <h3>Format for relations.csv file</h3>
+    <p>The first row is the "header" row and is as follows:</p>
+
+    <pre>"ID","Type","Name","Documentation","Source","Target","Specialization"</pre>
     
+    <p>This is followed by one or more rows of data. For example:</p>
+
+    <pre>
+"ID","Type","Name","Documentation","Source","Target","Specialization"
+"id-275af0e8c76","AccessRelationship","","","id-275af0e8c76","id-1800f4e23cb",""
+"id-4f5af4b8c74","AssignmentRelationship","","","id-3755f0e8c76","id-2800f4e23ca",
+    </pre>
+    
+    <table>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>The unique identifier of the element. This is required if it is referenced in the relations.csv and properties.csv files.</td>
+        </tr>
+        <tr>
+            <td><strong>Type</strong></td>
+            <td>Type of relationship. For example, "AccessRelationship", "AssignmentRelationship".</td>
+        </tr>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>The name of the relationship</td>
+        </tr>
+        <tr>
+            <td><strong>Documentation</strong></td>
+            <td>The documentation of the relationship. Can be empty.</td>
+        </tr>
+        <tr>
+            <td><strong>Source</strong></td>
+            <td>The ID of the source concept of the relationship. This can be the ID of a concept in the elements.csv or relations.csv file or an existing concept in the model that this will be imported into.</td>
+        </tr>
+        <tr>
+            <td><strong>target</strong></td>
+            <td>The ID of the target concept of the relationship. This can be the ID of a concept in the elements.csv or relations.csv file or an existing concept in the model that this will be imported into.</td>
+        </tr>
+        <tr>
+            <td><strong>Specialization</strong></td>
+            <td>The name of the Specialization of the relationship. Can be empty.</td>
+        </tr>
+    </table>
+    <h3>Format for properties.csv file</h3>
+    <p>The first row is the "header" row and is as follows:</p>
+
+    <pre>"ID","Key","Value"</pre>
+    
+    <p>This is followed by one or more rows of data. For example:</p>
+    
+    <pre>
+"ID","Key","Value"
+"id-275af0e8c76","Cost","34"
+"id-275af0e8c76","Location","Office"
+    </pre>
+
+    <table>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>The ID of the concept that this property belongs to. This can be the ID of a concept in the elements.csv or relations.csv file or an existing concept in the model that this will be imported into. Can appear more than once if there are several properties for the same concept.</td>
+        </tr>
+        <tr>
+            <td><strong>Key</strong></td>
+            <td>The name of the property</td>
+        </tr>
+        <tr>
+            <td><strong>Value</strong></td>
+            <td>The value of the property</td>
+        </tr>
+    </table>
+
+    <p>Special keys and values can be used for some concepts:</p>
+    <p><strong>AssociationRelationship</strong> - key of "Directed" and value of "false" or "true"<br/>
+    <strong>AccessRelationship</strong> - key of "Access_Type" and value of "Write", "Read" "Access", or "ReadWrite"<br/>
+    <strong>InfluenceRelationship</strong> - key of "Influence_Strength" and value of any string<br/>
+    <strong>Junction</strong> - key of "Junction_Type" and value of "And" of "Or"
+    </p>
+
+    <h3>Importing</h3>
     <p>When importing the CSV file(s) into Archi you can select any of the three CSV files in the Import dialog box. If there are corresponding "*.csv" files then these file(s) will be automatically imported at the same time.</p>
+
+    <p>If you don't want to import CSV data into an existing working model you can simply create a new empty model, select it, and import into that. This is effectively the equivalent of "New Model from CSV".</p>
     
     <h3>Importing, updating and merging</h3>
     <p>It is also possible to merge/update the CSV data into an existing model by exporting the model to CSV files, editing them and re-importing. If a model concept or property already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
