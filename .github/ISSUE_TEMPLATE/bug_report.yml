@@ -10,7 +10,7 @@ body:
     attributes:
       label: Archi Version
       description: Which version of Archi are you using?
-      placeholder: ex. 5.4.0
+      placeholder: ex. 5.6.0
     validations:
       required: true
   - type: input
@@ -18,7 +18,7 @@ body:
     attributes:
       label: Operating System
       description: Which operating system and version are you using?
-      placeholder: ex. Windows 11, macOS Sonoma 14.5, Ubuntu 24.04
+      placeholder: ex. Windows 11, macOS 15, Ubuntu 25.04
     validations:
       required: true
   - type: input
@@ -28,7 +28,7 @@ body:
       description: | 
         If you are using additional Archi Plugins please list them
       placeholder: |
-        ex: jArchi 1.6.1, coArchi 0.9.0, None
+        ex: jArchi 1.10, coArchi 0.9.4, None
     validations:
       required: false
   - type: textarea
@@ -42,7 +42,7 @@ body:
         
         If you able to attach an *.archimate file that demonstrates the problem, please also attach that. 
       placeholder: |
-        Please enter a description of the issue. Here you can also attach log files, screenshots, or an example *.archimate file
+        Please enter a description of the issue. You can also attach screenshots, log files and an example *.archimate file (in a zip file)
     validations:
       required: true
   - type: textarea
