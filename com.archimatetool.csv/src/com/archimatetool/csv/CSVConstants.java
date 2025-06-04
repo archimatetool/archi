@@ -39,20 +39,22 @@ public interface CSVConstants {
     String CRLF = "\r\n"; //$NON-NLS-1$
     
     char[] DELIMITERS = { ',', ';', '\t' };
-    String[] DELIMITER_NAMES = { Messages.CSVConstants_15, Messages.CSVConstants_16, Messages.CSVConstants_17 };
+    String[] DELIMITER_NAMES = { Messages.CSVConstants_0, Messages.CSVConstants_1, Messages.CSVConstants_2 };
     
     @SuppressWarnings("nls")
     String[] ENCODINGS = { "UTF-8", "UTF-8 BOM", "ANSI" };
     
-    String INFLUENCE_STRENGTH = Messages.CSVConstants_18;
+    String INFLUENCE_STRENGTH = "Influence_Strength"; //$NON-NLS-1$
     
-    String ACCESS_TYPE = Messages.CSVConstants_19;
+    String ACCESS_TYPE = "Access_Type"; //$NON-NLS-1$
+
+    @SuppressWarnings("nls")
     List<String> ACCESS_TYPES = 
-            List.of(Messages.CSVConstants_20, Messages.CSVConstants_21, Messages.CSVConstants_22, Messages.CSVConstants_23);
+            List.of("Write", "Read", "Access", "ReadWrite");
     
-    String ASSOCIATION_DIRECTED = Messages.CSVConstants_24;
+    String ASSOCIATION_DIRECTED = "Directed"; //$NON-NLS-1$
     
-    String JUNCTION_TYPE = Messages.CSVConstants_25;
-    String JUNCTION_OR = Messages.CSVConstants_26;
-    String JUNCTION_AND = Messages.CSVConstants_27;
+    String JUNCTION_TYPE = "Junction_Type"; //$NON-NLS-1$
+    String JUNCTION_OR = "Or"; //$NON-NLS-1$
+    String JUNCTION_AND ="And"; //$NON-NLS-1$
 }
