@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.gef.feature"
       label="Eclipse GEF/Draw2d/Zest"
-      version="1.0.0.qualifier"
+      version="5.6.0.qualifier"
       provider-name="Archi">
 
    <description>
@@ -38,30 +38,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <plugin
          id="org.eclipse.zest.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.zest.layouts"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.gef"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.draw2d"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
