@@ -341,8 +341,11 @@ public class DropinsPluginHandler {
      */
     private File getUserDropinsFolder() throws IOException {
         if(userDropinsFolder == null) {
+            userDropinsFolder = ArchiPlugin.getInstance().getUserDropinsFolder();
             // Normalise the file with File#getCanonicalFile() for Mac
-            userDropinsFolder = ArchiPlugin.getInstance().getUserDropinsFolder().getCanonicalFile();
+            if(userDropinsFolder != null) {
+                userDropinsFolder = userDropinsFolder.getCanonicalFile();
+            }
         }
         
         return userDropinsFolder;
