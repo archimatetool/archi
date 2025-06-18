@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.CommandLine.Builder;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,7 @@ public class LoadModelFromFileProviderTests {
         Option option = new Option(LoadModelFromFileProvider.OPTION_LOAD_FILE_MODEL, null);
         option.getValuesList().add(filePath);
         
-        CommandLine commandLine = new Builder()
+        CommandLine commandLine = CommandLine.builder()
                 .addOption(option)
                 .build();
 

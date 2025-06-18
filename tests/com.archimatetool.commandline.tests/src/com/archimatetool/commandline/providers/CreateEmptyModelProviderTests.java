@@ -8,7 +8,6 @@ package com.archimatetool.commandline.providers;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLine.Builder;
 import org.apache.commons.cli.Option;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +37,7 @@ public class CreateEmptyModelProviderTests {
     public void runProvider() throws Exception {
         CommandLineState.setModel(null);
         
-        CommandLine commandLine = new Builder()
+        CommandLine commandLine = CommandLine.builder()
                 .addOption(new Option(CreateEmptyModelProvider.OPTION_CREATE_EMPTY_MODEL, null))
                 .build();
         
