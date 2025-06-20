@@ -31,6 +31,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IWorkbenchWindow;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.DiagramModelUtils;
@@ -90,6 +91,10 @@ public class TreeModelViewer extends TreeViewer {
     };
     
     public TreeModelViewer(Composite parent, int style) {
+        this(null, parent, style);
+    }
+    
+    public TreeModelViewer(IWorkbenchWindow window, Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
         // Set CSS ID and apply the style so that we can immediately get the italic and bold fonts from the base font style
@@ -187,7 +192,9 @@ public class TreeModelViewer extends TreeViewer {
         });
         
         // Filter
-        viewpointFilterProvider = new TreeViewpointFilterProvider(this);
+        if(window != null) {
+            viewpointFilterProvider = new TreeViewpointFilterProvider(window, this);
+        }
         
         // Listen to theme font changes
         if(ThemeUtils.getThemeManager() != null) {
@@ -546,7 +553,7 @@ public class TreeModelViewer extends TreeViewer {
         }
 
         private Color getForeground(Object element) {
-            return viewpointFilterProvider.getTextColor(element);
+            return viewpointFilterProvider != null ? viewpointFilterProvider.getTextColor(element) : null;
         }
     }
     

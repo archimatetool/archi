@@ -10,10 +10,8 @@ import java.util.Objects;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
@@ -37,7 +35,6 @@ public class TreeViewpointFilterProvider {
 
     private IArchimateDiagramModel activeDiagramModel;
     private TreeModelViewer treeViewer;
-    private IWorkbenchWindow workbenchWindow;
     
     private Color colorGrey = new Color(128, 128, 128);
     
@@ -79,8 +76,7 @@ public class TreeViewpointFilterProvider {
         public void partClosed(IWorkbenchPart part) {
             // If no editors are open in the workbench then update the tree
             if(part instanceof IEditorPart) {
-                IWorkbenchPage page = workbenchWindow.getActivePage();
-                if(page != null && page.getActiveEditor() == null) {
+                if(part.getSite().getPage().getActiveEditor() == null) {
                     activeDiagramModel = null;
                     if(isActive()) {
                         treeViewer.updateInBackground();
@@ -90,24 +86,18 @@ public class TreeViewpointFilterProvider {
         }
     };
 
-    TreeViewpointFilterProvider(TreeModelViewer viewer) {
+    TreeViewpointFilterProvider(IWorkbenchWindow window, TreeModelViewer viewer) {
         treeViewer = viewer;
 
         // Listen to Part selections
-        if(PlatformUI.isWorkbenchRunning()) {
-            workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-            workbenchWindow.getPartService().addPartListener(partListener);
-        }
+        window.getPartService().addPartListener(partListener);
         
         // Dispose and clean up
         treeViewer.getControl().addDisposeListener(event -> {
-            if(workbenchWindow != null) {
-                workbenchWindow.getPartService().removePartListener(partListener);
-            }
+            window.getPartService().removePartListener(partListener);
 
             activeDiagramModel = null;
             treeViewer = null;
-            workbenchWindow = null;
         });
     }
     

@@ -28,12 +28,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -152,34 +148,28 @@ implements ITreeModelView, IUIRequestListener {
         layout.verticalSpacing = 0;
         parent.setLayout(layout);
         
-        fTreeViewer = new TreeModelViewer(parent, SWT.NULL);
+        fTreeViewer = new TreeModelViewer(getSite().getWorkbenchWindow(), parent, SWT.NULL);
         fTreeViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         
         // Drill down
         fDrillDownAdapter = new DrillDownAdapter(fTreeViewer);
         
         // Listen to Double-click and press Return Action
-        fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                handleOpenAction();
-            }
+        fTreeViewer.addDoubleClickListener(event -> {
+            handleOpenAction();
         });
         
         // Tree selection listener
-        fTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                // Update actions
-                updateActions();
-            }
+        fTreeViewer.addSelectionChangedListener(event -> {
+            // Update actions
+            updateActions();
         });
         
         // Register selections
         getSite().setSelectionProvider(getViewer());
         
         // Add Selection Sync
-        fSynchroniser = new TreeSelectionSynchroniser(getViewer());
+        fSynchroniser = new TreeSelectionSynchroniser(this);
         
         // Register us as a UIRequest Listener
         UIRequestManager.INSTANCE.addListener(this);
