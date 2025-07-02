@@ -1,6 +1,7 @@
 package com.archimatetool.editor.ui.components;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableContext;
@@ -32,7 +33,7 @@ public interface IRunnable {
      * @param fork true if the runnable should be run in a separate thread and false to run in the same thread
      */
     static void run(IRunnableContext context, IRunnable runnable, boolean fork) throws Exception {
-        Exception[] exception = new Exception[1];
+        AtomicReference<Exception> exception = new AtomicReference<>();
         
         try {
             context.run(fork, true, monitor -> {
@@ -40,19 +41,19 @@ public interface IRunnable {
                     runnable.run(monitor);
                 }
                 catch(Exception ex) {
-                    exception[0] = ex;
+                    exception.set(ex);
                 }
             });
         }
         catch(InvocationTargetException ex) {
-            exception[0] = new Exception(ex.getTargetException()); // we want the target exception
+            exception.set(new Exception(ex.getTargetException())); // we want the target exception
         }
         catch(InterruptedException ex) {
-            exception[0] = ex;
+            exception.set(ex);
         }
         
-        if(exception[0] != null) {
-            throw exception[0];
+        if(exception.get() != null) {
+            throw exception.get();
         }
     }
 }
