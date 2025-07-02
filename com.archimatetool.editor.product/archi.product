@@ -83,6 +83,7 @@ openFile
       <feature id="org.eclipse.emf.compare"/>
       <feature id="org.eclipse.jgit"/>
       <feature id="org.eclipse.jgit.ssh.apache"/>
+      <feature id="org.eclipse.jgit.gpg.bc"/>
    </features>
 
    <configurations>
