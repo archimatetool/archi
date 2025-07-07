@@ -1,14 +1,246 @@
-name: Build
+name: Build and Sign
 
 on: 
   workflow_dispatch:
+    inputs:
+      archiBranch:
+        description: 'Archi Branch'
+        default: 'master'
+        type: string
+      archiBuildBranch:
+        description: 'Archi Build Branch'
+        default: 'signpath'
+        type: string
+
+env:
+  PRJ_DIR: archi-build
+  PRJ_GITHUB_DIR: archi-build/github
+  GLOBALS_SCRIPT: archi-build/github/globals.sh
 
 jobs:
 
-  dummyjob:
+  # Run Maven and upload the product archives to the cache
+  maven-build:
     runs-on: ubuntu-latest
+
+    outputs:
+      build-sha1: ${{ steps.sha1.outputs.BUILD_SHA1 }}
+      build-cachekey: ${{ steps.sha1.outputs.BUILD_CACHEKEY }}
 
     steps:
 
-    - name: First Step
-      run: pwd
+    - name: Checkout archi-build
+      uses: actions/checkout@v4
+      with:
+        repository: Phillipus/archi-build
+        ref: ${{ inputs.archiBuildBranch }}
+        path: ${{ env.PRJ_DIR }}
+        token: ${{ secrets.PAT }}
+
+    - name: Get environment variables
+      run: bash ${{ env.GLOBALS_SCRIPT }}
+
+    - name: Checkout archi
+      uses: actions/checkout@v4
+      with:
+        repository: archimatetool/archi
+        ref: ${{ inputs.archiBranch }}
+        path: ${{ env.ARCHI_SRC }}
+    
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven'
+      
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: 3.9.10
+        
+    - name: SHA Hash of latest commit in Archi repo and cache key for build
+      id: sha1
+      env:
+        ARCHI_BRANCH: ${{ inputs.archiBranch }}
+      run: |
+        SHA=$(git -C $ARCHI_SRC rev-parse $ARCHI_BRANCH)
+        echo "BUILD_SHA1=$SHA" >> $GITHUB_OUTPUT
+        echo "BUILD_CACHEKEY=build-$SHA-${{ github.run_id }}-${{ github.run_attempt }}" >> $GITHUB_OUTPUT
+
+    - name: Maven Build
+      run: mvn -V -f $ARCHI_SRC clean package -P product
+
+    # will be used by linux/windows/mac builds
+    - name: Cache Build
+      id: cache-build
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ env.PRODUCT_PATH }}/Archi*.zip
+        key: ${{ steps.sha1.outputs.BUILD_CACHEKEY }}
+
+    - name: Zip Archi Repository Site
+      run: |
+        cd $SITE_DIR
+        zip -r -q archi-repository.zip repository
+
+    - name: Upload Archi Repository Site to Release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: ${{ env.SITE_DIR }}/archi-repository.zip
+        prerelease: true
+        overwrite: true
+        tag_name: ${{ env.VERSION_FULL }}
+
+    - name: Zip Full Product Repository
+      run: |
+        cd $TARGET_PATH
+        zip -r -q product-repository.zip repository
+
+    - name: Upload Product Repository to Release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: ${{ env.TARGET_PATH }}/product-repository.zip
+        prerelease: true
+        overwrite: true
+        tag_name: ${{ env.VERSION_FULL }}
+
+
+  # Windows build
+  windows-build:
+    needs: ["maven-build"]
+
+    runs-on: windows-latest
+
+    outputs:
+      winzipchecksum: ${{ steps.run-script.outputs.WINZIP_CHECKSUM }}
+      winexehecksum: ${{ steps.run-script.outputs.WINEXE_CHECKSUM }}
+
+    steps:
+
+    - name: Checkout archi-build
+      uses: actions/checkout@v4
+      with:
+        repository: Phillipus/archi-build
+        ref: ${{ inputs.archiBuildBranch }}
+        path: ${{ env.PRJ_DIR }}
+        token: ${{ secrets.PAT }}
+
+    - name: Get environment variables
+      run: bash ${{ env.GLOBALS_SCRIPT }}
+
+    - name: Get Product Zip from Cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ env.PRODUCT_PATH }}/Archi*.zip
+        key: ${{ needs.maven-build.outputs.build-cachekey }}
+        enableCrossOsArchive: true
+
+    - name: Unzip Product
+      shell: bash
+      run: unzip -q $WIN_PRODUCT_ARCHIVE -d .
+
+    - name: Cache Windows JRE
+      id: cache-jre
+      uses: actions/cache@v4
+      with:
+        path: Archi/jre
+        key: jre-win-21.0.7+6
+
+    - name: Download Windows JRE if not cached
+      if: steps.cache-jre.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        curl -o jre.zip -L https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7+6/OpenJDK21U-jre_x64_windows_hotspot_21.0.7_6.zip
+        unzip -q jre.zip && mv jdk-21.0.7+6-jre Archi/jre
+
+    - name: Upload Archi.exe for signing
+      id: upload-archi
+      uses: actions/upload-artifact@v4
+      with:
+        name: archi-exe
+        retention-days: 1
+        overwrite: true
+        path: Archi/Archi.exe
+
+    - name: Sign Archi.exe
+      id: sign-archi
+      uses: signpath/github-action-submit-signing-request@v1
+      with:
+        api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+        organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
+        project-slug: archi
+        signing-policy-slug: release-signing
+        artifact-configuration-slug: zip_archi
+        github-artifact-id: ${{ steps.upload-archi.outputs.artifact-id }}
+        wait-for-completion: true
+        output-artifact-directory: Archi
+
+    - name: Run Inno Installer pre-script
+      id: run-prescript
+      shell: bash
+      run: ${{ env.PRJ_GITHUB_DIR }}/package-windows.sh prescript
+
+    - name: Upload temp installer file for signing
+      id: upload-installer-temp
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-installer-temp
+        retention-days: 1
+        overwrite: true
+        path: ./*.e32
+
+    - name: Sign Windows Installer Temp
+      id: sign-installer-temp
+      uses: signpath/github-action-submit-signing-request@v1
+      with:
+        api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+        organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
+        project-slug: archi
+        signing-policy-slug: release-signing
+        artifact-configuration-slug: zip_archi
+        github-artifact-id: ${{ steps.upload-installer-temp.outputs.artifact-id }}
+        wait-for-completion: true
+        output-artifact-directory: .
+
+    - name: Run Script
+      id: run-script
+      shell: bash
+      run: ${{ env.PRJ_GITHUB_DIR }}/package-windows.sh
+
+    - name: Upload Windows installer for signing
+      id: upload-installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-installer
+        retention-days: 1
+        overwrite: true
+        path: ${{ env.ARCHI_WINEXE }}
+
+    - name: Sign Windows Installer
+      id: sign-installer
+      uses: signpath/github-action-submit-signing-request@v1
+      with:
+        api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+        organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
+        project-slug: archi
+        signing-policy-slug: release-signing
+        artifact-configuration-slug: zip_archi
+        github-artifact-id: ${{ steps.upload-installer.outputs.artifact-id }}
+        wait-for-completion: true
+        output-artifact-directory: .
+
+    - name: Upload to Release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: Archi-Win64*.*
+        prerelease: true
+        overwrite: true
+        tag_name: ${{ env.VERSION_FULL }}
+
