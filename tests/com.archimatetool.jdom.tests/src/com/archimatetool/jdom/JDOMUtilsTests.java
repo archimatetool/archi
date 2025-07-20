@@ -23,10 +23,12 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class JDOMUtilsTests {
     
-    public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("com.archimatetool.jdom.tests", "testdata");
+    private static final File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("com.archimatetool.jdom.tests", "testdata");
+    private static final File CONTENT_PACKAGE = new File(TESTDATA_FOLDER, "cp.xml");
+    private static final File CONTENT_PACKAGE_XSD = new File(TESTDATA_FOLDER, "imscp_v1p2.xsd");
     
     @Test
-    public void testWrite2XMLFile() throws Exception {
+    public void write2XMLFile() throws Exception {
         File tmpFile = TestUtils.createTempFile(".xml");
         Document doc = createDocument();
         JDOMUtils.write2XMLFile(doc, tmpFile);
@@ -34,7 +36,7 @@ public class JDOMUtilsTests {
     }
 
     @Test
-    public void testWrite2XMLString() throws Exception {
+    public void write2XMLString() throws Exception {
         Document doc = createDocument();
         String lineSep = Format.getPrettyFormat().getLineSeparator();
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + lineSep + "<root />" + lineSep;
@@ -50,24 +52,21 @@ public class JDOMUtilsTests {
     }
 
     @Test
-    public void testReadXMLFile_File_File() throws Exception {
-        File xmlFile = new File(TESTDATA_FOLDER, "validate_this.xml");
-        File schemaFile = new File(TESTDATA_FOLDER, "imscp_v1p2.xsd");
-        Document doc = JDOMUtils.readXMLFile(xmlFile, schemaFile);
+    public void readXMLFile() throws Exception {
+        Document doc = JDOMUtils.readXMLFile(CONTENT_PACKAGE);
         assertNotNull(doc);
         assertTrue(doc.hasRootElement());
     }
 
     @Test
-    public void testReadXMLFile_File() throws Exception {
-        File file = new File(TESTDATA_FOLDER, "imsmanifest.xml");
-        Document doc = JDOMUtils.readXMLFile(file);
+    public void readXMLFileWithSchema() throws Exception {
+        Document doc = JDOMUtils.readXMLFile(CONTENT_PACKAGE, CONTENT_PACKAGE_XSD);
         assertNotNull(doc);
         assertTrue(doc.hasRootElement());
     }
 
     @Test
-    public void testReadXMLString() throws Exception {
+    public void readXMLString() throws Exception {
         String testString = "<root> <element att=\"hello\">Some text</element> </root>";
         Document doc = JDOMUtils.readXMLString(testString);
         assertNotNull(doc);
