@@ -51,6 +51,8 @@ public class NavigatorViewer extends TreeViewer {
         setLabelProvider(new NavigatorViewerLabelProvider());
         setAutoExpandLevel(3);
         
+        setUseHashlookup(true);
+        
         setComparator(new ViewerComparator(Collator.getInstance()));
     }
     

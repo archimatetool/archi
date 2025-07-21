@@ -67,6 +67,8 @@ public class ValidatorViewer extends TreeViewer {
         getTree().setHeaderVisible(true);
         getTree().setLinesVisible(true);
         
+        setUseHashlookup(true);
+        
         // Use layout from parent container
         TreeColumnLayout layout = (TreeColumnLayout)getControl().getParent().getLayout();
         
