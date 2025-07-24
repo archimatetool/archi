@@ -744,11 +744,13 @@
       </key>
       <key
             commandId="com.archimatetool.editor.action.deleteFromModel"
+            contextId="com.archimatetool.editor.diagram.context"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="SHIFT+DEL">
       </key>
       <key
             commandId="com.archimatetool.editor.action.deleteFromModel"
+            contextId="com.archimatetool.editor.diagram.context"
             platform="cocoa"
             schemeId="com.archimatetool.editor.keybindings"
             sequence="SHIFT+BS">
