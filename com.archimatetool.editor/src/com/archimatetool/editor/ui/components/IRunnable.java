@@ -12,10 +12,10 @@ import org.eclipse.jface.operation.IRunnableContext;
  * <pre>
  *   ProgressMonitorDialog dialog = ...;
  *   try {
- *       IRunnable.run(dialog, monitor -> {
+ *       IRunnable.run(dialog, true, monitor -> {
  *           // do stuff...
  *           monitor.setTaskName("New task");
- *       }, true);
+ *       });
  *   }
  *   catch(Exception ex) {
  *       ex.printStackTrace();
@@ -23,6 +23,7 @@ import org.eclipse.jface.operation.IRunnableContext;
  * </pre>
  * 
  * @author Phillip Beauvoir
+ * @since 5.2.0
  */
 public interface IRunnable {
     
@@ -30,9 +31,13 @@ public interface IRunnable {
     
     /**
      * Run the Runnable, catching any Exceptions and re-throwing them
-     * @param fork true if the runnable should be run in a separate thread and false to run in the same thread
+     * @param context The context which is typically a ProgressMonitorDialog or Job, or WizardDialog
+     * @param fork if true the runnable should be run in a separate thread and false to run in the same thread
+     * @param runnable The IRunnable to run
+     * @throws Exception
+     * @since 5.7.0
      */
-    static void run(IRunnableContext context, IRunnable runnable, boolean fork) throws Exception {
+    static void run(IRunnableContext context, boolean fork, IRunnable runnable) throws Exception {
         AtomicReference<Exception> exception = new AtomicReference<>();
         
         try {
@@ -55,5 +60,15 @@ public interface IRunnable {
         if(exception.get() != null) {
             throw exception.get();
         }
+    }
+    
+    /**
+     * This is deprecated since 5.7.0 because the order of parameters is not ideal.
+     * It's better to have the IRunnable as the last parameter when using a lambda.
+     * So use run(IRunnableContext context, boolean fork, IRunnable runnable) above.
+     * @since 5.2.0
+     */
+    static void run(IRunnableContext context, IRunnable runnable, boolean fork) throws Exception {
+        run(context, fork, runnable);
     }
 }
