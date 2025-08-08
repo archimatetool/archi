@@ -24,28 +24,45 @@ import org.eclipse.swt.widgets.Text;
  * Error Message Dialog with text area to show a long message in a text box
  * 
  * @author Phillip Beauvoir
+ * @since 5.6.0 internal implementation
+ * @since 5.7.0 exported package
  */
 public class ErrorMessageDialog extends MessageDialog {
     
     private String longMessage;
     
     public static void open(Shell parentShell, String dialogTitle, String message, String longMessage) {
-        ErrorMessageDialog dialog = new ErrorMessageDialog(parentShell, dialogTitle, message, longMessage);
+        ErrorMessageDialog dialog = new ErrorMessageDialog(parentShell, dialogTitle, message, longMessage,  MessageDialog.ERROR, 1,
+                new String[] { Messages.ErrorMessageDialog_0, IDialogConstants.OK_LABEL});
         dialog.open();
     }
     
     public static void open(Shell parentShell, String dialogTitle, String message, Throwable ex) {
-        StringWriter sw = new StringWriter();
-        ex.printStackTrace(new PrintWriter(sw));
-        open(parentShell, dialogTitle, message, sw.toString());
+        open(parentShell, dialogTitle, message, getExceptionAsString(ex));
     }
 
-    private ErrorMessageDialog(Shell parentShell, String dialogTitle, String message, String longMessage) {
-        super(parentShell, dialogTitle, null, message, MessageDialog.ERROR, 1, 
-                new String[] { Messages.ErrorMessageDialog_0, IDialogConstants.OK_LABEL});
+    public static boolean openWithQuestion(Shell parentShell, String dialogTitle, String message, Throwable ex) {
+        return openWithQuestion(parentShell, dialogTitle, message, getExceptionAsString(ex));
+    }
+
+    public static boolean openWithQuestion(Shell parentShell, String dialogTitle, String message, String longMessage) {
+        ErrorMessageDialog dialog = new ErrorMessageDialog(parentShell, dialogTitle, message, longMessage, MessageDialog.QUESTION, 2,
+                new String[] { Messages.ErrorMessageDialog_0, IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL});
+        return dialog.open() == 1;
+    }
+
+    private static String getExceptionAsString(Throwable throwable) {
+        StringWriter sw = new StringWriter();
+        throwable.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
+    }
+
+    private ErrorMessageDialog(Shell parentShell, String dialogTitle, String dialogMessage, String longMessage,
+                                    int dialogImageType, int defaultIndex, String... dialogButtonLabels) {
+        super(parentShell, dialogTitle, null, dialogMessage, dialogImageType, defaultIndex, dialogButtonLabels);
         this.longMessage = longMessage;
     }
-
+    
     @Override
     protected Control createCustomArea(Composite parent) {
         Text text = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);

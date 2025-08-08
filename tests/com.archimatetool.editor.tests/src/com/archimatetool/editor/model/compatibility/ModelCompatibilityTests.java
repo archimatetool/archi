@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,52 +30,55 @@ public class ModelCompatibilityTests {
     
     File file1 = new File(TestSupport.getTestDataFolder(), "models/compatibility_test1.archimate");
     File file2 = new File(TestSupport.getTestDataFolder(), "models/compatibility_test2.archimate");
+    File file3 = new File(TestSupport.getTestDataFolder(), "models/compatibility_test3.archimate");
     
     @Test
-    public void testShouldThrowException1() {
+    public void shouldThrowIOException1() {
         resource = ArchimateResourceFactory.createNewResource(file1);
-        assertThrows(IOException.class, () -> {
+        IOException ex = assertThrows(IOException.class, () -> {
             resource.load(null);
         });
+        assertTrue(ex.getMessage().contains("Feature 'something' not found."));
     }
 
     @Test
-    public void testShouldThrowException2() {
+    public void shouldThrowIOException2() {
         resource = ArchimateResourceFactory.createNewResource(file2);
-        assertThrows(IOException.class, () -> {
+        IOException ex = assertThrows(IOException.class, () -> {
             resource.load(null);
         });
+        assertTrue(ex.getMessage().contains("Package with uri 'http://www.archimatetool.com/Bogus' not found."));
     }
 
     @Test
-    public void testCheckErrors_ThrowsException() {
+    public void checkErrors_ThrowsIncompatibleModelException1() {
         createResource(file2);
-        assertThrows(IncompatibleModelException.class, () -> {
+        IncompatibleModelException ex = assertThrows(IncompatibleModelException.class, () -> {
             mc.checkErrors();
         });
+        assertTrue(ex.getMessage().contains("Package with uri 'http://www.archimatetool.com/Bogus' not found."));
+        assertTrue(ex.getMessage().contains("Class 'model' is not found or is abstract."));
     }
     
     @Test
-    public void testCheckErrors_NotCatastrophic() throws IncompatibleModelException {
+    public void checkErrors_ThrowsIncompatibleModelException2() {
+        createResource(file3);
+        IncompatibleModelException ex = assertThrows(IncompatibleModelException.class, () -> {
+            mc.checkErrors();
+        });
+        assertTrue(ex.getMessage().contains("Class 'Bogus1' is not found or is abstract."));
+        assertTrue(ex.getMessage().contains("Class 'Bogus2' is not found or is abstract."));
+        assertTrue(ex.getMessage().contains("Class 'Bogus3' is not found or is abstract."));
+    }
+    
+    @Test
+    public void checkErrors_NotCatastrophic() throws IncompatibleModelException {
         createResource(file1);
         mc.checkErrors();
     }
 
     @Test
-    public void testCheckErrors_IsCatastrophic() {
-        createResource(file2);
-        try {
-            mc.checkErrors();
-        }
-        catch(IncompatibleModelException ex) {
-            return;
-        }
-        
-        fail();
-    }
-
-    @Test
-    public void testIsLaterModelVersion_IsLater() {
+    public void isLaterModelVersion_IsLater() {
         createResource(file1);
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         assertEquals("10.0.0", model.getVersion());
@@ -84,7 +86,7 @@ public class ModelCompatibilityTests {
     }
 
     @Test
-    public void testIsLaterModelVersion_IsNotLater() {
+    public void isLaterModelVersion_IsNotLater() {
         createResource(file1);
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         
@@ -96,19 +98,22 @@ public class ModelCompatibilityTests {
     }
 
     @Test
-    public void testgetAcceptableExceptions() {
+    public void getAcceptableExceptions() {
         createResource(file1);
         assertEquals(2,  mc.getAcceptableExceptions().size());
         
         createResource(file2);
         assertEquals(0,  mc.getAcceptableExceptions().size());
+
+        createResource(file3);
+        assertEquals(0,  mc.getAcceptableExceptions().size());
     }
 
     @Test
-    public void testIsFeatureNotFoundException() {
+    public void isFeatureNotFoundException() {
         createResource(file1);
         
-        assertEquals(2,  resource.getErrors().size());
+        assertEquals(2, resource.getErrors().size());
         
         Diagnostic diagnostic = resource.getErrors().get(0);
         assertTrue(mc.isFeatureNotFoundException(diagnostic));
@@ -118,7 +123,7 @@ public class ModelCompatibilityTests {
     }
 
     @Test
-    public void testIsCatastrophicException() {
+    public void isCatastrophicException() {
         createResource(file2);
         
         assertEquals(2,  resource.getErrors().size());
@@ -133,7 +138,6 @@ public class ModelCompatibilityTests {
     private void createResource(File file) {
         resource = ArchimateResourceFactory.createNewResource(file);
         mc = new ModelCompatibility(resource);
-        mc.doLog = false;
         
         try {
             resource.load(null);

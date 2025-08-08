@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.xml.sax.SAXParseException;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 
@@ -32,39 +31,27 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ModelCompatibility {
     
     private Resource fResource;
-    
-    // Too noisy converting from A2 to A3 models
-    boolean doLog = false;
     
     public ModelCompatibility(Resource resource) {
         fResource = resource;
     }
     
     public void checkErrors() throws IncompatibleModelException {
-        // Log errors and warnings first before throwing an exception
-        if(doLog) {
-            for(Diagnostic diagnostic : fResource.getErrors()) {
-                if(isCatastrophicException(diagnostic)) {
-                    Logger.logError(diagnostic.getMessage());
-                }
-                else {
-                    Logger.logWarning(diagnostic.getMessage());
-                }
+        String exceptionMessage = "";
+        
+        for(Diagnostic diagnostic : fResource.getErrors()) {
+            if(isCatastrophicException(diagnostic)) {
+                exceptionMessage += diagnostic.getMessage() + "\n";
             }
         }
         
         // Is it catastrophic? If it is, throw an IncompatibleModelException
-        for(Diagnostic diagnostic : fResource.getErrors()) {
-            if(isCatastrophicException(diagnostic)) {
-                IncompatibleModelException ex = new IncompatibleModelException(diagnostic.getMessage());
-                if(doLog) {
-                    Logger.logError("Error opening model", ex); //$NON-NLS-1$
-                }
-                throw ex;
-            }
+        if(exceptionMessage.length() > 0) {
+            throw new IncompatibleModelException(exceptionMessage);
         }
     }
     
@@ -82,7 +69,7 @@ public class ModelCompatibility {
      * @return A list of Exceptions that should be non-catastrophic
      */
     public List<Diagnostic> getAcceptableExceptions() {
-        List<Diagnostic> list = new ArrayList<Diagnostic>();
+        List<Diagnostic> list = new ArrayList<>();
         
         for(Diagnostic diagnostic : fResource.getErrors()) {
             if(isFeatureNotFoundException(diagnostic)) {
@@ -98,34 +85,24 @@ public class ModelCompatibility {
     }
 
     protected boolean isCatastrophicException(Diagnostic diagnostic) {
-        // Package not found - total disaster
-        if(diagnostic instanceof PackageNotFoundException) {
-            return true;
-        }
-        
-        // Class not found that matches xml declaration - not good
-        if(diagnostic instanceof ClassNotFoundException) {
-            return true;
-        }
-        
-        // Unresolved reference - not good
-        if(diagnostic instanceof UnresolvedReferenceException) {
-            return true;
-        }
-
-        // Allow an IllegalValueException because an illegal value will default to a default value
-
-        // Allow a FeatureNotFoundException because a feature might get deprecated
-        
-        // Last case is a Sax parse error
-        if(diagnostic instanceof XMIException) {
-            XMIException ex = (XMIException)diagnostic;
-            if(ex.getCause() instanceof SAXParseException) {
-                return true;
-            }
-        }
-        
-        return false;
+        return switch(diagnostic) {
+            // Package not found - total disaster
+            case PackageNotFoundException ex -> true;
+            
+            // Class not found that matches xml declaration - not good
+            case ClassNotFoundException ex -> true;
+            
+            // Unresolved reference - not good
+            case UnresolvedReferenceException ex -> true;
+            
+            // Other XMIException
+            // Sax parse error - total disaster
+            // Allow an IllegalValueException because an illegal value will default to a default value
+            // Allow a FeatureNotFoundException because a feature might get deprecated
+            case XMIException ex -> ex.getCause() instanceof SAXParseException;
+            
+            default -> false;
+        };
     }
     
     /**
@@ -136,7 +113,7 @@ public class ModelCompatibility {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(ICompatibilityHandler.EXTENSION_ID)) {
             try {
-                ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+                ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class");
                 if(handler != null) {
                     handler.fixCompatibility(fResource);
                 }

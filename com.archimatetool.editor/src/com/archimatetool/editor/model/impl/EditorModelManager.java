@@ -17,8 +17,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CommandStackEvent;
-import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
@@ -43,6 +41,7 @@ import com.archimatetool.editor.model.compatibility.CompatibilityHandlerExceptio
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.dialog.ErrorMessageDialog;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -134,12 +133,13 @@ implements IEditorModelManager {
     @Override
     public List<IArchimateModel> getModels() {
         if(fModels == null) {
-            fModels = new ArrayList<IArchimateModel>();
+            fModels = new ArrayList<>();
             
             try {
                 loadState();
             }
             catch(Exception ex) {
+                Logger.logError("Error loading state", ex); //$NON-NLS-1$
                 ex.printStackTrace();
             }
         }
@@ -277,10 +277,10 @@ implements IEditorModelManager {
             catch(IncompatibleModelException ex1) {
                 // Was it a disaster?
                 if(PlatformUI.isWorkbenchRunning()) {
-                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                    ErrorMessageDialog.open(Display.getCurrent().getActiveShell(),
                             Messages.EditorModelManager_2,
-                            NLS.bind(Messages.EditorModelManager_3, file)
-                            + "\n" + ex1.getMessage()); //$NON-NLS-1$
+                            NLS.bind(Messages.EditorModelManager_3, file),
+                            ex1.getMessage());
                     
                 }
 
@@ -307,18 +307,13 @@ implements IEditorModelManager {
                 List<Diagnostic> exceptions = modelCompatibility.getAcceptableExceptions();
                 if(!exceptions.isEmpty()) {
                     String message = ""; //$NON-NLS-1$
-                    for(int i = 0; i < exceptions.size(); i++) {
-                        if(i == 3) {
-                            message += (exceptions.size() - 3) + " " + Messages.EditorModelManager_12; //$NON-NLS-1$
-                            break;
-                        }
-                        message += exceptions.get(i).getMessage() + "\n"; //$NON-NLS-1$
+                    for(Diagnostic diagnostic : exceptions) {
+                        message += diagnostic.getMessage() + "\n"; //$NON-NLS-1$
                     }
-                    
-                    boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    boolean answer = ErrorMessageDialog.openWithQuestion(Display.getCurrent().getActiveShell(),
                             Messages.EditorModelManager_4,
-                            NLS.bind(Messages.EditorModelManager_13, file)
-                            + "\n\n" + message); //$NON-NLS-1$
+                            NLS.bind(Messages.EditorModelManager_13, file),
+                            message);
                     if(!answer) {
                         return null;
                     }
@@ -406,8 +401,7 @@ implements IEditorModelManager {
         model.setDefaults();
         
         // New Command Stack
-        CommandStack cmdStack = new CommandStack();
-        model.setAdapter(CommandStack.class, cmdStack);
+        model.setAdapter(CommandStack.class, new CommandStack());
         
         // New Archive Manager and load images
         IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
@@ -639,13 +633,10 @@ implements IEditorModelManager {
         
         if(PlatformUI.isWorkbenchRunning()) {
             // Forward on CommandStack Event to Tree
-            cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
-                @Override
-                public void stackChanged(CommandStackEvent event) {
-                    // Send notification to listeners after the change event
-                    if(event.isPostChangeEvent()) {
-                        firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
-                    }
+            cmdStack.addCommandStackEventListener(event -> {
+                // Send notification to listeners after the change event
+                if(event.isPostChangeEvent()) {
+                    firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
                 }
             });
             
