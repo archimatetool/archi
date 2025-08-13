@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -89,7 +90,8 @@ public class SearchWidget extends Composite {
     
     private static int TIMER_DELAY = 600;
     
-    private static Color ERROR_COLOR = new Color(255, 0, 0);
+    private static final Color ERROR_COLOR = new Color(255, 0, 0);
+    private static final String ERROR_COLOR_CSS = "color: RGB(255, 0, 0);"; //$NON-NLS-1$
     
     /**
      * Hook into the global edit Action Handlers and null them when the text control has the focus
@@ -212,7 +214,16 @@ public class SearchWidget extends Composite {
      */
     private void setValidSearchTextHint() {
         boolean validSearchText = fSearchFilter.isValidSearchString();
-        fSearchText.setForeground(validSearchText ? null : ERROR_COLOR);
+        
+        // Set color using css theme string *and* normal color
+        // Normal color is needed for no theming and, for some reason, the light theme
+        String cssColor = validSearchText ? null : ERROR_COLOR_CSS;
+        if(!Objects.equals(fSearchText.getData("style"), cssColor)) { //$NON-NLS-1$
+            fSearchText.setForeground(validSearchText ? null : ERROR_COLOR);
+            fSearchText.setData("style", cssColor); //$NON-NLS-1$
+            fSearchText.reskin(SWT.NONE);
+        }
+        
         fSearchText.setToolTipText(validSearchText ? null : Messages.SearchWidget_20);
     }
 
