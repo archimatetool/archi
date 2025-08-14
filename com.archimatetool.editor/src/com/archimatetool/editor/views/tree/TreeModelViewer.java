@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.views.tree;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +16,11 @@ import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -95,7 +93,7 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     public TreeModelViewer(IWorkbenchWindow window, Composite parent, int style) {
-        super(parent, style | SWT.MULTI);
+        super(parent, style | SWT.MULTI | SWT.VIRTUAL);
         
         // Set CSS ID and apply the style so that we can immediately get the italic and bold fonts from the base font style
         ThemeUtils.registerCssId(getTree(), "ModelTree"); //$NON-NLS-1$
@@ -108,50 +106,6 @@ public class TreeModelViewer extends TreeViewer {
         setLabelProvider(new ModelTreeViewerLabelProvider());
         
         setUseHashlookup(true);
-        
-        // Sort
-        setComparator(new ViewerComparator(Collator.getInstance()) {
-            @Override
-            public int compare(Viewer viewer, Object e1, Object e2) {
-                int cat1 = category(e1);
-                int cat2 = category(e2);
-
-                if(cat1 != cat2) {
-                    return cat1 - cat2;
-                }
-                
-                // Only user folders are sorted
-                if((e1 instanceof IFolder folder1 && e2 instanceof IFolder folder2) && (folder1.getType() != FolderType.USER 
-                        || folder2.getType() != FolderType.USER)) {
-                    return 0;
-                }
-                
-                // Get rendered text or name
-                String label1 = getAncestorFolderRenderText((IArchimateModelObject)e1);
-                if(label1 == null) {
-                    label1 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e1));
-                }
-
-                // Get rendered text or name
-                String label2 = getAncestorFolderRenderText((IArchimateModelObject)e2);
-                if(label2 == null) {
-                    label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
-                }
-                
-                return getComparator().compare(label1, label2);
-            }
-            
-            @Override
-            public int category(Object element) {
-                if(element instanceof IFolder) {
-                    return 0;
-                }
-                if(element instanceof EObject) {
-                    return 1;
-                }
-                return 0;
-            }
-        });
         
         // Cell Editor
         TreeTextCellEditor cellEditor = new TreeTextCellEditor(getTree());
@@ -310,7 +264,7 @@ public class TreeModelViewer extends TreeViewer {
     private void updateElement(Object element) {
         if(element != null) {
             update(element, null);
-            for(Object child : ((ITreeContentProvider)getContentProvider()).getChildren(element)) {
+            for(Object child : ((ModelTreeViewerContentProvider)getContentProvider()).getChildren(element)) {
                 updateElement(child);
             }
         }
@@ -343,6 +297,7 @@ public class TreeModelViewer extends TreeViewer {
     
     /**
      * Keep a reference to the SearchFilter
+     * TODO: filters not supported
      */
     @Override
     public void addFilter(ViewerFilter filter) {
@@ -354,16 +309,16 @@ public class TreeModelViewer extends TreeViewer {
     
     @Override
     public void removeFilter(ViewerFilter filter) {
+        // TODO: filters not supported
         if(filter instanceof SearchFilter) {
             this.searchFilter = null;
         }
         super.removeFilter(filter);
     }
     
-    // Need package access to this method
     @Override
     protected Object[] getSortedChildren(Object parentElementOrTreePath) {
-        return super.getSortedChildren(parentElementOrTreePath);
+        return ((ModelTreeViewerContentProvider)getContentProvider()).getSortedChildren(parentElementOrTreePath).toArray();
     }
     
     /**
@@ -399,7 +354,7 @@ public class TreeModelViewer extends TreeViewer {
     /**
      *  Content Provider
      */
-    private class ModelTreeViewerContentProvider implements ITreeContentProvider {
+    private class ModelTreeViewerContentProvider implements ILazyTreeContentProvider {
         
         @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -417,19 +372,62 @@ public class TreeModelViewer extends TreeViewer {
         public void dispose() {
         }
         
-        @Override
-        public Object[] getElements(Object parent) {
-            return getChildren(parent);
-        }
+        /**
+         * TODO - sorting is very slow on large collections, so it can't be done here.
+         *        It would have to be done after the model is loaded.
+         *        Adding a new element or renaming would require inserting it at the correct position.
+         */
+        public List<?> getSortedChildren(Object parentElement) {
+            List<?> children = getChildren(parentElement);
+            children.sort((Object e1, Object e2) -> {
+                int cat1 = category(e1);
+                int cat2 = category(e2);
 
-        @Override
-        public Object[] getChildren(Object parentElement) {
+                if(cat1 != cat2) {
+                    return cat1 - cat2;
+                }
+                
+                // Only user folders are sorted
+                if((e1 instanceof IFolder folder1 && e2 instanceof IFolder folder2) && (folder1.getType() != FolderType.USER 
+                        || folder2.getType() != FolderType.USER)) {
+                    return 0;
+                }
+                
+                // Get rendered text or name
+                String label1 = getAncestorFolderRenderText((IArchimateModelObject)e1);
+                if(label1 == null) {
+                    label1 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e1));
+                }
+
+                // Get rendered text or name
+                String label2 = getAncestorFolderRenderText((IArchimateModelObject)e2);
+                if(label2 == null) {
+                    label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
+                }
+                
+                return label1.compareTo(label2); 
+            });
+            
+            return children;
+        }
+        
+        private int category(Object element) {
+            if(element instanceof IFolder) {
+                return 0;
+            }
+            if(element instanceof EObject) {
+                return 1;
+            }
+            return 0;
+        }
+        
+        public List<?> getChildren(Object parentElement) {
             if(parentElement instanceof IEditorModelManager editorModelManager) {
-            	return editorModelManager.getModels().toArray();
+            	return editorModelManager.getModels();
             }
             
             if(parentElement instanceof IArchimateModel model) {
-            	return model.getFolders().toArray();
+            	return model.getFolders();
             }
 
             if(parentElement instanceof IFolder folder) {
@@ -440,23 +438,30 @@ public class TreeModelViewer extends TreeViewer {
                 // Elements
                 list.addAll(folder.getElements());
                 
-                return list.toArray();
+                return list;
             }
             
-            return new Object[0];
+            return new ArrayList<>();
         }
 
         @Override
         public Object getParent(Object element) {
-            if(element instanceof EObject eObject) {
-                return eObject.eContainer();
-            }
-            return null;
+            return element instanceof EObject eObject ? eObject.eContainer() : null;
         }
 
         @Override
-        public boolean hasChildren(Object element) {
-        	return getFilteredChildren(element).length > 0;
+        public void updateElement(Object parent, int index) {
+            List<?> children = getSortedChildren(parent);
+            if(!children.isEmpty()) {
+                Object element = children.get(index);
+                replace(parent, index, element);
+                setChildCount(element, getChildren(element).size());
+            }
+        }
+
+        @Override
+        public void updateChildCount(Object element, int currentChildCount) {
+            setChildCount(element, getChildren(element).size());
         }
     }
     

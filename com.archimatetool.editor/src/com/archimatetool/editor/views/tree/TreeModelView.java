@@ -187,7 +187,9 @@ implements ITreeModelView, IUIRequestListener {
         fTreeViewer.setInput(IEditorModelManager.INSTANCE);
         
         // Expand tree elements after model input
-        TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+        fTreeViewer.getControl().getDisplay().asyncExec(() -> {
+            TreeStateHelper.INSTANCE.restoreExpandedTreeElements(fTreeViewer);
+        });
 
         // This will update previous Undo/Redo text if Tree was closed before
         updateActions();
@@ -871,7 +873,10 @@ implements ITreeModelView, IUIRequestListener {
         }
         // Request element name in-place
         else if(request instanceof TreeEditElementRequest) {
-            getViewer().editElement(request.getTarget());
+            // Virtual tree needs asyncExec if tree is sorted
+            getViewer().getControl().getDisplay().asyncExec(() -> {
+                getViewer().editElement(request.getTarget());
+            });
         }
     }
     
