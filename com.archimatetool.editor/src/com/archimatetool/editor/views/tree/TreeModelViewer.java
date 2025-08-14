@@ -109,6 +109,10 @@ public class TreeModelViewer extends TreeViewer {
         
         setUseHashlookup(true);
         
+        // Incremental nodes
+        int limit = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.TREE_DISPLAY_NODE_INCREMENT);
+        setDisplayIncrementally(limit);
+        
         // Sort
         setComparator(new ViewerComparator(Collator.getInstance()) {
             @Override

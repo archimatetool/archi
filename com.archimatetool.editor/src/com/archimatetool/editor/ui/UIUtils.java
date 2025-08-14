@@ -179,6 +179,27 @@ public final class UIUtils {
     }
     
     /**
+     * Apply a verify listener to a text control that accepts only numbers
+     * @param textControl Single-line text control
+     * @param low The low value
+     * @param high The high value
+     * @since 5.7.0
+     */
+    public static void applyNumberVerifyListener(Text textControl, int low, int high) {
+        textControl.addVerifyListener(event -> {
+            String currentText = ((Text)event.widget).getText();
+            String newText = currentText.substring(0, event.start) + event.text + currentText.substring(event.end);
+            try {
+                int val = Integer.valueOf(newText);
+                event.doit = val >= low && val <= high;
+            }
+            catch(NumberFormatException ex) {
+                event.doit = newText.length() == 0; // blank string is OK
+            }
+        });
+    }
+    
+    /**
      * Add an ellipsis to text and shorten it to fit in the width of the given control
      * From https://stackoverflow.com/questions/5993065/org-eclipse-swt-text-automatically-truncate-the-text
      * 

@@ -133,6 +133,7 @@ public interface IPreferenceConstants {
     String TREE_SEARCH_AUTO = "treeSearchAuto";
     String SHOW_WARNING_ON_DELETE_FROM_TREE = "showWarningOnDeleteFromTree";
     String SHOW_SPECIALIZATIONS_IN_MODEL_TREE = "showSpecializationsInModelTree";
+    String TREE_DISPLAY_NODE_INCREMENT = "treeDisplayNodeIncrement";
     
     String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";
     
