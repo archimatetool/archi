@@ -246,7 +246,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
 
                     for(EObject eObject : fObjects) {
                         if(isAlive(eObject)) {
-                            Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_1 + " " + oldText, eObject, //$NON-NLS-1$
+                            Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_1, eObject,
                                     IArchimatePackage.Literals.NAMEABLE__NAME, newText);
                             if(cmd.canExecute()) {
                                 result.add(cmd);

@@ -50,7 +50,7 @@ public class RenameCommandHandler {
     public static void doRenameCommand(INameable element, String newText) {
         CommandStack stack = (CommandStack)((IAdapter)element).getAdapter(CommandStack.class);
         if(stack != null) {
-            stack.execute(new EObjectFeatureCommand(Messages.RenameCommandHandler_0 + " " + element.getName(), element, //$NON-NLS-1$
+            stack.execute(new EObjectFeatureCommand(Messages.RenameCommandHandler_0, element,
                     IArchimatePackage.Literals.NAMEABLE__NAME, newText));
         }
     }
@@ -78,7 +78,7 @@ public class RenameCommandHandler {
             
             CompoundCommand compoundCommand = getCompoundCommand((IAdapter)element, commandMap);
             if(compoundCommand != null) {
-                Command cmd = new EObjectFeatureCommand(Messages.RenameCommandHandler_0 + " " + element.getName(), element, //$NON-NLS-1$
+                Command cmd = new EObjectFeatureCommand(Messages.RenameCommandHandler_0, element,
                         IArchimatePackage.Literals.NAMEABLE__NAME, newName);
                 compoundCommand.add(cmd);
             }

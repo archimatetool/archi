@@ -7,7 +7,6 @@ package com.archimatetool.editor.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 
@@ -27,8 +26,7 @@ public class DeleteArchimateRelationshipCommand extends Command {
     public DeleteArchimateRelationshipCommand(IArchimateRelationship relationship) {
         fFolder = (IFolder)relationship.eContainer();
         fRelationship = relationship;
-        
-        setLabel(Messages.DeleteElementCommand_0 + " " + ArchiLabelProvider.INSTANCE.getLabel(fRelationship)); //$NON-NLS-1$
+        setLabel(Messages.DeleteArchimateRelationshipCommand_0);
     }
     
     @Override

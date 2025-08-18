@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.policies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
@@ -26,7 +25,7 @@ public class PartDirectEditTitlePolicy extends DirectEditPolicy {
     protected Command getDirectEditCommand(DirectEditRequest request) {
         IDiagramModelObject object = (IDiagramModelObject)getHost().getModel();
         String name = (String)request.getCellEditor().getValue();
-        return new EObjectFeatureCommand(NLS.bind(Messages.PartDirectEditTitlePolicy_0, object.getName()), object, IArchimatePackage.Literals.NAMEABLE__NAME, name);
+        return new EObjectFeatureCommand(Messages.PartDirectEditTitlePolicy_0, object, IArchimatePackage.Literals.NAMEABLE__NAME, name);
     }
 
     @Override

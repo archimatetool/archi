@@ -13,11 +13,9 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
@@ -44,7 +42,7 @@ public class SetConstraintObjectCommand extends CompoundCommand implements IAnim
         fObject = object;
         fOldPos = object.getBounds();
         fNewPos = bounds;
-        setLabel(NLS.bind(Messages.SetConstraintObjectCommand_0, ArchiLabelProvider.INSTANCE.getLabel(object)));
+        setLabel(Messages.SetConstraintObjectCommand_0);
     }
     
     /**

@@ -27,7 +27,7 @@ public class DeleteDiagramModelCommand extends Command {
     public DeleteDiagramModelCommand(IDiagramModel model) {
         fFolder = (IFolder)model.eContainer();
         fDiagramModel = model;
-        setLabel(Messages.DeleteDiagramModelCommand_0 + " " + model.getName()); //$NON-NLS-1$
+        setLabel(Messages.DeleteDiagramModelCommand_0);
     }
     
     @Override

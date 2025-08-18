@@ -23,7 +23,7 @@ public class MoveObjectCommand extends Command {
     private int fOldPos;
     
     public MoveObjectCommand(IFolder newParent, IArchimateModelObject object) {
-        super(Messages.MoveObjectCommand_0 + " " + object.getName()); //$NON-NLS-1$
+        super(Messages.MoveObjectCommand_0);
         fOldParent = (IFolder)object.eContainer();
         fNewParent = newParent;
         fObject = object;

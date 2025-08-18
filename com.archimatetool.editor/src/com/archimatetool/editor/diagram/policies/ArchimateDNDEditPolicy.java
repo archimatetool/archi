@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.diagram.commands.AddDiagramModelReferenceCommand;
@@ -342,8 +341,6 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         private IConnectable fSource, fTarget;
         
         public AddDiagramArchimateConnectionCommand(IConnectable src, IConnectable tgt, IArchimateRelationship relationship) {
-            setLabel(NLS.bind(Messages.ArchimateDNDEditPolicy_1, relationship.getName()));
-
             fSource = src;
             fTarget = tgt;
             fConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relationship);

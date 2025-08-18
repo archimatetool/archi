@@ -6,7 +6,6 @@
 package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -26,7 +25,7 @@ public class AddDiagramObjectCommand extends Command {
     public AddDiagramObjectCommand(IDiagramModelContainer parent, IDiagramModelObject object) {
         fParent = parent;
         fChild = object;
-        setLabel(NLS.bind(Messages.AddDiagramObjectCommand_0, object.getName()));
+        setLabel(Messages.AddDiagramObjectCommand_0);
     }
 
     @Override

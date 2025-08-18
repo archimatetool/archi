@@ -30,7 +30,7 @@ public class NewElementCommand extends Command {
     public NewElementCommand(IFolder folder, IArchimateElement element) {
         fFolder = folder;
         fElement = element;
-        setLabel(Messages.NewElementCommand_0 + " " + element.getName()); //$NON-NLS-1$
+        setLabel(Messages.NewElementCommand_0);
     }
     
     @Override

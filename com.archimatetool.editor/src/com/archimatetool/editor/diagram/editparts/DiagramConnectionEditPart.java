@@ -31,7 +31,6 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
@@ -375,7 +374,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String name = (String)request.getCellEditor().getValue();
             IDiagramModelConnection connection = getModel();
-            return new EObjectFeatureCommand(NLS.bind(Messages.DiagramConnectionEditPart_0, connection.getName()),
+            return new EObjectFeatureCommand(Messages.DiagramConnectionEditPart_0,
                     connection, IArchimatePackage.Literals.NAMEABLE__NAME, name);
         }
 

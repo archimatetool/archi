@@ -19,8 +19,6 @@ public class Messages extends NLS {
 
     public static String ArchimateDNDEditPolicy_0;
 
-    public static String ArchimateDNDEditPolicy_1;
-
     public static String BasicContainerEditPolicy_0;
 
     public static String PartDirectEditTitlePolicy_0;

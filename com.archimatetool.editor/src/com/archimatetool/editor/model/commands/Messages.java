@@ -11,6 +11,8 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.model.commands.messages"; //$NON-NLS-1$
 
+    public static String DeleteArchimateRelationshipCommand_0;
+
     public static String DeleteDiagramModelCommand_0;
 
     public static String DeleteElementCommand_0;

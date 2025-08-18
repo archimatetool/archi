@@ -13,12 +13,10 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -42,13 +40,9 @@ public class CreateDiagramObjectCommand extends Command {
         fParent = (IDiagramModelContainer)fParentEditPart.getModel();
         fRequest = request;
         fBounds = bounds;
+        setLabel(Messages.CreateDiagramObjectCommand_0);
     }
     
-    @Override
-    public String getLabel() {
-        return NLS.bind(Messages.CreateDiagramObjectCommand_0, ArchiLabelProvider.INSTANCE.getLabel(fChild));
-    }
-
     @Override
     public void execute() {
         addChild();
