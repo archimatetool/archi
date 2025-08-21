@@ -32,13 +32,14 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
@@ -49,7 +50,6 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
@@ -274,16 +274,25 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             private Image getColorSwatch(Object object) {
                 String key = getColorKey(object);
                 Image image = fImageRegistry.get(key);
+                
                 if(image == null) {
-                    image = new Image(Display.getCurrent(), 16, 16);
-                    GC gc = new GC(image);
-                    if(object != null && fColorsCache.get(object) != null) {
-                        gc.setBackground(fColorsCache.get(object));
-                    }
-                    gc.fillRectangle(0, 0, 15, 15);
-                    gc.drawRectangle(0, 0, 15, 15);
-                    gc.dispose();
-                    image = ImageFactory.getAutoScaledImage(image);
+                    image = new Image(getShell().getDisplay(), (ImageDataProvider) zoom -> {
+                        // Draw the color rectangle onto a temp Image
+                        Image tmp = new Image(getShell().getDisplay(), 16, 16);
+                        
+                        GC gc = new GC(tmp);
+                        if(object != null && fColorsCache.containsKey(object)) {
+                            gc.setBackground(fColorsCache.get(object));
+                        }
+                        gc.fillRectangle(0, 0, 15, 15);
+                        gc.drawRectangle(0, 0, 15, 15);
+                        gc.dispose();
+                        
+                        ImageData imageData = tmp.getImageData(zoom);
+                        tmp.dispose();
+                        return imageData;
+                    });
+                    
                     fImageRegistry.put(key, image);
                 }
                 

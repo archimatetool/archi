@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -50,12 +52,12 @@ public class FigureImagePreviewFactory {
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
 
-        if(!(provider instanceof IArchimateElementUIProvider)) {
+        if(!(provider instanceof IArchimateElementUIProvider uiProvider)) {
             return null;
         }
         
         // No alternate figure
-        if(type > 0 && !((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
+        if(type > 0 && !uiProvider.hasAlternateFigure()) {
             return null;
         }
         
@@ -86,8 +88,14 @@ public class FigureImagePreviewFactory {
             figure.setSize(new Dimension(120, 55));
             figure.refreshVisuals();
             figure.validate();
+            
+            image = new Image(Display.getDefault(), (ImageDataProvider) zoom -> {
+                Image tmp = DiagramUtils.createImage(figure, 1, 0);
+                ImageData imageData = tmp.getImageData(zoom);
+                tmp.dispose();
+                return imageData;
+            });
 
-            image = ImageFactory.getAutoScaledImage(DiagramUtils.createImage(figure, 1, 0));
             imageRegistry.put(key, image);
         }
         
