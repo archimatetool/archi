@@ -6,29 +6,26 @@
 package com.archimatetool.editor.preferences;
 
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -73,7 +70,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
     
     // Cache of objects' colours
-    private Hashtable<Object, Color> fColorsCache = new Hashtable<Object, Color>();
+    private Map<Object, Color> fColorsCache = new HashMap<>();
     
     // Image Registry for Tree colors
     private ImageRegistry fImageRegistry;
@@ -92,16 +89,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private static List<String> themeColors = List.of(VIEW_BACKGROUND_COLOR,
                                                       VISUALISER_BACKGROUND_COLOR);
     
-    // Convenience model class for Tree
-    private static class TreeGrouping {
-        public String title;
-        public Object[] children;
- 
-        public TreeGrouping(String title, Object[] children) {
-            this.title = title;
-            this.children = children;
-        }
-    }
+    // Convenience record for Tree
+    private record TreeGrouping(String title, Object[] children) {};
     
 	public ColoursPreferencePage() {
 		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
@@ -117,44 +106,34 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fImageRegistry = new ImageRegistry();
         
         Composite client = new Composite(parent, SWT.NULL);
-        GridLayout layout = new GridLayout(2, false);
-        layout.marginWidth = layout.marginHeight = 0;
-        client.setLayout(layout);
+        GridLayoutFactory.fillDefaults().numColumns(2).applyTo(client);
         
         Label label = new Label(client, SWT.NULL);
         label.setText(Messages.ColoursPreferencePage_0);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        label.setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(label);
         
         // Tree
         fTreeViewer = new TreeViewer(client);
         GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTreeViewer.getTree());
         
         // Tree Double-click listener
-        fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                Object[] selected = ((IStructuredSelection)fTreeViewer.getSelection()).toArray();
-                if(isValidTreeSelection(selected)) {
-                    RGB newRGB = openColorDialog(selected[0]);
-                    if(newRGB != null) {
-                        for(Object object : selected) {
-                            setColor(object, newRGB);
-                        }
+        fTreeViewer.addDoubleClickListener(event -> {
+            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
+            if(isValidTreeSelection(selected)) {
+                RGB newRGB = openColorDialog(selected[0]);
+                if(newRGB != null) {
+                    for(Object object : selected) {
+                        setColor(object, newRGB);
                     }
                 }
             }
         });
         
         // Tree Selection Changed Listener
-        fTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() { 
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                Object[] selected = ((IStructuredSelection)event.getSelection()).toArray();
-                fEditFillColorButton.setEnabled(isValidTreeSelection(selected));
-                fResetFillColorButton.setEnabled(isValidTreeSelection(selected));
-            }
+        fTreeViewer.addSelectionChangedListener(event -> { 
+            Object[] selected = event.getStructuredSelection().toArray();
+            fEditFillColorButton.setEnabled(isValidTreeSelection(selected));
+            fResetFillColorButton.setEnabled(isValidTreeSelection(selected));
         });
         
         // Tree Content Provider
@@ -170,49 +149,45 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
             @Override
             public Object[] getElements(Object inputElement) {
-                if(inputElement instanceof String) {
-                    return new Object[] {
-                            new TreeGrouping(Messages.ColoursPreferencePage_1, ArchimateModelUtils.getStrategyClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_2, ArchimateModelUtils.getBusinessClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_3, ArchimateModelUtils.getApplicationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_4, ArchimateModelUtils.getTechnologyClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_5, ArchimateModelUtils.getPhysicalClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_6, ArchimateModelUtils.getMotivationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_7, ArchimateModelUtils.getImplementationMigrationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_8, ArchimateModelUtils.getOtherClasses() ),
-                            
-                            new TreeGrouping(Messages.ColoursPreferencePage_9,
-                                    new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
-                                                   IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
-                            
-                            new TreeGrouping(Messages.ColoursPreferencePage_10, new FolderType[] {
-                                    FolderType.STRATEGY,
-                                    FolderType.BUSINESS,
-                                    FolderType.APPLICATION,
-                                    FolderType.TECHNOLOGY,
-                                    FolderType.MOTIVATION,
-                                    FolderType.IMPLEMENTATION_MIGRATION,
-                                    FolderType.OTHER,
-                                    FolderType.RELATIONS,
-                                    FolderType.DIAGRAMS }),
-                            
-                            new TreeGrouping(Messages.ColoursPreferencePage_25, themeColors.toArray()),
-                            
-                            DEFAULT_ELEMENT_LINE_COLOR,
-                            DEFAULT_CONNECTION_LINE_COLOR
-                    };
-                }
-                
-                return null;
+                return new Object[] {
+                    new TreeGrouping(Messages.ColoursPreferencePage_1, ArchimateModelUtils.getStrategyClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_2, ArchimateModelUtils.getBusinessClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_3, ArchimateModelUtils.getApplicationClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_4, ArchimateModelUtils.getTechnologyClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_5, ArchimateModelUtils.getPhysicalClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_6, ArchimateModelUtils.getMotivationClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_7, ArchimateModelUtils.getImplementationMigrationClasses()),
+                    new TreeGrouping(Messages.ColoursPreferencePage_8, ArchimateModelUtils.getOtherClasses() ),
+
+                    new TreeGrouping(Messages.ColoursPreferencePage_9,
+                            new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
+                                           IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
+
+                    new TreeGrouping(Messages.ColoursPreferencePage_10, new FolderType[] {
+                            FolderType.STRATEGY,
+                            FolderType.BUSINESS,
+                            FolderType.APPLICATION,
+                            FolderType.TECHNOLOGY,
+                            FolderType.MOTIVATION,
+                            FolderType.IMPLEMENTATION_MIGRATION,
+                            FolderType.OTHER,
+                            FolderType.RELATIONS,
+                            FolderType.DIAGRAMS }),
+
+                    new TreeGrouping(Messages.ColoursPreferencePage_25, themeColors.toArray()),
+
+                    DEFAULT_ELEMENT_LINE_COLOR,
+                    DEFAULT_CONNECTION_LINE_COLOR
+                };
             }
 
             @Override
             public Object[] getChildren(Object parentElement) {
-                if(parentElement instanceof TreeGrouping) {
-                    return ((TreeGrouping)parentElement).children;
+                if(parentElement instanceof TreeGrouping grouping) {
+                    return grouping.children;
                 }
                 
-                return null;
+                return new Object[0];
             }
 
             @Override
@@ -231,15 +206,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTreeViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
-                if(element instanceof EClass) {
-                    return ArchiLabelProvider.INSTANCE.getDefaultName((EClass)element);
+                if(element instanceof EClass eClass) {
+                    return ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
                 }
-                if(element instanceof TreeGrouping) {
-                    return ((TreeGrouping)element).title;
+                if(element instanceof TreeGrouping grouping) {
+                    return grouping.title;
                 }
-                if(element instanceof String) {
-                    String s = (String)element;
-                    
+                if(element instanceof String s) {
                     // Theme colors
                     if(themeColors.contains(s)) {
                         return ThemeUtils.getColorDefinitionName(s);
@@ -254,8 +227,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                             return s;
                     }
                 }
-                if(element instanceof FolderType) {
-                    return ((FolderType)element).getLabel();
+                if(element instanceof FolderType folderType) {
+                    return folderType.getLabel();
                 }
                 
                 return null;
@@ -263,16 +236,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             
             @Override
             public Image getImage(Object element) {
+                if(element == null) {
+                    return null;
+                }
+                
+                // TreeGrouping
                 if(element instanceof TreeGrouping) {
                     return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FOLDER_DEFAULT);
                 }
-
-                return getColorSwatch(element);
-            }
-            
-            // Create a coloured image based on colour and add to the image registry
-            private Image getColorSwatch(Object object) {
-                String key = getColorKey(object);
+                
+                // Create a coloured rectangle image and add to the image registry
+                String key = getColorKey(element);
                 Image image = fImageRegistry.get(key);
                 
                 if(image == null) {
@@ -281,8 +255,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                         Image tmp = new Image(getShell().getDisplay(), 16, 16);
                         
                         GC gc = new GC(tmp);
-                        if(object != null && fColorsCache.containsKey(object)) {
-                            gc.setBackground(fColorsCache.get(object));
+                        Color color = fColorsCache.get(element);
+                        if(color != null) {
+                            gc.setBackground(color);
                         }
                         gc.fillRectangle(0, 0, 15, 15);
                         gc.drawRectangle(0, 0, 15, 15);
@@ -298,14 +273,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 
                 return image;
             }
-            
         });
         
         //fTreeViewer.setAutoExpandLevel(2);
 
         // Buttons
         Composite buttonClient = new Composite(client, SWT.NULL);
-        gd = new GridData(SWT.TOP, SWT.TOP, false, false);
+        GridData gd = new GridData(SWT.TOP, SWT.TOP, false, false);
         buttonClient.setLayoutData(gd);
         buttonClient.setLayout(new GridLayout());
         
@@ -314,70 +288,58 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fEditFillColorButton.setText(Messages.ColoursPreferencePage_13);
         setButtonLayoutData(fEditFillColorButton);
         fEditFillColorButton.setEnabled(false);
-        fEditFillColorButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                Object[] selected = ((IStructuredSelection)fTreeViewer.getSelection()).toArray();
-                if(isValidTreeSelection(selected)) {
-                    RGB newRGB = openColorDialog(selected[0]);
-                    if(newRGB != null) {
-                        for(Object object : selected) {
-                            setColor(object, newRGB);
-                        }
+        fEditFillColorButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
+            if(isValidTreeSelection(selected)) {
+                RGB newRGB = openColorDialog(selected[0]);
+                if(newRGB != null) {
+                    for(Object object : selected) {
+                        setColor(object, newRGB);
                     }
                 }
             }
-        });
+        }));
 
         // Reset
         fResetFillColorButton = new Button(buttonClient, SWT.PUSH);
         fResetFillColorButton.setText(Messages.ColoursPreferencePage_14);
         setButtonLayoutData(fResetFillColorButton);
         fResetFillColorButton.setEnabled(false);
-        fResetFillColorButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                Object[] selected = ((IStructuredSelection)fTreeViewer.getSelection()).toArray();
-                if(isValidTreeSelection(selected)) {
-                    for(Object object : selected) {
-                        resetColorToInbuiltDefault(object);
-                    }
+        fResetFillColorButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            Object[] selected = ((IStructuredSelection)fTreeViewer.getSelection()).toArray();
+            if(isValidTreeSelection(selected)) {
+                for(Object object : selected) {
+                    resetColorToInbuiltDefault(object);
                 }
             }
-        });
+        }));
         
         // Import Scheme
         Button importButton = new Button(buttonClient, SWT.PUSH);
         importButton.setText(Messages.ColoursPreferencePage_15);
         setButtonLayoutData(importButton);
         importButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        importButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                try {
-                    importUserColors();
-                }
-                catch(IOException ex) {
-                    ex.printStackTrace();
-                }
+        importButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            try {
+                importUserColors();
             }
-        });
+            catch(IOException ex) {
+                ex.printStackTrace();
+            }
+        }));
         
         // Export Scheme
         Button exportButton = new Button(buttonClient, SWT.PUSH);
         exportButton.setText(Messages.ColoursPreferencePage_16);
         setButtonLayoutData(exportButton);
-        exportButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                try {
-                    exportUserColors();
-                }
-                catch(IOException ex) {
-                    ex.printStackTrace();
-                }
+        exportButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            try {
+                exportUserColors();
             }
-        });
+            catch(IOException ex) {
+                ex.printStackTrace();
+            }
+        }));
         
         // Derive element line colours
         fDeriveElementLineColorsButton = new Button(client, SWT.CHECK);
@@ -403,18 +365,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     /**
-     * @param object
-     * @return The string key associated with a object
+     * @return The string key associated with an object
      */
     private String getColorKey(Object object) {
-        if(object instanceof String) {
-            return (String)object;
+        if(object instanceof String s) {
+            return s;
         }
-        else if(object instanceof EClass) {
-            return ((EClass)object).getName();
+        else if(object instanceof EClass eClass) {
+            return eClass.getName();
         }
-        else if(object instanceof FolderType) {
-            return ((FolderType)object).getName();
+        else if(object instanceof FolderType folderType) {
+            return folderType.getName();
         }
         return "x"; //$NON-NLS-1$
     }
@@ -463,19 +424,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getDiagramModelConnection()).getRGB();
         }
         // Fill color
-        else if(object instanceof EClass) {
-            EClass eClass = (EClass)object;
+        else if(object instanceof EClass eClass) {
             defaultRGB = ColorFactory.getInbuiltDefaultFillColor(eClass).getRGB();
         }
         
         // Folder
-        else if(object instanceof FolderType) {
-            defaultRGB = FolderUIProvider.getDefaultFolderColor((FolderType)object).getRGB();
+        else if(object instanceof FolderType folderType) {
+            defaultRGB = FolderUIProvider.getDefaultFolderColor(folderType).getRGB();
         }
         
         // Theme color
-        else if(object instanceof String && themeColors.contains(object)) {
-            defaultRGB = ThemeUtils.getDefaultThemeColor((String)object);
+        else if(object instanceof String s && themeColors.contains(object)) {
+            defaultRGB = ThemeUtils.getDefaultThemeColor(s);
         }
         
         setColor(object, defaultRGB);
