@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.gef.feature"
       label="Eclipse GEF/Draw2d/Zest"
-      version="5.6.0.qualifier"
+      version="5.7.0.qualifier"
       provider-name="Archi">
 
    <description>

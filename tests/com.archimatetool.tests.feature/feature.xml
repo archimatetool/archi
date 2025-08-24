@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.tests.feature"
       label="Archi Unit Tests"
-      version="5.6.0.qualifier"
+      version="5.7.0.qualifier"
       provider-name="Archi">
 
    <description>

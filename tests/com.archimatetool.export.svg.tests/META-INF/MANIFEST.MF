@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for SVG Export
 Bundle-SymbolicName: com.archimatetool.export.svg.tests
-Bundle-Version: 5.6.0.qualifier
+Bundle-Version: 5.7.0.qualifier
 Fragment-Host: com.archimatetool.export.svg
 Bundle-Vendor: Archi
 Require-Bundle: com.archimatetool.testsupport

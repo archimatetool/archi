@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for Archi Canvas Editor
 Bundle-SymbolicName: com.archimatetool.canvas.tests
-Bundle-Version: 5.6.0.qualifier
+Bundle-Version: 5.7.0.qualifier
 Fragment-Host: com.archimatetool.canvas
 Import-Package: com.archimatetool.testingtools
 Require-Bundle: com.archimatetool.testsupport
