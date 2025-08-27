@@ -13,11 +13,9 @@ import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
@@ -190,24 +188,6 @@ public class ImageFactory {
         return image;
     }
     
-    /**
-     * Create an autoscaled image dependent on device zoom
-     * As of now, this is only needed on Linux X11 at 200% but might be used for different scaling on other platforms,
-     * @param image The image to scale. This original image is disposed.
-     * @return an autoscaled image depending on current device zoom
-     */
-    public static Image getAutoScaledImage(Image image) {
-        ImageData imageData = image.getImageData(getDeviceZoom());
-        Device imageDevice = image.getDevice();
-        image.dispose();
-        
-        return new Image(imageDevice, (ImageDataProvider) zoom -> {
-            return DPIUtil.autoScaleImageData(imageDevice, imageData, zoom, getDeviceZoom());
-            // Later version of Eclipse will be:
-            // return DPIUtil.scaleImageData(imageDevice, imageData, zoom, getDeviceZoom());
-        });
-    }
-
     /**
      * Return a composite image consisting of many images
      * 

@@ -6,8 +6,6 @@
 package com.archimatetool.editor.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
@@ -17,15 +15,6 @@ import org.junit.jupiter.api.Test;
 
 public class ImageFactoryTests {
 
-    @Test
-    public void getAutoScaledImage() {
-        Image image = new Image(Display.getDefault(), 30, 40);
-        Image image2 = ImageFactory.getAutoScaledImage(image);
-        assertTrue(image.isDisposed());
-        assertSame(Display.getDefault(), image2.getDevice());
-        image2.dispose();
-    }
-    
     @Test
     public void getScaledImage_Width_Height() {
         Image image1 = new Image(Display.getDefault(), 30, 40);
