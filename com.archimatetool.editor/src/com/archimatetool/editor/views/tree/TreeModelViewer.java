@@ -336,6 +336,23 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
+     * Set input on the tree and restore expanded tree nodes
+     * @param input The input
+     * @since 5.7.0
+     */
+    void setInputPreservingExpandedNodes(Object input) {
+        try {
+            Object[] expanded = getExpandedElements();
+            getControl().setRedraw(false);
+            setInput(input);
+            setExpandedElements(expanded);
+        }
+        finally {
+            getControl().setRedraw(true);
+        }
+    }
+    
+    /**
      * Finds the widget which represents the given element.
      * @param element the element
      * @return the TreeItem or null

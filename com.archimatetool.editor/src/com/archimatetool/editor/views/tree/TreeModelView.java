@@ -698,10 +698,21 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
         switch(event.getProperty()) {
-            case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE:
-            case IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE:
+            case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE,
+                 IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE -> {
                 getViewer().update();
-                break;
+            }
+            
+            case IPreferenceConstants.TREE_DISPLAY_NODE_INCREMENT -> {
+                int limit = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.TREE_DISPLAY_NODE_INCREMENT);
+                getViewer().setDisplayIncrementally(limit);
+                if(fDrillDownAdapter.canGoHome()) { // We are drilled in
+                    setDrillDownHome(); // This will call setInput on Viewer and restore expanded nodes
+                }
+                else {
+                    getViewer().setInputPreservingExpandedNodes(IEditorModelManager.INSTANCE);
+                }
+            }
         }
 
         if(event.getProperty().startsWith(IPreferenceConstants.FOLDER_COLOUR_PREFIX)) {
