@@ -21,11 +21,6 @@
             <layout>p2</layout>
             <url>https://download.eclipse.org/releases/2024-06</url>
         </repository>
-        <repository>
-            <id>JGit</id>
-            <layout>p2</layout>
-            <url>https://download.eclipse.org/egit/updates-7.4</url>
-        </repository>
     </repositories>
 
     <!--Core modules -->

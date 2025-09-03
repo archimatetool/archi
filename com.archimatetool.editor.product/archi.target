@@ -6,12 +6,8 @@
         <repository location="https://download.eclipse.org/releases/2024-06"/>
         <unit id="org.eclipse.sdk.ide" version="4.32.0.I20240601-0610"/>
         <unit id="org.eclipse.emf.compare.feature.group" version="3.3.24.202401051648"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/egit/updates-7.4"/>
-        <unit id="org.eclipse.jgit.feature.group" version="7.4.0.202509020913-r"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="7.4.0.202509020913-r"/>
-        <unit id="org.eclipse.jgit.gpg.bc.feature.group" version="7.4.0.202509020913-r"/>
+        <unit id="org.eclipse.jgit.feature.group" version="6.10.0.202406032230-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.10.0.202406032230-r"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="https://download.eclipse.org/eclipse/updates/4.32"/>
