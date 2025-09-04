@@ -9,9 +9,7 @@ Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- org.eclipse.equinox.http.jetty,
  org.eclipse.help.ui,
- org.eclipse.help.webapp,
  org.eclipse.ui.cheatsheets,
  com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
