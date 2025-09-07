@@ -47,13 +47,29 @@ import com.archimatetool.model.IFolder;
 @SuppressWarnings("nls")
 public class MyImporter implements IModelImporter {
 
-    String MY_EXTENSION_WILDCARD = "*.mex"; //$NON-NLS-1$
+    private static final String MY_EXTENSION_WILDCARD = "*.mex";
     
     // ID -> Object lookup table
-    Map<String, EObject> idLookup;
+    private Map<String, EObject> idLookup;
+    
+    // Representation of an Element
+    private record Element(String type, String name, String id) {}
+
+    // Representation of a Relationship
+    private record Relationship(String type, String name, String id, String sourceId, String targetId) {}
+    
+    // Representation of a View
+    private record View(String name, String id) {}
+
+    // Representation of a View element
+    private record ViewElement(String viewId, String elementId, int x, int y, int width, int height) {}
+
+    // Representation of a View connection
+    private record ViewConnection(String viewId, String relationshipId) {}
 
     @Override
     public void doImport() throws IOException {
+        // Ask to open the file
         File file = askOpenFile();
         if(file == null) {
             return;
@@ -61,126 +77,99 @@ public class MyImporter implements IModelImporter {
         
         // Load in the file and get its information here.
         // Assuming you load in the data in some way, perhaps with JDOM, or a SAX Parser ot text reader then you will
-        // have a representation of it in memory that you need to map to Archi elements.
+        // have a representation of it in Java classes that you need to map to Archi elements, relationships and Views.
         
-        
-        // Here is some example raw data in String format. This is a very simple example so the data
-        // is not in the best format. There is no error checking either.
+        // Here is some example raw data...
         
         // Elements
-        String[] elements = {
-                // Type, Name, ID
-                "BusinessActor", "Actor", "elementID1",
-                "BusinessRole", "Client", "elementID2",
-                "BusinessFunction", "My Function", "elementID3"
-        };
+        List<Element> elements = List.of(
+                new Element("BusinessActor", "Actor", "elementID1"),
+                new Element("BusinessRole", "Client", "elementID2"),
+                new Element("BusinessFunction", "My Function", "elementID3"));
+        
         
         // Relationships
-        String[] relations = {
-                // Type, Name, ID, sourceID, targetID
-                "AssignmentRelationship", "Assigned to", "relID1", "elementID1", "elementID2",
-                "UsedByRelationship", "", "relID2", "elementID1", "elementID3",
-                "AssociationRelationship", "", "relID3", "elementID2", "elementID3"
-        };
+        List<Relationship> relationships = List.of(
+                new Relationship("AssignmentRelationship", "Assigned to", "relID1", "elementID1", "elementID2"),
+                new Relationship("ServingRelationship", "", "relID2", "elementID1", "elementID3"),
+                new Relationship("AssociationRelationship", "", "relID3", "elementID2", "elementID3"));
         
         // Views
-        String[] views = {
-                // Name, ID
-                "A View", "view1",
-                "Another View", "view2"
-        };
+        List<View> views = List.of(
+                new View("A View", "view1"),
+                new View("Another View", "view2"));
         
         // View elements
-        String[] viewElements = {
-                // ID of parent View, ID of referenced element, x, y, width, height
-                "view1", "elementID1", "10", "10", "-1", "-1",
-                "view1", "elementID2", "310", "10", "-1", "-1",
-                "view1", "elementID3", "310", "110", "-1", "-1",
-                "view2", "elementID2", "10", "10", "-1", "-1",
-                "view2", "elementID3", "10", "110", "-1", "-1"
-        };
+        List<ViewElement> viewElements = List.of(
+                new ViewElement("view1", "elementID1", 10, 10, -1, -1),
+                new ViewElement("view1", "elementID2", 310, 10, -1, -1),
+                new ViewElement("view1", "elementID3", 310, 110, -1, -1),
+                new ViewElement("view2", "elementID2", 10, 10, -1, -1),
+                new ViewElement("view2", "elementID3", 10, 110, -1, -1));
         
         // View connections
-        String[] viewConnections = {
-                // ID of parent View, ID of relationship
-                "view1", "relID1",
-                "view1", "relID2",
-                "view2", "relID3",
-        };
-
-        // Create the model...
+        List<ViewConnection> viewConnections = List.of(
+                new ViewConnection("view1", "relID1"),
+                new ViewConnection("view1", "relID2"),
+                new ViewConnection("view2", "relID3"));
         
-        // Create a new Archimate Model and set its defaults
+        // Create the model from this data...
+        
+        // Create a new Archimate Model and set defaults
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
         model.setName("My Model");
         
-        // Create and add elements matching imported data
+        // Create and add elements matching the data above
         // If an ID is not provided for an element then a unique ID will be generated when the model element is added to a parent
         // model element, otherwise you can use your own IDs provided in the input data.
+        
         // Let's use an ID -> EObject mapping table for convenience
         idLookup = new HashMap<String, EObject>();
         
         // Create and add model elements
-        for(int i = 0; i < elements.length;) {
-            String type = elements[i++];
-            String name = elements[i++];
-            String id = elements[i++];
-            createAndAddArchimateElement(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type), name, id);
+        for(Element e : elements) {
+            createAndAddArchimateElement(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(e.type), e.name, e.id);
         }
         
         // Create and add model relationships and set source and target elements
-        for(int i = 0; i < relations.length;) {
-            String type = relations[i++];
-            String name = relations[i++];
-            String id = relations[i++];
-            String sourceID = relations[i++];
-            String targetID = relations[i++];
-            IArchimateRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type), name, id);
+        for(Relationship r : relationships) {
+            IArchimateRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(r.type), r.name, r.id);
             
-            // Find source and target elements from their IDs in the lookup table
-            IArchimateElement source = (IArchimateElement)idLookup.get(sourceID);
-            IArchimateElement target = (IArchimateElement)idLookup.get(targetID);
+            // Find source and target elements from their IDs in the lookup table and set them
+            IArchimateElement source = (IArchimateElement)idLookup.get(r.sourceId);
+            IArchimateElement target = (IArchimateElement)idLookup.get(r.targetId);
             relationship.setSource(source);
             relationship.setTarget(target);
         }
         
         // Create and add diagram views
-        for(int i = 0; i < views.length;) {
-            String name = views[i++];
-            String id = views[i++];
-            createAndAddView(model, name, id);
+        for(View v : views) {
+            createAndAddView(model, v.name, v.id);
         }
 
         // Add diagram elements to views
-        for(int i = 0; i < viewElements.length;) {
-            String viewID = viewElements[i++];
-            String refID = viewElements[i++];
-            int x = Integer.parseInt(viewElements[i++]);
-            int y = Integer.parseInt(viewElements[i++]);
-            int width = Integer.parseInt(viewElements[i++]);
-            int height = Integer.parseInt(viewElements[i++]);
-            
-            IDiagramModel diagramModel = (IDiagramModel)idLookup.get(viewID);
-            IArchimateElement element = (IArchimateElement)idLookup.get(refID);
-            createAndAddElementToView(diagramModel, element, x, y, width, height);
+        for(ViewElement ve : viewElements) {
+            IDiagramModel diagramModel = (IDiagramModel)idLookup.get(ve.viewId);
+            IArchimateElement element = (IArchimateElement)idLookup.get(ve.elementId);
+            createAndAddElementToView(diagramModel, element, ve.x, ve.y, ve.width, ve.height);
         }
         
         // Add diagram connections to views
-        for(int i = 0; i < viewConnections.length;) {
-            String viewID = viewConnections[i++];
-            String relationshipID = viewConnections[i++];
-            
-            IDiagramModel diagramModel = (IDiagramModel)idLookup.get(viewID);
-            IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(relationshipID);
+        for(ViewConnection vc : viewConnections) {
+            IDiagramModel diagramModel = (IDiagramModel)idLookup.get(vc.viewId);
+            IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(vc.relationshipId);
             createAndAddConnectionsToView(diagramModel, relationship);
         }
         
-        // And open the Model in the Editor
+        // And open the Model in the Models Tree
         IEditorModelManager.INSTANCE.openModel(model);
     }
     
-    protected void createAndAddConnectionsToView(IDiagramModel diagramModel, IArchimateRelationship relationship) {
+    /**
+     * Create and add ArchiMate Connections to a View
+     */
+    private void createAndAddConnectionsToView(IDiagramModel diagramModel, IArchimateRelationship relationship) {
         List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getSource());
         List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getTarget());
 
@@ -194,7 +183,10 @@ public class MyImporter implements IModelImporter {
         }
     }
 
-    protected IDiagramModelArchimateObject createAndAddElementToView(IDiagramModel diagramModel, IArchimateElement element, int x, int y, int width, int height) {
+    /**
+     * Create and add an ArchiMate Element to a View
+     */
+    private IDiagramModelArchimateObject createAndAddElementToView(IDiagramModel diagramModel, IArchimateElement element, int x, int y, int width, int height) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
         dmo.setBounds(x, y, width, height);
@@ -203,7 +195,10 @@ public class MyImporter implements IModelImporter {
         return dmo;
     }
 
-    protected IDiagramModel createAndAddView(IArchimateModel model, String name, String id) {
+    /**
+     * Create and add an ArchiMate View to its folder
+     */
+    private IDiagramModel createAndAddView(IArchimateModel model, String name, String id) {
         IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         diagramModel.setName(name);
         diagramModel.setId(id);
@@ -213,23 +208,32 @@ public class MyImporter implements IModelImporter {
         return diagramModel;
     }
     
-    protected IArchimateRelationship createAndAddArchimateRelationship(IArchimateModel model, EClass type, String name, String id) {
+    /**
+     * Create and add an ArchiMate relationship to its folder
+     */
+    private IArchimateRelationship createAndAddArchimateRelationship(IArchimateModel model, EClass type, String name, String id) {
         if(!IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(type)) {
             throw new IllegalArgumentException("Eclass type should be of relationship type");
         }
         
-        return (IArchimateRelationship)createAndAddArchimateComponent(model, type, name, id);
+        return (IArchimateRelationship)createAndAddArchimateConcept(model, type, name, id);
     }
     
-    protected IArchimateElement createAndAddArchimateElement(IArchimateModel model, EClass type, String name, String id) {
+    /**
+     * Create and add an ArchiMate element to its folder
+     */
+    private IArchimateElement createAndAddArchimateElement(IArchimateModel model, EClass type, String name, String id) {
         if(!IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(type)) {
-            throw new IllegalArgumentException("Eclass type should be of archimate element type");
+            throw new IllegalArgumentException("Eclass type should be of element type");
         }
 
-        return (IArchimateElement)createAndAddArchimateComponent(model, type, name, id);
+        return (IArchimateElement)createAndAddArchimateConcept(model, type, name, id);
     }
     
-    protected IArchimateConcept createAndAddArchimateComponent(IArchimateModel model, EClass type, String name, String id) {
+    /**
+     * Create and add an ArchiMate concept to its folder
+     */
+    private IArchimateConcept createAndAddArchimateConcept(IArchimateModel model, EClass type, String name, String id) {
         IArchimateConcept concept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(type);
         concept.setName(name);
         concept.setId(id);
@@ -239,9 +243,12 @@ public class MyImporter implements IModelImporter {
         return concept;
     }
 
-    protected File askOpenFile() {
+    /**
+     * Ask to open a file.
+     */
+    private File askOpenFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
         String path = dialog.open();
         return path != null ? new File(path) : null;
     }

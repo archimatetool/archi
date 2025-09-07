@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
 import com.archimatetool.editor.model.IModelExporter;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -27,75 +28,84 @@ import com.archimatetool.model.IFolder;
 
 /**
  * Example Exporter of Archimate model
+ * Exports all concepts in a selected model to a text file in format:
+ * "Type","Name","Documentation"
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class MyExporter implements IModelExporter {
     
-    String MY_EXTENSION = ".mex"; //$NON-NLS-1$
-    String MY_EXTENSION_WILDCARD = "*.mex"; //$NON-NLS-1$
-    
-    private OutputStreamWriter writer;
+    private static final String MY_EXTENSION = ".mex";
+    private static final String MY_EXTENSION_WILDCARD = "*.mex";
     
     public MyExporter() {
     }
 
     @Override
     public void export(IArchimateModel model) throws IOException {
+        // Open dialog to get file to save to
         File file = askSaveFile();
         if(file == null) {
             return;
         }
         
-        writer = new OutputStreamWriter(new FileOutputStream(file));
-        
-        writeFolder(model.getFolder(FolderType.STRATEGY));
-        writeFolder(model.getFolder(FolderType.BUSINESS));
-        writeFolder(model.getFolder(FolderType.APPLICATION));
-        writeFolder(model.getFolder(FolderType.TECHNOLOGY));
-        writeFolder(model.getFolder(FolderType.MOTIVATION));
-        writeFolder(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
-        writeFolder(model.getFolder(FolderType.OTHER));
-        writeFolder(model.getFolder(FolderType.RELATIONS));
-        
-        writer.close();
-    }
-    
-    private void writeFolder(IFolder folder) throws IOException {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        getElements(folder, list);
-        
-        for(EObject eObject : list) {
-            if(eObject instanceof IArchimateConcept) {
-                IArchimateConcept concept = (IArchimateConcept)eObject;
-                String string = normalise(concept.eClass().getName()) +
-                        "," + normalise(concept.getName()) //$NON-NLS-1$
-                        + "," + normalise(concept.getDocumentation()); //$NON-NLS-1$
-                writer.write(string + "\n"); //$NON-NLS-1$
-            }
+        // Write all concepts in model folders to file
+        try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file))) {
+            writeFolder(model.getFolder(FolderType.STRATEGY), writer);
+            writeFolder(model.getFolder(FolderType.BUSINESS), writer);
+            writeFolder(model.getFolder(FolderType.APPLICATION), writer);
+            writeFolder(model.getFolder(FolderType.TECHNOLOGY), writer);
+            writeFolder(model.getFolder(FolderType.MOTIVATION), writer);
+            writeFolder(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION), writer);
+            writeFolder(model.getFolder(FolderType.OTHER), writer);
+            writeFolder(model.getFolder(FolderType.RELATIONS), writer);
         }
     }
     
-    private void getElements(IFolder folder, List<EObject> list) {
+    /**
+     * Write contents of folder to file
+     */
+    private void writeFolder(IFolder folder, OutputStreamWriter writer) throws IOException {
+        List<IArchimateConcept> list = new ArrayList<>();
+        getConcepts(folder, list);
+        
+        // Write concept type, concept name and documentation to text string
+        for(IArchimateConcept concept : list) {
+            String string = normalise(concept.eClass().getName()) + ","
+                            + normalise(concept.getName()) + ","
+                            + normalise(concept.getDocumentation());
+            writer.write(string + "\n");
+        }
+    }
+    
+    /**
+     * Get all concepts in a folder and sub-folders
+     */
+    private void getConcepts(IFolder folder, List<IArchimateConcept> list) {
         for(EObject object : folder.getElements()) {
-            list.add(object);
+            if(object instanceof IArchimateConcept concept) {
+                list.add(concept);
+            }
         }
         
         for(IFolder f : folder.getFolders()) {
-            getElements(f, list);
+            getConcepts(f, list);
         }
     }
 
-    private String normalise(String s) {
-        if(s == null) {
-            return ""; //$NON-NLS-1$
+    /**
+     * Check text for null, replace newlines with a space, and surround text with quotes
+     */
+    private String normalise(String text) {
+        if(text == null) {
+            return "";
         }
         
-        s = s.replace("\r\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
-        s = "\"" + s + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+        text = StringUtils.normaliseNewLineCharacters(text);
+        text = "\"" + text + "\"";
         
-        return s;
+        return text;
     }
 
     /**
@@ -103,8 +113,8 @@ public class MyExporter implements IModelExporter {
      */
     private File askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export Model"); //$NON-NLS-1$
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
+        dialog.setText("Export Model");
+        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
 
         // Set to true for consistency on all OSs
         dialog.setOverwrite(true);
