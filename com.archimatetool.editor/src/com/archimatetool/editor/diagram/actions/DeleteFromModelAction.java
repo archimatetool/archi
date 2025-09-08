@@ -110,7 +110,7 @@ public class DeleteFromModelAction extends SelectionAction {
             if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(),
                     Messages.DeleteFromModelAction_0,
                     Messages.DeleteFromModelAction_1 +
-                    "\n\n" + //$NON-NLS-1$
+                    "\n" + //$NON-NLS-1$
                     Messages.DeleteFromModelAction_2)) {
                 return;
             }
