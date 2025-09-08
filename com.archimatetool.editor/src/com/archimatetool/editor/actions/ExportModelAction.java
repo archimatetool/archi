@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.model.IArchimateModel;
 
@@ -37,8 +38,8 @@ public class ExportModelAction extends AbstractModelAction {
                 fExporter.export(model);
             }
             catch(IOException ex) {
+                Logger.logError("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ExportModelAction_0, ex.getMessage());
-                ex.printStackTrace();
             }
         }
     }

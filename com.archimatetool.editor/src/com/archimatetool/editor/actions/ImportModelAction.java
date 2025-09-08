@@ -12,6 +12,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IModelImporter;
 
 
@@ -40,8 +41,8 @@ implements IWorkbenchAction {
                 fImporter.doImport();
             }
             catch(IOException ex) {
+                Logger.logError("Error on Import", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
-                ex.printStackTrace();
             }
         }
     }
