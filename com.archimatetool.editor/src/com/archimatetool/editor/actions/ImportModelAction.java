@@ -30,10 +30,6 @@ public class ImportModelAction extends Action implements IWorkbenchAction {
         super(label);
         workbenchWindow = window;
         setId(id);
-        setActionDefinitionId(id);
-        
-        // Register this with the handler service
-        ActionUtil.registerCommandHandler(window, this, ActionUtil.createCommandName(label, Messages.ImportModelAction_1));
     }
     
     @Override

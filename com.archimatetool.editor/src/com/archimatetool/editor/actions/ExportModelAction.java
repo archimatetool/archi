@@ -26,10 +26,6 @@ public class ExportModelAction extends AbstractModelAction {
     public ExportModelAction(IWorkbenchWindow window, String id, String label) {
         super(label, window);
         setId(id);
-        setActionDefinitionId(id);
-        
-        // Register this with the handler service
-        ActionUtil.registerCommandHandler(window, this, ActionUtil.createCommandName(label, Messages.ExportModelAction_1));
     }
     
     @Override
