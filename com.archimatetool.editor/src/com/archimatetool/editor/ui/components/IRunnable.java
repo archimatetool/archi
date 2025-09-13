@@ -38,6 +38,7 @@ public interface IRunnable {
      * @since 5.7.0
      */
     static void run(IRunnableContext context, boolean fork, IRunnable runnable) throws Exception {
+        // The possible exception thrown by runnable.run(monitor)
         AtomicReference<Exception> exception = new AtomicReference<>();
         
         try {
@@ -46,18 +47,15 @@ public interface IRunnable {
                     runnable.run(monitor);
                 }
                 catch(Exception ex) {
-                    exception.set(ex);
+                    exception.set(ex); // store this...
                 }
             });
         }
         catch(InvocationTargetException ex) {
-            exception.set(new Exception(ex.getTargetException())); // we want the target exception
-        }
-        catch(InterruptedException ex) {
-            exception.set(ex);
+            throw new Exception(ex.getTargetException()); // we want the target exception
         }
         
-        if(exception.get() != null) {
+        if(exception.get() != null) { // ...and throw it
             throw exception.get();
         }
     }
