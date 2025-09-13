@@ -2,26 +2,62 @@
 <?eclipse version="3.8"?>
 <plugin>
    <extension
-         point="com.archimatetool.editor.exportHandler">
-      <exportHandler
-            class="org.opengroup.archimate.xmlexchange.XMLExchangeExportProvider"
-            id="com.archimatetool.exchange.exportHandler"
-            label="%exportHandler.label">
-      </exportHandler>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.importHandler">
-      <importHandler
-            class="org.opengroup.archimate.xmlexchange.XMLExchangeImportProvider"
-            id="com.archimatetool.exchange.importHandler"
-            label="%importHandler.label">
-      </importHandler>
-   </extension>
-   <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="org.opengroup.archimate.xmlexchange.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="org.opengroup.archimate.xmlexchange.importCommand"
+            name="%command2.name">
+      </command>
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="org.opengroup.archimate.xmlexchange.exportCommand"
+            name="%command1.name">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.opengroup.archimate.xmlexchange.XMLExchangeImportHandler"
+            commandId="org.opengroup.archimate.xmlexchange.importCommand">
+      </handler>
+      <handler
+            class="org.opengroup.archimate.xmlexchange.XMLExchangeExportHandler"
+            commandId="org.opengroup.archimate.xmlexchange.exportCommand">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:import_menu?before=import_ext">
+         <command
+               commandId="org.opengroup.archimate.xmlexchange.importCommand"
+               id="org.opengroup.archimate.xmlexchange.importMenu"
+               label="%importHandler.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:export_menu?before=export_ext">
+         <command
+               commandId="org.opengroup.archimate.xmlexchange.exportCommand"
+               id="org.opengroup.archimate.xmlexchange.exportMenu"
+               label="%exportHandler.label"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>

@@ -8,13 +8,13 @@ package com.archimatetool.csv.importer;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IWorkbenchWindow;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
-import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.modelimporter.ImportException;
 
@@ -25,18 +25,18 @@ import com.archimatetool.modelimporter.ImportException;
  * 
  * @author Phillip Beauvoir
  */
-public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
+public class CSVImportProvider implements CSVConstants {
     
-    @Override
-    public void doImport(IArchimateModel model) throws IOException {
-        File file = askOpenFile();
+    public void doImport(IWorkbenchWindow window, IArchimateModel model) {
+        File file = askOpenFile(window);
         if(file == null) {
             return;
         }
         
         // Check file is valid
         if(!CSVImporter.isElementsFileName(file) && !CSVImporter.isRelationsFileName(file) && !CSVImporter.isPropertiesFileName(file)) {
-            throw new IOException(Messages.CSVImportProvider_0);
+            MessageDialog.openError(window.getShell(), Messages.CSVImportProvider_1, Messages.CSVImportProvider_0);
+            return;
         }
         
         // Import
@@ -44,8 +44,8 @@ public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
             CSVImporter importer =  new CSVImporter(model);
             importer.doImport(file);
         }
-        catch(CSVParseException | ImportException ex) {
-            throw new IOException(ex.getMessage());
+        catch(CSVParseException | ImportException | IOException ex) {
+            MessageDialog.openError(window.getShell(), Messages.CSVImportProvider_1, ex.getMessage());
         }
     }
 
@@ -53,8 +53,8 @@ public class CSVImportProvider implements ISelectedModelImporter, CSVConstants {
      * User should select elements file of format "xxx-elements.csv"
      * The "xxx-" prefix is optional
      */
-    File askOpenFile() {
-        FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
+    File askOpenFile(IWorkbenchWindow window) {
+        FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { "*.csv", "*.txt", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         return path != null ? new File(path) : null;

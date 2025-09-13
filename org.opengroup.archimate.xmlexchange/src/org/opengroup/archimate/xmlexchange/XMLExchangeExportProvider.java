@@ -16,9 +16,9 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.opengroup.archimate.xmlexchange.wizard.ExportToXMLWizard;
 
-import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.model.IArchimateModel;
 
@@ -29,13 +29,12 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGlobals {
+public class XMLExchangeExportProvider implements IXMLExchangeGlobals {
     
-    @Override
-    public void export(IArchimateModel model) throws IOException {
+    public void export(IWorkbenchWindow window, IArchimateModel model) {
         ExportToXMLWizard wizard = new ExportToXMLWizard(model.getName());
         
-        WizardDialog dialog = new ExtendedWizardDialog(Display.getCurrent().getActiveShell(),
+        WizardDialog dialog = new ExtendedWizardDialog(window.getShell(),
                 wizard,
                 "ExportToXMLWizard") { //$NON-NLS-1$
             
@@ -56,13 +55,13 @@ public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGl
                     file.getCanonicalPath();
                 }
                 catch(IOException ex) {
-                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                    MessageDialog.openError(window.getShell(),
                             Messages.XMLExchangeExportProvider_1, Messages.XMLExchangeExportProvider_2);
                 }
                 
                 // Make sure the file does not already exist
                 if(file.exists()) {
-                    boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    boolean result = MessageDialog.openQuestion(window.getShell(),
                             Messages.XMLExchangeExportProvider_3,
                             "'" + file + "' already exists. Are you sure you want to overwrite it?"); //$NON-NLS-1$ //$NON-NLS-2$
                     if(!result) {
@@ -91,7 +90,7 @@ public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGl
                         }
                         catch(Throwable ex) {
                             ex.printStackTrace();
-                            MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            MessageDialog.openError(window.getShell(),
                                     Messages.XMLExchangeExportProvider_3,
                                     Messages.XMLExchangeExportProvider_4
                                     + " " //$NON-NLS-1$

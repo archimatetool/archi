@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * Exporter interface
+ * Deprecated as of 5.7 - use Command declarations in plugin.xml
  * 
  * @author Phillip Beauvoir
  */

@@ -12,6 +12,7 @@ import com.archimatetool.model.IArchimateModel;
 
 /**
  * Exporter interface
+ * Deprecated as of 5.7 - use Command declarations in plugin.xml
  * 
  * @author Phillip Beauvoir
  */

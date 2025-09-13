@@ -11,6 +11,7 @@ import com.archimatetool.model.IArchimateModel;
 
 /**
  * Model Importer interface
+ * Deprecated as of 5.7 - use Command declarations in plugin.xml
  * 
  * @author Phillip Beauvoir
  */

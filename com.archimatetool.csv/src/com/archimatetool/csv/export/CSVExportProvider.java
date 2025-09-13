@@ -5,15 +5,12 @@
  */
 package com.archimatetool.csv.export;
 
-import java.io.IOException;
-
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
 
-import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.model.IArchimateModel;
 
@@ -24,13 +21,12 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-public class CSVExportProvider implements IModelExporter {
+public class CSVExportProvider {
     
-    @Override
-    public void export(IArchimateModel model) throws IOException {
+    public void export(IWorkbenchWindow window, IArchimateModel model) {
         CSVExporter exporter = new CSVExporter(model);
         
-        WizardDialog dialog = new ExtendedWizardDialog(Display.getCurrent().getActiveShell(),
+        WizardDialog dialog = new ExtendedWizardDialog(window.getShell(),
                 new ExportAsCSVWizard(exporter),
                 "ExportAsCSVWizard") { //$NON-NLS-1$
             
