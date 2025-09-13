@@ -7,6 +7,7 @@ package com.archimatetool.editor.actions;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -22,22 +23,26 @@ import com.archimatetool.model.IArchimateModel;
  */
 public class ExportModelAction extends AbstractModelAction {
     
-    private IModelExporter fExporter;
-
-    public ExportModelAction(IWorkbenchWindow window, String id, String label, IModelExporter exporter) {
+    public ExportModelAction(IWorkbenchWindow window, String id, String label) {
         super(label, window);
         setId(id);
-        fExporter = exporter;
+        setActionDefinitionId(id);
+        
+        // Register this with the handler service
+        ActionUtil.registerCommandHandler(window, this, ActionUtil.createCommandName(label, Messages.ExportModelAction_1));
     }
     
     @Override
     public void run() {
         IArchimateModel model = getActiveArchimateModel();
-        if(model != null && fExporter != null) {
+        if(model != null) {
             try {
-                fExporter.export(model);
+                Object instance = ActionUtil.createExtensionPointInstance(ActionUtil.EXTENSIONPOINT_EXPORT_HANDLER, getId());
+                if(instance instanceof IModelExporter exporter) {
+                    exporter.export(model);
+                }
             }
-            catch(IOException ex) {
+            catch(IOException | CoreException ex) {
                 Logger.logError("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ExportModelAction_0, ex.getMessage());
             }

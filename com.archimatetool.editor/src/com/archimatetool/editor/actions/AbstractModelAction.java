@@ -54,5 +54,6 @@ public abstract class AbstractModelAction extends Action implements IWorkbenchAc
     
     @Override
     public void dispose() {
+        workbenchWindow = null;
     }
 }

@@ -7,6 +7,7 @@ package com.archimatetool.editor.actions;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -21,29 +22,31 @@ import com.archimatetool.editor.model.IModelImporter;
  * 
  * @author Phillip Beauvoir
  */
-public class ImportModelAction extends Action
-implements IWorkbenchAction {
+public class ImportModelAction extends Action implements IWorkbenchAction {
     
-    private IModelImporter fImporter;
     private IWorkbenchWindow workbenchWindow;
 
-    public ImportModelAction(IWorkbenchWindow window, String id, String label, IModelImporter importer) {
+    public ImportModelAction(IWorkbenchWindow window, String id, String label) {
         super(label);
-        setId(id);
         workbenchWindow = window;
-        fImporter = importer;
+        setId(id);
+        setActionDefinitionId(id);
+        
+        // Register this with the handler service
+        ActionUtil.registerCommandHandler(window, this, ActionUtil.createCommandName(label, Messages.ImportModelAction_1));
     }
     
     @Override
     public void run() {
-        if(fImporter != null) {
-            try {
-                fImporter.doImport();
+        try {
+            Object instance = ActionUtil.createExtensionPointInstance(ActionUtil.EXTENSIONPOINT_IMPORT_HANDLER, getId());
+            if(instance instanceof IModelImporter importer) {
+                importer.doImport();
             }
-            catch(IOException ex) {
-                Logger.logError("Error on Import", ex); //$NON-NLS-1$
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
-            }
+        }
+        catch(IOException | CoreException ex) {
+            Logger.logError("Error on Import", ex); //$NON-NLS-1$
+            MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
         }
     }
     

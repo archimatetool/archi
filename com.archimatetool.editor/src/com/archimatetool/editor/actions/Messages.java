@@ -97,9 +97,15 @@ public class Messages extends NLS {
 
     public static String ExportModelAction_0;
 
+    public static String ExportModelAction_1;
+
     public static String ImportIntoModelAction_0;
 
+    public static String ImportIntoModelAction_1;
+
     public static String ImportModelAction_0;
+
+    public static String ImportModelAction_1;
 
     public static String MRUMenuManager_0;
 

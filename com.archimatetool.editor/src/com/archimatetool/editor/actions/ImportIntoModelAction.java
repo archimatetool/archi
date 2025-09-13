@@ -7,9 +7,11 @@ package com.archimatetool.editor.actions;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.model.IArchimateModel;
 
@@ -21,24 +23,28 @@ import com.archimatetool.model.IArchimateModel;
  */
 public class ImportIntoModelAction extends AbstractModelAction {
     
-    private ISelectedModelImporter fImporter;
-
-    public ImportIntoModelAction(IWorkbenchWindow window, String id, String label, ISelectedModelImporter importer) {
+    public ImportIntoModelAction(IWorkbenchWindow window, String id, String label) {
         super(label, window);
         setId(id);
-        fImporter = importer;
+        setActionDefinitionId(id);
+        
+        // Register this with the handler service
+        ActionUtil.registerCommandHandler(window, this, ActionUtil.createCommandName(label, Messages.ImportIntoModelAction_1));
     }
     
     @Override
     public void run() {
         IArchimateModel model = getActiveArchimateModel();
-        if(model != null && fImporter != null) {
+        if(model != null) {
             try {
-                fImporter.doImport(model);
+                Object instance = ActionUtil.createExtensionPointInstance(ActionUtil.EXTENSIONPOINT_IMPORT_HANDLER, getId());
+                if(instance instanceof ISelectedModelImporter importer) {
+                    importer.doImport(model);
+                }
             }
-            catch(IOException ex) {
+            catch(IOException | CoreException ex) {
+                Logger.logError("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportIntoModelAction_0, ex.getMessage());
-                ex.printStackTrace();
             }
         }
     }
