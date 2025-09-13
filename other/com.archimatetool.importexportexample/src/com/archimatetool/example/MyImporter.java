@@ -30,8 +30,6 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 
 
@@ -49,9 +47,6 @@ public class MyImporter implements IModelImporter {
 
     private static final String MY_EXTENSION_WILDCARD = "*.mex";
     
-    // ID -> Object lookup table
-    private Map<String, EObject> idLookup;
-    
     // Representation of an Element
     private record Element(String type, String name, String id) {}
 
@@ -67,6 +62,9 @@ public class MyImporter implements IModelImporter {
     // Representation of a View connection
     private record ViewConnection(String viewId, String relationshipId) {}
 
+    // ID -> Object lookup table
+    private Map<String, EObject> idLookup;
+    
     @Override
     public void doImport() throws IOException {
         // Ask to open the file
@@ -85,25 +83,28 @@ public class MyImporter implements IModelImporter {
         List<Element> elements = List.of(
                 new Element("BusinessActor", "Actor", "elementID1"),
                 new Element("BusinessRole", "Client", "elementID2"),
-                new Element("BusinessFunction", "My Function", "elementID3"));
+                new Element("BusinessFunction", "My Function", "elementID3"),
+                new Element("BusinessInteraction", "Interaction", "elementID4"));
         
         
         // Relationships
         List<Relationship> relationships = List.of(
                 new Relationship("AssignmentRelationship", "Assigned to", "relID1", "elementID1", "elementID2"),
                 new Relationship("ServingRelationship", "", "relID2", "elementID1", "elementID3"),
-                new Relationship("AssociationRelationship", "", "relID3", "elementID2", "elementID3"));
+                new Relationship("AssociationRelationship", "", "relID3", "elementID2", "elementID3"),
+                new Relationship("AssociationRelationship", "", "relID4", "relID1", "elementID4"));
         
         // Views
         List<View> views = List.of(
-                new View("A View", "view1"),
-                new View("Another View", "view2"));
+                new View("View 1", "view1"),
+                new View("View 2", "view2"));
         
         // View elements
         List<ViewElement> viewElements = List.of(
                 new ViewElement("view1", "elementID1", 10, 10, -1, -1),
                 new ViewElement("view1", "elementID2", 310, 10, -1, -1),
                 new ViewElement("view1", "elementID3", 310, 110, -1, -1),
+                new ViewElement("view1", "elementID4", 160, 210, -1, -1),
                 new ViewElement("view2", "elementID2", 10, 10, -1, -1),
                 new ViewElement("view2", "elementID3", 10, 110, -1, -1));
         
@@ -111,6 +112,8 @@ public class MyImporter implements IModelImporter {
         List<ViewConnection> viewConnections = List.of(
                 new ViewConnection("view1", "relID1"),
                 new ViewConnection("view1", "relID2"),
+                new ViewConnection("view1", "relID3"),
+                new ViewConnection("view1", "relID4"),
                 new ViewConnection("view2", "relID3"));
         
         // Create the model from this data...
@@ -132,13 +135,16 @@ public class MyImporter implements IModelImporter {
             createAndAddArchimateElement(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(e.type), e.name, e.id);
         }
         
-        // Create and add model relationships and set source and target elements
+        // Create and add model relationships
         for(Relationship r : relationships) {
-            IArchimateRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(r.type), r.name, r.id);
-            
-            // Find source and target elements from their IDs in the lookup table and set them
-            IArchimateElement source = (IArchimateElement)idLookup.get(r.sourceId);
-            IArchimateElement target = (IArchimateElement)idLookup.get(r.targetId);
+            createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(r.type), r.name, r.id);
+        }
+        
+        // Then set source and target concepts for relations after relations have been created in case of relation->relation connection
+        for(Relationship r : relationships) {
+            IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(r.id);
+            IArchimateConcept source = (IArchimateConcept)idLookup.get(r.sourceId);
+            IArchimateConcept target = (IArchimateConcept)idLookup.get(r.targetId);
             relationship.setSource(source);
             relationship.setTarget(target);
         }
@@ -155,57 +161,29 @@ public class MyImporter implements IModelImporter {
             createAndAddElementToView(diagramModel, element, ve.x, ve.y, ve.width, ve.height);
         }
         
-        // Add diagram connections to views
+        // Add diagram connections from object -> object to views first
         for(ViewConnection vc : viewConnections) {
-            IDiagramModel diagramModel = (IDiagramModel)idLookup.get(vc.viewId);
             IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(vc.relationshipId);
-            createAndAddConnectionsToView(diagramModel, relationship);
+            if(relationship.getSource() instanceof IArchimateElement && relationship.getTarget() instanceof IArchimateElement) {
+                IDiagramModel diagramModel = (IDiagramModel)idLookup.get(vc.viewId);
+                createAndAddConnectionsToView(diagramModel, relationship);
+            }
         }
+        
+        // Then add any connections -> connections to views
+        for(ViewConnection vc : viewConnections) {
+            IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(vc.relationshipId);
+            if(relationship.getSource() instanceof IArchimateRelationship || relationship.getTarget() instanceof IArchimateRelationship) {
+                IDiagramModel diagramModel = (IDiagramModel)idLookup.get(vc.viewId);
+                createAndAddConnectionsToView(diagramModel, relationship);
+            }
+        }
+        
+        // Set this (and any other class-level objects) to null so it can be garbage collected
+        idLookup = null;
         
         // And open the Model in the Models Tree
         IEditorModelManager.INSTANCE.openModel(model);
-    }
-    
-    /**
-     * Create and add ArchiMate Connections to a View
-     */
-    private void createAndAddConnectionsToView(IDiagramModel diagramModel, IArchimateRelationship relationship) {
-        List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getSource());
-        List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getTarget());
-
-        for(IDiagramModelComponent dmcSource : sources) {
-            for(IDiagramModelComponent dmcTarget : targets) {
-                IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                dmc.setArchimateRelationship(relationship);
-                dmc.connect((IDiagramModelObject)dmcSource, (IDiagramModelObject)dmcTarget);
-                idLookup.put(dmc.getId(), dmc);
-            }
-        }
-    }
-
-    /**
-     * Create and add an ArchiMate Element to a View
-     */
-    private IDiagramModelArchimateObject createAndAddElementToView(IDiagramModel diagramModel, IArchimateElement element, int x, int y, int width, int height) {
-        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo.setArchimateElement(element);
-        dmo.setBounds(x, y, width, height);
-        diagramModel.getChildren().add(dmo);
-        idLookup.put(dmo.getId(), dmo);
-        return dmo;
-    }
-
-    /**
-     * Create and add an ArchiMate View to its folder
-     */
-    private IDiagramModel createAndAddView(IArchimateModel model, String name, String id) {
-        IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        diagramModel.setName(name);
-        diagramModel.setId(id);
-        IFolder folder = model.getDefaultFolderForObject(diagramModel);
-        folder.getElements().add(diagramModel);
-        idLookup.put(diagramModel.getId(), diagramModel);
-        return diagramModel;
     }
     
     /**
@@ -239,8 +217,48 @@ public class MyImporter implements IModelImporter {
         concept.setId(id);
         IFolder folder = model.getDefaultFolderForObject(concept);
         folder.getElements().add(concept);
-        idLookup.put(concept.getId(), concept);
+        idLookup.put(concept.getId(), concept); // add to lookup
         return concept;
+    }
+
+    /**
+     * Create and add an ArchiMate View to its folder
+     */
+    private IDiagramModel createAndAddView(IArchimateModel model, String name, String id) {
+        IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        diagramModel.setName(name);
+        diagramModel.setId(id);
+        IFolder folder = model.getDefaultFolderForObject(diagramModel);
+        folder.getElements().add(diagramModel);
+        idLookup.put(diagramModel.getId(), diagramModel); // add to lookup
+        return diagramModel;
+    }
+    
+    /**
+     * Create and add ArchiMate Connections to a View
+     */
+    private void createAndAddConnectionsToView(IDiagramModel diagramModel, IArchimateRelationship relationship) {
+        List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getSource());
+        List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getTarget());
+
+        for(IDiagramModelArchimateComponent dmcSource : sources) {
+            for(IDiagramModelArchimateComponent dmcTarget : targets) {
+                IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+                dmc.setArchimateRelationship(relationship);
+                dmc.connect(dmcSource, dmcTarget);
+            }
+        }
+    }
+
+    /**
+     * Create and add an ArchiMate Element to a View
+     */
+    private IDiagramModelArchimateObject createAndAddElementToView(IDiagramModel diagramModel, IArchimateElement element, int x, int y, int width, int height) {
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateElement(element);
+        dmo.setBounds(x, y, width, height);
+        diagramModel.getChildren().add(dmo);
+        return dmo;
     }
 
     /**
