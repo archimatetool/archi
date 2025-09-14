@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,17 +22,15 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IFolder;
 
 
 
 /**
  * Example Exporter of Archimate model
  * Exports all concepts in a selected model to a text file in format:
- * "Type","Name","Documentation"
+ * "Name","Type","Documentation"
  * 
  * @author Phillip Beauvoir
  */
@@ -50,50 +51,35 @@ public class MyExporter implements IModelExporter {
             return;
         }
         
-        // Write all concepts in model folders to file
+        // Write all concepts' name, type and documentation to file
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file))) {
-            writeFolder(model.getFolder(FolderType.STRATEGY), writer);
-            writeFolder(model.getFolder(FolderType.BUSINESS), writer);
-            writeFolder(model.getFolder(FolderType.APPLICATION), writer);
-            writeFolder(model.getFolder(FolderType.TECHNOLOGY), writer);
-            writeFolder(model.getFolder(FolderType.MOTIVATION), writer);
-            writeFolder(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION), writer);
-            writeFolder(model.getFolder(FolderType.OTHER), writer);
-            writeFolder(model.getFolder(FolderType.RELATIONS), writer);
-        }
-    }
-    
-    /**
-     * Write contents of folder to file
-     */
-    private void writeFolder(IFolder folder, OutputStreamWriter writer) throws IOException {
-        List<IArchimateConcept> list = new ArrayList<>();
-        getConcepts(folder, list);
-        
-        // Write concept type, concept name and documentation to text string
-        for(IArchimateConcept concept : list) {
-            String string = normalise(concept.eClass().getName()) + ","
-                            + normalise(concept.getName()) + ","
-                            + normalise(concept.getDocumentation());
-            writer.write(string + "\n");
-        }
-    }
-    
-    /**
-     * Get all concepts in a folder and sub-folders
-     */
-    private void getConcepts(IFolder folder, List<IArchimateConcept> list) {
-        for(EObject object : folder.getElements()) {
-            if(object instanceof IArchimateConcept concept) {
-                list.add(concept);
+            for(IArchimateConcept concept : getConcepts(model)) {
+                String string = normalise(concept.getName()) + ", " + normalise(concept.eClass().getName()) + ", " + normalise(concept.getDocumentation());
+                writer.write(string + "\n");
             }
         }
-        
-        for(IFolder f : folder.getFolders()) {
-            getConcepts(f, list);
-        }
     }
+    
+    private List<IArchimateConcept> getConcepts(IArchimateModel model) {
+        List<IArchimateConcept> concepts = new ArrayList<>();
 
+        // Get all concepts in the model
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IArchimateConcept concept) {
+                concepts.add(concept);
+            }
+        }
+
+        // Sort them
+        Collator collator = Collator.getInstance();
+        concepts.sort(Comparator
+                .comparing(IArchimateConcept::getName, (n1, n2) -> collator.compare(StringUtils.safeString(n1), StringUtils.safeString(n2)))
+                .thenComparing(IArchimateConcept::eClass, (c1, c2) -> collator.compare(c1.getName(), c2.getName())));
+        
+        return concepts;
+    }
+    
     /**
      * Check text for null, replace newlines with a space, and surround text with quotes
      */
