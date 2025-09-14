@@ -5,9 +5,7 @@
  */
 package com.archimatetool.editor.actions;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
@@ -31,9 +29,6 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.WorkbenchCleaner;
-import com.archimatetool.editor.model.IModelExporter;
-import com.archimatetool.editor.model.IModelImporter;
-import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.editor.ui.dialog.RelationshipsMatrixDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -551,19 +546,11 @@ extends ActionBarAdvisor {
      * Add any contributed export model menu items
      */
     private void addExportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager exportMenu) {
-        IExtensionRegistry registry = Platform.getExtensionRegistry();
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("com.archimatetool.editor.exportHandler")) { //$NON-NLS-1$
-            try {
-                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
-                String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
-                IModelExporter exporter = (IModelExporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
-                if(id != null && label != null && exporter != null) {
-                    ExportModelAction action = new ExportModelAction(window, id, label, exporter);
-                    exportMenu.add(action);
-                }
-            } 
-            catch(CoreException ex) {
-                ex.printStackTrace();
+        for(IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor("com.archimatetool.editor.exportHandler")) { //$NON-NLS-1$
+            String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+            String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
+            if(id != null && label != null) {
+                exportMenu.add(new ExportModelAction(window, id, label));
             } 
         }
     }
@@ -572,32 +559,18 @@ extends ActionBarAdvisor {
      * Add any contributed import model menu items
      */
     private void addImportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager importMenu) {
-        IExtensionRegistry registry = Platform.getExtensionRegistry();
-        
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("com.archimatetool.editor.importHandler")) { //$NON-NLS-1$
-            try {
-                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
-                String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
+        for(IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor("com.archimatetool.editor.importHandler")) { //$NON-NLS-1$
+            String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+            String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
+            if(id != null && label != null) {
                 String extensionName = configurationElement.getName();
-                
                 if("importHandler".equals(extensionName)) { //$NON-NLS-1$
-                    IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
-                    if(id != null && label != null && importer != null) {
-                        ImportModelAction action = new ImportModelAction(window, id, label, importer);
-                        importMenu.add(action);
-                    }
+                    importMenu.add(new ImportModelAction(window, id, label));
                 }
                 else if("importHandler2".equals(extensionName)) { //$NON-NLS-1$
-                    ISelectedModelImporter importer = (ISelectedModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
-                    if(id != null && label != null && importer != null) {
-                        ImportIntoModelAction action = new ImportIntoModelAction(window, id, label, importer);
-                        importMenu.add(action);
-                    }
-                }
-            } 
-            catch(CoreException ex) {
-                ex.printStackTrace();
-            } 
+                    importMenu.add(new ImportIntoModelAction(window, id, label));
+                } 
+            }
         }
     }
 }

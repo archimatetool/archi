@@ -6,7 +6,11 @@
 package com.archimatetool.editor.actions;
 
 import java.io.IOException;
+import java.util.Objects;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -22,25 +26,38 @@ import com.archimatetool.model.IArchimateModel;
  */
 public class ExportModelAction extends AbstractModelAction {
     
-    private IModelExporter fExporter;
-
-    public ExportModelAction(IWorkbenchWindow window, String id, String label, IModelExporter exporter) {
+    public ExportModelAction(IWorkbenchWindow window, String id, String label) {
         super(label, window);
         setId(id);
-        fExporter = exporter;
     }
     
     @Override
     public void run() {
         IArchimateModel model = getActiveArchimateModel();
-        if(model != null && fExporter != null) {
+        if(model != null) {
             try {
-                fExporter.export(model);
+                if(createExtensionPointInstance(getId()) instanceof IModelExporter exporter) {
+                    exporter.export(model);
+                }
             }
-            catch(IOException ex) {
+            catch(IOException | CoreException ex) {
                 Logger.logError("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ExportModelAction_0, ex.getMessage());
             }
         }
     }
+    
+    /**
+     * Dynamically create an instance of IModelExporter
+     */
+    private Object createExtensionPointInstance(String extensionId) throws CoreException {
+        for(IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor("com.archimatetool.editor.exportHandler")) { //$NON-NLS-1$
+            if(Objects.equals(configurationElement.getAttribute("id"), extensionId)) { //$NON-NLS-1$
+                return configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+            }
+        }
+        
+        return null;
+    }
+
 }

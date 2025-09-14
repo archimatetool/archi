@@ -6,7 +6,11 @@
 package com.archimatetool.editor.actions;
 
 import java.io.IOException;
+import java.util.Objects;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -24,27 +28,38 @@ import com.archimatetool.editor.model.IModelImporter;
 public class ImportModelAction extends Action
 implements IWorkbenchAction {
     
-    private IModelImporter fImporter;
     private IWorkbenchWindow workbenchWindow;
 
-    public ImportModelAction(IWorkbenchWindow window, String id, String label, IModelImporter importer) {
+    public ImportModelAction(IWorkbenchWindow window, String id, String label) {
         super(label);
-        setId(id);
         workbenchWindow = window;
-        fImporter = importer;
+        setId(id);
     }
     
     @Override
     public void run() {
-        if(fImporter != null) {
-            try {
-                fImporter.doImport();
-            }
-            catch(IOException ex) {
-                Logger.logError("Error on Import", ex); //$NON-NLS-1$
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
+        try {
+            if(createExtensionPointInstance(getId()) instanceof IModelImporter importer) {
+                importer.doImport();
             }
         }
+        catch(IOException | CoreException ex) {
+            Logger.logError("Error on Import", ex); //$NON-NLS-1$
+            MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
+        }
+    }
+    
+    /**
+     * Dynamically create an instance of IModelImporter
+     */
+    private Object createExtensionPointInstance(String extensionId) throws CoreException {
+        for(IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor("com.archimatetool.editor.importHandler")) { //$NON-NLS-1$
+            if(Objects.equals(configurationElement.getAttribute("id"), extensionId)) { //$NON-NLS-1$
+                return configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+            }
+        }
+        
+        return null;
     }
     
     @Override
