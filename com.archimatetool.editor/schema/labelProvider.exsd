@@ -6,7 +6,7 @@
          <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.labelProvider" name="Label Provider"/>
       </appinfo>
       <documentation>
-         Use this extension point to register a Label Provider
+         This extension is no longer in use. Use an IAdapterFactory instead.
       </documentation>
    </annotation>
 

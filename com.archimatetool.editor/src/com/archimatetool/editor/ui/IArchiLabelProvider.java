@@ -13,10 +13,11 @@ import org.eclipse.swt.graphics.Image;
  * This can be used for non-eCore objects and can show the label and image in, for example, the Properties View
  * 
  * @author Phillip Beauvoir
+ * @deprecated As of 5.7.0 
+ *             This was only used downstream by coArchi2 for the Properties View label and image.
+ *             This functionality is now in PropertiesLabelProvider using Adapters
  */
 public interface IArchiLabelProvider {
-    
-    String EXTENSIONPOINT_ID = "com.archimatetool.editor.labelProvider"; //$NON-NLS-1$
     
     /**
      * @return The label or null for the given object

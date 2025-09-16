@@ -5,16 +5,9 @@
  */
 package com.archimatetool.editor.ui;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -26,13 +19,13 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
@@ -52,25 +45,7 @@ public class ArchiLabelProvider {
     
     public static ArchiLabelProvider INSTANCE = new ArchiLabelProvider();
 
-    private Set<IArchiLabelProvider> providers = new HashSet<>();
-    
     private ArchiLabelProvider() {
-        // Register any label providers
-        IExtensionRegistry registry = Platform.getExtensionRegistry();
-        
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(IArchiLabelProvider.EXTENSIONPOINT_ID)) {
-            try {
-                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
-                IArchiLabelProvider provider = (IArchiLabelProvider)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
-                if(id != null && provider != null) {
-                    providers.add(provider);
-                }
-            } 
-            catch(CoreException ex) {
-                Logger.logError("Cannot register Provider", ex); //$NON-NLS-1$
-                ex.printStackTrace();
-            } 
-        }
     }
     
     /**
@@ -82,28 +57,18 @@ public class ArchiLabelProvider {
             return ""; //$NON-NLS-1$
         }
         
-        object = getWrappedElement(object);
+        object = getAdaptableObject(object);
         
         String name = null;
         
         // Get Name
-        if(object instanceof INameable) {
-            name = ((INameable)object).getName();
+        if(object instanceof INameable nameable) {
+            name = nameable.getName();
         }
         
         // It's blank. Get a default name from its eClass
-        if(!StringUtils.isSet(name) && object instanceof EObject) {
-            name = getDefaultName(((EObject)object).eClass());
-        }
-        
-        // Try registered providers
-        if(name == null) {
-            for(IArchiLabelProvider provider : providers) {
-                name = provider.getLabel(object);
-                if(name != null) {
-                    break;
-                }
-            }
+        if(!StringUtils.isSet(name) && object instanceof EObject eObject) {
+            name = getDefaultName(eObject.eClass());
         }
         
         return StringUtils.safeString(name);
@@ -121,7 +86,7 @@ public class ArchiLabelProvider {
     /**
      * Get a default human-readable name for an EClass
      * @param eClass The Class
-     * @return A name or null
+     * @return A name or an empty string
      */
     public String getDefaultName(EClass eClass) {
         if(eClass == null) {
@@ -145,27 +110,19 @@ public class ArchiLabelProvider {
             return null;
         }
         
-        object = getWrappedElement(object);
+        object = getAdaptableObject(object);
         
         // This first, since EClass is an EObject
-        if(object instanceof EClass) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass((EClass)object);
+        if(object instanceof EClass eClass) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider != null) {
                 return provider.getImage();
             }
         }
-        else if(object instanceof EObject) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
+        else if(object instanceof EObject eObject) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eObject);
             if(provider != null) {
                 return provider.getImage();
-            }
-        }
-        
-        // Try providers
-        for(IArchiLabelProvider provider : providers) {
-            Image image = provider.getImage(object);
-            if(image != null) {
-                return image;
             }
         }
         
@@ -264,28 +221,36 @@ public class ArchiLabelProvider {
      */
     public IGraphicsIcon getGraphicsIconForDiagramModel(IDiagramModel dm) {
         IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);
-        if(provider instanceof IDiagramModelUIProvider) {
-            return ((IDiagramModelUIProvider)provider).getGraphicsIcon();
+        if(provider instanceof IDiagramModelUIProvider dmProvider) {
+            return dmProvider.getGraphicsIcon();
         }
         
         return null;
     }
     
     /**
-     * If the wrapper is an EditPart get the EditPart's model first
-     * If then the wrapper is an IDiagramModelArchimateObject return the IArchimateElement
-     * If then the wrapper is an IDiagramModelArchimateConnection return the IRelationship
-     * Else return the object itself
-     * @param object The wrapper objects
-     * @return The actual model element in an object
+     * @deprecated Use getAdaptableObject(Object object)
      */
     public Object getWrappedElement(Object object) {
-        if(object instanceof EditPart) {
-            object = ((EditPart)object).getModel();
+        return getAdaptableObject(object);
+    }
+    
+    /**
+     * If the object is an EditPart get the EditPart's model first
+     * Then if the object is an IDiagramModelArchimateComponent return the IArchimateConcept
+     * Else return the object itself
+     * @param object The object to unwrap
+     * @return The actual model element
+     */
+    public Object getAdaptableObject(Object object) {
+        // If object is an EditPart it will be IAdaptable and return the underlying object
+        // Or classes like AbstractIssueType (in the Model Checker) use IAdaptable to return the type
+        if(object instanceof IAdaptable adaptable) {
+            object = adaptable.getAdapter(IArchimateModelObject.class);
         }
         
-        if(object instanceof IDiagramModelArchimateComponent) {
-            return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
+        if(object instanceof IDiagramModelArchimateComponent dmac) {
+            return dmac.getArchimateConcept();
         }
         
         return object;

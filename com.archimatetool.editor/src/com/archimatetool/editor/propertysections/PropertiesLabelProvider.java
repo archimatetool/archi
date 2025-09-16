@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 
 
@@ -36,17 +35,28 @@ public class PropertiesLabelProvider implements ILabelProvider {
         if(selection.size() > 1) {
             Object[] objects = selection.toArray();
             for(int i = 0; i < objects.length - 1; i++) {
-                Object object1 = getAdaptable(objects[i]);
-                Object object2 = getAdaptable(objects[i+1]);
                 // Different
-                if(ArchiLabelProvider.INSTANCE.getImage(object1) != ArchiLabelProvider.INSTANCE.getImage(object2)) {
+                if(getImageFromLabelProvider(objects[i]) != getImageFromLabelProvider(objects[i+1])) {
                     return null;
                 }
             }
         }
         
-        Object firstSelected = getAdaptable(selection.getFirstElement());
-        return ArchiLabelProvider.INSTANCE.getImage(firstSelected);
+        return getImageFromLabelProvider(selection.getFirstElement());
+    }
+    
+    /**
+     * Get the image from the ArchiLabelProvider or, failing that, any registered adapters
+     */
+    protected Image getImageFromLabelProvider(Object object) {
+        Image image = ArchiLabelProvider.INSTANCE.getImage(object);
+        if(image != null) {
+            return image;
+        }
+        
+        // Try registered adapters
+        ILabelProvider labelProvider = Adapters.adapt(object, ILabelProvider.class);
+        return labelProvider != null ? labelProvider.getImage(object) : null;
     }
 
     @Override
@@ -59,25 +69,36 @@ public class PropertiesLabelProvider implements ILabelProvider {
             return Messages.PropertiesLabelProvider_0;
         }
         
-        Object firstSelected = getAdaptable(selection.getFirstElement());
-        
-        firstSelected = ArchiLabelProvider.INSTANCE.getWrappedElement(firstSelected);
-        
-        // An Archimate Concept is a special text
-        if(firstSelected instanceof IArchimateConcept concept) {
+        // An Archimate Concept is a special text so get adaptable object to check for IArchimateConcept
+        if(ArchiLabelProvider.INSTANCE.getAdaptableObject(selection.getFirstElement()) instanceof IArchimateConcept concept) {
             return getArchimateConceptText(concept);
         }
 
-        // Check the main label provider
-        String text = ArchiLabelProvider.INSTANCE.getLabel(firstSelected);
+        return getTextFromLabelProvider(selection.getFirstElement());
+    }
+    
+    /**
+     * Get the text from the ArchiLabelProvider or, failing that, any registered adapters
+     */
+    protected String getTextFromLabelProvider(Object object) {
+        String text = ArchiLabelProvider.INSTANCE.getLabel(object);
         if(StringUtils.isSet(text)) {
             return normalise(text);
         }
         
+        // Try registered adapters
+        ILabelProvider labelProvider = Adapters.adapt(object, ILabelProvider.class);
+        if(labelProvider != null) {
+            text = labelProvider.getText(object);
+            if(StringUtils.isSet(text)) {
+                return normalise(text);
+            }
+        }
+        
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
-    
-    String getArchimateConceptText(IArchimateConcept concept) {
+
+    protected String getArchimateConceptText(IArchimateConcept concept) {
         String text = ""; //$NON-NLS-1$
         String name = normalise(concept.getName());
         String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(concept.eClass());
@@ -101,17 +122,9 @@ public class PropertiesLabelProvider implements ILabelProvider {
     }
     
     /**
-     * Return the underlying adaptable type if there is one
-     * Some Classes like AbstractIssueType (in the Model Checker) will use this to return the right type
-     */
-    private Object getAdaptable(Object object) {
-        return object instanceof IAdaptable adaptable ? adaptable.getAdapter(IArchimateModelObject.class) : object;
-    }
-    
-    /**
      * Remove ampersands as well as newlines
      */
-    private String normalise(String text) {
+    protected String normalise(String text) {
         return StringUtils.normaliseNewLineCharacters(StringUtils.escapeAmpersandsInText(text));
     }
     
