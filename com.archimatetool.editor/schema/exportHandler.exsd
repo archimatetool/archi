@@ -6,7 +6,10 @@
          <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.exportHandler" name="Archimate Export Handler"/>
       </appinfo>
       <documentation>
-         Use this extension point to register an export handler
+         Use this extension point to register an export handler.
+
+As of Archi 5.7 this extension point is deprecated. Use Use commands, handlers and menus in plugin.xml.
+For example see https://github.com/archimatetool/archi/tree/master/other/com.archimatetool.importexportexample
       </documentation>
    </annotation>
 

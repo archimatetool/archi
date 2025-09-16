@@ -16,11 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
 
-import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -35,22 +31,9 @@ import com.archimatetool.model.IArchimateModel;
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
-public class MyExporter implements IModelExporter {
+public class MyExporter {
     
-    private static final String MY_EXTENSION = ".mex";
-    private static final String MY_EXTENSION_WILDCARD = "*.mex";
-    
-    public MyExporter() {
-    }
-
-    @Override
-    public void export(IArchimateModel model) throws IOException {
-        // Open dialog to get file to save to
-        File file = askSaveFile();
-        if(file == null) {
-            return;
-        }
-        
+    public void export(File file, IArchimateModel model) throws IOException {
         // Write all concepts' name, type and documentation to file
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file))) {
             for(IArchimateConcept concept : getConcepts(model)) {
@@ -92,29 +75,5 @@ public class MyExporter implements IModelExporter {
         text = "\"" + text + "\"";
         
         return text;
-    }
-
-    /**
-     * Ask user for file name to save to
-     */
-    private File askSaveFile() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export Model");
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
-
-        // Set to true for consistency on all OSs
-        dialog.setOverwrite(true);
-        
-        String path = dialog.open();
-        if(path == null) {
-            return null;
-        }
-        
-        // Only Windows adds the extension by default
-        if(dialog.getFilterIndex() == 0 && !path.endsWith(MY_EXTENSION)) {
-            path += MY_EXTENSION;
-        }
-        
-        return new File(path);
     }
 }

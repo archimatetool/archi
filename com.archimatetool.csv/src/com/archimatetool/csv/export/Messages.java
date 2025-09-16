@@ -6,7 +6,7 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.csv.export.messages"; //$NON-NLS-1$
 
-    public static String CSVExportProvider_0;
+    public static String CSVExportHandler_0;
 
     public static String ExportAsCSVPage_0;
 

@@ -2,26 +2,67 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="com.archimatetool.editor.exportHandler">
-      <exportHandler
-            class="com.archimatetool.csv.export.CSVExportProvider"
-            id="com.archimatetool.csv.exportHandler"
-            label="%exportLabel">
-      </exportHandler>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.importHandler">
-      <importHandler2
-            class="com.archimatetool.csv.importer.CSVImportProvider"
-            id="com.archimatetool.csv.importHandler"
-            label="%importLabel">
-      </importHandler2>
-   </extension>
-   <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="com.archimatetool.csv.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="com.archimatetool.csv.importCommand"
+            name="Import CSV Data Into Selected Model">
+      </command>
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="com.archimatetool.csv.exportCommand"
+            name="Export Model to CSV">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.archimatetool.csv.importer.CSVImportHandler"
+            commandId="com.archimatetool.csv.importCommand">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="com.archimatetool.csv.export.CSVExportHandler"
+            commandId="com.archimatetool.csv.exportCommand">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:import_menu?before=import_ext">
+         <command
+               commandId="com.archimatetool.csv.importCommand"
+               id="com.archimatetool.csv.importMenu"
+               label="%importLabel"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:export_menu?before=export_ext">
+         <command
+               commandId="com.archimatetool.csv.exportCommand"
+               id="com.archimatetool.csv.exportMenu"
+               label="%exportLabel"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>

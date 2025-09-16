@@ -2,20 +2,55 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="com.archimatetool.editor.exportHandler">
-      <exportHandler
-            class="com.archimatetool.example.MyExporter"
-            id="com.archimatetool.import_export_example.exportHandler"
-            label="Model To My Format...">
-      </exportHandler>
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="com.archimatetool.importexportexample.importCommand"
+            name="Import My Model Format">
+      </command>
+      <command
+            categoryId="org.eclipse.ui.category.file"
+            id="com.archimatetool.importexportexample.exportCommand"
+            name="Export Model To My Format">
+      </command>
    </extension>
    <extension
-         point="com.archimatetool.editor.importHandler">
-      <importHandler
-            class="com.archimatetool.example.MyImporter"
-            id="com.archimatetool.import_export_example.importHandler"
-            label="My Model...">
-      </importHandler>
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.archimatetool.example.MyImportHandler"
+            commandId="com.archimatetool.importexportexample.importCommand">
+      </handler>
+      <handler
+            class="com.archimatetool.example.MyExportHandler"
+            commandId="com.archimatetool.importexportexample.exportCommand">
+         <enabledWhen>
+            <reference
+                  definitionId="com.archimatetool.modelEnabled">
+            </reference></enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:import_menu?endof=import_ext">
+         <command
+               commandId="com.archimatetool.importexportexample.importCommand"
+               id="com.archimatetool.importexportexample.importMenu"
+               label="My Model Format..."
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:export_menu?endof=export_ext">
+         <command
+               commandId="com.archimatetool.importexportexample.exportCommand"
+               id="com.archimatetool.importexportexample.exportMenu"
+               label="Model To My Format..."
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>

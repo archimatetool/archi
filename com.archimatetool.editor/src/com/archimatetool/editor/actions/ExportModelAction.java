@@ -20,10 +20,11 @@ import com.archimatetool.model.IArchimateModel;
 
 
 /**
- * Export Model Action used by extension plugins
+ * Legacy Export Model Action used by extension plugins
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("deprecation")
 public class ExportModelAction extends AbstractModelAction {
     
     public ExportModelAction(IWorkbenchWindow window, String id, String label) {

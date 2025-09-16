@@ -13,6 +13,8 @@ import com.archimatetool.model.IArchimateModel;
  * Model Importer interface
  * 
  * @author Phillip Beauvoir
+ * @deprecated As of 5.7 - Use commands, handlers and menus in plugin.xml.
+ *                         For example see https://github.com/archimatetool/archi/tree/master/other/com.archimatetool.importexportexample
  */
 public interface ISelectedModelImporter {
 

@@ -21,10 +21,11 @@ import com.archimatetool.editor.model.IModelImporter;
 
 
 /**
- * Import Model Action used by extension plugins
+ * Legacy Import Model Action used by extension plugins
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("deprecation")
 public class ImportModelAction extends Action
 implements IWorkbenchAction {
     

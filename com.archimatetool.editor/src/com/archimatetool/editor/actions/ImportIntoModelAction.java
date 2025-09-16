@@ -20,10 +20,11 @@ import com.archimatetool.model.IArchimateModel;
 
 
 /**
- * Inport Into Model Action used by extension plugins
+ * Legacy Import Into Model Action used by extension plugins
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("deprecation")
 public class ImportIntoModelAction extends AbstractModelAction {
     
     public ImportIntoModelAction(IWorkbenchWindow window, String id, String label) {

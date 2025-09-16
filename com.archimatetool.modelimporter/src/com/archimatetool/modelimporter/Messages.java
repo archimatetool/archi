@@ -24,6 +24,10 @@ public class Messages extends NLS {
 
     public static String FolderImporter_2;
 
+    public static String ImportModelHandler_0;
+
+    public static String ImportModelHandler_1;
+
     public static String ImportModelPage_0;
 
     public static String ImportModelPage_1;
@@ -45,8 +49,6 @@ public class Messages extends NLS {
     public static String ImportModelPage_9;
 
     public static String ImportModelWizard_0;
-
-    public static String ImportProvider_0;
 
     public static String ModelImporter_1;
 

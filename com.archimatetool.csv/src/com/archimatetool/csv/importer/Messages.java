@@ -32,7 +32,10 @@ public class Messages extends NLS {
 
     public static String CSVImporter_9;
 
-    public static String CSVImportProvider_0;
+    public static String CSVImportHandler_0;
+
+    public static String CSVImportHandler_1;
+
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

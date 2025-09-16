@@ -6,20 +6,15 @@
 package com.archimatetool.example;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.model.IModelImporter;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -43,10 +38,8 @@ import com.archimatetool.model.IFolder;
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
-public class MyImporter implements IModelImporter {
+public class MyImporter {
 
-    private static final String MY_EXTENSION_WILDCARD = "*.mex";
-    
     // Representation of an Element
     private record Element(String type, String name, String id) {}
 
@@ -65,20 +58,14 @@ public class MyImporter implements IModelImporter {
     // ID -> Object lookup table
     private Map<String, EObject> idLookup;
     
-    @Override
-    public void doImport() throws IOException {
-        // Ask to open the file
-        File file = askOpenFile();
-        if(file == null) {
-            return;
-        }
-        
-        // Load in the file and get its information here.
-        // Assuming you load in the data in some way, perhaps with JDOM, or a SAX Parser ot text reader then you will
-        // have a representation of it in Java classes that you need to map to Archi elements, relationships and Views.
-        
-        // Here is some example raw data...
-        
+    /**
+     * Load in the file
+     * Assuming you load in the data in some way, perhaps with JDOM, or a SAX Parser ot text reader then you will
+     * have a representation of it in Java classes that you need to map to Archi elements, relationships and Views.
+     * 
+     * In this example we won't read from file but will use some example raw data
+     */
+    public void doImport(File file) {
         // Elements
         List<Element> elements = List.of(
                 new Element("BusinessActor", "Actor", "elementID1"),
@@ -259,15 +246,5 @@ public class MyImporter implements IModelImporter {
         dmo.setBounds(x, y, width, height);
         diagramModel.getChildren().add(dmo);
         return dmo;
-    }
-
-    /**
-     * Ask to open a file.
-     */
-    private File askOpenFile() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
-        String path = dialog.open();
-        return path != null ? new File(path) : null;
     }
 }

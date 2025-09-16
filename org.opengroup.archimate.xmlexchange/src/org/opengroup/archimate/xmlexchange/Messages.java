@@ -6,15 +6,19 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "org.opengroup.archimate.xmlexchange.messages"; //$NON-NLS-1$
 
-    public static String XMLExchangeExportProvider_0;
+    public static String XMLExchangeExportHandler_0;
 
-    public static String XMLExchangeExportProvider_1;
+    public static String XMLExchangeExportHandler_1;
 
-    public static String XMLExchangeExportProvider_2;
+    public static String XMLExchangeExportHandler_2;
 
-    public static String XMLExchangeExportProvider_3;
+    public static String XMLExchangeExportHandler_3;
 
-    public static String XMLExchangeExportProvider_4;
+    public static String XMLExchangeExportHandler_4;
+
+    public static String XMLExchangeImportHandler_0;
+
+    public static String XMLExchangeImportHandler_1;
 
     public static String XMLModelImporter_0;
 

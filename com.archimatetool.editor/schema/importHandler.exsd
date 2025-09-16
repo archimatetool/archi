@@ -6,7 +6,10 @@
          <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.importHandler" name="Archimate Import Handler"/>
       </appinfo>
       <documentation>
-         Use this extension point to register import handlers
+         Use this extension point to register import handlers.
+
+As of Archi 5.7 this extension point is deprecated. Use Use commands, handlers and menus in plugin.xml.
+For example see https://github.com/archimatetool/archi/tree/master/other/com.archimatetool.importexportexample
       </documentation>
    </annotation>
 
