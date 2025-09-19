@@ -978,6 +978,12 @@
             name="%command.name.21">
       </command>
       <command
+            categoryId="com.archimatetool.editor.category"
+            description="%command.description.34"
+            id="com.archimatetool.editor.selectSameObjectType"
+            name="%command.name.34">
+      </command>
+      <command
             categoryId="org.eclipse.gef.category.view"
             description="%command.description.22"
             id="com.archimatetool.editor.bringToFront"

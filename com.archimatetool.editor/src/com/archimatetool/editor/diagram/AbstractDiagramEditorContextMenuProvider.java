@@ -27,6 +27,7 @@ import com.archimatetool.editor.diagram.actions.ObjectPositionAction;
 import com.archimatetool.editor.diagram.actions.ObjectPositionAction.ObjectPositionActionDefinition;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
+import com.archimatetool.editor.diagram.actions.SelectSameObjectTypeAction;
 
 
 /**
@@ -113,6 +114,10 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         // Select Element in Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
+        
+        // Select objects of same type
+        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectSameObjectTypeAction.ID));
+        menu.appendToGroup(GROUP_RENAME, new Separator());
         
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$

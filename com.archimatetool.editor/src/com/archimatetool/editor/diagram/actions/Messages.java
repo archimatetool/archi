@@ -133,6 +133,8 @@ public class Messages extends NLS {
 
     public static String SelectElementInTreeAction_1;
 
+    public static String SelectSameObjectTypeAction_0;
+
     public static String SendBackwardAction_0;
 
     public static String SendToBackAction_0;

@@ -116,6 +116,7 @@ import com.archimatetool.editor.diagram.actions.PropertiesAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
 import com.archimatetool.editor.diagram.actions.SelectAllAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
+import com.archimatetool.editor.diagram.actions.SelectSameObjectTypeAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ToggleGridEnabledAction;
@@ -909,6 +910,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Select Element in Tree
         action = new SelectElementInTreeAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        
+        // Select Same Object
+        action = new SelectSameObjectTypeAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         
