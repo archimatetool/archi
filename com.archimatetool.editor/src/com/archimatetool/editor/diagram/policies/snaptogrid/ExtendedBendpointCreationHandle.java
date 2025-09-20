@@ -1,6 +1,9 @@
 package com.archimatetool.editor.diagram.policies.snaptogrid;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * snap-to-grid patch by Jean-Baptiste Sarrodie (aka Jaiguru)
@@ -28,17 +31,19 @@ import org.eclipse.gef.handles.BendpointCreationHandle;
 // snap-to-grid patch
 // Use alternate ConnectionBendpointTracker
 //import org.eclipse.gef.tools.ConnectionBendpointTracker;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * A BendpointHandle that is used to create a new bendpoint.
  */
 public class ExtendedBendpointCreationHandle extends BendpointCreationHandle {
-
+    
+    {
+        setPreferredSize(new Dimension(6, 6));
+    }
+    
 	public ExtendedBendpointCreationHandle(ConnectionEditPart owner, int index, int locatorIndex) {
 	    super(owner, index, locatorIndex);
-	    
-	    // Make the handle one pixel bigger
-	    setPreferredSize(new Dimension(DEFAULT_HANDLE_SIZE - 1, DEFAULT_HANDLE_SIZE - 1));
     }
 
     /**
@@ -53,6 +58,40 @@ public class ExtendedBendpointCreationHandle extends BendpointCreationHandle {
 		tracker.setDefaultCursor(getCursor());
 		return tracker;
 	}
+	
+    /**
+     * Over-ride for custom colors
+     */
+    @Override
+    protected Color getBorderColor() {
+        return isPrimary() ? ColorConstants.black : ColorConstants.gray;
+    }
+    
+    /**
+     * Over-ride for custom colors
+     */
+    @Override
+    protected Color getFillColor() {
+        return ColorConstants.white;
+    }
 
+    /**
+     * Over-ride to draw a circle instead of a square
+     */
+    @Override
+    public void paintFigure(Graphics g) {
+        Rectangle r = getBounds();
+        r.shrink(1, 1);
+        try {
+            g.setBackgroundColor(getFillColor());
+            g.fillOval(r);
+            g.setForegroundColor(getBorderColor());
+            g.drawOval(r);
+        }
+        finally {
+            // We don't really own rect 'r', so fix it.
+            r.expand(1, 1);
+        }
+    }
 }
 
