@@ -60,9 +60,6 @@ import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -362,13 +359,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     }
     
     private void hookSelectionListener() {
-        getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                // Update status bar on selection
-                Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                updateStatusBarWithSelection(selected);
-            }
+        getGraphicalViewer().addSelectionChangedListener(event -> {
+            // Update status bar. In GEF the primary object is the last selected object.
+            updateStatusBarWithSelection(event.getStructuredSelection().isEmpty() ? null : event.getStructuredSelection().toList().getLast());
         });
     }
     
@@ -390,8 +383,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected void updateStatusBarWithSelection(Object selected) {
         IStatusLineManager status = getEditorSite().getActionBars().getStatusLineManager();
         
-        if(selected instanceof EditPart) {
-            selected = ((EditPart)selected).getModel();
+        if(selected instanceof EditPart editPart) {
+            selected = editPart.getModel();
             Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
             String text = ArchiLabelProvider.INSTANCE.getLabelNormalised(selected);
             status.setMessage(image, text);
