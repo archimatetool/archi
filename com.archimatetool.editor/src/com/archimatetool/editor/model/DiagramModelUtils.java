@@ -49,17 +49,15 @@ public class DiagramModelUtils {
      * @return A List of diagram models that archimateConcept is currently referenced in as a node or connection. May be empty, but never null.
      */
     public static List<IDiagramModel> findReferencedDiagramsForArchimateConcept(IArchimateConcept archimateConcept) {
-        List<IDiagramModel> models = new ArrayList<IDiagramModel>();
+        Set<IDiagramModel> diagramModels = new HashSet<>();
         
         if(archimateConcept != null && archimateConcept.getArchimateModel() != null) {
             for(IDiagramModelArchimateComponent dmc : archimateConcept.getReferencingDiagramComponents()) {
-                if(!models.contains(dmc.getDiagramModel())) {
-                    models.add(dmc.getDiagramModel());
-                }
+                diagramModels.add(dmc.getDiagramModel());
             }
         }
         
-        return models;
+        return new ArrayList<>(diagramModels);
     }
 
     /**
@@ -85,13 +83,13 @@ public class DiagramModelUtils {
      * @return The list of active Diagram Model Components. May be empty, but never null.
      */
     public static List<IDiagramModelArchimateComponent> findDiagramModelComponentsForArchimateConcept(IDiagramModel diagramModel, IArchimateConcept archimateConcept) {
-        List<IDiagramModelArchimateComponent> list = new ArrayList<IDiagramModelArchimateComponent>();
+        List<IDiagramModelArchimateComponent> list = new ArrayList<>();
         
-        if(archimateConcept instanceof IArchimateElement) {
-            list.addAll(findDiagramModelObjectsForElement(diagramModel, (IArchimateElement)archimateConcept));
+        if(archimateConcept instanceof IArchimateElement element) {
+            list.addAll(findDiagramModelObjectsForElement(diagramModel, element));
         }
-        else if(archimateConcept instanceof IArchimateRelationship) {
-            list.addAll(findDiagramModelConnectionsForRelation(diagramModel, (IArchimateRelationship)archimateConcept));
+        else if(archimateConcept instanceof IArchimateRelationship relationship) {
+            list.addAll(findDiagramModelConnectionsForRelation(diagramModel, relationship));
         }
         
         return list;
@@ -132,8 +130,7 @@ public class DiagramModelUtils {
         
         for(Iterator<EObject> iter = diagramModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelArchimateObject) {
-                IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)eObject;
+            if(eObject instanceof IDiagramModelArchimateObject dmo) {
                 if(dmo.getArchimateElement() == element) {
                     set.add(dmo);
                 }
@@ -148,8 +145,7 @@ public class DiagramModelUtils {
         
         for(Iterator<EObject> iter = diagramModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IDiagramModelArchimateConnection) {
-                IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)eObject;
+            if(eObject instanceof IDiagramModelArchimateConnection connection) {
                 if(connection.getArchimateRelationship() == relationship) {
                     set.add(connection);
                 }
@@ -196,16 +192,16 @@ public class DiagramModelUtils {
      * @return The list of Diagram Model References. May be empty, but never null.
      */
     public static List<IDiagramModelReference> findDiagramModelReferences(IDiagramModelContainer container, IDiagramModel diagramModel) {
-        List<IDiagramModelReference> list = new ArrayList<IDiagramModelReference>();
+        List<IDiagramModelReference> list = new ArrayList<>();
         
         for(IDiagramModelObject object : container.getChildren()) {
-            if(object instanceof IDiagramModelReference) {
-                if(((IDiagramModelReference)object).getReferencedModel() == diagramModel) {
-                    list.add((IDiagramModelReference)object);
+            if(object instanceof IDiagramModelReference ref) {
+                if(ref.getReferencedModel() == diagramModel) {
+                    list.add(ref);
                 }
             }
-            if(object instanceof IDiagramModelContainer) {
-                list.addAll(findDiagramModelReferences((IDiagramModelContainer)object, diagramModel));
+            if(object instanceof IDiagramModelContainer dmc) {
+                list.addAll(findDiagramModelReferences(dmc, diagramModel));
             }
         }
         
@@ -221,7 +217,7 @@ public class DiagramModelUtils {
         if(diagramModel.getArchimateModel() != null) {
             for(Iterator<EObject> iter = diagramModel.getArchimateModel().getFolder(FolderType.DIAGRAMS).eAllContents(); iter.hasNext();) {
                 EObject eObject = iter.next();
-                if(eObject instanceof IDiagramModelReference && ((IDiagramModelReference)eObject).getReferencedModel() == diagramModel) {
+                if(eObject instanceof IDiagramModelReference ref && ref.getReferencedModel() == diagramModel) {
                     return true;
                 }
             }
@@ -240,8 +236,8 @@ public class DiagramModelUtils {
     public static boolean hasDiagramModelArchimateConnection(IConnectable srcObject, IConnectable tgtObject, IArchimateRelationship relation) {
 
         for(IDiagramModelConnection conn : srcObject.getSourceConnections()) {
-            if(conn instanceof IDiagramModelArchimateConnection) {
-                IArchimateRelationship r = ((IDiagramModelArchimateConnection)conn).getArchimateRelationship();
+            if(conn instanceof IDiagramModelArchimateConnection dmc) {
+                IArchimateRelationship r = dmc.getArchimateRelationship();
                 if(r == relation && conn.getSource() == srcObject && conn.getTarget() == tgtObject) {
                     return true;
                 }
@@ -331,8 +327,8 @@ public class DiagramModelUtils {
      */
     public static boolean hasExistingConnectionType(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
         for(IDiagramModelConnection connection : source.getSourceConnections()) {
-            if(connection instanceof IDiagramModelArchimateConnection && connection.getTarget().equals(target)) {
-                EClass type = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship().eClass();
+            if(connection instanceof IDiagramModelArchimateConnection dmac && connection.getTarget().equals(target)) {
+                EClass type = dmac.getArchimateRelationship().eClass();
                 return type.equals(relationshipType);
             }
         }
@@ -363,18 +359,18 @@ public class DiagramModelUtils {
 
     /**
      * Return the absolute bounds of a diagram model component
+     * @param dmc The DiagramModelComponent
+     * @return The absolute bounds of a diagram model component
      * TODO for connections
-     * @param dmc
-     * @return
      */
     public static final IBounds getAbsoluteBounds(IDiagramModelComponent dmc) {
-        if(dmc instanceof IDiagramModelObject) {
-            return getAbsoluteBounds((IDiagramModelObject)dmc);
+        if(dmc instanceof IDiagramModelObject dmo) {
+            return getAbsoluteBounds(dmo);
         }
         
-        // TODO - how to calculate the bounds from this?????
+        // TODO - don't know how to calculate the bounds of a connection
         else if(dmc instanceof IDiagramModelConnection) {
-            
+            // Missing...
         }
         
         return null;
@@ -389,8 +385,7 @@ public class DiagramModelUtils {
         IBounds bounds = dmo.getBounds().getCopy();
         
         EObject container = dmo.eContainer();
-        while(container instanceof IDiagramModelObject) {
-            IDiagramModelObject parent = (IDiagramModelObject)container;
+        while(container instanceof IDiagramModelObject parent) {
             IBounds parentBounds = parent.getBounds().getCopy();
             
             bounds.setX(bounds.getX() + parentBounds.getX());
@@ -430,9 +425,9 @@ public class DiagramModelUtils {
      * @return A list of points. Never null but might be empty if connection's source or target is not a IDiagramModelObject
      */
     public static List<Point> getAbsoluteBendpointPositions(IDiagramModelConnection connection) {
-        List<Point> points = new ArrayList<Point>();
+        List<Point> points = new ArrayList<>();
         
-        // Has to be connected to objects
+        // Has to be connected to objects - TODO: connections not yet supported
         if(!(connection.getSource() instanceof IDiagramModelObject) || !(connection.getTarget() instanceof IDiagramModelObject)) {
             return points;
         }
@@ -479,7 +474,7 @@ public class DiagramModelUtils {
      *         The bendpoint is not added to the connection
      */
     public static IDiagramModelBendpoint createBendPointFromAbsolutePosition(IDiagramModelConnection connection, int x, int y) {
-        // Has to be connected to objects
+        // Has to be connected to objects - TODO: connections not yet supported
         if(!(connection.getSource() instanceof IDiagramModelObject) || !(connection.getTarget() instanceof IDiagramModelObject)) {
             return null;
         }
@@ -503,8 +498,8 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param outer
-     * @param inner
+     * @param outer Outer bounds
+     * @param inner Inner bounds
      * @return True if outer bounds contains inner bounds
      */
     public static boolean outerBoundsContainsInnerBounds(IBounds outer, IBounds inner) {
