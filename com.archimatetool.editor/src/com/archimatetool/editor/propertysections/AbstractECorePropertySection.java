@@ -154,18 +154,20 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * @param cmd
      */
     protected void executeCommand(Command command) {
-        fIsExecutingCommand = true;
-        
         EObject eObject = getFirstSelectedObject();
         
         if(eObject != null && eObject instanceof IAdapter) {
             CommandStack commandStack = (CommandStack)((IAdapter)eObject).getAdapter(CommandStack.class);
             if(commandStack != null) {
-                commandStack.execute(command);
+                fIsExecutingCommand = true;
+                try {
+                    commandStack.execute(command);
+                }
+                finally {
+                    fIsExecutingCommand = false;
+                }
             }
         }
-        
-        fIsExecutingCommand = false;
     }
     
     /**
