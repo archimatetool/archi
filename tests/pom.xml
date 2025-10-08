@@ -12,7 +12,9 @@
 
     <artifactId>com.archimatetool.testing</artifactId>
     <packaging>pom</packaging>
-    
+
+    <name>Tests</name>
+        
     <properties>
     	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
         <!-- TODO: this can be changed to ${org.mockito:mockito-core:jar} with orbit 4.34 and later -->

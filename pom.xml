@@ -8,7 +8,7 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>Archi Tool</name>
+    <name>Archi</name>
 
     <properties>
         <revision>5.7.0-SNAPSHOT</revision>
@@ -23,7 +23,6 @@
         </repository>
     </repositories>
 
-    <!--Core modules -->
     <modules>
         <module>com.archimatetool.canvas</module>
         <module>com.archimatetool.commandline</module>
@@ -57,7 +56,6 @@
     </modules>
 
     <profiles>
-        <!-- Profile for tests, active by default -->
         <profile>
             <id>tests</id>
             <activation>
@@ -68,8 +66,6 @@
             </modules>
         </profile>
         
-        <!-- Profile for creating a product build, not active by default -->
-        <!-- Use "mvn clean package -P product" to create products but not run tests -->
         <profile>
             <id>product</id>
             <activation>
