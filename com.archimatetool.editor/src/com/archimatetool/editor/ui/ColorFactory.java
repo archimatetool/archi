@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
@@ -112,11 +111,10 @@ public class ColorFactory {
      * @return A fill Color for an object with reference to the user's preferences or null if not set
      */
     public static Color getUserDefaultFillColor(Object object) {
-        EClass eClass = getEClassForObject(object);
+        String key = getFillColorPreferenceKey(object);
         
-        if(eClass != null) {
-            // User preference
-            String value = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
+        if(key != null) {
+            String value = ArchiPlugin.getInstance().getPreferenceStore().getString(key);
             if(StringUtils.isSet(value)) {
                 return get(value);
             }
@@ -130,27 +128,46 @@ public class ColorFactory {
      * @return A default fill Color for an object that is inbuilt in the App
      */
     public static Color getInbuiltDefaultFillColor(Object object) {
-        EClass eClass = getEClassForObject(object);
+        String key = getFillColorPreferenceKey(object);
         
-        if(eClass != null) {
-            // Is there a value set in preferences? (This could be in a suppplied preference file)
-            String defaultValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName());
+        // Is there a value set in preferences for the key? (This could be in a suppplied preference file)
+        if(key != null) {
+            String defaultValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(key);
             if(StringUtils.isSet(defaultValue)) {
                 Color c = get(defaultValue);
                 if(c != null) {
                     return c;
                 }
             }
-            
-            // Use UI Provider
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
-            if(provider instanceof IGraphicalObjectUIProvider) {
-                Color color = ((IGraphicalObjectUIProvider)provider).getDefaultColor();
+        }
+        
+        // Fall back to use UI Provider
+        EClass eClass = getEClassForObject(object);
+        if(eClass != null) {
+            if(ObjectUIFactory.INSTANCE.getProviderForClass(eClass) instanceof IGraphicalObjectUIProvider provider) {
+                Color color = provider.getDefaultColor();
                 return color != null ? color : ColorConstants.white;
             }
         }
         
         return ColorConstants.white;
+    }
+    
+    /**
+     * @object An object or string key. If a string key that is returned.
+     * @return A preference key for a fill color
+     */
+    private static String getFillColorPreferenceKey(Object object) {
+        return switch(object) {
+            // String - check this before getEClassForObject() in case string has priority
+            case String s -> 
+                          s.startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ? s : IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + s;
+            // Object has EClass
+            default -> {
+                EClass eClass = getEClassForObject(object);
+                yield eClass != null ? IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + eClass.getName() : null;
+            }
+        };
     }
     
     ///-------------------------------------------------------------------------
@@ -169,25 +186,14 @@ public class ColorFactory {
     }
 
     public static Color getUserDefaultLineColor(Object object) {
-        EClass eClass = getEClassForObject(object);
+        String key = getLineColorPreferenceKey(object);
+        String value = null;
         
-        if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
-                IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
-            // User preference
-            String value = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
-            if(StringUtils.isSet(value)) {
-                return get(value);
-            }
+        if(key != null) {
+            value = ArchiPlugin.getInstance().getPreferenceStore().getString(key);
         }
-        else {
-            // User preference
-            String value = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
-            if(StringUtils.isSet(value)) {
-                return get(value);
-            }
-        }
-       
-        return null;
+        
+        return StringUtils.isSet(value) ? get(value) : null;
     }
 
     /**
@@ -195,53 +201,63 @@ public class ColorFactory {
      * @return A default line Color for an object that is inbuilt in the App
      */
     public static Color getInbuiltDefaultLineColor(Object object) {
-        EClass eClass = getEClassForObject(object);
+        String key = getLineColorPreferenceKey(object);
+        String defaultValue = null;
         
-        if(eClass != null) {
-            // Is there a default value set in preferences? (This could be in a suppplied preference file)
-            String defaultValue = null;
-            if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
-                    IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
-                defaultValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+        // Is there a default value set in preferences? (This could be in a supplied preference file)
+        if(key != null) {
+            defaultValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(key);
+        }
+
+        if(StringUtils.isSet(defaultValue)) {
+            Color c = get(defaultValue);
+            if(c != null) {
+                return c;
             }
-            // Element
-            else {
-                defaultValue = ArchiPlugin.getInstance().getPreferenceStore().getDefaultString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
-            }
-            if(StringUtils.isSet(defaultValue)) {
-                Color c = get(defaultValue);
-                if(c != null) {
-                    return c;
-                }
-            }
-            
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
-            if(provider instanceof IGraphicalObjectUIProvider) {
-                Color color = ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();
-                return color != null ? color : ColorConstants.black;
-            }
+        }
+        
+        // Fall back to use UI Provider
+        EClass eClass = getEClassForObject(object);
+        if(eClass != null && ObjectUIFactory.INSTANCE.getProviderForClass(eClass) instanceof IGraphicalObjectUIProvider provider) {
+            Color color = provider.getDefaultLineColor();
+            return color != null ? color : ColorConstants.black;
         }
         
         return ColorConstants.black;
     }
+    
+    private static String getLineColorPreferenceKey(Object object) {
+        EClass eClass = getEClassForObject(object);
+        
+        if(eClass != null && (IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
+                                    IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass))) {
+            return IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR;
+        }
+        
+        // Element
+        return IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR;
+    }
 
+    ///-------------------------------------------------------------------------
+    
     /*
-     * Get at the EClass for an Object
+     * Get the matching EClass for an Object
      */
     private static EClass getEClassForObject(Object object) {
-        EClass eClass = null;
-        
-        if(object instanceof EClass) {
-            eClass = (EClass)object;
-        }
-        else if(object instanceof IDiagramModelArchimateComponent) {
-            eClass = ((IDiagramModelArchimateComponent)object).getArchimateConcept().eClass();
-        }
-        else if(object instanceof EObject) {
-            eClass = ((EObject)object).eClass();
-        }
-
-        return eClass;
+        return switch(object) {
+            // EClass
+            case EClass eClass -> eClass;
+            // ArchiMate diagram component
+            case IDiagramModelArchimateComponent component -> component.getArchimateConcept().eClass();
+            // EObject
+            case EObject eObject -> eObject.eClass();
+            // Connection line color - use connection eClass as there is only one line color pref
+            case IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR -> IArchimatePackage.eINSTANCE.getDiagramModelConnection();
+            // Element line color - use any Archimate eClass as there is only one line color pref
+            case IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR -> IArchimatePackage.eINSTANCE.getBusinessActor();
+            // None
+            default -> null;
+        };
     }
     
     /**
