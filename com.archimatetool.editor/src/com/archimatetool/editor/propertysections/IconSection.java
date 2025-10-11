@@ -63,7 +63,7 @@ public class IconSection extends ImageChooserSection {
         @Override
         public boolean isRequiredType(Object object) {
             // Should be IIconic and exposes image path feature
-            return object instanceof IIconic && shouldExposeFeature((EObject)object,
+            return object instanceof IIconic iconic && shouldExposeFeature(iconic,
                     IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName());
         }
 

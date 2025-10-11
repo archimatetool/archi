@@ -37,7 +37,8 @@ public class LabelRendererSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return TextRenderer.getDefault().isSupportedObject(object);
+            return TextRenderer.getDefault().isSupportedObject(object)
+                    && shouldExposeFeature((EObject)object, TextRenderer.FEATURE_NAME);
         }
 
         @Override

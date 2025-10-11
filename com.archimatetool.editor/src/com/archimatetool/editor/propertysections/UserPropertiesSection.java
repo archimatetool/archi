@@ -117,7 +117,8 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IProperties;
+            return object instanceof IProperties properties
+                    && shouldExposeFeature(properties, IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName());
         }
 
         @Override

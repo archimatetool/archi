@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
 
 
@@ -27,7 +28,8 @@ public class NoteBorderTypeSection extends BorderTypeSection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelNote;
+            return object instanceof IDiagramModelNote note
+                    && shouldExposeFeature(note, IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE.getName());
         }
 
         @Override

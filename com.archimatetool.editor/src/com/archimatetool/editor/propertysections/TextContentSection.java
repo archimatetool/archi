@@ -35,7 +35,8 @@ public class TextContentSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            return object instanceof ITextContent;
+            return object instanceof ITextContent textContent
+                    && shouldExposeFeature(textContent, IArchimatePackage.Literals.TEXT_CONTENT__CONTENT.getName());
         }
 
         @Override
