@@ -6,10 +6,12 @@
 package com.archimatetool.editor.preferences;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -19,7 +21,6 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -44,6 +45,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -51,7 +53,6 @@ import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
-import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -66,14 +67,14 @@ public class ColoursPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
     
-    public static String ID = "com.archimatetool.editor.prefsColours"; //$NON-NLS-1$
-    public static String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.editor.prefsColours"; //$NON-NLS-1$
+    public static final String HELPID = "com.archimatetool.help.prefsAppearance"; //$NON-NLS-1$
     
-    // Cache of objects' colours
-    private Map<Object, Color> fColorsCache = new HashMap<>();
+    // Color information for objects
+    private Map<Object, ColorInfo> fColorInfoMap = new HashMap<>();
     
     // Image Registry for Tree colors
-    private ImageRegistry fImageRegistry;
+    private ImageRegistry fImageRegistry = new ImageRegistry();
     
     // Buttons
     private Button fPersistUserDefaultColors;
@@ -92,6 +93,136 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     // Convenience record for Tree
     private record TreeGrouping(String title, Object[] children) {};
     
+    /**
+     * Color Info class for an object
+     */
+    private static class ColorInfo {
+        private Object object;
+        private String label;
+        private boolean isFill;
+        private Color currentColor;
+        
+        ColorInfo(Object object, String label, boolean isFill) {
+            this.object = object;
+            this.label = label;
+            this.isFill = isFill;
+            currentColor = getUserColor();
+        }
+        
+        Object getObject() {
+            return object;
+        }
+        
+        String getLabel() {
+            return label;
+        }
+        
+        Color getColor() {
+            return currentColor;
+        }
+        
+        boolean setColor(RGB rgb) {
+            Color newColor = rgb == null ? getInBuiltColor() : new Color(rgb);
+            if(Objects.equals(newColor, currentColor)) {
+                return false;
+            }
+            currentColor = newColor;
+            return true;
+        }
+        
+        Color getUserColor() {
+            return isFill ? ColorFactory.getDefaultFillColor(object) : ColorFactory.getDefaultLineColor(object);
+        }
+        
+        Color getInBuiltColor() {
+            return isFill ? ColorFactory.getInbuiltDefaultFillColor(object) : ColorFactory.getInbuiltDefaultLineColor(object);
+        }
+        
+        String getPreferenceKey() {
+            if(object instanceof String s && isFill) {
+                return DEFAULT_FILL_COLOR_PREFIX + s;
+            }
+            return object != null ? object.toString() : null;
+        }
+    }
+    
+    /**
+     * Color Info class for an EClass
+     */
+    private static class EClassColorInfo extends ColorInfo {
+        EClassColorInfo(EClass eClass) {
+            super(eClass, ArchiLabelProvider.INSTANCE.getDefaultName(eClass), true);
+        }
+        
+        @Override
+        EClass getObject() {
+            return (EClass)super.getObject();
+        }
+        
+        @Override
+        String getPreferenceKey() {
+            return DEFAULT_FILL_COLOR_PREFIX + getObject().getName();
+        }
+    }
+
+    /**
+     * Color Info class for a Folder
+     */
+    private static class FolderColorInfo extends ColorInfo {
+        FolderColorInfo(FolderType folderType) {
+            super(folderType, folderType.getLabel(), true);
+        }
+        
+        @Override
+        FolderType getObject() {
+            return (FolderType)super.getObject();
+        }
+        
+        @Override
+        Color getUserColor() {
+            return FolderUIProvider.getFolderColor(getObject());
+        }
+        
+        @Override
+        Color getInBuiltColor() {
+            return FolderUIProvider.getDefaultFolderColor(getObject());
+        }
+        
+        @Override
+        String getPreferenceKey() {
+            return FOLDER_COLOUR_PREFIX + getObject().getName();
+        }
+    }
+    
+    /**
+     * Color Info class for a Theme
+     */
+    private static class ThemeColorInfo extends ColorInfo {
+        ThemeColorInfo(String themeName) {
+            super(themeName, ThemeUtils.getColorDefinitionName(themeName), true);
+        }
+        
+        @Override
+        String getObject() {
+            return (String)super.getObject();
+        }
+
+        @Override
+        Color getUserColor() {
+            return new Color(ThemeUtils.getCurrentThemeColor(getObject()));
+        }
+        
+        @Override
+        Color getInBuiltColor() {
+            return new Color(ThemeUtils.getDefaultThemeColor(getObject()));
+        }
+        
+        @Override
+        String getPreferenceKey() {
+            return getObject();
+        }
+    }
+    
 	public ColoursPreferencePage() {
 		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
@@ -100,10 +231,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected Control createContents(Composite parent) {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
-        
-        // Reset everything
-        resetColorsCache(false);
-        fImageRegistry = new ImageRegistry();
         
         Composite client = new Composite(parent, SWT.NULL);
         GridLayoutFactory.fillDefaults().numColumns(2).applyTo(client);
@@ -149,6 +276,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
             @Override
             public Object[] getElements(Object inputElement) {
+                // Other and Junction
+                List<EClass> other = new ArrayList<>();
+                other.addAll(Arrays.asList(ArchimateModelUtils.getOtherClasses()));
+                other.addAll(Arrays.asList(ArchimateModelUtils.getConnectorClasses()));
+                
                 return new Object[] {
                     new TreeGrouping(Messages.ColoursPreferencePage_1, ArchimateModelUtils.getStrategyClasses()),
                     new TreeGrouping(Messages.ColoursPreferencePage_2, ArchimateModelUtils.getBusinessClasses()),
@@ -157,11 +289,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     new TreeGrouping(Messages.ColoursPreferencePage_5, ArchimateModelUtils.getPhysicalClasses()),
                     new TreeGrouping(Messages.ColoursPreferencePage_6, ArchimateModelUtils.getMotivationClasses()),
                     new TreeGrouping(Messages.ColoursPreferencePage_7, ArchimateModelUtils.getImplementationMigrationClasses()),
-                    new TreeGrouping(Messages.ColoursPreferencePage_8, ArchimateModelUtils.getOtherClasses() ),
+                    new TreeGrouping(Messages.ColoursPreferencePage_8, other.toArray() ),
 
                     new TreeGrouping(Messages.ColoursPreferencePage_9,
                             new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
-                                           IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
+                                           IArchimatePackage.eINSTANCE.getDiagramModelGroup()} ),
 
                     new TreeGrouping(Messages.ColoursPreferencePage_10, new FolderType[] {
                             FolderType.STRATEGY,
@@ -184,7 +316,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             @Override
             public Object[] getChildren(Object parentElement) {
                 if(parentElement instanceof TreeGrouping grouping) {
-                    return grouping.children;
+                    return grouping.children();
                 }
                 
                 return new Object[0];
@@ -206,32 +338,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTreeViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
-                if(element instanceof EClass eClass) {
-                    return ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
-                }
+                // Grouping
                 if(element instanceof TreeGrouping grouping) {
-                    return grouping.title;
-                }
-                if(element instanceof String s) {
-                    // Theme colors
-                    if(themeColors.contains(s)) {
-                        return ThemeUtils.getColorDefinitionName(s);
-                    }
-                    
-                    switch(s) {
-                        case DEFAULT_ELEMENT_LINE_COLOR:
-                            return Messages.ColoursPreferencePage_11;
-                        case DEFAULT_CONNECTION_LINE_COLOR:
-                            return Messages.ColoursPreferencePage_12;
-                        default:
-                            return s;
-                    }
-                }
-                if(element instanceof FolderType folderType) {
-                    return folderType.getLabel();
+                    return grouping.title();
                 }
                 
-                return null;
+                // Color Info
+                ColorInfo colorInfo = fColorInfoMap.get(element);
+                return colorInfo != null ? colorInfo.getLabel() : null;
             }
             
             @Override
@@ -245,30 +359,30 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_FOLDER_DEFAULT);
                 }
                 
-                // Create a coloured rectangle image and add to the image registry
-                String key = getColorKey(element);
-                Image image = fImageRegistry.get(key);
+                Image image = null;
                 
-                if(image == null) {
-                    image = new Image(getShell().getDisplay(), (ImageDataProvider) zoom -> {
-                        // Draw the color rectangle onto a temp Image
-                        Image tmp = new Image(getShell().getDisplay(), 16, 16);
-                        
-                        GC gc = new GC(tmp);
-                        Color color = fColorsCache.get(element);
-                        if(color != null) {
-                            gc.setBackground(color);
-                        }
-                        gc.fillRectangle(0, 0, 15, 15);
-                        gc.drawRectangle(0, 0, 15, 15);
-                        gc.dispose();
-                        
-                        ImageData imageData = tmp.getImageData(zoom);
-                        tmp.dispose();
-                        return imageData;
-                    });
-                    
-                    fImageRegistry.put(key, image);
+                // Create a coloured rectangle image and add to the image registry
+                ColorInfo colorInfo = fColorInfoMap.get(element);
+                if(colorInfo != null && colorInfo.getColor() != null) {
+                    image = fImageRegistry.get(colorInfo.toString());
+                    if(image == null) {
+                        image = new Image(getShell().getDisplay(), (ImageDataProvider) zoom -> {
+                            // Draw the color rectangle onto a temp Image
+                            Image img = new Image(getShell().getDisplay(), 16, 16);
+
+                            GC gc = new GC(img);
+                            gc.setBackground(colorInfo.getColor());
+                            gc.fillRectangle(0, 0, 15, 15);
+                            gc.drawRectangle(0, 0, 15, 15);
+                            gc.dispose();
+
+                            ImageData imageData = img.getImageData(zoom);
+                            img.dispose();
+                            return imageData;
+                        });
+
+                        fImageRegistry.put(colorInfo.toString(), image);
+                    }
                 }
                 
                 return image;
@@ -306,10 +420,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         setButtonLayoutData(fResetFillColorButton);
         fResetFillColorButton.setEnabled(false);
         fResetFillColorButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
-            Object[] selected = ((IStructuredSelection)fTreeViewer.getSelection()).toArray();
+            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
             if(isValidTreeSelection(selected)) {
                 for(Object object : selected) {
-                    resetColorToInbuiltDefault(object);
+                    setColor(object, null);
                 }
             }
         }));
@@ -324,7 +438,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 importUserColors();
             }
             catch(IOException ex) {
-                ex.printStackTrace();
+                Logger.logError("Error importing", ex); //$NON-NLS-1$
             }
         }));
         
@@ -337,7 +451,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 exportUserColors();
             }
             catch(IOException ex) {
-                ex.printStackTrace();
+                Logger.logError("Error exporting", ex); //$NON-NLS-1$
             }
         }));
         
@@ -358,28 +472,56 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPersistUserDefaultColors.setLayoutData(gd);
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_COLOR));
         
+        // Create Color Infos
+        createColorInfos();
+        
         // Set tree input
-        fTreeViewer.setInput(""); //$NON-NLS-1$
+        fTreeViewer.setInput(this);
         
         return client;
     }
     
     /**
-     * @return The string key associated with an object
+     * Create color infos
      */
-    private String getColorKey(Object object) {
-        if(object instanceof String s) {
-            return s;
+    private void createColorInfos() {
+        // ArchiMate elements
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
+            fColorInfoMap.put(eClass, new EClassColorInfo(eClass));
         }
-        else if(object instanceof EClass eClass) {
-            return eClass.getName();
+        
+        // Connectors (Junction)
+        for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
+            fColorInfoMap.put(eClass, new EClassColorInfo(eClass));
         }
-        else if(object instanceof FolderType folderType) {
-            return folderType.getName();
+        
+        // Note
+        EClass eClass = IArchimatePackage.eINSTANCE.getDiagramModelNote();
+        fColorInfoMap.put(eClass, new EClassColorInfo(eClass));
+        
+        // Group
+        eClass = IArchimatePackage.eINSTANCE.getDiagramModelGroup();
+        fColorInfoMap.put(eClass, new EClassColorInfo(eClass));
+        
+        // Element line color
+        fColorInfoMap.put(DEFAULT_ELEMENT_LINE_COLOR, new ColorInfo(DEFAULT_ELEMENT_LINE_COLOR, Messages.ColoursPreferencePage_11, false));
+        
+        // Connection line color
+        fColorInfoMap.put(DEFAULT_CONNECTION_LINE_COLOR, new ColorInfo(DEFAULT_CONNECTION_LINE_COLOR, Messages.ColoursPreferencePage_12, false));
+        
+        // Folders
+        for(FolderType folderType : FolderType.VALUES) {
+            if(folderType != FolderType.USER) { // This is not used
+                fColorInfoMap.put(folderType, new FolderColorInfo(folderType));
+            }
         }
-        return "x"; //$NON-NLS-1$
+        
+        // Themes
+        for(String themeId : themeColors) {
+            fColorInfoMap.put(themeId, new ThemeColorInfo(themeId));
+        }
     }
-    
+
     /**
      * @param object Selected object
      * @return the RGB value or null
@@ -387,7 +529,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      */
     private RGB openColorDialog(Object object) {
         CustomColorDialog colorDialog = new CustomColorDialog(getShell());
-        colorDialog.setRGB(fColorsCache.get(object).getRGB());
+
+        ColorInfo colorInfo = fColorInfoMap.get(object);
+        if(colorInfo != null) {
+            Color color = colorInfo.getColor();
+            if(color != null) {
+                colorDialog.setRGB(color.getRGB());
+            }
+        }
+        
         return colorDialog.open();
     }
     
@@ -396,123 +546,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      * @return true if selected tree objects are valid
      */
     private boolean isValidTreeSelection(Object[] selected) {
-        if(selected == null || selected.length == 0) {
-            return false;
-        }
-        
         for(Object o : selected) {
             if(o instanceof TreeGrouping) {
                 return false;
             }
         }
-        return true;
+        return selected.length > 0;
     }
     
     /**
-     * Reset the cached colour to the inbuilt default
-     * @param eClass
-     */
-    private void resetColorToInbuiltDefault(Object object) {
-        RGB defaultRGB = null;
-
-        // Element line color - use any ArchiMate eClass as there is only one line color pref
-        if(object.equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor()).getRGB();
-        }
-        // Connection line color - use this eClass as there is only one line color pref
-        else if(object.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-            defaultRGB = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getDiagramModelConnection()).getRGB();
-        }
-        // Fill color
-        else if(object instanceof EClass eClass) {
-            defaultRGB = ColorFactory.getInbuiltDefaultFillColor(eClass).getRGB();
-        }
-        
-        // Folder
-        else if(object instanceof FolderType folderType) {
-            defaultRGB = FolderUIProvider.getDefaultFolderColor(folderType).getRGB();
-        }
-        
-        // Theme color
-        else if(object instanceof String s && themeColors.contains(object)) {
-            defaultRGB = ThemeUtils.getDefaultThemeColor(s);
-        }
-        
-        setColor(object, defaultRGB);
-    }
-    
-    /**
-     * @param object
-     * @param rgb
-     * Set a cached color for an object
+     * Set a color for an object
      */
     private void setColor(Object object, RGB rgb) {
-        if(object == null || rgb == null) {
-            return;
-        }
-        
-        fColorsCache.put(object, new Color(rgb));
-        fImageRegistry.remove(getColorKey(object)); // remove from image registry so we can generate a new image
-        fTreeViewer.update(object, null);
-    }
-    
-    /**
-     * @param useInbuiltDefaults if true reset to inbuilt defaults
-     * Reset the color cache to user or inbuilt defaults
-     */
-    private void resetColorsCache(boolean useInbuiltDefaults) {
-        fColorsCache.clear();
-        
-        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-            if(color != null) {
-                fColorsCache.put(eClass, new Color(color.getRGB()));
-            }
-        }
-        
-        // Note Fill Color
-        EClass eClass = IArchimatePackage.eINSTANCE.getDiagramModelNote();
-        Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-        if(color != null) {
-            fColorsCache.put(eClass, new Color(color.getRGB()));
-        }
-        
-        // Group Fill Color
-        eClass = IArchimatePackage.eINSTANCE.getDiagramModelGroup();
-        color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-        if(color != null) {
-            fColorsCache.put(eClass, new Color(color.getRGB()));
-        }
-        
-        // Element line color - use any ArchiMate eClass as there is only one line color pref
-        eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
-        color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
-        if(color != null) {
-            fColorsCache.put(DEFAULT_ELEMENT_LINE_COLOR, new Color(color.getRGB()));
-        }
-
-        // Connection line color - use this eClass as there is only one line color pref
-        eClass = IArchimatePackage.eINSTANCE.getDiagramModelConnection();
-        color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultLineColor(eClass) : ColorFactory.getDefaultLineColor(eClass);
-        if(color != null) {
-            fColorsCache.put(DEFAULT_CONNECTION_LINE_COLOR, new Color(color.getRGB()));
-        }
-        
-        // Folder colours
-        for(FolderType folderType : FolderType.VALUES) {
-            if(folderType != FolderType.USER) { // This is not used
-                color = useInbuiltDefaults ? FolderUIProvider.getDefaultFolderColor(folderType) : FolderUIProvider.getFolderColor(folderType);
-                if(color != null) {
-                    fColorsCache.put(folderType, new Color(color.getRGB()));
-                }
-            }
-        }
-        
-        // Theme colors
-        for(String colorId : themeColors) {
-            RGB rgb = useInbuiltDefaults ? ThemeUtils.getDefaultThemeColor(colorId) : ThemeUtils.getCurrentThemeColor(colorId);
-            if(rgb != null) {
-                fColorsCache.put(colorId, new Color(rgb));
+        if(object != null) {
+            ColorInfo colorInfo = object instanceof ColorInfo ? (ColorInfo)object : fColorInfoMap.get(object);
+            if(colorInfo != null && colorInfo.setColor(rgb)) {
+                fImageRegistry.remove(colorInfo.toString()); // remove from image registry so we can generate a new image
+                fTreeViewer.update(colorInfo.getObject(), null);
             }
         }
     }
@@ -533,23 +583,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
         
-        // Set color cache to inbuilt defaults
-        resetColorsCache(true);
-        
-        // Clear tree image registry
-        fImageRegistry.dispose();
-        fImageRegistry = new ImageRegistry();
-        
-        // Update tree
-        for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
-            fTreeViewer.update(entry.getKey(), null);
+        // Set colors to inbuilt defaults
+        for(ColorInfo colorInfo : fColorInfoMap.values()) {
+            setColor(colorInfo, null);
         }
-
+        
         super.performDefaults();
     }
     
     /**
-     * @throws IOException
      * Import a User color scheme
      */
     private void importUserColors() throws IOException {
@@ -571,41 +613,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         PreferenceStore store = new PreferenceStore(path);
         store.load();
-
-        // Fill Colors / Folder Colors
-        for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
-            String key = DEFAULT_FILL_COLOR_PREFIX + getColorKey(entry.getKey());
-            String value = store.getString(key);
-            
-            if(StringUtils.isSet(value)) {
-                setColor(entry.getKey(), ColorFactory.convertStringToRGB(value));
-            }
-            
-            key = FOLDER_COLOUR_PREFIX + getColorKey(entry.getKey());
-            value = store.getString(key);
-            
-            if(StringUtils.isSet(value)) {
-                setColor(entry.getKey(), ColorFactory.convertStringToRGB(value));
-            }
-        }
         
-        // Element Line Color
-        String key = DEFAULT_ELEMENT_LINE_COLOR;
-        String value = store.getString(key);
-        if(StringUtils.isSet(value)) {
-            setColor(key, ColorFactory.convertStringToRGB(value));
-        }
-        
-        // Connection Line Color
-        key = DEFAULT_CONNECTION_LINE_COLOR;
-        value = store.getString(key);
-        if(StringUtils.isSet(value)) {
-            setColor(key, ColorFactory.convertStringToRGB(value));
+        for(String prefKey : store.preferenceNames()) {
+            RGB rgb = ColorFactory.convertStringToRGB(store.getString(prefKey));
+            if(rgb != null) {
+                for(ColorInfo colorInfo : fColorInfoMap.values()) {
+                    if(Objects.equals(prefKey, colorInfo.getPreferenceKey())) {
+                        setColor(colorInfo, rgb);
+                    }
+                }
+            }
         }
     }
     
     /**
-     * @throws IOException
      * Export a user color scheme
      */
     private void exportUserColors() throws IOException {
@@ -627,46 +648,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     /**
-     * @param store
+     * @param store The preference store
      * @param useDefaults If true then a color is not saved if it matches the default color
      * Save colors to preference store
      */
     private void saveColors(IPreferenceStore store, boolean useDefaults) {
-        for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
-            Color colorNew = entry.getValue();
-            Color colorDefault = null;
-            String key = null;
-            
-            // Element line color - use any ArchiMate eClass as there is only one line color pref
-            if(entry.getKey().equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getBusinessActor());
-                key = DEFAULT_ELEMENT_LINE_COLOR;
+        for(ColorInfo colorInfo : fColorInfoMap.values().stream().filter(ci -> !(ci instanceof ThemeColorInfo)).toList()) { // Not theme colors
+            // If the new color equals the default color set pref to default if useDefaults is true
+            if(useDefaults && Objects.equals(colorInfo.getColor(), colorInfo.getInBuiltColor())) {
+                store.setToDefault(colorInfo.getPreferenceKey());
             }
-            // Connection line color - use this eClass as there is only one line color pref
-            else if(entry.getKey().equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-                colorDefault = ColorFactory.getInbuiltDefaultLineColor(IArchimatePackage.eINSTANCE.getDiagramModelConnection());
-                key = DEFAULT_CONNECTION_LINE_COLOR;
-            }
-            // Folders
-            else if(entry.getKey() instanceof FolderType) {
-                colorDefault = FolderUIProvider.getDefaultFolderColor((FolderType)entry.getKey());
-                key = FOLDER_COLOUR_PREFIX + getColorKey(entry.getKey());
-            }
-            // EClass
-            else if(entry.getKey() instanceof EClass) {
-                colorDefault = ColorFactory.getInbuiltDefaultFillColor(entry.getKey());
-                key = DEFAULT_FILL_COLOR_PREFIX + getColorKey(entry.getKey());
-            }
-            
-            if(key != null) {
-                // If the new color equals the default color set pref to default if useDefaults is true
-                if(useDefaults && colorNew.equals(colorDefault)) {
-                    store.setToDefault(key);
-                }
-                // Else store color anyway
-                else {
-                    store.setValue(key, ColorFactory.convertColorToString(colorNew));
-                }
+            // Else store color anyway
+            else {
+                store.setValue(colorInfo.getPreferenceKey(), ColorFactory.convertColorToString(colorInfo.getColor()));
             }
         }
     }
@@ -682,9 +676,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             boolean themeColorChanged = false;
             
             for(String colorId : themeColors) {
-                Color color = fColorsCache.get(colorId);
-                if(color != null && !color.getRGB().equals(ThemeUtils.getCurrentThemeColor(colorId))) {
-                    ThemeUtils.setCurrentThemeColor(colorId, color.getRGB());
+                ColorInfo colorInfo = fColorInfoMap.get(colorId);
+                if(colorInfo != null && colorInfo.getColor() != null && colorInfo.getUserColor() != null &&
+                                        !Objects.equals(colorInfo.getColor().getRGB(), colorInfo.getUserColor().getRGB())) {
+                    ThemeUtils.setCurrentThemeColor(colorId, colorInfo.getColor().getRGB());
                     themeColorChanged = true;
                 }
             }
@@ -718,8 +713,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public void dispose() {
         super.dispose();
         
-        fColorsCache.clear();
-        fColorsCache = null;
+        fColorInfoMap.clear();
+        fColorInfoMap = null;
         
         fImageRegistry.dispose();
         fImageRegistry = null;
