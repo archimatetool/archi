@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -110,16 +111,19 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     }
     
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidthFloat(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
@@ -140,6 +144,9 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         path.moveTo(pt.x + 7, pt.y - 5.5f);
         path.lineTo(pt.x + 10, pt.y - 5.5f);
         
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         

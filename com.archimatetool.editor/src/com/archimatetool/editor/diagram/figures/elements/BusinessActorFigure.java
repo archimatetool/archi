@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -108,18 +109,24 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         // head
+        if(backgroundColor != null) {
+            graphics.fillOval(pt.x, pt.y, 6, 6);
+        }
         graphics.drawOval(pt.x, pt.y, 6, 6);
         
         // body

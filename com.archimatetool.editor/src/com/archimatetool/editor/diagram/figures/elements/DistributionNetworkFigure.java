@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -172,16 +173,19 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
     }
     
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
-        graphics.setForegroundColor(getIconColor());
         graphics.setLineWidthFloat(1.5f);
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
@@ -191,10 +195,20 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         path.moveTo(pt.x + 1, pt.y + 2);
         path.lineTo(pt.x + 14, pt.y + 2);
 
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
+        if(backgroundColor != null) {
+            Path path2 = new Path(null);
+            
+            path2.moveTo(pt.x + 1, pt.y - 2);
+            path2.lineTo(pt.x + 14, pt.y - 2);
+            path2.lineTo(pt.x + 16, pt.y + 1);
+            path2.lineTo(pt.x + 14, pt.y + 2);
+            path2.lineTo(pt.x + 1, pt.y + 2);
+            path2.lineTo(pt.x, pt.y + 2);
+            path2.lineTo(pt.x, pt.y - 2);
+            
+            graphics.fillPath(path2);
+            path2.dispose();
+        }
         
         path.moveTo(pt.x + 4, pt.y - 5);
         path.lineTo(pt.x - 1, pt.y);

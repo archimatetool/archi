@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
@@ -41,20 +42,27 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
         path.addArc(pt.x, pt.y, 8, 7, 90, 180);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+            graphics.fillRectangle(pt.x + 3, pt.y, 6, 7);
+        }
         
         path.lineTo(pt.x + 11, pt.y + 7);
         
@@ -65,7 +73,11 @@ public class StakeholderFigure extends AbstractMotivationFigure {
         
         path.dispose();
         
-        graphics.drawOval(pt.x + 8, pt.y, 7, 7);
+        Rectangle rect = new Rectangle(pt.x + 8, pt.y, 7, 7);
+        if(backgroundColor != null) {
+            graphics.fillOval(rect);
+        }
+        graphics.drawOval(rect);
         
         graphics.popState();
     }

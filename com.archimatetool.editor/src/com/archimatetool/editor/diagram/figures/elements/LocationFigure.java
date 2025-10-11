@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -110,23 +111,28 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        // Start at top
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
         path.addArc(pt.x - 5, pt.y - 15, 10, 10, -20, 220);
         path.lineTo(pt.x, pt.y);
         path.close();
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         
         path.dispose();

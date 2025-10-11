@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -111,16 +112,19 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
@@ -128,6 +132,9 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
         path.lineTo(pt.x + 7, pt.y);
         path.lineTo(pt.x + 12, pt.y + 5);
         path.lineTo(pt.x + 12, pt.y + 15);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         path.lineTo(pt.x, pt.y + 15);
         path.lineTo(pt.x, pt.y - 0.5f);
         
@@ -135,6 +142,9 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
         path.lineTo(pt.x + 7, pt.y + 5);
         path.lineTo(pt.x + 12, pt.y + 5);
         
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         

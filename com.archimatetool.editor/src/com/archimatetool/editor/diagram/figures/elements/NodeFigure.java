@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -45,37 +46,40 @@ public class NodeFigure extends AbstractTextControlContainerFigure implements IA
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
         path.addRectangle(pt.x, pt.y, 11, 11);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         
         path.moveTo(pt.x - 0.2f, pt.y);
         path.lineTo(pt.x + 3.2f, pt.y - 3);
+        path.lineTo(pt.x + 14, pt.y - 3);
+        path.lineTo(pt.x + 14f, pt.y + 8);
+        path.lineTo(pt.x + 11f, pt.y + 11.2f);
+        
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         
         path.moveTo(pt.x + 11, pt.y);
         path.lineTo(pt.x + 14, pt.y - 3);
         
-        path.moveTo(pt.x + 11.2f, pt.y + 11);
-        path.lineTo(pt.x + 14.2f, pt.y + 8);
-        
-        
-        path.moveTo(pt.x + 3, pt.y - 2.8f);
-        path.lineTo(pt.x + 14.3f, pt.y - 2.8f);
-        
-        path.moveTo(pt.x + 14, pt.y - 3);
-        path.lineTo(pt.x + 14, pt.y + 8.2f);
-
         graphics.drawPath(path);
         path.dispose();
         

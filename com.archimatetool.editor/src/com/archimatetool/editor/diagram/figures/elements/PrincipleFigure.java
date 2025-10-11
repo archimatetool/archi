@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -133,19 +134,25 @@ public class PrincipleFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        graphics.setBackgroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
-        
-        graphics.drawRoundRectangle(new Rectangle(pt.x, pt.y, 12, 14), 4, 4);
+        Rectangle rect = new Rectangle(pt.x, pt.y, 12, 14);
+        if(backgroundColor != null) {
+            graphics.fillRoundRectangle(rect, 4, 4);
+        }
+        graphics.drawRoundRectangle(rect, 4, 4);
         
         Path path = new Path(null);
 

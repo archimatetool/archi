@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -113,16 +114,19 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
         
@@ -146,6 +150,11 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         path.addRectangle(pt.x - 3, pt.y - 11, 6, 2.5f);
         path.addRectangle(pt.x - 3, pt.y - 6, 6, 2.5f);
 
+        if(backgroundColor != null) {
+            graphics.fillRectangle(pt.x - 3, pt.y - 11, 6, 2);
+            graphics.fillRectangle(pt.x - 3, pt.y - 6, 6, 2);
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         

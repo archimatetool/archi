@@ -5,8 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Path;
 
 
 
@@ -40,5 +44,23 @@ public class CompositionConnectionFigure extends AbstractArchimateConnectionFigu
     @Override
     protected void setFigureProperties() {
         setSourceDecoration(createFigureSourceDecoration());
+    }
+    
+    public static void drawIcon(Graphics graphics, Color color, Point pt) {
+        graphics.pushState();
+        graphics.setForegroundColor(color);
+        graphics.setBackgroundColor(color);
+        graphics.setLineWidth(1);
+        
+        graphics.drawRectangle(pt.x, pt.y + 9, 4, 4); // need both
+        graphics.fillRectangle(pt.x, pt.y + 9, 4, 4);
+        
+        Path path = new Path(null);
+        path.moveTo(pt.x + 4, pt.y + 9);
+        path.lineTo(pt.x + 4 + 9, pt.y);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        graphics.popState();
     }
 }

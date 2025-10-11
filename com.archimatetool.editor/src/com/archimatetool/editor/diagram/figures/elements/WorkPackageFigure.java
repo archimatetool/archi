@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
@@ -137,17 +138,16 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        graphics.setBackgroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
         
         float circleWidth = 9;
         float circleHalf = circleWidth / 2;
@@ -173,6 +173,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         path.close();
         
+        graphics.setBackgroundColor(foregroundColor);
         graphics.fillPath(path);
         path.dispose();
         

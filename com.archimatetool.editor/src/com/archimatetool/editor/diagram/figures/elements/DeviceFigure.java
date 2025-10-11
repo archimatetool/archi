@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -105,25 +106,37 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
+        Rectangle rect = new Rectangle(pt.x, pt.y, 11, 8);
+        if(backgroundColor != null) {
+            graphics.fillRoundRectangle(rect, 3, 3);
+        }
+        graphics.drawRoundRectangle(rect, 3, 3);
         
-        graphics.drawRoundRectangle(new Rectangle(pt.x, pt.y, 11, 8), 3, 3);
-        
-        graphics.drawPolygon(new int[] {
+        int[] points = new int[] {
                 pt.x - 1, pt.y + 12,
                 pt.x + 2, pt.y + 8,
                 pt.x + 9, pt.y + 8,
                 pt.x + 12, pt.y + 12
-        });
+        };
+        
+        if(backgroundColor != null) {
+            graphics.fillPolygon(points);
+        }
+        graphics.drawPolygon(points);
         
         graphics.popState();
     }

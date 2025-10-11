@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -93,35 +94,58 @@ public class MeaningFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null,  getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
         Rectangle rect = new Rectangle(pt.x, pt.y, 14, 11);
+        
+        if(backgroundColor != null) {
+            Path path = new Path(null);
+            path.addRectangle(pt.x + 0.5f, pt.y + 1, 9.5f, 6);
+            graphics.fillPath(path);
+            path.dispose();
+        }
         
         Path path = new Path(null);
         path.addArc(rect.x, rect.y, rect.width/3 * 2, rect.height/3 * 2, 60, 149);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         
         path = new Path(null);
         path.addArc(rect.x + rect.width/3 - 1, rect.y, rect.width/3 * 2, rect.height/3 * 2, -38, 157);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         
         path = new Path(null);
         path.addArc(rect.x, rect.y + rect.height / 3, rect.width/5 * 3, rect.height/3 * 2 - 1, -41, -171);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         
         path = new Path(null);
         path.addArc(rect.x + rect.width/3, rect.y + rect.height/4, rect.width/5 * 3, rect.height/3 * 2, 7, -136);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
 
