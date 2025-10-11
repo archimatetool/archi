@@ -30,7 +30,9 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 
 
 
@@ -440,6 +442,15 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public Dimension getDefaultSize() {
+        // If the object has an icon image and set to image fill and isn't a container with children dfault size is the image size
+        if(getDiagramModelObject() instanceof IIconic iconic
+                && iconic.getImagePosition() == IIconic.ICON_POSITION_FILL
+                && hasIconImage()
+                && !(getDiagramModelObject() instanceof IDiagramModelContainer dmc && !dmc.getChildren().isEmpty())) {
+            org.eclipse.swt.graphics.Rectangle imageBounds = getIconicDelegate().getImage().getBounds();
+            return new Dimension(imageBounds.width, imageBounds.height);
+        }
+        
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
         return provider != null ? provider.getDefaultSize() : IGraphicalObjectUIProvider.defaultSize();
     }
