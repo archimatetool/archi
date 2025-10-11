@@ -10,9 +10,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Spinner;
 
+import com.archimatetool.editor.ui.components.SpinnerListener;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -24,7 +25,7 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 abstract class OpacityComposite {
     
-    private Spinner fSpinner;
+    private SpinnerListener spinnerListener;
     private AbstractECorePropertySection section;
     private Composite composite;
     
@@ -41,42 +42,30 @@ abstract class OpacityComposite {
     private void createSpinnerControl(Composite parent, String label) {
         section.createLabel(parent, label, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        fSpinner = new Spinner(parent, SWT.BORDER);
+        Spinner spinner = new Spinner(parent, SWT.BORDER);
+        spinner.setMinimum(0);
+        spinner.setMaximum(255);
+        spinner.setIncrement(5);
         
-        fSpinner.setMinimum(0);
-        fSpinner.setMaximum(255);
-        fSpinner.setIncrement(5);
+        section.getWidgetFactory().adapt(spinner, true, true);
         
-        section.getWidgetFactory().adapt(fSpinner, true, true);
-        
-        Listener listener = event -> {
-            int newValue = fSpinner.getSelection();
-
-            CompoundCommand result = new CompoundCommand();
-
-            for(EObject dmo : section.getEObjects()) {
-                if(section.isAlive(dmo) && isValidObject(dmo)) {
-                    Command cmd = getCommand((IDiagramModelObject)dmo, newValue);
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
+        spinnerListener = new SpinnerListener(spinner) {
+            @Override
+            protected void doEvent(Event event) {
+                CompoundCommand result = new CompoundCommand();
+                
+                for(EObject dmo : section.getEObjects()) {
+                    if(section.isAlive(dmo) && isValidObject(dmo)) {
+                        Command cmd = getCommand((IDiagramModelObject)dmo, spinner.getSelection());
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
+                        }
                     }
                 }
-            }
 
-            section.executeCommand(result.unwrap());
-        };
-        
-        fSpinner.addListener(SWT.MouseUp, listener);
-        fSpinner.addListener(SWT.FocusOut, listener);
-        fSpinner.addListener(SWT.DefaultSelection, listener);
-        
-        fSpinner.addDisposeListener(event -> {
-            if(fSpinner != null && !fSpinner.isDisposed()) {
-                fSpinner.removeListener(SWT.MouseUp, listener);
-                fSpinner.removeListener(SWT.FocusOut, listener);
-                fSpinner.removeListener(SWT.DefaultSelection, listener);
+                section.executeCommand(result.unwrap());
             }
-        });
+        };
     }
     
     abstract Command getCommand(IDiagramModelObject dmo, int newValue);
@@ -90,14 +79,14 @@ abstract class OpacityComposite {
     
     void updateControl() {
         IDiagramModelObject lastSelected = (IDiagramModelObject)section.getFirstSelectedObject();
-        fSpinner.setSelection(getValue());
-        fSpinner.setEnabled(!section.isLocked(lastSelected));
+        spinnerListener.setSelection(getValue());
+        spinnerListener.getSpinner().setEnabled(!section.isLocked(lastSelected));
     }
     
     void dispose() {
         composite.dispose();
         composite = null;
-        fSpinner = null;
+        spinnerListener = null;
         section = null;
     }
 }
