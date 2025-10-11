@@ -85,22 +85,27 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         return connection;
     }
     
-    private EClass fTemplate;
-    private IProfile fProfile;
+    private EClass template;
+    private Object property;
     
     /**
      * Constructor for creating a new Ecore type model
-     * @param eClass
+     * @param template the EClass template
      */
     public ArchimateDiagramModelFactory(EClass template) {
-        fTemplate = template;
+        this(template, null);
     }
     
-    public ArchimateDiagramModelFactory(EClass template, IProfile profile) {
-        fTemplate = template;
-        fProfile = profile;
+    /**
+     * Concstructor for creating a new Ecore type model
+     * @param template the EClass template
+     * @param property Additional information
+     */
+    public ArchimateDiagramModelFactory(EClass template, Object property) {
+        this.template = template;
+        this.property = property;
     }
-
+    
     @Override
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof IArchimateDiagramEditor;
@@ -108,67 +113,71 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
     
     @Override
     public Object getNewObject() {
-        if(fTemplate == null) {
+        if(template == null) {
             return null;
         }
         
-        boolean isSpecialization =  fProfile != null && fProfile.getArchimateModel() != null;
+        EObject object = IArchimateFactory.eINSTANCE.create(template);
         
-        EObject object = IArchimateFactory.eINSTANCE.create(fTemplate);
+        // Are we creating a profile?
+        IProfile profile = property instanceof IProfile p && p.getArchimateModel() != null ? p : null;
         
         // Add Profile to Concept if set
-        if(object instanceof IArchimateConcept && isSpecialization) {
-            ((IArchimateConcept)object).getProfiles().add(fProfile);
+        if(object instanceof IArchimateConcept concept && profile != null) {
+            concept.getProfiles().add(profile);
         }
         
         // Connection created from Relationship Template
-        if(object instanceof IArchimateRelationship) {
-            return createDiagramModelArchimateConnection((IArchimateRelationship)object);
+        if(object instanceof IArchimateRelationship relationship) {
+            return createDiagramModelArchimateConnection(relationship);
         }
         
         // Archimate Diagram Object created from Archimate Element Template
-        else if(object instanceof IArchimateElement) {
-            IArchimateElement element = (IArchimateElement)object;
-            element.setName(isSpecialization ? fProfile.getName() : ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+        else if(object instanceof IArchimateElement element) {
+            element.setName(profile != null ? profile.getName() : ArchiLabelProvider.INSTANCE.getDefaultName(template));
             return createDiagramModelArchimateObject(element);
         }
         
         // Group
-        else if(object instanceof IDiagramModelGroup) {
-            IDiagramModelGroup group = (IDiagramModelGroup)object;
-            group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+        else if(object instanceof IDiagramModelGroup group) {
+            // Explicitly set the name
+            group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(template));
+            
+            // Colours
             ColorFactory.setDefaultColors(group);
+            
             // Gradient
             group.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Note
-        else if(object instanceof IDiagramModelNote) {
-            IDiagramModelNote note = (IDiagramModelNote)object;
+        else if(object instanceof IDiagramModelNote note) {
+            // Colours
             ColorFactory.setDefaultColors(note);
+            
             // Gradient
             note.setGradient(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.DEFAULT_GRADIENT));
         }
         
         // Connection
-        else if(object instanceof IDiagramModelConnection) {
-            ColorFactory.setDefaultColors((IDiagramModelConnection)object);
+        else if(object instanceof IDiagramModelConnection dmc) {
+            ColorFactory.setDefaultColors(dmc);
         }
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(object);
 
-        if(object instanceof ITextAlignment) {
-            ((ITextAlignment)object).setTextAlignment(provider.getDefaultTextAlignment());
+        if(object instanceof ITextAlignment ta) {
+            ta.setTextAlignment(provider.getDefaultTextAlignment());
         }
                 
-        if(object instanceof ITextPosition) {
-            ((ITextPosition)object).setTextPosition(provider.getDefaultTextPosition());
+        if(object instanceof ITextPosition tp) {
+            tp.setTextPosition(provider.getDefaultTextPosition());
         }
         
         // Add new bounds with a default user size
-        if(object instanceof IDiagramModelObject) {
+        if(object instanceof IDiagramModelObject dmo) {
             Dimension size = provider.getDefaultSize();
-            ((IDiagramModelObject)object).setBounds(0, 0, size.width, size.height);
+            dmo.setBounds(0, 0, size.width, size.height);
         }
 
         return object;
@@ -176,6 +185,6 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
 
     @Override
     public Object getObjectType() {
-        return fTemplate;
+        return template;
     }
 }
