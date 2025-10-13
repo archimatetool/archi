@@ -1,6 +1,7 @@
 package com.archimatetool.export.svg;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -68,5 +69,17 @@ public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAda
             getGraphics2D().setStroke(createStroke());
             getGraphics2D().draw(path);
         }
+    }
+    
+    /**
+     * Phillipus fix - width and height of Ellipse2D should not be reduced by one pixel
+     */
+    @Override
+    public void fillOval(int x, int y, int w, int h) {
+        Ellipse2D ellipse = new Ellipse2D.Float(x + transX, y + transY, w, h);
+
+        checkState();
+        getGraphics2D().setPaint(getColor(getSWTGraphics().getBackgroundColor()));
+        getGraphics2D().fill(ellipse);
     }
 }
