@@ -5,9 +5,13 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.model.IAssociationRelationship;
 
@@ -58,5 +62,21 @@ public class AssociationConnectionFigure extends AbstractArchimateConnectionFigu
 
         // This last
         super.refreshVisuals();
+    }
+    
+    public static void drawIcon(Graphics graphics, Color color, Point pt) {
+        graphics.pushState();
+        graphics.setForegroundColor(color);
+        graphics.setLineWidth(1);
+        
+        Path path = new Path(null);
+        
+        path.moveTo(pt.x, pt.y + 13);
+        path.lineTo(pt.x + 13, pt.y);
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
+        graphics.popState();
     }
 }

@@ -10,6 +10,7 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.model.IIconic;
@@ -107,18 +108,25 @@ public class ValueFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
-        
-        graphics.drawOval(pt.x, pt.y, 14, 9);
+        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 9);
+        if(backgroundColor != null) {
+            graphics.fillOval(rect);
+        }
+        graphics.drawOval(rect);
         
         graphics.popState();
     }

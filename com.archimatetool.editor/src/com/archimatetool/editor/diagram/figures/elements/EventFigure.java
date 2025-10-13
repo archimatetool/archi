@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -94,27 +95,40 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
-        
-        Path path = new Path(null);
+        if(backgroundColor != null) {
+            Path path = new Path(null);
+            
+            path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
+            path.addRectangle(pt.x, pt.y, 12, 9);
+            path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
+            
+            graphics.fillPath(path);
+            path.dispose();
+        }
         
         // arc
+        Path path = new Path(null);
         path.moveTo(pt.x, pt.y);
         path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
         graphics.drawPath(path);
         path.dispose();
         
+        // arc 2
         path = new Path(null);
-        path.moveTo(pt.x, pt.y);
         path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
 
         // lines

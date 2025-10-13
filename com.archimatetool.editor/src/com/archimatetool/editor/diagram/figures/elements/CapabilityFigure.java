@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -120,25 +121,55 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
+        Rectangle rect = new Rectangle(pt.x + 8, pt.y, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
         
-        graphics.drawRectangle(pt.x + 8, pt.y, 4, 4);
+        rect = new Rectangle(pt.x + 4, pt.y + 4, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
         
-        graphics.drawRectangle(pt.x + 4, pt.y + 4, 4, 4);
-        graphics.drawRectangle(pt.x + 8, pt.y + 4, 4, 4);
+        rect = new Rectangle(pt.x + 8, pt.y + 4, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
         
-        graphics.drawRectangle(pt.x, pt.y + 8, 4, 4);
-        graphics.drawRectangle(pt.x + 4, pt.y + 8, 4, 4);
-        graphics.drawRectangle(pt.x + 8, pt.y + 8, 4, 4);
+        rect = new Rectangle(pt.x, pt.y + 8, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
+        
+        rect = new Rectangle(pt.x + 4, pt.y + 8, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
+        
+        rect = new Rectangle(pt.x + 8, pt.y + 8, 4, 4);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
         
         graphics.popState();
     }

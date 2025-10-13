@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -150,26 +151,36 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         // main rectangle
-        graphics.drawRoundRectangle(new Rectangle(pt.x, pt.y, 15, 10), 3, 3);
+        Rectangle rect = new Rectangle(pt.x, pt.y, 15, 10);
+        if(backgroundColor != null) {
+            graphics.fillRoundRectangle(rect, 3, 3);
+        }
+        graphics.drawRoundRectangle(rect, 3, 3);
         
         // nub
-        pt.translate(15, 3);
-        graphics.drawRoundRectangle(new Rectangle(pt.x, pt.y, 2, 4), 1, 1);
+        Point pt2 = pt.getCopy().translate(15, 3);
+        rect = new Rectangle(pt2.x, pt2.y, 2, 4);
+        if(backgroundColor != null) {
+            graphics.fillRoundRectangle(rect, 3, 3);
+        }
+        graphics.drawRoundRectangle(rect, 1, 1);
         
         // lines
-        pt = getIconOrigin();
         Path path = new Path(null);
         
         path.moveTo(pt.x + 3f, pt.y + 2);

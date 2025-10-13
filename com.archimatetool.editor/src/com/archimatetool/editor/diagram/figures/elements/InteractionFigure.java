@@ -9,6 +9,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -121,27 +122,36 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         // Start at top
-        Point pt = getIconOrigin();
-        
         Path path = new Path(null);
         path.addArc(pt.x - 5, pt.y, 10, 12, 90, 180);
         path.lineTo(pt.x, pt.y - 0.5f);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         
         path = new Path(null);
         path.addArc(pt.x - 2, pt.y, 10, 12, -90, 180);
         path.lineTo(pt.x + 3, pt.y + 12.5f);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         

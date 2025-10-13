@@ -5,10 +5,14 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
@@ -125,5 +129,28 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         tooltip.setType(Messages.AccessConnectionFigure_4 + " " + type); //$NON-NLS-1$
 
         return tooltip;
+    }
+    
+    public static void drawIcon(Graphics graphics, Color color, Point pt) {
+        graphics.pushState();
+        graphics.setForegroundColor(color);
+        graphics.setLineWidth(1);
+        
+        Path path = new Path(null);
+        graphics.setLineDash(new float[] { 1.5f });
+        path.moveTo(pt.x, pt.y + 13);
+        path.lineTo(pt.x + 13, pt.y);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        graphics.setLineDash((float[])null); // Have to do it this way because it's not reset to normal using graphics.setLineStyle(SWT.LINE_SOLID);
+        path.moveTo(pt.x + 8, pt.y);
+        path.lineTo(pt.x + 13, pt.y);
+        path.lineTo(pt.x + 13, pt.y + 5);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        graphics.popState();
     }
 }

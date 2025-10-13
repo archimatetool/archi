@@ -12,6 +12,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.IJunction;
@@ -61,6 +62,15 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         graphics.popState();
     }
     
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+        graphics.pushState();
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(foregroundColor);
+        graphics.setBackgroundColor(foregroundColor);
+        graphics.fillOval(pt.x, pt.y, 12, 12);
+        graphics.popState();
+    }
+
     @Override
     public void refreshVisuals() {
         // Fill Color

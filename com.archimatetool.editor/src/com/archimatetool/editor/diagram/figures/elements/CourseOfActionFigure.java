@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -169,19 +170,20 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        graphics.setBackgroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        graphics.setBackgroundColor(foregroundColor);
         
         // triangle of shortcut glyph
         Path path = new Path(null);
-        Point pt = getIconOrigin();
         float x = pt.x - 5.4f, y = pt.y + 9f;
 
         path.moveTo(x, y);
@@ -191,6 +193,10 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         graphics.fillPath(path);
         path.dispose();
         
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
+
         // line of shortcut glyph
         path = new Path(null);
         graphics.setLineWidthFloat(2f);
@@ -201,9 +207,11 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         // 2 circles and blob
         graphics.setLineWidthFloat(1.2f);
         path = new Path(null);
-        pt = getIconOrigin();
         
         path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
         path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
         path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);

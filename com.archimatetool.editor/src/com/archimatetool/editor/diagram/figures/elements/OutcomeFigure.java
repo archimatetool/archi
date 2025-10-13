@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -134,17 +135,19 @@ public class OutcomeFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        graphics.setBackgroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         Path path = new Path(null);
 
@@ -152,6 +155,9 @@ public class OutcomeFigure extends AbstractMotivationFigure {
         
         // circles
         path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
         path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
         path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);

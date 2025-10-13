@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -78,7 +79,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         graphics.popState();
     }
     
-    protected Path getFigurePath(float curveHeight, Rectangle rect, float lineOffset) {
+    protected static Path getFigurePath(float curveHeight, Rectangle rect, float lineOffset) {
         float curveY = rect.bottom() - curveHeight;
         
         Path path = new Path(null);
@@ -102,19 +103,26 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
         Rectangle rect = new Rectangle(pt.x, pt.y, 14, 10);
         
         Path path = getFigurePath(1.5f, rect, 0.5f);
+        if(backgroundColor != null) {
+            graphics.fillPath(path);
+        }
         graphics.drawPath(path);
         path.dispose();
         

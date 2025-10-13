@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -99,22 +100,35 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
-        
-        Point pt = getIconOrigin();
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
         // circles
-        Rectangle circle = new Rectangle(pt.x, pt.y, 10, 10);
-        graphics.drawOval(circle);
-        circle.translate(4, 0);
-        graphics.drawOval(circle);
+        Rectangle circle1 = new Rectangle(pt.x, pt.y, 10, 10);
+        
+        if(backgroundColor != null) {
+            graphics.fillOval(circle1);
+        }
+        
+        Rectangle circle2 = new Rectangle(pt.x + 4, pt.y, 10, 10);
+
+        if(backgroundColor != null) {
+            graphics.fillOval(circle2);
+        }
+        
+        graphics.drawOval(circle2);
+        graphics.drawOval(circle1);
         
         graphics.popState();
     }

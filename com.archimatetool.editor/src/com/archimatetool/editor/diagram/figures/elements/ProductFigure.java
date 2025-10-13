@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -115,18 +116,25 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
+        if(backgroundColor != null) {
+            graphics.setBackgroundColor(backgroundColor);
+        }
         
-        Point pt = getIconOrigin();
-        
-        graphics.drawRectangle(pt.x, pt.y, 13, 10);
+        Rectangle rect = new Rectangle(pt.x, pt.y, 13, 10);
+        if(backgroundColor != null) {
+            graphics.fillRectangle(rect);
+        }
+        graphics.drawRectangle(rect);
         graphics.drawRectangle(pt.x, pt.y, 6, 3);
         
         graphics.popState();

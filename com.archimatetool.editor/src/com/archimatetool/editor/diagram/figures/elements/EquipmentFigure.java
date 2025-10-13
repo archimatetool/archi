@@ -10,6 +10,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -187,19 +188,19 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      * Draw the icon
      */
     private void drawIcon(Graphics graphics) {
-        if(!isIconVisible()) {
-            return;
+        if(isIconVisible()) {
+            drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
-        
+    }
+    
+    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
         graphics.pushState();
         
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(getIconColor());
+        graphics.setForegroundColor(foregroundColor);
         
-        Point pt = getIconOrigin();
-        
-        drawIconCog(graphics, pt.getTranslated(5, 3), 8, 3, 6, 8);
-        drawIconCog(graphics, pt.getTranslated(10, -8), 6, 2, 4, 5);
+        drawIconCog(graphics, backgroundColor, pt.getTranslated(5, 3), 8, 3, 6, 8);
+        drawIconCog(graphics, backgroundColor, pt.getTranslated(10, -8), 6, 2, 4, 5);
         
         graphics.popState();
     }
@@ -208,7 +209,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      * 
      * Draw a Cog with choosen number of "segments"
      */
-    private void drawIconCog(Graphics graphics, Point center, int segments, int r1, int r2, int r3) {
+    private static void drawIconCog(Graphics graphics, Color backgroundColor, Point center, int segments, int r1, int r2, int r3) {
     	// Draw outer Cog
     	PointList outer = new PointList();
     	final double halfSeg = Math.PI / (2*segments); 
@@ -219,6 +220,10 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
     		outer.addPoint(new PolarPoint(r3, 2*Math.PI*i/segments-halfSeg+delta).toAbsolutePoint(center));
     		outer.addPoint(new PolarPoint(r3, 2*Math.PI*i/segments+halfSeg-delta).toAbsolutePoint(center));
     		outer.addPoint(new PolarPoint(r2, 2*Math.PI*i/segments+halfSeg).toAbsolutePoint(center));
+    	}
+    	if(backgroundColor != null) {
+    	    graphics.setBackgroundColor(backgroundColor);
+    	    graphics.fillPolygon(outer);
     	}
     	graphics.drawPolygon(outer);
     	
