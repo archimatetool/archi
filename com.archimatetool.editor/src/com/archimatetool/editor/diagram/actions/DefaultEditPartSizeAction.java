@@ -11,17 +11,13 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
-import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
-import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ILockable;
 
 
@@ -67,32 +63,19 @@ public class DefaultEditPartSizeAction extends SelectionAction {
         CompoundCommand command = new CompoundCommand();
         
         for(Object object : objects) {
-            if(object instanceof AbstractConnectedEditPart) {
-                AbstractConnectedEditPart editPart = (AbstractConnectedEditPart)object;
+            if(object instanceof AbstractBaseEditPart editPart) {
                 IDiagramModelObject model = editPart.getModel();
                 
                 // Locked
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                if(model instanceof ILockable lockable && lockable.isLocked()) {
                     continue;
                 }
                 
-                AbstractDiagramModelObjectFigure figure = (AbstractDiagramModelObjectFigure)editPart.getFigure();
                 IBounds bounds = model.getBounds().getCopy();
 
-                // If the object has an icon image and set to image fill and isn't a container with childrem
-                if(model instanceof IIconic
-                        && ((IIconic)model).getImagePosition() == IIconic.ICON_POSITION_FILL
-                        && figure.hasIconImage()
-                        && !(model instanceof IDiagramModelContainer && !((IDiagramModelContainer)model).getChildren().isEmpty())) {
-                    Rectangle imageBounds = figure.getIconicDelegate().getImage().getBounds();
-                    bounds.setWidth(imageBounds.width);
-                    bounds.setHeight(imageBounds.height);
-                }
-                else {
-                    Dimension defaultSize = figure.getDefaultSize();
-                    bounds.setWidth(defaultSize.width);
-                    bounds.setHeight(defaultSize.height);
-                }
+                Dimension defaultSize = editPart.getFigure().getDefaultSize();
+                bounds.setWidth(defaultSize.width);
+                bounds.setHeight(defaultSize.height);
                 
                 if(bounds.getWidth() != model.getBounds().getWidth() || bounds.getHeight() != model.getBounds().getHeight()) {
                     Command cmd = new SetConstraintObjectCommand(model, bounds);
