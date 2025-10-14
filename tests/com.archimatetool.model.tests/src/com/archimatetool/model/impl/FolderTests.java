@@ -19,6 +19,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFolder;
 
 
+@SuppressWarnings("nls")
 public class FolderTests {
     
     private IFolder folder;
@@ -66,6 +67,11 @@ public class FolderTests {
     @Test
     public void testGetAdapter() {
         CommonTests.testGetAdapter(folder);
+        
+        // Test we can access an adapter value in the parent chain
+        model.getFolders().add(folder);
+        model.setAdapter("key1", "value1");
+        assertEquals("value1", folder.getAdapter("key1"));
     }
         
     @Test

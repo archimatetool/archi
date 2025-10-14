@@ -7,7 +7,6 @@ package com.archimatetool.model.impl;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -220,9 +219,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     protected EList<IProfile> profiles;
     
     /**
-     * Adapter Map for arbitrary objects
+     * Map for arbitrary objects
      */
-    private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
+    private Map<Object, Object> fAdapterMap;
     
     /**
      * Model Content Ecore listeners
@@ -382,12 +381,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     @Override
-    public Object getAdapter(Object adapter) {
-        if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
-            return ((IAdapter)eContainer()).getAdapter(adapter);
-        }
-        
-        return fAdapterMap.get(adapter);
+    public Object getAdapter(Object key) {
+        return AdapterHelper.getValue(this, fAdapterMap, key);
     }
 
     /**
@@ -396,8 +391,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     @Override
-    public void setAdapter(Object adapter, Object object) {
-        fAdapterMap.put(adapter, object);
+    public void setAdapter(Object key, Object value) {
+        fAdapterMap = AdapterHelper.setValue(fAdapterMap, key, value);
     }
 
     /**
@@ -968,8 +963,10 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             eAdapters = null;
         }
         
-        fAdapterMap.clear();
-        fAdapterMap = null;
+        if(fAdapterMap != null) {
+            fAdapterMap.clear();
+            fAdapterMap = null;
+        }
         
         fContentListeners.clear();
         fContentListeners = null;

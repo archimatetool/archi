@@ -73,6 +73,11 @@ public class ProfileTests {
     @Test
     public void getAdapter() {
         CommonTests.testGetAdapter(profile);
+        
+        // Test we can access an adapter value in the parent chain
+        model.getProfiles().add(profile);
+        model.setAdapter("key1", "value1");
+        assertEquals("value1", profile.getAdapter("key1"));
     }
         
     @Test

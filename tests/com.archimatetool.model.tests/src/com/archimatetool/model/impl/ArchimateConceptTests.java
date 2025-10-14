@@ -20,6 +20,7 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.ParamsTest;
 
@@ -37,8 +38,19 @@ public abstract class ArchimateConceptTests {
     @ParamsTest
     public void testGetAdapter(IArchimateConcept concept) {
         CommonTests.testGetAdapter(concept);
-    }
         
+        // Test we can access an adapter value in the parent chain
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        IFolder folder = model.getDefaultFolderForObject(concept);
+        folder.getElements().add(concept);
+        
+        model.setAdapter("key1", "value1");
+        folder.setAdapter("key2", "value2");
+        
+        assertEquals("value1", concept.getAdapter("key1"));
+        assertEquals("value2", concept.getAdapter("key2"));
+    }
+    
     @ParamsTest
     public void testGetArchimateModel(IArchimateConcept concept) {
         assertNull(concept.getArchimateModel());

@@ -26,11 +26,11 @@
     <genDataTypes ecoreDataType="archimate.ecore#//File"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//Adapter">
       <genOperations ecoreOperation="archimate.ecore#//Adapter/getAdapter">
-        <genParameters ecoreParameter="archimate.ecore#//Adapter/getAdapter/adapter"/>
+        <genParameters ecoreParameter="archimate.ecore#//Adapter/getAdapter/key"/>
       </genOperations>
       <genOperations ecoreOperation="archimate.ecore#//Adapter/setAdapter">
-        <genParameters ecoreParameter="archimate.ecore#//Adapter/setAdapter/adapter"/>
-        <genParameters ecoreParameter="archimate.ecore#//Adapter/setAdapter/object"/>
+        <genParameters ecoreParameter="archimate.ecore#//Adapter/setAdapter/key"/>
+        <genParameters ecoreParameter="archimate.ecore#//Adapter/setAdapter/value"/>
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//Identifier">

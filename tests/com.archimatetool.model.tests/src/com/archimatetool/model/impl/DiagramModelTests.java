@@ -19,6 +19,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFolder;
 
 
 @SuppressWarnings("nls")
@@ -79,6 +80,17 @@ public abstract class DiagramModelTests {
     @Test
     public void testGetAdapter() {
         CommonTests.testGetAdapter(dm);
+        
+        // Test we can access an adapter value in the parent chain
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        IFolder folder = model.getDefaultFolderForObject(dm);
+        folder.getElements().add(dm);
+        
+        model.setAdapter("key1", "value1");
+        folder.setAdapter("key2", "value2");
+        
+        assertEquals("value1", dm.getAdapter("key1"));
+        assertEquals("value2", dm.getAdapter("key2"));
     }
 
     @Test

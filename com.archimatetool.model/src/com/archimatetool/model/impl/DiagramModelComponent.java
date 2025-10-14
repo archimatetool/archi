@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -101,9 +100,9 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     protected EList<IFeature> features;
 
     /**
-     * Adapter Map for arbitrary objects
+     * Map for arbitrary objects
      */
-    private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
+    private Map<Object, Object> fAdapterMap;
 
     /**
      * <!-- begin-user-doc -->
@@ -213,12 +212,8 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated NOT
      */
     @Override
-    public Object getAdapter(Object adapter) {
-        if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
-            return ((IAdapter)eContainer()).getAdapter(adapter);
-        }
-        
-        return fAdapterMap.get(adapter);
+    public Object getAdapter(Object key) {
+        return AdapterHelper.getValue(this, fAdapterMap, key);
     }
 
     /**
@@ -227,8 +222,8 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated NOT
      */
     @Override
-    public void setAdapter(Object adapter, Object object) {
-        fAdapterMap.put(adapter, object);
+    public void setAdapter(Object key, Object value) {
+        fAdapterMap = AdapterHelper.setValue(fAdapterMap, key, value);
     }
 
     /**

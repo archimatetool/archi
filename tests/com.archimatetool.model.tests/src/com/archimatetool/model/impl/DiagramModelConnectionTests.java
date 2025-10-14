@@ -62,6 +62,27 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
         
         assertSame(model, connection.getArchimateModel());
     }
+    
+    @Override
+    @Test
+    public void testGetAdapter() {
+        super.testGetAdapter();
+        
+        // Test we can access an adapter value in the parent chain
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
+        
+        IDiagramModelGroup dmo = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dm.getChildren().add(dmo);
+        connection.connect(dmo, dmo);
+        
+        model.setAdapter("key1", "value1");
+        dm.setAdapter("key2", "value2");
+        
+        assertEquals("value1", connection.getAdapter("key1"));
+        assertEquals("value2", connection.getAdapter("key2"));
+    }
+
 
     @Test
     public void testGetBendpoints() {

@@ -51,6 +51,23 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         
         assertSame(model, object.getArchimateModel());
     }
+    
+    @Override
+    @Test
+    public void testGetAdapter() {
+        super.testGetAdapter();
+        
+        // Test we can access an adapter value in the parent chain
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
+        dm.getChildren().add(object);
+        
+        model.setAdapter("key1", "value1");
+        dm.setAdapter("key2", "value2");
+        
+        assertEquals("value1", object.getAdapter("key1"));
+        assertEquals("value2", object.getAdapter("key2"));
+    }
 
     @Test
     public void testGetBounds() {

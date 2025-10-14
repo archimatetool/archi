@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -21,19 +20,18 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
-import com.archimatetool.model.IFeaturesEList;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
 
@@ -170,9 +168,9 @@ public class Folder extends EObjectImpl implements IFolder {
     protected FolderType type = TYPE_EDEFAULT;
     
     /**
-     * Adapter Map for arbitrary objects
+     * Map for arbitrary objects
      */
-    private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
+    private Map<Object, Object> fAdapterMap;
 
     /**
      * <!-- begin-user-doc -->
@@ -331,12 +329,8 @@ public class Folder extends EObjectImpl implements IFolder {
      * @generated NOT
      */
     @Override
-    public Object getAdapter(Object adapter) {
-        if(!fAdapterMap.containsKey(adapter) && eContainer() instanceof IAdapter) {
-            return ((IAdapter)eContainer()).getAdapter(adapter);
-        }
-        
-        return fAdapterMap.get(adapter);
+    public Object getAdapter(Object key) {
+        return AdapterHelper.getValue(this, fAdapterMap, key);
     }
 
     /**
@@ -345,8 +339,8 @@ public class Folder extends EObjectImpl implements IFolder {
      * @generated NOT
      */
     @Override
-    public void setAdapter(Object adapter, Object object) {
-        fAdapterMap.put(adapter, object);
+    public void setAdapter(Object key, Object value) {
+        fAdapterMap = AdapterHelper.setValue(fAdapterMap, key, value);
     }
 
     /**

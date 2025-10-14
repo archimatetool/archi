@@ -87,9 +87,30 @@ public class CommonTests {
     }
     
     public static void testGetAdapter(IAdapter adapter) {
+        String test1 = "test1";
+        String test2 = "test2";
+        
+        // Null key not allowed
+        adapter.setAdapter(null, test1);
+        assertNull(adapter.getAdapter(null));
+        
+        // Null value allowed but adapterMap will be null
+        adapter.setAdapter("key", null);
+        assertNull(adapter.getAdapter("key"));
+        
+        // Null value because not set
         assertNull(adapter.getAdapter(String.class));
-        String test = "test";
-        adapter.setAdapter(String.class, test);
-        assertSame(test, adapter.getAdapter(String.class));
+        
+        // Set
+        adapter.setAdapter(String.class, test1);
+        assertSame(test1, adapter.getAdapter(String.class));
+        
+        // Set new value
+        adapter.setAdapter(String.class, test2);
+        assertSame(test2, adapter.getAdapter(String.class));
+        
+        // Set to null
+        adapter.setAdapter(String.class, null);
+        assertNull(adapter.getAdapter(String.class));
     }
 }
