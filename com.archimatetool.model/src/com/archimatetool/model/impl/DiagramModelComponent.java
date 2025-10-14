@@ -204,10 +204,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      */
     @Override
     public IArchimateModel getArchimateModel() {
-        if(eContainer() == null) {
-            return null;
-        }
-        return ((IArchimateModelObject)eContainer()).getArchimateModel();
+        return eContainer() instanceof IArchimateModelObject modelObject ? modelObject.getArchimateModel() : null;
     }
 
     /**

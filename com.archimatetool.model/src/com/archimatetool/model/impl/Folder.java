@@ -356,10 +356,7 @@ public class Folder extends EObjectImpl implements IFolder {
      */
     @Override
     public IArchimateModel getArchimateModel() {
-        if(eContainer() == null) {
-            return null;
-        }
-        return ((IArchimateModelObject)eContainer()).getArchimateModel();
+        return eContainer() instanceof IArchimateModelObject modelObject ? modelObject.getArchimateModel() : null;
     }
 
     /**

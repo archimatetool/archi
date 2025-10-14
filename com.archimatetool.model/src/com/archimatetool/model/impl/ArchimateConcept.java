@@ -330,10 +330,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
      */
     @Override
     public IArchimateModel getArchimateModel() {
-        if(eContainer() == null) {
-            return null;
-        }
-        return ((IArchimateModelObject)eContainer()).getArchimateModel();
+        return eContainer() instanceof IArchimateModelObject modelObject ? modelObject.getArchimateModel() : null;
     }
 
     /**
