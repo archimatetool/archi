@@ -10,20 +10,20 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.ui.IGraphicsIcon;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
- * Draw2d Icon for a Canvas model
+ * Draw2d Icon delegate for a Canvas model
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasModelGraphicsIcon implements IGraphicsIcon {
+public class CanvasModelIconDelegate implements IIconDelegate {
     
     private static Color blue = new Color(200, 230, 247);
 
     @Override
-    public void drawIcon(Graphics graphics, Point origin) {
+    public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point origin) {
         graphics.pushState();
         
         graphics.setLineWidth(1);

@@ -11,11 +11,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
-import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelGraphicsIcon;
+import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelIconDelegate;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.IGraphicsIcon;
+import com.archimatetool.editor.ui.IIconDelegate;
+import com.archimatetool.editor.ui.IIconDelegateProvider;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
-import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -25,9 +25,9 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider implements IDiagramModelUIProvider {
+public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider implements IIconDelegateProvider {
     
-    private IGraphicsIcon graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
+    private IIconDelegate iconDelegate = new ArchimateDiagramModelIconDelegate();
 
     @Override
     public EClass providerFor() {
@@ -55,7 +55,7 @@ public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider im
     }
     
     @Override
-    public IGraphicsIcon getGraphicsIcon() {
-        return graphicsIcon;
+    public IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 }

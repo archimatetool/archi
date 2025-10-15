@@ -11,10 +11,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureIconFactory;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
@@ -40,6 +39,11 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
         drawIcon(graphics);
     }
     
+    @Override
+    public IDiagramModelReference getDiagramModelObject() {
+        return (IDiagramModelReference)super.getDiagramModelObject();
+    }
+    
     /**
      * Draw the icon
      */
@@ -48,13 +52,8 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
             return;
         }
         
-        // Draw the icon depending on the diagramModelObject
-        IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
-
-        IGraphicsIcon graphicsIcon = ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm);
-        if(graphicsIcon != null) {
-            graphicsIcon.drawIcon(graphics, getIconOrigin());
-        }
+        IDiagramModel dm = getDiagramModelObject().getReferencedModel();
+        FigureIconFactory.drawIcon(dm.eClass(), graphics, null, null, getIconOrigin());
     }
     
     /**

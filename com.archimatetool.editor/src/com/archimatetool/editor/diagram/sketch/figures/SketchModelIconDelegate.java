@@ -11,21 +11,21 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.ui.IGraphicsIcon;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
- * Draw2d Icon for a Sketch model
+ * Draw2d Icon delegate for a Sketch model
  * 
  * @author Phillip Beauvoir
  */
-public class SketchModelGraphicsIcon implements IGraphicsIcon {
+public class SketchModelIconDelegate implements IIconDelegate {
     
     private static Color color1 = new Color(255, 247, 173);
     private static Color color2 = new Color(255, 214, 123);
 
     @Override
-    public void drawIcon(Graphics graphics, Point origin) {
+    public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point origin) {
         graphics.pushState();
         
         graphics.setLineWidth(1);

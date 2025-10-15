@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
@@ -28,7 +27,6 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
@@ -213,19 +211,6 @@ public class ArchiLabelProvider {
                 return data;
             }
         };
-    }
-    
-    /**
-     * @param element
-     * @return A IGraphicsIcon for a Diagram Model
-     */
-    public IGraphicsIcon getGraphicsIconForDiagramModel(IDiagramModel dm) {
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);
-        if(provider instanceof IDiagramModelUIProvider dmProvider) {
-            return dmProvider.getGraphicsIcon();
-        }
-        
-        return null;
     }
     
     /**

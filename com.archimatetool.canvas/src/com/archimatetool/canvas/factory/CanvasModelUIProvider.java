@@ -12,11 +12,11 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.canvas.editparts.CanvasDiagramPart;
-import com.archimatetool.canvas.figures.CanvasModelGraphicsIcon;
+import com.archimatetool.canvas.figures.CanvasModelIconDelegate;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.IGraphicsIcon;
+import com.archimatetool.editor.ui.IIconDelegate;
+import com.archimatetool.editor.ui.IIconDelegateProvider;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
-import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 
 
 
@@ -25,9 +25,9 @@ import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasModelUIProvider extends AbstractObjectUIProvider implements IDiagramModelUIProvider {
+public class CanvasModelUIProvider extends AbstractObjectUIProvider implements IIconDelegateProvider {
     
-    private IGraphicsIcon graphicsIcon = new CanvasModelGraphicsIcon();
+    private IIconDelegate iconDelegate = new CanvasModelIconDelegate();
 
     @Override
     public EClass providerFor() {
@@ -55,7 +55,7 @@ public class CanvasModelUIProvider extends AbstractObjectUIProvider implements I
     }
     
     @Override
-    public IGraphicsIcon getGraphicsIcon() {
-        return graphicsIcon;
+    public IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 }

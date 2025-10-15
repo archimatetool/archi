@@ -81,19 +81,6 @@ public class ArchiLabelProviderTests {
     }
     
     @Test
-    public void testGetGraphicsIconForDiagramModel() {
-        // Null object
-        assertNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(null));
-        
-        // Models
-        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        assertNotNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm));
-        
-        ISketchModel sm = IArchimateFactory.eINSTANCE.createSketchModel();
-        assertNotNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(sm));
-    }
-
-    @Test
     public void testGetImageDescriptor() {
         // Null object
         assertNull(ArchiLabelProvider.INSTANCE.getImageDescriptor(null));
