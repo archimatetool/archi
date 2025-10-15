@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -20,13 +21,16 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.diagram.figures.FigureIconFactory;
 import com.archimatetool.editor.diagram.tools.ExtConnectionCreationToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -331,12 +335,14 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     // --------------------------------------------------------------------------------------------
     
     private ToolEntry createElementCreationToolEntry(EClass eClass, String description) {
+        ImageDescriptor id = FigureIconFactory.getImageDescriptorFromFigureIcon(eClass, new Color(0, 0, 0), ColorFactory.getDefaultFillColor(eClass), new Point(0, 0));
+        
         ToolEntry entry = new CombinedTemplateCreationEntry(
                 ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                id,
+                id);
         
         PaletteKeyHandler.setKeyBinding(entry, eClass.getName());
         
