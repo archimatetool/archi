@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IInfluenceRelationship;
 
@@ -73,34 +74,45 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
         super.refreshVisuals();
     }
     
-    public static void drawIcon(Graphics graphics, Color color, Point pt) {
-        graphics.pushState();
-        graphics.setForegroundColor(color);
-        graphics.setLineWidth(1);
-        
-        Path path = new Path(null);
-        graphics.setLineDash(new float[] { 3f, 1.5f });
-        path.moveTo(pt.x, pt.y + 13);
-        path.lineTo(pt.x + 13, pt.y);
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        
-        graphics.setLineDash((float[])null); // Have to do it this way because it's not reset to normal using graphics.setLineStyle(SWT.LINE_SOLID);
-        path.moveTo(pt.x + 8, pt.y);
-        path.lineTo(pt.x + 13, pt.y);
-        path.lineTo(pt.x + 13, pt.y + 5);
-        
-        // cross
-        path.moveTo(pt.x + 9, pt.y + 8);
-        path.lineTo(pt.x + 13, pt.y + 8);
-        path.moveTo(pt.x + 11, pt.y + 6);
-        path.lineTo(pt.x + 11, pt.y + 10);
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
-        graphics.popState();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            graphics.setLineWidth(1);
+            
+            Path path = new Path(null);
+            graphics.setLineDash(new float[] { 3f, 1.5f });
+            path.moveTo(pt.x, pt.y + 13);
+            path.lineTo(pt.x + 13, pt.y);
+            graphics.drawPath(path);
+            path.dispose();
+            
+            path = new Path(null);
+            
+            graphics.setLineDash((float[])null); // Have to do it this way because it's not reset to normal using graphics.setLineStyle(SWT.LINE_SOLID);
+            path.moveTo(pt.x + 8, pt.y);
+            path.lineTo(pt.x + 13, pt.y);
+            path.lineTo(pt.x + 13, pt.y + 5);
+            
+            // cross
+            path.moveTo(pt.x + 9, pt.y + 8);
+            path.lineTo(pt.x + 13, pt.y + 8);
+            path.moveTo(pt.x + 11, pt.y + 6);
+            path.lineTo(pt.x + 11, pt.y + 10);
+            graphics.drawPath(path);
+            
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 }

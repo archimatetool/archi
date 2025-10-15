@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -123,52 +124,63 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidthFloat(1.2f);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        int[] points = new int[] {
-                pt.x + 4, pt.y - 7,
-                pt.x - 4, pt.y - 7,
-                
-                pt.x - 8, pt.y,
-                pt.x - 5, pt.y + 7,
-                
-                pt.x + 4, pt.y + 7,
-                pt.x + 8, pt.y,
-        };
-        
-        if(backgroundColor != null) {
-            graphics.fillPolygon(points);
-        }
-        graphics.drawPolygon(points);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidthFloat(1.2f);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
 
-        Path path = new Path(null);
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            int[] points = new int[] {
+                    pt.x + 4, pt.y - 7,
+                    pt.x - 4, pt.y - 7,
+                    
+                    pt.x - 8, pt.y,
+                    pt.x - 5, pt.y + 7,
+                    
+                    pt.x + 4, pt.y + 7,
+                    pt.x + 8, pt.y,
+            };
+            
+            if(backgroundColor != null) {
+                graphics.fillPolygon(points);
+            }
+            graphics.drawPolygon(points);
 
-        path.moveTo(pt.x - 2, pt.y - 5);
-        path.lineTo(pt.x - 5.3f, pt.y + 0.5f);
-        
-        path.moveTo(pt.x - 3.7f, pt.y + 4.5f);
-        path.lineTo(pt.x + 3, pt.y + 4.5f);
-        
-        path.moveTo(pt.x + 5f, pt.y + 0.5f);
-        path.lineTo(pt.x + 2f, pt.y - 5);
-        
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+            Path path = new Path(null);
+
+            path.moveTo(pt.x - 2, pt.y - 5);
+            path.lineTo(pt.x - 5.3f, pt.y + 0.5f);
+            
+            path.moveTo(pt.x - 3.7f, pt.y + 4.5f);
+            path.lineTo(pt.x + 3, pt.y + 4.5f);
+            
+            path.moveTo(pt.x + 5f, pt.y + 0.5f);
+            path.lineTo(pt.x + 2f, pt.y - 5);
+            
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

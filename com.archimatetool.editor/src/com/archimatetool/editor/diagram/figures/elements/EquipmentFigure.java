@@ -18,6 +18,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.PolarPoint;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -189,22 +190,32 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        
-        drawIconCog(graphics, backgroundColor, pt.getTranslated(5, 3), 8, 3, 6, 8);
-        drawIconCog(graphics, backgroundColor, pt.getTranslated(10, -8), 6, 2, 4, 5);
-        
-        graphics.popState();
-    }
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            drawIconCog(graphics, backgroundColor, pt.getTranslated(5, 3), 8, 3, 6, 8);
+            drawIconCog(graphics, backgroundColor, pt.getTranslated(10, -8), 6, 2, 4, 5);
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * 
      * Draw a Cog with choosen number of "segments"

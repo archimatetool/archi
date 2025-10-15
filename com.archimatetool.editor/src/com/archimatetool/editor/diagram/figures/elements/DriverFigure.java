@@ -12,6 +12,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 /**
  * Figure for a Driver
@@ -121,54 +123,65 @@ public class DriverFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        Path path = new Path(null);
-        
-        graphics.setLineWidthFloat(1.2f);
-        path.addArc(pt.x, pt.y, 13, 13, 0, 360);
-        path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
-        path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
-        
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Path path = new Path(null);
+            
+            graphics.setLineWidthFloat(1.2f);
+            path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+            path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+            path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
+            
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
 
-        graphics.setLineWidth(1);
-        
-        path = new Path(null);
-        
-        path.moveTo(pt.x - 2, pt.y + 6.5f);
-        path.lineTo(pt.x + 15, pt.y + 6.5f);
-        
-        path.moveTo(pt.x + 6.5f, pt.y - 2);
-        path.lineTo(pt.x + 6.5f, pt.y + 15);
-       
-        path.moveTo(pt.x + 0.5f, pt.y + 0.5f);
-        path.lineTo(pt.x + 12.5f, pt.y + 12.5f);
-        
-        path.moveTo(pt.x + 0.5f, pt.y + 12.5f);
-        path.lineTo(pt.x + 12.5f, pt.y + 0.5f);
-        
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+            graphics.setLineWidth(1);
+            
+            path = new Path(null);
+            
+            path.moveTo(pt.x - 2, pt.y + 6.5f);
+            path.lineTo(pt.x + 15, pt.y + 6.5f);
+            
+            path.moveTo(pt.x + 6.5f, pt.y - 2);
+            path.lineTo(pt.x + 6.5f, pt.y + 15);
+           
+            path.moveTo(pt.x + 0.5f, pt.y + 0.5f);
+            path.lineTo(pt.x + 12.5f, pt.y + 12.5f);
+            
+            path.moveTo(pt.x + 0.5f, pt.y + 12.5f);
+            path.lineTo(pt.x + 12.5f, pt.y + 0.5f);
+            
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

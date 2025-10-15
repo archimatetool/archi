@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -104,31 +105,42 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
      */
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Rectangle rect = new Rectangle(pt.x, pt.y, 14, 10);
+            
+            Path path = getFigurePath(1.5f, rect, 0.5f);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
         }
-        
-        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 10);
-        
-        Path path = getFigurePath(1.5f, rect, 0.5f);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

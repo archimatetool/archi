@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.GroupingFigure;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
@@ -83,5 +84,10 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
         }
         
         return super.getDefaultFeatureValue(featureName);
+    }
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return GroupingFigure.getIconDelegate();
     }
 }

@@ -13,6 +13,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 
 
@@ -51,46 +53,56 @@ public class PathFigure extends DistributionNetworkFigure {
     @Override
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidthFloat(1.5f);
-        graphics.setForegroundColor(foregroundColor);
-        
-        Path path = new Path(null);
-        
-        path.moveTo(pt.x + 2.5f, pt.y);
-        path.lineTo(pt.x + 4.5f, pt.y);
-        
-        path.moveTo(pt.x + 6.5f, pt.y);
-        path.lineTo(pt.x + 8.5f, pt.y);
-        
-        path.moveTo(pt.x + 10.5f, pt.y);
-        path.lineTo(pt.x + 12.5f, pt.y);
-        
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        
-        path.moveTo(pt.x + 4, pt.y - 5);
-        path.lineTo(pt.x - 1, pt.y);
-        path.lineTo(pt.x + 4, pt.y + 5);
-        
-        path.moveTo(pt.x + 11, pt.y - 5);
-        path.lineTo(pt.x + 16, pt.y);
-        path.lineTo(pt.x + 11, pt.y + 5);
- 
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidthFloat(1.5f);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            Path path = new Path(null);
+            
+            path.moveTo(pt.x + 2.5f, pt.y);
+            path.lineTo(pt.x + 4.5f, pt.y);
+            
+            path.moveTo(pt.x + 6.5f, pt.y);
+            path.lineTo(pt.x + 8.5f, pt.y);
+            
+            path.moveTo(pt.x + 10.5f, pt.y);
+            path.lineTo(pt.x + 12.5f, pt.y);
+            
+            graphics.drawPath(path);
+            path.dispose();
+            
+            path = new Path(null);
+            
+            path.moveTo(pt.x + 4, pt.y - 5);
+            path.lineTo(pt.x - 1, pt.y);
+            path.lineTo(pt.x + 4, pt.y + 5);
+            
+            path.moveTo(pt.x + 11, pt.y - 5);
+            path.lineTo(pt.x + 16, pt.y);
+            path.lineTo(pt.x + 11, pt.y + 5);
+     
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

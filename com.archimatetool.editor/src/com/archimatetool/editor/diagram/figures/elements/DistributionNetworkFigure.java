@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -174,56 +175,67 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
     
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidthFloat(1.5f);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        Path path = new Path(null);
-        
-        path.moveTo(pt.x + 1, pt.y - 2);
-        path.lineTo(pt.x + 14, pt.y - 2);
-        
-        path.moveTo(pt.x + 1, pt.y + 2);
-        path.lineTo(pt.x + 14, pt.y + 2);
-
-        if(backgroundColor != null) {
-            Path path2 = new Path(null);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
             
-            path2.moveTo(pt.x + 1, pt.y - 2);
-            path2.lineTo(pt.x + 14, pt.y - 2);
-            path2.lineTo(pt.x + 16, pt.y + 1);
-            path2.lineTo(pt.x + 14, pt.y + 2);
-            path2.lineTo(pt.x + 1, pt.y + 2);
-            path2.lineTo(pt.x, pt.y + 2);
-            path2.lineTo(pt.x, pt.y - 2);
+            graphics.setLineWidthFloat(1.5f);
             
-            graphics.fillPath(path2);
-            path2.dispose();
-        }
-        
-        path.moveTo(pt.x + 4, pt.y - 5);
-        path.lineTo(pt.x - 1, pt.y);
-        path.lineTo(pt.x + 4, pt.y + 5);
-        
-        path.moveTo(pt.x + 11, pt.y - 5);
-        path.lineTo(pt.x + 16, pt.y);
-        path.lineTo(pt.x + 11, pt.y + 5);
- 
-        graphics.drawPath(path);
-        path.dispose();
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
 
-        graphics.popState();
-    }
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Path path = new Path(null);
+            
+            path.moveTo(pt.x + 1, pt.y - 2);
+            path.lineTo(pt.x + 14, pt.y - 2);
+            
+            path.moveTo(pt.x + 1, pt.y + 2);
+            path.lineTo(pt.x + 14, pt.y + 2);
+
+            if(backgroundColor != null) {
+                Path path2 = new Path(null);
+                
+                path2.moveTo(pt.x + 1, pt.y - 2);
+                path2.lineTo(pt.x + 14, pt.y - 2);
+                path2.lineTo(pt.x + 16, pt.y + 1);
+                path2.lineTo(pt.x + 14, pt.y + 2);
+                path2.lineTo(pt.x + 1, pt.y + 2);
+                path2.lineTo(pt.x, pt.y + 2);
+                path2.lineTo(pt.x, pt.y - 2);
+                
+                graphics.fillPath(path2);
+                path2.dispose();
+            }
+            
+            path.moveTo(pt.x + 4, pt.y - 5);
+            path.lineTo(pt.x - 1, pt.y);
+            path.lineTo(pt.x + 4, pt.y + 5);
+            
+            path.moveTo(pt.x + 11, pt.y - 5);
+            path.lineTo(pt.x + 16, pt.y);
+            path.lineTo(pt.x + 11, pt.y + 5);
+     
+            graphics.drawPath(path);
+            path.dispose();
+
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     private Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 12);

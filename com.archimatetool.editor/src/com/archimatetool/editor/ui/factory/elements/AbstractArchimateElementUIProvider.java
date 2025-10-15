@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.IIconDelegateProvider;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -22,7 +23,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateElementUIProvider extends AbstractGraphicalObjectUIProvider
-implements IArchimateElementUIProvider {
+implements IArchimateElementUIProvider, IIconDelegateProvider {
     
     protected static Color defaultBusinessColor = new Color(255, 255, 181);
     protected static Color defaultApplicationColor = new Color(181, 255, 255);

@@ -15,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IJunction;
 
 
@@ -62,13 +63,25 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         graphics.popState();
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        graphics.setBackgroundColor(foregroundColor);
-        graphics.fillOval(pt.x, pt.y, 12, 12);
-        graphics.popState();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            graphics.setBackgroundColor(backgroundColor != null ? backgroundColor : graphics.getForegroundColor());
+            
+            graphics.fillOval(pt.x, pt.y, 12, 12);
+            
+            graphics.popState();
+        }
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -125,44 +126,55 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidthFloat(1.2f);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidthFloat(1.2f);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            int[] points = new int[] {
+                    pt.x , pt.y,
+                    pt.x + 15, pt.y,
+                    
+                    pt.x + 15, pt.y - 6,
+                    pt.x + 11, pt.y - 3,
+                    
+                    pt.x + 11, pt.y - 6,
+                    pt.x + 7, pt.y - 3,
+                    
+                    pt.x + 7, pt.y - 6,
+                    pt.x + 3, pt.y - 3,
+                    
+                    pt.x + 3, pt.y - 12,
+                    pt.x, pt.y - 12
+            };
+            
+            if(backgroundColor != null) {
+                graphics.fillPolygon(points);
+            }
+            graphics.drawPolygon(points);
+            
+            graphics.popState();
         }
-        
-        int[] points = new int[] {
-                pt.x , pt.y,
-                pt.x + 15, pt.y,
-                
-                pt.x + 15, pt.y - 6,
-                pt.x + 11, pt.y - 3,
-                
-                pt.x + 11, pt.y - 6,
-                pt.x + 7, pt.y - 3,
-                
-                pt.x + 7, pt.y - 6,
-                pt.x + 3, pt.y - 3,
-                
-                pt.x + 3, pt.y - 12,
-                pt.x, pt.y - 12
-        };
-        
-        if(backgroundColor != null) {
-            graphics.fillPolygon(points);
-        }
-        graphics.drawPolygon(points);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

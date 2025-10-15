@@ -12,6 +12,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 
 
@@ -95,61 +97,72 @@ public class MeaningFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 11);
-        
-        if(backgroundColor != null) {
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Rectangle rect = new Rectangle(pt.x, pt.y, 14, 11);
+            
+            if(backgroundColor != null) {
+                Path path = new Path(null);
+                path.addRectangle(pt.x + 0.5f, pt.y + 1, 9.5f, 6);
+                graphics.fillPath(path);
+                path.dispose();
+            }
+            
             Path path = new Path(null);
-            path.addRectangle(pt.x + 0.5f, pt.y + 1, 9.5f, 6);
-            graphics.fillPath(path);
+            path.addArc(rect.x, rect.y, rect.width/3 * 2, rect.height/3 * 2, 60, 149);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
             path.dispose();
-        }
-        
-        Path path = new Path(null);
-        path.addArc(rect.x, rect.y, rect.width/3 * 2, rect.height/3 * 2, 60, 149);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(rect.x + rect.width/3 - 1, rect.y, rect.width/3 * 2, rect.height/3 * 2, -38, 157);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(rect.x, rect.y + rect.height / 3, rect.width/5 * 3, rect.height/3 * 2 - 1, -41, -171);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(rect.x + rect.width/3, rect.y + rect.height/4, rect.width/5 * 3, rect.height/3 * 2, 7, -136);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
+            
+            path = new Path(null);
+            path.addArc(rect.x + rect.width/3 - 1, rect.y, rect.width/3 * 2, rect.height/3 * 2, -38, 157);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            path = new Path(null);
+            path.addArc(rect.x, rect.y + rect.height / 3, rect.width/5 * 3, rect.height/3 * 2 - 1, -41, -171);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            path = new Path(null);
+            path.addArc(rect.x + rect.width/3, rect.y + rect.height/4, rect.width/5 * 3, rect.height/3 * 2, 7, -136);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
 
-        graphics.popState();
+            graphics.popState();
+        }
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 
     /**

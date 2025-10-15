@@ -17,6 +17,7 @@ import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -140,57 +141,69 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        
-        float circleWidth = 9;
-        float circleHalf = circleWidth / 2;
-        
-        // If the circle part should be filled, set this to true
-        boolean doFill = false;
-        if(doFill && backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            float circleWidth = 9;
+            float circleHalf = circleWidth / 2;
+            
+            // If the circle part should be filled, set this to true
+            boolean doFill = false;
+            if(doFill && backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+                Path path = new Path(null);
+                path.addArc(pt.x, pt.y, circleWidth, circleWidth, 0, 360);
+                graphics.fillPath(path);
+                path.dispose();
+            }
+            
             Path path = new Path(null);
-            path.addArc(pt.x, pt.y, circleWidth, circleWidth, 0, 360);
+            
+            // Circle
+            path.addArc(pt.x, pt.y, circleWidth, circleWidth, 340, 295);
+            
+            // Line
+            path.moveTo(pt.x + circleHalf, pt.y + circleWidth);
+            path.lineTo(pt.x + 11, pt.y + circleWidth);
+            
+            graphics.drawPath(path);
+            path.dispose();
+            
+            // Triangle
+            path = new Path(null);
+            
+            path.moveTo(pt.x + 11, pt.y + circleWidth - 3);
+            path.lineTo(pt.x + 15, pt.y + circleWidth);
+            path.lineTo(pt.x + 11, pt.y + circleWidth + 3);
+            
+            path.close();
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(backgroundColor);
+            }
             graphics.fillPath(path);
             path.dispose();
+            
+            graphics.popState();
         }
-        
-        Path path = new Path(null);
-        
-        // Circle
-        path.addArc(pt.x, pt.y, circleWidth, circleWidth, 340, 295);
-        
-        // Line
-        path.moveTo(pt.x + circleHalf, pt.y + circleWidth);
-        path.lineTo(pt.x + 11, pt.y + circleWidth);
-        
-        graphics.drawPath(path);
-        path.dispose();
-        
-        // Triangle
-        path = new Path(null);
-        
-        path.moveTo(pt.x + 11, pt.y + circleWidth - 3);
-        path.lineTo(pt.x + 15, pt.y + circleWidth);
-        path.lineTo(pt.x + 11, pt.y + circleWidth + 3);
-        
-        path.close();
-        
-        graphics.setBackgroundColor(foregroundColor);
-        graphics.fillPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

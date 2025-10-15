@@ -9,6 +9,7 @@ import org.eclipse.gef.EditPart;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.ServiceFigure;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -23,5 +24,9 @@ public abstract class AbstractServiceUIProvider extends AbstractArchimateElement
     public EditPart createEditPart() {
         return new ArchimateElementEditPart(ServiceFigure.class);
     }
-
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return ServiceFigure.getIconDelegate();
+    }
 }

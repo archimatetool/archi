@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -43,45 +44,56 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Path path = new Path(null);
+            
+            path.addArc(pt.x, pt.y, 8, 7, 90, 180);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+                graphics.fillRectangle(pt.x + 3, pt.y, 6, 7);
+            }
+            
+            path.lineTo(pt.x + 11, pt.y + 7);
+            
+            path.moveTo(pt.x + 3.5f, pt.y);
+            path.lineTo(pt.x + 11, pt.y);
+            
+            graphics.drawPath(path);
+            
+            path.dispose();
+            
+            Rectangle rect = new Rectangle(pt.x + 8, pt.y, 7, 7);
+            if(backgroundColor != null) {
+                graphics.fillOval(rect);
+            }
+            graphics.drawOval(rect);
+            
+            graphics.popState();
         }
-        
-        Path path = new Path(null);
-        
-        path.addArc(pt.x, pt.y, 8, 7, 90, 180);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-            graphics.fillRectangle(pt.x + 3, pt.y, 6, 7);
-        }
-        
-        path.lineTo(pt.x + 11, pt.y + 7);
-        
-        path.moveTo(pt.x + 3.5f, pt.y);
-        path.lineTo(pt.x + 11, pt.y);
-        
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
-        Rectangle rect = new Rectangle(pt.x + 8, pt.y, 7, 7);
-        if(backgroundColor != null) {
-            graphics.fillOval(rect);
-        }
-        graphics.drawOval(rect);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

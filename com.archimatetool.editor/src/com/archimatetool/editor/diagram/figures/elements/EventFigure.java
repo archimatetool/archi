@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -96,54 +97,65 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      */
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        if(backgroundColor != null) {
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                Path path = new Path(null);
+                
+                path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
+                path.addRectangle(pt.x, pt.y, 12, 9);
+                path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
+                
+                graphics.fillPath(path);
+                path.dispose();
+            }
+            
+            // arc
             Path path = new Path(null);
-            
-            path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
-            path.addRectangle(pt.x, pt.y, 12, 9);
+            path.moveTo(pt.x, pt.y);
             path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
-            
-            graphics.fillPath(path);
+            graphics.drawPath(path);
             path.dispose();
-        }
-        
-        // arc
-        Path path = new Path(null);
-        path.moveTo(pt.x, pt.y);
-        path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
-        graphics.drawPath(path);
-        path.dispose();
-        
-        // arc 2
-        path = new Path(null);
-        path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
+            
+            // arc 2
+            path = new Path(null);
+            path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
 
-        // lines
-        path.moveTo(pt.x, pt.y);
-        path.lineTo(pt.x + 12, pt.y);
-        
-        path.moveTo(pt.x, pt.y + 9);
-        path.lineTo(pt.x + 12, pt.y + 9);
-        
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+            // lines
+            path.moveTo(pt.x, pt.y);
+            path.lineTo(pt.x + 12, pt.y);
+            
+            path.moveTo(pt.x, pt.y + 9);
+            path.lineTo(pt.x + 12, pt.y + 9);
+            
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

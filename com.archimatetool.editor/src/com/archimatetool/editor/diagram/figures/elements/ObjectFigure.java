@@ -15,6 +15,7 @@ import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -114,28 +115,39 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
      */
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.fillRectangle(pt.x, pt.y, 13, 10);
+            }
+            graphics.drawRectangle(pt.x, pt.y, 13, 10);
+            graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
+            
+            graphics.popState();
         }
-        
-        if(backgroundColor != null) {
-            graphics.fillRectangle(pt.x, pt.y, 13, 10);
-        }
-        graphics.drawRectangle(pt.x, pt.y, 13, 10);
-        graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

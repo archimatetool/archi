@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -100,20 +101,30 @@ public class RepresentationFigure extends DeliverableFigure {
     @Override
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        DeliverableFigure.drawIcon(graphics, foregroundColor, backgroundColor, pt);
-        
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        
-        graphics.drawLine(pt.x, pt.y + 3, pt.x + 14, pt.y + 3);
-        
-        graphics.popState();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            DeliverableFigure.getIconDelegate().drawIcon(graphics, foregroundColor, backgroundColor, pt);
+            
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            graphics.drawLine(pt.x, pt.y + 3, pt.x + 14, pt.y + 3);
+            
+            graphics.popState();
+        }
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 }

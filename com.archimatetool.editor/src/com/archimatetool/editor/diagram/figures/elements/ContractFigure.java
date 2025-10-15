@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.ITextPosition;
 
 /**
@@ -98,28 +99,39 @@ public class ContractFigure extends ObjectFigure {
     @Override
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
 
-        Rectangle rect = new Rectangle(pt.x, pt.y, 13, 10);
-        if(backgroundColor != null) {
-            graphics.fillRectangle(rect);
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+
+            Rectangle rect = new Rectangle(pt.x, pt.y, 13, 10);
+            if(backgroundColor != null) {
+                graphics.fillRectangle(rect);
+            }
+            graphics.drawRectangle(rect);
+            graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
+            graphics.drawLine(pt.x, pt.y + 7, pt.x + 13, pt.y + 7);
+            
+            graphics.popState();
         }
-        graphics.drawRectangle(rect);
-        graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
-        graphics.drawLine(pt.x, pt.y + 7, pt.x + 13, pt.y + 7);
-        
-        graphics.popState();
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 
     @Override

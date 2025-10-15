@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPart;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.InterfaceFigure;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -29,5 +30,10 @@ public abstract class AbstractInterfaceUIProvider extends AbstractArchimateEleme
     protected Dimension getDefaultSizeForFigureType(int figureType) {
         return super.getDefaultSizeForFigureType(figureType);
         //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
+    }
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return InterfaceFigure.getIconDelegate();
     }
 }

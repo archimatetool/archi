@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -101,36 +102,47 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        // circles
-        Rectangle circle1 = new Rectangle(pt.x, pt.y, 10, 10);
-        
-        if(backgroundColor != null) {
-            graphics.fillOval(circle1);
-        }
-        
-        Rectangle circle2 = new Rectangle(pt.x + 4, pt.y, 10, 10);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            // circles
+            Rectangle circle1 = new Rectangle(pt.x, pt.y, 10, 10);
+            
+            if(backgroundColor != null) {
+                graphics.fillOval(circle1);
+            }
+            
+            Rectangle circle2 = new Rectangle(pt.x + 4, pt.y, 10, 10);
 
-        if(backgroundColor != null) {
-            graphics.fillOval(circle2);
+            if(backgroundColor != null) {
+                graphics.fillOval(circle2);
+            }
+            
+            graphics.drawOval(circle2);
+            graphics.drawOval(circle1);
+            
+            graphics.popState();
         }
-        
-        graphics.drawOval(circle2);
-        graphics.drawOval(circle1);
-        
-        graphics.popState();
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
     
     /**

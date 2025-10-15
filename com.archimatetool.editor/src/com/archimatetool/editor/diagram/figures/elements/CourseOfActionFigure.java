@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -171,57 +172,67 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        graphics.setBackgroundColor(foregroundColor);
-        
-        // triangle of shortcut glyph
-        Path path = new Path(null);
-        float x = pt.x - 5.4f, y = pt.y + 9f;
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+                graphics.setBackgroundColor(foregroundColor);
+            }
+            
+            // triangle of shortcut glyph
+            Path path = new Path(null);
+            float x = pt.x - 5.4f, y = pt.y + 9f;
 
-        path.moveTo(x, y);
-        path.lineTo(x + 6f, y + 1f);
-        path.lineTo(x + 3f, y + 6.2f);
-        
-        graphics.fillPath(path);
-        path.dispose();
-        
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-
-        // line of shortcut glyph
-        path = new Path(null);
-        graphics.setLineWidthFloat(2f);
-        path.addArc(pt.x - 7.5f, pt.y + 12f, 10, 10, 90, 80);
-        graphics.drawPath(path);
-        path.dispose();
-        
-        // 2 circles and blob
-        graphics.setLineWidthFloat(1.2f);
-        path = new Path(null);
-        
-        path.addArc(pt.x, pt.y, 13, 13, 0, 360);
-        if(backgroundColor != null) {
+            path.moveTo(x, y);
+            path.lineTo(x + 6f, y + 1f);
+            path.lineTo(x + 3f, y + 6.2f);
+            
             graphics.fillPath(path);
-        }
-        path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
-        path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
-        path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
-        
-        graphics.drawPath(path);
-        path.dispose();
+            path.dispose();
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
 
-        graphics.popState();
-    }
+            // line of shortcut glyph
+            path = new Path(null);
+            graphics.setLineWidthFloat(2f);
+            path.addArc(pt.x - 7.5f, pt.y + 12f, 10, 10, 90, 80);
+            graphics.drawPath(path);
+            path.dispose();
+            
+            // 2 circles and blob
+            graphics.setLineWidthFloat(1.2f);
+            path = new Path(null);
+            
+            path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
+            path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+            path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
+            
+            graphics.drawPath(path);
+            path.dispose();
+
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 /**
  * Figure for an Assessment
@@ -128,28 +130,39 @@ public class AssessmentFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.fillOval(pt.x, pt.y, 8, 8);
+            }
+            graphics.drawOval(pt.x, pt.y, 8, 8);
+            graphics.drawLine(pt.x + 2, pt.y + 7, pt.x - 3, pt.y + 12);
+            
+            graphics.popState();
         }
-        
-        if(backgroundColor != null) {
-            graphics.fillOval(pt.x, pt.y, 8, 8);
-        }
-        graphics.drawOval(pt.x, pt.y, 8, 8);
-        graphics.drawLine(pt.x + 2, pt.y + 7, pt.x - 3, pt.y + 12);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

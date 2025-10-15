@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.LocationFigure;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -62,5 +63,10 @@ public class LocationUIProvider extends AbstractArchimateElementUIProvider {
     protected Dimension getDefaultSizeForFigureType(int figureType) {
         return super.getDefaultSizeForFigureType(figureType);
         //return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
+    }
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return LocationFigure.getIconDelegate();
     }
 }

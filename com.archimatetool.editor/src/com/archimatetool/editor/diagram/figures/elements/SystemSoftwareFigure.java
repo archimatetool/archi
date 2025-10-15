@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -96,36 +97,47 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Path path = new Path(null);
+            
+            path.addArc(pt.x, pt.y, 11, 11, 90, 360);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            
+            path.addArc(pt.x + 2, pt.y - 2, 11, 11, -60, 210);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
         }
-        
-        Path path = new Path(null);
-        
-        path.addArc(pt.x, pt.y, 11, 11, 90, 360);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        
-        path.addArc(pt.x + 2, pt.y - 2, 11, 11, -60, 210);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

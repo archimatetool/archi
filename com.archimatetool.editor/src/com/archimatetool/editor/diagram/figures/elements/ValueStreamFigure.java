@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IIconic;
 
 
@@ -119,47 +120,58 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
      */
     protected void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            PointList points = new PointList();
+            
+            // Start at top left
+            points.addPoint(pt);
+            
+            pt.translate(10, 0);
+            points.addPoint(pt);
+            
+            pt.translate(5, 5);
+            points.addPoint(pt);
+            
+            pt.translate(-5, 5);
+            points.addPoint(pt);
+            
+            pt.translate(-10, 0);
+            points.addPoint(pt);
+            
+            pt.translate(5, -5);
+            points.addPoint(pt);
+            
+            if(backgroundColor != null) {
+                graphics.fillPolygon(points);
+            }
+            graphics.drawPolygon(points);
+            
+            graphics.popState();
         }
-        
-        PointList points = new PointList();
-        
-        // Start at top left
-        points.addPoint(pt);
-        
-        pt.translate(10, 0);
-        points.addPoint(pt);
-        
-        pt.translate(5, 5);
-        points.addPoint(pt);
-        
-        pt.translate(-5, 5);
-        points.addPoint(pt);
-        
-        pt.translate(-10, 0);
-        points.addPoint(pt);
-        
-        pt.translate(5, -5);
-        points.addPoint(pt);
-        
-        if(backgroundColor != null) {
-            graphics.fillPolygon(points);
-        }
-        graphics.drawPolygon(points);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

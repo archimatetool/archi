@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -105,33 +106,44 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.fillOval(pt.x, pt.y, 13, 13);
+            }
+            graphics.drawOval(pt.x, pt.y, 13, 13);
+            
+            pt.translate(-2, 5);
+            graphics.drawLine(pt.x, pt.y, pt.x + 17, pt.y);
+            
+            pt.translate(0, 3);
+            graphics.drawLine(pt.x, pt.y, pt.x + 17, pt.y);
+            
+            graphics.popState();
         }
-        
-        if(backgroundColor != null) {
-            graphics.fillOval(pt.x, pt.y, 13, 13);
-        }
-        graphics.drawOval(pt.x, pt.y, 13, 13);
-        
-        pt.translate(-2, 5);
-        graphics.drawLine(pt.x, pt.y, pt.x + 17, pt.y);
-        
-        pt.translate(0, 3);
-        graphics.drawLine(pt.x, pt.y, pt.x + 17, pt.y);
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

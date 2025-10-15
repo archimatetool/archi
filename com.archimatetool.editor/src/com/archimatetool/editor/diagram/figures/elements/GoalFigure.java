@@ -12,6 +12,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 /**
  * Figure for a Goal
@@ -98,36 +100,47 @@ public class GoalFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        Path path = new Path(null);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Path path = new Path(null);
 
-        graphics.setLineWidthFloat(1.2f);
-        
-        path.addArc(pt.x, pt.y, 13, 13, 0, 360);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
-        path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
-        path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
-        graphics.drawPath(path);
-        path.dispose();
+            graphics.setLineWidthFloat(1.2f);
+            
+            path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
+            path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+            path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
+            graphics.drawPath(path);
+            path.dispose();
 
-        graphics.popState();
-    }
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

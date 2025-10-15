@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -85,27 +86,37 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(2);
-        graphics.setForegroundColor(foregroundColor);
-        
-        graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
-        
-        pt.translate(2, -3);
-        graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
-        
-        pt.translate(2, -3);
-        graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
-        
-        graphics.popState();
-    }
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(2);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
+            
+            pt.translate(2, -3);
+            graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
+            
+            pt.translate(2, -3);
+            graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

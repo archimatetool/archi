@@ -13,6 +13,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IIconic;
 
 
@@ -109,26 +110,37 @@ public class ValueFigure extends AbstractMotivationFigure {
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            Rectangle rect = new Rectangle(pt.x, pt.y, 14, 9);
+            if(backgroundColor != null) {
+                graphics.fillOval(rect);
+            }
+            graphics.drawOval(rect);
+            
+            graphics.popState();
         }
-        
-        Rectangle rect = new Rectangle(pt.x, pt.y, 14, 9);
-        if(backgroundColor != null) {
-            graphics.fillOval(rect);
-        }
-        graphics.drawOval(rect);
-        
-        graphics.popState();
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 
     /**

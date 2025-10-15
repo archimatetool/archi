@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.LeafEditPart;
 import com.archimatetool.editor.diagram.figures.elements.JunctionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -78,5 +79,10 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public boolean hasAlternateFigure() {
         return false;
+    }
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return JunctionFigure.getIconDelegate();
     }
 }

@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPart;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 import com.archimatetool.editor.diagram.figures.elements.FunctionFigure;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -28,5 +29,10 @@ public abstract class AbstractFunctionUIProvider extends AbstractArchimateElemen
     @Override
     protected Dimension getDefaultSizeForFigureType(int figureType) {
         return figureType == 1 ? getDefaultSquareSize() : super.getDefaultSizeForFigureType(figureType);
+    }
+    
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return FunctionFigure.getIconDelegate();
     }
 }

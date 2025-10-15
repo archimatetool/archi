@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui.factory.relationships;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
 
+import com.archimatetool.editor.ui.IIconDelegateProvider;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 
 
@@ -17,7 +18,7 @@ import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractArchimateRelationshipUIProvider extends AbstractGraphicalObjectUIProvider {
+public abstract class AbstractArchimateRelationshipUIProvider extends AbstractGraphicalObjectUIProvider implements IIconDelegateProvider {
     
     protected AbstractArchimateRelationshipUIProvider() {
     }

@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
 import com.archimatetool.editor.diagram.figures.connections.AssignmentConnectionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -47,5 +48,10 @@ public class AssignmentRelationshipUIProvider extends AbstractArchimateRelations
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASSIGNMENT_RELATION);
+    }
+
+    @Override
+    public IIconDelegate getIconDelegate() {
+        return AssignmentConnectionFigure.getIconDelegate();
     }
 }

@@ -17,6 +17,7 @@ import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 
@@ -123,41 +124,52 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            // Start at top
+            Path path = new Path(null);
+            path.addArc(pt.x - 5, pt.y, 10, 12, 90, 180);
+            path.lineTo(pt.x, pt.y - 0.5f);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            path = new Path(null);
+            path.addArc(pt.x - 2, pt.y, 10, 12, -90, 180);
+            path.lineTo(pt.x + 3, pt.y + 12.5f);
+            if(backgroundColor != null) {
+                graphics.fillPath(path);
+            }
+            graphics.drawPath(path);
+            path.dispose();
+            
+            graphics.popState();
         }
-        
-        // Start at top
-        Path path = new Path(null);
-        path.addArc(pt.x - 5, pt.y, 10, 12, 90, 180);
-        path.lineTo(pt.x, pt.y - 0.5f);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        path = new Path(null);
-        path.addArc(pt.x - 2, pt.y, 10, 12, -90, 180);
-        path.lineTo(pt.x + 3, pt.y + 12.5f);
-        if(backgroundColor != null) {
-            graphics.fillPath(path);
-        }
-        graphics.drawPath(path);
-        path.dispose();
-        
-        graphics.popState();
-    }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

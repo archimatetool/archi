@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Pattern;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.IIconDelegate;
 
 
 /**
@@ -152,60 +153,71 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
-            drawIcon(graphics, getIconColor(), null, getIconOrigin());
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
     }
     
-    public static void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
-        graphics.pushState();
-        
-        graphics.setLineWidth(1);
-        graphics.setForegroundColor(foregroundColor);
-        if(backgroundColor != null) {
-            graphics.setBackgroundColor(backgroundColor);
-        }
-        
-        // main rectangle
-        Rectangle rect = new Rectangle(pt.x, pt.y, 15, 10);
-        if(backgroundColor != null) {
-            graphics.fillRoundRectangle(rect, 3, 3);
-        }
-        graphics.drawRoundRectangle(rect, 3, 3);
-        
-        // nub
-        Point pt2 = pt.getCopy().translate(15, 3);
-        rect = new Rectangle(pt2.x, pt2.y, 2, 4);
-        if(backgroundColor != null) {
-            graphics.fillRoundRectangle(rect, 3, 3);
-        }
-        graphics.drawRoundRectangle(rect, 1, 1);
-        
-        // lines
-        Path path = new Path(null);
-        
-        path.moveTo(pt.x + 3f, pt.y + 2);
-        path.lineTo(pt.x + 3f, pt.y + 8);
-        
-        path.moveTo(pt.x + 6f, pt.y + 2);
-        path.lineTo(pt.x + 6f, pt.y + 8);
-        
-        path.moveTo(pt.x + 9f, pt.y + 2);
-        path.lineTo(pt.x + 9f, pt.y + 8);
-        
-        graphics.drawPath(path);
-        path.dispose();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            graphics.setLineWidth(1);
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
 
-        // Alternate method of drawing lines
-//        pt.translate(-12, -1);
-//        graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
-//        pt.translate(3, 0);
-//        graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
-//        pt.translate(3, 0);
-//        graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
-        
-        graphics.popState();
-    }
+            if(backgroundColor != null) {
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            
+            // main rectangle
+            Rectangle rect = new Rectangle(pt.x, pt.y, 15, 10);
+            if(backgroundColor != null) {
+                graphics.fillRoundRectangle(rect, 3, 3);
+            }
+            graphics.drawRoundRectangle(rect, 3, 3);
+            
+            // nub
+            Point pt2 = pt.getCopy().translate(15, 3);
+            rect = new Rectangle(pt2.x, pt2.y, 2, 4);
+            if(backgroundColor != null) {
+                graphics.fillRoundRectangle(rect, 3, 3);
+            }
+            graphics.drawRoundRectangle(rect, 1, 1);
+            
+            // lines
+            Path path = new Path(null);
+            
+            path.moveTo(pt.x + 3f, pt.y + 2);
+            path.lineTo(pt.x + 3f, pt.y + 8);
+            
+            path.moveTo(pt.x + 6f, pt.y + 2);
+            path.lineTo(pt.x + 6f, pt.y + 8);
+            
+            path.moveTo(pt.x + 9f, pt.y + 2);
+            path.lineTo(pt.x + 9f, pt.y + 8);
+            
+            graphics.drawPath(path);
+            path.dispose();
+
+            // Alternate method of drawing lines
+//            pt.translate(-12, -1);
+//            graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
+//            pt.translate(3, 0);
+//            graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
+//            pt.translate(3, 0);
+//            graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
+            
+            graphics.popState();
+        }
+    };
     
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
+    }
+
     /**
      * @return The icon start position
      */

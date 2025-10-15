@@ -12,6 +12,8 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
+import com.archimatetool.editor.ui.IIconDelegate;
+
 
 /**
  * Triggering Connection Figure class
@@ -40,26 +42,38 @@ public class TriggeringConnectionFigure extends AbstractArchimateConnectionFigur
         super.refreshVisuals();
     }
     
-    public static void drawIcon(Graphics graphics, Color color, Point pt) {
-        graphics.pushState();
-        graphics.setForegroundColor(color);
-        graphics.setBackgroundColor(color);
-        graphics.setLineWidth(1);
-        
-        Path path = new Path(null);
-        
-        path.moveTo(pt.x, pt.y + 13);
-        path.lineTo(pt.x + 13, pt.y);
-        
-        path.moveTo(pt.x + 8, pt.y);
-        path.lineTo(pt.x + 13, pt.y);
-        path.lineTo(pt.x + 13, pt.y + 5);
-        path.close();
-        graphics.drawPath(path); // need to draw and fill so it's centred
-        graphics.fillPath(path);
-        
-        path.dispose();
-        
-        graphics.popState();
+    private static IIconDelegate iconDelegate = new IIconDelegate() {
+        @Override
+        public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
+            graphics.pushState();
+            
+            if(foregroundColor != null) {
+                graphics.setForegroundColor(foregroundColor);
+            }
+            
+            graphics.setBackgroundColor(graphics.getForegroundColor());
+            
+            graphics.setLineWidth(1);
+            
+            Path path = new Path(null);
+            
+            path.moveTo(pt.x, pt.y + 13);
+            path.lineTo(pt.x + 13, pt.y);
+            
+            path.moveTo(pt.x + 8, pt.y);
+            path.lineTo(pt.x + 13, pt.y);
+            path.lineTo(pt.x + 13, pt.y + 5);
+            path.close();
+            graphics.fillPath(path);
+            graphics.drawPath(path); // need to draw and fill so it's centred
+            
+            path.dispose();
+            
+            graphics.popState();
+        }
+    };
+    
+    public static IIconDelegate getIconDelegate() {
+        return iconDelegate;
     }
 }
