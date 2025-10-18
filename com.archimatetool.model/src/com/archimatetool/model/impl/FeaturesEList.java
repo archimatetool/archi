@@ -94,9 +94,9 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
 
     @Override
     public int getInt(String name, int defaultValue) {
-        String val = getString(name, String.valueOf(defaultValue));
         try {
-            return Integer.valueOf(val);
+            IFeature feature = getFeature(name);
+            return feature == null ? defaultValue : Integer.valueOf(feature.getValue());
         }
         catch(NumberFormatException ex) {
             return defaultValue;
@@ -105,8 +105,8 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
 
     @Override
     public boolean getBoolean(String name, boolean defaultValue) {
-        String val = getString(name, Boolean.toString(defaultValue));
-        return Boolean.valueOf(val);
+        IFeature feature = getFeature(name);
+        return feature == null ? defaultValue : Boolean.valueOf(feature.getValue());
     }
 
     @Override
