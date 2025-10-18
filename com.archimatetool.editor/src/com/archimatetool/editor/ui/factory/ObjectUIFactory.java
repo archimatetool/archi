@@ -72,30 +72,27 @@ public class ObjectUIFactory {
         EClass eClass = null;
         
         // We need to unwrap these here as this is called from diagram model objects
-        if(eObject instanceof IDiagramModelArchimateComponent) {
-            eClass = ((IDiagramModelArchimateComponent)eObject).getArchimateConcept().eClass();
+        if(eObject instanceof IDiagramModelArchimateComponent dmc) {
+            eClass = dmc.getArchimateConcept().eClass();
         }
         else if(eObject != null) {
             eClass = eObject.eClass();
         }
-        
-        IObjectUIProvider provider = getProviderForClass(eClass);
-        
-        // In some cases, a UIProvider needs an EObject instance to determine a feature rather than the Eclass provider
-        // (Default Size for alternate figure, and icon for DiagramModelReference). Maybe more in the future.
-        // So, make a new instance of the provider and add the eObject.
-        // This is a much safer approach than allowing the instance to be set on the singleton Eclass provider
-        if(provider != null) {
+
+        // A UIProvider can use an EObject instance to determine an EObject feature rather than the static Eclass provider feature.
+        // (Default Size for alternate figure, and icon for DiagramModelReference, folder colour, etc). Maybe more in the future.
+        // So, make a new instance of the provider and set the eObject.
+        // This is a much safer approach than allowing the instance to be set on the singleton Eclass provider.
+        if(getProviderForClass(eClass) instanceof AbstractObjectUIProvider template) {
             try {
-                provider = provider.getClass().getDeclaredConstructor().newInstance();
-                ((AbstractObjectUIProvider)provider).setInstance(eObject);
+                return template.clone().setInstance(eObject);
             }
             catch(Exception ex) {
                 ex.printStackTrace();
             }
         }
         
-        return provider;
+        return null;
     }
     
     public List<IObjectUIProvider> getProviders() {

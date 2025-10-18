@@ -15,21 +15,30 @@ import org.eclipse.emf.ecore.EObject;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
+public abstract class AbstractObjectUIProvider implements IObjectUIProvider, Cloneable {
     
     /**
      * The instance of object for this provider.
-     * If this is null then we are concerned with the class.
+     * If this is null then methods act on the EClass.
      */
-    protected EObject instance;
+    private EObject instance;
     
     protected AbstractObjectUIProvider() {
     }
     
-    // Don't call this unless you are a Unit Test or a Factory
-    // The instance needs to be of the same EClass as this is a provider for
-    void setInstance(EObject instance) {
+    // Don't set this unless you are the ObjectUIFactory or a Unit Test
+    // The instance needs to be of the same EClass as returned by providerFor() or a IDiagramModelArchimateComponent that has a concept of that EClass
+    AbstractObjectUIProvider setInstance(EObject instance) {
         this.instance = instance;
+        return this;
     }
     
+    protected EObject getInstance() {
+        return instance;
+    }
+    
+    @Override
+    protected AbstractObjectUIProvider clone() throws CloneNotSupportedException {
+        return (AbstractObjectUIProvider)super.clone();
+    }
 }

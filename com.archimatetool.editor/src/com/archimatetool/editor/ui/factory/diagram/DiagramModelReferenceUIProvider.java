@@ -51,8 +51,8 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     @Override
     public Image getImage() {
         // Get this from the real Provider
-        if(instance instanceof IDiagramModelReference) {
-            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
+        if(getInstance() instanceof IDiagramModelReference ref) {
+            IDiagramModel dm = ref.getReferencedModel();
             
             if(dm != null) {
                 IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);

@@ -39,7 +39,7 @@ implements IArchimateElementUIProvider, IIconDelegateProvider {
     @Override
     public Dimension getDefaultSize() {
         // If we have an instance, get the default size for its figure type, else default user preference default size
-        return instance != null ? getDefaultSizeForFigureType(((IDiagramModelArchimateObject)instance).getType()) : getDefaultUserPreferenceSize();
+        return getInstance() instanceof IDiagramModelArchimateObject dmao ? getDefaultSizeForFigureType(dmao.getType()) : getDefaultUserPreferenceSize();
     }
     
     @Override

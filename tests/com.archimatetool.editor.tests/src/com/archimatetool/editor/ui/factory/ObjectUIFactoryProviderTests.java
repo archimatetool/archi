@@ -26,6 +26,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -39,11 +40,22 @@ public class ObjectUIFactoryProviderTests {
     }
     
     @Test
-    public void testInstance() {
-        ObjectUIFactory factory = ObjectUIFactory.INSTANCE;
-        assertNotNull(factory);
+    public void testGetRegisteredProviders() {
+        for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) { // Use INSTANCE to get registered providers
+            assertNotNull(provider);
+            assertNotNull(provider.providerFor());
+        }
     }
     
+    @Test
+    public void testSetInstance() {
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
+            EObject eObject = IArchimateFactory.eINSTANCE.create(eClass);
+            AbstractObjectUIProvider provider = (AbstractObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(eObject);
+            assertSame(eObject, provider.getInstance());
+        }
+    }
+
     @Test
     public void testRegisterProvider() {
         IObjectUIProvider provider = mock(IObjectUIProvider.class);
@@ -124,13 +136,4 @@ public class ObjectUIFactoryProviderTests {
         
         assertEquals(provider.providerFor(), factory.getProvider(relation).providerFor());
     }
-    
-    @Test
-    public void testGetProviders() {
-        for(IObjectUIProvider provider : factory.getProviders()) {
-            assertNotNull(provider);
-            assertNotNull(provider.providerFor());
-        }
-    }
-
 }

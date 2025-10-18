@@ -67,7 +67,7 @@ implements IGraphicalObjectUIProvider {
     
     @Override
     public Object getFeatureValue(String featureName) {
-        if(IDiagramModelObject.FEATURE_LINE_STYLE.equals(featureName) && instance instanceof IDiagramModelObject dmo) {
+        if(IDiagramModelObject.FEATURE_LINE_STYLE.equals(featureName) && getInstance() instanceof IDiagramModelObject dmo) {
             int value = dmo.getLineStyle();
             return (value == IDiagramModelObject.LINE_STYLE_DEFAULT) ? getDefaultFeatureValue(featureName) : value;
         }

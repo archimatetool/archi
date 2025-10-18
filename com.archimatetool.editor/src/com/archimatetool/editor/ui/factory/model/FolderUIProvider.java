@@ -65,8 +65,8 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
 
     @Override
     public Image getImage() {
-        if(instance instanceof IFolder) {
-            Color color = getFolderColor(getFolderType((IFolder)instance));
+        if(getInstance() instanceof IFolder folder) {
+            Color color = getFolderColor(getFolderType(folder));
             if(!DEFAULT_COLOR.equals(color)) {
                 return IArchiImages.ImageFactory.getImageWithRGB(IArchiImages.ICON_FOLDER_DEFAULT, color.getRGB());
             }
@@ -77,8 +77,8 @@ public class FolderUIProvider extends AbstractObjectUIProvider {
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        if(instance instanceof IFolder) {
-            Color color = getFolderColor(getFolderType((IFolder)instance));
+        if(getInstance() instanceof IFolder folder) {
+            Color color = getFolderColor(getFolderType(folder));
             if(!DEFAULT_COLOR.equals(color)) {
                 return IArchiImages.ImageFactory.getImageDescriptorWithRGB(IArchiImages.ICON_FOLDER_DEFAULT, color.getRGB());
             }
