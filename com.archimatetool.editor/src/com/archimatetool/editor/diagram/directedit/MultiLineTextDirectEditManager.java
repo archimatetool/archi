@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
+import com.archimatetool.editor.ui.components.DuplicateNameHandler;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
@@ -34,6 +36,7 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
     
     private boolean isSingleText;
     private IFigure referenceFigure;
+    private DuplicateNameHandler duplicateNameHandler;
     
     public MultiLineTextDirectEditManager(GraphicalEditPart source) {
         this(source, false);
@@ -104,14 +107,20 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
 
             getTextControl().addTraverseListener(traverseListener);
         }
-    }
 
-    /**
-     * Need to override so as to remove the verify listener
-     */
+        // Add a duplicate name handler if we are editing a concept
+        if(model instanceof IDiagramModelArchimateComponent dmc) {
+            duplicateNameHandler = new DuplicateNameHandler(getTextControl(), dmc.getArchimateConcept());
+        }
+    }
+    
     @Override
     protected void unhookListeners() {
         super.unhookListeners();
+        
+        if(duplicateNameHandler != null) {
+            duplicateNameHandler.dispose();
+        }
         
         if(traverseListener != null) {
             getTextControl().removeTraverseListener(traverseListener);
@@ -175,7 +184,7 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
         }
     }
     
-    class MultiLineCellEditor extends TextCellEditor {
+    static class MultiLineCellEditor extends TextCellEditor {
         public MultiLineCellEditor(Composite composite, int style) {
             super(composite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | style);
         }
