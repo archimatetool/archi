@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -22,6 +23,7 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ParamsTest;
+import com.archimatetool.editor.diagram.figures.elements.GroupingFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -146,5 +148,58 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     @ParamsTest
     public void testGetDefaultConnectionAnchor(AbstractDiagramModelObjectFigure figure) {
         assertNotNull(figure.getDefaultConnectionAnchor());
+    }
+    
+    @ParamsTest
+    public void testGetAlpha(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(255, figure.getAlpha());
+        figure.getDiagramModelObject().setAlpha(10);
+        assertEquals(10, figure.getAlpha());
+    }
+    
+    @ParamsTest
+    public void testGetGradient(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(IDiagramModelObject.FEATURE_GRADIENT_DEFAULT, figure.getGradient());
+        figure.getDiagramModelObject().setGradient(2);
+        assertEquals(2, figure.getGradient());
+    }
+    
+    @ParamsTest
+    public void testGetIconColor(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(ColorConstants.black, figure.getIconColor());
+        figure.getDiagramModelObject().setIconColor("#010203");
+        assertEquals(new Color(1, 2, 3), figure.getIconColor());
+    }
+
+    @ParamsTest
+    public void testGetLineStyle(AbstractDiagramModelObjectFigure figure) {
+        if(figure instanceof GroupingFigure) {
+            assertEquals(IDiagramModelObject.LINE_STYLE_DASHED, figure.getLineStyle());
+        }
+        else {
+            assertEquals(IDiagramModelObject.LINE_STYLE_SOLID, figure.getLineStyle());
+        }
+        
+        figure.getDiagramModelObject().setLineStyle(IDiagramModelObject.LINE_STYLE_DOTTED);
+        assertEquals(IDiagramModelObject.LINE_STYLE_DOTTED, figure.getLineStyle());
+    }
+
+    @ParamsTest
+    public void testGetLineWidth(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(1, figure.getLineWidth());
+        figure.getDiagramModelObject().setLineWidth(2);
+        assertEquals(2, figure.getLineWidth());
+    }
+    
+    @ParamsTest
+    public void testGetLineAlpha(AbstractDiagramModelObjectFigure figure) {
+        assertEquals(255, figure.getLineAlpha());
+        figure.getDiagramModelObject().setLineAlpha(23);
+        assertEquals(23, figure.getLineAlpha());
+    }
+
+    @ParamsTest
+    public void testGetIconicDelegate(AbstractDiagramModelObjectFigure figure) {
+        assertNotNull(figure.getIconicDelegate());
     }
 }

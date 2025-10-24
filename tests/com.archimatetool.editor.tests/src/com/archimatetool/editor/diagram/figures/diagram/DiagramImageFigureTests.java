@@ -178,6 +178,13 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         
         image.dispose();
     }
+    
+    @Override
+    @ParamsTest
+    public void testGetIconicDelegate(AbstractDiagramModelObjectFigure figure) {
+        assertNull(figure.getIconicDelegate());
+    }
+    
    
     private void addImage(File file, DiagramImageFigure figure) throws IOException {
         IArchiveManager archiveManager = (IArchiveManager)figure.getDiagramModelObject().getAdapter(IArchiveManager.class);

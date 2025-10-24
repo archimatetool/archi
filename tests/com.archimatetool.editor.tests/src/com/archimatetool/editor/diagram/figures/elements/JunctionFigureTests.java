@@ -13,6 +13,7 @@ import org.eclipse.draw2d.IFigure;
 import org.junit.jupiter.params.provider.Arguments;
 
 import com.archimatetool.editor.ParamsTest;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -38,4 +39,11 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
     public void testGetTextControl(JunctionFigure figure) {
         assertNull(figure.getTextControl());
     }
+    
+    @Override
+    @ParamsTest
+    public void testGetIconicDelegate(AbstractDiagramModelObjectFigure figure) {
+        assertNull(figure.getIconicDelegate());
+    }
+
 }
