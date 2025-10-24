@@ -136,8 +136,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);

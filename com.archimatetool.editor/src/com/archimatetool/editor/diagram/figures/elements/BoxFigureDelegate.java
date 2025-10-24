@@ -36,8 +36,8 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle bounds = getBounds();
         
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         // Set line width here so that the whole figure is consttained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, bounds);

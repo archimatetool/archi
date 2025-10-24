@@ -50,8 +50,8 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle bounds = getBounds().getCopy();
         
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         graphics.setAntialias(SWT.ON);
         

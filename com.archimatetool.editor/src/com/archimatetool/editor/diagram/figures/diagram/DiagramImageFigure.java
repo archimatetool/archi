@@ -100,8 +100,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         

@@ -43,8 +43,9 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         }
         
         Rectangle bounds = getBounds().getCopy();
-        bounds.width--;
-        bounds.height--;
+        
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:

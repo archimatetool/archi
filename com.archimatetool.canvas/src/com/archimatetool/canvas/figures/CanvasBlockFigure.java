@@ -157,8 +157,8 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         Rectangle bounds = getBounds().getCopy();
         
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         

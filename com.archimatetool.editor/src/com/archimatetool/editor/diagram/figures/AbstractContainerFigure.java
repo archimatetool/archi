@@ -117,12 +117,12 @@ implements IContainerFigure {
         // Scaling
         double scale = FigureUtils.getFigureScale(this);
         if(scale == 1.5) {
-            bounds.width--;
-            bounds.height--;
+            // Reduce width and height by 1 pixel
+            bounds.resize(-1, -1);
         }
         else if(scale < 1) {
-            bounds.width -= 2;
-            bounds.height -= 2;
+            // Reduce width and height by 2 pixels
+            bounds.resize(-2, -2);
         }
         
         bounds.shrink(1, 1);

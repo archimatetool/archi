@@ -35,8 +35,8 @@ implements IRoundedRectangleFigure {
         
         Rectangle bounds = getBounds();
 
-        bounds.width--;
-        bounds.height--;
+        // Reduce width and height by 1 pixel
+        bounds.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         

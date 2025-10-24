@@ -123,8 +123,7 @@ implements IDiagramModelObjectFigure {
         }
     
         // Width and height reduced by line width to compensate for x,y offset
-        bounds.width -= lineWidth;
-        bounds.height -= lineWidth;
+        bounds.resize(-lineWidth, -lineWidth);
         
         // x,y offset is half of line width
         float offset = (float)lineWidth / 2;
