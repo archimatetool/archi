@@ -191,7 +191,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
             path.close();
             
             if(foregroundColor != null) {
-                graphics.setForegroundColor(backgroundColor);
+                graphics.setBackgroundColor(foregroundColor);
             }
             graphics.fillPath(path);
             path.dispose();
