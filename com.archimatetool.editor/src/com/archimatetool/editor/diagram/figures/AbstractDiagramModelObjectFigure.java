@@ -5,6 +5,10 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -14,6 +18,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -25,10 +30,8 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -47,18 +50,20 @@ implements IDiagramModelObjectFigure {
     // Use line width offset handling
     boolean useLineOffset = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
     
-    private IDiagramModelObject fDiagramModelObject;
+    private IDiagramModelObject diagramModelObject;
     
-    private Color fFillColor;
-    private Color fFontColor;
-    private Color fLineColor;
-    
+    // Cache some values so they are not re-evaluated each time when the figure is painted to improve drawing speed.
+    // These values are colors and some features that might take some processing to get from a FeaturesEList
+    private Map<Object, Object> cachedValues;
     
     // Delegate to do drawing
-    private IFigureDelegate fFigureDelegate;
+    private IFigureDelegate figureDelegate;
+    
+    // UI Provider
+    protected IGraphicalObjectUIProvider uiProvider;
     
     // Delegate to draw icon image
-    private IconicDelegate fIconicDelegate;
+    private IconicDelegate iconicDelegate;
     
     protected AbstractDiagramModelObjectFigure() {
     }
@@ -69,21 +74,63 @@ implements IDiagramModelObjectFigure {
 
     @Override
     public void setDiagramModelObject(IDiagramModelObject diagramModelObject) {
-        fDiagramModelObject = diagramModelObject;
+        this.diagramModelObject = diagramModelObject;
+        uiProvider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(diagramModelObject);
         setUI();
     }
     
     @Override
     public IDiagramModelObject getDiagramModelObject() {
-        return fDiagramModelObject;
+        return diagramModelObject;
     }
     
     public IFigureDelegate getFigureDelegate() {
-        return fFigureDelegate;
+        return figureDelegate;
     }
     
     public void setFigureDelegate(IFigureDelegate figureDelegate) {
-        fFigureDelegate = figureDelegate;
+        this.figureDelegate = figureDelegate;
+    }
+    
+    /**
+     * Set the UI
+     */
+    abstract protected void setUI();
+    
+    @Override
+    public void refreshVisuals() {
+        // Clear the cached values *first* so they can be re-evaluated
+        clearCachedValues();
+        
+        // Font
+        setFont();
+        
+        // Font Color
+        setFontColor();
+        
+        // Icon Image
+        updateIconImage();
+        
+        repaint();
+    }
+    
+    /**
+     * Clear all cached values. This will force all values to be re-evaluated the next time one is retrieved in getCachedValue
+     */
+    protected void clearCachedValues() {
+        cachedValues = null;
+    }
+    
+    /**
+     * Get a cached value from the cached value map
+     * @param key key with which the specified value is to be associated
+     * @param mappingFunction the mapping function to compute a value
+     * @return the current (existing or computed) value associated with the specified key, or null if the computed value is null
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T getCachedValue(Object key, Function<Object, T> mappingFunction) {
+        cachedValues = cachedValues == null ? new ConcurrentHashMap<>() : cachedValues; // lazily create new map
+        return (T) cachedValues.computeIfAbsent(key, mappingFunction);
     }
     
     /**
@@ -150,44 +197,33 @@ implements IDiagramModelObjectFigure {
      * @param graphics
      */
     protected void setLineStyle(Graphics graphics) {
-        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
-        
         switch(getLineStyle()) {
-            case IDiagramModelObject.LINE_STYLE_SOLID:
-            default:
+            case IDiagramModelObject.LINE_STYLE_SOLID -> {
                 graphics.setLineStyle(Graphics.LINE_SOLID);
-                break;
-            case IDiagramModelObject.LINE_STYLE_DASHED:
+            }
+            case IDiagramModelObject.LINE_STYLE_DASHED -> {
+                final double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
                 graphics.setLineDash(new float[] { (float)(8 * scale), (float)(4 * scale) });
-                break;
-            case IDiagramModelObject.LINE_STYLE_DOTTED:
+            }
+            case IDiagramModelObject.LINE_STYLE_DOTTED -> {
+                final double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
                 graphics.setLineDash(new float[] { (float)(2 * scale), (float)(4 * scale) });
-                break;
+            }
         }
     }
 
     /**
-     * Set the UI
-     */
-    abstract protected void setUI();
-    
-    /**
      * Set the font to that in the model, or failing that, as per user's default
      */
     protected void setFont() {
-        setFont(FontFactory.getScaledFont(fDiagramModelObject.getFont()));
+        // Set the font for the figure not the text control.
+        // (Direct Edit Manager sets its font according to this font and GroupFigure uses it).
+        setFont(FontFactory.getScaledFont(getDiagramModelObject().getFont()));
         
-        // Need to do this after font change
+        // Need to revalidate the text control after a font change
         if(getTextControl() != null) {
             getTextControl().revalidate();
         }
-    }
-    
-    /**
-     * Reset the fill color
-     */
-    protected void setFillColor() {
-        fFillColor = null;
     }
     
     /**
@@ -195,84 +231,79 @@ implements IDiagramModelObjectFigure {
      */
     @Override
     public Color getFillColor() {
-        if(fFillColor == null) {
-            fFillColor = ColorFactory.get(fDiagramModelObject.getFillColor());
-            
-            // Use default fill color
-            if(fFillColor == null) {
-                fFillColor = ColorFactory.getDefaultFillColor(fDiagramModelObject);
-            }
-        }
-        
-        return fFillColor;
+        // Cache this value
+        return getCachedValue("fillColor", key -> { //$NON-NLS-1$
+            Color color = ColorFactory.get(getDiagramModelObject().getFillColor());
+            return color != null ? color : ColorFactory.getDefaultFillColor(getDiagramModelObject());
+        });
     }
     
     /**
-     * Set the font color to that in the model, or failing that, as per default
+     * Set the font color of the text control or Figure.
+     * This actually sets the foreground color of the text control or Figure to that in the model object's font color
      */
     protected void setFontColor() {
-        String val = fDiagramModelObject.getFontColor();
-        Color c = ColorFactory.get(val);
-        if(c == null) {
-            c = ColorConstants.black; // Set to black in case of dark theme
-        }
-        if(c != fFontColor) {
-            fFontColor = c;
-            if(getTextControl() != null) {
-                getTextControl().setForegroundColor(c);
-            }
+        if(getTextControl() != null) {
+            Color color = ColorFactory.get(getDiagramModelObject().getFontColor());
+            getTextControl().setForegroundColor(color != null ? color : ColorConstants.black); // Default to black in case of dark theme
         }
     }
     
-    /**
-     * Reset the line color
-     */
-    protected void setLineColor() {
-        fLineColor = null;
-    }
-    
-    /**
-     * @return The Line Color to use
-     */
     @Override
     public Color getLineColor() {
-        if(fLineColor == null) {
-            // User preference to derive element line colour
-            if(fDiagramModelObject.getDeriveElementLineColor()) {
-                fLineColor = ColorFactory.getDerivedLineColor(getFillColor());
+        // Cache this value
+        return getCachedValue("lineColor", key -> { //$NON-NLS-1$
+            if(getDiagramModelObject().getDeriveElementLineColor()) {
+                return ColorFactory.getDerivedLineColor(getFillColor()); // Calling getFillColor() will concurrently modify the cached Map!
             }
             else {
-                fLineColor = ColorFactory.get(fDiagramModelObject.getLineColor());
-                
-                // Use default line color
-                if(fLineColor == null) {
-                    fLineColor = ColorFactory.getDefaultLineColor(getDiagramModelObject());
-                }
+                Color color = ColorFactory.get(getDiagramModelObject().getLineColor());
+                return color != null ? color : ColorFactory.getDefaultLineColor(getDiagramModelObject());
             }
-        }
-        
-        return fLineColor;
+        });
     }
     
-    protected int getAlpha() {
-        return isEnabled() ? fDiagramModelObject.getAlpha() : Math.min(100, fDiagramModelObject.getAlpha());
+    /**
+     * @deprecated Don't call this, instead call refreshVisuals() or clearCachedValues();
+     */
+    @Deprecated
+    protected void setFillColor() {
+        clearCachedValues();
+    }
+    
+    /**
+     * @deprecated Don't call this, instead call refreshVisuals() or clearCachedValues();
+     */
+    @Deprecated
+    protected void setLineColor() {
+        clearCachedValues();
     }
 
-    protected int getLineAlpha() {
-        return isEnabled() ? fDiagramModelObject.getLineAlpha() : 100;
+    public int getAlpha() {
+        // No need to cache this
+        int alpha = getDiagramModelObject().getAlpha();
+        return isEnabled() ? alpha : Math.min(100, alpha);
+    }
+
+    public int getLineAlpha() {
+        // Cache this value as it's from a FeaturesEList
+        return isEnabled() ? getCachedValue(IDiagramModelObject.FEATURE_LINE_ALPHA, key -> getDiagramModelObject().getLineAlpha()) : 100;
     }
     
-    protected int getGradient() {
-        return fDiagramModelObject.getGradient();
+    public int getGradient() {
+        // Cache this value as it's from a FeaturesEList
+        return getCachedValue(IDiagramModelObject.FEATURE_GRADIENT, key -> getDiagramModelObject().getGradient());
     }
     
-    protected int getLineWidth() {
-        return fDiagramModelObject.getLineWidth();
+    public int getLineWidth() {
+        // No need to cache this
+        return getDiagramModelObject().getLineWidth();
     }
     
-    protected int getLineStyle() {
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null && provider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE) instanceof Integer val ? val : IDiagramModelObject.LINE_STYLE_SOLID;
+    public int getLineStyle() {
+        // Cache this value as it's from a FeaturesEList
+        return getCachedValue(IDiagramModelObject.FEATURE_LINE_STYLE,
+                key -> uiProvider.getFeatureValue(IDiagramModelObject.FEATURE_LINE_STYLE) instanceof Integer val ? val : IDiagramModelObject.LINE_STYLE_SOLID);
     }
     
     @Override
@@ -319,21 +350,21 @@ implements IDiagramModelObjectFigure {
      * Set the IconicDelegate if this figure draws icons
      */
     public void setIconicDelegate(IconicDelegate delegate) {
-        fIconicDelegate = delegate;
+        iconicDelegate = delegate;
     }
     
     /**
      * @return The IconicDelegate if this figure draws icons, or null if not
      */
     public IconicDelegate getIconicDelegate() {
-        return fIconicDelegate;
+        return iconicDelegate;
     }
     
     /**
      * @return whether to show the small in-built icon - either the ArchiMate icon or the view reference icon
      */
     public boolean isIconVisible() {
-        switch(getDiagramModelObject().getIconVisibleState()) {
+        switch(getIconVisibleState()) {
             case IDiagramModelObject.ICON_VISIBLE_NEVER:
                 return false;
 
@@ -344,7 +375,7 @@ implements IDiagramModelObjectFigure {
                 return true;
         }
     }
-
+    
     /**
      * @return The offset in pixels to adjust the text position if there is an inbuilt icon
      */
@@ -352,16 +383,22 @@ implements IDiagramModelObjectFigure {
         return 0;
     }
     
-    /**
-     * @return The inbuilt icon color
-     */
+    public int getIconVisibleState() {
+        // Cache this value as it's from a FeaturesEList
+        return getCachedValue(IDiagramModelObject.FEATURE_ICON_VISIBLE, key -> getDiagramModelObject().getIconVisibleState());
+    }
+    
     public Color getIconColor() {
         if(!isEnabled()) {
             return ColorConstants.lightGray;
         }
         
-        String val = fDiagramModelObject.getIconColor();
-        return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
+        // Cache this value as it's from a FeaturesEList
+        return getCachedValue(IDiagramModelObject.FEATURE_ICON_COLOR,
+                key -> {
+                    String val = getDiagramModelObject().getIconColor();
+                    return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
+                });
     }
 
     /**
@@ -412,9 +449,9 @@ implements IDiagramModelObjectFigure {
         toolTipFigure.setText(text);
         
         // If an ArchiMate type, set text to element type if blank
-        if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
-            IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
-            String type = ArchiLabelProvider.INSTANCE.getDefaultName(element.eClass());
+        if(getDiagramModelObject() instanceof IDiagramModelArchimateObject dmao) {
+            EClass eClass = dmao.getArchimateElement().eClass();
+            String type = ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
             if(!StringUtils.isSet(text)) { // Name was blank
                 toolTipFigure.setText(type);
             }
@@ -441,7 +478,7 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public Dimension getDefaultSize() {
-        // If the object has an icon image and set to image fill and isn't a container with children dfault size is the image size
+        // If the object has an icon image and set to image fill and isn't a container with children default size is the image size
         if(getDiagramModelObject() instanceof IIconic iconic
                 && iconic.getImagePosition() == IIconic.ICON_POSITION_FILL
                 && hasIconImage()
@@ -450,8 +487,7 @@ implements IDiagramModelObjectFigure {
             return new Dimension(imageBounds.width, imageBounds.height);
         }
         
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null ? provider.getDefaultSize() : IGraphicalObjectUIProvider.defaultSize();
+        return uiProvider.getDefaultSize();
     }
     
     @Override
@@ -461,9 +497,14 @@ implements IDiagramModelObjectFigure {
 
     @Override
     public void dispose() {
-        if(fIconicDelegate != null) {
-            fIconicDelegate.dispose();
-            fIconicDelegate = null;
+        if(iconicDelegate != null) {
+            iconicDelegate.dispose();
+            iconicDelegate = null;
         }
+        
+        figureDelegate = null;
+        diagramModelObject = null;
+        uiProvider = null;
+        cachedValues = null;
     }
 }

@@ -71,27 +71,12 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         // Text
         setText();
         
-        // Font
-        setFont();
-
-        // Fill Color
-        setFillColor();
-        
-        // Font Color
-        setFontColor();
-        
-        // Line Color
-        setLineColor();
-
         // Alignment
         ((FlowPage)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         fTextPositionDelegate.updateTextPosition();
 
-        // Icon Image
-        updateIconImage();
-        
-        // Repaint
-        repaint();
+        // Do this last
+        super.refreshVisuals();
     }
     
     @Override

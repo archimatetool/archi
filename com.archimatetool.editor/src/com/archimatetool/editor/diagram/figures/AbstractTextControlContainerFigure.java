@@ -83,8 +83,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         add(getMainFigure(), mainLocator);
         
         // If the model object is IIconic
-        if(getDiagramModelObject() instanceof IIconic) {
-            setIconicDelegate(new IconicDelegate((IIconic)getDiagramModelObject()));
+        if(getDiagramModelObject() instanceof IIconic iconic) {
+            setIconicDelegate(new IconicDelegate(iconic));
         }
     }
     
@@ -93,22 +93,10 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         // Text
         setText();
         
-        // Font
-        setFont();
-        
-        // Fill Color
-        setFillColor();
-        
-        // Font Color
-        setFontColor();
-        
-        // Line Color
-        setLineColor();
-        
         // Text Position
-        if(getTextControl() instanceof TextFlow) {
+        if(getTextControl() instanceof TextFlow textFlow && textFlow.getParent() instanceof FlowPage flowPage) {
             int alignment = getDiagramModelObject().getTextAlignment();
-            ((FlowPage)getTextControl().getParent()).setHorizontalAligment(alignment);
+            flowPage.setHorizontalAligment(alignment);
             
             if(fTextPositionDelegate != null) {
                 fTextPositionDelegate.updateTextPosition();
@@ -120,10 +108,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             layout.marginHeight = getTextControlMarginHeight();
         }
 
-        // Icon Image
-        updateIconImage();
-        
-        repaint(); // repaint when figure changes
+        // Do this last
+        super.refreshVisuals();
     }
     
     @Override
@@ -142,20 +128,23 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         String text = TextRenderer.getDefault().render(getDiagramModelObject(),
                                                        StringUtils.safeString(getDiagramModelObject().getName()));
                 
-        if(getTextControl() instanceof TextFlow) {
-            ((TextFlow)getTextControl()).setText(text);
+        if(getTextControl() instanceof TextFlow textFlow) {
+            textFlow.setText(text);
         }
-        else if(getTextControl() instanceof Label) {
-            ((Label)getTextControl()).setText(text);
+        else if(getTextControl() instanceof Label label) {
+            label.setText(text);
         }
     }
     
     public String getText() {
-        if(getTextControl() instanceof TextFlow) {
-            return ((TextFlow)getTextControl()).getText();
+        if(getTextControl() instanceof TextFlow textFlow) {
+            return textFlow.getText();
+        }
+        else if(getTextControl() instanceof Label label) {
+            return label.getText();
         }
         else {
-            return ((Label)getTextControl()).getText();
+            return ""; //$NON-NLS-1$
         }
     }
     
@@ -191,8 +180,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
 
         textWrapperFigure.add(page, new GridData(SWT.CENTER, SWT.TOP, true, true));
         
-        if(getDiagramModelObject() instanceof ITextPosition) {
-            fTextPositionDelegate = new TextPositionDelegate(textWrapperFigure, page, (ITextPosition)getDiagramModelObject());
+        if(getDiagramModelObject() instanceof ITextPosition textPositionObject) {
+            fTextPositionDelegate = new TextPositionDelegate(textWrapperFigure, page, textPositionObject);
         }
         
         add(textWrapperFigure, textLocator);
@@ -216,7 +205,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
      * @param ratio the width/height ratio of the target working area
      */
     protected void setFigurePositionFromTextPosition(Rectangle rect, double ratio) {
-        int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        int textPosition = getDiagramModelObject() instanceof ITextPosition textPositionObject ? textPositionObject.getTextPosition() : ITextPosition.TEXT_POSITION_TOP;
         int textAlignment = getDiagramModelObject().getTextAlignment();
 
         // Try to fit an icon of the same height into rect. If not possible then use the same width.
@@ -308,7 +297,7 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         Rectangle rect = getBounds().getCopy();
 
         // Text position is Top
-        if(((ITextPosition)getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
+        if(getDiagramModelObject() instanceof ITextPosition textPositionObject && textPositionObject.getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
             int textAlignment = getDiagramModelObject().getTextAlignment();
 
             if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {

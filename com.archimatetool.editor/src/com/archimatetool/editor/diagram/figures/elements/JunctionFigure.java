@@ -86,18 +86,6 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
     }
 
     @Override
-    public void refreshVisuals() {
-        // Fill Color
-        setFillColor();
-        
-        // Line Color
-        setLineColor();
-        
-        // Repaint
-        repaint();
-    }
-    
-    @Override
     public IFigure getTextControl() {
         return null;
     }

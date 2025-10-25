@@ -36,8 +36,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     private Image fImage;
     private Dimension fOriginalImageSize, fCurrentImageSize;
     
-    private Color fBorderColor;
-    
     // This is way faster than Draw2D re-drawing the original image at scale
     boolean useScaledImage = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
     
@@ -66,22 +64,14 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         repaint();
     }
     
-    @Override
-    public void refreshVisuals() {
-        setBorderColor();
-        repaint();
-    }
-
-    protected void setBorderColor() {
-        String val = getDiagramModelObject().getBorderColor();
-        fBorderColor = ColorFactory.get(val);
-    }
-    
     /**
      * @return The Border Color to use. If null, do not draw a border.
      */
     public Color getBorderColor() {
-        return fBorderColor;
+        return getCachedValue("borderColor", key -> { //$NON-NLS-1$
+            // Null is allowed
+            return ColorFactory.get(getDiagramModelObject().getBorderColor());
+        });
     }
 
     @Override
@@ -223,7 +213,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     public void dispose() {
+        super.dispose();
         disposeImage();
-        fBorderColor = null;
     }
 }

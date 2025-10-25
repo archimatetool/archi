@@ -90,8 +90,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         setTextAlignment(getModelConnection().getTextAlignment());
         
         getFlowPage().setOpaque(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_OPAQUE);
-        
-        repaint(); // repaint when figure changes
     }
 
     /**
