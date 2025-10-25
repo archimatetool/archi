@@ -213,20 +213,17 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             return;
         }
         
-        // Sort Profiles into Elements, then Relations
+        // Sort Profiles into Elements, then Relations and by name
         Collator collator = Collator.getInstance();
-        profiles.sort(Comparator.comparing(IProfile::getConceptClass, (c1, c2) -> {
-            if((IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(c1) && IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(c2))
-                    || (IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(c1) && IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(c2))) {
+        profiles.sort(Comparator.comparingInt((IProfile profile) -> {
+            if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(profile.getConceptClass())) {
                 return 0;
             }
-            
-            if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(c1)) {
-                return -1;
+            if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(profile.getConceptClass())) {
+                return 1;
             }
-            
-            return 1;
-        }).thenComparing(IProfile::getName, (name1, name2) -> collator.compare(name1, name2)));
+            return 2;
+        }).thenComparing(IProfile::getName, collator::compare));
         
         PaletteGroup group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_0);
         
