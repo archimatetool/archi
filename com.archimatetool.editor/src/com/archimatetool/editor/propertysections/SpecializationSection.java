@@ -6,6 +6,7 @@
 package com.archimatetool.editor.propertysections;
 
 import java.text.Collator;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -146,7 +147,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
                 
                 // Sort the Profiles by name
                 Collator collator = Collator.getInstance();
-                profiles.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
+                profiles.sort(Comparator.comparing(IProfile::getName, collator::compare));
 
                 // Add the "none" Profile at the top
                 profiles.add(0, NONE_PROFILE);
