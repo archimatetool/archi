@@ -98,19 +98,16 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertEquals(ColorFactory.getDefaultFillColor(figure.getDiagramModelObject()), figure.getFillColor());
         
         figure.getDiagramModelObject().setFillColor("#010203");
-        figure.setFillColor();
-        Color expected = new Color(1, 2, 3);
-        assertEquals(expected, figure.getFillColor());
+        assertEquals(new Color(1, 2, 3), figure.getFillColor());
     }
     
     @ParamsTest
     public void testSetFontColor(AbstractDiagramModelObjectFigure figure) {
         IFigure textControl = figure.getTextControl();
         if(textControl != null) {
+            assertEquals(new Color(0, 0, 0), textControl.getForegroundColor());
             figure.getDiagramModelObject().setFontColor("#010203");
-            figure.setFontColor();
-            Color expected = new Color(1, 2, 3);
-            assertEquals(expected, textControl.getForegroundColor());
+            assertEquals(new Color(1, 2, 3), textControl.getForegroundColor());
         }
     }
     
@@ -121,9 +118,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertEquals(ColorFactory.getDefaultLineColor(figure.getDiagramModelObject()), figure.getLineColor());
         
         figure.getDiagramModelObject().setLineColor("#010203");
-        figure.setLineColor();
-        Color expected = new Color(1, 2, 3);
-        assertEquals(expected, figure.getLineColor());
+        assertEquals(new Color(1, 2, 3), figure.getLineColor());
     }
     
     @ParamsTest

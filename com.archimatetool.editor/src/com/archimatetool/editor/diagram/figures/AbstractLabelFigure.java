@@ -51,17 +51,9 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
     public void refreshVisuals() {
         // Text
         setText();
-        
-        // Font
-        setFont();
-        
-        // Fill Color
-        setFillColor();
-        
-        // Font Color
-        setFontColor();
-        
-        repaint(); // repaint when figure changes
+
+        // Do this last
+        super.refreshVisuals();
     }
     
     @Override

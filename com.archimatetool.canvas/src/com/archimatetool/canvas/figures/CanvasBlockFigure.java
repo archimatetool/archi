@@ -38,7 +38,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
     
     private TextFlow fTextFlow;
     private TextPositionDelegate fTextPositionDelegate;
-    private Color fBorderColor;
     
     private static final int MAX_ICON_SIZE = 100;
     
@@ -86,29 +85,14 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         // Text
         setText();
         
-        // Font
-        setFont();
-
-        // Fill Color
-        setFillColor();
-        
-        // Font Color
-        setFontColor();
-        
-        // Border Color
-        setBorderColor();
-        
         // Alignment
         ((FlowPage)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
 
-        // Icon Image
-        updateIconImage();
-
-        // Repaint
-        repaint();
+        // Do this last
+        super.refreshVisuals();
     }
 
     @Override
@@ -117,20 +101,14 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         getTextControl().setText(StringUtils.safeString(content));
     }
     
-    protected void setBorderColor() {
-        String val = getDiagramModelObject().getBorderColor();
-        Color c = ColorFactory.get(val);
-        if(c != fBorderColor) {
-            fBorderColor = c;
-            repaint();
-        }
-    }
-    
     /**
      * @return The Border Color to use or null for none
      */
     public Color getBorderColor() {
-        return fBorderColor;
+        return getCachedValue("borderColor", key -> { //$NON-NLS-1$
+            // Null is allowed
+            return ColorFactory.get(getDiagramModelObject().getBorderColor());
+        });
     }
 
     @Override

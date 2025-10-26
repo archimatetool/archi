@@ -41,7 +41,6 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
     private TextFlow fTextFlow;
     private TextPositionDelegate fTextPositionDelegate;
     private MultiToolTipFigure fTooltip;
-    private Color fBorderColor;
     
     private static final int MAX_ICON_SIZE = 100;
     
@@ -74,29 +73,14 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         // Text
         setText();
         
-        // Font
-        setFont();
-
-        // Fill Color
-        setFillColor();
-        
-        // Font Color
-        setFontColor();
-        
-        // Border Color
-        setBorderColor();
-
         // Text Alignment
         ((FlowPage)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
         
         // Text Position
         fTextPositionDelegate.updateTextPosition();
 
-        // Icon Image
-        updateIconImage();
-        
-        // Repaint
-        repaint();
+        // Do this last
+        super.refreshVisuals();
     }
     
     @Override
@@ -110,20 +94,14 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         return fTextFlow;
     }
     
-    protected void setBorderColor() {
-        String val = getDiagramModelObject().getBorderColor();
-        Color c = ColorFactory.get(val);
-        if(c != fBorderColor) {
-            fBorderColor = c;
-            repaint();
-        }
-    }
-    
     /**
      * @return The Border Color to use or null for none
      */
     public Color getBorderColor() {
-        return fBorderColor;
+        return getCachedValue("borderColor", key -> { //$NON-NLS-1$
+            // Null is allowed
+            return ColorFactory.get(getDiagramModelObject().getBorderColor());
+        });
     }
 
     @Override
