@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ArchiMate Open Exchange XML Plugin for Archi
 Bundle-SymbolicName: org.opengroup.archimate.xmlexchange;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 5.7.0.qualifier
+Bundle-Version: 5.8.0.qualifier
 Bundle-Vendor: Archi, The Open Group
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,

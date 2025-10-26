@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Canvas Model Toolkit
 Bundle-SymbolicName: com.archimatetool.canvas;singleton:=true
-Bundle-Version: 5.7.0.qualifier
+Bundle-Version: 5.8.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-21

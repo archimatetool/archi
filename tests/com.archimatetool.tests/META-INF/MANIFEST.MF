@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: All Archi JUnit Tests
 Bundle-SymbolicName: com.archimatetool.tests
-Bundle-Version: 5.7.0.qualifier
+Bundle-Version: 5.8.0.qualifier
 Import-Package: org.junit.platform.suite.api
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
