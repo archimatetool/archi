@@ -490,7 +490,7 @@ public class CSVImporter implements CSVConstants {
             // To handle files that start with a Byte Order Mark (BOM), like some Excel CSV files, you need an extra step to deal with the optional BOM bytes.
             BOMInputStream bomIn = BOMInputStream.builder().setFile(file).get();
             InputStreamReader reader = new InputStreamReader(bomIn, "UTF-8"); //$NON-NLS-1$
-            CSVFormat csvFormat = CSVFormat.Builder.create().setDelimiter(delimiter).get();
+            CSVFormat csvFormat = CSVFormat.Builder.create().setCommentMarker('#').setDelimiter(delimiter).get();
             
             try(CSVParser parser = CSVParser.parse(reader, csvFormat))  {
                 return parser.getRecords();

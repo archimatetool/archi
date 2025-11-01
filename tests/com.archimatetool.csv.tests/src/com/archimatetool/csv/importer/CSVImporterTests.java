@@ -62,6 +62,8 @@ public class CSVImporterTests {
     File relations4File = new File(testFolder, "test4-relations.csv");
     File relations4aFile = new File(testFolder, "test4a-relations.csv");
     
+    File commentsFile = new File(testFolder, "test5-elements.csv");
+    
     private IArchimateModel model;
     private CSVImporter importer;
     
@@ -293,6 +295,15 @@ public class CSVImporterTests {
         importer.importProperties(properties1File);
         
         assertEquals(3, importer.newProperties.size());
+    }
+    
+    
+    @Test
+    public void testImportWithComments() throws Exception {
+        // Comments with # should be ignored
+        importer.doImport(commentsFile);
+        assertNotNull(ArchimateModelUtils.getObjectByID(model, "id1"));
+        assertNotNull(ArchimateModelUtils.getObjectByID(model, "id2"));
     }
 
     @Test
