@@ -523,4 +523,35 @@ public class CSVImporterTests {
         assertEquals("Field 2", rec.get(1));
         assertEquals("Field 3", rec.get(2));
     }
+
+    @Test
+    public void testGetRecordsIgnoresCommentLines() throws Exception {
+        String csv = "\"Field 1\",\"Field 2\",\"Field 3\"\n" +
+                "# This is a comment line and should be ignored\n" +
+                "\"Value 1\",\"Value 2\",\"Value 3\"\n" +
+                "#Another comment\n" +
+                "\"Data 1\",\"Data 2\",\"Data 3\"";
+
+        File file = TestUtils.createTempFile(".csv");
+        Files.writeString(file.toPath(), csv);
+
+        List<CSVRecord> records = importer.getRecords(file);
+        assertNotNull(records);
+        assertEquals(3, records.size());
+
+        CSVRecord rec0 = records.get(0);
+        assertEquals("Field 1", rec0.get(0));
+        assertEquals("Field 2", rec0.get(1));
+        assertEquals("Field 3", rec0.get(2));
+
+        CSVRecord rec1 = records.get(1);
+        assertEquals("Value 1", rec1.get(0));
+        assertEquals("Value 2", rec1.get(1));
+        assertEquals("Value 3", rec1.get(2));
+
+        CSVRecord rec2 = records.get(2);
+        assertEquals("Data 1", rec2.get(0));
+        assertEquals("Data 2", rec2.get(1));
+        assertEquals("Data 3", rec2.get(2));
+    }
 }
