@@ -119,7 +119,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
     }
     
     protected void refreshNameField() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         fTextName.refresh(getFirstSelectedObject());
@@ -136,7 +136,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
     }
     
     protected void refreshPurposeField() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         fTextPurpose.refresh(getFirstSelectedObject());

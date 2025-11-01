@@ -41,14 +41,16 @@ import com.archimatetool.model.util.LightweightEContentAdapter;
 public abstract class AbstractECorePropertySection extends AbstractArchiPropertySection {
     
     /**
-     * Set this flag to true when executing a command to stop unnecessary refreshing of controls
+     * Set this flag to true when executing a command to stop unnecessary refreshing of controls.
+     * @deprecated This field will be private in future versions (and renamed to <code>isExecutingCommand)</code>. Use {@link #isExecutingCommand()} instead.
      */
+    @Deprecated
     protected boolean fIsExecutingCommand;
     
     /**
-     * ArchimateModelObjects that are the subject of this Property Section
+     * IArchimateModelObject objects that are selected and using this Property Section
      */
-    private List<IArchimateModelObject> fObjects;
+    private List<IArchimateModelObject> eObjects;
     
     /**
      * We need an EContentAdapter to listen to all child IFeature objects
@@ -57,13 +59,12 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     
     @Override
     protected void handleSelection(IStructuredSelection selection) {
-        // stop double-firing
-        if(selection != getSelection()) { 
+        if(selection != getSelection()) { // block unnecessary double selections
             // Remove previous listener adapter
             removeAdapter();
             
             // Get the correct EObjects
-            fObjects = getFilteredObjects(selection.toList());
+            eObjects = getFilteredObjects(selection.toList());
             
             // Update section
             update();
@@ -90,17 +91,17 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     }
     
     /**
-     * @return The EObjects for this Property Section
+     * @return The IArchimateModelObjects that are selected and using this Property Section
      */
     protected List<IArchimateModelObject> getEObjects() {
-        return fObjects;
+        return eObjects;
     }
     
     /**
-     * @return The first selected object
+     * @return The first selected IArchimateModelObject
      */
     protected IArchimateModelObject getFirstSelectedObject() {
-        return (fObjects == null || fObjects.isEmpty()) ? null : fObjects.get(0);
+        return (eObjects == null || eObjects.isEmpty()) ? null : eObjects.get(0);
     }
     
     /**
@@ -111,7 +112,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * @return A list of filtered adaptable objects according to type
      */
     private List<IArchimateModelObject> getFilteredObjects(List<?> objects) {
-        ArrayList<IArchimateModelObject> list = new ArrayList<>();
+        List<IArchimateModelObject> list = new ArrayList<>();
         
         IObjectFilter filter = getFilter();
         
@@ -121,8 +122,8 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
                 object = filter.adaptObject(object);
             }
             
-            if(object instanceof IArchimateModelObject) {
-                list.add((IArchimateModelObject)object);
+            if(object instanceof IArchimateModelObject modelObject) {
+                list.add(modelObject);
             }
         }
         
@@ -150,17 +151,17 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     }
     
     /**
-     * Execuate a command on the selected objects' CommandStack
-     * @param cmd
+     * Execute a command on the first selected object's CommandStack
+     * @param command The command to execute
      */
     protected void executeCommand(Command command) {
         EObject eObject = getFirstSelectedObject();
         
-        if(eObject != null && eObject instanceof IAdapter) {
-            CommandStack commandStack = (CommandStack)((IAdapter)eObject).getAdapter(CommandStack.class);
+        if(eObject != null && eObject instanceof IAdapter adapter) {
+            CommandStack commandStack = (CommandStack)adapter.getAdapter(CommandStack.class);
             if(commandStack != null) {
-                fIsExecutingCommand = true;
                 try {
+                    fIsExecutingCommand = true;
                     commandStack.execute(command);
                 }
                 finally {
@@ -171,9 +172,17 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     }
     
     /**
-     * If the Property sheet was Active (or Pinned) and the Element deleted then the Element's
-     * info could still be showing.
-     * @return True if alive
+     * @return true if a command is being run, false otherwise.
+     * Some controls will be notified of a model change when a Command is run and can ignore the notification
+     * @since 5.8.0
+     */
+    protected boolean isExecutingCommand() {
+        return fIsExecutingCommand;
+    }
+
+    /**
+     * If the Property sheet was Active (or Pinned) and the Element deleted then the Element's info could still be showing.
+     * @return True if the eObject has a parent eContainer and belongs to an IArchimateModel, false if orphaned.
      */
     protected boolean isAlive(EObject eObject) {
         return (eObject != null) && (eObject instanceof IArchimateModel || eObject.eContainer() != null);
@@ -216,13 +225,13 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * @return true if object is of type ILockable and is locked
      */
     protected boolean isLocked(Object object) {
-        return object instanceof ILockable && ((ILockable)object).isLocked();
+        return object instanceof ILockable lockable && lockable.isLocked();
     }
     
     @Override
     public void dispose() {
         removeAdapter();
-        fObjects = null;
+        eObjects = null;
     }
     
     // ===========================================================================================================================
@@ -243,10 +252,10 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         PropertySectionTextControl textName = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.NAMEABLE__NAME) {
             @Override
             protected void textChanged(String oldText, String newText) {
-                if(fObjects != null) {
+                if(getEObjects() != null) {
                     CompoundCommand result = new NonNotifyingCompoundCommand(Messages.AbstractECorePropertySection_1);
 
-                    for(EObject eObject : fObjects) {
+                    for(EObject eObject : getEObjects()) {
                         if(isAlive(eObject)) {
                             Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_1, eObject,
                                     IArchimatePackage.Literals.NAMEABLE__NAME, newText);
@@ -278,10 +287,10 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         PropertySectionTextControl textDoc = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
             @Override
             protected void textChanged(String oldText, String newText) {
-                if(fObjects != null) {
+                if(getEObjects() != null) {
                     CompoundCommand result = new CompoundCommand(Messages.AbstractECorePropertySection_3);
 
-                    for(EObject eObject : fObjects) {
+                    for(EObject eObject : getEObjects()) {
                         if(isAlive(eObject)) {
                             Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_3 , eObject,
                                     IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, newText);

@@ -803,7 +803,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
                 switch(event.type) {
                     case SWT.Activate:
                         // The Properties View site action bars
-                        IActionBars actionBars = fPage.getSite().getActionBars();
+                        IActionBars actionBars = getTabbedPropertySheetPage().getSite().getActionBars();
                         propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
                         propertiesViewGlobalActionHandler.clearGlobalActions();
                         
@@ -1092,7 +1092,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         @Override
         public void run() {
             if(isAlive(getFirstSelectedElement())) {
-                MultipleAddDialog dialog = new MultipleAddDialog(fPage.getSite().getShell(), List.of(getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL)));
+                MultipleAddDialog dialog = new MultipleAddDialog(getTabbedPropertySheetPage().getSite().getShell(), List.of(getAllUniquePropertyKeysForModel(MAX_ITEMS_ALL)));
                 if(dialog.open() != Window.CANCEL) {
                     List<String> newKeys = dialog.getSelectedKeys();
                     if(newKeys == null || newKeys.isEmpty()) {
@@ -1181,7 +1181,7 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         @Override
         public void run() {
             if(isAlive(getFirstSelectedElement())) {
-                UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
+                UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(getTabbedPropertySheetPage().getSite().getShell(),
                         getArchimateModel());
                 dialog.open();
             }

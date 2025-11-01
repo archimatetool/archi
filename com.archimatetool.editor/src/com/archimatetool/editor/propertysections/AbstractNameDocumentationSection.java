@@ -60,7 +60,7 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
     }
     
     protected void refreshNameField() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         
@@ -69,7 +69,7 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
     }
     
     protected void refreshDocumentationField() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

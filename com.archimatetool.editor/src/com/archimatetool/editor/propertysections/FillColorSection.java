@@ -59,7 +59,7 @@ public class FillColorSection extends AbstractMultiControlSection {
             updateColorControl(); // update also when executing command in case "default" is chosen
         }
         else if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_GRADIENT)) {
-            if(!fIsExecutingCommand) {
+            if(!isExecutingCommand()) {
                 updateGradientControl();
             }
         }

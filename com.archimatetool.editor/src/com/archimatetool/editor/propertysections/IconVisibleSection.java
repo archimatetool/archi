@@ -111,7 +111,7 @@ public class IconVisibleSection extends AbstractECorePropertySection {
     }
     
     private void refreshButton() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

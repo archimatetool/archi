@@ -59,7 +59,7 @@ public class LineSection2 extends AbstractMultiControlSection {
         Object feature = msg.getFeature();
 
         if(isFeatureNotification(msg, IDiagramModelObject.FEATURE_LINE_ALPHA)) {
-            if(!fIsExecutingCommand) {
+            if(!isExecutingCommand()) {
                 updateOpacityControl();
             }
         }

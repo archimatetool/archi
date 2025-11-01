@@ -101,7 +101,7 @@ public class JunctionConnectionArrowsSection extends AbstractECorePropertySectio
     }
     
     private void refreshButton() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

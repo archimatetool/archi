@@ -59,7 +59,7 @@ public class DiagramModelImageSection extends ImageChooserSection {
     }
     
     protected void refreshDocumentationField() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

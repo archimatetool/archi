@@ -202,7 +202,7 @@ public class SpecializationSection extends AbstractECorePropertySection {
         IArchimateModelObject firstSelected = getFirstSelectedObject();
 
         // Check also if the selected object has been deleted in case the Properties View is still showing the object if it has the focus
-        if(fIsExecutingCommand || !isAlive(getFirstSelectedObject())) {
+        if(isExecutingCommand() || !isAlive(getFirstSelectedObject())) {
             return;
         }
         

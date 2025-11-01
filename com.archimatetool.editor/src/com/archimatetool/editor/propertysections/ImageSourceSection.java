@@ -104,7 +104,7 @@ public class ImageSourceSection extends AbstractECorePropertySection {
     }
     
     protected void refreshCombo() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

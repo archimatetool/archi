@@ -88,7 +88,7 @@ public class AssociationRelationshipSection extends AbstractECorePropertySection
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

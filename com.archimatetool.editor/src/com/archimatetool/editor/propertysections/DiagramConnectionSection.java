@@ -144,7 +144,7 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     }
     
     protected void refreshTextPositionCombo() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         
@@ -157,7 +157,7 @@ public class DiagramConnectionSection extends AbstractECorePropertySection {
     }
     
     protected void refreshNameVisibleButton() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

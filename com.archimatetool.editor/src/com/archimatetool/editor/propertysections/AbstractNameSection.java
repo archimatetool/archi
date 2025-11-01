@@ -45,7 +45,7 @@ public abstract class AbstractNameSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

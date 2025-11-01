@@ -60,7 +60,7 @@ public class LineSection extends AbstractMultiControlSection {
             updateColorControl(); // update also when executing command in case "default" or "derive from fill color" is chosen
         }
         else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
-            if(!fIsExecutingCommand) {
+            if(!isExecutingCommand()) {
                 updateLineWidthControl();
             }
         }

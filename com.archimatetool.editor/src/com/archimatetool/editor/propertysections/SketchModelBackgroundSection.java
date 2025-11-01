@@ -116,7 +116,7 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

@@ -45,7 +45,9 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     
     /**
      * The TabbedPropertySheetPage
+     * @deprecated This field will be private in future versions (and renamed to <code>tabbedPropertySheetPage)</code>. Use {@link #getTabbedPropertySheetPage()} instead.
      */
+    @Deprecated
     protected TabbedPropertySheetPage fPage;
     
     protected static int V_SPACING = 10;
@@ -53,7 +55,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     @Override
     public void setInput(IWorkbenchPart part, ISelection selection) {
         handleSelection((IStructuredSelection)selection);
-        super.setInput(part, selection);
+        super.setInput(part, selection); // call this *after* handleSelection!
     }
     
     @Override
@@ -88,6 +90,14 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
     }
     
     /**
+     * @return the TabbedPropertySheetPage
+     * @since 5.8.0
+     */
+    protected TabbedPropertySheetPage getTabbedPropertySheetPage() {
+        return fPage;
+    }
+    
+    /**
      * Create the controls 
      * @param parent
      */
@@ -103,7 +113,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      * Update/Refresh the main Properties label
      */
     protected void updatePropertiesLabel() {
-        fPage.labelProviderChanged(null);
+        getTabbedPropertySheetPage().labelProviderChanged(null);
     }
     
     /**
@@ -267,7 +277,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
                     }
                     
                     // The Properties View site action bars
-                    IActionBars actionBars = fPage.getSite().getActionBars();
+                    IActionBars actionBars = getTabbedPropertySheetPage().getSite().getActionBars();
                     propertiesViewGlobalActionHandler = new GlobalActionDisablementHandler(actionBars);
                     propertiesViewGlobalActionHandler.clearGlobalActions();
                     

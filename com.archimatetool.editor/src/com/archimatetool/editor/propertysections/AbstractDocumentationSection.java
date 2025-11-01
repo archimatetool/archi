@@ -44,7 +44,7 @@ public abstract class AbstractDocumentationSection extends AbstractECoreProperty
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

@@ -106,7 +106,7 @@ public class AccessRelationshipSection extends AbstractECorePropertySection {
 
     @Override
     protected void update() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         

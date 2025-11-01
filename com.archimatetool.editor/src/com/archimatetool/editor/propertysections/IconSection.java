@@ -306,7 +306,7 @@ public class IconSection extends ImageChooserSection {
             position = IIconic.ICON_POSITION_TOP_RIGHT;
         }
         
-        if(!fIsExecutingCommand) {
+        if(!isExecutingCommand()) {
             fComboPosition.select(position);
             fComboPosition.setEnabled(!isLocked(selected));
         }

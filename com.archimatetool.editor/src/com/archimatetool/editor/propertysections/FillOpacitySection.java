@@ -72,7 +72,7 @@ public class FillOpacitySection extends AbstractECorePropertySection {
         Object feature = msg.getFeature();
 
         if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA) {
-            if(!fIsExecutingCommand) {
+            if(!isExecutingCommand()) {
                 update();
             }
         }

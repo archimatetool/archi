@@ -212,7 +212,7 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     }
     
     private void updateTextAlignmentControls() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         
@@ -227,7 +227,7 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     }
     
     private void updateTextPositionControls() {
-        if(fIsExecutingCommand) {
+        if(isExecutingCommand()) {
             return; 
         }
         
