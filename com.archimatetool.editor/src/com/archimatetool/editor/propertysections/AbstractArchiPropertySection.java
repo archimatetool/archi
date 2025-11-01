@@ -64,13 +64,6 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         fPage = tabbedPropertySheetPage;
         setLayout(parent);
         createControls(parent);
-        
-        // Workaround for Eclipse bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=545239
-        // If the CSS element "TabbedPropertyList" is set in a theme's css file then
-        // Tabs don't always show skinned color until the focus is gained.
-        // This fix forces a reskin.
-        // At the moment we don't have this CSS property set in any CSS file (Eclipse itself does, though)
-        // ((org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite)fPage.getControl()).getList().reskin(SWT.ALL);
     }
     
     /**

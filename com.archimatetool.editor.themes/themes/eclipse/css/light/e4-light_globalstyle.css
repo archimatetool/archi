@@ -53,6 +53,8 @@ TabbedPropertyTitle {
 }
 
 TabbedPropertyList {
+    /* Ensure swt-tabNormalShadow-color is defined first. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=545239
+       and https://github.com/eclipse-platform/eclipse.platform.ui/commit/348af87b4875b9835552ff22e91e8cead44abfe9 */
 	swt-tabNormalShadow-color   : '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR';             /* color of shadow lines around the tabs */
 	swt-tabDarkShadow-color     : '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_SELECTED_TEXT_COLOR'; /* line color of the tiny scroll triangle (at top / at bottom) */
 	swt-tabAreaBackground-color : #ffffff;
