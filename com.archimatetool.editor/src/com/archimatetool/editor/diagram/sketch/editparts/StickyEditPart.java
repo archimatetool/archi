@@ -50,8 +50,7 @@ public class StickyEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected IFigure createFigure() {
-        StickyFigure figure = new StickyFigure((ISketchModelSticky)getModel());
-        return figure;
+        return new StickyFigure((ISketchModelSticky)getModel());
     }
 
     @Override
@@ -86,12 +85,6 @@ public class StickyEditPart extends AbstractConnectedEditPart {
         return ((IContainerFigure)getFigure()).getContentPane();
     }
     
-    @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
-    }
-
     @Override
     public <T> T getAdapter(Class<T> adapter) {
         if(adapter == SnapToHelper.class) {

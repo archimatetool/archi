@@ -82,12 +82,6 @@ public class CanvasStickyEditPart extends AbstractConnectedEditPart {
         return new MultiLineTextDirectEditManager(this);
     }
 
-    @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
-    }
-
     /**
      * DirectEditPolicy
      */

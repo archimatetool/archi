@@ -132,9 +132,12 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     }
     
     /**
-     * Refresh the figure
+     * Refresh the figure. Default behaviour is to call getFigure().refreshVisuals()
      */
     protected void refreshFigure() {
+        if(getFigure() != null) {
+            getFigure().refreshVisuals();
+        }
     }
     
     /**

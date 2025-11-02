@@ -31,8 +31,7 @@ public class SketchActorEditPart extends AbstractConnectedEditPart {
     
     @Override
     protected IFigure createFigure() {
-        SketchActorFigure figure = new SketchActorFigure((ISketchModelActor)getModel());
-        return figure;
+        return new SketchActorFigure((ISketchModelActor)getModel());
     }
 
     @Override
@@ -47,12 +46,6 @@ public class SketchActorEditPart extends AbstractConnectedEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
     }
 
-    @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
-    }
-    
     @Override
     public void performRequest(Request request) {
         // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command

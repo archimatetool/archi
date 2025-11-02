@@ -82,9 +82,4 @@ implements IConstrainedSizeEditPart {
             showPropertiesView();
         }
     }
-
-    @Override
-    protected void refreshFigure() {
-        getFigure().refreshVisuals();
-    }
 }

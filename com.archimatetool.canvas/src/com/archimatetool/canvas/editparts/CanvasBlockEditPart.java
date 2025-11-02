@@ -96,12 +96,6 @@ public class CanvasBlockEditPart extends AbstractConnectedEditPart {
     }
     
     @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
-    }
-
-    @Override
     public <T> T getAdapter(Class<T> adapter) {
         if(adapter == SnapToHelper.class) {
             return adapter.cast(new SnapEditPartAdapter(this).getSnapToHelper());

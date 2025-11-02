@@ -67,15 +67,9 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected IFigure createFigure() {
-        DiagramModelReferenceFigure figure = new DiagramModelReferenceFigure(getModel());
-        return figure;
+        return new DiagramModelReferenceFigure(getModel());
     }
 
-    @Override
-    protected void refreshFigure() {
-        getFigure().refreshVisuals();
-    }
-    
     @Override
     public IDiagramModelReference getModel() {
         return (IDiagramModelReference)super.getModel();

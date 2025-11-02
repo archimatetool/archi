@@ -16,7 +16,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
@@ -46,13 +45,12 @@ public class NoteEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected IFigure createFigure() {
-        NoteFigure figure = new NoteFigure((IDiagramModelNote)getModel());
-        return figure;
+        return new NoteFigure(getModel());
     }
 
     @Override
-    protected void refreshFigure() {
-        ((IDiagramModelObjectFigure)figure).refreshVisuals();
+    public IDiagramModelNote getModel() {
+        return (IDiagramModelNote)super.getModel();
     }
 
     @Override

@@ -65,19 +65,12 @@ public class GroupEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected IFigure createFigure() {
-        GroupFigure figure = new GroupFigure(getModel());
-        return figure;
+        return new GroupFigure(getModel());
     }
     
     @Override
     public IFigure getContentPane() {
         return ((IContainerFigure)getFigure()).getContentPane();
-    }
-
-    @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
     }
 
     /** 
