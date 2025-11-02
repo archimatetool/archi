@@ -16,6 +16,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateContainerLayoutPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
 import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
@@ -34,7 +35,7 @@ public class ArchimateElementEditPart extends AbstractArchimateElementEditPart {
     public ArchimateElementEditPart() {
     }
 
-    public ArchimateElementEditPart(Class<?> figureClass) {
+    public ArchimateElementEditPart(Class<? extends IDiagramModelObjectFigure> figureClass) {
         super(figureClass);
     }
     

@@ -19,6 +19,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.util.Logger;
 
 
 
@@ -27,37 +28,35 @@ import com.archimatetool.model.ILockable;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     
     // Class for new Figure
-    protected Class<?> figureClass;
+    protected Class<? extends IDiagramModelObjectFigure> figureClass;
     
     protected AbstractBaseEditPart() {
     }
     
-    protected AbstractBaseEditPart(Class<?> figureClass) {
-        assert(IDiagramModelObjectFigure.class.isAssignableFrom(figureClass));
+    protected AbstractBaseEditPart(Class<? extends IDiagramModelObjectFigure> figureClass) {
         this.figureClass = figureClass;
     }
 
     @Override
     protected IFigure createFigure() {
-        /*
-         * Create a Figure from the given class
-         */
-        IDiagramModelObjectFigure figure = null;
-        
-        if(figureClass != null) {
-            try {
-                figure = (IDiagramModelObjectFigure)figureClass.getDeclaredConstructor().newInstance();
-                figure.setDiagramModelObject(getModel());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
+        if(figureClass == null) {
+            throw new IllegalArgumentException("figureClass cannot be null");
         }
         
-        return figure;
+        // Create a new Figure from the given class
+        try {
+            IDiagramModelObjectFigure newFigure = figureClass.getDeclaredConstructor().newInstance();
+            newFigure.setDiagramModelObject(getModel());
+            return newFigure;
+        }
+        catch(Exception ex) {
+            Logger.logError("Couldn't instantiate figure from class: " + figureClass, ex);
+            return null;
+        }
     }
 
     @Override

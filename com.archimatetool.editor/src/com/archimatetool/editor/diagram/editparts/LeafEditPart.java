@@ -9,6 +9,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 
 
@@ -21,7 +22,7 @@ public class LeafEditPart
 extends AbstractArchimateElementEditPart
 implements INonResizableEditPart {            
     
-    public LeafEditPart(Class<?> figureClass) {
+    public LeafEditPart(Class<? extends IDiagramModelObjectFigure> figureClass) {
         super(figureClass);
     }
     

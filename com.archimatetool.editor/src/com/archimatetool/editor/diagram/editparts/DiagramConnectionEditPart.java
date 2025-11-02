@@ -47,6 +47,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.util.LightweightEContentAdapter;
+import com.archimatetool.model.util.Logger;
 
 
 
@@ -84,34 +85,31 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     ///----------------------------------------------------------------------------------------
     
     // Class for new Figure
-    protected Class<?> figureClass;
+    protected Class<? extends IDiagramConnectionFigure> figureClass;
     
     public DiagramConnectionEditPart() {
     }
     
-    public DiagramConnectionEditPart(Class<?> figureClass) {
-        assert(IDiagramConnectionFigure.class.isAssignableFrom(figureClass));
+    public DiagramConnectionEditPart(Class<? extends IDiagramConnectionFigure> figureClass) {
         this.figureClass = figureClass;
     }
     
     @Override
     protected IFigure createFigure() {
-        /*
-         * Create a Figure from the given class
-         */
-        IDiagramConnectionFigure figure = null;
-        
-        if(figureClass != null) {
-            try {
-                figure = (IDiagramConnectionFigure)figureClass.getDeclaredConstructor().newInstance();
-                figure.setModelConnection(getModel());
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
+        if(figureClass == null) {
+            throw new IllegalArgumentException("figureClass cannot be null"); //$NON-NLS-1$
         }
         
-        return figure;
+        // Create a new Figure from the given class
+        try {
+            IDiagramConnectionFigure newFigure = figureClass.getDeclaredConstructor().newInstance();
+            newFigure.setModelConnection(getModel());
+            return newFigure;
+        }
+        catch(Exception ex) {
+            Logger.logError("Couldn't instantiate figure from class: " + figureClass, ex); //$NON-NLS-1$
+            return null;
+        }
     }
 
     protected void eCoreChanged(Notification msg) {

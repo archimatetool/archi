@@ -17,6 +17,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.model.IArchimatePackage;
@@ -32,7 +33,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 public class ArchimateRelationshipEditPart extends DiagramConnectionEditPart 
 implements NodeEditPart {
     
-    public ArchimateRelationshipEditPart(Class<?> figureClass) {
+    public ArchimateRelationshipEditPart(Class<? extends IDiagramConnectionFigure> figureClass) {
         super(figureClass);
     }
 

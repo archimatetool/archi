@@ -18,6 +18,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -38,7 +39,7 @@ implements NodeEditPart {
     protected AbstractConnectedEditPart() {
     }
     
-    protected AbstractConnectedEditPart(Class<?> figureClass) {
+    protected AbstractConnectedEditPart(Class<? extends IDiagramModelObjectFigure> figureClass) {
         super(figureClass);
     }
 
