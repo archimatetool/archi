@@ -12,6 +12,7 @@ import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.ToolEntry;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -42,6 +43,10 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(tool != null) { // tool might not have been created yet
+            // Bug on Linux X11 where the colored cursor doesn't update unless the cursor is set again
+            if(PlatformUtils.isLinuxX11()) {
+                tool.setDefaultCursor(null);
+            }
             tool.setDefaultCursor(FormatPainterInfo.INSTANCE.getCursor());
         }
         
