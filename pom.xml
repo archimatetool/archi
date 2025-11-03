@@ -19,7 +19,7 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2024-06</url>
+            <url>https://download.eclipse.org/releases/2025-12</url>
         </repository>
     </repositories>
 
