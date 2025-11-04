@@ -33,13 +33,23 @@ public class ImageFactoryTests {
     
     @Test
     public void getScaledImageSize() {
-        Image image = new Image(Display.getDefault(), 100, 200);
+        Image image = new Image(Display.getDefault(), 790, 600);
+        assertEquals(new Rectangle(0, 0, 60, 46), ImageFactory.getScaledImageSize(image, 60));
+        image.dispose();
         
-        Rectangle bounds = ImageFactory.getScaledImageSize(image, 60);
-        assertEquals(30, bounds.width);
-        assertEquals(60, bounds.height);
-        
+        image = new Image(Display.getDefault(), 800, 600);
+        assertEquals(new Rectangle(0, 0, 40, 30), ImageFactory.getScaledImageSize(image, 40));
         image.dispose();
     }
 
+    @Test
+    public void getScaledSize() {
+        assertEquals(new Rectangle(0, 0, 0, 0), ImageFactory.getScaledSize(800, -1, -1));
+        assertEquals(new Rectangle(0, 0, 400, 300), ImageFactory.getScaledSize(800, 600, 400));
+        assertEquals(new Rectangle(0, 0, 40, 30), ImageFactory.getScaledSize(800, 600, 40));
+        assertEquals(new Rectangle(0, 0, 60, 46), ImageFactory.getScaledSize(790, 600, 60));
+        assertEquals(new Rectangle(0, 0, 20, 20), ImageFactory.getScaledSize(20, 20, 60));
+        assertEquals(new Rectangle(0, 0, 60, 60), ImageFactory.getScaledSize(60, 60, 60));
+        assertEquals(new Rectangle(0, 0, 60, 60), ImageFactory.getScaledSize(61, 61, 60));
+    }
 }
