@@ -15,10 +15,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -31,6 +31,7 @@ import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProfile;
+import com.archimatetool.model.util.Logger;
 
 
 
@@ -148,13 +149,35 @@ public class ArchiLabelProvider {
      * Create an ImageDescriptor icon for a Specialization from its image
      * The image data size is 16x16 or 32x32 depending on zoom.
      * The user image is scaled to fit and centred on the background image.
-     * The background color is set to something unlikely to be used in the actual image so that we can set the transparent pixel
+     * The background color is set to something unlikely to be used in the actual image so that we can set the transparent pixel.
+     * 
+     * The ImageDescriptor is cached in the main ArchiPlugin ImageRegistry because if it is used in a GEF Palette
+     * GEF caches the image forever in {@link org.eclipse.gef.ui.palette.editparts.PaletteEditPart#getImageCache()}
+     * and so we don't want to create a new ImageDescriptor for the same image path.
      */
     public ImageDescriptor getImageDescriptorForSpecialization(IProfile profile) {
-        return new ImageDescriptor() {
+        // If no image path set return default icon for concept class
+        if(!StringUtils.isSet(profile.getImagePath())) {
+            return getImageDescriptor(profile.getConceptClass());
+        }
+        
+        // Create a unique string key for the ImageRegistry.
+        // Use the image path and model Id in case the same image path is used for a different image in another model
+        String key = profile.getArchimateModel().getId() + "/" + profile.getImagePath(); //$NON-NLS-1$
+        
+        // Do we have this ImageDescriptor in the ImageRegistry?
+        ImageDescriptor id = ArchiPlugin.getInstance().getImageRegistry().getDescriptor(key);
+        if(id != null) {
+            return id;
+        }
+        
+        // Create a new ImageDescriptor
+        ImageDescriptor newImageDescriptor = new ImageDescriptor() {
+            // Set background to this color so we can make it transparent
+            static final Color transparentColor = new Color(255, 255, 254);
+            
             @Override
             public ImageData getImageData(int zoom) {
-                // Get the Specialization image
                 Image image = null;
                 try {
                     IArchiveManager archiveManager = (IArchiveManager)profile.getAdapter(IArchiveManager.class);
@@ -166,10 +189,11 @@ public class ArchiLabelProvider {
                     }
                 }
                 catch(Exception ex) {
-                    ex.printStackTrace();
+                    Logger.logError("Could not create specialization image", ex); //$NON-NLS-1$
+                    // Return default imageData rather than null
                     return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                 }
-                
+
                 // Image bounds
                 final Rectangle imageBounds = image.getBounds();
 
@@ -182,35 +206,39 @@ public class ArchiLabelProvider {
                 GC gc = new GC(iconImage);
                 gc.setAntialias(SWT.ON);
                 gc.setInterpolation(SWT.HIGH);
-                
+
                 // Set background to this color so we can make it transparent
-                RGB background = new RGB(255, 255, 254);
-                gc.setBackground(new Color(background));
+                gc.setBackground(transparentColor);
                 gc.fillRectangle(0, 0, iconSize, iconSize);
-                
+
                 // Get scaled size
                 Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
-                
+
                 // Centre the image
                 int x = (iconSize - scaledSize.width) / 2;
                 int y = (iconSize - scaledSize.height) / 2;
-                
+
                 // Draw scaled image onto icon image
                 gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
                         x, y, scaledSize.width, scaledSize.height);
-                
+
                 ImageData data = iconImage.getImageData(zoom);
 
                 // Set transparent pixel to background color
-                data.transparentPixel = data.palette.getPixel(background);
-                
+                data.transparentPixel = data.palette.getPixel(transparentColor.getRGB());
+
                 gc.dispose();
                 image.dispose();
                 iconImage.dispose();
-                
+
                 return data;
             }
         };
+
+        // Add it to the registry
+        ArchiPlugin.getInstance().getImageRegistry().put(key, newImageDescriptor);
+        
+        return newImageDescriptor;
     }
     
     /**
