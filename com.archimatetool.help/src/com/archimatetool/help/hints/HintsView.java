@@ -59,6 +59,7 @@ import com.archimatetool.help.ArchiHelpPlugin;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelNote;
 
 
 
@@ -344,6 +345,11 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         // Archimate Diagram Model so append the Viewpoint name
         if(object instanceof IArchimateDiagramModel) {
             className += ((IArchimateDiagramModel)object).getViewpoint();
+        }
+        
+        // Legend
+        if(object instanceof IDiagramModelNote note && note.isLegend()) {
+            className = IDiagramModelNote.LEGEND_MODEL_NAME;
         }
         
         return fLookupTable.get(className);

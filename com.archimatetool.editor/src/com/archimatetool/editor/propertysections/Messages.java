@@ -235,6 +235,30 @@ public class Messages extends NLS {
 
     public static String LabelRendererSection_2;
 
+    public static String LegendSection_0;
+
+    public static String LegendSection_1;
+
+    public static String LegendSection_10;
+
+    public static String LegendSection_11;
+
+    public static String LegendSection_2;
+
+    public static String LegendSection_3;
+
+    public static String LegendSection_4;
+
+    public static String LegendSection_5;
+
+    public static String LegendSection_6;
+
+    public static String LegendSection_7;
+
+    public static String LegendSection_8;
+
+    public static String LegendSection_9;
+
     public static String LineColorSection_0;
 
     public static String LineColorSection_1;

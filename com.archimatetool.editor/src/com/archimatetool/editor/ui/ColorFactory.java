@@ -21,6 +21,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
 
@@ -159,6 +160,9 @@ public class ColorFactory {
      */
     private static String getFillColorPreferenceKey(Object object) {
         return switch(object) {
+            // Legend Note class
+            case IDiagramModelNote note when note.isLegend() -> 
+                                 IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + IDiagramModelNote.LEGEND_MODEL_NAME;
             // String - check this before getEClassForObject() in case string has priority
             case String s -> 
                           s.startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ? s : IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + s;
@@ -255,6 +259,8 @@ public class ColorFactory {
             case IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR -> IArchimatePackage.eINSTANCE.getDiagramModelConnection();
             // Element line color - use any Archimate eClass as there is only one line color pref
             case IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR -> IArchimatePackage.eINSTANCE.getBusinessActor();
+            // Legend - use Note
+            case IDiagramModelNote.LEGEND_MODEL_NAME -> IArchimatePackage.eINSTANCE.getDiagramModelNote();
             // None
             default -> null;
         };

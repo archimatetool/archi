@@ -43,15 +43,17 @@
        </topic>
        <topic href="help/Text/view_addnew.html" label="Adding New Elements and Relations">
        </topic>
+       <topic href="help/Text/view_junction.html" label="Adding a Junction">
+       </topic>
        <topic href="help/Text/view_magic_connector.html" label="Adding New Elements and Relations with the Magic Connector">
        </topic>
        <topic href="help/Text/view_addexisting.html" label="Adding Elements and Relations from the Model Tree to a View">
        </topic>
-       <topic href="help/Text/view_group.html" label="Adding a Group">
-       </topic>
        <topic href="help/Text/view_note.html" label="Adding a Note">
        </topic>
-       <topic href="help/Text/view_junction.html" label="Adding a Junction">
+       <topic href="help/Text/view_group.html" label="Adding a Group">
+       </topic>
+       <topic href="help/Text/view_legend.html" label="Adding a Legend">
        </topic>
        <topic href="help/Text/view_reference.html" label="Adding a Reference to Another View">
        </topic>
@@ -98,6 +100,8 @@
        <topic href="help/Text/properties_note.html" label="Note Properties">
        </topic>
        <topic href="help/Text/properties_group.html" label="Group Properties">
+       </topic>
+       <topic href="help/Text/properties_legend.html" label="Legend Properties">
        </topic>
        <topic href="help/Text/properties_user_properties.html" label="User Properties">
        </topic>

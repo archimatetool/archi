@@ -143,9 +143,13 @@ public class Messages extends NLS {
 
     public static String ArchimateDiagramEditorPalette_19;
 
+    public static String ArchimateDiagramEditorPalette_2;
+
     public static String ArchimateDiagramEditorPalette_20;
 
     public static String ArchimateDiagramEditorPalette_3;
+
+    public static String ArchimateDiagramEditorPalette_4;
 
     public static String ArchimateDiagramEditorPalette_5;
 
@@ -156,6 +160,8 @@ public class Messages extends NLS {
     public static String ArchimateDiagramEditorPalette_8;
 
     public static String ArchimateDiagramEditorPalette_9;
+
+    public static String ArchimateDiagramModelFactory_0;
 
     public static String DiagramEditorFindReplaceProvider_0;
 
@@ -170,6 +176,7 @@ public class Messages extends NLS {
     public static String NullDiagramEditorInput_1;
 
     public static String OverviewOutlinePage_0;
+
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

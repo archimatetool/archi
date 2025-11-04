@@ -27,6 +27,7 @@ import org.eclipse.ui.keys.IBindingService;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
@@ -99,6 +100,9 @@ public class PaletteKeyHandler extends AbstractHandler implements IParameterValu
             // Group
             paramValues.put(ArchiLabelProvider.INSTANCE.getDefaultName(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                     IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
+            
+            // Legend
+            paramValues.put(Messages.ArchimateDiagramEditorPalette_2, IDiagramModelNote.LEGEND_MODEL_NAME);
             
             // Connection
             paramValues.put(ArchiLabelProvider.INSTANCE.getDefaultName(IArchimatePackage.eINSTANCE.getDiagramModelConnection()),

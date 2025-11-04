@@ -48,6 +48,7 @@
        <topic href="help/Text/properties_folder.html" label="Folder Properties"/>
        <topic href="help/Text/properties_group.html" label="Group Properties"/>
        <topic href="help/Text/properties_note.html" label="Note Properties"/>
+       <topic href="help/Text/properties_legend.html" label="Legend Properties"/>
        <topic href="help/Text/properties_canvas_image.html" label="Image Properties"/>
        <topic href="help/Text/properties_canvas_block.html" label="Block Properties"/>
        <topic href="help/Text/properties_canvas_sticky.html" label="Sticky Properties"/>

@@ -5,16 +5,21 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.diagram.editparts.diagram.LegendEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.ITextAlignment;
 
 
@@ -33,7 +38,7 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new NoteEditPart();
+        return isLegend() ? new LegendEditPart() : new NoteEditPart();
     }
 
     @Override
@@ -43,21 +48,41 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Dimension getDefaultSize() {
-        return new Dimension(185, 80);
+        return isLegend() ? new Dimension(210, 320) : new Dimension(185, 80);
     }
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_NOTE);
+        return isLegend() ? IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LEGEND) : IArchiImages.ImageFactory.getImage(IArchiImages.ICON_NOTE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE);
+        return isLegend() ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LEGEND) : IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE);
     }
     
     @Override
     public int getDefaultTextAlignment() {
         return ITextAlignment.TEXT_ALIGNMENT_LEFT;
+    }
+    
+    public boolean isLegend() {
+        return getInstance() instanceof IDiagramModelNote note && note.isLegend();
+    }
+    
+    // Features to hide if this note is displaying a legend
+    private final static Set<String> legendHiddenFeatures = Set.of(
+            IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+            IArchimatePackage.Literals.TEXT_CONTENT__CONTENT.getName(),
+            TextRenderer.FEATURE_NAME,
+            IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName(),
+            IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName(),
+            IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName(),
+            IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE.getName()
+            );
+    
+    @Override
+    public boolean shouldExposeFeature(String featureName) {
+        return isLegend() ? !legendHiddenFeatures.contains(featureName) : true;
     }
 }

@@ -162,6 +162,7 @@ public interface IArchiImages {
     String ICON_GROUP = IMGPATH + "group.png";
     String ICON_LINKED = IMGPATH + "linked.png";
     String ICON_LANDSCAPE = IMGPATH + "landscape.png";
+    String ICON_LEGEND = IMGPATH + "legend.png";
     String ICON_LOCK = IMGPATH + "lockedstate.png";
     String ICON_MAGIC_CONNECTION = IMGPATH + "magic_connection.png";
     String ICON_MINUS = IMGPATH + "minus.png";

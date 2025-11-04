@@ -5,15 +5,19 @@
  */
 package com.archimatetool.model.impl;
 
+import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelImageProvider;
@@ -23,7 +27,6 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
-import java.util.Collection;
 
 
 /**
@@ -44,6 +47,7 @@ import java.util.Collection;
  *
  * @generated
  */
+@SuppressWarnings("nls")
 public class DiagramModelNote extends DiagramModelObject implements IDiagramModelNote {
     /**
      * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
@@ -163,6 +167,59 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     protected DiagramModelNote() {
         super();
     }
+    
+    // ============================== Legend ===================================
+    
+    private final Pattern displayRegexPattern = Pattern.compile("display=(\\d+)");
+    private final Pattern rowsRegexPattern = Pattern.compile("rows=(\\d+)");
+    private final Pattern offsetRegexPattern = Pattern.compile("offset=(-?\\d+)");
+
+    @Override
+    public boolean isLegend() {
+        return getFeatures().getFeature(FEATURE_LEGEND) != null;
+    }
+    
+    @Override
+    public void setLegendOptions(Integer displayOptions, int rows, int offset) {
+        if(displayOptions == null) {
+            getFeatures().remove(FEATURE_LEGEND);
+        }
+        else {
+            getFeatures().putString(FEATURE_LEGEND, IDiagramModelNote.createLegendOptionsString(displayOptions, rows, offset), null);
+        }
+    }
+    
+    @Override
+    public int getLegendDisplayOptions() {
+        return parseInteger(displayRegexPattern, LEGEND_DISPLAY_DEFAULTS);
+    }
+    
+    @Override
+    public int getLegendRowsPerColumn() {
+        return parseInteger(rowsRegexPattern, LEGEND_ROWS_DEFAULT);
+    }
+
+    @Override
+    public int getLegendOffset() {
+        return parseInteger(offsetRegexPattern, LEGEND_OFFSET_DEFAULT);
+    }
+    
+    private int parseInteger(Pattern pattern, int defaultValue) {
+        String feature = getFeatures().getString(FEATURE_LEGEND, null);
+        if(feature != null) {
+            Matcher matcher = pattern.matcher(feature);
+            if(matcher.find()) {
+                try {
+                    return Integer.parseInt(matcher.group(1));
+                }
+                catch(NumberFormatException ex) {
+                }
+            }
+        }
+        return defaultValue;
+    }
+
+    // =========================================================================
 
     /**
      * <!-- begin-user-doc -->

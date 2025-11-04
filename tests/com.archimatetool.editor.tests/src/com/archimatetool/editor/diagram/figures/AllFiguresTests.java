@@ -12,6 +12,7 @@ import org.junit.platform.suite.api.Suite;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigureTests;
+import com.archimatetool.editor.diagram.figures.diagram.LegendFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
 import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
 
@@ -23,6 +24,7 @@ import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
     DiagramImageFigureTests.class,
     DiagramModelReferenceFigureTests.class,
     GroupFigureTests.class,
+    LegendFigureTests.class,
     NoteFigureTests.class,
     // figures.elements
     JunctionFigureTests.class

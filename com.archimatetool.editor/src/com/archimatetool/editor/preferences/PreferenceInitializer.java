@@ -12,6 +12,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -46,6 +47,11 @@ implements IPreferenceConstants {
         
         store.setDefault(DEFAULT_VIEW_FONT, "");
         store.setDefault(FONT_SCALING, false);
+        
+        // Legend
+        
+        store.setDefault(LEGEND_USE_COLORS_DEFAULT, true);
+        store.setDefault(LEGEND_ROWS_DEFAULT, IDiagramModelNote.LEGEND_ROWS_DEFAULT);
 
         // ======================================= Connections =======================================
         

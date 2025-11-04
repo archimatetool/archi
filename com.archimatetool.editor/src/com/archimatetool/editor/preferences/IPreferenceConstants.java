@@ -53,6 +53,15 @@ public interface IPreferenceConstants {
     // Mac use native item heights
     String MAC_ITEM_HEIGHT_PROPERTY_KEY = "org.eclipse.swt.internal.cocoa.useNativeItemHeight";
     
+    // Legend label prefix
+    String LEGEND_LABEL_PREFIX = "legendLabel_";
+    
+    // Legend use colors by default for new legends
+    String LEGEND_USE_COLORS_DEFAULT = "legendUseColorsDefault";
+    
+    // Legend rows per column default for new legends
+    String LEGEND_ROWS_DEFAULT = "legendRowsDefault";
+    
     // ======================================= Connections =======================================
     
     // Connections

@@ -55,6 +55,7 @@ import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -293,7 +294,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
                     new TreeGrouping(Messages.ColoursPreferencePage_9,
                             new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
-                                           IArchimatePackage.eINSTANCE.getDiagramModelGroup()} ),
+                                           IArchimatePackage.eINSTANCE.getDiagramModelGroup(),
+                                           IDiagramModelNote.LEGEND_MODEL_NAME} ),
 
                     new TreeGrouping(Messages.ColoursPreferencePage_10, new FolderType[] {
                             FolderType.STRATEGY,
@@ -502,6 +504,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Group
         eClass = IArchimatePackage.eINSTANCE.getDiagramModelGroup();
         fColorInfoMap.put(eClass, new EClassColorInfo(eClass));
+        
+        // Legend
+        fColorInfoMap.put(IDiagramModelNote.LEGEND_MODEL_NAME, new ColorInfo(IDiagramModelNote.LEGEND_MODEL_NAME, Messages.ColoursPreferencePage_17, true));
         
         // Element line color
         fColorInfoMap.put(DEFAULT_ELEMENT_LINE_COLOR, new ColorInfo(DEFAULT_ELEMENT_LINE_COLOR, Messages.ColoursPreferencePage_11, false));

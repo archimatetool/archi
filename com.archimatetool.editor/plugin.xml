@@ -113,6 +113,15 @@
          </keywordReference>
       </page>
       <page
+            category="com.archimatetool.editor.prefsDiagram"
+            class="com.archimatetool.editor.preferences.LegendPreferencePage"
+            id="com.archimatetool.editor.prefsLegend"
+            name="%prefsLegend">
+         <keywordReference
+               id="keywords.prefsDiagram">
+         </keywordReference>
+      </page>
+      <page
             class="com.archimatetool.editor.preferences.GeneralPreferencePage"
             id="com.archimatetool.editor.prefsGeneral"
             name="%prefsGeneral">
@@ -218,6 +227,12 @@
                category="main.category"
                id="main.tab"
                label="%propertyTab.label">
+         </propertyTab>
+         <propertyTab
+               afterTab="main.tab"
+               category="main.category"
+               id="legend.tab"
+               label="%propertyTab.label.6">
          </propertyTab>
          <propertyTab
                afterTab="main.tab"
@@ -363,6 +378,12 @@
                filter="com.archimatetool.editor.propertysections.SpecializationSection$Filter"
                id="specializationSection"
                tab="main.tab">
+         </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.LegendSection"
+               filter="com.archimatetool.editor.propertysections.LegendSection$Filter"
+               id="legendSection"
+               tab="legend.tab">
          </propertySection>
       </propertySections>
    </extension>

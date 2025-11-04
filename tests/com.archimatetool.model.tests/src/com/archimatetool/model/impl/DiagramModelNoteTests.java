@@ -6,7 +6,12 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -67,5 +72,124 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
         CommonTests.testProperties(note);
     }
 
+    
+    @Test
+    public void testLegendOff() {
+        assertFalse(note.isLegend());
+        int options = note.getLegendDisplayOptions();
+        assertEquals(IDiagramModelNote.LEGEND_DISPLAY_DEFAULTS, options);
+        assertEquals(IDiagramModelNote.LEGEND_ROWS_DEFAULT, note.getLegendRowsPerColumn());
+        assertEquals(IDiagramModelNote.LEGEND_OFFSET_DEFAULT, note.getLegendOffset());
+    }
+    
+    @Test
+    public void testLegendDisplayConcepts() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, 14, 20);
+        int options = note.getLegendDisplayOptions();
+        assertTrue(note.isLegend());
+        assertEquals(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, options);
+        assertEquals(14, note.getLegendRowsPerColumn());
+        assertEquals(20, note.getLegendOffset());
+    }
 
+    @Test
+    public void testLegendDisplayElements() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, 23, 12);
+        int options = note.getLegendDisplayOptions();
+        assertTrue(note.isLegend());
+        assertEquals(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, options);
+        assertEquals(23, note.getLegendRowsPerColumn());
+        assertEquals(12, note.getLegendOffset());
+    }
+    
+    @Test
+    public void testLegendDisplayRelations() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_RELATIONS, 14, -20);
+        int options = note.getLegendDisplayOptions();
+        assertTrue(note.isLegend());
+        assertEquals(IDiagramModelNote.LEGEND_DISPLAY_RELATIONS, options);
+        assertEquals(14, note.getLegendRowsPerColumn());
+        assertEquals(-20, note.getLegendOffset());
+    }
+    
+    @Test
+    public void testLegendColoredIcons() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_USE_COLORS, 12, 0);
+        int options = note.getLegendDisplayOptions();
+        assertTrue(note.isLegend());
+        assertEquals(IDiagramModelNote.LEGEND_USE_COLORS, options);
+    }
+
+    @Test
+    public void testLegendCombination() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, 12, 12);
+        int options = note.getLegendDisplayOptions();
+        assertTrue((options & IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS) != 0);
+        assertTrue((options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0);
+        assertFalse((options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0);
+        assertFalse((options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0);
+        assertFalse((options & IDiagramModelNote.LEGEND_USE_COLORS) != 0);
+        
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATIONS | IDiagramModelNote.LEGEND_USE_COLORS, 12, 12);
+        options = note.getLegendDisplayOptions();
+        assertFalse((options & IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS) != 0);
+        assertFalse((options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0);
+        assertTrue((options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0);
+        assertTrue((options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0);
+        assertTrue((options & IDiagramModelNote.LEGEND_USE_COLORS) != 0);
+    }
+    
+    @Test
+    public void testLegendRemoved() {
+        note.setLegendOptions(null, 0, 0);
+        int options = note.getLegendDisplayOptions();
+        assertFalse(note.isLegend());
+        assertEquals(IDiagramModelNote.LEGEND_DISPLAY_DEFAULTS, options);
+        assertEquals(IDiagramModelNote.LEGEND_ROWS_DEFAULT, note.getLegendRowsPerColumn());
+        assertEquals(IDiagramModelNote.LEGEND_OFFSET_DEFAULT, note.getLegendOffset());
+    }
+    
+    @Test
+    public void testLegendRowsBounds() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, IDiagramModelNote.LEGEND_ROWS_MIN - 1, IDiagramModelNote.LEGEND_OFFSET_DEFAULT);
+        assertEquals(IDiagramModelNote.LEGEND_ROWS_MIN, note.getLegendRowsPerColumn());
+        
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, IDiagramModelNote.LEGEND_ROWS_MAX + 1, IDiagramModelNote.LEGEND_OFFSET_DEFAULT);
+        assertEquals(IDiagramModelNote.LEGEND_ROWS_MAX, note.getLegendRowsPerColumn());
+    }
+    
+    @Test
+    public void testLegendOffsetBounds() {
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, IDiagramModelNote.LEGEND_ROWS_DEFAULT, IDiagramModelNote.LEGEND_OFFSET_MIN - 1);
+        assertEquals(IDiagramModelNote.LEGEND_OFFSET_MIN, note.getLegendOffset());
+        
+        note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_CONCEPTS, IDiagramModelNote.LEGEND_ROWS_DEFAULT, IDiagramModelNote.LEGEND_OFFSET_MAX + 1);
+        assertEquals(IDiagramModelNote.LEGEND_OFFSET_MAX, note.getLegendOffset());
+    }
+
+    @Test
+    public void testCreateLegendOptionsString() {
+        Map<Integer, Boolean> options = new HashMap<>();
+        
+        options.put(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, null); // Null should be ignored
+        
+        String state = IDiagramModelNote.createLegendOptionsString(options, 12, 12);
+        int displayVal = 0;
+        assertEquals("display=" + displayVal + ",rows=12,offset=12", state);
+        
+        options.put(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, true);
+        options.put(IDiagramModelNote.LEGEND_DISPLAY_RELATIONS, true);
+        options.put(IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS, true);
+        options.put(IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS, true);
+        
+        state = IDiagramModelNote.createLegendOptionsString(options, 10, 10);
+        displayVal = IDiagramModelNote.LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS;
+        assertEquals("display=" + displayVal + ",rows=10,offset=10", state);
+        
+        options.put(IDiagramModelNote.LEGEND_USE_COLORS, true);
+        
+        state = IDiagramModelNote.createLegendOptionsString(options, 10, 10);
+        displayVal = IDiagramModelNote.LEGEND_DISPLAY_DEFAULTS;
+        assertEquals("display=" + displayVal + ",rows=10,offset=10", state);
+    }
 }

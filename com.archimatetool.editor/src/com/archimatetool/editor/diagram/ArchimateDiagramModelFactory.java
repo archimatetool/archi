@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -152,6 +153,18 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Note
         else if(object instanceof IDiagramModelNote note) {
+            // Legend. Set this first before setting default colors
+            if(IDiagramModelNote.LEGEND_MODEL_NAME.equals(property)) {
+                // Name
+                note.setName(Messages.ArchimateDiagramModelFactory_0);
+
+                // User defaults
+                IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
+                int useColors = store.getBoolean(IPreferenceConstants.LEGEND_USE_COLORS_DEFAULT) ? IDiagramModelNote.LEGEND_USE_COLORS : 0;
+                int rowsColumn = store.getInt(IPreferenceConstants.LEGEND_ROWS_DEFAULT);
+                note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS | useColors, rowsColumn, IDiagramModelNote.LEGEND_OFFSET_DEFAULT);
+            }
+
             // Colours
             ColorFactory.setDefaultColors(note);
             

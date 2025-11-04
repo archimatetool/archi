@@ -45,6 +45,8 @@ public class Messages extends NLS {
 
     public static String ColoursPreferencePage_16;
 
+    public static String ColoursPreferencePage_17;
+
     public static String ColoursPreferencePage_18;
 
     public static String ColoursPreferencePage_2;
@@ -310,6 +312,18 @@ public class Messages extends NLS {
     public static String GeneralPreferencePage_8;
 
     public static String GeneralPreferencePage_9;
+
+    public static String LegendPreferencePage_0;
+
+    public static String LegendPreferencePage_1;
+
+    public static String LegendPreferencePage_2;
+
+    public static String LegendPreferencePage_3;
+
+    public static String LegendPreferencePage_4;
+
+    public static String LegendPreferencePage_5;
 
     public static String NetworkConnectionsPreferencePage_0;
 

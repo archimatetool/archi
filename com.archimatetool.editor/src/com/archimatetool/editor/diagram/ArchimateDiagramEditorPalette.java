@@ -30,6 +30,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.LightweightEContentAdapter;
@@ -115,6 +116,16 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         group.add(groupEntry);
         PaletteKeyHandler.setKeyBinding(groupEntry, IArchimatePackage.eINSTANCE.getDiagramModelGroup().getName());
         
+        // Legend
+        ToolEntry legendEntry = new CombinedTemplateCreationEntry(
+                Messages.ArchimateDiagramEditorPalette_2,
+                Messages.ArchimateDiagramEditorPalette_4,
+                new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote(), IDiagramModelNote.LEGEND_MODEL_NAME),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LEGEND),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LEGEND));
+        group.add(legendEntry);
+        PaletteKeyHandler.setKeyBinding(legendEntry, IDiagramModelNote.LEGEND_MODEL_NAME);
+
         // Connection
         ToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),

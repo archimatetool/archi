@@ -537,6 +537,11 @@
             title="%hint.title.59">
       </hint>
       <hint
+            className="DiagramModelLegend"
+            file="hints/legend.html"
+            title="%hint.title.109">
+      </hint>
+      <hint
             className="DiagramModelReference"
             file="hints/view_ref.html"
             title="%hint.title.60">
