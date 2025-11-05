@@ -18,7 +18,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -150,10 +149,6 @@ public class ArchiLabelProvider {
      * The image data size is 16x16 or 32x32 depending on zoom.
      * The user image is scaled to fit and centred on the background image.
      * The background color is set to something unlikely to be used in the actual image so that we can set the transparent pixel.
-     * 
-     * The ImageDescriptor is cached in the main ArchiPlugin ImageRegistry because if it is used in a GEF Palette
-     * GEF caches the image forever in {@link org.eclipse.gef.ui.palette.editparts.PaletteEditPart#getImageCache()}
-     * and so we don't want to create a new ImageDescriptor for the same image path.
      */
     public ImageDescriptor getImageDescriptorForSpecialization(IProfile profile) {
         // If no image path set return default icon for concept class
@@ -161,18 +156,8 @@ public class ArchiLabelProvider {
             return getImageDescriptor(profile.getConceptClass());
         }
         
-        // Create a unique string key for the ImageRegistry.
-        // Use the image path and model Id in case the same image path is used for a different image in another model
-        String key = profile.getArchimateModel().getId() + "/" + profile.getImagePath(); //$NON-NLS-1$
-        
-        // Do we have this ImageDescriptor in the ImageRegistry?
-        ImageDescriptor id = ArchiPlugin.getInstance().getImageRegistry().getDescriptor(key);
-        if(id != null) {
-            return id;
-        }
-        
         // Create a new ImageDescriptor
-        ImageDescriptor newImageDescriptor = new ImageDescriptor() {
+        return new ImageDescriptor() {
             // Set background to this color so we can make it transparent
             static final Color transparentColor = new Color(255, 255, 254);
             
@@ -234,11 +219,6 @@ public class ArchiLabelProvider {
                 return data;
             }
         };
-
-        // Add it to the registry
-        ArchiPlugin.getInstance().getImageRegistry().put(key, newImageDescriptor);
-        
-        return newImageDescriptor;
     }
     
     /**
