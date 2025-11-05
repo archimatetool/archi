@@ -290,7 +290,7 @@ class LegendGraphics {
             case IArchimatePackage.GAP -> new Point(icon_x + 5, midY - 6);
             case IArchimatePackage.GOAL -> new Point(icon_x + 5, midY - 6);
             case IArchimatePackage.GROUPING -> new Point(icon_x + 5, midY - 6);
-            case IArchimatePackage.JUNCTION -> new Point(icon_x + 5, midY - 6);
+            case IArchimatePackage.JUNCTION -> new Point(icon_x + 4, midY - 8);
             case IArchimatePackage.LOCATION -> new Point(icon_x + 11, midY + 7);
             case IArchimatePackage.MATERIAL -> new Point(icon_x + 11, midY);
             case IArchimatePackage.MEANING -> new Point(icon_x + 6, midY - 4);

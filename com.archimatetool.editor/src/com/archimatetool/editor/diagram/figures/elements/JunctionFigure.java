@@ -69,13 +69,26 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
-            if(foregroundColor != null) {
+            graphics.setLineWidth(1);
+            
+            if(backgroundColor != null) {
+                graphics.setForegroundColor(backgroundColor);
+                graphics.setBackgroundColor(backgroundColor);
+            }
+            else if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
+                graphics.setBackgroundColor(foregroundColor);
             }
             
-            graphics.setBackgroundColor(backgroundColor != null ? backgroundColor : graphics.getForegroundColor());
+            graphics.drawRectangle(pt.x + 2, pt.y + 2, 2, 2);
+            graphics.drawRectangle(pt.x + 2, pt.y + 12, 2, 2);
+            graphics.drawRectangle(pt.x + 14, pt.y + 7, 2, 2);
             
-            graphics.fillOval(pt.x, pt.y, 12, 12);
+            graphics.drawLine(pt.x + 4, pt.y + 4, pt.x + 6, pt.y + 6);
+            graphics.drawLine(pt.x + 10, pt.y + 8, pt.x + 14, pt.y + 8);
+            graphics.drawLine(pt.x + 4, pt.y + 12, pt.x + 6, pt.y + 10);
+            
+            graphics.fillOval(pt.x + 5, pt.y + 5, 6, 6);
             
             graphics.popState();
         }
