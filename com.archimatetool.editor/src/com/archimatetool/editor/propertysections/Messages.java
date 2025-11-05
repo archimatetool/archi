@@ -243,6 +243,12 @@ public class Messages extends NLS {
 
     public static String LegendSection_11;
 
+    public static String LegendSection_12;
+
+    public static String LegendSection_13;
+
+    public static String LegendSection_14;
+
     public static String LegendSection_2;
 
     public static String LegendSection_3;

@@ -141,7 +141,9 @@ public class LegendEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-        if(event.getProperty().startsWith(IPreferenceConstants.LEGEND_LABEL_PREFIX)) {
+        // Legend user label or fill color need an update
+        if(event.getProperty().startsWith(IPreferenceConstants.LEGEND_LABEL_PREFIX)
+                           || event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX)) {
             getFigure().updateLegend();
         }
         else {

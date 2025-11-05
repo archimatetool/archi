@@ -80,7 +80,7 @@ public class NoteUIProviderTests extends AbstractGraphicalObjectUIProviderTests 
     private void setProviderInstance(IObjectUIProvider provider, boolean isLegend) {
         IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
         if(isLegend) {
-            note.setLegendOptions(1, 10, 10);
+            note.setLegendOptions(1, 10, 10, 1);
         }
         ((AbstractObjectUIProvider)provider).setInstance(note);
     }

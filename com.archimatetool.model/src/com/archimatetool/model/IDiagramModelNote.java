@@ -47,9 +47,11 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
 
     int LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS = LEGEND_DISPLAY_CONCEPTS | LEGEND_DISPLAY_SPECIALIZATIONS;
     
-    int LEGEND_USE_COLORS = 1 << 7;
+    int LEGEND_DISPLAY_DEFAULTS = LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS;
     
-    int LEGEND_DISPLAY_DEFAULTS = LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS | LEGEND_USE_COLORS;
+    int LEGEND_COLORS_NONE = 0;
+    int LEGEND_COLORS_CORE = 1;
+    int LEGEND_COLORS_USER = 2;
 
     /**
      * @return true if this note is used to display a legend
@@ -61,8 +63,9 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
      * @param displayOptions the display state options
      * @param rows number of rows
      * @param offset margin between rows
+     * @param legendColorScheme color scheme
      */
-    void setLegendOptions(Integer displayOptions, int rows, int offset);
+    void setLegendOptions(Integer displayOptions, int rows, int offset, int legendColorScheme);
     
     /**
      * @return legend display state options
@@ -78,13 +81,19 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
      * @return legend offset
      */
     int getLegendOffset();
+    
+    /**
+     * @return legend color scheme
+     */
+    int getLegendColorScheme();
 
     /**
      * Create a string with legend display options to be saved to model
      */
-    static String createLegendOptionsString(int displayState, int rows, int offset) {
+    static String createLegendOptionsString(int displayState, int rows, int offset, int legendColorScheme) {
         rows = Math.min(Math.max(rows, LEGEND_ROWS_MIN), LEGEND_ROWS_MAX);
         offset = Math.min(Math.max(offset, LEGEND_OFFSET_MIN), LEGEND_OFFSET_MAX);
+        legendColorScheme = Math.min(Math.max(legendColorScheme, LEGEND_COLORS_NONE), LEGEND_COLORS_USER);
         
         StringBuilder sb = new StringBuilder();
         
@@ -98,6 +107,10 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
         sb.append(",");
         sb.append("offset=");
         sb.append(offset);
+        
+        sb.append(",");
+        sb.append("color=");
+        sb.append(legendColorScheme);
 
         return sb.toString();
     }
@@ -105,7 +118,7 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
     /**
      * Create a string with legend display state using a map of options to be saved to model
      */
-    static String createLegendOptionsString(Map<Integer, Boolean> displayOptions, int rows, int offset) {
+    static String createLegendOptionsString(Map<Integer, Boolean> displayOptions, int rows, int offset, int legendColorScheme) {
         int displayState = 0;
         
         if(displayOptions != null) {
@@ -116,7 +129,7 @@ public interface IDiagramModelNote extends IDiagramModelObject, ITextContent, IT
             }
         }
         
-        return createLegendOptionsString(displayState, rows, offset);
+        return createLegendOptionsString(displayState, rows, offset, legendColorScheme);
     }
 
 } // IDiagramModelNote

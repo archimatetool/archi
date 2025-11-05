@@ -30,7 +30,7 @@ public class LegendFigureTests extends AbstractDiagramModelObjectFigureTests {
 
     static IFigure createFigure() {
         IDiagramModelNote dmNote = IArchimateFactory.eINSTANCE.createDiagramModelNote();
-        dmNote.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_DEFAULTS, 12, IDiagramModelNote.LEGEND_OFFSET_DEFAULT);
+        dmNote.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_DEFAULTS, 12, IDiagramModelNote.LEGEND_OFFSET_DEFAULT, IDiagramModelNote.LEGEND_COLORS_CORE);
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         return addDiagramModelObjectToModelAndFindFigure(dmNote);
     }

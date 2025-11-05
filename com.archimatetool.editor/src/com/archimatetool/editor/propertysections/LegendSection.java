@@ -17,6 +17,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Spinner;
@@ -58,9 +59,15 @@ public class LegendSection extends AbstractECorePropertySection {
     private Button buttonShowElementsSpecializations;
     private Button buttonShowRelationsSpecializations;
     
-    private Button buttonUseColors;
-    
     private SpinnerListener spinnerRowsPerColumn, spinnerOffset;
+    
+    private Combo comboColorScheme;
+    
+    private static final String[] comboColorOptions = {
+            Messages.LegendSection_12,
+            Messages.LegendSection_13,
+            Messages.LegendSection_14
+    };
     
     @Override
     protected void notifyChanged(Notification msg) {
@@ -106,6 +113,14 @@ public class LegendSection extends AbstractECorePropertySection {
             doCommand(Messages.LegendSection_6);
         }));
         
+        createLabel(parent, Messages.LegendSection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        comboColorScheme = new Combo(parent, SWT.READ_ONLY | SWT.BORDER);
+        comboColorScheme.setItems(comboColorOptions);
+        getWidgetFactory().adapt(comboColorScheme, true, true);
+        comboColorScheme.addSelectionListener(widgetSelectedAdapter(event -> {
+            doCommand(Messages.LegendSection_11);
+        }));
+        
         createLabel(parent, Messages.LegendSection_7, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         Spinner spinner = new Spinner(parent, SWT.BORDER);
         spinner.setMinimum(IDiagramModelNote.LEGEND_ROWS_MIN);
@@ -130,12 +145,6 @@ public class LegendSection extends AbstractECorePropertySection {
             }
         };
         
-        buttonUseColors = getWidgetFactory().createButton(parent, null, SWT.CHECK);
-        buttonUseColors.setText(Messages.LegendSection_2);
-        buttonUseColors.addSelectionListener(widgetSelectedAdapter(event -> {
-            doCommand(Messages.LegendSection_11);
-        }));
-        
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
@@ -145,10 +154,11 @@ public class LegendSection extends AbstractECorePropertySection {
         Map<Integer, Boolean> options = Map.of(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, buttonShowElements.getSelection(),
                                         IDiagramModelNote.LEGEND_DISPLAY_RELATIONS, buttonShowRelations.getSelection(),
                                         IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS, buttonShowElementsSpecializations.getSelection(),
-                                        IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS, buttonShowRelationsSpecializations.getSelection(),
-                                        IDiagramModelNote.LEGEND_USE_COLORS, buttonUseColors.getSelection());
+                                        IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS, buttonShowRelationsSpecializations.getSelection());
         
-        String displayState = IDiagramModelNote.createLegendOptionsString(options, spinnerRowsPerColumn.getSelection(), spinnerOffset.getSelection());
+        String displayState = IDiagramModelNote.createLegendOptionsString(options,
+                                              spinnerRowsPerColumn.getSelection(),
+                                              spinnerOffset.getSelection(), comboColorScheme.getSelectionIndex());
 
         CompoundCommand result = new CompoundCommand();
         
@@ -182,7 +192,6 @@ public class LegendSection extends AbstractECorePropertySection {
         boolean showRelations = (options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0;
         boolean showElementsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0;
         boolean showRelationsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0;
-        boolean useColors = (options & IDiagramModelNote.LEGEND_USE_COLORS) != 0;
         
         buttonShowElements.setSelection(showElements);
         buttonShowElements.setEnabled(!isLocked);
@@ -202,8 +211,8 @@ public class LegendSection extends AbstractECorePropertySection {
         spinnerOffset.setSelection(firstSelected.getLegendOffset());
         spinnerOffset.getSpinner().setEnabled(!isLocked);
         
-        buttonUseColors.setSelection(useColors);
-        buttonUseColors.setEnabled(!isLocked);
+        comboColorScheme.select(firstSelected.getLegendColorScheme());
+        comboColorScheme.setEnabled(!isLocked);
     }
     
     @Override

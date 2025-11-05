@@ -35,7 +35,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -65,10 +65,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static final String ID = "com.archimatetool.editor.prefsLegend"; //$NON-NLS-1$
     public static final String HELPID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
-    private Button useColorsButton;
+    private Combo comboColorScheme;
     private Spinner rowsSpinner;
     
     private TableViewer tableViewer;
+    
+    private static final String[] comboColorOptions = {
+            Messages.LegendPreferencePage_5,
+            Messages.LegendPreferencePage_6,
+            Messages.LegendPreferencePage_7
+    };
     
     // Cache
     private Map<EClass, String> cache = new HashMap<>();
@@ -91,14 +97,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(defaultsGroup);
         
         Label label = new Label(defaultsGroup, SWT.NULL);
+        label.setText(Messages.LegendPreferencePage_8);
+        
+        comboColorScheme = new Combo(defaultsGroup, SWT.READ_ONLY | SWT.BORDER);
+        comboColorScheme.setItems(comboColorOptions);
+        
+        label = new Label(defaultsGroup, SWT.NULL);
         label.setText(Messages.LegendPreferencePage_4);
         
         rowsSpinner = new Spinner(defaultsGroup, SWT.BORDER);
         rowsSpinner.setMinimum(IDiagramModelNote.LEGEND_ROWS_MIN);
         rowsSpinner.setMaximum(IDiagramModelNote.LEGEND_ROWS_MAX);
-        
-        useColorsButton = new Button(defaultsGroup, SWT.CHECK);
-        useColorsButton.setText(Messages.LegendPreferencePage_5);
         
         label = new Label(client, SWT.NULL);
         label.setText(Messages.LegendPreferencePage_0);
@@ -170,8 +179,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         tableViewer.setLabelProvider(new LabelCellProvider());
         
+        comboColorScheme.select(getPreferenceStore().getInt(LEGEND_COLOR_SCHEME));
         rowsSpinner.setSelection(getPreferenceStore().getInt(LEGEND_ROWS_DEFAULT));
-        useColorsButton.setSelection(getPreferenceStore().getBoolean(LEGEND_USE_COLORS_DEFAULT));
         
         // Set table input
         getShell().getDisplay().asyncExec(() -> { // avoid table misplacement
@@ -188,8 +197,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
+        getPreferenceStore().setValue(LEGEND_COLOR_SCHEME, comboColorScheme.getSelectionIndex());
         getPreferenceStore().setValue(LEGEND_ROWS_DEFAULT, rowsSpinner.getSelection());
-        getPreferenceStore().setValue(LEGEND_USE_COLORS_DEFAULT, useColorsButton.getSelection());
         
         tableViewer.applyEditorValue();
         
@@ -207,8 +216,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     protected void performDefaults() {
+        comboColorScheme.select(getPreferenceStore().getDefaultInt(LEGEND_COLOR_SCHEME));
         rowsSpinner.setSelection(getPreferenceStore().getDefaultInt(LEGEND_ROWS_DEFAULT));
-        useColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(LEGEND_USE_COLORS_DEFAULT));
         
         cache.replaceAll((key, value) -> ""); //$NON-NLS-1$
         tableViewer.refresh();

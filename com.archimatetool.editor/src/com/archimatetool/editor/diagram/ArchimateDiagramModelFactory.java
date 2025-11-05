@@ -160,9 +160,10 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
 
                 // User defaults
                 IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
-                int useColors = store.getBoolean(IPreferenceConstants.LEGEND_USE_COLORS_DEFAULT) ? IDiagramModelNote.LEGEND_USE_COLORS : 0;
-                int rowsColumn = store.getInt(IPreferenceConstants.LEGEND_ROWS_DEFAULT);
-                note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS | useColors, rowsColumn, IDiagramModelNote.LEGEND_OFFSET_DEFAULT);
+                note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS,
+                                      store.getInt(IPreferenceConstants.LEGEND_ROWS_DEFAULT),
+                                      IDiagramModelNote.LEGEND_OFFSET_DEFAULT,
+                                      store.getInt(IPreferenceConstants.LEGEND_COLOR_SCHEME));
             }
 
             // Colours

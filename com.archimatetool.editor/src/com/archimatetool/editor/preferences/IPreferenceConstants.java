@@ -56,8 +56,8 @@ public interface IPreferenceConstants {
     // Legend label prefix
     String LEGEND_LABEL_PREFIX = "legendLabel_";
     
-    // Legend use colors by default for new legends
-    String LEGEND_USE_COLORS_DEFAULT = "legendUseColorsDefault";
+    // Legend color scheme for new legends
+    String LEGEND_COLOR_SCHEME = "legendColorScheme";
     
     // Legend rows per column default for new legends
     String LEGEND_ROWS_DEFAULT = "legendRowsDefault";

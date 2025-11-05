@@ -49,9 +49,9 @@ import com.archimatetool.model.IProfile;
  */
 class LegendGraphics {
     
-    private record ClassInfo(EClass eClass, String label, IProfile profile) {
-        public ClassInfo(EClass eClass, String label) {
-            this(eClass, label, null);
+    private record ClassInfo(EObject eObject, String label, Color backgroundColor) {
+        EClass eClass() {
+            return eObject instanceof IProfile profile ? profile.getConceptClass() : (EClass)eObject;
         }
     };
     
@@ -64,7 +64,6 @@ class LegendGraphics {
     
     private IDiagramModelNote note;
     private List<ClassInfo> concepts;
-    private boolean useColors;
     private int width, height;
     
     private int rowsPerColumn;
@@ -94,7 +93,6 @@ class LegendGraphics {
         boolean showRelations = (options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0;
         boolean showElementsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0;
         boolean showRelationsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0;
-        useColors = (options & IDiagramModelNote.LEGEND_USE_COLORS) != 0;
 
         // Get all concepts on the diagram, if any
         Set<ClassInfo> conceptsSet = new HashSet<>();
@@ -106,18 +104,25 @@ class LegendGraphics {
                 boolean isElement = dmc.getArchimateConcept() instanceof IArchimateElement;
                 boolean isRelationship = dmc.getArchimateConcept() instanceof IArchimateRelationship;
                 
+                // Background color
+                Color backgroundColor = switch(note.getLegendColorScheme()) {
+                    case IDiagramModelNote.LEGEND_COLORS_CORE -> ColorFactory.getInbuiltDefaultFillColor(eClass);
+                    case IDiagramModelNote.LEGEND_COLORS_USER -> ColorFactory.getDefaultFillColor(eClass);
+                    default -> null;
+                };
+                
                 // Not a Specialization
                 if(profile == null) {
                     if((showElements && isElement) || (showRelations && isRelationship)) {
                         String userPref = prefsStore.getString(IPreferenceConstants.LEGEND_LABEL_PREFIX + eClass.getName());
                         String userLabel = StringUtils.isSet(userPref) ? userPref : ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
-                        conceptsSet.add(new ClassInfo(eClass, userLabel));
+                        conceptsSet.add(new ClassInfo(eClass, userLabel, backgroundColor));
                     }
                 }
                 // Specialization
                 else {
                     if((showElementsSpecializations && isElement) || (showRelationsSpecializations && isRelationship)) {
-                        conceptsSet.add(new ClassInfo(eClass, profile.getName(), profile));
+                        conceptsSet.add(new ClassInfo(profile, profile.getName(), backgroundColor));
                     }
                 }
             }
@@ -209,12 +214,12 @@ class LegendGraphics {
             int midY = y + halfHeight;
             
             // Draw Specialization icon
-            if(classInfo.profile() != null && StringUtils.isSet(classInfo.profile().getImagePath())) {
-                drawSpecializationIcon(classInfo.profile(), graphics, icon_x, midY);
+            if(classInfo.eObject() instanceof IProfile profile && StringUtils.isSet(profile.getImagePath())) {
+                drawSpecializationIcon(profile, graphics, icon_x, midY);
             }
             // Draw EClass icon
             else {
-                drawIcon(classInfo.eClass, graphics, ICON_FOREGROUND_COLOR, icon_x, midY);
+                drawIcon(classInfo.eClass(), graphics, ICON_FOREGROUND_COLOR, classInfo.backgroundColor(), icon_x, midY);
             }
             
             // Text offset if VERTICAL_SPACING is in play
@@ -243,7 +248,7 @@ class LegendGraphics {
         return new Dimension(width, height);
     }
     
-    private void drawIcon(EClass eClass, Graphics graphics, Color foregroundColor, int icon_x, int midY) {
+    private void drawIcon(EClass eClass, Graphics graphics, Color foregroundColor, Color backgroundColor, int icon_x, int midY) {
         // Each figure has a different point origin
         Point pt = switch(eClass.getClassifierID()) {
             // Elements
@@ -325,7 +330,6 @@ class LegendGraphics {
              default -> new Point();
         };
         
-        Color backgroundColor = useColors ? ColorFactory.getDefaultFillColor(eClass) : null;
         FigureIconFactory.drawIcon(eClass, graphics, foregroundColor, backgroundColor, pt);
     }
     

@@ -173,6 +173,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     private final Pattern displayRegexPattern = Pattern.compile("display=(\\d+)");
     private final Pattern rowsRegexPattern = Pattern.compile("rows=(\\d+)");
     private final Pattern offsetRegexPattern = Pattern.compile("offset=(-?\\d+)");
+    private final Pattern colorRegexPattern = Pattern.compile("color=(\\d+)");
 
     @Override
     public boolean isLegend() {
@@ -180,12 +181,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     }
     
     @Override
-    public void setLegendOptions(Integer displayOptions, int rows, int offset) {
+    public void setLegendOptions(Integer displayOptions, int rows, int offset, int legendColorScheme) {
         if(displayOptions == null) {
             getFeatures().remove(FEATURE_LEGEND);
         }
         else {
-            getFeatures().putString(FEATURE_LEGEND, IDiagramModelNote.createLegendOptionsString(displayOptions, rows, offset), null);
+            getFeatures().putString(FEATURE_LEGEND, IDiagramModelNote.createLegendOptionsString(displayOptions, rows, offset, legendColorScheme), null);
         }
     }
     
@@ -202,6 +203,11 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     @Override
     public int getLegendOffset() {
         return parseInteger(offsetRegexPattern, LEGEND_OFFSET_DEFAULT);
+    }
+    
+    @Override
+    public int getLegendColorScheme() {
+        return parseInteger(colorRegexPattern, LEGEND_COLORS_CORE);
     }
     
     private int parseInteger(Pattern pattern, int defaultValue) {

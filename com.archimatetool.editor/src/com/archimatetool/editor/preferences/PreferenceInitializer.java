@@ -50,7 +50,7 @@ implements IPreferenceConstants {
         
         // Legend
         
-        store.setDefault(LEGEND_USE_COLORS_DEFAULT, true);
+        store.setDefault(LEGEND_COLOR_SCHEME, IDiagramModelNote.LEGEND_COLORS_CORE);
         store.setDefault(LEGEND_ROWS_DEFAULT, IDiagramModelNote.LEGEND_ROWS_DEFAULT);
 
         // ======================================= Connections =======================================
