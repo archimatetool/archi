@@ -14,16 +14,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IMemento;
 
 import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.IFigure;
@@ -31,7 +23,6 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.TextFlow;
-
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.Request;
@@ -43,6 +34,10 @@ import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.gef.ui.palette.PaletteMessages;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceManager;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 
 /**
  * The abstract implementation of palette edit parts. All edit parts used in the
@@ -57,7 +52,6 @@ public abstract class PaletteEditPart extends AbstractGraphicalEditPart
      */
     public static final String XML_NAME = "entry"; //$NON-NLS-1$
     private static final Border TOOLTIP_BORDER = new MarginBorder(0, 2, 1, 0);
-    private static ImageCache globalImageCache;
     private AccessibleEditPart acc;
     private PropertyChangeListener childListener = new PropertyChangeListener() {
         @Override
@@ -189,35 +183,6 @@ public abstract class PaletteEditPart extends AbstractGraphicalEditPart
     @Override
     public DragTracker getDragTracker(Request request) {
         return new SingleSelectionTracker();
-    }
-
-    /**
-     * Returns the image cache. The cache is global, and is shared by all
-     * palette edit parts. This has the disadvantage that once an image is
-     * allocated, it is never freed until the display is disposed. However, it
-     * has the advantage that the same image in different palettes is only ever
-     * created once.
-     * 
-     * @return the image cache.
-     */
-    protected static ImageCache getImageCache() {
-        ImageCache cache = globalImageCache;
-        if (cache == null) {
-            globalImageCache = cache = new ImageCache();
-            Display display = Display.getDefault();
-            if (display != null) {
-                display.disposeExec(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (globalImageCache != null) {
-                            globalImageCache.dispose();
-                            globalImageCache = null;
-                        }
-                    }
-                });
-            }
-        }
-        return cache;
     }
 
     /**
@@ -394,10 +359,16 @@ public abstract class PaletteEditPart extends AbstractGraphicalEditPart
      *            the image descriptor.
      */
     protected void setImageDescriptor(ImageDescriptor desc) {
-        if (desc == imgDescriptor)
+        // Phillipus changed this to not use the Image Cache - see https://github.com/eclipse-gef/gef-classic/pull/793
+        if (desc == imgDescriptor) {
             return;
+        }
+        ResourceManager resourceManager = getViewer().getResourceManager();
+        if (imgDescriptor != null) {
+            resourceManager.destroy(imgDescriptor);
+        }
         imgDescriptor = desc;
-        setImageInFigure(getImageCache().getImage(imgDescriptor));
+        setImageInFigure(resourceManager.create(imgDescriptor));
     }
 
     /**
@@ -424,41 +395,6 @@ public abstract class PaletteEditPart extends AbstractGraphicalEditPart
             } else {
                 entry.removePropertyChangeListener(childListener);
             }
-        }
-    }
-
-    /**
-     * The image cache for this edit part.
-     */
-    protected static class ImageCache {
-        /** Map from ImageDescriptor to Image */
-        private Map images = new HashMap(11);
-
-        Image getImage(ImageDescriptor desc) {
-            if (desc == null) {
-                return null;
-            }
-            Image img = null;
-            Object obj = images.get(desc);
-            if (obj != null) {
-                img = (Image) obj;
-            } else {
-                img = desc.createImage();
-                images.put(desc, img);
-            }
-            return img;
-        }
-
-        Image getMissingImage() {
-            return getImage(ImageDescriptor.getMissingImageDescriptor());
-        }
-
-        void dispose() {
-            for (Iterator i = images.values().iterator(); i.hasNext();) {
-                Image img = (Image) i.next();
-                img.dispose();
-            }
-            images.clear();
         }
     }
 
