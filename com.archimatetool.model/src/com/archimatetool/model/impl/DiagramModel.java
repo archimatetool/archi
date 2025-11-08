@@ -269,7 +269,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.DIAGRAM_MODEL__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.DIAGRAM_MODEL__FEATURES);
         }
         return (IFeaturesEList)features;
     }

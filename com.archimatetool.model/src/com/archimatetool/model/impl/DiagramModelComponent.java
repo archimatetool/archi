@@ -178,7 +178,7 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.DIAGRAM_MODEL_COMPONENT__FEATURES);
         }
         return (IFeaturesEList)features;
     }

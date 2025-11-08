@@ -22,8 +22,8 @@ import com.archimatetool.model.IFeaturesEList;
 @SuppressWarnings("nls")
 public class FeaturesEList extends EObjectContainmentEList<IFeature> implements IFeaturesEList {
     
-    public FeaturesEList(Class<?> dataClass, InternalEObject owner, int featureID) {
-        super(dataClass, owner, featureID);
+    public FeaturesEList(InternalEObject owner, int featureID) {
+        super(IFeature.class, owner, featureID);
     }
 
     @Override

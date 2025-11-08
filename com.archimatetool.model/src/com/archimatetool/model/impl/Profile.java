@@ -218,7 +218,7 @@ public class Profile extends EObjectImpl implements IProfile {
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.PROFILE__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.PROFILE__FEATURES);
         }
         return (IFeaturesEList)features;
     }

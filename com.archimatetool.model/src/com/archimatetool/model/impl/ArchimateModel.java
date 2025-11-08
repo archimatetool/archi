@@ -495,7 +495,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_MODEL__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.ARCHIMATE_MODEL__FEATURES);
         }
         return (IFeaturesEList)features;
     }

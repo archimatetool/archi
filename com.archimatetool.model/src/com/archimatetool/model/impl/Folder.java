@@ -246,7 +246,7 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.FOLDER__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.FOLDER__FEATURES);
         }
         return (IFeaturesEList)features;
     }

@@ -30,7 +30,7 @@ public class FeaturesEListTests {
     @BeforeEach
     public void runBeforeEachTest() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
-        list = new FeaturesEList(IFeature.class, (InternalEObject)element, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+        list = new FeaturesEList((InternalEObject)element, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
     }
 
     @Test
@@ -281,7 +281,7 @@ public class FeaturesEListTests {
     public void noDuplicateFeature4() {
         // Create another list
         IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
-        FeaturesEList list2 = new FeaturesEList(IFeature.class, (InternalEObject)element, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+        FeaturesEList list2 = new FeaturesEList((InternalEObject)element, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
 
         // Add Feature to first list
         IFeature feature1 = IArchimateFactory.eINSTANCE.createFeature();

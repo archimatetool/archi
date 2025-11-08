@@ -210,7 +210,7 @@ public abstract class ArchimateConcept extends EObjectImpl implements IArchimate
     @Override
     public IFeaturesEList getFeatures() {
         if (features == null) {
-            features = new FeaturesEList(IFeature.class, this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
+            features = new FeaturesEList(this, IArchimatePackage.ARCHIMATE_CONCEPT__FEATURES);
         }
         return (IFeaturesEList)features;
     }
