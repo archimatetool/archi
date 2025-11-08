@@ -12,8 +12,8 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
-import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILegendOptions;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
@@ -50,8 +50,9 @@ implements IPreferenceConstants {
         
         // Legend
         
-        store.setDefault(LEGEND_COLOR_SCHEME, IDiagramModelNote.LEGEND_COLORS_CORE);
-        store.setDefault(LEGEND_ROWS_DEFAULT, IDiagramModelNote.LEGEND_ROWS_DEFAULT);
+        store.setDefault(LEGEND_COLORS_DEFAULT, ILegendOptions.COLORS_DEFAULT);
+        store.setDefault(LEGEND_ROWS_PER_COLUMN_DEFAULT, ILegendOptions.ROWS_PER_COLUMN_DEFAULT);
+        store.setDefault(LEGEND_SORT_DEFAULT, ILegendOptions.SORT_CATEGORY);
 
         // ======================================= Connections =======================================
         

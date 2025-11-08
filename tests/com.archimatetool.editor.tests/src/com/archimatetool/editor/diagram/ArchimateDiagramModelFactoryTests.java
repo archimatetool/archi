@@ -100,6 +100,14 @@ public class ArchimateDiagramModelFactoryTests {
     }
     
     @Test
+    public void testGetNewObjectLegend() {
+        ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote(), IDiagramModelNote.LEGEND_MODEL_NAME);
+        IDiagramModelNote note = (IDiagramModelNote)factory.getNewObject();
+        assertTrue(note.isLegend());
+        assertEquals("Legend", note.getName());
+    }
+
+    @Test
     public void testGetNewObjectConnection() {
         ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelConnection());
         IDiagramModelConnection connection = (IDiagramModelConnection)factory.getNewObject();

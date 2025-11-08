@@ -317,6 +317,10 @@ public class Messages extends NLS {
 
     public static String LegendPreferencePage_1;
 
+    public static String LegendPreferencePage_10;
+
+    public static String LegendPreferencePage_11;
+
     public static String LegendPreferencePage_2;
 
     public static String LegendPreferencePage_3;
@@ -330,6 +334,8 @@ public class Messages extends NLS {
     public static String LegendPreferencePage_7;
 
     public static String LegendPreferencePage_8;
+
+    public static String LegendPreferencePage_9;
 
     public static String NetworkConnectionsPreferencePage_0;
 

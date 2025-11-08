@@ -39,6 +39,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.ILegendOptions;
 import com.archimatetool.model.IProfile;
 
 
@@ -68,7 +69,7 @@ class LegendGraphics {
     
     private int rowsPerColumn;
     private int numColumns;
-    private int userOffset;
+    private int userWidthOffset;
     
     // Cache specialization images
     private Map<String, Image> imageCache = new HashMap<>();
@@ -87,13 +88,8 @@ class LegendGraphics {
         
         clearImageCache();
         
-        // What to display
-        int options = note.getLegendDisplayOptions();
-        boolean showElements = (options & IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS) != 0;
-        boolean showRelations = (options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0;
-        boolean showElementsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0;
-        boolean showRelationsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0;
-
+        ILegendOptions options = note.getLegendOptions();
+        
         // Get all concepts on the diagram, if any
         Set<ClassInfo> conceptsSet = new HashSet<>();
         
@@ -105,15 +101,15 @@ class LegendGraphics {
                 boolean isRelationship = dmc.getArchimateConcept() instanceof IArchimateRelationship;
                 
                 // Background color
-                Color backgroundColor = switch(note.getLegendColorScheme()) {
-                    case IDiagramModelNote.LEGEND_COLORS_CORE -> ColorFactory.getInbuiltDefaultFillColor(eClass);
-                    case IDiagramModelNote.LEGEND_COLORS_USER -> ColorFactory.getDefaultFillColor(eClass);
+                Color backgroundColor = switch(options.getColorScheme()) {
+                    case ILegendOptions.COLORS_CORE -> ColorFactory.getInbuiltDefaultFillColor(eClass);
+                    case ILegendOptions.COLORS_USER -> ColorFactory.getDefaultFillColor(eClass);
                     default -> null;
                 };
                 
                 // Not a Specialization
                 if(profile == null) {
-                    if((showElements && isElement) || (showRelations && isRelationship)) {
+                    if((options.displayElements() && isElement) || (options.displayRelations() && isRelationship)) {
                         String userPref = prefsStore.getString(IPreferenceConstants.LEGEND_LABEL_PREFIX + eClass.getName());
                         String userLabel = StringUtils.isSet(userPref) ? userPref : ArchiLabelProvider.INSTANCE.getDefaultName(eClass);
                         conceptsSet.add(new ClassInfo(eClass, userLabel, backgroundColor));
@@ -121,7 +117,7 @@ class LegendGraphics {
                 }
                 // Specialization
                 else {
-                    if((showElementsSpecializations && isElement) || (showRelationsSpecializations && isRelationship)) {
+                    if((options.displaySpecializationElements() && isElement) || (options.displaySpecializationRelations() && isRelationship)) {
                         conceptsSet.add(new ClassInfo(profile, profile.getName(), backgroundColor));
                     }
                 }
@@ -134,19 +130,46 @@ class LegendGraphics {
         // Sort by element then relationship and by label name
         Collator collator = Collator.getInstance();
         concepts.sort(Comparator.comparingInt((ClassInfo classInfo) -> {
-            if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(classInfo.eClass())) {
+            // Relationships last
+            if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(classInfo.eClass())) {
+                return 50;
+            }
+            
+            // Elements sorted by name
+            if(options.getSortMethod() == ILegendOptions.SORT_NAME) {
                 return 0;
             }
-            if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(classInfo.eClass())) {
+            
+            // Elements sorted by category
+            if(IArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(classInfo.eClass())) {
+                return 0;
+            }
+            if(IArchimatePackage.eINSTANCE.getBusinessElement().isSuperTypeOf(classInfo.eClass())) {
                 return 1;
             }
-            return 2;
+            if(IArchimatePackage.eINSTANCE.getApplicationElement().isSuperTypeOf(classInfo.eClass())) {
+                return 2;
+            }
+            if(IArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(classInfo.eClass())) {
+                return 3;
+            }
+            if(IArchimatePackage.eINSTANCE.getPhysicalElement().isSuperTypeOf(classInfo.eClass())) {
+                return 4;
+            }
+            if(IArchimatePackage.eINSTANCE.getMotivationElement().isSuperTypeOf(classInfo.eClass())) {
+                return 5;
+            }
+            if(IArchimatePackage.eINSTANCE.getImplementationMigrationElement().isSuperTypeOf(classInfo.eClass())) {
+                return 6;
+            }
+            return 10;
+            
         }).thenComparing(ClassInfo::label, collator::compare));
         
         // Rows per column, number of columns and user offset
-        rowsPerColumn = note.getLegendRowsPerColumn();
+        rowsPerColumn = options.getRowsPerColumn();
         numColumns = (int)Math.ceil((double) concepts.size() / rowsPerColumn);
-        userOffset = note.getLegendOffset();
+        userWidthOffset = options.getWidthOffset();
         
         // Need to reset these to zero so getDefaultSize() will return 0,0 if there are no concepts shown and then a default size can be set by the caller
         width = 0;
@@ -193,7 +216,7 @@ class LegendGraphics {
                 // If this is not the last column add the user offset, if any
                 int columnIndex = index / rowsPerColumn;
                 if(columnIndex < numColumns) {
-                    widthOffset += userOffset;
+                    widthOffset += userWidthOffset;
                 }
                 
                 // Add width offset

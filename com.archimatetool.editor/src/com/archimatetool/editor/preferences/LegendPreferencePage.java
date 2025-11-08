@@ -49,7 +49,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.ILegendOptions;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -65,11 +65,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static final String ID = "com.archimatetool.editor.prefsLegend"; //$NON-NLS-1$
     public static final String HELPID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
+    private Combo comboSortMethod;
     private Combo comboColorScheme;
     private Spinner rowsSpinner;
     
     private TableViewer tableViewer;
     
+    private static final String[] comboSortOptions = {
+            Messages.LegendPreferencePage_9,
+            Messages.LegendPreferencePage_10
+    };
+
     private static final String[] comboColorOptions = {
             Messages.LegendPreferencePage_5,
             Messages.LegendPreferencePage_6,
@@ -97,6 +103,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(defaultsGroup);
         
         Label label = new Label(defaultsGroup, SWT.NULL);
+        label.setText(Messages.LegendPreferencePage_11);
+        
+        comboSortMethod = new Combo(defaultsGroup, SWT.READ_ONLY | SWT.BORDER);
+        comboSortMethod.setItems(comboSortOptions);
+
+        label = new Label(defaultsGroup, SWT.NULL);
         label.setText(Messages.LegendPreferencePage_8);
         
         comboColorScheme = new Combo(defaultsGroup, SWT.READ_ONLY | SWT.BORDER);
@@ -106,8 +118,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.LegendPreferencePage_4);
         
         rowsSpinner = new Spinner(defaultsGroup, SWT.BORDER);
-        rowsSpinner.setMinimum(IDiagramModelNote.LEGEND_ROWS_MIN);
-        rowsSpinner.setMaximum(IDiagramModelNote.LEGEND_ROWS_MAX);
+        rowsSpinner.setMinimum(ILegendOptions.ROWS_PER_COLUMN_MIN);
+        rowsSpinner.setMaximum(ILegendOptions.ROWS_PER_COLUMN_MAX);
         
         label = new Label(client, SWT.NULL);
         label.setText(Messages.LegendPreferencePage_0);
@@ -179,8 +191,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         tableViewer.setLabelProvider(new LabelCellProvider());
         
-        comboColorScheme.select(getPreferenceStore().getInt(LEGEND_COLOR_SCHEME));
-        rowsSpinner.setSelection(getPreferenceStore().getInt(LEGEND_ROWS_DEFAULT));
+        comboSortMethod.select(getPreferenceStore().getInt(LEGEND_SORT_DEFAULT));
+        comboColorScheme.select(getPreferenceStore().getInt(LEGEND_COLORS_DEFAULT));
+        rowsSpinner.setSelection(getPreferenceStore().getInt(LEGEND_ROWS_PER_COLUMN_DEFAULT));
         
         // Set table input
         getShell().getDisplay().asyncExec(() -> { // avoid table misplacement
@@ -197,8 +210,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        getPreferenceStore().setValue(LEGEND_COLOR_SCHEME, comboColorScheme.getSelectionIndex());
-        getPreferenceStore().setValue(LEGEND_ROWS_DEFAULT, rowsSpinner.getSelection());
+        getPreferenceStore().setValue(LEGEND_SORT_DEFAULT, comboSortMethod.getSelectionIndex());
+        getPreferenceStore().setValue(LEGEND_COLORS_DEFAULT, comboColorScheme.getSelectionIndex());
+        getPreferenceStore().setValue(LEGEND_ROWS_PER_COLUMN_DEFAULT, rowsSpinner.getSelection());
         
         tableViewer.applyEditorValue();
         
@@ -216,8 +230,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     protected void performDefaults() {
-        comboColorScheme.select(getPreferenceStore().getDefaultInt(LEGEND_COLOR_SCHEME));
-        rowsSpinner.setSelection(getPreferenceStore().getDefaultInt(LEGEND_ROWS_DEFAULT));
+        comboSortMethod.select(getPreferenceStore().getDefaultInt(LEGEND_SORT_DEFAULT));
+        comboColorScheme.select(getPreferenceStore().getDefaultInt(LEGEND_COLORS_DEFAULT));
+        rowsSpinner.setSelection(getPreferenceStore().getDefaultInt(LEGEND_ROWS_PER_COLUMN_DEFAULT));
         
         cache.replaceAll((key, value) -> ""); //$NON-NLS-1$
         tableViewer.refresh();

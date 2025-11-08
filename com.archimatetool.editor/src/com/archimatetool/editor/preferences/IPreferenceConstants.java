@@ -57,10 +57,13 @@ public interface IPreferenceConstants {
     String LEGEND_LABEL_PREFIX = "legendLabel_";
     
     // Legend color scheme for new legends
-    String LEGEND_COLOR_SCHEME = "legendColorScheme";
+    String LEGEND_COLORS_DEFAULT = "legendColorsDefault";
     
     // Legend rows per column default for new legends
-    String LEGEND_ROWS_DEFAULT = "legendRowsDefault";
+    String LEGEND_ROWS_PER_COLUMN_DEFAULT = "legendRowsDefault";
+    
+    // Legend sort scheme for new legends
+    String LEGEND_SORT_DEFAULT = "legendSortDefault";
     
     // ======================================= Connections =======================================
     

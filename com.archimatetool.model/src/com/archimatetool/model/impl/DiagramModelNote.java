@@ -6,8 +6,6 @@
 package com.archimatetool.model.impl;
 
 import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -23,6 +21,7 @@ import com.archimatetool.model.IBorderType;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IIconic;
+import com.archimatetool.model.ILegendOptions;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextContent;
@@ -47,7 +46,6 @@ import com.archimatetool.model.ITextPosition;
  *
  * @generated
  */
-@SuppressWarnings("nls")
 public class DiagramModelNote extends DiagramModelObject implements IDiagramModelNote {
     /**
      * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
@@ -170,61 +168,31 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     
     // ============================== Legend ===================================
     
-    private final Pattern displayRegexPattern = Pattern.compile("display=(\\d+)");
-    private final Pattern rowsRegexPattern = Pattern.compile("rows=(\\d+)");
-    private final Pattern offsetRegexPattern = Pattern.compile("offset=(-?\\d+)");
-    private final Pattern colorRegexPattern = Pattern.compile("color=(\\d+)");
-
     @Override
     public boolean isLegend() {
         return getFeatures().getFeature(FEATURE_LEGEND) != null;
     }
     
     @Override
-    public void setLegendOptions(Integer displayOptions, int rows, int offset, int legendColorScheme) {
-        if(displayOptions == null) {
-            getFeatures().remove(FEATURE_LEGEND);
+    public void setIsLegend(boolean isLegend) {
+        if(isLegend) {
+            setLegendOptions(new LegendOptions());
         }
         else {
-            getFeatures().putString(FEATURE_LEGEND, IDiagramModelNote.createLegendOptionsString(displayOptions, rows, offset, legendColorScheme), null);
+            getFeatures().remove(FEATURE_LEGEND);
         }
     }
     
     @Override
-    public int getLegendDisplayOptions() {
-        return parseInteger(displayRegexPattern, LEGEND_DISPLAY_DEFAULTS);
+    public void setLegendOptions(ILegendOptions options) {
+        getFeatures().putString(FEATURE_LEGEND, options.toFeatureString());
     }
     
     @Override
-    public int getLegendRowsPerColumn() {
-        return parseInteger(rowsRegexPattern, LEGEND_ROWS_DEFAULT);
-    }
-
-    @Override
-    public int getLegendOffset() {
-        return parseInteger(offsetRegexPattern, LEGEND_OFFSET_DEFAULT);
+    public ILegendOptions getLegendOptions() {
+        return isLegend() ? new LegendOptions(this) : null;
     }
     
-    @Override
-    public int getLegendColorScheme() {
-        return parseInteger(colorRegexPattern, LEGEND_COLORS_CORE);
-    }
-    
-    private int parseInteger(Pattern pattern, int defaultValue) {
-        String feature = getFeatures().getString(FEATURE_LEGEND, null);
-        if(feature != null) {
-            Matcher matcher = pattern.matcher(feature);
-            if(matcher.find()) {
-                try {
-                    return Integer.parseInt(matcher.group(1));
-                }
-                catch(NumberFormatException ex) {
-                }
-            }
-        }
-        return defaultValue;
-    }
-
     // =========================================================================
 
     /**

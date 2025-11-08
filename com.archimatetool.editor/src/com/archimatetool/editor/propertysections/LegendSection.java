@@ -7,8 +7,6 @@ package com.archimatetool.editor.propertysections;
 
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
-import java.util.Map;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -27,6 +25,7 @@ import com.archimatetool.editor.model.commands.FeatureCommand;
 import com.archimatetool.editor.ui.components.SpinnerListener;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IFeatures;
+import com.archimatetool.model.ILegendOptions;
 
 
 /**
@@ -53,15 +52,20 @@ public class LegendSection extends AbstractECorePropertySection {
         }
     }
 
-    private Button buttonShowElements;
-    private Button buttonShowRelations;
-    
-    private Button buttonShowElementsSpecializations;
-    private Button buttonShowRelationsSpecializations;
+    private Button buttonDisplayElements;
+    private Button buttonDisplayRelations;
+    private Button buttonDisplaySpecializationElements;
+    private Button buttonDisplaySpecializationRelations;
     
     private SpinnerListener spinnerRowsPerColumn, spinnerOffset;
     
+    private Combo comboSortMethod;
     private Combo comboColorScheme;
+    
+    private static final String[] comboSortOptions = {
+            Messages.LegendSection_15,
+            Messages.LegendSection_16
+    };
     
     private static final String[] comboColorOptions = {
             Messages.LegendSection_12,
@@ -84,15 +88,15 @@ public class LegendSection extends AbstractECorePropertySection {
         
         createLabel(conceptsGroup, Messages.LegendSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
 
-        buttonShowElements = getWidgetFactory().createButton(conceptsGroup, null, SWT.CHECK);
-        buttonShowElements.setText(Messages.LegendSection_3);
-        buttonShowElements.addSelectionListener(widgetSelectedAdapter(event -> {
+        buttonDisplayElements = getWidgetFactory().createButton(conceptsGroup, null, SWT.CHECK);
+        buttonDisplayElements.setText(Messages.LegendSection_3);
+        buttonDisplayElements.addSelectionListener(widgetSelectedAdapter(event -> {
             doCommand(Messages.LegendSection_4);
         }));
         
-        buttonShowRelations = getWidgetFactory().createButton(conceptsGroup, null, SWT.CHECK);
-        buttonShowRelations.setText(Messages.LegendSection_5);
-        buttonShowRelations.addSelectionListener(widgetSelectedAdapter(event -> {
+        buttonDisplayRelations = getWidgetFactory().createButton(conceptsGroup, null, SWT.CHECK);
+        buttonDisplayRelations.setText(Messages.LegendSection_5);
+        buttonDisplayRelations.addSelectionListener(widgetSelectedAdapter(event -> {
             doCommand(Messages.LegendSection_6);
         }));
         
@@ -101,16 +105,24 @@ public class LegendSection extends AbstractECorePropertySection {
         
         createLabel(specializationsGroup, Messages.LegendSection_1, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
 
-        buttonShowElementsSpecializations = getWidgetFactory().createButton(specializationsGroup, null, SWT.CHECK);
-        buttonShowElementsSpecializations.setText(Messages.LegendSection_3);
-        buttonShowElementsSpecializations.addSelectionListener(widgetSelectedAdapter(event -> {
+        buttonDisplaySpecializationElements = getWidgetFactory().createButton(specializationsGroup, null, SWT.CHECK);
+        buttonDisplaySpecializationElements.setText(Messages.LegendSection_3);
+        buttonDisplaySpecializationElements.addSelectionListener(widgetSelectedAdapter(event -> {
             doCommand(Messages.LegendSection_4);
         }));
         
-        buttonShowRelationsSpecializations = getWidgetFactory().createButton(specializationsGroup, null, SWT.CHECK);
-        buttonShowRelationsSpecializations.setText(Messages.LegendSection_5);
-        buttonShowRelationsSpecializations.addSelectionListener(widgetSelectedAdapter(event -> {
+        buttonDisplaySpecializationRelations = getWidgetFactory().createButton(specializationsGroup, null, SWT.CHECK);
+        buttonDisplaySpecializationRelations.setText(Messages.LegendSection_5);
+        buttonDisplaySpecializationRelations.addSelectionListener(widgetSelectedAdapter(event -> {
             doCommand(Messages.LegendSection_6);
+        }));
+        
+        createLabel(parent, Messages.LegendSection_17, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        comboSortMethod = new Combo(parent, SWT.READ_ONLY | SWT.BORDER);
+        comboSortMethod.setItems(comboSortOptions);
+        getWidgetFactory().adapt(comboSortMethod, true, true);
+        comboSortMethod.addSelectionListener(widgetSelectedAdapter(event -> {
+            doCommand(Messages.LegendSection_18);
         }));
         
         createLabel(parent, Messages.LegendSection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
@@ -123,8 +135,8 @@ public class LegendSection extends AbstractECorePropertySection {
         
         createLabel(parent, Messages.LegendSection_7, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         Spinner spinner = new Spinner(parent, SWT.BORDER);
-        spinner.setMinimum(IDiagramModelNote.LEGEND_ROWS_MIN);
-        spinner.setMaximum(IDiagramModelNote.LEGEND_ROWS_MAX);
+        spinner.setMinimum(ILegendOptions.ROWS_PER_COLUMN_MIN);
+        spinner.setMaximum(ILegendOptions.ROWS_PER_COLUMN_MAX);
         getWidgetFactory().adapt(spinner, true, true);
         spinnerRowsPerColumn = new SpinnerListener(spinner) {
             @Override
@@ -135,8 +147,8 @@ public class LegendSection extends AbstractECorePropertySection {
         
         createLabel(parent, Messages.LegendSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         spinner = new Spinner(parent, SWT.BORDER);
-        spinner.setMinimum(IDiagramModelNote.LEGEND_OFFSET_MIN);
-        spinner.setMaximum(IDiagramModelNote.LEGEND_OFFSET_MAX);
+        spinner.setMinimum(ILegendOptions.WIDTH_OFFSET_MIN);
+        spinner.setMaximum(ILegendOptions.WIDTH_OFFSET_MAX);
         getWidgetFactory().adapt(spinner, true, true);
         spinnerOffset = new SpinnerListener(spinner) {
             @Override
@@ -150,15 +162,16 @@ public class LegendSection extends AbstractECorePropertySection {
     }
     
     private void doCommand(String name) {
-        // Create display state options as a map
-        Map<Integer, Boolean> options = Map.of(IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS, buttonShowElements.getSelection(),
-                                        IDiagramModelNote.LEGEND_DISPLAY_RELATIONS, buttonShowRelations.getSelection(),
-                                        IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS, buttonShowElementsSpecializations.getSelection(),
-                                        IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS, buttonShowRelationsSpecializations.getSelection());
-        
-        String displayState = IDiagramModelNote.createLegendOptionsString(options,
-                                              spinnerRowsPerColumn.getSelection(),
-                                              spinnerOffset.getSelection(), comboColorScheme.getSelectionIndex());
+        String optionsString = ILegendOptions.create()
+                                .displayElements(buttonDisplayElements.getSelection())
+                                .displayRelations(buttonDisplayRelations.getSelection())
+                                .displaySpecializationElements(buttonDisplaySpecializationElements.getSelection())
+                                .displaySpecializationRelations(buttonDisplaySpecializationRelations.getSelection())
+                                .rowsPerColumn(spinnerRowsPerColumn.getSelection())
+                                .widthOffset(spinnerOffset.getSelection())
+                                .colorScheme(comboColorScheme.getSelectionIndex())
+                                .sortMethod(comboSortMethod.getSelectionIndex())
+                                .toFeatureString();
 
         CompoundCommand result = new CompoundCommand();
         
@@ -167,7 +180,7 @@ public class LegendSection extends AbstractECorePropertySection {
                 Command cmd = new FeatureCommand(name,
                         (IFeatures)note,
                         IDiagramModelNote.FEATURE_LEGEND,
-                        displayState,
+                        optionsString,
                         null);
                 if(cmd.canExecute()) {
                     result.add(cmd);
@@ -187,31 +200,30 @@ public class LegendSection extends AbstractECorePropertySection {
         IDiagramModelNote firstSelected = (IDiagramModelNote)getFirstSelectedObject();
         boolean isLocked = isLocked(firstSelected);
         
-        int options = firstSelected.getLegendDisplayOptions();
-        boolean showElements = (options & IDiagramModelNote.LEGEND_DISPLAY_ELEMENTS) != 0;
-        boolean showRelations = (options & IDiagramModelNote.LEGEND_DISPLAY_RELATIONS) != 0;
-        boolean showElementsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_ELEMENTS) != 0;
-        boolean showRelationsSpecializations = (options & IDiagramModelNote.LEGEND_DISPLAY_SPECIALIZATION_RELATIONS) != 0;
+        ILegendOptions options = firstSelected.getLegendOptions();
         
-        buttonShowElements.setSelection(showElements);
-        buttonShowElements.setEnabled(!isLocked);
+        buttonDisplayElements.setSelection(options.displayElements());
+        buttonDisplayElements.setEnabled(!isLocked);
         
-        buttonShowRelations.setSelection(showRelations);
-        buttonShowRelations.setEnabled(!isLocked);
+        buttonDisplayRelations.setSelection(options.displayRelations());
+        buttonDisplayRelations.setEnabled(!isLocked);
         
-        buttonShowElementsSpecializations.setSelection(showElementsSpecializations);
-        buttonShowElementsSpecializations.setEnabled(!isLocked);
+        buttonDisplaySpecializationElements.setSelection(options.displaySpecializationElements());
+        buttonDisplaySpecializationElements.setEnabled(!isLocked);
         
-        buttonShowRelationsSpecializations.setSelection(showRelationsSpecializations);
-        buttonShowRelationsSpecializations.setEnabled(!isLocked);
+        buttonDisplaySpecializationRelations.setSelection(options.displaySpecializationRelations());
+        buttonDisplaySpecializationRelations.setEnabled(!isLocked);
         
-        spinnerRowsPerColumn.setSelection(firstSelected.getLegendRowsPerColumn());
+        spinnerRowsPerColumn.setSelection(options.getRowsPerColumn());
         spinnerRowsPerColumn.getSpinner().setEnabled(!isLocked);
         
-        spinnerOffset.setSelection(firstSelected.getLegendOffset());
+        spinnerOffset.setSelection(options.getWidthOffset());
         spinnerOffset.getSpinner().setEnabled(!isLocked);
         
-        comboColorScheme.select(firstSelected.getLegendColorScheme());
+        comboSortMethod.select(options.getSortMethod());
+        comboSortMethod.setEnabled(!isLocked);
+
+        comboColorScheme.select(options.getColorScheme());
         comboColorScheme.setEnabled(!isLocked);
     }
     

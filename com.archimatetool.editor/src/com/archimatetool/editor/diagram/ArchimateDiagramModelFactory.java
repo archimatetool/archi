@@ -27,6 +27,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILegendOptions;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -160,10 +161,11 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
 
                 // User defaults
                 IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
-                note.setLegendOptions(IDiagramModelNote.LEGEND_DISPLAY_ALL_CONCEPTS_AND_SPECIALIZATIONS,
-                                      store.getInt(IPreferenceConstants.LEGEND_ROWS_DEFAULT),
-                                      IDiagramModelNote.LEGEND_OFFSET_DEFAULT,
-                                      store.getInt(IPreferenceConstants.LEGEND_COLOR_SCHEME));
+                
+                note.setLegendOptions(ILegendOptions.create()
+                                                    .rowsPerColumn(store.getInt(IPreferenceConstants.LEGEND_ROWS_PER_COLUMN_DEFAULT))
+                                                    .colorScheme(store.getInt(IPreferenceConstants.LEGEND_COLORS_DEFAULT))
+                                                    .sortMethod(store.getInt(IPreferenceConstants.LEGEND_SORT_DEFAULT)));
             }
 
             // Colours
