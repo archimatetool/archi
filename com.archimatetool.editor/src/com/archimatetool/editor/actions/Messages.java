@@ -95,6 +95,8 @@ public class Messages extends NLS {
 
     public static String CheckForNewVersionAction_6;
 
+    public static String CheckForNewVersionAction_7;
+
     public static String ExportModelAction_0;
 
     public static String ImportIntoModelAction_0;

@@ -13,9 +13,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -23,6 +26,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.components.IRunnable;
 import com.archimatetool.editor.utils.NetUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -70,12 +74,23 @@ public class CheckForNewVersionAction extends Action {
                 return;
             }
             
-            String newVersion = getOnlineVersion(new URI(versionFile).toURL());
+            AtomicReference<String> newVersion = new AtomicReference<>();
+            
+            ProgressMonitorDialog dialog = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+            try {
+                IRunnable.run(dialog, true, false, monitor -> {
+                    monitor.beginTask(Messages.CheckForNewVersionAction_7, IProgressMonitor.UNKNOWN);
+                    newVersion.set(getOnlineVersion(new URI(versionFile).toURL()));
+                });
+            }
+            catch(Exception ex) {
+                throw new IOException(ex);
+            }
             
             // Get this app's main version number
             String thisVersion = ArchiPlugin.getInstance().getVersion();
             
-            if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
+            if(StringUtils.compareVersionNumbers(newVersion.get(), thisVersion) > 0) {
                 String downloadURL = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DOWNLOAD_URL);
                 
                 // No download URL
