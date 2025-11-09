@@ -76,6 +76,9 @@ public final class NetUtils  {
         // Set global timeouts. These might or might not work.
         System.setProperty("sun.net.client.defaultConnectTimeout", Integer.toString(getNetworkTimeout()));
         System.setProperty("sun.net.client.defaultReadTimeout", Integer.toString(getNetworkTimeout()));
+        
+        // The default for this is 20, but if the password for the proxy is wrong for example that can take too long (over a minute)
+        System.setProperty("http.maxRedirects", "5");
 
         // Set default proxy now
         setDefaultProxy();
