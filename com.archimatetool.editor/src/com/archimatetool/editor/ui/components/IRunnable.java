@@ -33,16 +33,17 @@ public interface IRunnable {
      * Run the Runnable, catching any Exceptions and re-throwing them
      * @param context The context which is typically a ProgressMonitorDialog or Job, or WizardDialog
      * @param fork if true the runnable should be run in a separate thread and false to run in the same thread
+     * @param cancelable <code>true</code> to enable the cancelation, and <code>false</code> to make the operation uncancellable
      * @param runnable The IRunnable to run
      * @throws Exception
-     * @since 5.7.0
+     * @since 5.8.0
      */
-    static void run(IRunnableContext context, boolean fork, IRunnable runnable) throws Exception {
+    static void run(IRunnableContext context, boolean fork, boolean cancelable, IRunnable runnable) throws Exception {
         // The possible exception thrown by runnable.run(monitor)
         AtomicReference<Exception> exception = new AtomicReference<>();
         
         try {
-            context.run(fork, true, monitor -> {
+            context.run(fork, cancelable, monitor -> {
                 try {
                     runnable.run(monitor);
                 }
@@ -61,12 +62,11 @@ public interface IRunnable {
     }
     
     /**
-     * This is deprecated since 5.7.0 because the order of parameters is not ideal.
-     * It's better to have the IRunnable as the last parameter when using a lambda.
-     * So use run(IRunnableContext context, boolean fork, IRunnable runnable) above.
+     * This is deprecated since 5.7.0 because the order of parameters is not ideal and doesn't have a cancelable option.
+     * So use run(IRunnableContext context, boolean fork, boolean cancelable, IRunnable runnable) above.
      * @since 5.2.0
      */
     static void run(IRunnableContext context, IRunnable runnable, boolean fork) throws Exception {
-        run(context, fork, runnable);
+        run(context, fork, true, runnable);
     }
 }
