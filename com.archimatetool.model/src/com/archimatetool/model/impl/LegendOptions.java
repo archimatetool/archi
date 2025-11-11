@@ -5,9 +5,6 @@
  */
 package com.archimatetool.model.impl;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.ILegendOptions;
 
@@ -17,7 +14,7 @@ import com.archimatetool.model.ILegendOptions;
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
-public class LegendOptions implements ILegendOptions {
+public class LegendOptions extends FeatureOptions implements ILegendOptions {
     
     private static final int DISPLAY_ELEMENTS = 1 << 0;
     private static final int DISPLAY_RELATIONS = 1 << 1;
@@ -25,141 +22,116 @@ public class LegendOptions implements ILegendOptions {
     private static final int DISPLAY_SPECIALIZATION_RELATIONS = 1 << 3;
     private static final int DISPLAY_DEFAULTS = DISPLAY_ELEMENTS | DISPLAY_RELATIONS | DISPLAY_SPECIALIZATION_ELEMENTS | DISPLAY_SPECIALIZATION_RELATIONS;
     
-    private final static Pattern displayRegexPattern = Pattern.compile("display=(\\d+)");
-    private final static Pattern rowsRegexPattern = Pattern.compile("rows=(\\d+)");
-    private final static Pattern offsetRegexPattern = Pattern.compile("offset=(-?\\d+)");
-    private final static Pattern colorRegexPattern = Pattern.compile("color=(\\d+)");
-    private final static Pattern sortRegexPattern = Pattern.compile("sort=(\\d+)");
-    
-    private boolean displayElements = true;
-    private boolean displayRelations = true;
-    private boolean displaySpecializationElements = true;
-    private boolean displaySpecializationRelations = true;
-
-    private int rowsPerColumn = ROWS_PER_COLUMN_DEFAULT;
-    private int widthOffset = 0;
-    private int colorScheme = COLORS_DEFAULT;
-    private int sortMethod = SORT_DEFAULT;
-    
     public LegendOptions() {
     }
-
+    
     LegendOptions(IDiagramModelNote note) {
-        String feature = note.getFeatures().getString(IDiagramModelNote.FEATURE_LEGEND, null);
-        
-        if(feature != null) {
-            int displayOptions = parseInteger(feature, displayRegexPattern, DISPLAY_DEFAULTS);
-            displayElements = (displayOptions & DISPLAY_ELEMENTS) != 0;
-            displayRelations = (displayOptions & DISPLAY_RELATIONS) != 0;
-            displaySpecializationElements = (displayOptions & DISPLAY_SPECIALIZATION_ELEMENTS) != 0;
-            displaySpecializationRelations = (displayOptions & DISPLAY_SPECIALIZATION_RELATIONS) != 0;
+        String featureValue = note.getFeatures().getString(IDiagramModelNote.FEATURE_LEGEND, null);
+        if(featureValue != null) {
+            int displayOptions = parseInteger(featureValue, "display", DISPLAY_DEFAULTS);
+            displayElements((displayOptions & DISPLAY_ELEMENTS) != 0);
+            displayRelations((displayOptions & DISPLAY_RELATIONS) != 0);
+            displaySpecializationElements((displayOptions & DISPLAY_SPECIALIZATION_ELEMENTS) != 0);
+            displaySpecializationRelations((displayOptions & DISPLAY_SPECIALIZATION_RELATIONS) != 0);
             
-            rowsPerColumn = parseInteger(feature, rowsRegexPattern, rowsPerColumn);
-            widthOffset = parseInteger(feature, offsetRegexPattern, widthOffset);
-            colorScheme = parseInteger(feature, colorRegexPattern, colorScheme);
-            sortMethod = parseInteger(feature, sortRegexPattern, sortMethod);
+            rowsPerColumn(parseInteger(featureValue, "rows", ROWS_PER_COLUMN_DEFAULT));
+            widthOffset(parseInteger(featureValue, "offset", 0));
+            colorScheme(parseInteger(featureValue, "color", COLORS_DEFAULT));
+            sortMethod(parseInteger(featureValue, "sort", SORT_DEFAULT));
         }
     }
     
     @Override
     public ILegendOptions displayElements(boolean val) {
-        displayElements = val;
-        return this;
+        return setValue("elements", val);
     }
     
     @Override
     public boolean displayElements() {
-        return displayElements;
+        return getValue("elements", true);
     }
     
     @Override
     public ILegendOptions displayRelations(boolean val) {
-        displayRelations = val;
-        return this;
+        return setValue("relations", val);
     }
     
     @Override
     public boolean displayRelations() {
-        return displayRelations;
+        return getValue("relations", true);
     }
     
     @Override
     public ILegendOptions displaySpecializationElements(boolean val) {
-        displaySpecializationElements = val;
-        return this;
+        return setValue("elements_spec", val);
     }
     
     @Override
     public boolean displaySpecializationElements() {
-        return displaySpecializationElements;
+        return getValue("elements_spec", true);
     }
     
     @Override
     public ILegendOptions displaySpecializationRelations(boolean val) {
-        displaySpecializationRelations = val;
-        return this;
+        return setValue("relations_spec", val);
     }
     
     @Override
     public boolean displaySpecializationRelations() {
-        return displaySpecializationRelations;
+        return getValue("relations_spec", true);
     }
     
     @Override
     public ILegendOptions rowsPerColumn(int val) {
-        rowsPerColumn = Math.min(Math.max(val, ROWS_PER_COLUMN_MIN), ROWS_PER_COLUMN_MAX);
-        return this;
+        return setValue("rows", Math.min(Math.max(val, ROWS_PER_COLUMN_MIN), ROWS_PER_COLUMN_MAX));
     }
     
     @Override
     public int getRowsPerColumn() {
-        return rowsPerColumn;
+        return getValue("rows", ROWS_PER_COLUMN_DEFAULT);
     }
     
     @Override
     public ILegendOptions widthOffset(int val) {
-        widthOffset = Math.min(Math.max(val, WIDTH_OFFSET_MIN), WIDTH_OFFSET_MAX);
-        return this;
+        return setValue("width", Math.min(Math.max(val, WIDTH_OFFSET_MIN), WIDTH_OFFSET_MAX));
     }
     
     @Override
     public int getWidthOffset() {
-        return widthOffset;
+        return getValue("width", 0);
     }
     
     @Override
     public ILegendOptions colorScheme(int val) {
-        colorScheme = Math.min(Math.max(val, COLORS_NONE), COLORS_USER);
-        return this;
+        return setValue("color", Math.min(Math.max(val, COLORS_NONE), COLORS_USER));
     }
     
     @Override
     public int getColorScheme() {
-        return colorScheme;
+        return getValue("color", COLORS_DEFAULT);
     }
     
     @Override
     public ILegendOptions sortMethod(int val) {
-        sortMethod = Math.min(Math.max(val, SORT_NAME), SORT_CATEGORY);
-        return this;
+        return setValue("sort", Math.min(Math.max(val, SORT_NAME), SORT_CATEGORY));
     }
     
     @Override
     public int getSortMethod() {
-        return sortMethod;
+        return getValue("sort", SORT_DEFAULT);
     }
     
     @Override
     public String toFeatureString() {
-        int displayState = displayElements() ? DISPLAY_ELEMENTS : 0;
-        displayState |= displayRelations() ? DISPLAY_RELATIONS : 0;
-        displayState |= displaySpecializationElements() ? DISPLAY_SPECIALIZATION_ELEMENTS : 0;
-        displayState |= displaySpecializationRelations() ? DISPLAY_SPECIALIZATION_RELATIONS : 0;
+        int displayOptions = displayElements() ? DISPLAY_ELEMENTS : 0;
+        displayOptions |= displayRelations() ? DISPLAY_RELATIONS : 0;
+        displayOptions |= displaySpecializationElements() ? DISPLAY_SPECIALIZATION_ELEMENTS : 0;
+        displayOptions |= displaySpecializationRelations() ? DISPLAY_SPECIALIZATION_RELATIONS : 0;
         
         StringBuilder sb = new StringBuilder();
         
         sb.append("display=");
-        sb.append(displayState);
+        sb.append(displayOptions);
         
         sb.append(",");
         sb.append("rows=");
@@ -178,18 +150,5 @@ public class LegendOptions implements ILegendOptions {
         sb.append(getSortMethod());
 
         return sb.toString();
-    }
-    
-    private int parseInteger(String feature, Pattern pattern, int defaultValue) {
-        Matcher matcher = pattern.matcher(feature);
-        if(matcher.find()) {
-            try {
-                return Integer.parseInt(matcher.group(1));
-            }
-            catch(NumberFormatException ex) {
-            }
-        }
-        
-        return defaultValue;
     }
 }

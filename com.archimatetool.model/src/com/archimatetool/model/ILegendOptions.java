@@ -12,7 +12,7 @@ import com.archimatetool.model.impl.LegendOptions;
  * 
  * @author Phillip Beauvoir
  */
-public interface ILegendOptions {
+public interface ILegendOptions extends IFeatureOptions {
 
     int ROWS_PER_COLUMN_DEFAULT = 15;
     int ROWS_PER_COLUMN_MIN = 1;
@@ -116,10 +116,5 @@ public interface ILegendOptions {
      * @return sort method
      */
     int getSortMethod();
-
-    /**
-     * @return a string with the legend display options that can be saved to a IFeature
-     */
-    String toFeatureString();
 
 }

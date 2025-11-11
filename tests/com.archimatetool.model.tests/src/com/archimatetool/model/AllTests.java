@@ -24,6 +24,7 @@ import com.archimatetool.model.impl.DiagramModelGroupTests;
 import com.archimatetool.model.impl.DiagramModelImageTests;
 import com.archimatetool.model.impl.DiagramModelNoteTests;
 import com.archimatetool.model.impl.DiagramModelReferenceTests;
+import com.archimatetool.model.impl.FeatureOptionsTests;
 import com.archimatetool.model.impl.FeaturesEListTests;
 import com.archimatetool.model.impl.FolderTests;
 import com.archimatetool.model.impl.LegendOptionsTests;
@@ -58,6 +59,7 @@ import com.archimatetool.model.viewpoints.ViewpointTests;
     DiagramModelReferenceTests.class,
     
     BoundsTests.class,
+    FeatureOptionsTests.class,
     FolderTests.class,
     LegendOptionsTests.class,
     MetadataTests.class,
