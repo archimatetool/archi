@@ -15,7 +15,7 @@ import com.archimatetool.model.IAdapter;
  * 
  * @author Phillip Beauvoir
  */
-public class AdapterHelper {
+class AdapterHelper {
 
     /**
      * Get a value by its key from the adapterMap.
