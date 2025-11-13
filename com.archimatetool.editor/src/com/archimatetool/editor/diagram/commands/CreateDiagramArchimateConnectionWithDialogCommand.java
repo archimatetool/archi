@@ -265,7 +265,13 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
         private class RelationsTableViewerLabelCellProvider extends LabelProvider {
             @Override
             public String getText(Object element) {
-                return ArchiLabelProvider.INSTANCE.getLabel(element);
+                IArchimateRelationship relation = (IArchimateRelationship)element;
+                String label = ArchiLabelProvider.INSTANCE.getLabel(relation);
+                // If it's a Specialization add its name
+                if(relation.getPrimaryProfile() != null) {
+                    label += " (" + relation.getPrimaryProfile().getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+                }
+                return label;
             }
             
             @Override
