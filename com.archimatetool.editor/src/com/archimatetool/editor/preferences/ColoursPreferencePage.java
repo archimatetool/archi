@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -40,6 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -52,7 +56,6 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.CustomColorDialog;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
@@ -101,7 +104,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         private Object object;
         private String label;
         private boolean isFill;
+        
         private Color currentColor;
+        private Color userColor;
+        private Color inbuiltColor;
         
         ColorInfo(Object object, String label, boolean isFill) {
             this.object = object;
@@ -115,10 +121,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         String getLabel() {
-            return label;
+            return isUserSet() ? label + " *" : label; //$NON-NLS-1$
         }
         
-        Color getColor() {
+        Color getCurrentColor() {
             return currentColor;
         }
         
@@ -132,11 +138,24 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         Color getUserColor() {
-            return isFill ? ColorFactory.getDefaultFillColor(object) : ColorFactory.getDefaultLineColor(object);
+            if(userColor == null) {
+                userColor = isFill ? ColorFactory.getDefaultFillColor(object) : ColorFactory.getDefaultLineColor(object);
+            }
+            return userColor;
         }
         
         Color getInBuiltColor() {
-            return isFill ? ColorFactory.getInbuiltDefaultFillColor(object) : ColorFactory.getInbuiltDefaultLineColor(object);
+            if(inbuiltColor == null) {
+                inbuiltColor = isFill ? ColorFactory.getInbuiltDefaultFillColor(object) : ColorFactory.getInbuiltDefaultLineColor(object);
+            }
+            return inbuiltColor;
+        }
+        
+        /**
+         * @return true if the current color doesn't equal the inbuilt color
+         */
+        boolean isUserSet() {
+            return !Objects.equals(getCurrentColor(), getInBuiltColor());
         }
         
         String getPreferenceKey() {
@@ -246,23 +265,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Tree Double-click listener
         fTreeViewer.addDoubleClickListener(event -> {
-            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
-            if(isValidTreeSelection(selected)) {
-                RGB newRGB = openColorDialog(selected[0]);
-                if(newRGB != null) {
-                    for(Object object : selected) {
-                        setColor(object, newRGB);
-                    }
-                }
-            }
+            editSelected();
         });
         
         // Tree Selection Changed Listener
         fTreeViewer.addSelectionChangedListener(event -> { 
-            Object[] selected = event.getStructuredSelection().toArray();
-            fEditFillColorButton.setEnabled(isValidTreeSelection(selected));
-            fResetFillColorButton.setEnabled(isValidTreeSelection(selected));
+            fEditFillColorButton.setEnabled(isEditEnabled());
+            fResetFillColorButton.setEnabled(isResetEnabled());
         });
+        
+        // Tree Right-click
+        hookContextMenu();
         
         // Tree Content Provider
         fTreeViewer.setContentProvider(new ITreeContentProvider() {
@@ -365,7 +378,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 
                 // Create a coloured rectangle image and add to the image registry
                 ColorInfo colorInfo = fColorInfoMap.get(element);
-                if(colorInfo != null && colorInfo.getColor() != null) {
+                if(colorInfo != null && colorInfo.getCurrentColor() != null) {
                     image = fImageRegistry.get(colorInfo.toString());
                     if(image == null) {
                         image = new Image(getShell().getDisplay(), (ImageDataProvider) zoom -> {
@@ -373,7 +386,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                             Image img = new Image(getShell().getDisplay(), 16, 16);
 
                             GC gc = new GC(img);
-                            gc.setBackground(colorInfo.getColor());
+                            gc.setBackground(colorInfo.getCurrentColor());
                             gc.fillRectangle(0, 0, 15, 15);
                             gc.drawRectangle(0, 0, 15, 15);
                             gc.dispose();
@@ -405,15 +418,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         setButtonLayoutData(fEditFillColorButton);
         fEditFillColorButton.setEnabled(false);
         fEditFillColorButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
-            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
-            if(isValidTreeSelection(selected)) {
-                RGB newRGB = openColorDialog(selected[0]);
-                if(newRGB != null) {
-                    for(Object object : selected) {
-                        setColor(object, newRGB);
-                    }
-                }
-            }
+            editSelected();
         }));
 
         // Reset
@@ -422,12 +427,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         setButtonLayoutData(fResetFillColorButton);
         fResetFillColorButton.setEnabled(false);
         fResetFillColorButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
-            Object[] selected = fTreeViewer.getStructuredSelection().toArray();
-            if(isValidTreeSelection(selected)) {
-                for(Object object : selected) {
-                    setColor(object, null);
-                }
-            }
+            resetSelected();
         }));
         
         // Import Scheme
@@ -526,6 +526,99 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fColorInfoMap.put(themeId, new ThemeColorInfo(themeId));
         }
     }
+    
+    private void editSelected() {
+        RGB newRGB = openColorDialog(fTreeViewer.getStructuredSelection().getFirstElement());
+        if(newRGB != null) {
+            for(Object object : fTreeViewer.getStructuredSelection()) {
+                setColor(object, newRGB);
+            }
+        }
+
+        fResetFillColorButton.setEnabled(isResetEnabled());
+    }
+    
+    private boolean isEditEnabled() {
+        for(Object object : fTreeViewer.getStructuredSelection().toArray()) {
+            if(fColorInfoMap.get(object) != null) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private void resetSelected() {
+        for(Object object : fTreeViewer.getStructuredSelection().toArray()) {
+            setColor(object, null);
+        }
+        
+        fResetFillColorButton.setEnabled(isResetEnabled());
+    }
+    
+    private boolean isResetEnabled() {
+        for(Object object : fTreeViewer.getStructuredSelection().toArray()) {
+            ColorInfo colorInfo = fColorInfoMap.get(object);
+            if(colorInfo != null && colorInfo.isUserSet()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Hook into a right-click menu
+     */
+    private void hookContextMenu() {
+        MenuManager menuMgr = new MenuManager("ColoursPreferencePagePopupMenu"); //$NON-NLS-1$
+        menuMgr.setRemoveAllWhenShown(true);
+        
+        menuMgr.addMenuListener(manager -> {
+            manager.add(new Action(Messages.ColoursPreferencePage_13) {
+                @Override
+                public void run() {
+                    editSelected();
+                }
+                
+                @Override
+                public boolean isEnabled() {
+                    return isEditEnabled();
+                }
+            });
+            
+            manager.add(new Action(Messages.ColoursPreferencePage_14) {
+                @Override
+                public void run() {
+                    resetSelected();
+                }
+                
+                @Override
+                public boolean isEnabled() {
+                    return isResetEnabled();
+                }
+            });
+            
+            manager.add(new Separator());
+            
+            manager.add(new Action(Messages.ColoursPreferencePage_19) {
+                @Override
+                public void run() {
+                    fTreeViewer.expandAll();
+                }
+            });
+            
+            manager.add(new Action(Messages.ColoursPreferencePage_20) {
+                @Override
+                public void run() {
+                    fTreeViewer.collapseAll();
+                }
+            });
+        });
+        
+        Menu menu = menuMgr.createContextMenu(fTreeViewer.getControl());
+        fTreeViewer.getControl().setMenu(menu);
+    }
 
     /**
      * @param object Selected object
@@ -537,26 +630,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         ColorInfo colorInfo = fColorInfoMap.get(object);
         if(colorInfo != null) {
-            Color color = colorInfo.getColor();
+            Color color = colorInfo.getCurrentColor();
             if(color != null) {
                 colorDialog.setRGB(color.getRGB());
             }
         }
         
         return colorDialog.open();
-    }
-    
-    /**
-     * @param selected
-     * @return true if selected tree objects are valid
-     */
-    private boolean isValidTreeSelection(Object[] selected) {
-        for(Object o : selected) {
-            if(o instanceof TreeGrouping) {
-                return false;
-            }
-        }
-        return selected.length > 0;
     }
     
     /**
@@ -602,14 +682,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void importUserColors() throws IOException {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.ColoursPreferencePage_22);
-        
-        if(!PlatformUtils.isMac()) { // Single file filtering in the Open dialog doesn't work on Mac
-            dialog.setFilterExtensions(new String[] { "ArchiColours.prefs", "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
-        }
-        else {
-            dialog.setFilterExtensions(new String[] { "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$
-        }
+        dialog.setFilterExtensions(new String[] { "ArchiColours.prefs", "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
         
         String path = dialog.open();
         if(path == null) {
@@ -659,13 +733,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      */
     private void saveColors(IPreferenceStore store, boolean useDefaults) {
         for(ColorInfo colorInfo : fColorInfoMap.values().stream().filter(ci -> !(ci instanceof ThemeColorInfo)).toList()) { // Not theme colors
-            // If the new color equals the default color set pref to default if useDefaults is true
-            if(useDefaults && Objects.equals(colorInfo.getColor(), colorInfo.getInBuiltColor())) {
+            // If the new color equals the inbuilt color set pref to default if useDefaults is true
+            if(useDefaults && !colorInfo.isUserSet()) {
                 store.setToDefault(colorInfo.getPreferenceKey());
             }
             // Else store color anyway
             else {
-                store.setValue(colorInfo.getPreferenceKey(), ColorFactory.convertColorToString(colorInfo.getColor()));
+                store.setValue(colorInfo.getPreferenceKey(), ColorFactory.convertColorToString(colorInfo.getCurrentColor()));
             }
         }
     }
@@ -682,9 +756,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             
             for(String colorId : themeColors) {
                 ColorInfo colorInfo = fColorInfoMap.get(colorId);
-                if(colorInfo != null && colorInfo.getColor() != null && colorInfo.getUserColor() != null &&
-                                        !Objects.equals(colorInfo.getColor().getRGB(), colorInfo.getUserColor().getRGB())) {
-                    ThemeUtils.setCurrentThemeColor(colorId, colorInfo.getColor().getRGB());
+                if(colorInfo != null && !Objects.equals(colorInfo.getCurrentColor(), colorInfo.getUserColor())) { // Compare on User Color, not Inbuilt
+                    ThemeUtils.setCurrentThemeColor(colorId, colorInfo.getCurrentColor().getRGB());
                     themeColorChanged = true;
                 }
             }
