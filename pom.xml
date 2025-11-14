@@ -19,9 +19,16 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2025-12</url>
+            <url>https://download.eclipse.org/staging/2025-12</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>tycho-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/tycho-snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <modules>
         <module>com.archimatetool.canvas</module>
