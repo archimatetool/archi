@@ -72,7 +72,7 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
     
     // Features to hide if this note is displaying a legend
     private final static Set<String> legendHiddenFeatures = Set.of(
-            IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+            //IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
             IArchimatePackage.Literals.TEXT_CONTENT__CONTENT.getName(),
             TextRenderer.FEATURE_NAME,
             IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName(),
