@@ -10,8 +10,8 @@ Export-Package: com.archimatetool.tests
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.mockito.mockito-core;visibility:=reexport,
- junit-jupiter-api;visibility:=reexport,
- junit-jupiter-params;visibility:=reexport,
- junit-platform-suite-api;visibility:=reexport
+ junit-jupiter-api;bundle-version="[5.10.0,6.0.0)";visibility:=reexport,
+ junit-jupiter-params;bundle-version="[5.10.0,6.0.0)";visibility:=reexport,
+ junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)";visibility:=reexport
 Bundle-ClassPath: .
 Automatic-Module-Name: com.archimatetool.testsupport

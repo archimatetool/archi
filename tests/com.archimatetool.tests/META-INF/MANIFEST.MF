@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: All Archi JUnit Tests
 Bundle-SymbolicName: com.archimatetool.tests
 Bundle-Version: 5.8.0.qualifier
-Import-Package: org.junit.platform.suite.api
+Import-Package: org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.archimatetool.canvas,
