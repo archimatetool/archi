@@ -9,6 +9,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
@@ -59,6 +60,9 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+
             graphics.setLineWidth(1);
             
             if(foregroundColor != null) {

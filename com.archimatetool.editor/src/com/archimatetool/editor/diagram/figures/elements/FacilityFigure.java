@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
@@ -135,6 +136,9 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+
             graphics.setLineWidthFloat(1.2f);
             
             if(foregroundColor != null) {

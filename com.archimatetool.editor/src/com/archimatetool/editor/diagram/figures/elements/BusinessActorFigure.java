@@ -120,6 +120,9 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+            
             graphics.setLineWidth(1);
             
             if(foregroundColor != null) {

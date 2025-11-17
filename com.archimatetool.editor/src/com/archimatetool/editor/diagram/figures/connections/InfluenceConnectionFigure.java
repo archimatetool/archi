@@ -79,6 +79,9 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+            
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }

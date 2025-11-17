@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
@@ -110,6 +111,9 @@ public class RepresentationFigure extends DeliverableFigure {
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             DeliverableFigure.getIconDelegate().drawIcon(graphics, foregroundColor, backgroundColor, pt);
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+
             graphics.pushState();
             
             graphics.setLineWidth(1);

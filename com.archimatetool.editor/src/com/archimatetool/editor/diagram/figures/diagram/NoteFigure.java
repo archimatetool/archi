@@ -94,6 +94,8 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
     protected void paintFigure(Graphics graphics) {
         graphics.pushState();
         
+        graphics.setAntialias(SWT.ON);
+        
         Rectangle bounds = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel

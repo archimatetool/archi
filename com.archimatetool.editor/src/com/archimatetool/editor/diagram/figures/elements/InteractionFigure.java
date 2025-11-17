@@ -9,6 +9,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
@@ -133,6 +134,9 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+
             graphics.setLineWidth(1);
             
             if(foregroundColor != null) {

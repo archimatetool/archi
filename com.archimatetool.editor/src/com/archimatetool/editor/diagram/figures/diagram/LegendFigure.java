@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.diagram;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
@@ -71,6 +72,8 @@ public class LegendFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        graphics.setAntialias(SWT.ON);
+        
         // Rectangle
         super.drawFigure(graphics);
         

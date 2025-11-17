@@ -8,6 +8,7 @@ package com.archimatetool.canvas.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -25,6 +26,9 @@ public class CanvasModelIconDelegate implements IIconDelegate {
     @Override
     public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point origin) {
         graphics.pushState();
+        
+        // Ensure this is set
+        graphics.setAntialias(SWT.ON);
         
         graphics.setLineWidth(1);
         

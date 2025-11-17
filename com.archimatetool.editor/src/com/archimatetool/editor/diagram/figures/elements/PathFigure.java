@@ -62,6 +62,9 @@ public class PathFigure extends DistributionNetworkFigure {
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
+            // Ensure this is set
+            graphics.setAntialias(SWT.ON);
+
             graphics.setLineWidthFloat(1.5f);
             
             if(foregroundColor != null) {
