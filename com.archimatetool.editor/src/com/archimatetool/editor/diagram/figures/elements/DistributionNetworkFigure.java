@@ -184,7 +184,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
             
-            graphics.setLineWidthFloat(1.5f);
+            graphics.setLineWidthFloat(1.2f);
             
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
