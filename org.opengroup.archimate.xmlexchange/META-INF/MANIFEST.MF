@@ -8,7 +8,7 @@ Bundle-Vendor: Archi, The Open Group
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor,
- com.archimatetool.jdom;visibility:=reexport
+ com.archimatetool.jdom
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: org.opengroup.archimate.xmlexchange.XMLExchangePlugin

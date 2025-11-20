@@ -6,6 +6,7 @@ Bundle-Localization: plugin
 Bundle-Version: 5.8.0.qualifier
 Bundle-Vendor: Archi, The Open Group
 Require-Bundle: com.archimatetool.commandline,
+ com.archimatetool.jdom,
  org.opengroup.archimate.xmlexchange
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
