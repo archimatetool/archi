@@ -174,13 +174,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         if(AnimationUtil.supportsAnimation()) {
             Group animationGroup = new Group(client, SWT.NULL);
             animationGroup.setText(Messages.GeneralPreferencePage_3);
-            GridLayoutFactory.swtDefaults().numColumns(4).equalWidth(true).applyTo(animationGroup);
+            GridLayoutFactory.swtDefaults().spacing(20, 5).numColumns(4).equalWidth(true).applyTo(animationGroup);
             GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(animationGroup);
             
             // Animate View
             fDoAnimationViewButton = new Button(animationGroup, SWT.CHECK);
             fDoAnimationViewButton.setText(Messages.GeneralPreferencePage_4);
-            GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fDoAnimationViewButton);
+            GridDataFactory.create(GridData.HORIZONTAL_ALIGN_BEGINNING).span(2, 1).applyTo(fDoAnimationViewButton);
 
             // Animation View Speed
             label = new Label(animationGroup, SWT.NULL);
@@ -193,7 +193,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             // Animate Visualiser
             fAnimateVisualiserNodesButton = new Button(animationGroup, SWT.CHECK);
             fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_9);
-            GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fAnimateVisualiserNodesButton);
+            GridDataFactory.create(GridData.HORIZONTAL_ALIGN_BEGINNING).span(2, 1).applyTo(fAnimateVisualiserNodesButton);
             
             // Animation Visualiser Speed
             label = new Label(animationGroup, SWT.NULL);
