@@ -223,7 +223,7 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
         gd.heightHint = 50; // Stop table height creep
         tableComp.setLayoutData(gd);
 
-        tableComp.setLayout(new TableColumnLayout());
+        tableComp.setLayout(new TableColumnLayout(true));
         
         return tableComp;
     }

@@ -222,9 +222,6 @@ public class UserPropertiesSection extends AbstractECorePropertySection {
         
         fTableViewer.setInput(fPropertiesElements);
         
-        // avoid bogus horizontal scrollbar cheese
-        fTableViewer.getTable().getParent().layout();
-        
         // Locked
         updateLocked();
     }

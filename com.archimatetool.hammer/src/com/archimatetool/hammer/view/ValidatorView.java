@@ -86,7 +86,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     @Override
     public void createPartControl(Composite parent) {
         Composite treeComp = new Composite(parent, SWT.NULL);
-        treeComp.setLayout(new TreeColumnLayout());
+        treeComp.setLayout(new TreeColumnLayout(true));
         treeComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         fViewer = new ValidatorViewer(treeComp, SWT.NULL);
