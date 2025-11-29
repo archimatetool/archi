@@ -276,8 +276,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
         // state, the size of this Rect is of no consequence and we just set it
         // to
         // such a small size in order to minimize memory allocation
-        org.eclipse.swt.graphics.Rectangle tempRect = new org.eclipse.swt.graphics.Rectangle(0, 0, 10, 10);
-        image = new Image(Display.getCurrent(), tempRect);
+        image = new Image(Display.getCurrent(), 10, 10);
         GC gc = new GC(image);
         swtGraphics = new SWTGraphics(gc);
     }
