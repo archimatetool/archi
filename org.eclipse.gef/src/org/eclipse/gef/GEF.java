@@ -1,9 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2000, 2010 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
@@ -17,9 +19,10 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * This is an internal class used for debugging
- * 
+ *
  * @deprecated in 3.1 This class will be removed in future releases.
  */
+@Deprecated
 public final class GEF {
 
     static final String TAB = "  ";//$NON-NLS-1$
@@ -32,53 +35,61 @@ public final class GEF {
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugTools = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugEvents = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugEditParts = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugPainting = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugFeedback = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean GlobalDebug = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugToolStates = false;
     /**
      * @deprecated
      */
+    @Deprecated
     public static boolean DebugDND = false;
 
     /**
      * Clears the trace console if active
-     * 
+     *
      * @since 1.0
      */
     public static void clearConsole() {
-        if (text == null)
+        if (text == null) {
             return;
+        }
         text.setText("");//$NON-NLS-1$
     }
 
     /**
      * Sets a text control to be used as a console.
-     * 
+     *
      * @since 1.0
-     * @param textBox
-     *            the text control for streaming
+     * @param textBox the text control for streaming
      */
     public static void setConsole(Text textBox) {
         msgCount = 0;
@@ -89,7 +100,7 @@ public final class GEF {
 
     /**
      * decrements the tracing indentation
-     * 
+     *
      * @since 2.0
      */
     public static void debugPop() {
@@ -98,10 +109,9 @@ public final class GEF {
 
     /**
      * Prints the given string to a trace window and increments indentation.
-     * 
+     *
      * @since 2.0
-     * @param heading
-     *            the message describing the indented text to follow
+     * @param heading the message describing the indented text to follow
      */
     public static void debugPush(String heading) {
         debug(heading);
@@ -110,19 +120,20 @@ public final class GEF {
 
     /**
      * Prints the given message to a trace window if available.
-     * 
+     *
      * @since 1.0
-     * @param message
-     *            a debug message
+     * @param message a debug message
      */
     public static void debug(String message) {
-        String lineNumber = formatter.format(new Long(msgCount++));
+        String lineNumber = formatter.format(msgCount++);
         msgCount %= 100;
         String indent = "";//$NON-NLS-1$
-        for (int i = 0; i < tab; i++)
+        for (int i = 0; i < tab; i++) {
             indent += TAB;
-        if (text != null)
+        }
+        if (text != null) {
             text.append('\n' + lineNumber + '\t' + indent + message);
+        }
     }
 
 }
