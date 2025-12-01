@@ -45,7 +45,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fShowUnusedElementsInModelTreeButton;
     private Button fAutoSearchButton;
     private Button fWarnOnDeleteButton;
-    private Button fShowSpecializationsModelTreeButton;
+    private Button fShowSpecializationsModelTreeMenuButton;
+    private Button fShowSpecializationIconsModelTreeButton;
     
     private Text fTreeDisplayIncrementText;
     
@@ -118,9 +119,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton.setText(Messages.GeneralPreferencePage_16);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fWarnOnDeleteButton);
         
-        fShowSpecializationsModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
-        fShowSpecializationsModelTreeButton.setText(Messages.GeneralPreferencePage_24);
-        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationsModelTreeButton);
+        fShowSpecializationsModelTreeMenuButton = new Button(modelTreeGroup, SWT.CHECK);
+        fShowSpecializationsModelTreeMenuButton.setText(Messages.GeneralPreferencePage_24);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationsModelTreeMenuButton);
+        
+        fShowSpecializationIconsModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
+        fShowSpecializationIconsModelTreeButton.setText(Messages.GeneralPreferencePage_26);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationIconsModelTreeButton);
         
         label = new Label(modelTreeGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_25);
@@ -218,7 +223,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
-        fShowSpecializationsModelTreeButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE));
+        fShowSpecializationsModelTreeMenuButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU));
+        fShowSpecializationIconsModelTreeButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE));
         fTreeDisplayIncrementText.setText(Integer.toString(getPreferenceStore().getInt(TREE_DISPLAY_NODE_INCREMENT)));
         
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
@@ -251,7 +257,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_SEARCH_AUTO, fAutoSearchButton.getSelection());
         getPreferenceStore().setValue(SHOW_WARNING_ON_DELETE_FROM_TREE, fWarnOnDeleteButton.getSelection());
-        getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_MODEL_TREE, fShowSpecializationsModelTreeButton.getSelection());
+        getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU, fShowSpecializationsModelTreeMenuButton.getSelection());
+        getPreferenceStore().setValue(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE, fShowSpecializationIconsModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_DISPLAY_NODE_INCREMENT, fTreeDisplayIncrementText.getText());
 
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
@@ -286,7 +293,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         fAutoSearchButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_SEARCH_AUTO));
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
-        fShowSpecializationsModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE));
+        fShowSpecializationsModelTreeMenuButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU));
+        fShowSpecializationIconsModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE));
         fTreeDisplayIncrementText.setText(Integer.toString(getPreferenceStore().getDefaultInt(TREE_DISPLAY_NODE_INCREMENT)));
         
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));

@@ -170,7 +170,7 @@ public class TreeModelViewActionFactory {
     private List<IAction> createSpecializationActions(EClass[] classes, IFolder folder) {
         List<IAction> actions = new ArrayList<>();
         
-        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_MODEL_TREE)
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU)
                 || folder.getArchimateModel().getProfiles().isEmpty()) {
             return actions;
         }

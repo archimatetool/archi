@@ -144,7 +144,8 @@ public interface IPreferenceConstants {
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree";
     String TREE_SEARCH_AUTO = "treeSearchAuto";
     String SHOW_WARNING_ON_DELETE_FROM_TREE = "showWarningOnDeleteFromTree";
-    String SHOW_SPECIALIZATIONS_IN_MODEL_TREE = "showSpecializationsInModelTree";
+    String SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE = "showSpecializationIconsInModelTree";
+    String SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU = "showSpecializationsInModelTreeMenu";
     String TREE_DISPLAY_NODE_INCREMENT = "treeDisplayNodeIncrement";
     
     String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";

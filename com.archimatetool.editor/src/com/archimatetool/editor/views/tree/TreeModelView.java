@@ -699,7 +699,8 @@ implements ITreeModelView, IUIRequestListener {
     protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
         switch(event.getProperty()) {
             case IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE,
-                 IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE -> {
+                 IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE,
+                 IPreferenceConstants.SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE -> {
                 getViewer().update();
             }
             
@@ -911,6 +912,19 @@ implements ITreeModelView, IUIRequestListener {
                 }
             }
         });
+    }
+    
+    @Override
+    protected Set<EObject> getElementsToUpdateFromNotification(Notification msg) {
+        Set<EObject> list = super.getElementsToUpdateFromNotification(msg);
+        
+        // Update Specialization icons if preference set
+        if(msg.getFeature() == IArchimatePackage.Literals.PROFILES__PROFILES
+                               && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE)) {
+            list.add((EObject)msg.getNotifier());
+        }
+        
+        return list;
     }
     
     private void refreshFromNotifications(List<Notification> notifications) {

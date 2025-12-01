@@ -7,7 +7,9 @@ package com.archimatetool.editor.views.tree;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -47,12 +49,14 @@ import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProfile;
 
 
 
@@ -489,6 +493,9 @@ public class TreeModelViewer extends TreeViewer {
         private Font fontBold;
         private Font fontBoldItalic;
         
+        // Cache specialization images
+        private Map<String, Image> imageCache = new HashMap<>();
+        
         @Override
         public void update(ViewerCell cell) {
             Object element = cell.getElement();
@@ -533,6 +540,16 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         private Image getImage(Object element) {
+            // Specialization image
+            if(element instanceof IArchimateElement concept && concept.getPrimaryProfile() instanceof IProfile profile
+                    && StringUtils.isSet(profile.getImagePath())
+                    && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE)) {
+                
+                // Use the image path and profile Id for key in case the same image path is used for a different image in another model
+                return imageCache.computeIfAbsent(profile.getId() + "/" + profile.getImagePath(), //$NON-NLS-1$
+                                                  key -> ArchiLabelProvider.INSTANCE.getImageDescriptorForSpecialization(profile).createImage());
+            }
+            
             return ArchiLabelProvider.INSTANCE.getImage(element);
         }
         
@@ -575,6 +592,16 @@ public class TreeModelViewer extends TreeViewer {
 
         private Color getForeground(Object element) {
             return viewpointFilterProvider != null ? viewpointFilterProvider.getTextColor(element) : null;
+        }
+        
+        @Override
+        public void dispose() {
+            super.dispose();
+            
+            for(Image image : imageCache.values()) {
+                image.dispose();
+            }
+            imageCache.clear();
         }
     }
     
