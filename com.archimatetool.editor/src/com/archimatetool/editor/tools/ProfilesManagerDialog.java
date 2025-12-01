@@ -881,15 +881,15 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
      */
     private static class DeleteProfileCommand extends CompoundCommand {
         DeleteProfileCommand(IProfile profile, List<IProfiles> usages) {
-            // Delete Profile from Model
-            add(new RemoveListMemberCommand<IProfile>(profile.getArchimateModel().getProfiles(), profile));
-            
-            // Delete Usages
+            // Delete usages *first*
             if(usages != null) {
                 for(IProfiles owner : usages) {
                     add(new RemoveListMemberCommand<IProfile>(owner.getProfiles(), profile));
                 }
             }
+
+            // Then delete Profile from Model
+            add(new RemoveListMemberCommand<IProfile>(profile.getArchimateModel().getProfiles(), profile));
         }
     }
     
