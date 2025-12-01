@@ -892,32 +892,13 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     protected void eCoreChanged(Notification msg) {
-        int type = msg.getEventType();
-        Object notifier = msg.getNotifier();
-        Object feature = msg.getFeature();
+        // If this is a viewpoint update return
+        if(refreshViewPoint(msg)) {
+            return;
+        }
         
-        // Attribute set
-        if(type == Notification.SET) {
-            // Viewpoint changed
-            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT
-                        && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)
-                        && notifier instanceof IDiagramModel dm) {
-                getViewer().updateInBackground(dm.getArchimateModel());
-            }
-            // Model renamed
-            // This is too expensive in refreshing the whole tree
-            //else if(feature == IArchimatePackage.Literals.NAMEABLE__NAME && notifier instanceof IArchimateModel) {
-            //    getViewer().refreshTreePreservingExpandedNodes();
-            //    getViewer().setSelection(new StructuredSelection(notifier), true);
-            //}
-            else {
-                super.eCoreChanged(msg);
-            }
-        }
-        else {
-            super.eCoreChanged(msg);
-            checkDrillDownHasValidInput();
-        }
+        super.eCoreChanged(msg);
+        checkDrillDownHasValidInput();
     }
     
     @Override
@@ -937,6 +918,11 @@ implements ITreeModelView, IUIRequestListener {
         Set<EObject> updateElements = new HashSet<>();
         
         for(Notification msg : notifications) {
+            // If this is a viewpoint update continue
+            if(refreshViewPoint(msg)) {
+                continue;
+            }
+            
             // Get parent nodes to refresh
             EObject parent = getParentToRefreshFromNotification(msg);
             if(parent != null) {
@@ -974,6 +960,23 @@ implements ITreeModelView, IUIRequestListener {
         checkDrillDownHasValidInput();
     }
 
+    /**
+     * Check if msg is a set viewpoint message and update all model nodes if preference enabled
+     * @return true if msg was a set viewpoint message
+     */
+    private boolean refreshViewPoint(Notification msg) {
+        boolean isSetViewpoint = msg.getFeature() == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT
+                                                     && msg.getEventType() == Notification.SET
+                                                     && msg.getNotifier() instanceof IDiagramModel;
+        
+        // If preference set then update all model nodes
+        if(isSetViewpoint && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
+            getViewer().update(((IDiagramModel)msg.getNotifier()).getArchimateModel());
+        }
+        
+        return isSetViewpoint;
+    }
+    
     // =================================================================================
     //                       Contextual Help support
     // =================================================================================
