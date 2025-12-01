@@ -20,7 +20,6 @@ import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -216,22 +215,14 @@ implements ITreeModelView, IUIRequestListener {
      * Open Objects could be a selection of various types and user presses Return key
      */
     private void handleOpenAction() {
-        for(Object selected : ((IStructuredSelection)getViewer().getSelection()).toArray()) {
-            // Element or Relation - open Properties view
-            if(selected instanceof IArchimateConcept) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
-            }
-            // Folder - open Properties view
-            if(selected instanceof IFolder) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
-            }
-            // Model - open Properties view
-            else if(selected instanceof IArchimateModel) {
+        for(Object selected : getViewer().getStructuredSelection().toArray()) {
+            // If concept, folder or model open the Properties view
+            if(selected instanceof IArchimateConcept || selected instanceof IFolder || selected instanceof IArchimateModel) {
                 ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Diagram - open diagram
-            else if(selected instanceof IDiagramModel) {
-                EditorManager.openDiagramEditor((IDiagramModel)selected);
+            else if(selected instanceof IDiagramModel dm) {
+                EditorManager.openDiagramEditor(dm);
             }
         }
     }
@@ -339,8 +330,7 @@ implements ITreeModelView, IUIRequestListener {
         fActionCollapseSelected = new Action(Messages.TreeModelView_3) {
             @Override
             public void run() {
-                IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
-                for(Object o : selection.toArray()) {
+                for(Object o : getViewer().getStructuredSelection().toArray()) {
                     if(fTreeViewer.isExpandable(o) && fTreeViewer.getExpandedState(o)) {
                         fTreeViewer.collapseToLevel(o, AbstractTreeViewer.ALL_LEVELS);
                     }
@@ -361,8 +351,7 @@ implements ITreeModelView, IUIRequestListener {
         fActionExpandSelected = new Action(Messages.TreeModelView_4) {
             @Override
             public void run() {
-                IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
-                for(Object o : selection.toArray()) {
+                for(Object o : getViewer().getStructuredSelection().toArray()) {
                     if(hasExpandableNodes(o)) {
                         fTreeViewer.expandToLevel(o, AbstractTreeViewer.ALL_LEVELS);
                     }
@@ -425,11 +414,8 @@ implements ITreeModelView, IUIRequestListener {
         MenuManager menuMgr = new MenuManager("#TreeModelViewPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
         
-        menuMgr.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
+        menuMgr.addMenuListener(manager -> {
+            fillContextMenu(manager);
         });
         
         Menu menu = menuMgr.createContextMenu(getViewer().getControl());
@@ -443,7 +429,7 @@ implements ITreeModelView, IUIRequestListener {
      * @param manager
      */
     private void fillContextMenu(IMenuManager manager) {
-        IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
+        IStructuredSelection selection = getViewer().getStructuredSelection();
         Object selected = selection.getFirstElement();
         boolean isEmpty = selected == null;
         
@@ -661,8 +647,8 @@ implements ITreeModelView, IUIRequestListener {
         if(fTreeViewer.isExpandable(object) && !fTreeViewer.getExpandedState(object)) {
             return true;
         }
-        if(object instanceof IFolderContainer) {
-            for(IFolder folder : ((IFolderContainer)object).getFolders()) {
+        if(object instanceof IFolderContainer container) {
+            for(IFolder folder : container.getFolders()) {
                 if(hasExpandableNodes(folder)) {
                     return true;
                 }
@@ -728,12 +714,12 @@ implements ITreeModelView, IUIRequestListener {
         if(getViewer() != null) { 
             Object selected = getViewer().getStructuredSelection().getFirstElement();
             
-            if(selected instanceof IArchimateModelObject) {
-                return ((IArchimateModelObject)selected).getArchimateModel();
+            if(selected instanceof IArchimateModelObject modelObject) {
+                return modelObject.getArchimateModel();
             }
             
-            if(getViewer().getInput() instanceof IArchimateModelObject) {
-                return ((IArchimateModelObject)getViewer().getInput()).getArchimateModel();
+            if(getViewer().getInput() instanceof IArchimateModelObject modelObject) {
+                return modelObject.getArchimateModel();
             }
         }
         
@@ -803,68 +789,67 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String propertyName = evt.getPropertyName();
-        Object source = evt.getSource();
-        //Object newValue = evt.getNewValue();
-        
-        // New Model created or opened
-        if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED || propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
-            // Go Home
-            setDrillDownHome();
-            
-            getViewer().refreshTreePreservingExpandedNodes();
+        switch(evt.getPropertyName()) {
+            // New Model created or opened
+            case IEditorModelManager.PROPERTY_MODEL_CREATED,
+                 IEditorModelManager.PROPERTY_MODEL_OPENED -> {
+                // Go Home
+                setDrillDownHome();
+                
+                getViewer().refreshTreePreservingExpandedNodes();
 
-            IArchimateModel model = (IArchimateModel)evt.getNewValue();
-            
-            // Expand and Select new node
-            getViewer().expandToLevel(model.getFolder(FolderType.DIAGRAMS), 1);
-            getViewer().setSelection(new StructuredSelection(model), true);
-            
-            // Search Filter soft reset on open model
-            if(propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED && 
-                    fSearchWidget != null && !fSearchWidget.isDisposed()) {
-                fSearchWidget.softReset();
+                IArchimateModel model = (IArchimateModel)evt.getNewValue();
+                
+                // Expand and Select new node
+                getViewer().expandToLevel(model.getFolder(FolderType.DIAGRAMS), 1);
+                getViewer().setSelection(new StructuredSelection(model), true);
+                
+                // Search Filter soft reset on open model
+                if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_OPENED && 
+                        fSearchWidget != null && !fSearchWidget.isDisposed()) {
+                    fSearchWidget.softReset();
+                }
             }
-       }
-        
-        // Model removed
-        else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
-            // Clear Cut/Paste clipboard
-            TreeModelCutAndPaste.INSTANCE.clear();
             
-            // Check Drilldown state
-            checkDrillDownHasValidInput();
+            // Model removed
+            case IEditorModelManager.PROPERTY_MODEL_REMOVED -> {
+                // Clear Cut/Paste clipboard
+                TreeModelCutAndPaste.INSTANCE.clear();
+                
+                // Check Drilldown state
+                checkDrillDownHasValidInput();
 
-            // Search Filter soft reset
-            if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
-                fSearchWidget.softReset();
+                // Search Filter soft reset
+                if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
+                    fSearchWidget.softReset();
+                }
+
+                getViewer().refreshTreePreservingExpandedNodes();
             }
-
-            getViewer().refreshTreePreservingExpandedNodes();
-        }
-        
-        // Model dirty state, so update Actions and modified state of source (asterisk on model node)
-        else if(propertyName == IEditorModelManager.COMMAND_STACK_CHANGED) {
-            updateActions();
-            getViewer().update(source, null);
-        }
-        
-        // Ecore Events will come so turn tree refresh off
-        else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
-            super.propertyChange(evt);
-            // Suspend Syncing
-            fSynchroniser.setSynchronise(false);
-        }
-        
-        // Ecore Events have finished so turn tree refresh on
-        else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
-            super.propertyChange(evt);
-            // Reactivate Syncing
-            fSynchroniser.setSynchronise(true);
-        }
-        
-        else {
-            super.propertyChange(evt);
+            
+            // Model dirty state, so update Actions and modified state of source (asterisk on model node)
+            case IEditorModelManager.COMMAND_STACK_CHANGED -> {
+                updateActions();
+                getViewer().update(evt.getSource(), null);
+            }
+            
+            // Ecore events will come...
+            case IEditorModelManager.PROPERTY_ECORE_EVENTS_START -> {
+                super.propertyChange(evt);
+                // Suspend Syncing
+                fSynchroniser.setSynchronise(false);
+            }
+            
+            // ECore events have finished
+            case IEditorModelManager.PROPERTY_ECORE_EVENTS_END -> {
+                super.propertyChange(evt);
+                // Reactivate Syncing
+                fSynchroniser.setSynchronise(true);
+            }
+            
+            default -> {
+                super.propertyChange(evt);
+            }
         }
     }
     
@@ -875,8 +860,7 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     public void requestAction(UIRequest request) {
         // Request to select elements
-        if(request instanceof TreeSelectionRequest) {
-            TreeSelectionRequest req = (TreeSelectionRequest)request;
+        if(request instanceof TreeSelectionRequest req) {
             if(req.shouldSelect(getViewer())) {
                 getViewer().setSelection(req.getSelection(), req.doReveal());
             }
@@ -904,12 +888,9 @@ implements ITreeModelView, IUIRequestListener {
     
     @Override
     protected void doRefreshFromNotifications(final List<Notification> notifications) {
-        Display.getCurrent().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                if(!getViewer().getControl().isDisposed() && notifications != null) { // check inside run loop
-                    refreshFromNotifications(notifications);
-                }
+        Display.getCurrent().asyncExec(() -> {
+            if(!getViewer().getControl().isDisposed() && notifications != null) { // check inside run loop
+                refreshFromNotifications(notifications);
             }
         });
     }
