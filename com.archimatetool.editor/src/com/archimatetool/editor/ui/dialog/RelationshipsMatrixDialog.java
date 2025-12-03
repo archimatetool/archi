@@ -12,19 +12,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
-import org.eclipse.nebula.jface.gridviewer.internal.CellSelection;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -35,7 +29,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
@@ -86,10 +79,8 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         client.setLayout(layout);
         client.setLayoutData(new GridData(GridData.FILL_BOTH));
         
-        GridData gd;
-        
         GridTableViewer viewer = new GridTableViewer(client);
-        gd = new GridData(GridData.FILL_BOTH);
+        GridData gd = new GridData(GridData.FILL_BOTH);
         gd.widthHint = 800;
         gd.heightHint = 500;
         viewer.getControl().setLayoutData(gd);
@@ -120,28 +111,17 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
         }
         
-        // Have to set this here after setting column widths otherwise columns don't display on Mac
-        // See https://github.com/eclipse/nebula/pull/190
-        viewer.getGrid().setRowHeaderVisible(true);
+        // Set row header visible *after* setting columns so that correct width is displayed
+        viewer.getGrid().setRowHeaderVisible(true, columnWidth);
         
         viewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-            
-            @Override
-            public void dispose() {
-            }
-
             @Override
             public Object[] getElements(Object inputElement) {
                 return getData().toArray();
             }
         });
         
-        viewer.setLabelProvider(new MyLabelProvider());
-        
-        //hookContextMenu(viewer);
+        viewer.setLabelProvider(new MatrixLabelProvider());
         
         viewer.setInput(getData());
         
@@ -156,45 +136,9 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         return composite;
     }
     
-    @SuppressWarnings("unused")
-    private void hookContextMenu(final GridTableViewer viewer) {
-        MenuManager menuMgr = new MenuManager("#GridPopupMenu"); //$NON-NLS-1$
-        menuMgr.setRemoveAllWhenShown(true);
-        
-        menuMgr.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                final CellSelection selection = ((CellSelection)viewer.getSelection());
-                if(!selection.isEmpty()) {
-                    manager.add(new Action("Restore to default") { //$NON-NLS-1$
-                        @Override
-                        public void run() {
-                            for(Object element : selection.toArray()) {
-                                EClass eClassRow = (EClass)element;
-                                for(Object o : selection.getIndices(element)) {
-                                    int columnIndex = (Integer)o;
-                                    EClass eClassColumn = getData().get(columnIndex);
-                                    restoreDefaultValue(eClassRow, eClassColumn);
-                                }
-                            }
-                        };
-                    });
-                }
-            }
-        });
-        
-        Menu menu = menuMgr.createContextMenu(viewer.getControl());
-        viewer.getControl().setMenu(menu);
-    }
-    
-    private void restoreDefaultValue(EClass sourceClass, EClass targetClass) {
-        //Map<EClass, List<TargetMatrix>> matrixMap = RelationshipsMatrix.INSTANCE.getRelationshipsMatrix();
-        
-    }
-    
     private List<EClass> getData() {
         if(fAllClasses == null) {
-            fAllClasses = new ArrayList<EClass>();
+            fAllClasses = new ArrayList<>();
             fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
             fAllClasses.add(IArchimatePackage.eINSTANCE.getJunction());
         }
@@ -202,7 +146,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         return fAllClasses;
     }
     
-    private class MyLabelProvider extends LabelProvider implements ITableLabelProvider {
+    private class MatrixLabelProvider extends LabelProvider implements ITableLabelProvider {
 
         @Override
         public Image getColumnImage(Object element, int columnIndex) {
@@ -245,5 +189,4 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         // create OK button
         createButton(parent, IDialogConstants.OK_ID, Messages.RelationshipsMatrixDialog_2, true);
     }
-    
 }
