@@ -28,7 +28,7 @@
         <repository>
             <id>Update Site</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.37</url>
+            <url>https://download.eclipse.org/eclipse/updates/4.38/R-4.38-202512010920/</url>
         </repository>
     </repositories>
 
