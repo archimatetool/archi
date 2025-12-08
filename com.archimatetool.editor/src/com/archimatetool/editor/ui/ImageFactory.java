@@ -405,8 +405,7 @@ public class ImageFactory {
         transform.translate(0, -bounds.height);
         gc.setTransform(transform);
         
-        gc.drawImage(source, 0, 0, bounds.width, bounds.height,
-                               0, 0, bounds.width, bounds.height);
+        gc.drawImage(source, 0, 0, bounds.width, bounds.height);
         
         gc.dispose();
         transform.dispose();
