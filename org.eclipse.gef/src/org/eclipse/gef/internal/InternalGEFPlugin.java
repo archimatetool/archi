@@ -11,8 +11,15 @@
 
 package org.eclipse.gef.internal;
 
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 public class InternalGEFPlugin extends AbstractUIPlugin {
@@ -39,13 +46,21 @@ public class InternalGEFPlugin extends AbstractUIPlugin {
     }
 
     /**
-     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     * This method attempts to create the cursor using a constructor introduced in
+     * SWT 3.131.0 that takes an {@link ImageDataProvider}. If this constructor is
+     * not available (SWT versions prior to 3.131.0), it falls back to using the
+     * older constructor that accepts {@link ImageData}.
      */
-    @SuppressWarnings("deprecation")
-    @Override
-    public void stop(BundleContext context) throws Exception {
-        savePluginPreferences();
-        super.stop(context);
+    public static Cursor createCursor(ImageDescriptor source, int hotspotX, int hotspotY) {
+        try {
+            Constructor<Cursor> ctor = Cursor.class.getConstructor(Device.class, ImageDataProvider.class, int.class,
+                    int.class);
+            return ctor.newInstance(null, (ImageDataProvider) source::getImageData, hotspotX, hotspotY);
+        } catch (NoSuchMethodException e) {
+            // SWT version < 3.131.0 (no ImageDataProvider-based constructor)
+            return new Cursor(null, source.getImageData(100), hotspotX, hotspotY); // older constructor
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Failed to instantiate Cursor", e); //$NON-NLS-1$
+        }
     }
-
 }
