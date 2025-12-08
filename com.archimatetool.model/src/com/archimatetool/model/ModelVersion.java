@@ -11,9 +11,9 @@ package com.archimatetool.model;
  * Use this to determine when loading a different version model if it will bring the whole
  * show down. Example, folders were introduced in version 1.3 of Archi but won't open in Archi 1.2.<p>
  * 
- * PLEASE NOTE - THIS IS THE VERSION OF THE MODEL, NOT ARCHI.
- * As from Archi version 2.6.0 I will try to keep the model version number the same as Archi's version number when the model version is incremented.
- * Only need to change the model version number if there are changes that affect backwards compatibility.<p>
+ * PLEASE NOTE - THIS IS THE VERSION OF THE *MODEL*, NOT ARCHI!
+ * We will try to keep the model version number the same as Archi's version number when the model version is incremented.
+ * We only need to change the model version number if there are changes that affect backwards compatibility.<p>
  * 
  * History:<br>
  * 
@@ -51,9 +51,10 @@ package com.archimatetool.model;
  *       - Add images to IDiagramModelArchimateObject
  *       - Refactor IDiagramModelImageProvider, IIconic and more...
  * 5.0.0 - ArchiMate 3.2
+ * 5.8.0 - Legends and Eclipse SVG support. If a model with an SVG file is opened in a previous version and saved the SVG file will be deleted.
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "5.0.0"; //$NON-NLS-1$
+    String VERSION = "5.8.0"; //$NON-NLS-1$
 }
