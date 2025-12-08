@@ -49,6 +49,12 @@ public class PrefUtils {
         // See https://github.com/eclipse-platform/eclipse.platform.ui/pull/630
         IEclipsePreferences preferences = DefaultScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
         preferences.putBoolean("themeEnabled", true);
+        
+        // On Windows 11, Eclipse SWT draws a selection indicator on menu items that have images with style AS_RADIO_BUTTON or AS_CHECK_BOX
+        // We don't want this, so set this property. @see org.eclipse.swt.widgets.MenuItem
+        if(PlatformUtils.isWindows()) {
+            System.setProperty("org.eclipse.swt.internal.win32.menu.customSelectionImage", "0");
+        }
     }
     
     public static IEclipsePreferences getDefaultUIWorkBenchPrefs() {
