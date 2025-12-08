@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Archi">
+<target includeMode="feature" name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2024-06"/>
-        <unit id="org.eclipse.sdk.ide" version="4.32.0.I20240601-0610"/>
-        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.24.202401051648"/>
-        <unit id="org.eclipse.jgit.feature.group" version="6.10.0.202406032230-r"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="6.10.0.202406032230-r"/>
+        <repository location="https://download.eclipse.org/releases/2025-12"/>
+        <unit id="org.eclipse.sdk.ide" version="4.38.0.I20251201-0920"/>
+        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.27.202508281322"/>
+        <unit id="org.eclipse.jgit.feature.group" version="7.5.0.202512021534-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="7.5.0.202512021534-r"/>
     </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/eclipse/updates/4.32"/>
-        <unit id="org.mockito.mockito-core" version="5.12.0"/>
+     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+        <repository location="https://download.eclipse.org/eclipse/updates/4.38"/>
+        <unit id="org.mockito.mockito-core" version="5.20.0"/>
     </location>
 </locations>
 </target>
