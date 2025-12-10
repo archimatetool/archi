@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -132,10 +132,10 @@ public class AboutDialog extends TrayDialog {
         
         final Image image = IArchiImages.ImageFactory.getImage("splash.png"); //$NON-NLS-1$
         if(image != null) {
-            ImageData id = image.getImageData();
-            gd.widthHint = id.width;
-            gd.heightHint = id.height;
-            imageHeight = id.height;
+            Rectangle size = image.getBounds();
+            gd.widthHint = size.width;
+            gd.heightHint = size.height;
+            imageHeight = size.height;
         }
         else {
             gd.widthHint = 500;
