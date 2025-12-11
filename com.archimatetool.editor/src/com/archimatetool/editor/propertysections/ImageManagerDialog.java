@@ -5,26 +5,23 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
-import org.eclipse.nebula.widgets.gallery.DefaultGalleryItemRenderer;
+import org.eclipse.nebula.widgets.gallery.CustomDefaultGalleryItemRenderer;
 import org.eclipse.nebula.widgets.gallery.Gallery;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 import org.eclipse.nebula.widgets.gallery.NoGroupRenderer;
@@ -32,21 +29,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -57,6 +50,7 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.INameable;
 
@@ -71,11 +65,9 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.ImageManagerDialog"; //$NON-NLS-1$
     
-    protected static final String OPEN = Messages.ImageManagerDialog_0;
-    
-    protected int DEFAULT_GALLERY_ITEM_SIZE = 128;
-    protected int MIN_GALLERY_ITEM_SIZE = 64;
-    protected int MAX_GALLERY_ITEM_SIZE = 256;
+    public static final int DEFAULT_GALLERY_ITEM_SIZE = 96;
+    public static final int MIN_GALLERY_ITEM_SIZE = 64;
+    public static final int MAX_GALLERY_ITEM_SIZE = 256;
     
     protected Gallery fGallery;
     protected GalleryItem fGalleryRoot;
@@ -86,7 +78,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     private String fUserSelectedImagePath;
     private File fUserSelectedFile;
     
-    private Map<String, Image> fImageCache = new HashMap<String, Image>();
+    private Map<String, Image> fImageCache = new HashMap<>();
 
     public ImageManagerDialog(Shell parentShell) {
         super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
@@ -140,36 +132,41 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         label.setText(Messages.ImageManagerDialog_3);
         
         Composite tableComp2 = new Composite(tableComp, SWT.NULL);
-        tableComp2.setLayout(new TableColumnLayout());
+        tableComp2.setLayout(new TableColumnLayout(true));
         tableComp2.setLayoutData(new GridData(GridData.FILL_BOTH));
         
         fModelsViewer = new ModelsViewer(tableComp2);
         fModelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         fModelsViewer.setInput(""); //$NON-NLS-1$
-        fModelsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(o instanceof IArchimateModel) {
-                    fScale.setEnabled(true);
-                    clearGallery();
-                    updateGallery((IArchimateModel)o);
-                }
+        fModelsViewer.addSelectionChangedListener(event -> {
+            if(event.getStructuredSelection().getFirstElement() instanceof IArchimateModel model) {
+                fScale.setEnabled(true);
+                clearGallery();
+                updateGallery(model);
             }
         });
         
         // Mouse Up action...
+        // Select the open from file table element
         fModelsViewer.getControl().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent e) {
-                Object o = ((IStructuredSelection)fModelsViewer.getSelection()).getFirstElement();
-                // Open...
-                if(o == OPEN) {
+                // Open file...
+                if(fModelsViewer.getStructuredSelection().getFirstElement() instanceof String) {
                     handleOpenAction();
                 }
             }
         });
-
+        
+        // Press Return on table and selection is "Open from file"
+        fModelsViewer.getControl().addTraverseListener(event -> {
+            if(event.detail == SWT.TRAVERSE_RETURN && fModelsViewer.getStructuredSelection().getFirstElement() instanceof String) {
+                event.doit = false;
+                event.detail = SWT.TRAVERSE_NONE;
+                handleOpenAction();
+            }
+        });
+        
         Composite galleryComposite = new Composite(sash, SWT.NULL);
         layout = new GridLayout();
         layout.marginWidth = 0;
@@ -179,16 +176,27 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         fGallery = new Gallery(galleryComposite, SWT.V_SCROLL | SWT.BORDER);
         fGallery.setLayoutData(new GridData(GridData.FILL_BOTH));
         
+        // If the Gallery has the focus pressing Return or Esc does not close the dialog
+        fGallery.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.keyCode == SWT.CR) {
+                    okPressed();
+                }
+                if(e.keyCode == SWT.ESC) {
+                    cancelPressed();
+                }
+            }
+        });
+        
         // Renderers
-        final NoGroupRenderer groupRenderer = new NoGroupRenderer();
+        NoGroupRenderer groupRenderer = new NoGroupRenderer();
         groupRenderer.setItemSize(DEFAULT_GALLERY_ITEM_SIZE, DEFAULT_GALLERY_ITEM_SIZE);
         groupRenderer.setAutoMargin(true);
         groupRenderer.setMinMargin(10);
         fGallery.setGroupRenderer(groupRenderer);
         
-        final DefaultGalleryItemRenderer itemRenderer = new DefaultGalleryItemRenderer();
-        //itemRenderer.setDropShadows(true);
-        //itemRenderer.setDropShadowsSize(7);
+        CustomDefaultGalleryItemRenderer itemRenderer = new CustomDefaultGalleryItemRenderer();
         itemRenderer.setShowRoundedSelectionCorners(true);
         fGallery.setItemRenderer(itemRenderer);
         
@@ -206,48 +214,36 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         fScale.setPageIncrement(32);
         fScale.setSelection(DEFAULT_GALLERY_ITEM_SIZE);
         fScale.setEnabled(false);
-        fScale.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                int inc = fScale.getSelection();
-                itemRenderer.setDropShadows(inc >= 96);
-                groupRenderer.setItemSize(inc, inc);
-            }
-        });
+        fScale.addSelectionListener(widgetSelectedAdapter(event -> {
+            int inc = fScale.getSelection();
+            itemRenderer.setDropShadows(inc >= 96);
+            groupRenderer.setItemSize(inc, inc);
+        }));
 
         // Gallery selections
-        fGallery.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if(e.item instanceof GalleryItem) {
-                    fUserSelectedImagePath = (String)e.item.getData("imagepath"); //$NON-NLS-1$
-                    fUserSelectedModel = (IArchimateModel)e.item.getData("model"); //$NON-NLS-1$
-                }
-                else {
-                    fUserSelectedImagePath = null;
-                    fUserSelectedModel = null;
-                }
-             }
-        });
+        fGallery.addSelectionListener(widgetSelectedAdapter(event -> {
+            if(event.item instanceof GalleryItem) {
+                fUserSelectedImagePath = (String)event.item.getData("imagepath"); //$NON-NLS-1$
+                fUserSelectedModel = (IArchimateModel)event.item.getData("model"); //$NON-NLS-1$
+            }
+            else {
+                fUserSelectedImagePath = null;
+                fUserSelectedModel = null;
+            }
+        }));
         
         // Double-clicks
-        fGallery.addListener(SWT.MouseDoubleClick, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
-                if(item != null) {
-                    okPressed();
-                }
+        fGallery.addListener(SWT.MouseDoubleClick, event -> {
+            GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
+            if(item != null) {
+                okPressed();
             }
         });
         
         // Dispose of the images here not in the main dispose() method because if the help system is showing then 
         // the TrayDialog is resized and this control is asked to relayout.
-        fGallery.addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent e) {
-                disposeImages();
-            }
+        fGallery.addDisposeListener(event -> {
+            disposeImages();
         });
 
         sash.setWeights(new int[] { 30, 70 });
@@ -275,6 +271,13 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             }
         }
         
+        // Bug on Mac. If the dialog is not very high the CLabel is not visible so this forces a layout
+        if(PlatformUtils.isMac()) {
+            parent.getDisplay().asyncExec(() -> {
+                tableComp.layout();
+            });
+        }
+        
         return composite;
     }
     
@@ -282,47 +285,38 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
      * Clear old root group
      */
     private void clearGallery() {
-        if(fGalleryRoot != null && !fGallery.isDisposed() && fGallery.getItemCount() > 0) {
-            while(fGalleryRoot.getItemCount() > 0) {
-                GalleryItem item = fGalleryRoot.getItem(0);
-                fGalleryRoot.remove(item);
+        if(fGalleryRoot != null && !fGalleryRoot.isDisposed()) {
+            for(GalleryItem item : fGalleryRoot.getItems()) {
+                item.dispose();
             }
         }
     }
 
     private void updateGallery(final IArchimateModel model) {
-        BusyIndicator.showWhile(null, new Runnable() {
-            @Override
-            public void run() {
-                IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-                
-                for(String path : archiveManager.getImagePaths()) {
-                    Image thumbnail = fImageCache.get(path);
-                    
-                    // Create image and cache it
-                    if(thumbnail == null) {
-                        try {
-                            thumbnail = archiveManager.createImage(path);
-                            if(thumbnail != null) {
-                                fImageCache.put(path, thumbnail);
-                            }
-                        }
-                        catch(Exception ex) {
-                            ex.printStackTrace();
-                            continue;
-                        }
+        BusyIndicator.showWhile(null, () -> {
+            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+
+            for(String path : archiveManager.getImagePaths()) {
+                // Create image and cache it
+                Image thumbnail = fImageCache.computeIfAbsent(path, p -> {
+                    try {
+                        return archiveManager.createImage(path);
                     }
-                    
-                    if(thumbnail != null) {
-                        GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
-                        item.setImage(thumbnail);
-                        item.setData("imagepath", path); //$NON-NLS-1$
-                        item.setData("model", model); //$NON-NLS-1$
+                    catch(Exception ex) {
+                        ex.printStackTrace();
+                        return null;
                     }
+                });
+
+                if(thumbnail != null) {
+                    GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
+                    item.setImage(thumbnail);
+                    item.setData("imagepath", path); //$NON-NLS-1$
+                    item.setData("model", model); //$NON-NLS-1$
                 }
-                
-                fGallery.redraw(); // at some scale settings this is needed
             }
+            
+            fGallery.redraw(); // at some scale settings this is needed
         });
     }
 
@@ -343,6 +337,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         }
         else {
             getShell().setVisible(true);
+            getShell().setFocus(); // Nees to set focus again
         }
     }
     
@@ -368,9 +363,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     }
 
     private void disposeImages() {
-        for(Entry<String, Image> entry : fImageCache.entrySet()) {
-            Image image = entry.getValue();
-            if(image != null && !image.isDisposed()) {
+        for(Image image : fImageCache.values()) {
+            if(image != null) {
                 image.dispose();
             }
         }
@@ -390,10 +384,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             setComparator(new ViewerComparator() {
                 @Override
                 public int category(Object element) {
-                    if(element == OPEN) {
-                        return 1;
-                    }
-                    return 0;
+                    return element instanceof String ? 1 : 0; // String is open from file
                 }
             });
         }
@@ -410,26 +401,18 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     }
     
     private class ModelsViewerContentProvider implements IStructuredContentProvider {
-        private List<IArchimateModel> models;
+        private Set<IArchimateModel> models;
         
         @Override
-        public void dispose() {
-        }
-
-        @Override
-        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-        }
-
-        @Override
         public Object[] getElements(Object inputElement) {
-            List<Object> list = new ArrayList<Object>(getModels());
-            list.add(OPEN);
+            Set<Object> list = new HashSet<>(getModels());
+            list.add(Messages.ImageManagerDialog_0);
             return list.toArray();
         }
         
-        public List<IArchimateModel> getModels() {
+        public Set<IArchimateModel> getModels() {
             if(models == null) {
-                models = new ArrayList<>();
+                models = new HashSet<>();
                 
                 // Add all models that have images
                 for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
@@ -446,10 +429,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     private class ModelsViewerLabelProvider extends LabelProvider {
         @Override
         public String getText(Object element) {
-            if(element instanceof INameable) {
-                return ((INameable)element).getName();
-            }
-            return super.getText(element);
+            return element instanceof INameable nameable ? nameable.getName() : super.getText(element);
         }
         
         @Override
