@@ -5,15 +5,14 @@
  */
 package com.archimatetool.templates.wizard;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.Collator;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerComparator;
@@ -29,18 +28,16 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.PlatformUI;
 
@@ -120,17 +117,37 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         gd = new GridData(SWT.FILL, SWT.FILL, true, false);
         fInbuiltTableViewer = createGroupsTableViewer(tableComposite, Messages.NewModelFromTemplateWizardPage_2, gd);
         fInbuiltTableViewer.setInput(new Object[] { fTemplateManager.getInbuiltTemplateGroup(), OPEN, MANAGE });
+        
         // Mouse UP actions...
         fInbuiltTableViewer.getControl().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent e) {
-                Object o = ((IStructuredSelection)fInbuiltTableViewer.getSelection()).getFirstElement();
+                Object selected = fInbuiltTableViewer.getStructuredSelection().getFirstElement();
                 // Open...
-                if(o == OPEN) {
+                if(selected == OPEN) {
                     handleOpenAction();
                 }
                 // Manage...
-                else if(o == MANAGE) {
+                else if(selected == MANAGE) {
+                    handleManageTemplatesAction();
+                }
+            }
+        });
+        
+        // Press Return on table and selection is open or manager
+        fInbuiltTableViewer.getControl().addTraverseListener(event -> {
+            if(event.detail == SWT.TRAVERSE_RETURN) {
+                Object selected = fInbuiltTableViewer.getStructuredSelection().getFirstElement();
+                // Open...
+                if(selected == OPEN) {
+                    event.doit = false;
+                    event.detail = SWT.TRAVERSE_NONE;
+                    handleOpenAction();
+                }
+                // Manage...
+                else if(selected == MANAGE) {
+                    event.doit = false;
+                    event.detail = SWT.TRAVERSE_NONE;
                     handleManageTemplatesAction();
                 }
             }
@@ -162,14 +179,27 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         fGallery = new Gallery(galleryComposite, SWT.V_SCROLL | SWT.BORDER);
         fGallery.setLayoutData(new GridData(GridData.FILL_BOTH));
         
+        // If the Gallery has the focus pressing Return or Esc does not close the dialog
+        fGallery.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.keyCode == SWT.CR) {
+                    finishPressed();
+                }
+                if(e.keyCode == SWT.ESC) {
+                    cancelPressed();
+                }
+            }
+        });
+        
         // Renderers
-        final NoGroupRenderer groupRenderer = new NoGroupRenderer();
+        NoGroupRenderer groupRenderer = new NoGroupRenderer();
         groupRenderer.setItemSize(DEFAULT_GALLERY_ITEM_SIZE, DEFAULT_GALLERY_ITEM_SIZE);
         groupRenderer.setAutoMargin(true);
         groupRenderer.setMinMargin(10);
         fGallery.setGroupRenderer(groupRenderer);
         
-        final DefaultGalleryItemRenderer itemRenderer = new DefaultGalleryItemRenderer();
+        DefaultGalleryItemRenderer itemRenderer = new DefaultGalleryItemRenderer();
         itemRenderer.setDropShadows(true);
         itemRenderer.setDropShadowsSize(7);
         itemRenderer.setShowRoundedSelectionCorners(false);
@@ -188,39 +218,30 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         scale.setIncrement(8);
         scale.setPageIncrement(64);
         scale.setSelection(DEFAULT_GALLERY_ITEM_SIZE);
-        scale.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                int inc = scale.getSelection();
-                itemRenderer.setDropShadows(inc >= DEFAULT_GALLERY_ITEM_SIZE);
-                groupRenderer.setItemSize(inc, inc);
-            }
-        });
+        scale.addSelectionListener(widgetSelectedAdapter(event -> {
+            int inc = scale.getSelection();
+            itemRenderer.setDropShadows(inc >= DEFAULT_GALLERY_ITEM_SIZE);
+            groupRenderer.setItemSize(inc, inc);
+        }));
         
         // Description
         fDescriptionText = new StyledText(sash2, SWT.V_SCROLL | SWT.READ_ONLY | SWT.WRAP | SWT.BORDER);
         
-        fGallery.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if(e.item instanceof GalleryItem) {
-                    ITemplate template = (ITemplate)e.item.getData();
-                    updateWizard(template);
-                }
-                else {
-                    updateWizard(null);
-                }
-             }
-        });
+        fGallery.addSelectionListener(widgetSelectedAdapter(event -> {
+            if(event.item instanceof GalleryItem) {
+                ITemplate template = (ITemplate)event.item.getData();
+                updateWizard(template);
+            }
+            else {
+                updateWizard(null);
+            }
+        }));
         
         // Double-clicks
-        fGallery.addListener(SWT.MouseDoubleClick, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
-                if(item != null) {
-                    ((ExtendedWizardDialog)getContainer()).finishPressed();
-                }
+        fGallery.addListener(SWT.MouseDoubleClick, event -> {
+            GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
+            if(item != null) {
+                ((ExtendedWizardDialog)getContainer()).finishPressed();
             }
         });
         
@@ -251,14 +272,10 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         Composite tableComp = new Composite(parent, SWT.NULL);
         tableComp.setLayout(new TableColumnLayout());
         tableComp.setLayoutData(gd);
-        final TemplateGroupsTableViewer tableViewer = new TemplateGroupsTableViewer(tableComp, SWT.NULL);
-        tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                handleTableItemSelected(o);
-                deFocusTable(tableViewer);
-            }
+        TemplateGroupsTableViewer tableViewer = new TemplateGroupsTableViewer(tableComp, SWT.NULL);
+        tableViewer.addSelectionChangedListener(event -> {
+            handleTableItemSelected(event.getStructuredSelection().getFirstElement());
+            deFocusTable(tableViewer);
         });
         
         return tableViewer;
@@ -269,16 +286,16 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
      */
     private void deFocusTable(TableViewer viewer) {
         if(fLastViewerFocus != null && !fLastViewerFocus.getControl().isDisposed() && fLastViewerFocus != viewer) {
-                fLastViewerFocus.getTable().deselectAll();
+            fLastViewerFocus.getTable().deselectAll();
         }
         fLastViewerFocus = viewer;
     }
     
     protected void handleTableItemSelected(Object item) {
         // Template Group
-        if(item instanceof ITemplateGroup) {
+        if(item instanceof ITemplateGroup group) {
             clearGallery();
-            updateGallery((ITemplateGroup)item);
+            updateGallery(group);
         }
     }
     
@@ -293,18 +310,18 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
-            selectFirstTableItem();
             getContainer().getShell().setVisible(true);
+            selectFirstTableItem();
             return;
         }
         
-        final File file = new File(path);
+        File file = new File(path);
         
         // Create template and Finish
         BusyIndicator.showWhile(null, () -> { 
             try {
                 fSelectedTemplate = fTemplateManager.createTemplate(file);
-                ((ExtendedWizardDialog)getContainer()).finishPressed();
+                finishPressed();
             }
             catch(IOException ex) {
                 MessageDialog.openError(getShell(), Messages.NewModelFromTemplateWizardPage_5, ex.getMessage());
@@ -326,8 +343,8 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
             fUserTableViewer.refresh();
         }
         
-        selectFirstTableItem();
         getContainer().getShell().setVisible(true);
+        selectFirstTableItem();
     }
     
     protected TemplateManagerDialog createTemplateManagerDialog() {
@@ -360,7 +377,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
      */
     private void registerMouseMoveHandler() {
         fGallery.addMouseMoveListener(new MouseMoveListener() {
-            int mouse_movement_factor = 6;
+            final int mouse_movement_factor = 6;
             int index = 1;
             GalleryItem selectedItem;
             int last_x;
@@ -369,12 +386,17 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
             public void mouseMove(MouseEvent event) {
                 GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
                 
-                // Not enough thumbnails
+                // Not enough thumbnail images in the item
                 if(item != null) {
                     ITemplate template = (ITemplate)item.getData();
                     if(template.getThumbnailCount() <= 1) {
                         return;
                     }
+                }
+                
+                // This can be disposed when we clear the gallery
+                if(selectedItem != null && selectedItem.isDisposed()) {
+                    selectedItem = null;
                 }
                 
                 if(item != selectedItem) {
@@ -417,10 +439,9 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
      * Clear old root group
      */
     protected void clearGallery() {
-        if(fGalleryRoot != null && !fGallery.isDisposed() && fGallery.getItemCount() > 0) {
-            while(fGalleryRoot.getItemCount() > 0) {
-                GalleryItem item = fGalleryRoot.getItem(0);
-                fGalleryRoot.remove(item);
+        if(fGalleryRoot != null && !fGalleryRoot.isDisposed()) {
+            for(GalleryItem item : fGalleryRoot.getItems()) {
+                item.dispose();
             }
         }
     }
@@ -469,6 +490,20 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
             fDescriptionText.setStyleRange(style);
             setPageComplete(true);
         }
+    }
+    
+    /**
+     * Close the wizard with a finish pressed action
+     */
+    protected void finishPressed() {
+        ((ExtendedWizardDialog)getContainer()).finishPressed();
+    }
+    
+    /**
+     * Close the wizard with a cancel pressed action
+     */
+    protected void cancelPressed() {
+        ((ExtendedWizardDialog)getContainer()).close();
     }
     
     protected abstract String getHelpID();
