@@ -487,7 +487,8 @@ implements IDiagramModelObjectFigure {
             return new Dimension(imageBounds.width, imageBounds.height);
         }
         
-        return uiProvider.getDefaultSize();
+        // Always check for nulls as getDefaultSize() can be called after the figure is disposed
+        return uiProvider != null ? uiProvider.getDefaultSize() : IGraphicalObjectUIProvider.defaultSize();
     }
     
     @Override
@@ -502,9 +503,6 @@ implements IDiagramModelObjectFigure {
             iconicDelegate = null;
         }
         
-        figureDelegate = null;
-        diagramModelObject = null;
-        uiProvider = null;
         cachedValues = null;
     }
 }

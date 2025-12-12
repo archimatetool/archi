@@ -53,7 +53,8 @@ public class LegendFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     public Dimension getDefaultSize() {
-        Dimension figureSize = legendGraphics.getDefaultSize();
+        // Always check for nulls as getDefaultSize() can be called after the figure is disposed
+        Dimension figureSize = legendGraphics != null ? legendGraphics.getDefaultSize() : super.getDefaultSize();
         return figureSize.equals(0, 0) ? super.getDefaultSize() : figureSize;
     }
     
@@ -89,7 +90,10 @@ public class LegendFigure extends AbstractDiagramModelObjectFigure {
     @Override
     public void dispose() {
         super.dispose();
-        legendGraphics.dispose();
-        legendGraphics = null;
+        
+        if(legendGraphics != null) {
+            legendGraphics.dispose();
+            legendGraphics = null;
+        }
     }
 }
