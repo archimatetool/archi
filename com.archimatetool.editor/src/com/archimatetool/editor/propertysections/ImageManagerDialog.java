@@ -298,7 +298,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
 
             for(String path : archiveManager.getImagePaths()) {
                 // Create image and cache it
-                Image thumbnail = fImageCache.computeIfAbsent(path, p -> {
+                // Prefix model id to the image path in case the image path is the same for a different image in another model
+                Image thumbnail = fImageCache.computeIfAbsent(model.getId() + path, p -> {
                     try {
                         return archiveManager.createImage(path);
                     }

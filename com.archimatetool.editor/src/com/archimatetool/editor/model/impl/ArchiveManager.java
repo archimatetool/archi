@@ -96,9 +96,7 @@ public class ArchiveManager implements IArchiveManager {
             throw new IOException("Could not get bytes from file");
         }
 
-        String entryName = createArchiveImagePathname(file);
-
-        return addByteContentEntry(entryName, bytes);
+        return addByteContentEntry(createArchiveImagePathname(file.getName()), bytes);
     }
     
     /**
@@ -265,18 +263,23 @@ public class ArchiveManager implements IArchiveManager {
 
     @Override
     public String addByteContentEntry(String imagePath, byte[] bytes) throws IOException {
-        // Is this already in the cache?
+        // Are these bytes already in the storage? If so, return the entry name we have for it.
         String entryName = byteArrayStorage.getKey(bytes);
-        
-        // No
-        if(entryName == null) {
-            // Is this actually a valid Image file? Test it...
-            testImageBytesValid(bytes);
-           
-            // Add it
-            entryName = imagePath;
-            byteArrayStorage.addByteContentEntry(imagePath, bytes);
+        if(entryName != null) {
+            return entryName;
         }
+        
+        // So we don't have these bytes
+        
+        // First check whether the bytes are actually a valid Image file...
+        testImageBytesValid(bytes);
+
+        // If we already have an entry name equal to imagePath we need a new entry name because these are different bytes
+        // Else we can use the image path provided.
+        entryName = byteArrayStorage.hasEntry(imagePath) ? createArchiveImagePathname(imagePath) : imagePath;
+
+        // Add the bytes
+        byteArrayStorage.addByteContentEntry(entryName, bytes);
 
         return entryName;
     }
@@ -422,17 +425,23 @@ public class ArchiveManager implements IArchiveManager {
         }
     }
     
-    private String createArchiveImagePathname(File file) {
-        String ext = FileUtils.getFileExtension(file);
+    private String createArchiveImagePathname(String fileName) {
+        String path = "images/" + EcoreUtil.generateUUID();
         
-        String unique = EcoreUtil.generateUUID();
-        
-        String path = "images/" + unique;
-        if(ext.length() != 0) {
-            path += ext;
+        String extension = getFileNameExtension(fileName);
+        if(extension.length() != 0) {
+            path += extension;
         }
         
         return path;
+    }
+    
+    private String getFileNameExtension(String fileName) {
+        int i = fileName.lastIndexOf('.');
+        if(i > 0 && i < fileName.length() - 1) {
+            return fileName.substring(i).toLowerCase();
+        }
+        return "";
     }
     
     private File getImagesFolder(File modelFile) {
