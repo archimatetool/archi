@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -31,6 +32,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFolder;
@@ -328,8 +330,15 @@ public class SetConceptTypeCommandFactory {
                 for(IDiagramModel dm : relation.getArchimateModel().getDiagramModels()) {
                     for(IDiagramModelArchimateConnection dmc : DiagramModelUtils.findDiagramModelConnectionsForRelation(dm, relation)) {
                         add(new Command() {
+                            private int oldSourcePosition;
+                            private int oldTargetPosition;
+                            
                             @Override
                             public void execute() {
+                                // Store these here
+                                oldSourcePosition = dmc.getSource().getSourceConnections().indexOf(dmc);
+                                oldTargetPosition = dmc.getTarget().getTargetConnections().indexOf(dmc);
+                                
                                 // This will deregister listeners on the concept and update the UI
                                 dmc.disconnect();
                                 
@@ -338,6 +347,9 @@ public class SetConceptTypeCommandFactory {
                              
                                 // Reconnect and update UI
                                 dmc.reconnect();
+                                
+                                // Move these back
+                                restoreConnectionPositions();
                             }
                             
                             @Override
@@ -350,6 +362,22 @@ public class SetConceptTypeCommandFactory {
                                 
                                 // Reconnect and update UI
                                 dmc.reconnect();
+                                
+                                // Move these back
+                                restoreConnectionPositions();
+                            }
+                            
+                            // Restore the connection positions in their lists
+                            private void restoreConnectionPositions() {
+                                EList<IDiagramModelConnection> sources = dmc.getSource().getSourceConnections();
+                                if(oldSourcePosition >= 0 && oldSourcePosition < sources.size() && sources.contains(dmc)) {
+                                    sources.move(oldSourcePosition, dmc);
+                                }
+                                
+                                EList<IDiagramModelConnection> targets = dmc.getTarget().getTargetConnections();
+                                if(oldTargetPosition >= 0 && oldTargetPosition < targets.size() && targets.contains(dmc)) {
+                                    targets.move(oldTargetPosition, dmc);
+                                }
                             }
                         });
                     }

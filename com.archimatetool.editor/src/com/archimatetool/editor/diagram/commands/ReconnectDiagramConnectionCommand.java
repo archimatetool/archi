@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.model.IConnectable;
@@ -26,6 +27,10 @@ extends Command {
     protected IConnectable fOldSource;
     protected IConnectable fOldTarget;
     
+    // Store the positions of the connection in their lists
+    protected int oldSourcePosition;
+    protected int oldTargetPosition;
+    
     /**
      * Extra bendpoints were added as a result of a circular connection
      */
@@ -39,6 +44,10 @@ extends Command {
         fConnection = connection;
         fOldSource = connection.getSource();
         fOldTarget = connection.getTarget();
+        
+        // store these here
+        oldSourcePosition = fConnection.getSource().getSourceConnections().indexOf(fConnection);
+        oldTargetPosition = fConnection.getTarget().getTargetConnections().indexOf(fConnection);
     }
     
     public void setNewSource(IConnectable source) {
@@ -114,6 +123,17 @@ extends Command {
         }
 
         fConnection.connect(fOldSource, fOldTarget);
+        
+        // restore these
+        EList<IDiagramModelConnection> sources = fConnection.getSource().getSourceConnections();
+        if(oldSourcePosition >= 0 && oldSourcePosition < sources.size() && sources.contains(fConnection)) {
+            sources.move(oldSourcePosition, fConnection);
+        }
+        
+        EList<IDiagramModelConnection> targets = fConnection.getTarget().getTargetConnections();
+        if(oldTargetPosition >= 0 && oldTargetPosition < targets.size() && targets.contains(fConnection)) {
+            targets.move(oldTargetPosition, fConnection);
+        }
     }
     
     protected void doConnection() {
