@@ -7,6 +7,7 @@ package com.archimatetool.editor.views.tree;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
+import com.archimatetool.editor.ui.components.AlphanumericComparator;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
@@ -85,6 +87,8 @@ public class TreeModelViewer extends TreeViewer {
      */
     private Object[] rootVisibleExpandedElements;
     
+    private boolean useAlphanumericComparator = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.TREE_ALPHANUMERIC_SORT);
+    
     /**
      * Listener for theme font change
      */
@@ -119,6 +123,8 @@ public class TreeModelViewer extends TreeViewer {
         
         // Sort
         setComparator(new ViewerComparator(Collator.getInstance()) {
+            Comparator<String> alphanumericComparator = new AlphanumericComparator(getComparator());
+            
             @Override
             public int compare(Viewer viewer, Object e1, Object e2) {
                 int cat1 = category(e1);
@@ -146,18 +152,13 @@ public class TreeModelViewer extends TreeViewer {
                     label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
                 }
                 
-                return getComparator().compare(label1, label2);
+                // Use either alphanumeric compare or default
+                return useAlphanumericComparator ? alphanumericComparator.compare(label1, label2) : getComparator().compare(label1, label2);
             }
             
             @Override
             public int category(Object element) {
-                if(element instanceof IFolder) {
-                    return 0;
-                }
-                if(element instanceof EObject) {
-                    return 1;
-                }
-                return 0;
+                return element instanceof IFolder ? 0 : 1;
             }
         });
         
@@ -219,6 +220,11 @@ public class TreeModelViewer extends TreeViewer {
             searchFilter = null;
             rootVisibleExpandedElements = null;
         });
+    }
+    
+    void setUseAlphanumericComparator(boolean value) {
+        useAlphanumericComparator = value;
+        refreshTreePreservingExpandedNodes();
     }
     
     /**

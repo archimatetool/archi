@@ -47,6 +47,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fWarnOnDeleteButton;
     private Button fShowSpecializationsModelTreeMenuButton;
     private Button fShowSpecializationIconsModelTreeButton;
+    private Button fAlphanumericSortModelTreeButton;
     
     private Text fTreeDisplayIncrementText;
     
@@ -126,6 +127,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowSpecializationIconsModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
         fShowSpecializationIconsModelTreeButton.setText(Messages.GeneralPreferencePage_26);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationIconsModelTreeButton);
+        
+        fAlphanumericSortModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
+        fAlphanumericSortModelTreeButton.setText(Messages.GeneralPreferencePage_27);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fAlphanumericSortModelTreeButton);
         
         label = new Label(modelTreeGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_25);
@@ -225,6 +230,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
         fShowSpecializationsModelTreeMenuButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU));
         fShowSpecializationIconsModelTreeButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE));
+        fAlphanumericSortModelTreeButton.setSelection(getPreferenceStore().getBoolean(TREE_ALPHANUMERIC_SORT));
         fTreeDisplayIncrementText.setText(Integer.toString(getPreferenceStore().getInt(TREE_DISPLAY_NODE_INCREMENT)));
         
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
@@ -259,6 +265,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(SHOW_WARNING_ON_DELETE_FROM_TREE, fWarnOnDeleteButton.getSelection());
         getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU, fShowSpecializationsModelTreeMenuButton.getSelection());
         getPreferenceStore().setValue(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE, fShowSpecializationIconsModelTreeButton.getSelection());
+        getPreferenceStore().setValue(TREE_ALPHANUMERIC_SORT, fAlphanumericSortModelTreeButton.getSelection());
         getPreferenceStore().setValue(TREE_DISPLAY_NODE_INCREMENT, fTreeDisplayIncrementText.getText());
 
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
@@ -295,6 +302,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWarnOnDeleteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_WARNING_ON_DELETE_FROM_TREE));
         fShowSpecializationsModelTreeMenuButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU));
         fShowSpecializationIconsModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATION_ICONS_IN_MODEL_TREE));
+        fAlphanumericSortModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(TREE_ALPHANUMERIC_SORT));
         fTreeDisplayIncrementText.setText(Integer.toString(getPreferenceStore().getDefaultInt(TREE_DISPLAY_NODE_INCREMENT)));
         
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));

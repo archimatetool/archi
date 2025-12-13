@@ -700,6 +700,10 @@ implements ITreeModelView, IUIRequestListener {
                     getViewer().setInputPreservingExpandedNodes(IEditorModelManager.INSTANCE);
                 }
             }
+            
+            case IPreferenceConstants.TREE_ALPHANUMERIC_SORT -> {
+                getViewer().setUseAlphanumericComparator((Boolean)event.getNewValue());
+            }
         }
 
         if(event.getProperty().startsWith(IPreferenceConstants.FOLDER_COLOUR_PREFIX)) {

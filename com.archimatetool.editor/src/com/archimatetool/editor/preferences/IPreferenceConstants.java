@@ -148,6 +148,8 @@ public interface IPreferenceConstants {
     String SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU = "showSpecializationsInModelTreeMenu";
     String TREE_DISPLAY_NODE_INCREMENT = "treeDisplayNodeIncrement";
     
+    String TREE_ALPHANUMERIC_SORT = "treeAlphanumericSort";
+    
     String USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE = "useLabelExpressionInAnalysisTable";
     
     // Whether to add a note to the documentation field of relationships that have been changed to Association when setting a new concept type
