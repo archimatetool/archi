@@ -5,7 +5,12 @@
  */
 package com.archimatetool.model.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -130,13 +135,19 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     public IFeature getFeature(String name) {
         checkNull(name);
         
-        for(IFeature f : this) {
-            if(f.getName().equals(name)) {
-                return f;
-            }
-        }
-        
-        return null;
+        return stream()
+                .filter(feature -> Objects.equals(feature.getName(), name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Return true so that {@link #contains(Object)} checks {@link Feature#equals(Object)}
+     * for unique entries keyed by name.
+     */
+    @Override
+    protected boolean useEquals() {
+        return Feature.useEquals();
     }
 
     private void checkNull(String s) {
@@ -145,12 +156,80 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         }
     }
     
-    /**
-     * Return true so that {@link #contains(Object)} checks {@link Feature#equals(Object)}
-     * For unique entries keyed by name
+    /*
+     * Over-ride these methods so duplicates can't be added.
+     * 
+     * No need to over-ride addAllUnique(Collection<? extends E> collection)
+     * as it calls addAllUnique(int index, Collection<? extends IFeature> collection)
      */
+    
     @Override
-    protected boolean useEquals() {
-        return true;
+    public boolean add(IFeature feature) {
+        // If we are checking equality using Feature#equals() just call super()
+        if(useEquals()) {
+            return super.add(feature);
+        }
+
+        // If we are not checking feature name equality in Feature#equals() we need to check it here
+        return containsName(feature.getName()) ? false : super.add(feature);
+    }
+    
+    @Override
+    public void add(int index, IFeature feature) {
+        if(!containsName(feature.getName())) {
+            super.add(index, feature);
+        }
+    }
+    
+    @Override
+    public void addUnique(IFeature feature) {
+        if(!containsName(feature.getName())) {
+            super.addUnique(feature);
+        }
+    }
+    
+    @Override
+    public void addUnique(int index, IFeature feature) {
+        if(!containsName(feature.getName())) {
+            super.addUnique(index, feature);
+        }
+    }
+    
+    @Override
+    public boolean addAllUnique(int index, Collection<? extends IFeature> collection) {
+        // Remove actual duplicate objects from the supplied collection
+        collection = getNonDuplicates(collection);
+        
+        // Remove objects with the same feature name from the supplied collection
+        collection = getNonDuplicateNames(collection);
+        
+        // If we are not checking equality with equals() remove objects with the same feature name from this FeaturesEList
+        if(!useEquals()) {
+            for(IFeature feature : new ArrayList<>(collection)) {
+                // If this FeaturesEList contains a feature as one with the same name in the collection remove it from the collection
+                if(containsName(feature.getName())) {
+                    collection.remove(feature);
+                }
+            }
+        }
+        
+        return super.addAllUnique(index, collection);
+    }
+    
+    /**
+     * @return the collection with all duplicates by name removed
+     */
+    private Collection<? extends IFeature> getNonDuplicateNames(Collection<? extends IFeature> collection) {
+        List<IFeature> result = new ArrayList<>(collection);
+        Set<String> seen = new HashSet<>();
+        result.removeIf(feature -> !seen.add(feature.getName()));
+        return result;
+    }
+    
+    /**
+     * @return true if this FeaturesEList contains a feature with the given name
+     */
+    private boolean containsName(String name) {
+        return stream().anyMatch(o -> Objects.equals(o.getName(), name));
     }
 }

@@ -299,6 +299,14 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
         Feature feature = new Feature();
         return feature;
     }
+    
+    @Override
+    public IFeature createFeature(String name, String value) {
+        Feature feature = new Feature();
+        feature.setName(name);
+        feature.setValue(value);
+        return feature;
+    }
 
     /* (non-Javadoc)
      * @see com.archimatetool.model.IArchimateFactory#createProperty(java.lang.String, java.lang.String)

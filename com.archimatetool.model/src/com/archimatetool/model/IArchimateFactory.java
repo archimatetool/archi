@@ -42,6 +42,14 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IFeature createFeature();
+    
+    /**
+     * Convenience method to create a Feature
+     * @param name The name
+     * @param value The value
+     * @return New feature
+     */
+    IFeature createFeature(String name, String value);
 
     /**
      * Convenience method to create a Property

@@ -5,15 +5,15 @@
  */
 package com.archimatetool.model.impl;
 
-import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFeature;
+import java.util.Objects;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFeature;
 
 /**
  * <!-- begin-user-doc -->
@@ -222,18 +222,41 @@ public class Feature extends EObjectImpl implements IFeature {
     }
     
     /**
+     * @return true if we are using equals() here and in {@link FeaturesEList#useEquals(Object)}
+     */
+    static boolean useEquals() {
+        return true;
+    }
+    
+    /**
      * Over-ride this to test equality based on this Feature's name
      * This ensures we have unique entries keyed by name
      */
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) {
-            return true;
+        // Equality is based on feature name
+        if(useEquals()) {
+            if(this == obj) { // equality is same object so return true
+                return true;
+            }
+
+            // Equality based on feature name
+            return obj instanceof Feature feature && Objects.equals(name, feature.name);  
         }
-        
-        return (obj instanceof Feature) &&
-                name != null &&
-                name.equals(((Feature)obj).name);
+
+        // useEquals() is false so call super()
+        return super.equals(obj);
     }
+    
+    /**
+     * Don't over-ride this with a custom implementation!
+     * This greatly impacts performance in EMF Compare/Merge.
+     * I've added this here so that it's obvious not to do this.
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 
 } //Feature
