@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.RGB;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
@@ -77,8 +76,9 @@ public class FormatPainterInfo {
     
     private Cursor getDefaultCursor() {
         if(defaultCursor == null) {
-            ImageData id = IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_FORMAT_PAINTER_GREY).getImageData(ImageFactory.getCursorDeviceZoom());
-            defaultCursor = new Cursor(null, id, 0, id.height - 1);
+            defaultCursor = new Cursor(null,
+                    zoom -> IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_FORMAT_PAINTER_GREY).getImageData(zoom),
+                    0, 31);
         }
         
         return defaultCursor;
@@ -155,23 +155,26 @@ public class FormatPainterInfo {
             coloredCursor.dispose();
         }
         
-        ImageData cursorImageData = IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_FORMAT_PAINTER).getImageData(ImageFactory.getCursorDeviceZoom());
+        coloredCursor = new Cursor(null, zoom -> {
+            ImageData cursorImageData = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_FORMAT_PAINTER).getImageData(zoom);
 
-        if(getCursorColor() != null) {
-            PaletteData pData = cursorImageData.palette;
-            int whitePixel = pData.getPixel(new RGB(255, 255, 255));
-            int fillColor = pData.getPixel(getCursorColor());
+            if(getCursorColor() != null) {
+                PaletteData pData = cursorImageData.palette;
+                int whitePixel = pData.getPixel(new RGB(255, 255, 255));
+                int fillColor = pData.getPixel(getCursorColor());
 
-            for(int i = 0; i < cursorImageData.width; i++) {
-                for(int j = 0; j < cursorImageData.height; j++) {
-                    if(cursorImageData.getPixel(i, j) == whitePixel) {
-                        cursorImageData.setPixel(i, j, fillColor);
+                for(int i = 0; i < cursorImageData.width; i++) {
+                    for(int j = 0; j < cursorImageData.height; j++) {
+                        if(cursorImageData.getPixel(i, j) == whitePixel) {
+                            cursorImageData.setPixel(i, j, fillColor);
+                        }
                     }
                 }
             }
-        }
-        
-        coloredCursor = new Cursor(null, cursorImageData, 0, cursorImageData.height - 1);
+
+            return cursorImageData;
+        },
+        0, 31);
     }
     
     void addPropertyChangeListener(PropertyChangeListener listener) {
