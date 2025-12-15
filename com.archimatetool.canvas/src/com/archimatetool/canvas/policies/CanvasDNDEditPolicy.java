@@ -14,6 +14,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
@@ -211,9 +212,9 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
     }
     
     private boolean isImagePath(String path) {
-        return path.endsWith(".png") || path.endsWith(".bmp") || path.endsWith(".gif") ||
-                path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".tif") ||
-                path.endsWith(".tiff") || path.endsWith(".ico");
+        Set<String> extensions = Set.of(".png", ".bmp", ".gif", ".jpg", ".jpeg", ".tif", ".tiff", ".ico", ".svg");
+        return extensions.stream()
+                         .anyMatch(path.toLowerCase()::endsWith);
     }
         
     /**

@@ -151,7 +151,7 @@ implements IPreferenceConstants {
         store.setDefault(ANIMATE_VISUALISER_TIME, 400);
         
         // Edge Browser
-        store.setDefault(EDGE_BROWSER, false);
+        store.setDefault(EDGE_BROWSER, true);
         
         // Hints Browser
         store.setDefault(HINTS_BROWSER_JS_ENABLED, false);
