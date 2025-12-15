@@ -188,6 +188,37 @@ public class ModelCheckerTests {
     }
     
     @Test
+    public void checkDiagramModelConnection() {
+        model.getDefaultDiagramModel().setName("dm");
+        
+        IArchimateElement actor = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IDiagramModelArchimateObject dmo1 = tm.createDiagramModelArchimateObjectAndAddToModel(actor);
+        model.getDefaultDiagramModel().getChildren().add(dmo1);
+        
+        IArchimateElement role = IArchimateFactory.eINSTANCE.createBusinessRole();
+        IDiagramModelArchimateObject dmo2 = tm.createDiagramModelArchimateObjectAndAddToModel(role);
+        model.getDefaultDiagramModel().getChildren().add(dmo2);
+        
+        IAssignmentRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        relation.setSource(actor);
+        relation.setTarget(role);
+        IDiagramModelArchimateConnection dmc = tm.createDiagramModelArchimateConnectionAndAddToModel(relation);
+        dmc.connect(dmo1, dmo2);
+        
+        List<String> messages = modelChecker.checkDiagramModelConnection(dmc);
+        assertTrue(messages.isEmpty());
+        
+        // Null source/target
+        dmc.setSource(null);
+        dmc.setTarget(null);
+        
+        messages = modelChecker.checkDiagramModelConnection(dmc);
+        assertEquals(2, messages.size());
+        assertTrue(messages.get(0).startsWith("Diagram Connection has missing source end in 'dm'"));
+        assertTrue(messages.get(1).startsWith("Diagram Connection has missing target end in 'dm'"));
+    }
+    
+    @Test
     public void checkDiagramModelArchimateConnection() {
         model.getDefaultDiagramModel().setName("dm");
         

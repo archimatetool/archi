@@ -33,6 +33,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
@@ -96,6 +97,11 @@ public class ModelChecker {
                 incrementInstanceCount(dmo, dmcMap);
             }
             
+            // Diagram Model Connection
+            if(eObject instanceof IDiagramModelConnection dmc) {
+                errorMessages.addAll(checkDiagramModelConnection(dmc));
+            }
+
             // Diagram Model ArchiMate Connection
             if(eObject instanceof IDiagramModelArchimateConnection dmc) {
                 errorMessages.addAll(checkDiagramModelArchimateConnection(dmc));
@@ -273,6 +279,24 @@ public class ModelChecker {
         return List.of();
     }
     
+    protected List<String> checkDiagramModelConnection(IDiagramModelConnection connection) {
+        List<String> messages = new ArrayList<>();
+        
+        String name = connection.getDiagramModel() == null ? Messages.ModelChecker_11 : "'" + connection.getDiagramModel().getName() + "' (" + connection.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+        // Connection source is null
+        if(connection.getSource() == null) {
+            messages.add(NLS.bind(Messages.ModelChecker_30, name));
+        }
+        
+        // Connection target is null
+        if(connection.getTarget() == null) {
+            messages.add(NLS.bind(Messages.ModelChecker_31, name));
+        }
+
+        return messages;
+    }
+    
     protected List<String> checkDiagramModelArchimateConnection(IDiagramModelArchimateConnection connection) {
         List<String> messages = new ArrayList<>();
         
@@ -289,6 +313,7 @@ public class ModelChecker {
             if(relation.getArchimateModel() == null) {
                 messages.add(NLS.bind(Messages.ModelChecker_16, name));
             }
+            
             // Orphaned relation source
             if(relation.getSource() != null && relation.getSource().getArchimateModel() == null) {
                 messages.add(NLS.bind(Messages.ModelChecker_17, name));
@@ -297,12 +322,16 @@ public class ModelChecker {
             if(relation.getTarget() != null && relation.getTarget().getArchimateModel() == null) {
                 messages.add(NLS.bind(Messages.ModelChecker_18, name));
             }
-            // Relationship ends != connection ends
-            if(((IDiagramModelArchimateComponent)connection.getSource()).getArchimateConcept() != relation.getSource()) {
+            
+            // Connection source end != relation source end
+            if(connection.getSource() instanceof IDiagramModelArchimateComponent dmcSource
+                                      && dmcSource.getArchimateConcept() != relation.getSource()) {
                 messages.add(NLS.bind(Messages.ModelChecker_14, name));
             }
-            if(((IDiagramModelArchimateComponent)connection.getTarget()).getArchimateConcept() != relation.getTarget()) {
-                messages.add(NLS.bind(Messages.ModelChecker_27, name));
+            // Connection target end != relation target end
+            if(connection.getTarget() instanceof IDiagramModelArchimateComponent dmcTarget
+                                      && dmcTarget.getArchimateConcept() != relation.getTarget()) {
+                messages.add(NLS.bind(Messages.ModelChecker_14, name));
             }
         }
         
