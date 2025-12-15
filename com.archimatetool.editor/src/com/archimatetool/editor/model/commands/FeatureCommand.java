@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.model.IFeatures;
-import com.archimatetool.model.IFeaturesEList;
+import com.archimatetool.model.IFeaturesEMap;
 
 /**
  * Command for setting an Archi Feature
@@ -20,7 +20,7 @@ import com.archimatetool.model.IFeaturesEList;
 @SuppressWarnings("nls")
 public class FeatureCommand extends Command {
     
-    private IFeaturesEList features;
+    private IFeaturesEMap features;
     private String name, value, oldValue, defaultValue;
 
     public FeatureCommand(String label, IFeatures featuresObject, String name, Object value, Object defaultValue) {

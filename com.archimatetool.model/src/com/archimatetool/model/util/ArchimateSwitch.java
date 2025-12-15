@@ -77,7 +77,6 @@ import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
@@ -232,14 +231,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 return result;
             }
             case IArchimatePackage.FEATURE: {
-                IFeature feature = (IFeature)theEObject;
+                @SuppressWarnings("unchecked") Map.Entry<String, String> feature = (Map.Entry<String, String>)theEObject;
                 T result = caseFeature(feature);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.FEATURE_ENTRY: {
-                @SuppressWarnings("unchecked") Map.Entry<String, String> featureEntry = (Map.Entry<String, String>)theEObject;
-                T result = caseFeatureEntry(featureEntry);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -2549,22 +2542,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseFeature(IFeature object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Feature Entry</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Feature Entry</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseFeatureEntry(Map.Entry<String, String> object) {
+    public T caseFeature(Map.Entry<String, String> object) {
         return null;
     }
 
