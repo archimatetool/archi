@@ -144,6 +144,7 @@ import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
+import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -233,6 +234,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.FEATURE: {
                 IFeature feature = (IFeature)theEObject;
                 T result = caseFeature(feature);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.FEATURE_ENTRY: {
+                @SuppressWarnings("unchecked") Map.Entry<String, String> featureEntry = (Map.Entry<String, String>)theEObject;
+                T result = caseFeatureEntry(featureEntry);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -2543,6 +2550,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseFeature(IFeature object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Feature Entry</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Feature Entry</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseFeatureEntry(Map.Entry<String, String> object) {
         return null;
     }
 
