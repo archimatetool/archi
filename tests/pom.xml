@@ -17,8 +17,7 @@
         
     <properties>
     	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
-        <!-- TODO: this can be changed to ${org.mockito:mockito-core:jar} with orbit 4.34 and later -->
-        <mockito.args>-Xshare:off -javaagent:${net.bytebuddy:byte-buddy-agent:jar}</mockito.args>
+        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
         
         <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
         <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
@@ -29,7 +28,7 @@
         <repository>
             <id>Update Site</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.32</url>
+            <url>https://download.eclipse.org/eclipse/updates/4.38</url>
         </repository>
     </repositories>
 
@@ -58,7 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.9.0</version>
                 <executions>
                     <execution>
                         <goals>
