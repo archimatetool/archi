@@ -160,16 +160,16 @@ public class ArchiLabelProvider {
         return new ImageDescriptor() {
             // Set background to this color so we can make it transparent
             static final Color transparentColor = new Color(255, 255, 254);
+            // Palette icon size
+            static final int iconSize = 16;
             
             @Override
             public ImageData getImageData(int zoom) {
-                Image img = null;
+                final Image image;
                 try {
                     IArchiveManager archiveManager = (IArchiveManager)profile.getAdapter(IArchiveManager.class);
-                    if(archiveManager != null) {
-                        img = archiveManager.createImage(profile.getImagePath());
-                    }
-                    if(img == null) {
+                    image = archiveManager.createImage(profile.getImagePath());
+                    if(image == null) {
                         return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                     }
                 }
@@ -179,14 +179,6 @@ public class ArchiLabelProvider {
                     return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                 }
 
-                final Image image = img;
-                
-                // Palette icon size
-                final int iconSize = 16;
-                
-                // Image bounds
-                final Rectangle imageBounds = image.getBounds();
-                
                 // Scaled size to 16x16
                 final Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
                 
@@ -204,12 +196,10 @@ public class ArchiLabelProvider {
                     int y = (height - scaledSize.height) / 2;
 
                     // Draw scaled image onto icon image
-                    gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
-                            x, y, scaledSize.width, scaledSize.height);
+                    gc.drawImage(image, x, y, scaledSize.width, scaledSize.height);
                 };
 
                 Image iconImage = new Image(Display.getDefault(), gcDrawer, iconSize, iconSize);
-                
                 ImageData data = iconImage.getImageData(zoom);
                 
                 // Set transparent pixel to background color on *this* ImageData 
