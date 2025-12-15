@@ -12,9 +12,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageGcDrawer;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
@@ -163,13 +163,13 @@ public class ArchiLabelProvider {
             
             @Override
             public ImageData getImageData(int zoom) {
-                Image image = null;
+                Image img = null;
                 try {
                     IArchiveManager archiveManager = (IArchiveManager)profile.getAdapter(IArchiveManager.class);
                     if(archiveManager != null) {
-                        image = archiveManager.createImage(profile.getImagePath());
+                        img = archiveManager.createImage(profile.getImagePath());
                     }
-                    if(image == null) {
+                    if(img == null) {
                         return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                     }
                 }
@@ -179,40 +179,42 @@ public class ArchiLabelProvider {
                     return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                 }
 
-                // Image bounds
-                final Rectangle imageBounds = image.getBounds();
-
+                final Image image = img;
+                
                 // Palette icon size
                 final int iconSize = 16;
+                
+                // Image bounds
+                final Rectangle imageBounds = image.getBounds();
+                
+                // Scaled size to 16x16
+                final Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
+                
+                ImageGcDrawer gcDrawer = (gc, width, height) -> {
+                    gc.setAntialias(SWT.ON);
+                    gc.setInterpolation(SWT.HIGH);
+                    gc.setAdvanced(true);
 
-                // Blank icon image for background and size
-                Image iconImage = new Image(Display.getDefault(), iconSize, iconSize);
+                    // Set background to this color so we can make it transparent
+                    gc.setBackground(transparentColor);
+                    gc.fillRectangle(0, 0, width, height);
 
-                GC gc = new GC(iconImage);
-                gc.setAntialias(SWT.ON);
-                gc.setInterpolation(SWT.HIGH);
+                    // Centre the image
+                    int x = (width - scaledSize.width) / 2;
+                    int y = (height - scaledSize.height) / 2;
 
-                // Set background to this color so we can make it transparent
-                gc.setBackground(transparentColor);
-                gc.fillRectangle(0, 0, iconSize, iconSize);
+                    // Draw scaled image onto icon image
+                    gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
+                            x, y, scaledSize.width, scaledSize.height);
+                };
 
-                // Get scaled size
-                Rectangle scaledSize = ImageFactory.getScaledImageSize(image, iconSize);
-
-                // Centre the image
-                int x = (iconSize - scaledSize.width) / 2;
-                int y = (iconSize - scaledSize.height) / 2;
-
-                // Draw scaled image onto icon image
-                gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height,
-                        x, y, scaledSize.width, scaledSize.height);
-
+                Image iconImage = new Image(Display.getDefault(), gcDrawer, iconSize, iconSize);
+                
                 ImageData data = iconImage.getImageData(zoom);
-
-                // Set transparent pixel to background color
+                
+                // Set transparent pixel to background color on *this* ImageData 
                 data.transparentPixel = data.palette.getPixel(transparentColor.getRGB());
 
-                gc.dispose();
                 image.dispose();
                 iconImage.dispose();
 
