@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
 
@@ -198,12 +199,15 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
-        // Junctions
+        super.testShouldExposeFeature(provider);
+        
+        // Junction
         if(provider instanceof JunctionUIProvider) {
-            assertFalse(provider.shouldExposeFeature((String)null));
-        }
-        else {
-            super.testShouldExposeFeature(provider);
+            assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName()));
+            assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName()));
+            assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()));
+            
+            assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT));
         }
     }
     

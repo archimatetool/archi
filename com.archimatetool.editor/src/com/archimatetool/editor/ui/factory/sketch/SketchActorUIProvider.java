@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.ui.factory.sketch;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
@@ -17,7 +19,6 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -63,18 +64,17 @@ public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
         return ColorConstants.black;
     }
     
+    // Features to expose
+    private final static Set<String> supportedFeatures = Set.of(
+            IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+            IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName(),
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName(),
+            IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT.getName(),
+            IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR.getName()
+            );
+
     @Override
     public boolean shouldExposeFeature(String featureName) {
-        if(featureName == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName() ||
-                featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
-                featureName == IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR ||
-                featureName == IDiagramModelObject.FEATURE_LINE_ALPHA ||
-                featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName() ||
-                featureName == IDiagramModelObject.FEATURE_GRADIENT ||
-                featureName == IDiagramModelObject.FEATURE_LINE_STYLE) {
-            return false;
-        }
-        
-        return true;
+        return featureName == null ? false : supportedFeatures.contains(featureName);
     }
 }

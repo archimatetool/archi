@@ -24,6 +24,7 @@ import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTest
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextPosition;
 
 public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
@@ -57,8 +58,12 @@ public class CanvasStickyUIProviderTests extends AbstractGraphicalObjectUIProvid
     @Override
     @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
+        super.testShouldExposeFeature(provider);
         assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
-        assertTrue(provider.shouldExposeFeature((String)null));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()));
+        assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_STYLE));
+        assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR));
+        assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT));
     }
     
     @Override

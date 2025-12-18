@@ -12,10 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
@@ -105,6 +108,33 @@ public class FormatPainterToolTests {
         
         compoundCmd = tool.createCommand(targetComponent);
         assertEquals(5, compoundCmd.getCommands().size());
+    }
+    
+    @Test
+    public void targetNotSupportedFeatures() {
+        // Source component is a Note
+        IDiagramModelNote sourceComponent = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        sourceComponent.setContent("Some Content");
+        sourceComponent.getFeatures().putString(TextRenderer.FEATURE_NAME, "expression");
+        sourceComponent.setImagePath("123");
+        sourceComponent.setImagePosition(IIconic.ICON_POSITION_BOTTOM_CENTRE);
+        sourceComponent.setTextAlignment(1);
+        sourceComponent.setTextPosition(1);
+        sourceComponent.setBorderType(1);
+        
+        // Target component is a Legend
+        IDiagramModelNote targetComponent = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        targetComponent.setIsLegend(true);
+        
+        // Set FormatPainterInfo to Source component
+        FormatPainterInfo.INSTANCE.updateWithSourceComponent(sourceComponent);
+
+        // Execute command
+        FormatPainterTool tool = new FormatPainterTool();
+        CompoundCommand compoundCmd = tool.createCommand(targetComponent);
+        
+        // Should be no commands
+        assertEquals(0, compoundCmd.getCommands().size());
     }
 
     @Test

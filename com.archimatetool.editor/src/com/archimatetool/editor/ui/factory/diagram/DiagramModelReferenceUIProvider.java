@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -20,6 +22,7 @@ import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 
 
@@ -78,6 +81,16 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     @Override
     public Color getDefaultColor() {
         return defaultColor;
+    }
+    
+    // Unsupported
+    private final static Set<String> unsupportedFeatures = Set.of(
+            IDiagramModelObject.FEATURE_ICON_COLOR
+            );
+
+    @Override
+    public boolean shouldExposeFeature(String featureName) {
+        return featureName == null ? false : !unsupportedFeatures.contains(featureName);
     }
     
     @Override

@@ -47,8 +47,15 @@ public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIP
     @Override
     @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
+        super.testShouldExposeFeature(provider);
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()));
         assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName()));
-        assertFalse(provider.shouldExposeFeature((String)null));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()));
+        assertTrue(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_ALPHA));
+        assertTrue(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_STYLE));
+        
+        assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT));
     }
     
     @Override

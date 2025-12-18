@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
@@ -18,6 +19,7 @@ import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.editparts.diagram.LegendEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.editor.ui.factory.diagram.NoteUIProvider;
+import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
@@ -72,6 +74,21 @@ public class NoteUIProviderTests extends AbstractGraphicalObjectUIProviderTests 
     public void testLegendGetDefaultSize(IGraphicalObjectUIProvider provider) {
         setProviderInstance(provider, true);
         assertEquals(new Dimension(210, 320), provider.getDefaultSize());
+    }
+    
+    @Override
+    @ParamsTest
+    public void testShouldExposeFeature(IObjectUIProvider provider) {
+        super.testShouldExposeFeature(provider);
+        
+        setProviderInstance(provider, true);
+        
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_CONTENT__CONTENT.getName()));
+        assertFalse(provider.shouldExposeFeature(TextRenderer.FEATURE_NAME));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName()));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName()));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE.getName()));
     }
     
     //---------------------------------------------------------------

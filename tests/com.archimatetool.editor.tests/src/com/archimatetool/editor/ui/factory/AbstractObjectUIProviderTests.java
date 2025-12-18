@@ -6,9 +6,9 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -80,7 +80,7 @@ public abstract class AbstractObjectUIProviderTests {
 
     @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
-        assertTrue(provider.shouldExposeFeature((String)null));
+        assertFalse(provider.shouldExposeFeature(null));
     }
     
     @ParamsTest

@@ -70,12 +70,12 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
         return getInstance() instanceof IDiagramModelNote note && note.isLegend();
     }
     
-    // Features to hide if this note is displaying a legend
-    private final static Set<String> legendHiddenFeatures = Set.of(
-            //IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+    // Features to not use if this note is displaying a legend
+    private final static Set<String> unsupportedLegendFeatures = Set.of(
             IArchimatePackage.Literals.TEXT_CONTENT__CONTENT.getName(),
             TextRenderer.FEATURE_NAME,
             IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH.getName(),
+            IArchimatePackage.Literals.ICONIC__IMAGE_POSITION.getName(),
             IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName(),
             IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName(),
             IArchimatePackage.Literals.BORDER_TYPE__BORDER_TYPE.getName()
@@ -83,6 +83,10 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public boolean shouldExposeFeature(String featureName) {
-        return isLegend() ? !legendHiddenFeatures.contains(featureName) : true;
+        if(featureName == null) {
+            return false;
+        }
+        
+        return isLegend() ? !unsupportedLegendFeatures.contains(featureName) : super.shouldExposeFeature(featureName);
     }
 }

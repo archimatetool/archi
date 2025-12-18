@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -62,13 +64,18 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
         return new Color(255, 255, 255);
     }
     
+    // Features to expose
+    private final static Set<String> supportedFeatures = Set.of(
+            IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName(),
+            IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName(),
+            IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName(),
+            IDiagramModelObject.FEATURE_LINE_ALPHA,
+            IDiagramModelObject.FEATURE_LINE_STYLE
+            );
+
     @Override
     public boolean shouldExposeFeature(String featureName) {
-        return  featureName == IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName() ||
-                featureName == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR.getName() ||
-                featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()
-                || featureName == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()
-                || featureName == IDiagramModelObject.FEATURE_LINE_ALPHA
-                || featureName == IDiagramModelObject.FEATURE_LINE_STYLE;
+        return featureName == null ? false : supportedFeatures.contains(featureName);
     }
 }

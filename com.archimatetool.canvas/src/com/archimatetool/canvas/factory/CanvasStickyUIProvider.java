@@ -5,6 +5,8 @@
  */
 package com.archimatetool.canvas.factory;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -58,17 +60,19 @@ public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
         return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_STICKY);
     }
     
+    // Unsupported Features
+    private final static Set<String> unsupportedFeatures = Set.of(
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName(),
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName(),
+            IDiagramModelObject.FEATURE_LINE_STYLE,
+            IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR,
+            IDiagramModelObject.FEATURE_GRADIENT
+            );
+
+    
     @Override
     public boolean shouldExposeFeature(String featureName) {
-        if(featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName() ||
-                featureName == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName() ||
-                featureName == IDiagramModelObject.FEATURE_LINE_STYLE ||
-                featureName == IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR ||
-                featureName == IDiagramModelObject.FEATURE_GRADIENT) {
-            return false;
-        }
-        
-        return true;
+        return featureName == null ? false : !unsupportedFeatures.contains(featureName);
     }
     
     @Override

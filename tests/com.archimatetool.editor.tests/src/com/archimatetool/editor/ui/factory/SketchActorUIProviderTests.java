@@ -21,6 +21,7 @@ import com.archimatetool.editor.ParamsTest;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 
 public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
@@ -54,8 +55,13 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     @ParamsTest
     public void testShouldExposeFeature(IObjectUIProvider provider) {
         super.testShouldExposeFeature(provider);
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName()));
-        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT.getName()));
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR.getName()));
+        
+        assertFalse(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_GRADIENT));
     }
 
 }

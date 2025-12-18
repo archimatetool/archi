@@ -54,11 +54,11 @@ public interface IObjectUIProvider {
     }
     
     /**
-     * @param featureName The feature in question
+     * @param featureName The feature in question. If null, default is to return false
      * @return True if this object should expose a feature in the UI
      */
     default boolean shouldExposeFeature(String featureName) {
-        return true;
+        return featureName != null;
     }
     
     /**
