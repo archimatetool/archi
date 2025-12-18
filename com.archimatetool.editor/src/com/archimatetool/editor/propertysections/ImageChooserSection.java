@@ -123,17 +123,17 @@ public abstract class ImageChooserSection extends AbstractECorePropertySection {
         IDiagramModelImageProvider dmo = (IDiagramModelImageProvider)getFirstSelectedObject();
         
         if(isAlive(dmo)) {
-            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell());
-            dialog.setSelected(((IArchimateModelObject)dmo).getArchimateModel(), dmo.getImagePath());
+            ImageManagerDialog dialog = new ImageManagerDialog(getPart().getSite().getShell(),
+                                                          ((IArchimateModelObject)dmo).getArchimateModel(), dmo.getImagePath());
             
             if(dialog.open() == Window.OK) {
                 // File
-                if(dialog.getUserSelectedFile() != null) {
-                    setImage(dialog.getUserSelectedFile());
+                if(dialog.getSelectedFile() != null) {
+                    setImage(dialog.getSelectedFile());
                 }
                 // Existing image which could be in this model or a different model
-                else if(dialog.getUserSelectedImagePath() != null) {
-                    setImagePath(dialog.getUserSelectedModel(), dialog.getUserSelectedImagePath());
+                else if(dialog.getSelectedImagePath() != null) {
+                    setImagePath(dialog.getSelectedModel(), dialog.getSelectedImagePath());
                 }
             }
         }

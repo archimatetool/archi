@@ -534,26 +534,25 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
         if(!selection.isEmpty()) {
             IProfile firstSelected = (IProfile)selection.getFirstElement();
             
-            ImageManagerDialog dialog = new ImageManagerDialog(getParentShell());
-            dialog.setSelected(fArchimateModel, firstSelected.getImagePath());
-
+            ImageManagerDialog dialog = new ImageManagerDialog(getParentShell(), fArchimateModel, firstSelected.getImagePath());
+            
             if(dialog.open() == Window.OK) {
                 try {
                     IArchiveManager archiveManager = (IArchiveManager)fArchimateModel.getAdapter(IArchiveManager.class);
                     String path = null;
 
                     // Image from file
-                    if(dialog.getUserSelectedFile() != null && dialog.getUserSelectedFile().exists()) {
-                        path = archiveManager.addImageFromFile(dialog.getUserSelectedFile());
+                    if(dialog.getSelectedFile() != null && dialog.getSelectedFile().exists()) {
+                        path = archiveManager.addImageFromFile(dialog.getSelectedFile());
                     }
                     // Existing image which could be in this model or a different model
-                    else if(dialog.getUserSelectedImagePath() != null) {
-                        if(dialog.getUserSelectedModel() != fArchimateModel) { // Different model
-                            IArchiveManager selectedArchiveManager = (IArchiveManager)dialog.getUserSelectedModel().getAdapter(IArchiveManager.class);
-                            path = archiveManager.copyImageBytes(selectedArchiveManager, dialog.getUserSelectedImagePath());
+                    else if(dialog.getSelectedImagePath() != null) {
+                        if(dialog.getSelectedModel() != fArchimateModel) { // Different model
+                            IArchiveManager selectedArchiveManager = (IArchiveManager)dialog.getSelectedModel().getAdapter(IArchiveManager.class);
+                            path = archiveManager.copyImageBytes(selectedArchiveManager, dialog.getSelectedImagePath());
                         }
                         else { // Same model
-                            path = dialog.getUserSelectedImagePath();
+                            path = dialog.getSelectedImagePath();
                         }
                     }
                     

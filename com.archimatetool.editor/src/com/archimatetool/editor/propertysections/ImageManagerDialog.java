@@ -8,9 +8,12 @@ package com.archimatetool.editor.propertysections;
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -26,7 +29,6 @@ import org.eclipse.nebula.widgets.gallery.Gallery;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 import org.eclipse.nebula.widgets.gallery.NoGroupRenderer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.KeyAdapter;
@@ -39,10 +41,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.IArchiveManager;
@@ -65,35 +69,68 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.ImageManagerDialog"; //$NON-NLS-1$
     
-    public static final int DEFAULT_GALLERY_ITEM_SIZE = 96;
-    public static final int MIN_GALLERY_ITEM_SIZE = 64;
-    public static final int MAX_GALLERY_ITEM_SIZE = 256;
+    private static final int DEFAULT_GALLERY_ITEM_SIZE = 96;
+    private static final int MIN_GALLERY_ITEM_SIZE = 64;
+    private static final int MAX_GALLERY_ITEM_SIZE = 256;
     
-    protected Gallery fGallery;
-    protected GalleryItem fGalleryRoot;
-    protected Scale fScale;
-    protected ModelsViewer fModelsViewer;
+    // Model State holding model and image paths
+    private class ModelImagePathInfo {
+        private List<String> imagePaths;
+        private IArchimateModel model;
 
-    private IArchimateModel fUserSelectedModel;
-    private String fUserSelectedImagePath;
-    private File fUserSelectedFile;
+        ModelImagePathInfo(IArchimateModel model)  {
+            this.model = model;
+            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+            imagePaths = new ArrayList<>(archiveManager.getImagePaths());
+            
+            // Sort by size - smallest first
+            imagePaths.sort((imagePath1, imagePath2) -> {
+                byte[] bytes1 = archiveManager.getBytesFromEntry(imagePath1);
+                byte[] bytes2 = archiveManager.getBytesFromEntry(imagePath2);
+                int size1 = bytes1 != null ? bytes1.length : 0;
+                int size2 = bytes2 != null ? bytes2.length : 0;
+                return size1 - size2;
+            });
+        }
+        
+        IArchimateModel getModel() {
+            return model;
+        }
+        
+        List<String> getImagePaths() {
+            return imagePaths;
+        }
+    }
+    
+    private Gallery fGallery;
+
+    // Don't set these to null on dispose!
+    private IArchimateModel fSelectedModel;
+    private String fSelectedImagePath;
+    private File fSelectedFile;
+    
+    // Map of Models to Model Image Path Info
+    private Map<IArchimateModel, ModelImagePathInfo> fModelImagePathInfos = new HashMap<>();
+    
+    // The model image path info of the currently selected model
+    private ModelImagePathInfo fSelectedModelPathInfo;
     
     private Map<String, Image> fImageCache = new HashMap<>();
 
-    public ImageManagerDialog(Shell parentShell) {
+    /**
+     * @param parentShell
+     * @param selectedModel The selected model in the model viewer
+     * @param selectedImagePath The selected image path in the Gallery. Can be null
+     */
+    public ImageManagerDialog(Shell parentShell, IArchimateModel selectedModel, String selectedImagePath) {
         super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
+        
+        fSelectedModel = selectedModel;
+        fSelectedImagePath = selectedImagePath;
     }
     
-    /**
-     * Set the initial selected model and image path, if any
-     */
-    public void setSelected(IArchimateModel model, String imagePath) {
-        fUserSelectedModel = model;
-        fUserSelectedImagePath = imagePath;
-    }
-
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
@@ -131,36 +168,39 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         CLabel label = new CLabel(tableComp, SWT.NULL);
         label.setText(Messages.ImageManagerDialog_3);
         
-        Composite tableComp2 = new Composite(tableComp, SWT.NULL);
-        tableComp2.setLayout(new TableColumnLayout(true));
-        tableComp2.setLayoutData(new GridData(GridData.FILL_BOTH));
+        Composite tableColumnComp = new Composite(tableComp, SWT.NULL);
+        tableColumnComp.setLayout(new TableColumnLayout(true));
+        tableColumnComp.setLayoutData(new GridData(GridData.FILL_BOTH));
         
-        fModelsViewer = new ModelsViewer(tableComp2);
-        fModelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-        fModelsViewer.setInput(""); //$NON-NLS-1$
-        fModelsViewer.addSelectionChangedListener(event -> {
+        ModelsViewer modelsViewer = new ModelsViewer(tableColumnComp);
+        modelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+        modelsViewer.setInput(this);
+        
+        // Selection
+        modelsViewer.addSelectionChangedListener(event -> {
             if(event.getStructuredSelection().getFirstElement() instanceof IArchimateModel model) {
-                fScale.setEnabled(true);
-                clearGallery();
+                disposeItems();
                 updateGallery(model);
             }
         });
         
         // Mouse Up action...
         // Select the open from file table element
-        fModelsViewer.getControl().addMouseListener(new MouseAdapter() {
+        modelsViewer.getControl().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent e) {
+                TableItem item = modelsViewer.getTable().getItem(new Point(e.x, e.y));
+                
                 // Open file...
-                if(fModelsViewer.getStructuredSelection().getFirstElement() instanceof String) {
+                if(item != null && item.getData() instanceof String) {
                     handleOpenAction();
                 }
             }
         });
         
         // Press Return on table and selection is "Open from file"
-        fModelsViewer.getControl().addTraverseListener(event -> {
-            if(event.detail == SWT.TRAVERSE_RETURN && fModelsViewer.getStructuredSelection().getFirstElement() instanceof String) {
+        modelsViewer.getControl().addTraverseListener(event -> {
+            if(event.detail == SWT.TRAVERSE_RETURN && modelsViewer.getStructuredSelection().getFirstElement() instanceof String) {
                 event.doit = false;
                 event.detail = SWT.TRAVERSE_NONE;
                 handleOpenAction();
@@ -173,7 +213,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         layout.marginHeight = 0;
         galleryComposite.setLayout(layout);
         
-        fGallery = new Gallery(galleryComposite, SWT.V_SCROLL | SWT.BORDER);
+        fGallery = new Gallery(galleryComposite, SWT.V_SCROLL | SWT.VIRTUAL | SWT.BORDER);
+        fGallery.setVirtualGroups(true);
         fGallery.setLayoutData(new GridData(GridData.FILL_BOTH));
         
         // If the Gallery has the focus pressing Return or Esc does not close the dialog
@@ -200,37 +241,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         itemRenderer.setShowRoundedSelectionCorners(true);
         fGallery.setItemRenderer(itemRenderer);
         
-        // Root Group
-        fGalleryRoot = new GalleryItem(fGallery, SWT.NONE);
-        
-        // Slider
-        fScale = new Scale(galleryComposite, SWT.HORIZONTAL);
-        gd = new GridData(SWT.END, SWT.NONE, false, false);
-        gd.widthHint = 120;
-        fScale.setLayoutData(gd);
-        fScale.setMinimum(MIN_GALLERY_ITEM_SIZE);
-        fScale.setMaximum(MAX_GALLERY_ITEM_SIZE);
-        fScale.setIncrement(8);
-        fScale.setPageIncrement(32);
-        fScale.setSelection(DEFAULT_GALLERY_ITEM_SIZE);
-        fScale.setEnabled(false);
-        fScale.addSelectionListener(widgetSelectedAdapter(event -> {
-            int inc = fScale.getSelection();
-            itemRenderer.setDropShadows(inc >= 96);
-            groupRenderer.setItemSize(inc, inc);
-        }));
-
-        // Gallery selections
-        fGallery.addSelectionListener(widgetSelectedAdapter(event -> {
-            if(event.item instanceof GalleryItem) {
-                fUserSelectedImagePath = (String)event.item.getData("imagepath"); //$NON-NLS-1$
-                fUserSelectedModel = (IArchimateModel)event.item.getData("model"); //$NON-NLS-1$
-            }
-            else {
-                fUserSelectedImagePath = null;
-                fUserSelectedModel = null;
-            }
-        }));
+        // Virtual gallery listens to SWT.SetData events
+        fGallery.addListener(SWT.SetData, this::setData);
         
         // Double-clicks
         fGallery.addListener(SWT.MouseDoubleClick, event -> {
@@ -242,32 +254,41 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         
         // Dispose of the images here not in the main dispose() method because if the help system is showing then 
         // the TrayDialog is resized and this control is asked to relayout.
+        // Also because Gallery does not dispose properly if virtual.
         fGallery.addDisposeListener(event -> {
             disposeImages();
+            disposeItems(); // This is important!
+            fModelImagePathInfos = null;
+            fSelectedModelPathInfo = null;
+            fGallery = null;
         });
+
+        // Slider
+        Scale scale = new Scale(galleryComposite, SWT.HORIZONTAL);
+        gd = new GridData(SWT.END, SWT.NONE, false, false);
+        gd.widthHint = 120;
+        scale.setLayoutData(gd);
+        scale.setMinimum(MIN_GALLERY_ITEM_SIZE);
+        scale.setMaximum(MAX_GALLERY_ITEM_SIZE);
+        scale.setIncrement(8);
+        scale.setPageIncrement(32);
+        scale.setSelection(DEFAULT_GALLERY_ITEM_SIZE);
+        scale.addSelectionListener(widgetSelectedAdapter(event -> {
+            int inc = scale.getSelection();
+            groupRenderer.setItemSize(inc, inc);
+        }));
 
         sash.setWeights(new int[] { 30, 70 });
         
         // If we have this model in the table, select it
-        if(fUserSelectedModel != null && ((ModelsViewerContentProvider)fModelsViewer.getContentProvider()).getModels().contains(fUserSelectedModel)) {
-            fModelsViewer.setSelection(new StructuredSelection(fUserSelectedModel));
-
-            // Make selection of image path if it's set
-            if(fUserSelectedImagePath != null) {
-                for(GalleryItem item : fGalleryRoot.getItems()) {
-                    String imagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
-                    if(imagePath != null && fUserSelectedImagePath.equals(imagePath)) {
-                        fGallery.setSelection(new GalleryItem[] { item });
-                        break;
-                    }
-                }
-            }
+        if(fSelectedModel != null && ((ModelsViewerContentProvider)modelsViewer.getContentProvider()).getModels().contains(fSelectedModel)) {
+            modelsViewer.setSelection(new StructuredSelection(fSelectedModel));
         }
         // Else select the first model in the table, if there is one
         else {
-            Object element = fModelsViewer.getElementAt(0);
+            Object element = modelsViewer.getElementAt(0);
             if(element != null) {
-                fModelsViewer.setSelection(new StructuredSelection(element), true);
+                modelsViewer.setSelection(new StructuredSelection(element), true);
             }
         }
         
@@ -282,45 +303,85 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     }
     
     /**
-     * Clear old root group
+     * Update the gallery from the selected model
      */
-    private void clearGallery() {
-        if(fGalleryRoot != null && !fGalleryRoot.isDisposed()) {
-            for(GalleryItem item : fGalleryRoot.getItems()) {
-                item.dispose();
-            }
-        }
+    private void updateGallery(IArchimateModel model) {
+        // Set current Model Path Info
+        fSelectedModelPathInfo = model != null ? fModelImagePathInfos.computeIfAbsent(model, m -> new ModelImagePathInfo(model)) : null;
+
+        // Create one group (this will call SetData);
+        fGallery.setItemCount(1);
     }
 
-    private void updateGallery(final IArchimateModel model) {
-        BusyIndicator.showWhile(null, () -> {
-            IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
-
-            for(String path : archiveManager.getImagePaths()) {
-                // Create image and cache it
-                // Prefix model id to the image path in case the image path is the same for a different image in another model
-                Image thumbnail = fImageCache.computeIfAbsent(model.getId() + path, p -> {
-                    try {
-                        return archiveManager.createImage(path);
-                    }
-                    catch(Exception ex) {
-                        ex.printStackTrace();
-                        return null;
-                    }
-                });
-
-                if(thumbnail != null) {
-                    GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
-                    item.setImage(thumbnail);
-                    item.setData("imagepath", path); //$NON-NLS-1$
-                    item.setData("model", model); //$NON-NLS-1$
-                }
+    /**
+     * This is called from the SWT.SetData event
+     */
+    private void setData(Event event) {
+        if(fSelectedModelPathInfo == null) {
+            return;
+        }
+        
+        GalleryItem item = (GalleryItem)event.item;
+        
+        // It's a group, so set child item count
+        if(item.getParentItem() == null) {
+            item.setItemCount(fSelectedModelPathInfo.getImagePaths().size());
+        }
+        else {
+            // Index of GalleryItem
+            int index = item.getParentItem().indexOf(item);
+            
+            // Get the image path from the list of paths for the current model by index
+            String imagepath = fSelectedModelPathInfo.getImagePaths().get(index);
+            
+            // Make the initial selection of the corresponding GalleryItem if initially set and we haven't already selected an item
+            if(fGallery.getSelection().length == 0 && Objects.equals(fSelectedImagePath, imagepath)) {
+                fGallery.setSelection(new GalleryItem[] { item });
             }
             
-            fGallery.redraw(); // at some scale settings this is needed
-        });
+            Display.getDefault().asyncExec(() -> {
+                if(!item.getParent().isDisposed() && !item.isDisposed()) {
+                    // Create image and cache it
+                    // Prefix model id to the image path in case the image path is the same for a different image in another model
+                    Image thumbnail = fImageCache.computeIfAbsent(fSelectedModelPathInfo.getModel().getId() + imagepath, p -> {
+                        try {
+                            IArchiveManager archiveManager = (IArchiveManager)fSelectedModelPathInfo.getModel().getAdapter(IArchiveManager.class);
+                            return archiveManager.createImage(imagepath);
+                        }
+                        catch(Exception ex) {
+                            ex.printStackTrace();
+                            return null;
+                        }
+                    });
+                    
+                    if(thumbnail != null) {
+                        item.setImage(thumbnail);
+                        item.setData("imagepath", imagepath); //$NON-NLS-1$
+                        item.setData("model", fSelectedModelPathInfo.getModel()); //$NON-NLS-1$
+                    }
+                }
+            });
+        }
     }
-
+    
+    @Override
+    protected void okPressed() {
+        // Set these to null
+        fSelectedModel = null;
+        fSelectedImagePath = null;
+        
+        // If a file has not been selected take what's selected in the Gallery
+        if(fSelectedFile == null && fGallery.getSelection().length > 0) {
+            GalleryItem item = fGallery.getSelection()[0];
+            if(item != null) {
+                fSelectedImagePath = (String)item.getData("imagepath"); //$NON-NLS-1$
+                fSelectedModel = (IArchimateModel)item.getData("model"); //$NON-NLS-1$
+            }
+        }
+        
+        super.okPressed();
+    }
+    
     /**
      * User wants to open Image from file
      */
@@ -331,44 +392,57 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         dialog.setFilterExtensions(new String[] { "*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico;*.svg", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
-            fUserSelectedFile = new File(path);
-            fUserSelectedImagePath = null;
-            fUserSelectedModel = null;
+            fSelectedFile = new File(path);
             okPressed();
         }
         else {
             getShell().setVisible(true);
-            getShell().setFocus(); // Nees to set focus again
+            getShell().setFocus(); // Need to set focus again
         }
     }
     
     /**
-     * @return The user selected file
+     * @return The selected file if any,
+     *         If this is not null use it in preference to the selected image path
      */
-    public File getUserSelectedFile() {
-        return fUserSelectedFile;
+    public File getSelectedFile() {
+        return fSelectedFile;
     }
     
     /**
-     * @return The user selected image path
+     * @return The selected image path if any
      */
-    public String getUserSelectedImagePath() {
-        return fUserSelectedImagePath;
+    public String getSelectedImagePath() {
+        return fSelectedImagePath;
     }
     
     /**
-     * @return The user selected model
+     * @return The selected model if any
      */
-    public IArchimateModel getUserSelectedModel() {
-        return fUserSelectedModel;
+    public IArchimateModel getSelectedModel() {
+        return fSelectedModel;
     }
 
+    /**
+     * Dispose all items
+     */
+    private void disposeItems() {
+        if(fGallery != null && !fGallery.isDisposed()) {
+            for(GalleryItem item : fGallery.getItems()) {
+                item.dispose();
+            }
+        } 
+    }
+    
     private void disposeImages() {
         for(Image image : fImageCache.values()) {
             if(image != null) {
                 image.dispose();
             }
         }
+        
+        fImageCache.clear();
+        fImageCache = null;
     }
     
     // ====================================================================================================
@@ -379,25 +453,22 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         public ModelsViewer(Composite parent) {
             super(parent, SWT.FULL_SELECTION);
             
-            setColumns();
+            getTable().setHeaderVisible(false);
+            
+            // Use layout from parent container
+            TableColumnLayout layout = (TableColumnLayout)getControl().getParent().getLayout();
+            TableViewerColumn column = new TableViewerColumn(this, SWT.NONE);
+            layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+            
             setContentProvider(new ModelsViewerContentProvider());
             setLabelProvider(new ModelsViewerLabelProvider());
+            
             setComparator(new ViewerComparator() {
                 @Override
                 public int category(Object element) {
                     return element instanceof String ? 1 : 0; // String is open from file
                 }
             });
-        }
-        
-        private void setColumns() {
-            Table table = getTable();
-            table.setHeaderVisible(false);
-            
-            // Use layout from parent container
-            TableColumnLayout layout = (TableColumnLayout)getControl().getParent().getLayout();
-            TableViewerColumn column = new TableViewerColumn(this, SWT.NONE);
-            layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         }
     }
     
