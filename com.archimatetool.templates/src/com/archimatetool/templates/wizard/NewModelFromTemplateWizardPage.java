@@ -39,6 +39,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchiImages;
@@ -122,14 +123,16 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         fInbuiltTableViewer.getControl().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent e) {
-                Object selected = fInbuiltTableViewer.getStructuredSelection().getFirstElement();
-                // Open...
-                if(selected == OPEN) {
-                    handleOpenAction();
-                }
-                // Manage...
-                else if(selected == MANAGE) {
-                    handleManageTemplatesAction();
+                TableItem item = fInbuiltTableViewer.getTable().getItem(new Point(e.x, e.y));
+                if(item != null) {
+                    // Open...
+                    if(item.getData() == OPEN) {
+                        handleOpenAction();
+                    }
+                    // Manage...
+                    else if(item.getData() == MANAGE) {
+                        handleManageTemplatesAction();
+                    }
                 }
             }
         });
@@ -200,16 +203,14 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         fGallery.setGroupRenderer(groupRenderer);
         
         DefaultGalleryItemRenderer itemRenderer = new DefaultGalleryItemRenderer();
-        itemRenderer.setDropShadows(true);
-        itemRenderer.setDropShadowsSize(7);
-        itemRenderer.setShowRoundedSelectionCorners(false);
+        itemRenderer.setShowRoundedSelectionCorners(true);
         fGallery.setItemRenderer(itemRenderer);
         
         // Root Group
         fGalleryRoot = new GalleryItem(fGallery, SWT.NONE);
         
         // Slider
-        final Scale scale = new Scale(galleryComposite, SWT.HORIZONTAL);
+        Scale scale = new Scale(galleryComposite, SWT.HORIZONTAL);
         gd = new GridData(SWT.END, SWT.NONE, false, false);
         gd.widthHint = 120;
         scale.setLayoutData(gd);
@@ -220,7 +221,6 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         scale.setSelection(DEFAULT_GALLERY_ITEM_SIZE);
         scale.addSelectionListener(widgetSelectedAdapter(event -> {
             int inc = scale.getSelection();
-            itemRenderer.setDropShadows(inc >= DEFAULT_GALLERY_ITEM_SIZE);
             groupRenderer.setItemSize(inc, inc);
         }));
         
