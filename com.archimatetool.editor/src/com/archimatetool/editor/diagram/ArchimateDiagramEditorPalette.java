@@ -17,6 +17,7 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteSeparator;
+import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -31,6 +32,7 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.LightweightEContentAdapter;
@@ -171,10 +173,15 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             }
         }
 
-        // Junctions
-        for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-            ToolEntry entry = createElementCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_19);
-            group.add(entry);
+        // Junction
+        if(isAllowedConceptForViewpoint(IArchimatePackage.eINSTANCE.getJunction())) {
+            PaletteStack stack = new PaletteStack("Things", null, null);
+            group.add(stack);
+            
+            ToolEntry entry = createElementCreationToolEntry(IArchimatePackage.eINSTANCE.getBusinessProcess(), null);
+            stack.add(entry);
+            entry = createElementCreationToolEntry(IArchimatePackage.eINSTANCE.getCommunicationNetwork(), null);
+            stack.add(entry);
         }
         
         PaletteSeparator sep = new PaletteSeparator();

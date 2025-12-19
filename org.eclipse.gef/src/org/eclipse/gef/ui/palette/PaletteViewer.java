@@ -259,7 +259,12 @@ public class PaletteViewer extends ScrollingGraphicalViewer {
          */
         if (focusPart == null) {
             IFigure fig = ((GraphicalEditPart) getFocusEditPart()).getFigure();
-            fig.internalGetEventDispatcher().requestFocus(fig);
+            
+            // Phillipus added this.
+            // See https://github.com/eclipse-gef/gef-classic/issues/916
+            if(fig.internalGetEventDispatcher() != null) {
+                fig.internalGetEventDispatcher().requestFocus(fig);
+            }
         }
     }
 
