@@ -15,12 +15,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -305,22 +307,20 @@ public class ArchiveManager implements IArchiveManager {
             return;
         }
         
-        // Delete the images folder if not using the archive format
-        // We have to delete the folder in all cases regardless of whether the model has images
-        if(!useArchiveFormat()) { // This check is important because we don't want to delete any "images" folder
-            FileUtils.deleteFolder(getImagesFolder(file));
-        }
-        
-        if(hasImages()) {
-            if(useArchiveFormat()) {
+        // Archive format
+        if(useArchiveFormat()) {
+            // If the model has images use archive format
+            if(hasImages()) {
                 saveModelToArchiveFile(file);
             }
+            // Else just save the model
             else {
-                saveModelWithImagesFolder(file);
+                saveResource(file);
             }
         }
+        // Folder format
         else {
-            saveResource(file);
+            saveModelWithImagesFolder(file);
         }
     }
     
@@ -341,27 +341,51 @@ public class ArchiveManager implements IArchiveManager {
     private void saveModelToArchiveFile(File file) throws IOException {
         try(ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
             // Add the model xml file
-            saveModelWithArchiveFile(zOut);
+            saveModelToArchiveFile(zOut);
             
             // Add any images
-            saveImages(zOut);
+            saveImagesToArchiveFile(zOut);
         }
     }
     
     /**
-     * Save the model not in archive format, with images in an "images" file
+     * Save the model not in archive format, with images in an "images" file if the model references any images
      */
     private void saveModelWithImagesFolder(File modelFile) throws IOException {
+        // Save the model file
         saveResource(modelFile);
         
-        // Create images folder
-        getImagesFolder(modelFile).mkdirs();
+        File modelFolder = getModelFolder(modelFile);
+        File imagesFolder = getImagesFolder(modelFile);
+
+        Set<String> imagePaths = getImagePaths();             // image paths referenced in the model
+        Set<String> loadedImagePaths = getLoadedImagePaths(); // image paths loaded in memory
         
-        for(String imagePath : getImagePaths()) {
-            byte[] bytes = byteArrayStorage.getEntry(imagePath);
-            if(bytes != null) {
-                File imageFile = new File(modelFile.getParentFile(), imagePath);
-                Files.write(imageFile.toPath(), bytes, StandardOpenOption.CREATE);
+        // Iterate all image files. If we don't reference the file in the model, delete it
+        File[] files = imagesFolder.listFiles();
+        if(files != null) {
+            for(File file : files) {
+                if(!file.isDirectory()) {
+                    String imagePath = "images/" + file.getName();
+                    // If we don't reference the file in the model and it's loaded in memory (this checks that it's a valid image file)
+                    if(!imagePaths.contains(imagePath) && loadedImagePaths.contains(imagePath)) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+        
+        // Iterate all referenced image paths in the model. If the file doesn't exist, save it
+        for(String imagePath : imagePaths) {
+            File file = new File(modelFolder, imagePath);
+            if(!file.exists()) {
+                byte[] bytes = byteArrayStorage.getEntry(imagePath);
+                if(bytes != null) {
+                    // Ensure images folder exists
+                    imagesFolder.mkdirs();
+                    // Save
+                    Files.write(Path.of(modelFolder.getPath(), imagePath), bytes, StandardOpenOption.CREATE);
+                }
             }
         }
     }
@@ -369,7 +393,7 @@ public class ArchiveManager implements IArchiveManager {
     /**
      * Save the model xml file in the Archive File
      */
-    private void saveModelWithArchiveFile(ZipOutputStream zOut) throws IOException {
+    private void saveModelToArchiveFile(ZipOutputStream zOut) throws IOException {
         // Temp file for xml model file
         File tmpFile = File.createTempFile("archi-", null);
         tmpFile.deleteOnExit();
@@ -390,6 +414,21 @@ public class ArchiveManager implements IArchiveManager {
         }
         finally {
             tmpFile.delete();
+        }
+    }
+    
+    /**
+     * Save the model's images to the archive file
+     */
+    private void saveImagesToArchiveFile(ZipOutputStream zOut) throws IOException {
+        for(String imagePath : getImagePaths()) {
+            byte[] bytes = byteArrayStorage.getEntry(imagePath);
+            if(bytes != null) {
+                ZipEntry zipEntry = new ZipEntry(imagePath);
+                zOut.putNextEntry(zipEntry);
+                zOut.write(bytes);
+                zOut.closeEntry();
+            }
         }
     }
     
@@ -418,16 +457,14 @@ public class ArchiveManager implements IArchiveManager {
         }
     }
     
-    private void saveImages(ZipOutputStream zOut) throws IOException {
-        for(String imagePath : getImagePaths()) {
-            byte[] bytes = byteArrayStorage.getEntry(imagePath);
-            if(bytes != null) {
-                ZipEntry zipEntry = new ZipEntry(imagePath);
-                zOut.putNextEntry(zipEntry);
-                zOut.write(bytes);
-                zOut.closeEntry();
-            }
-        }
+    // Regex pattern that matches the image path name generated by EcoreUtil.generateUUID()
+    // plus any file extension such as .png.
+    // Matches _ad8YQI9BEfCZHKJivCqCyg.png and _ad8YQI9BEfCZHKJivCqCyg
+    // Can be used to check if an image file is one generate by us
+    private static final Pattern imageFilePattern = Pattern.compile("^_[A-Za-z0-9+_/-]{22}.*$");
+    
+    static boolean isImageName(String name) {
+        return name != null ? imageFilePattern.matcher(name).matches() : false;
     }
     
     private String createArchiveImagePathname(String fileName) {
@@ -449,8 +486,12 @@ public class ArchiveManager implements IArchiveManager {
         return "";
     }
     
+    private File getModelFolder(File modelFile) {
+        return modelFile.getParentFile();
+    }
+    
     private File getImagesFolder(File modelFile) {
-        return modelFile != null ? new File(modelFile.getParentFile(), "images") : null;
+        return modelFile != null ? new File(getModelFolder(modelFile), "images") : null;
     }
     
     @Override

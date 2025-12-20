@@ -136,7 +136,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         assertEquals(new Dimension(1024, 1024), figure.getPreferredSize(-1, -1));
 
         // Add new image
-        file = new File(TestSupport.getTestDataFolder().getPath(), "img/img3.png");
+        file = new File(TestSupport.getTestDataFolder().getPath(), "img/img2.png");
         addImage(file, figure);
 
         // Check initial Image size
@@ -150,7 +150,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     
     @ParamsTest
     public void testRescaleImage(DiagramImageFigure figure) throws Exception {
-        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img3.png");
+        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img2.png");
         addImage(file, figure);
         Image image = getPrivateImageField(figure);
         assertEquals(new Rectangle(0, 0, 268, 268), image.getBounds());
@@ -170,7 +170,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         Image image = figure.getOriginalImage();
         assertNull(image);
         
-        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img3.png");
+        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img2.png");
         addImage(file, figure);
         
         image = figure.getOriginalImage();

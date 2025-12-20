@@ -35,7 +35,7 @@ public class ByteArrayStorageTests {
     public void runBeforeEachTest() {
         storage = new ByteArrayStorage();
         img1File = new File(TestSupport.getTestDataFolder(), "/img/img1.png");
-        img2File = new File(TestSupport.getTestDataFolder(), "/img/img2.png");
+        img2File = new File(TestSupport.getTestDataFolder(), "/img/img1-copy.png");
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ public class ByteArrayStorageTests {
     @Test
     public void testImageFilesAreTheSameAndGetBytesFromFile() throws Exception {
         byte[] bytes1 = storage.getBytesFromFile(img1File);
-        byte[] bytes2 = storage.getBytesFromFile(img1File);
+        byte[] bytes2 = storage.getBytesFromFile(img2File);
         
         assertNotNull(bytes1);
         assertNotNull(bytes2);
