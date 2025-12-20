@@ -74,6 +74,10 @@ public final class FileUtils  {
 	public static long getFileSize(File[] files) {
 	    long num = 0L;
 	    
+	    if(files == null) {
+	        return num;
+	    }
+	    
 	    for(File file : files) {
 	        if(file.isDirectory()) {
 	            num += getFileSize(file.listFiles());
@@ -179,7 +183,12 @@ public final class FileUtils  {
 	    }
 	        
 	    destFolder.mkdirs();
+	    
 	    File[] srcFiles = srcFolder.listFiles();
+	    if(srcFiles == null) {
+	        return;
+	    }
+	    
 	    for(int i = 0; i < srcFiles.length; i++) {
 	        File srcFile = srcFiles[i];
 	        // If we have a Progress Monitor...
@@ -280,16 +289,17 @@ public final class FileUtils  {
 	    if(afolder.exists() && afolder.isDirectory()) {
 	        //delete content of directory:
 	        File[] files = afolder.listFiles();
-	        int count = files.length;
-	        for(int i = 0; i < count; i++) {
-	            File f = files[i];
-	            if(f.isFile()) {
-	                f.delete();
-	            }
-	            else if(f.isDirectory()) {
-	                deleteFolder(f);
+	        if(files != null) {
+	            for(File file : files) {
+	                if(file.isFile()) {
+	                    file.delete();
+	                }
+	                else if(file.isDirectory()) {
+	                    deleteFolder(file);
+	                }
 	            }
 	        }
+	        
 	        afolder.delete();
 	    }
 	}

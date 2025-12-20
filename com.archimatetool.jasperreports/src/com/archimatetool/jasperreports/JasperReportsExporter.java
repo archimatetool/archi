@@ -242,11 +242,14 @@ public class JasperReportsExporter {
         JasperReport mainReport = JasperCompileManager.compileReport(fMainTemplateFile.getPath());
         
         // Compile sub-reports
-        for(File file : reportFolder.listFiles()) {
-            if(!file.equals(fMainTemplateFile) && file.getName().endsWith(".jrxml")) { //$NON-NLS-1$
-                //System.out.println("Compiling Sub-Report: " + file);
-                JasperReport jr = JasperCompileManager.compileReport(file.getPath());
-                params.put(jr.getName(), jr);
+        File[] files = reportFolder.listFiles();
+        if(files != null) {
+            for(File file : files) {
+                if(!file.equals(fMainTemplateFile) && file.getName().endsWith(".jrxml")) { //$NON-NLS-1$
+                    //System.out.println("Compiling Sub-Report: " + file);
+                    JasperReport jr = JasperCompileManager.compileReport(file.getPath());
+                    params.put(jr.getName(), jr);
+                }
             }
         }
         

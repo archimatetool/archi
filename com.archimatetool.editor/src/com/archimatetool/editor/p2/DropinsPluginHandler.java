@@ -172,23 +172,26 @@ public class DropinsPluginHandler {
             
             File pluginsFolder = getUserInstallationDropinsFolder();
             pluginsFolder.mkdirs();
+            
+            File[] files = tmpFolder.listFiles();
+            if(files != null) {
+                for(File file : files) {
+                    // Handle the magic file
+                    if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
+                        handleMagicFile(file, pluginsFolder);
+                        continue;
+                    }
+                    
+                    // Delete old plugin on exit in target plugins folder
+                    deleteOlderPluginOnExit(file, pluginsFolder);
 
-            for(File file : tmpFolder.listFiles()) {
-                // Handle the magic file
-                if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
-                    handleMagicFile(file, pluginsFolder);
-                    continue;
-                }
-                
-                // Delete old plugin on exit in target plugins folder
-                deleteOlderPluginOnExit(file, pluginsFolder);
-
-                // Copy new ones
-                if(file.isDirectory()) {
-                    FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
-                }
-                else {
-                    FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
+                    // Copy new ones
+                    if(file.isDirectory()) {
+                        FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
+                    }
+                    else {
+                        FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
+                    }
                 }
             }
         }
@@ -244,10 +247,13 @@ public class DropinsPluginHandler {
             if(line.startsWith("delete:")) { //$NON-NLS-1$
                 String pluginName = line.substring(7).strip();
                 
-                for(File pluginFile : pluginsFolder.listFiles()) {
-                    String targetPluginName = getPluginName(pluginFile.getName());
-                    if(targetPluginName.equals(pluginName)) {
-                        addFileToDeleteOnExit(pluginFile);
+                File[] files = pluginsFolder.listFiles();
+                if(files != null) {
+                    for(File pluginFile : files) {
+                        String targetPluginName = getPluginName(pluginFile.getName());
+                        if(targetPluginName.equals(pluginName)) {
+                            addFileToDeleteOnExit(pluginFile);
+                        }
                     }
                 }
             }
@@ -258,8 +264,11 @@ public class DropinsPluginHandler {
      * Delete matching older plugin on app exit
      */
     private void deleteOlderPluginOnExit(File newPlugin, File pluginsFolder) {
-        for(File file : findMatchingPlugins(pluginsFolder, newPlugin)) {
-            addFileToDeleteOnExit(file);
+        File[] files = findMatchingPlugins(pluginsFolder, newPlugin);
+        if(files != null) {
+            for(File file : files) {
+                addFileToDeleteOnExit(file);
+            }
         }
     }
     

@@ -250,16 +250,19 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     private static void loadUserFontsIntoAWT() {
         if(PlatformUtils.isWindows() && !awtFontsLoaded) {
             File fontsFolder = new File(System.getProperty("user.home"), "AppData/Local/Microsoft/Windows/Fonts");
-            if(fontsFolder.exists()) {
+            if(fontsFolder.exists() && fontsFolder.isDirectory()) {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 
-                for(File file : fontsFolder.listFiles()) {
-                    if(file.isFile()) {
-                        try {
-                            Font font = Font.createFont(Font.TRUETYPE_FONT, file);
-                            ge.registerFont(font);
-                        }
-                        catch(Exception ex) { // Ignore
+                File[] files = fontsFolder.listFiles();
+                if(files != null) {
+                    for(File file : files) {
+                        if(file.isFile()) {
+                            try {
+                                Font font = Font.createFont(Font.TRUETYPE_FONT, file);
+                                ge.registerFont(font);
+                            }
+                            catch(Exception ex) { // Ignore
+                            }
                         }
                     }
                 }

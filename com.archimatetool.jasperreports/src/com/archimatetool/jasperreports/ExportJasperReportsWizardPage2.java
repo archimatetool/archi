@@ -88,8 +88,13 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     // Scan a folder looking for reports
     private void scanFolder(File folder) {
-        if(folder.exists()) {
-            for(File file : folder.listFiles()) {
+        if(folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if(files == null) {
+                return;
+            }
+            
+            for(File file : files) {
                 if(file.isDirectory()) {
                     File report = new File(file, "main.jrxml"); //$NON-NLS-1$
                     if(report.exists() && report.canRead()) {

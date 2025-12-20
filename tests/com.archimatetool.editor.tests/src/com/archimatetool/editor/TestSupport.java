@@ -40,6 +40,10 @@ public class TestSupport {
      */
     public static void checkSourceAndTargetFolderSame(File srcFolder, File targetFolder) throws IOException {
         File[] srcFiles = srcFolder.listFiles();
+        if(srcFiles == null) {
+            return;
+        }
+        
         for(int i = 0; i < srcFiles.length; i++) {
             File srcFile = srcFiles[i];
             if(srcFile.isDirectory()) {

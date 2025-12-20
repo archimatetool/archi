@@ -35,8 +35,9 @@ public class CanvasTemplateManager extends TemplateManager {
     protected ITemplateGroup loadInbuiltTemplates() {
         ITemplateGroup group = new TemplateGroup(Messages.CanvasTemplateManager_0);
         File folder = CanvasEditorPlugin.getInstance().getTemplatesFolder();
-        if(folder.exists()) {
-            for(File file : folder.listFiles()) {
+        File[] files = folder.listFiles();
+        if(files != null) {
+            for(File file : files) {
                 if(file.getName().toLowerCase().endsWith(CANVAS_TEMPLATE_FILE_EXTENSION)) {
                     try {
                         group.addTemplate(createTemplate(file));

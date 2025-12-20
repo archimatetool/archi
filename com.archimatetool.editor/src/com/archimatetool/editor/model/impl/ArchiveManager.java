@@ -207,9 +207,14 @@ public class ArchiveManager implements IArchiveManager {
         if(paths.isEmpty()) {
             return false;
         }
+        
+        File[] files = imagesFolder.listFiles();
+        if(files == null) {
+            return false;
+        }
 
         // Iterate through all image files in the folder
-        for(File imageFile : imagesFolder.listFiles()) {
+        for(File imageFile : files) {
             String entryName = "images/" + imageFile.getName();
             
             // If the image belongs to the model and it's not loaded, then load it

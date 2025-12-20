@@ -95,19 +95,22 @@ public final class ZipUtils {
                                        IProgressMonitor progressMonitor) throws IOException {
         
         File[] files = srcFolder.listFiles();
+        if(files == null) {
+            return;
+        }
         
-        for(int i = 0; i < files.length; i++) {
+        for(File file : files) {
             // If we have a Progress Monitor...
             if(progressMonitor != null) {
-                progressMonitor.setTaskName(files[i].getName());
+                progressMonitor.setTaskName(file.getName());
                 if(progressMonitor.isCanceled()) {
                     throw new IOException("User cancelled."); //$NON-NLS-1$
                 }
             }
             
             // Sub-folder
-            if(files[i].isDirectory()) {
-                addFolderToZip(rootFolder, files[i], zOut, exclude, progressMonitor);
+            if(file.isDirectory()) {
+                addFolderToZip(rootFolder, file, zOut, exclude, progressMonitor);
             }
             
             else {
@@ -116,7 +119,7 @@ public final class ZipUtils {
                 // Check for excluded file
                 if(exclude != null) {
                     for(File file_exclude : exclude) {
-                        if(file_exclude.equals(files[i])) {
+                        if(file_exclude.equals(file)) {
                             do_add_file = false;
                             break;
                         }
@@ -125,8 +128,8 @@ public final class ZipUtils {
                     
                 if(do_add_file) {
                     // Get a relative path
-                    String entryName = FileUtils.getRelativePath(files[i], rootFolder);
-                    addFileToZip(files[i], entryName, zOut);
+                    String entryName = FileUtils.getRelativePath(file, rootFolder);
+                    addFileToZip(file, entryName, zOut);
                 }
             }
         }        

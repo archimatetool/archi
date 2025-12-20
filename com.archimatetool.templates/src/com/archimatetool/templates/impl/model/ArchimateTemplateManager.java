@@ -39,13 +39,16 @@ public class ArchimateTemplateManager extends TemplateManager {
         ITemplateGroup group = new TemplateGroup(Messages.ArchimateTemplateManager_0);
         File folder = ArchiTemplatesPlugin.getInstance().getTemplatesFolder();
         if(folder.exists()) {
-            for(File file : folder.listFiles()) {
-                if(file.getName().toLowerCase().endsWith(ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
-                    try {
-                        group.addTemplate(createTemplate(file));
-                    }
-                    catch(IOException ex) {
-                        Logger.logError("Error loading template", ex); //$NON-NLS-1$
+            File[] files = folder.listFiles();
+            if(files != null) {
+                for(File file : files) {
+                    if(file.getName().toLowerCase().endsWith(ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
+                        try {
+                            group.addTemplate(createTemplate(file));
+                        }
+                        catch(IOException ex) {
+                            Logger.logError("Error loading template", ex); //$NON-NLS-1$
+                        }
                     }
                 }
             }

@@ -217,12 +217,15 @@ public class WorkbenchCleaner {
     
     private static void deleteFolder(File folder) {
         if(folder.exists() && folder.isDirectory()) {
-            for(File file : folder.listFiles()) {
-                if(file.isFile()) {
-                    file.delete();
-                }
-                else if(file.isDirectory()) {
-                    deleteFolder(file);
+            File[] files = folder.listFiles();
+            if(files != null) {
+                for(File file : files) {
+                    if(file.isFile()) {
+                        file.delete();
+                    }
+                    else if(file.isDirectory()) {
+                        deleteFolder(file);
+                    }
                 }
             }
             
