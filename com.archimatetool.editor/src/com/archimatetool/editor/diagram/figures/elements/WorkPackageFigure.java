@@ -211,8 +211,8 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
     }
     
     @Override

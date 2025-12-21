@@ -38,10 +38,10 @@ public class MeaningFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
         // The following is a not so awful code to draw a cloud...
         
@@ -53,29 +53,29 @@ public class MeaningFigure extends AbstractMotivationFigure {
         
         // Meaning icon is drawn inside a 12x7 grid using bezier curves
         // (online tool to help define curves: https://www.victoriakirst.com/beziertool/)
-        float gridUnitX = (float)(bounds.width / 12.0);
-        float gridUnitY = (float)(bounds.height / 7.0);
+        float gridUnitX = (float)(rect.width / 12.0);
+        float gridUnitY = (float)(rect.height / 7.0);
         
         // Define Path
         Path path = new Path(null);
         // Big bubble
-        path.moveTo( bounds.x +    gridUnitX, bounds.y + 2*gridUnitY);
-        path.cubicTo(bounds.x               , bounds.y              , bounds.x +  2*gridUnitX, bounds.y              , bounds.x +  3*gridUnitX, bounds.y +   gridUnitY);
-        path.cubicTo(bounds.x +  4*gridUnitX, bounds.y              , bounds.x +  6*gridUnitX, bounds.y              , bounds.x +  7*gridUnitX, bounds.y +   gridUnitY);
-        path.cubicTo(bounds.x +  8*gridUnitX, bounds.y              , bounds.x + 10*gridUnitX, bounds.y              , bounds.x + 10*gridUnitX, bounds.y +   gridUnitY);
-        path.cubicTo(bounds.x + 12*gridUnitX, bounds.y              , bounds.x + 12*gridUnitX, bounds.y + 2*gridUnitY, bounds.x + 11*gridUnitX, bounds.y + 3*gridUnitY);
-        path.cubicTo(bounds.x + 12*gridUnitX, bounds.y + 3*gridUnitY, bounds.x + 12*gridUnitX, bounds.y + 4*gridUnitY, bounds.x + 11*gridUnitX, bounds.y + 5*gridUnitY);
-        path.cubicTo(bounds.x + 11*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  8*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  7*gridUnitX, bounds.y + 6*gridUnitY);
-        path.cubicTo(bounds.x +  6*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  2*gridUnitX, bounds.y + 7*gridUnitY, bounds.x +  2*gridUnitX, bounds.y + 5*gridUnitY);
-        path.cubicTo(bounds.x               , bounds.y + 5*gridUnitY, bounds.x               , bounds.y + 3*gridUnitY, bounds.x +    gridUnitX, bounds.y + 2*gridUnitY);
+        path.moveTo( rect.x +    gridUnitX, rect.y + 2*gridUnitY);
+        path.cubicTo(rect.x               , rect.y              , rect.x +  2*gridUnitX, rect.y              , rect.x +  3*gridUnitX, rect.y +   gridUnitY);
+        path.cubicTo(rect.x +  4*gridUnitX, rect.y              , rect.x +  6*gridUnitX, rect.y              , rect.x +  7*gridUnitX, rect.y +   gridUnitY);
+        path.cubicTo(rect.x +  8*gridUnitX, rect.y              , rect.x + 10*gridUnitX, rect.y              , rect.x + 10*gridUnitX, rect.y +   gridUnitY);
+        path.cubicTo(rect.x + 12*gridUnitX, rect.y              , rect.x + 12*gridUnitX, rect.y + 2*gridUnitY, rect.x + 11*gridUnitX, rect.y + 3*gridUnitY);
+        path.cubicTo(rect.x + 12*gridUnitX, rect.y + 3*gridUnitY, rect.x + 12*gridUnitX, rect.y + 4*gridUnitY, rect.x + 11*gridUnitX, rect.y + 5*gridUnitY);
+        path.cubicTo(rect.x + 11*gridUnitX, rect.y + 7*gridUnitY, rect.x +  8*gridUnitX, rect.y + 7*gridUnitY, rect.x +  7*gridUnitX, rect.y + 6*gridUnitY);
+        path.cubicTo(rect.x +  6*gridUnitX, rect.y + 7*gridUnitY, rect.x +  2*gridUnitX, rect.y + 7*gridUnitY, rect.x +  2*gridUnitX, rect.y + 5*gridUnitY);
+        path.cubicTo(rect.x               , rect.y + 5*gridUnitY, rect.x               , rect.y + 3*gridUnitY, rect.x +    gridUnitX, rect.y + 2*gridUnitY);
         // Small bubble
-        path.moveTo(bounds.x + 0.5f*gridUnitX, bounds.y + 5.5f*gridUnitY);
-        path.cubicTo(bounds.x + gridUnitX, bounds.y +    5*gridUnitY, bounds.x + 2*gridUnitX, bounds.y + 5.5f*gridUnitY, bounds.x + 1.5f*gridUnitX, bounds.y +    6*gridUnitY);
-        path.cubicTo(bounds.x + gridUnitX, bounds.y	+ 6.5f*gridUnitY, bounds.x              , bounds.y +    6*gridUnitY, bounds.x + 0.5f*gridUnitX, bounds.y + 5.5f*gridUnitY);
+        path.moveTo(rect.x + 0.5f*gridUnitX, rect.y + 5.5f*gridUnitY);
+        path.cubicTo(rect.x + gridUnitX, rect.y +    5*gridUnitY, rect.x + 2*gridUnitX, rect.y + 5.5f*gridUnitY, rect.x + 1.5f*gridUnitX, rect.y +    6*gridUnitY);
+        path.cubicTo(rect.x + gridUnitX, rect.y	+ 6.5f*gridUnitY, rect.x              , rect.y +    6*gridUnitY, rect.x + 0.5f*gridUnitX, rect.y + 5.5f*gridUnitY);
         
         // Main fill
         graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
         
@@ -88,7 +88,7 @@ public class MeaningFigure extends AbstractMotivationFigure {
         path.dispose();
                 
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
 
         graphics.popState();
     }
@@ -173,8 +173,8 @@ public class MeaningFigure extends AbstractMotivationFigure {
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 8);
+        Rectangle rect = getBounds().getCopy();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 8);
     }
 
     @Override

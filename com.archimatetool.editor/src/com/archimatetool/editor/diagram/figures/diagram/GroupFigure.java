@@ -49,28 +49,28 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
         graphics.setAlpha(getAlpha());
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {
-            tabWidth = (int)(bounds.width / INSET);
+            tabWidth = (int)(rect.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
             
             if(getDiagramModelObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
                 int textWidth = FigureUtilities.getTextExtents(getText(), getFont()).width;
-                tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), bounds.width);
+                tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), rect.width);
 
                 // Tab height is calculated from font height
                 int textHeight = FigureUtilities.getFontMetrics(getFont()).getHeight();
@@ -85,23 +85,23 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
             
             Path path1 = new Path(null);
-            path1.moveTo(bounds.x, bounds.y);
-            path1.lineTo(bounds.x + tabWidth, bounds.y);
-            path1.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
-            path1.lineTo(bounds.x, bounds.y + tabHeight);
-            path1.lineTo(bounds.x, bounds.y);
+            path1.moveTo(rect.x, rect.y);
+            path1.lineTo(rect.x + tabWidth, rect.y);
+            path1.lineTo(rect.x + tabWidth, rect.y + tabHeight);
+            path1.lineTo(rect.x, rect.y + tabHeight);
+            path1.lineTo(rect.x, rect.y);
             graphics.fillPath(path1);
             path1.dispose();
             
             // Main rectangle
             graphics.setBackgroundColor(getFillColor());
-            Pattern gradient = applyGradientPattern(graphics, bounds);
+            Pattern gradient = applyGradientPattern(graphics, rect);
             
             Path path2 = new Path(null);
-            path2.moveTo(bounds.x, bounds.y + tabHeight);
-            path2.lineTo(bounds.x + bounds.width, bounds.y + tabHeight);
-            path2.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
-            path2.lineTo(bounds.x, bounds.y + bounds.height);
+            path2.moveTo(rect.x, rect.y + tabHeight);
+            path2.lineTo(rect.x + rect.width, rect.y + tabHeight);
+            path2.lineTo(rect.x + rect.width, rect.y + rect.height);
+            path2.lineTo(rect.x, rect.y + rect.height);
             graphics.fillPath(path2);
             path2.dispose();
             
@@ -110,7 +110,7 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
             // Icon
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(tabHeight);
-                drawIconImage(graphics, bounds);
+                drawIconImage(graphics, rect);
             }
 
             // Line
@@ -119,35 +119,35 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
                 graphics.setAlpha(getLineAlpha());
                 
                 Path path = new Path(null);
-                path.moveTo(bounds.x, bounds.y + tabHeight);
-                path.lineTo(bounds.x, bounds.y);
-                path.lineTo(bounds.x + tabWidth, bounds.y);
-                path.lineTo(bounds.x + tabWidth, bounds.y + tabHeight);
+                path.moveTo(rect.x, rect.y + tabHeight);
+                path.lineTo(rect.x, rect.y);
+                path.lineTo(rect.x + tabWidth, rect.y);
+                path.lineTo(rect.x + tabWidth, rect.y + tabHeight);
                 graphics.drawPath(path);
                 path.dispose();
                 
-                graphics.drawRectangle(bounds.x, bounds.y + tabHeight, bounds.width, bounds.height - tabHeight);
+                graphics.drawRectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
             }
         }
         else {
             graphics.setBackgroundColor(getFillColor());
-            Pattern gradient = applyGradientPattern(graphics, bounds);
+            Pattern gradient = applyGradientPattern(graphics, rect);
             
-            graphics.fillRectangle(bounds);
+            graphics.fillRectangle(rect);
             
             disposeGradientPattern(graphics, gradient);
             
             // Icon
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(0);
-                drawIconImage(graphics, bounds);
+                drawIconImage(graphics, rect);
             }
 
             // Line
             if(drawOutline) {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
-                graphics.drawRectangle(bounds);
+                graphics.drawRectangle(rect);
             }
         }
 
@@ -156,15 +156,15 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
     
     @Override
     protected Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         int textPosition = getDiagramModelObject().getTextPosition();
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += 5 - getTextControlMarginHeight();
-            bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
+            rect.y += 5 - getTextControlMarginHeight();
+            rect.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
         }
         
-        return bounds;
+        return rect;
     }
 
     @Override

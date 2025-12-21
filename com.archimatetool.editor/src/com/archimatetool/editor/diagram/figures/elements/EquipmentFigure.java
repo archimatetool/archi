@@ -254,8 +254,8 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18 - getLineWidth(), bounds.y + 17);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 17);
     }
     
     @Override

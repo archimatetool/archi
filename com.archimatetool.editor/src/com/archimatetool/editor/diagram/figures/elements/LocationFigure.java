@@ -161,8 +161,8 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 8 - getLineWidth(), bounds.y + 20);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 8 - getLineWidth(), rect.y + 20);
     }
 
     @Override

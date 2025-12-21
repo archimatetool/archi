@@ -88,16 +88,16 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         graphics.setAlpha(getDiagramModelObject().getAlpha());
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawBorder) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
@@ -106,8 +106,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
             if(useScaledImage) {
                 rescaleImage();
                 graphics.pushState();
-                graphics.clipRect(bounds); // Need to do this
-                graphics.drawImage(fImage, bounds.x, bounds.y);
+                graphics.clipRect(rect); // Need to do this
+                graphics.drawImage(fImage, rect.x, rect.y);
                 graphics.popState();
             }
             // This is slower
@@ -115,24 +115,24 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
                 // Safety width and height checks
                 int w1 = Math.max(0, fImage.getBounds().width);
                 int h1 = Math.max(0, fImage.getBounds().height);
-                int w2 = Math.max(0, bounds.width);
-                int h2 = Math.max(0, bounds.height);
+                int w2 = Math.max(0, rect.width);
+                int h2 = Math.max(0, rect.height);
                 
-                graphics.drawImage(fImage, 0, 0, w1, h1, bounds.x, bounds.y, w2, h2);
+                graphics.drawImage(fImage, 0, 0, w1, h1, rect.x, rect.y, w2, h2);
             }
         }
         else {
             graphics.setBackgroundColor(ColorConstants.white);
-            graphics.fillRectangle(bounds);
+            graphics.fillRectangle(rect);
             Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
-            graphics.drawImage(image, bounds.x + (bounds.width / 2) - 7, bounds.y + (bounds.height / 2) - 7);
+            graphics.drawImage(image, rect.x + (rect.width / 2) - 7, rect.y + (rect.height / 2) - 7);
         }
         
         // Border
         if(drawBorder) {
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
         }
         
         graphics.popState();

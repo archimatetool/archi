@@ -45,13 +45,13 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
             public void drawFigure(Graphics graphics) {
                 graphics.pushState();
                 
-                Rectangle bounds = getBounds();
+                Rectangle rect = getBounds();
                 
                 // Reduce width and height by 1 pixel
-                bounds.resize(-1, -1);
+                rect.resize(-1, -1);
 
                 // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-                setLineWidth(graphics, bounds);
+                setLineWidth(graphics, rect);
 
                 graphics.setAlpha(getAlpha());
                 
@@ -62,9 +62,9 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 // Fill
                 graphics.setBackgroundColor(getFillColor());
                 
-                Pattern gradient = applyGradientPattern(graphics, bounds);
+                Pattern gradient = applyGradientPattern(graphics, rect);
 
-                graphics.fillRectangle(bounds);
+                graphics.fillRectangle(rect);
                 
                 disposeGradientPattern(graphics, gradient);
                 
@@ -72,34 +72,34 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
 
-                graphics.drawRectangle(bounds);
+                graphics.drawRectangle(rect);
                 
                 Path path = new Path(null);
-                path.moveTo(bounds.x, bounds.y + TOP_MARGIN);
-                path.lineTo(bounds.getCenter().x, bounds.y + TOP_MARGIN);
-                path.lineTo(bounds.getCenter().x, bounds.y);
+                path.moveTo(rect.x, rect.y + TOP_MARGIN);
+                path.lineTo(rect.getCenter().x, rect.y + TOP_MARGIN);
+                path.lineTo(rect.getCenter().x, rect.y);
                 graphics.drawPath(path);
                 path.dispose();
                 
                 // Icon
                 // getOwner().drawIconImage(graphics, bounds);
                 int topOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_LEFT ? TOP_MARGIN : 0;
-                drawIconImage(graphics, bounds, topOffset, 0, 0, 0);
+                drawIconImage(graphics, rect, topOffset, 0, 0, 0);
 
                 graphics.popState();
             }
 
             @Override
             public Rectangle calculateTextControlBounds() {
-                Rectangle bounds = getBounds();
+                Rectangle rect = getBounds();
                 
                 int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
                 
                 if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-                    bounds.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
+                    rect.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
                 }
                 
-                return bounds;
+                return rect;
             }
         };
     }
@@ -160,8 +160,8 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds().getCopy();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
     }
 
     @Override

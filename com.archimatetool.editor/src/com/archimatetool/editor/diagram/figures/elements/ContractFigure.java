@@ -37,13 +37,13 @@ public class ContractFigure extends ObjectFigure {
         public void drawFigure(Graphics graphics) {
             graphics.pushState();
             
-            Rectangle bounds = getBounds();
+            Rectangle rect = getBounds();
             
             // Reduce width and height by 1 pixel
-            bounds.resize(-1, -1);
+            rect.resize(-1, -1);
             
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
 
             graphics.setAlpha(getAlpha());
             
@@ -54,9 +54,9 @@ public class ContractFigure extends ObjectFigure {
             // Main Fill
             graphics.setBackgroundColor(getFillColor());
             
-            Pattern gradient = applyGradientPattern(graphics, bounds);
+            Pattern gradient = applyGradientPattern(graphics, rect);
             
-            graphics.fillRectangle(bounds);
+            graphics.fillRectangle(rect);
             
             disposeGradientPattern(graphics, gradient);
 
@@ -64,13 +64,13 @@ public class ContractFigure extends ObjectFigure {
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
 
-            graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
-            graphics.drawLine(bounds.x, bounds.getBottom().y - TOP_MARGIN, bounds.getRight().x, bounds.getBottom().y - TOP_MARGIN);
-            graphics.drawRectangle(bounds);
+            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
+            graphics.drawLine(rect.x, rect.getBottom().y - TOP_MARGIN, rect.getRight().x, rect.getBottom().y - TOP_MARGIN);
+            graphics.drawRectangle(rect);
             
             // Icon
             // getOwner().drawIconImage(graphics, bounds);
-            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
+            getOwner().drawIconImage(graphics, rect, TOP_MARGIN, 0, -TOP_MARGIN, 0);
             
             graphics.popState();
         }
@@ -79,9 +79,9 @@ public class ContractFigure extends ObjectFigure {
         public Rectangle calculateTextControlBounds() {
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             if(textPosition == ITextPosition.TEXT_POSITION_BOTTOM) {
-                Rectangle bounds = getBounds();
-                bounds.y -= TOP_MARGIN - getTextControlMarginHeight();
-                return bounds;
+                Rectangle rect = getBounds();
+                rect.y -= TOP_MARGIN - getTextControlMarginHeight();
+                return rect;
             }
             else {
                 return super.calculateTextControlBounds();

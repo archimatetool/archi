@@ -145,8 +145,8 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 13 - getLineWidth(), bounds.y + 8);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 13 - getLineWidth(), rect.y + 8);
     }
     
     @Override

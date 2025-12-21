@@ -28,16 +28,16 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
 
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
 
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
@@ -50,9 +50,9 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         // Fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
-        graphics.fillRectangle(bounds);
+        graphics.fillRectangle(rect);
         
         disposeGradientPattern(graphics, gradient);
         
@@ -60,12 +60,12 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawRectangle(bounds);
+            graphics.drawRectangle(rect);
         }
         
         // Icon
         // getOwner().drawIconImage(graphics, bounds);
-        getOwner().drawIconImage(graphics, bounds, 0, 0, 0, 0);
+        getOwner().drawIconImage(graphics, rect, 0, 0, 0, 0);
         
         graphics.popState();
     }

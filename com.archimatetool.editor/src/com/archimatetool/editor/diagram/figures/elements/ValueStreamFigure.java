@@ -45,17 +45,17 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
 
-        int indent = Math.min(bounds.height / 2, bounds.width / 2);
-        int centre_y = bounds.y + bounds.height / 2;
-        int point_startx = bounds.x + bounds.width - indent;
+        int indent = Math.min(rect.height / 2, rect.width / 2);
+        int centre_y = rect.y + rect.height / 2;
+        int point_startx = rect.x + rect.width - indent;
 
         graphics.setAlpha(getAlpha());
         
@@ -65,19 +65,19 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         
         // Shape
         Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x + indent, centre_y);
-        path.lineTo(bounds.x, bounds.y + bounds.height);
-        path.lineTo(point_startx, bounds.y + bounds.height);
-        path.lineTo(bounds.x + bounds.width, centre_y);
-        path.lineTo(point_startx, bounds.y);
-        path.lineTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x + indent, centre_y);
+        path.moveTo(rect.x, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.lineTo(point_startx, rect.y + rect.height);
+        path.lineTo(rect.x + rect.width, centre_y);
+        path.lineTo(point_startx, rect.y);
+        path.lineTo(rect.x, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
         
         // Fill
         graphics.setBackgroundColor(getFillColor());
 
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
         graphics.fillPath(path);
         
@@ -111,7 +111,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
                 right = -10;
                 break;
         }
-        drawIconImage(graphics, bounds, top, right, bottom, left);
+        drawIconImage(graphics, rect, top, right, bottom, left);
 
         graphics.popState();
     }
@@ -180,8 +180,8 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 18 - getLineWidth(), bounds.y + 7);
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 18 - getLineWidth(), rect.y + 7);
     }
     
     @Override

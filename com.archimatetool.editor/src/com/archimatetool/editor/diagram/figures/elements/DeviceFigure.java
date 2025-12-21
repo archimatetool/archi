@@ -46,15 +46,15 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
 
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
-        int height_indent = bounds.height / 6;
+        int height_indent = rect.height / 6;
         
         graphics.setAlpha(getAlpha());
         
@@ -66,40 +66,40 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
 
         Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y + bounds.height);
-        path.lineTo(bounds.x + INDENT + 1, bounds.y + bounds.height - height_indent);
-        path.lineTo(bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent);
-        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
-        path.lineTo(bounds.x, bounds.y + bounds.height);
+        path.moveTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x + INDENT + 1, rect.y + rect.height - height_indent);
+        path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
         graphics.fillPath(path);
         path.dispose();
         
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.drawLine(bounds.x, bounds.y + bounds.height, bounds.x + bounds.width, bounds.y + bounds.height);
-        graphics.drawLine(bounds.x, bounds.y + bounds.height, bounds.x + INDENT + 1, bounds.y + bounds.height - height_indent);
-        graphics.drawLine(bounds.x + bounds.width, bounds.y + bounds.height, bounds.x + bounds.width - INDENT + 1, bounds.y + bounds.height - height_indent);
+        graphics.drawLine(rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height);
+        graphics.drawLine(rect.x, rect.y + rect.height, rect.x + INDENT + 1, rect.y + rect.height - height_indent);
+        graphics.drawLine(rect.x + rect.width, rect.y + rect.height, rect.x + rect.width - INDENT + 1, rect.y + rect.height - height_indent);
 
         // Top part
-        Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
+        Rectangle topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent);
 
         graphics.setBackgroundColor(getFillColor());
         graphics.setAlpha(getAlpha());
 
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
-        graphics.fillRoundRectangle(rect, 30, 30);
+        graphics.fillRoundRectangle(topRect, 30, 30);
         
         disposeGradientPattern(graphics, gradient);
 
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        rect = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height - height_indent);
-        graphics.drawRoundRectangle(rect, 30, 30);
+        topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent);
+        graphics.drawRoundRectangle(topRect, 30, 30);
         
         // Image icon
-        Rectangle imageArea = new Rectangle(bounds.x + 3, bounds.y + 3, bounds.width - 6, bounds.height - height_indent - 6);
-        drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x + 3, rect.y + 3, rect.width - 6, rect.height - height_indent - 6);
+        drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -161,8 +161,8 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 15 - getLineWidth(), bounds.y + 5);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 15 - getLineWidth(), rect.y + 5);
     }
     
     @Override

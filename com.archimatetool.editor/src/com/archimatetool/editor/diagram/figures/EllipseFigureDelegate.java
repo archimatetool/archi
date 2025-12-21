@@ -28,16 +28,16 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
 
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
 
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
@@ -49,9 +49,9 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
-        graphics.fillOval(bounds);
+        graphics.fillOval(rect);
         
         disposeGradientPattern(graphics, gradient);
 
@@ -59,13 +59,13 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawOval(bounds);
+            graphics.drawOval(rect);
         }
         
         // Image Icon
-        Rectangle imageArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
-                bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
-        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x + (rect.width / 6), rect.y + (rect.height / 6),
+                rect.width - (rect.width / 3), rect.height - (rect.height / 3));
+        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

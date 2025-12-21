@@ -241,8 +241,8 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 16 - getLineWidth(), bounds.y + 2 + getLineWidth());
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 16 - getLineWidth(), rect.y + 2 + getLineWidth());
     }
 
     @Override

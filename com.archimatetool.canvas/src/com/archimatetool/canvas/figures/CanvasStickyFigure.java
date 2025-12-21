@@ -112,28 +112,28 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         graphics.setAlpha(getAlpha());
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=568864
         if(PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) {
             graphics.setBackgroundColor(getFillColor());
-            graphics.fillRectangle(bounds);
+            graphics.fillRectangle(rect);
         }
         else {
             graphics.setForegroundColor(getFillColor());
             graphics.setBackgroundColor(ColorFactory.getLighterColor(getFillColor(), 0.9f));
-            graphics.fillGradient(bounds, false);
+            graphics.fillGradient(rect, false);
         }
         
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
         
         // Border
         if(getBorderColor() != null) {
@@ -143,17 +143,17 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
 
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
-            path.moveTo(bounds.x - lineOffset, bounds.y);
-            path.lineTo(bounds.x + bounds.width, bounds.y);
-            path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height);
+            path.moveTo(rect.x - lineOffset, rect.y);
+            path.lineTo(rect.x + rect.width, rect.y);
+            path.lineTo(rect.x + rect.width, rect.y + rect.height);
             graphics.drawPath(path);
             path.dispose();
 
             graphics.setForegroundColor(getBorderColor());
             path = new Path(null);
-            path.moveTo(bounds.x, bounds.y - lineOffset);
-            path.lineTo(bounds.x, bounds.y + bounds.height);
-            path.lineTo(bounds.x + bounds.width + lineOffset, bounds.y + bounds.height);
+            path.moveTo(rect.x, rect.y - lineOffset);
+            path.lineTo(rect.x, rect.y + rect.height);
+            path.lineTo(rect.x + rect.width + lineOffset, rect.y + rect.height);
             graphics.drawPath(path);
             path.dispose();
         }

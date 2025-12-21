@@ -34,13 +34,13 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is consttained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
 
         graphics.setAlpha(getAlpha());
         
@@ -51,21 +51,21 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
 
         Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y + EDGE_SIZE);
-        path.lineTo(bounds.x + EDGE_SIZE, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - EDGE_SIZE);
-        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
-        path.lineTo(bounds.x, bounds.y + bounds.height);
+        path.moveTo(rect.x, rect.y + EDGE_SIZE);
+        path.lineTo(rect.x + EDGE_SIZE, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
+        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
         graphics.fillPath(path);
         path.dispose();
         
         // Fill front rectangle
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
-        graphics.fillRectangle(bounds.x, bounds.y + EDGE_SIZE, bounds.width - EDGE_SIZE, bounds.height - EDGE_SIZE);
+        graphics.fillRectangle(rect.x, rect.y + EDGE_SIZE, rect.width - EDGE_SIZE, rect.height - EDGE_SIZE);
 
         disposeGradientPattern(graphics, gradient);
 
@@ -75,24 +75,24 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         
         path = new Path(null);
         
-        path.moveTo(bounds.x, bounds.y + EDGE_SIZE);
-        path.lineTo(bounds.x + EDGE_SIZE, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y + bounds.height - EDGE_SIZE);
-        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
-        path.lineTo(bounds.x, bounds.y + bounds.height);
-        path.lineTo(bounds.x, bounds.y + EDGE_SIZE);
-        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + EDGE_SIZE);
-        path.lineTo(bounds.x + bounds.width, bounds.y);
-        path.moveTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + EDGE_SIZE);
-        path.lineTo(bounds.x + bounds.width - EDGE_SIZE, bounds.y + bounds.height);
+        path.moveTo(rect.x, rect.y + EDGE_SIZE);
+        path.lineTo(rect.x + EDGE_SIZE, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
+        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + EDGE_SIZE);
+        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.moveTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
+        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
         
         graphics.drawPath(path);
         path.dispose();
 
         // Image icon
-        Rectangle imageArea = new Rectangle(bounds.x, bounds.y + EDGE_SIZE, bounds.width - EDGE_SIZE, bounds.height - EDGE_SIZE);
-        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x, rect.y + EDGE_SIZE, rect.width - EDGE_SIZE, rect.height - EDGE_SIZE);
+        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

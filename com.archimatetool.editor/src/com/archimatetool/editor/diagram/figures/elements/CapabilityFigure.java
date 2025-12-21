@@ -195,8 +195,8 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 16 - getLineWidth(), bounds.y + 5);
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 16 - getLineWidth(), rect.y + 5);
     }
 
     @Override

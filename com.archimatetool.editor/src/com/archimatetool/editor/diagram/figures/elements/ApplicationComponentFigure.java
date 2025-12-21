@@ -47,13 +47,13 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -64,9 +64,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
-        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - INDENT, bounds.height);
+        graphics.fillRectangle(rect.x + INDENT, rect.y, rect.width - INDENT, rect.height);
         
         disposeGradientPattern(graphics, gradient);
         
@@ -75,39 +75,39 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         // Outline
         graphics.setForegroundColor(getLineColor());
         PointList points = new PointList();
-        Point pt1 = new Point(bounds.x + INDENT, bounds.y + 10);
+        Point pt1 = new Point(rect.x + INDENT, rect.y + 10);
         points.addPoint(pt1);
-        Point pt2 = new Point(pt1.x, bounds.y);
+        Point pt2 = new Point(pt1.x, rect.y);
         points.addPoint(pt2);
-        Point pt3 = new Point(bounds.x + bounds.width, bounds.y);
+        Point pt3 = new Point(rect.x + rect.width, rect.y);
         points.addPoint(pt3);
-        Point pt4 = new Point(pt3.x, bounds.y + bounds.height);
+        Point pt4 = new Point(pt3.x, rect.y + rect.height);
         points.addPoint(pt4);
         Point pt5 = new Point(pt1.x, pt4.y);
         points.addPoint(pt5);
-        Point pt6 = new Point(pt1.x, bounds.y + 43);
+        Point pt6 = new Point(pt1.x, rect.y + 43);
         points.addPoint(pt6);
         graphics.drawPolyline(points);
         
-        graphics.drawLine(bounds.x + INDENT, bounds.y + 23, bounds.x + INDENT, bounds.y + 30);
+        graphics.drawLine(rect.x + INDENT, rect.y + 23, rect.x + INDENT, rect.y + 30);
         
         graphics.setAlpha(getAlpha());
         
         // Nubs Fill
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
-        graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
+        graphics.fillRectangle(rect.x, rect.y + 10, INDENT * 2, 13);
+        graphics.fillRectangle(rect.x, rect.y + 30, INDENT * 2, 13);
         
         graphics.setAlpha(getLineAlpha());
         
         // Nubs Outline
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 13);
-        graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 13);
+        graphics.drawRectangle(rect.x, rect.y + 10, INDENT * 2, 13);
+        graphics.drawRectangle(rect.x, rect.y + 30, INDENT * 2, 13);
         
         // Icon
         // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, bounds, 0, 0, 0, INDENT * 2);
+        drawIconImage(graphics, rect, 0, 0, 0, INDENT * 2);
 
         graphics.popState();
     }
@@ -180,8 +180,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 14 - getLineWidth(), bounds.y + 19);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 14 - getLineWidth(), rect.y + 19);
     }
     
     @Override
@@ -198,10 +198,10 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     protected Rectangle calculateTextControlBounds() {
         // Compensate for left hand nubs
         if(getFigureDelegate() == null) {
-            Rectangle bounds = getBounds().getCopy();
-            bounds.x += 18;
-            bounds.width -= 18;
-            return bounds;
+            Rectangle rect = getBounds().getCopy();
+            rect.x += 18;
+            rect.width -= 18;
+            return rect;
         }
         
         return super.calculateTextControlBounds();

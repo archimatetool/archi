@@ -57,9 +57,9 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         Locator mainLocator = new Locator() {
             @Override
             public void relocate(IFigure target) {
-                Rectangle bounds = getBounds().getCopy();
-                translateFromParent(bounds);
-                target.setBounds(bounds);
+                Rectangle rect = getBounds().getCopy();
+                translateFromParent(rect);
+                target.setBounds(rect);
             }
         };
         
@@ -133,30 +133,30 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         graphics.setAlpha(getAlpha());
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawBorder) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
         graphics.setBackgroundColor(background);
-        graphics.fillRectangle(bounds);
+        graphics.fillRectangle(rect);
         
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
         
         // Border
         if(drawBorder) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
         }
         
         graphics.popState();

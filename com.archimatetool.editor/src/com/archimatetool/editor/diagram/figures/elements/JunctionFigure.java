@@ -42,22 +42,22 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
             setDisabledState(graphics);
         }
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
                 graphics.setBackgroundColor(getFillColor());
-                graphics.fillOval(bounds);
+                graphics.fillOval(rect);
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
-                setLineWidth(graphics, bounds);
+                setLineWidth(graphics, rect);
                 graphics.setForegroundColor(getFillColor());
-                graphics.drawOval(bounds);
+                graphics.drawOval(rect);
                 break;
         }
         

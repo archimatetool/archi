@@ -37,19 +37,19 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
 
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
 
         PointList points = new PointList();
-        points.addPoint(bounds.x + FLANGE, bounds.y);
-        points.addPoint(bounds.x + bounds.width, bounds.y);
-        points.addPoint(bounds.x + bounds.width - FLANGE, bounds.y + bounds.height);
-        points.addPoint(bounds.x, bounds.y + bounds.height);
+        points.addPoint(rect.x + FLANGE, rect.y);
+        points.addPoint(rect.x + rect.width, rect.y);
+        points.addPoint(rect.x + rect.width - FLANGE, rect.y + rect.height);
+        points.addPoint(rect.x, rect.y + rect.height);
         
         graphics.setAlpha(getAlpha());
         
@@ -60,7 +60,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         // Fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
         Path path = FigureUtils.createPathFromPoints(points);
         graphics.fillPath(path);
@@ -75,12 +75,12 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         // Slash
         if(fWithSlash) {
-            graphics.drawLine(bounds.x + FLANGE + 20, bounds.y, bounds.x + 20, bounds.y + bounds.height);
+            graphics.drawLine(rect.x + FLANGE + 20, rect.y, rect.x + 20, rect.y + rect.height);
         }
         
         // Icon
         // getOwner().drawIconImage(graphics, bounds);
-        getOwner().drawIconImage(graphics, bounds, 0, 0, 0, 0);
+        getOwner().drawIconImage(graphics, rect, 0, 0, 0, 0);
 
         graphics.popState();
     }

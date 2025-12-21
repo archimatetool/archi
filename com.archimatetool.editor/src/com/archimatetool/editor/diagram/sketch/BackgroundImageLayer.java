@@ -42,9 +42,9 @@ public class BackgroundImageLayer extends FreeformLayer {
     @Override
     public void paintFigure(Graphics graphics) {
         if(fBackgroundImage != null) {
-            Rectangle bounds = getBounds();
-            for(int x = bounds.x; x < bounds.width; x += fImageWidth) {
-                for(int y = bounds.y; y < bounds.height; y += fImageHeight) {
+            Rectangle rect = getBounds();
+            for(int x = rect.x; x < rect.width; x += fImageWidth) {
+                for(int y = rect.y; y < rect.height; y += fImageHeight) {
                     graphics.drawImage(fBackgroundImage, x, y);
                 }
             }

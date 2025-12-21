@@ -91,8 +91,8 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20 - getLineWidth(), bounds.y + 7);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 7);
     }
 
     @Override

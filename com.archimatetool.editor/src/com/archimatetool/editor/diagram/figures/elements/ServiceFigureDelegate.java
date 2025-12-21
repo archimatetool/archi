@@ -34,13 +34,13 @@ implements IRoundedRectangleFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
 
         Dimension arc = getArc();
         
@@ -52,9 +52,9 @@ implements IRoundedRectangleFigure {
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
-        graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
+        graphics.fillRoundRectangle(new Rectangle(rect.x, rect.y, rect.width, rect.height),
                 arc.width, arc.height);
         
         disposeGradientPattern(graphics, gradient);
@@ -62,20 +62,20 @@ implements IRoundedRectangleFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
+        graphics.drawRoundRectangle(new Rectangle(rect.x, rect.y, rect.width, rect.height),
                 arc.width, arc.height);
         
         // Image Icon
-        Rectangle imageArea = new Rectangle(bounds.x + arc.width / 6, bounds.y + arc.height / 6, bounds.width - arc.width / 3, bounds.height - arc.height / 3);
-        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x + arc.width / 6, rect.y + arc.height / 6, rect.width - arc.width / 3, rect.height - arc.height / 3);
+        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }
     
     @Override
     public Dimension getArc() {
-        Rectangle bounds = getBounds();
-        return new Dimension(Math.min(bounds.height, bounds.width * 8/10), bounds.height);
+        Rectangle rect = getBounds();
+        return new Dimension(Math.min(rect.height, rect.width * 8/10), rect.height);
     }
     
     @Override

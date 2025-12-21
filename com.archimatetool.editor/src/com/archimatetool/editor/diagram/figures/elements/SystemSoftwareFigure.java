@@ -146,8 +146,8 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 16 - getLineWidth(), bounds.y + 8);
+        Rectangle rect = getBounds().getCopy();
+        return new Point(rect.x + rect.width - 16 - getLineWidth(), rect.y + 8);
     }
     
     @Override

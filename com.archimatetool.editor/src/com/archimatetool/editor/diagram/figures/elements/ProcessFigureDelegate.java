@@ -40,32 +40,32 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         graphics.setBackgroundColor(getFillColor());
         
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
         Path path = new Path(null);
         
-        float x1 = bounds.x + (bounds.width * 0.7f);
-        float y1 = bounds.y + (bounds.height / 5);
-        float y2 = bounds.y + bounds.height - (bounds.height / 5);
+        float x1 = rect.x + (rect.width * 0.7f);
+        float y1 = rect.y + (rect.height / 5);
+        float y2 = rect.y + rect.height - (rect.height / 5);
         
         float lineOffset = (float)getLineWidth() / 2;
 
-        path.moveTo(bounds.x, y1);
+        path.moveTo(rect.x, y1);
         path.lineTo(x1, y1);
-        path.lineTo(x1, bounds.y);
-        path.lineTo(bounds.x + bounds.width, bounds.y + (bounds.height / 2));
-        path.lineTo(x1, bounds.y + bounds.height);
+        path.lineTo(x1, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + (rect.height / 2));
+        path.lineTo(x1, rect.y + rect.height);
         path.lineTo(x1, y2);
-        path.lineTo(bounds.x, y2);
-        path.lineTo(bounds.x, y1 - lineOffset);
+        path.lineTo(rect.x, y2);
+        path.lineTo(rect.x, y1 - lineOffset);
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
@@ -79,21 +79,21 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         // Icon
         // getOwner().drawIconImage(graphics, bounds);
-        getOwner().drawIconImage(graphics, bounds,
-                bounds.height / 5 + 1, (int)-(bounds.width * 0.2f), -(bounds.height / 5 + 1), 0);
+        getOwner().drawIconImage(graphics, rect,
+                rect.height / 5 + 1, (int)-(rect.width * 0.2f), -(rect.height / 5 + 1), 0);
 
         graphics.popState();
     }
     
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
         
         if(((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += bounds.height / 5;
+            rect.y += rect.height / 5;
         }
         
-        return bounds;
+        return rect;
     }
 
 }

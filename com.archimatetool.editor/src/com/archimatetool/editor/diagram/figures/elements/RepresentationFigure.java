@@ -41,13 +41,13 @@ public class RepresentationFigure extends DeliverableFigure {
 
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
 
         graphics.setAlpha(getAlpha());
         
@@ -55,11 +55,11 @@ public class RepresentationFigure extends DeliverableFigure {
             setDisabledState(graphics);
         }
         
-        Path path = getFigurePath(6, bounds, (float)getLineWidth() / 2);
+        Path path = getFigurePath(6, rect, (float)getLineWidth() / 2);
         
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
         
@@ -70,11 +70,11 @@ public class RepresentationFigure extends DeliverableFigure {
         path.dispose();
         
         // Line
-        graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
+        graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
         
         // Icon
         // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, bounds, TOP_MARGIN, 0, -TOP_MARGIN, 0);
+        drawIconImage(graphics, rect, TOP_MARGIN, 0, -TOP_MARGIN, 0);
 
         graphics.popState();
     }
@@ -85,15 +85,15 @@ public class RepresentationFigure extends DeliverableFigure {
             return super.calculateTextControlBounds();
         }
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
+            rect.y += TOP_MARGIN - getTextControlMarginHeight() - 1;
         }
         
-        return bounds;
+        return rect;
     }
     
     /**

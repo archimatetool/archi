@@ -44,35 +44,35 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         
         graphics.setAlpha(getAlpha());
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
 
         graphics.setBackgroundColor(getFillColor());
 
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
-        graphics.fillRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+        graphics.fillRectangle(rect.x, rect.y, rect.width, rect.height);
         
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
 
         // Outline
         if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawRectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
         }
         
         graphics.popState();

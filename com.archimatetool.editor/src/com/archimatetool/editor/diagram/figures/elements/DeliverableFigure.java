@@ -45,13 +45,13 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
         graphics.setAlpha(getAlpha());
         
@@ -59,11 +59,11 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
             setDisabledState(graphics);
         }
         
-        Path path = getFigurePath(8, bounds, (float)getLineWidth() / 2);
+        Path path = getFigurePath(8, rect, (float)getLineWidth() / 2);
         
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
 
@@ -76,7 +76,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         
         // Icon
         // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, bounds, 0, 0, -14, 0);
+        drawIconImage(graphics, rect, 0, 0, -14, 0);
 
         graphics.popState();
     }
@@ -149,8 +149,8 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
     }
     
     @Override

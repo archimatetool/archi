@@ -74,9 +74,9 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         Locator mainLocator = new Locator() {
             @Override
             public void relocate(IFigure target) {
-                Rectangle bounds = getBounds().getCopy();
-                translateFromParent(bounds);
-                target.setBounds(bounds);
+                Rectangle rect = getBounds().getCopy();
+                translateFromParent(rect);
+                target.setBounds(rect);
             }
         };
         

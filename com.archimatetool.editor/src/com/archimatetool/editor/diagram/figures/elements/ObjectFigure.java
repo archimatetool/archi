@@ -43,13 +43,13 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
         public void drawFigure(Graphics graphics) {
             graphics.pushState();
             
-            Rectangle bounds = getBounds();
+            Rectangle rect = getBounds();
             
             // Reduce width and height by 1 pixel
-            bounds.resize(-1, -1);
+            rect.resize(-1, -1);
             
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
 
             graphics.setAlpha(getAlpha());
             
@@ -60,9 +60,9 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
             // Main Fill
             graphics.setBackgroundColor(getFillColor());
             
-            Pattern gradient = applyGradientPattern(graphics, bounds);
+            Pattern gradient = applyGradientPattern(graphics, rect);
             
-            graphics.fillRectangle(bounds);
+            graphics.fillRectangle(rect);
             
             disposeGradientPattern(graphics, gradient);
 
@@ -70,27 +70,27 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
 
-            graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
-            graphics.drawRectangle(bounds);
+            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
+            graphics.drawRectangle(rect);
             
             // Icon
             // getOwner().drawIconImage(graphics, bounds);
-            getOwner().drawIconImage(graphics, bounds, TOP_MARGIN, 0, 0, 0);
+            getOwner().drawIconImage(graphics, rect, TOP_MARGIN, 0, 0, 0);
 
             graphics.popState();
         }
         
         @Override
         public Rectangle calculateTextControlBounds() {
-            Rectangle bounds = getBounds();
+            Rectangle rect = getBounds();
             
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             
             if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-                bounds.y += TOP_MARGIN - getTextControlMarginHeight();
+                rect.y += TOP_MARGIN - getTextControlMarginHeight();
             }
             
-            return bounds;
+            return rect;
         }
     }
     
@@ -156,8 +156,8 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
     }
     
     @Override

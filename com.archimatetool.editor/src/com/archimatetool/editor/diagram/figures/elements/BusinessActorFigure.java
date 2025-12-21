@@ -165,8 +165,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 10 - getLineWidth(), bounds.y + 4);
+        Rectangle rect = getBounds().getCopy();
+        return new Point(rect.x + rect.width - 10 - getLineWidth(), rect.y + 4);
     }
 
     @Override

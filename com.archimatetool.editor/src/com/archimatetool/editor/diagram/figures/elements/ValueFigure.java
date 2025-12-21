@@ -40,13 +40,13 @@ public class ValueFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
         graphics.setAlpha(getAlpha());
         
@@ -56,16 +56,16 @@ public class ValueFigure extends AbstractMotivationFigure {
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
-        graphics.fillOval(bounds);
+        graphics.fillOval(rect);
         
         disposeGradientPattern(graphics, gradient);
 
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(bounds);
+        graphics.drawOval(rect);
         
         // Icon
         // drawIconImage(graphics, bounds);
@@ -74,26 +74,26 @@ public class ValueFigure extends AbstractMotivationFigure {
         int offset = 6;
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
-                top = bounds.height / offset;
-                left = bounds.width / offset;
+                top = rect.height / offset;
+                left = rect.width / offset;
                 break;
 
             case IIconic.ICON_POSITION_TOP_RIGHT:
-                top = bounds.height / offset;
-                right = -(bounds.width / offset);
+                top = rect.height / offset;
+                right = -(rect.width / offset);
                 break;
 
             case IIconic.ICON_POSITION_BOTTOM_LEFT:
-                bottom = -(bounds.height / offset);
-                left = bounds.width / offset;
+                bottom = -(rect.height / offset);
+                left = rect.width / offset;
                 break;
 
             case IIconic.ICON_POSITION_BOTTOM_RIGHT:
-                bottom = -(bounds.height / offset);
-                right = -(bounds.width / offset);
+                bottom = -(rect.height / offset);
+                right = -(rect.width / offset);
                 break;
         }
-        drawIconImage(graphics, bounds, top, right, bottom, left);
+        drawIconImage(graphics, rect, top, right, bottom, left);
 
         //Rectangle iconArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
         //        bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
@@ -152,8 +152,8 @@ public class ValueFigure extends AbstractMotivationFigure {
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 7);
+        Rectangle rect = getBounds().getCopy();
+        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 7);
     }
 
     @Override

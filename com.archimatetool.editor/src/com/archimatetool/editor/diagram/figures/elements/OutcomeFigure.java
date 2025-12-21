@@ -206,8 +206,8 @@ public class OutcomeFigure extends AbstractMotivationFigure {
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 24 - getLineWidth(), bounds.y + 9);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 24 - getLineWidth(), rect.y + 9);
     }
     
     @Override

@@ -37,40 +37,40 @@ public class SketchActorFigure extends AbstractLabelFigure {
         graphics.setForegroundColor(getFillColor());
         
         graphics.setAntialias(SWT.ON);
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         graphics.setLineWidth(getLineWidth() + 1);
         
-        bounds.height -= getLabel().getPreferredSize().height;
+        rect.height -= getLabel().getPreferredSize().height;
         
-        int narrowest = Math.min(bounds.width, bounds.height);
+        int narrowest = Math.min(rect.width, rect.height);
         
         int diameter = narrowest / 3;
-        int midX = bounds.x + bounds.width / 2;
+        int midX = rect.x + rect.width / 2;
         
         // Head
-        graphics.drawOval(midX - (diameter / 2), bounds.y + 1, diameter, diameter);
+        graphics.drawOval(midX - (diameter / 2), rect.y + 1, diameter, diameter);
         
         // Body
-        int bodyY2 = bounds.y + bounds.height - (bounds.height / 3);
-        graphics.drawLine(midX, bounds.y + diameter, midX, bodyY2);
+        int bodyY2 = rect.y + rect.height - (rect.height / 3);
+        graphics.drawLine(midX, rect.y + diameter, midX, bodyY2);
         
         // Arms
-        int armsY = bounds.y + diameter + (bounds.height / 8);
+        int armsY = rect.y + diameter + (rect.height / 8);
         graphics.drawLine(midX - diameter, armsY, midX + diameter, armsY);
         
         // Legs
-        graphics.drawLine(midX, bodyY2, midX - diameter, bounds.y + bounds.height);
-        graphics.drawLine(midX, bodyY2, midX + diameter, bounds.y + bounds.height);
+        graphics.drawLine(midX, bodyY2, midX - diameter, rect.y + rect.height);
+        graphics.drawLine(midX, bodyY2, midX + diameter, rect.y + rect.height);
     }
 
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.y += bounds.height - getLabel().getPreferredSize().height;
-        bounds.height = getLabel().getPreferredSize().height;
+        Rectangle rect = getBounds().getCopy();
+        rect.y += rect.height - getLabel().getPreferredSize().height;
+        rect.height = getLabel().getPreferredSize().height;
         
-        return bounds;
+        return rect;
     }
     
     @Override

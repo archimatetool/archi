@@ -48,10 +48,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         graphics.setAntialias(SWT.ON);
         
@@ -65,23 +65,23 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
         graphics.setBackgroundColor(getFillColor());
         graphics.setForegroundColor(getLineColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
         int[] mainRectangle;
         
         if(getDiagramModelArchimateObject().getType() == 0) {
             mainRectangle = new int[] {
-                    bounds.x, bounds.y,
-                    bounds.x + bounds.width, bounds.y,
-                    bounds.x + bounds.width, bounds.y + bounds.height,
-                    bounds.x, bounds.y + bounds.height
+                    rect.x, rect.y,
+                    rect.x + rect.width, rect.y,
+                    rect.x + rect.width, rect.y + rect.height,
+                    rect.x, rect.y + rect.height
             };
             
             Path path = FigureUtils.createPathFromPoints(mainRectangle);
@@ -91,16 +91,16 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             // Icon
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(0);
-                drawIconImage(graphics, bounds);
+                drawIconImage(graphics, rect);
             }
         }
         else {
-            tabWidth = (int)(bounds.width / INSET);
+            tabWidth = (int)(rect.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
             
             if(getDiagramModelArchimateObject().getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
                 int textWidth = FigureUtilities.getTextExtents(getText(), getFont()).width;
-                tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), bounds.width);
+                tabWidth = Math.min(Math.max(tabWidth, textWidth + 8), rect.width);
                 
                 // Tab height is calculated from font height
                 int textHeight = FigureUtilities.getFontMetrics(getFont()).getHeight();
@@ -112,19 +112,19 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             }
             
             mainRectangle = new int[] {
-                    bounds.x, bounds.y + tabHeight,
-                    bounds.x + bounds.width, bounds.y + tabHeight,
-                    bounds.x + bounds.width, bounds.y + bounds.height,
-                    bounds.x, bounds.y + bounds.height
+                    rect.x, rect.y + tabHeight,
+                    rect.x + rect.width, rect.y + tabHeight,
+                    rect.x + rect.width, rect.y + rect.height,
+                    rect.x, rect.y + rect.height
             };
             
             int[] fillShape = new int[] {
-                    bounds.x, bounds.y,
-                    bounds.x + tabWidth, bounds.y,
-                    bounds.x + tabWidth, bounds.y + tabHeight,
-                    bounds.getRight().x, bounds.y + tabHeight,
-                    bounds.getRight().x, bounds.getBottom().y,
-                    bounds.x, bounds.getBottom().y
+                    rect.x, rect.y,
+                    rect.x + tabWidth, rect.y,
+                    rect.x + tabWidth, rect.y + tabHeight,
+                    rect.getRight().x, rect.y + tabHeight,
+                    rect.getRight().x, rect.getBottom().y,
+                    rect.x, rect.getBottom().y
             };
             
             Path path = FigureUtils.createPathFromPoints(fillShape);
@@ -134,14 +134,14 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             // Icon
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(tabHeight);
-                drawIconImage(graphics, bounds);
+                drawIconImage(graphics, rect);
             }
 
             if(drawOutline) {
                 graphics.setAlpha(getLineAlpha());
-                graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + tabHeight);
-                graphics.drawLine(bounds.x, bounds.y, bounds.x + tabWidth, bounds.y);
-                graphics.drawLine(bounds.x + tabWidth, bounds.y, bounds.x + tabWidth, bounds.y + tabHeight);
+                graphics.drawLine(rect.x, rect.y, rect.x, rect.y + tabHeight);
+                graphics.drawLine(rect.x, rect.y, rect.x + tabWidth, rect.y);
+                graphics.drawLine(rect.x + tabWidth, rect.y, rect.x + tabWidth, rect.y + tabHeight);
             }
         }
         
@@ -162,23 +162,23 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     
     @Override
     protected Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
         int textAlignment = getDiagramModelObject().getTextAlignment();
         
         if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
-            bounds.y += 5 - getTextControlMarginHeight();
-            bounds.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
+            rect.y += 5 - getTextControlMarginHeight();
+            rect.y -= Math.max(3, FigureUtilities.getFontMetrics(getFont()).getLeading());
             
             // Adjust for icon
             if(getIconOffset() != 0 && isIconVisible() && textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
                 int iconOffset = getIconOffset() - getTextControlMarginWidth();
-                bounds.width -= iconOffset;
+                rect.width -= iconOffset;
             }
         }
         
-        return bounds;
+        return rect;
     }
     
     /**
@@ -264,8 +264,8 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 17 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
     }
     
     @Override

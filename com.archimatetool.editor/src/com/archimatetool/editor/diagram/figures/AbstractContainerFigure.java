@@ -112,23 +112,23 @@ implements IContainerFigure {
             setDisabledState(graphics);
         }
 
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Scaling
         double scale = FigureUtils.getFigureScale(this);
         if(scale == 1.5) {
             // Reduce width and height by 1 pixel
-            bounds.resize(-1, -1);
+            rect.resize(-1, -1);
         }
         else if(scale < 1) {
             // Reduce width and height by 2 pixels
-            bounds.resize(-2, -2);
+            rect.resize(-2, -2);
         }
         
-        bounds.shrink(1, 1);
+        rect.shrink(1, 1);
         graphics.setForegroundColor(highlightedColor);
         graphics.setLineWidth(2);
-        graphics.drawRectangle(bounds);
+        graphics.drawRectangle(rect);
         
         graphics.popState();
     }

@@ -96,16 +96,16 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         graphics.setAntialias(SWT.ON);
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         if(drawBorder) {
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
         
@@ -113,24 +113,24 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         PointList points = new PointList();
         
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
-            points.addPoint(bounds.x, bounds.y);
-            points.addPoint(bounds.getTopRight().x, bounds.y);
-            points.addPoint(bounds.getTopRight().x, bounds.getBottomRight().y - 13);
-            points.addPoint(bounds.getTopRight().x - 13, bounds.getBottomRight().y);
-            points.addPoint(bounds.x, bounds.getBottomLeft().y);
+            points.addPoint(rect.x, rect.y);
+            points.addPoint(rect.getTopRight().x, rect.y);
+            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y - 13);
+            points.addPoint(rect.getTopRight().x - 13, rect.getBottomRight().y);
+            points.addPoint(rect.x, rect.getBottomLeft().y);
         }
         else {
-            points.addPoint(bounds.x, bounds.y);
-            points.addPoint(bounds.getTopRight().x, bounds.y);
-            points.addPoint(bounds.getTopRight().x, bounds.getBottomRight().y);
-            points.addPoint(bounds.x, bounds.getBottomLeft().y);
+            points.addPoint(rect.x, rect.y);
+            points.addPoint(rect.getTopRight().x, rect.y);
+            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y);
+            points.addPoint(rect.x, rect.getBottomLeft().y);
         }
         
         graphics.setAlpha(getAlpha());
         
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
         Path path = FigureUtils.createPathFromPoints(points);
         graphics.fillPath(path);
@@ -139,7 +139,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         disposeGradientPattern(graphics, gradient);
 
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
 
         if(drawBorder) {
             graphics.setAlpha(getLineAlpha());

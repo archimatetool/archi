@@ -38,28 +38,28 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
 
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
        
         PointList points = new PointList();
-        points.addPoint(bounds.x + FLANGE, bounds.y);
-        points.addPoint(bounds.x + bounds.width - FLANGE, bounds.y);
-        points.addPoint(bounds.x + bounds.width, bounds.y + FLANGE);
-        points.addPoint(bounds.x + bounds.width, bounds.y + bounds.height - FLANGE);
-        points.addPoint(bounds.x + bounds.width - FLANGE, bounds.y + bounds.height);
-        points.addPoint(bounds.x + FLANGE, bounds.y + bounds.height);
-        points.addPoint(bounds.x, bounds.y + bounds.height - FLANGE);
-        points.addPoint(bounds.x, bounds.y + FLANGE);
+        points.addPoint(rect.x + FLANGE, rect.y);
+        points.addPoint(rect.x + rect.width - FLANGE, rect.y);
+        points.addPoint(rect.x + rect.width, rect.y + FLANGE);
+        points.addPoint(rect.x + rect.width, rect.y + rect.height - FLANGE);
+        points.addPoint(rect.x + rect.width - FLANGE, rect.y + rect.height);
+        points.addPoint(rect.x + FLANGE, rect.y + rect.height);
+        points.addPoint(rect.x, rect.y + rect.height - FLANGE);
+        points.addPoint(rect.x, rect.y + FLANGE);
         
         graphics.setAlpha(getAlpha());
         
@@ -70,7 +70,7 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         // Fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
         
         //graphics.fillPolygon(points);
         Path path = FigureUtils.createPathFromPoints(points);
@@ -87,8 +87,8 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         }
 
         // Image Icon
-        Rectangle imageArea = new Rectangle(bounds.x + FLANGE / 2, bounds.y + FLANGE / 2, bounds.width - FLANGE, bounds.height - FLANGE);
-        drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x + FLANGE / 2, rect.y + FLANGE / 2, rect.width - FLANGE, rect.height - FLANGE);
+        drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
 
         graphics.popState();
     }

@@ -33,16 +33,16 @@ implements IRoundedRectangleFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds();
+        Rectangle rect = getBounds();
 
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
         
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {
             // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, bounds);
+            setLineWidth(graphics, rect);
             setLineStyle(graphics);
         }
 
@@ -55,9 +55,9 @@ implements IRoundedRectangleFigure {
         // Fill
         graphics.setBackgroundColor(getFillColor());
         
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
-        graphics.fillRoundRectangle(bounds, fArc.width, fArc.height);
+        graphics.fillRoundRectangle(rect, fArc.width, fArc.height);
         
         disposeGradientPattern(graphics, gradient);
         
@@ -65,12 +65,12 @@ implements IRoundedRectangleFigure {
         if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
+            graphics.drawRoundRectangle(rect, fArc.width, fArc.height);
         }
 
         // Image Icon
-        Rectangle imageArea = new Rectangle(bounds.x + 2, bounds.y + 2, bounds.width - 4, bounds.height - 4);
-        getOwner().drawIconImage(graphics, bounds, imageArea, 0, 0, 0, 0);
+        Rectangle imageArea = new Rectangle(rect.x + 2, rect.y + 2, rect.width - 4, rect.height - 4);
+        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
         
         graphics.popState();
     }

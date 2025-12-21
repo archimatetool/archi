@@ -150,8 +150,8 @@ public class GoalFigure extends AbstractMotivationFigure {
      * @return The icon start position
      */
     private Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 6);
     }
     
     @Override

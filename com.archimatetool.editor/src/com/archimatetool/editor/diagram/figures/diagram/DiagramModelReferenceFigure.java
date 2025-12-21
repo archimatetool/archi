@@ -60,8 +60,8 @@ public class DiagramModelReferenceFigure extends AbstractTextControlContainerFig
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 18 - getLineWidth(), bounds.y + 6);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 6);
     }
     
     @Override

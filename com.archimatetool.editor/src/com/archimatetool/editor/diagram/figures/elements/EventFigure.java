@@ -45,17 +45,17 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
 
         graphics.pushState();
         
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel
-        bounds.resize(-1, -1);
+        rect.resize(-1, -1);
 
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, bounds);
+        setLineWidth(graphics, rect);
         
-        int indent = Math.min(bounds.height / 3, bounds.width / 3);
-        int centre_y = bounds.y + bounds.height / 2 - 1;
-        int arc_startx = bounds.x + bounds.width - indent;
+        int indent = Math.min(rect.height / 3, rect.width / 3);
+        int centre_y = rect.y + rect.height / 2 - 1;
+        int arc_startx = rect.x + rect.width - indent;
         
         graphics.setAlpha(getAlpha());
         
@@ -65,17 +65,17 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         
         // Main Fill
         Path path = new Path(null);
-        path.moveTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x + indent, centre_y);
-        path.lineTo(bounds.x, bounds.y + bounds.height);
-        path.lineTo(arc_startx, bounds.y + bounds.height);
-        path.addArc(arc_startx - indent, bounds.y, indent * 2, bounds.height, -90, 180);
-        path.lineTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x + indent, centre_y);
+        path.moveTo(rect.x, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.lineTo(arc_startx, rect.y + rect.height);
+        path.addArc(arc_startx - indent, rect.y, indent * 2, rect.height, -90, 180);
+        path.lineTo(rect.x, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
         
         graphics.setBackgroundColor(getFillColor());
 
-        Pattern gradient = applyGradientPattern(graphics, bounds);
+        Pattern gradient = applyGradientPattern(graphics, rect);
 
         graphics.fillPath(path);
         
@@ -88,7 +88,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         path.dispose();
         
         // Icon
-        drawIconImage(graphics, bounds);
+        drawIconImage(graphics, rect);
 
         graphics.popState();
     }
@@ -164,8 +164,8 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 19 - getLineWidth(), bounds.y + 7);
+        Rectangle rect = getBounds();
+        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 7);
     }
 
     @Override
