@@ -15,7 +15,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.IConstrainedSizeEditPart;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigure;
 import com.archimatetool.editor.diagram.policies.BasicConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
@@ -29,8 +28,7 @@ import com.archimatetool.model.IDiagramModelImage;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramImageEditPart extends AbstractConnectedEditPart
-implements IConstrainedSizeEditPart {
+public class DiagramImageEditPart extends AbstractConnectedEditPart {
     
     @Override
     protected void eCoreChanged(Notification msg) {
