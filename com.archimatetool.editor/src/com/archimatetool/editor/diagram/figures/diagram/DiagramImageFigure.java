@@ -112,8 +112,13 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
             }
             // This is slower
             else {
-                graphics.drawImage(fImage, 0, 0, fImage.getBounds().width, fImage.getBounds().height,
-                        bounds.x, bounds.y, bounds.width, bounds.height);
+                // Safety width and height checks
+                int w1 = Math.max(0, fImage.getBounds().width);
+                int h1 = Math.max(0, fImage.getBounds().height);
+                int w2 = Math.max(0, bounds.width);
+                int h2 = Math.max(0, bounds.height);
+                
+                graphics.drawImage(fImage, 0, 0, w1, h1, bounds.x, bounds.y, w2, h2);
             }
         }
         else {
