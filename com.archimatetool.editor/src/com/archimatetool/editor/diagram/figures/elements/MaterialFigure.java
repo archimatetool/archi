@@ -46,8 +46,9 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
-        rect.width--;
-        rect.height--;
+        
+        // Reduce width and height by 1 pixel
+        rect.resize(-1, -1);
         
         Rectangle imageBounds = rect.getCopy();
         
