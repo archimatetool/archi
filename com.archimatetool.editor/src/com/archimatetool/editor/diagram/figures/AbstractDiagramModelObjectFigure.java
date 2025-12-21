@@ -170,7 +170,9 @@ implements IDiagramModelObjectFigure {
         }
     
         // Width and height reduced by line width to compensate for x,y offset
-        bounds.resize(-lineWidth, -lineWidth);
+        if(bounds.width > lineWidth && bounds.height > lineWidth) { // but only if width and height are greater than linewidth
+            bounds.resize(-lineWidth, -lineWidth);
+        }
         
         // x,y offset is half of line width
         float offset = (float)lineWidth / 2;
