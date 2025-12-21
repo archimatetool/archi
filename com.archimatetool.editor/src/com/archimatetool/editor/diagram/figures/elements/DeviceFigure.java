@@ -71,14 +71,16 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent);
         path.lineTo(rect.x + rect.width, rect.y + rect.height);
         path.lineTo(rect.x, rect.y + rect.height);
+        
+        Pattern gradient1 = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
-        path.dispose();
+        disposeGradientPattern(graphics, gradient1);
         
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.drawLine(rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height);
-        graphics.drawLine(rect.x, rect.y + rect.height, rect.x + INDENT + 1, rect.y + rect.height - height_indent);
-        graphics.drawLine(rect.x + rect.width, rect.y + rect.height, rect.x + rect.width - INDENT + 1, rect.y + rect.height - height_indent);
+        graphics.drawPath(path);
+        
+        path.dispose();
 
         // Top part
         Rectangle topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent);
@@ -86,15 +88,12 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         graphics.setBackgroundColor(getFillColor());
         graphics.setAlpha(getAlpha());
 
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
+        Pattern gradient2 = applyGradientPattern(graphics, topRect);
         graphics.fillRoundRectangle(topRect, 30, 30);
-        
-        disposeGradientPattern(graphics, gradient);
+        disposeGradientPattern(graphics, gradient2);
 
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent);
         graphics.drawRoundRectangle(topRect, 30, 30);
         
         // Image icon
