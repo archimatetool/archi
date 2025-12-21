@@ -172,8 +172,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
      * Use a re-usable rescaled image if drawing an image to scale in paintFigure(Graphics) is too slow
      */
     protected void rescaleImage() {
-        int width = bounds.width;
-        int height = bounds.height;
+        int width = getBounds().width;
+        int height = getBounds().height;
         
         if(width <= 0 && height <= 0) { // safety check
             return;

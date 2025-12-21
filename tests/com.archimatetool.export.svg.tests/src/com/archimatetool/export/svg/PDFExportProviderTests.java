@@ -40,7 +40,7 @@ public class PDFExportProviderTests extends AbstractExportProviderTests {
             public void paintFigure(Graphics graphics) {
                 super.paintFigure(graphics);
                 Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
-                graphics.drawImage(image, bounds.x, bounds.y);
+                graphics.drawImage(image, getBounds().x, getBounds().y);
             }
         };
         childFigure.setBounds(new Rectangle(0, 0, 50, 50));

@@ -80,11 +80,11 @@ public class LegendFigure extends AbstractDiagramModelObjectFigure {
         
         // Icon
         if(displayImage) {
-            drawIconImage(graphics, bounds);
+            drawIconImage(graphics, getBounds());
         }
         
         // Legend
-        legendGraphics.drawLegend(bounds, graphics, getForegroundColor());
+        legendGraphics.drawLegend(getBounds(), graphics, getForegroundColor());
     }
     
     @Override

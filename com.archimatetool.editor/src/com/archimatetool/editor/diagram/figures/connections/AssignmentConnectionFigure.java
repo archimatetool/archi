@@ -60,7 +60,7 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
             else {
                 graphics.setBackgroundColor(ColorConstants.buttonDarker);
             }
-            graphics.fillOval(bounds);
+            graphics.fillOval(getBounds());
         }
     }
 
