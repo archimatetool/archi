@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.graphics.Color;
 import org.junit.jupiter.params.provider.Arguments;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -158,6 +159,18 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     public void testGetDefaultColor(IGraphicalObjectUIProvider provider) {
         assertNotNull(provider.getDefaultColor());
     }
+    
+    @Override
+    @ParamsTest
+    public void testGetDefaultLineColor(IGraphicalObjectUIProvider provider) {
+        // Junctions
+        if(provider instanceof JunctionUIProvider) {
+            assertEquals(new Color(0, 0, 0),  provider.getDefaultLineColor());
+        }
+        else {
+            super.testGetDefaultLineColor(provider);
+        }
+    }
 
     @Override
     @ParamsTest
@@ -204,6 +217,10 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         // Junction
         if(provider instanceof JunctionUIProvider) {
             assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName()));
+            assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName()));
+            assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName()));
+            assertTrue(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR));
+            assertTrue(provider.shouldExposeFeature(IDiagramModelObject.FEATURE_LINE_ALPHA));
             assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName()));
             assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()));
             

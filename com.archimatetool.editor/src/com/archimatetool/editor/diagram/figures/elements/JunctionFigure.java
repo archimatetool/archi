@@ -36,8 +36,6 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         
         graphics.setAntialias(SWT.ON);
         
-        graphics.setAlpha(getAlpha());
-        
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
@@ -50,13 +48,15 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
+                graphics.setAlpha(getAlpha());
                 graphics.setBackgroundColor(getFillColor());
                 graphics.fillOval(rect);
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
                 setLineWidth(graphics, rect);
-                graphics.setForegroundColor(getFillColor());
+                graphics.setAlpha(getLineAlpha());
+                graphics.setForegroundColor(getLineColor());
                 graphics.drawOval(rect);
                 break;
         }
@@ -104,10 +104,6 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
     @Override
     public IFigure getTextControl() {
         return null;
-    }
-
-    @Override
-    public void dispose() {
     }
 
     @Override

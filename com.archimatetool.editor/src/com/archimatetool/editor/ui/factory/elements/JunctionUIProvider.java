@@ -20,6 +20,7 @@ import com.archimatetool.editor.diagram.figures.elements.JunctionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -65,9 +66,18 @@ public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
         return ColorConstants.black;
     }
     
+    @Override
+    public Color getDefaultLineColor() {
+        return ColorConstants.black;
+    }
+    
     // Features to show
     private final static Set<String> supportedFeatures = Set.of(
             IArchimatePackage.Literals.PROPERTIES__PROPERTIES.getName(),
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName(),
+            IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName(),
+            IDiagramModelObject.FEATURE_DERIVE_ELEMENT_LINE_COLOR,
+            IDiagramModelObject.FEATURE_LINE_ALPHA,
             IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR.getName(),
             IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__ALPHA.getName()
             );
