@@ -32,6 +32,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -44,6 +45,7 @@ import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.components.AlphanumericComparator;
+import com.archimatetool.editor.ui.components.DuplicateNameHandler;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
@@ -163,7 +165,30 @@ public class TreeModelViewer extends TreeViewer {
         });
         
         // Cell Editor
-        TreeTextCellEditor cellEditor = new TreeTextCellEditor(getTree());
+        // Add a DuplicateNameHandler to handle duplicate concept names
+        TreeTextCellEditor cellEditor = new TreeTextCellEditor(getTree()) {
+            private DuplicateNameHandler duplicateNameHandler;
+
+            @Override
+            public void activate(ColumnViewerEditorActivationEvent activationEvent) {
+                super.activate(activationEvent);
+                
+                Object element = ((ViewerCell)activationEvent.getSource()).getElement();
+                if(element instanceof IArchimateConcept concept) {
+                    duplicateNameHandler = new DuplicateNameHandler((Text)getControl(), concept);
+                }
+            }
+            
+            @Override
+            public void deactivate() {
+                if(duplicateNameHandler != null) {
+                    duplicateNameHandler.dispose();
+                }
+                
+                super.deactivate();
+            }
+        };
+        
         setColumnProperties(new String[]{ "col1" }); //$NON-NLS-1$
         setCellEditors(new CellEditor[]{ cellEditor });
         
