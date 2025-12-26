@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -15,13 +14,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -34,10 +31,6 @@ import com.archimatetool.model.IDiagramModelObject;
 public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     private Image fImage;
-    private Dimension fOriginalImageSize, fCurrentImageSize;
-    
-    // This is way faster than Draw2D re-drawing the original image at scale
-    boolean useScaledImage = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_SCALED_IMAGES);
     
     public DiagramImageFigure(IDiagramModelImage diagramModelImage) {
         super(diagramModelImage);
@@ -50,8 +43,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void setUI() {
-        setLayoutManager(new GridLayout());
-        setOpaque(true);
         setImage();
     }
     
@@ -60,7 +51,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
      */
     public void updateImage() {
         setImage();
-        revalidate();
         repaint();
     }
     
@@ -76,7 +66,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
 
     @Override
     public Dimension getDefaultSize() {
-        return fOriginalImageSize == null ? super.getDefaultSize() : fOriginalImageSize;
+        return fImage == null ? super.getDefaultSize() : new Dimension(fImage);
     }
     
     @Override
@@ -102,24 +92,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         if(fImage != null) {
-            // Faster but no transparency
-            if(useScaledImage) {
-                rescaleImage();
-                graphics.pushState();
-                graphics.clipRect(rect); // Need to do this
-                graphics.drawImage(fImage, rect.x, rect.y);
-                graphics.popState();
-            }
-            // This is slower
-            else {
-                // Safety width and height checks
-                int w1 = Math.max(0, fImage.getBounds().width);
-                int h1 = Math.max(0, fImage.getBounds().height);
-                int w2 = Math.max(0, rect.width);
-                int h2 = Math.max(0, rect.height);
-                
-                graphics.drawImage(fImage, 0, 0, w1, h1, rect.x, rect.y, w2, h2);
-            }
+            // Safety width and height checks
+            int w1 = Math.max(0, fImage.getBounds().width);
+            int h1 = Math.max(0, fImage.getBounds().height);
+            int w2 = Math.max(0, rect.width);
+            int h2 = Math.max(0, rect.height);
+            graphics.drawImage(fImage, 0, 0, w1, h1, rect.x, rect.y, w2, h2);
         }
         else {
             graphics.setBackgroundColor(ColorConstants.white);
@@ -139,71 +117,41 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     }
     
     /**
-     * Set the image and store it
+     * Set and create a new image (can be null)
      */
     protected void setImage() {
-        disposeImage();
-        
-        fImage = getOriginalImage();
-        
-        if(fImage != null) {
-            fOriginalImageSize = new Dimension(fImage);
-            fCurrentImageSize = new Dimension(fOriginalImageSize);
-        }
-        else {
-            fOriginalImageSize = null;
-        }
+        fImage = createImage();
     }
     
-    protected Image getOriginalImage() {
-        Image image = null;
+    /**
+     * @return image or null
+     */
+    protected Image getImage() {
+        return fImage;
+    }
+    
+    /**
+     * If imagePath is not null create the image disposing of old one first, else return null
+     */
+    protected Image createImage() {
+        // Dispose old one first
+        disposeImage();
         
         String imagePath = getDiagramModelObject().getImagePath();
         
         if(imagePath != null) {
-            IArchiveManager archiveManager = (IArchiveManager)getDiagramModelObject().getAdapter(IArchiveManager.class);
             try {
-                image = archiveManager.createImage(imagePath);
+                IArchiveManager archiveManager = (IArchiveManager)getDiagramModelObject().getAdapter(IArchiveManager.class);
+                return archiveManager.createImage(imagePath);
             }
             catch(Exception ex) {
-                ex.printStackTrace();
+                Logger.logError("Failed to create image: " + imagePath, ex); //$NON-NLS-1$
             }
         }
         
-        return image;
+        return null;
     }
-    
-    /**
-     * Use a re-usable rescaled image if drawing an image to scale in paintFigure(Graphics) is too slow
-     */
-    protected void rescaleImage() {
-        int width = getBounds().width;
-        int height = getBounds().height;
         
-        if(width <= 0 && height <= 0) { // safety check
-            return;
-        }
-        
-        // If the image bounds are different to those in the current image, rescale the image
-        if(width != fCurrentImageSize.width || height != fCurrentImageSize.height) {
-            disposeImage();
-            
-            Image originalImage = getOriginalImage();
-            
-            // Use original image
-            if(width == originalImage.getBounds().width && height == originalImage.getBounds().height) {
-                fImage = originalImage;
-            }
-            // Scaled image
-            else {
-                fImage = ImageFactory.getScaledImage(originalImage, width, height);
-                originalImage.dispose();
-            }
-
-            fCurrentImageSize = new Dimension(fImage);
-        }
-    }
-    
     protected void disposeImage() {
         if(fImage != null && !fImage.isDisposed()) {
             fImage.dispose();

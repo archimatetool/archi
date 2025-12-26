@@ -113,9 +113,6 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements";
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements";
 
-    // Whether to use the older method to scale images first when drawing them
-    String USE_SCALED_IMAGES = "scaledImages";
-    
     // Whether to use a line offset in all cases for figures drawn on hi-res screens
     String USE_FIGURE_LINE_OFFSET = "figureLineOffset";
     

@@ -105,9 +105,6 @@ implements IPreferenceConstants {
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
         
-        // Old method of scaling figures
-        store.setDefault(USE_SCALED_IMAGES, false);
-        
         // Windows at hi-res needs this set to true
         store.setDefault(USE_FIGURE_LINE_OFFSET, PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100);
         

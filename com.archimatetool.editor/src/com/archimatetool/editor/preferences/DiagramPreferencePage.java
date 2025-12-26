@@ -63,7 +63,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             Messages.DiagramPreferencePage_2
     };
     
-    private Button fScaleFigureImagesButton;
     private Button fUseFigureLineOffsetButton;
     
 	public DiagramPreferencePage() {
@@ -172,11 +171,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         otherGroup.setLayout(new GridLayout(2, false));
         otherGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Scale diagram image figures
-        fScaleFigureImagesButton = new Button(otherGroup, SWT.CHECK);
-        fScaleFigureImagesButton.setText(Messages.DiagramPreferencePage_5);
-        fScaleFigureImagesButton.setLayoutData(createHorizontalGridData(2));
-        
         // Use line width offset on Windows hi-res
         fUseFigureLineOffsetButton = new Button(otherGroup, SWT.CHECK);
         fUseFigureLineOffsetButton.setText(Messages.DiagramPreferencePage_8);
@@ -216,7 +210,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
         
-        fScaleFigureImagesButton.setSelection(getPreferenceStore().getBoolean(USE_SCALED_IMAGES));
         fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getBoolean(USE_FIGURE_LINE_OFFSET));
     }
     
@@ -253,7 +246,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        getPreferenceStore().setValue(USE_SCALED_IMAGES, fScaleFigureImagesButton.getSelection());
         getPreferenceStore().setValue(USE_FIGURE_LINE_OFFSET, fUseFigureLineOffsetButton.getSelection());
         
         return true;
@@ -284,7 +276,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
         
-        fScaleFigureImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_SCALED_IMAGES));
         fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_FIGURE_LINE_OFFSET));
         
         super.performDefaults();

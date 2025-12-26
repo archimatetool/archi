@@ -6,7 +6,9 @@
 package com.archimatetool.editor.diagram.figures.diagram;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
@@ -31,7 +33,6 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelImage;
-import com.archimatetool.tests.TestUtils;
 
 
 
@@ -62,7 +63,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         try {
             File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
             addImage(file, (DiagramImageFigure)figure);
-            Image image = getPrivateImageField(figure);
+            Image image = ((DiagramImageFigure)figure).getImage();
             assertEquals(new Dimension(image), figure.getDefaultSize());
         }
         catch(Exception ex) {
@@ -84,26 +85,27 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @ParamsTest
-    public void testDiagramImageScaled(DiagramImageFigure figure) throws Exception {
-        // Have to set this to true to use scaling
-        figure.useScaledImage = true;
-        
-        Image image = getPrivateImageField(figure);
+    public void testDiagramImageSize(DiagramImageFigure figure) throws Exception {
+        // No image
+        Image image = figure.getImage();
         assertNull(image);
         
         // Add image
         File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
         addImage(file, figure);
         
-        // Check initial Image size
-        image = getPrivateImageField(figure);
-        assertEquals(new Rectangle(0, 0, 1024, 1024), image.getBounds());
+        // Get image again
+        image = figure.getImage();
+
+        // Image size
+        Dimension imageSize = new Dimension(image);
+        assertEquals(new Rectangle(0, 0, imageSize.width, imageSize.height), image.getBounds());
         
-        // Check correct default size of image
-        assertEquals(new Dimension(1024, 1024), figure.getDefaultSize());
-        assertEquals(new Dimension(1024, 1024), figure.getPreferredSize(-1, -1));
+        // Check correct default and preferred size of figure is image size
+        assertEquals(imageSize, figure.getDefaultSize());
+        assertEquals(imageSize, figure.getPreferredSize(-1, -1));
         
-        // Change size of DiagramModelImage and check it was rescaled
+        // Change size of DiagramModelImage and the figure
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(0, 0, 512, 512);
         figure.getDiagramModelObject().setBounds(bounds);
         
@@ -111,16 +113,24 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         editor.layoutPendingUpdates();
         
         // Force a mock repaint since we are not using a GUI
+        // We don't really need to do this here but keep it in case of future tests
         figure.paint(mock(Graphics.class));
+        
+        // Figure size is same as bounds
+        assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 512, 512), figure.getBounds());
+        
+        // Check correct default and preferred size of figure is still image size
+        assertEquals(imageSize, figure.getDefaultSize());
+        assertEquals(imageSize, figure.getPreferredSize(-1, -1));
 
-        // Test image was rescaled
-        image = getPrivateImageField(figure);
-        assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
+        // Image is still the same size
+        image = figure.getImage();
+        assertEquals(new Rectangle(0, 0, imageSize.width, imageSize.height), image.getBounds());
     }
     
     @ParamsTest
     public void testSettingNewImagePath(DiagramImageFigure figure) throws Exception {
-        Image image = getPrivateImageField(figure);
+        Image image = figure.getImage();
         assertNull(image);
         
         // Add image
@@ -128,7 +138,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         addImage(file, figure);
         
         // Check initial Image size
-        image = getPrivateImageField(figure);
+        image = figure.getImage();
         assertEquals(new Rectangle(0, 0, 1024, 1024), image.getBounds());
         
         // Check correct default size of image
@@ -140,7 +150,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         addImage(file, figure);
 
         // Check initial Image size
-        image = getPrivateImageField(figure);
+        image = figure.getImage();
         assertEquals(new Rectangle(0, 0, 268, 268), image.getBounds());
         
         // Check correct default size of image
@@ -149,34 +159,28 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @ParamsTest
-    public void testRescaleImage(DiagramImageFigure figure) throws Exception {
-        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img2.png");
-        addImage(file, figure);
-        Image image = getPrivateImageField(figure);
-        assertEquals(new Rectangle(0, 0, 268, 268), image.getBounds());
+    public void testCreateImage(DiagramImageFigure figure) throws Exception {
+        // No image path set so null image
+        assertNull(figure.createImage());
         
-        figure.setBounds(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 10, 10));
-        
-        figure.rescaleImage();
-        
-        image = getPrivateImageField(figure);
-        assertEquals(new Rectangle(0, 0, 10, 10), image.getBounds());
-        
-        image.dispose();
-    }
-    
-    @ParamsTest
-    public void testGetOriginalImage(DiagramImageFigure figure) throws Exception {
-        Image image = figure.getOriginalImage();
-        assertNull(image);
-        
+        // Add image
         File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img2.png");
         addImage(file, figure);
         
-        image = figure.getOriginalImage();
-        assertEquals(new Rectangle(0, 0, 268, 268), image.getBounds());
+        // Not null
+        Image image1 = figure.getImage();
+        assertNotNull(image1);
         
-        image.dispose();
+        // Create another instance of the image
+        Image image2 = figure.createImage();
+        assertNotNull(image2);
+        assertEquals(new Rectangle(0, 0, 268, 268), image2.getBounds());
+        
+        // Previous image should be disposed
+        assertTrue(image1.isDisposed());
+        
+        // Clean up
+        image2.dispose();
     }
     
     @Override
@@ -190,9 +194,5 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         IArchiveManager archiveManager = (IArchiveManager)figure.getDiagramModelObject().getAdapter(IArchiveManager.class);
         String path = archiveManager.addImageFromFile(file);
         figure.getDiagramModelObject().setImagePath(path);
-    }
-
-    private Image getPrivateImageField(Object figure) throws Exception {
-        return (Image)TestUtils.getPrivateField(figure, "fImage");
     }
 }
