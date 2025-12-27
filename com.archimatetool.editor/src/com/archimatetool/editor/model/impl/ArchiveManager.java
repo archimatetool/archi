@@ -18,8 +18,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -33,10 +35,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageFileNameProvider;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -67,6 +71,11 @@ public class ArchiveManager implements IArchiveManager {
      * Images are loaded
      */
     private boolean fImagesLoaded = false;
+    
+    /**
+     * Temporary SVG image files used on Mac/Linux for SVG images
+     */
+    private Map<String, Path> tempImagePaths = new HashMap<>();
     
     /**
      * @param model The owning model
@@ -117,11 +126,55 @@ public class ArchiveManager implements IArchiveManager {
     
     @Override
     public Image createImage(String imagePath) throws Exception {
-        if(byteArrayStorage.hasEntry(imagePath)) {
+        if(imagePath != null && byteArrayStorage.hasEntry(imagePath)) {
+            
+            // A scaled SVG image is rendered properly only on Windows using Image(Display, InputStream)
+            // So on Mac/Linux create a temporary image file and load it using an ImageFileNameProvider 
+            if(!PlatformUtils.isWindows() && imagePath.toLowerCase().endsWith(".svg")) {
+                Image image = createTempSVGImage(imagePath);
+                if(image != null) {
+                    return image;
+                }
+            }
+            
             return new Image(Display.getCurrent(), byteArrayStorage.getInputStream(imagePath));
         }
         
         return null;
+    }
+    
+    /**
+     * Create a temporary image file that can be loaded by using a ImageFileNameProvider.
+     * On Mac/Linux scaled SVG images are only rendered properly using a ImageFileNameProvider.
+     */
+    private Image createTempSVGImage(String imagePath) {
+        if(tempImagePaths == null) {
+            return null;
+        }
+        
+        Path tmpImagePath = tempImagePaths.computeIfAbsent(imagePath, key -> {
+            try {
+                Path path = Files.createTempFile("archi-", ".svg");
+                path.toFile().deleteOnExit();
+                Files.write(path, getBytesFromEntry(imagePath));
+                return path;
+            }
+            catch(IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        });
+        
+        if(tmpImagePath == null || !tmpImagePath.toFile().exists()) {
+            return null;
+        }
+        
+        return new Image(Display.getCurrent(), (ImageFileNameProvider) zoom -> {
+            // Only return the image path for 100% zoom. For SVG files the image can be natively scaled up.
+            // Also, on Windows, if we return the same image path at 200% there will be an IllegalArgumentException when calling
+            // GC.drawImage(Image image, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, int destWidth, int destHeight)
+            return zoom == 100 ? tmpImagePath.toString() : null;
+        });
     }
     
     @Override
@@ -496,8 +549,24 @@ public class ArchiveManager implements IArchiveManager {
     
     @Override
     public void dispose() {
-        byteArrayStorage.dispose();
-        byteArrayStorage = null;
         fModel = null;
+        
+        if(byteArrayStorage != null) {
+            byteArrayStorage.dispose();
+            byteArrayStorage = null;
+        }
+
+        if(tempImagePaths != null) {
+            for(Path path : tempImagePaths.values()) {
+                try {
+                    Files.deleteIfExists(path);
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
+            tempImagePaths = null;
+        }
     }
 }
