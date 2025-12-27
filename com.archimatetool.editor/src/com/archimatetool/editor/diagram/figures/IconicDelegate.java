@@ -237,7 +237,7 @@ public class IconicDelegate {
         // Fill
         if(fIconic.getImagePosition() == IIconic.ICON_POSITION_FILL) {
             // Fill
-            // graphics.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height, figureBounds.x, figureBounds.y, figureBounds.width, figureBounds.height);
+            // graphics.drawImage(fImage, figureBounds.x, figureBounds.y, figureBounds.width, figureBounds.height);
             
             // Cover Fill (algorithm from JB the maths wizard)
             float imageRatio  = (float) imageBounds.width / imageBounds.height;
@@ -249,13 +249,7 @@ public class IconicDelegate {
             x = figureBounds.x - (newWidth / 2) + (figureBounds.width / 2);
             y = figureBounds.y - (newHeight / 2) + (figureBounds.height / 2);
             
-            // Safety width and height checks
-            int w1 = Math.max(0, imageBounds.width);
-            int h1 = Math.max(0, imageBounds.height);
-            int w2 = Math.max(0, newWidth);
-            int h2 = Math.max(0, newHeight);
-
-            graphics.drawImage(fImage, 0, 0, w1, h1, x, y, w2, h2);
+            drawImage(graphics, x, y, newWidth, newHeight);
         }
         // Full image size
         else if(fMaxImageSize == MAX_IMAGESIZE) {
@@ -263,16 +257,17 @@ public class IconicDelegate {
         }
         // Scaled image size
         else {
-            // Safety width and height checks
-            int w1 = Math.max(0, imageBounds.width);
-            int h1 = Math.max(0, imageBounds.height);
-            int w2 = Math.max(0, width);
-            int h2 = Math.max(0, height);
-            
-            graphics.drawImage(fImage, 0, 0, w1, h1, x, y, w2, h2);
+            drawImage(graphics, x, y, width, height);
         }
         
         graphics.popState();
+    }
+    
+    /**
+     * Draw the image with checks ensuring minimum width and height
+     */
+    private void drawImage(Graphics graphics, int x, int y, int width, int height) {
+        graphics.drawImage(fImage, x, y, Math.max(0, width), Math.max(0, height));
     }
     
     /**
