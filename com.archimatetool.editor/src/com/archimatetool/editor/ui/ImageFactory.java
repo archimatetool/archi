@@ -324,7 +324,7 @@ public class ImageFactory {
             gc.fillRectangle(0, 0, width, height);
         }
         
-        gc.drawImage(source, 0, 0, source.getBounds().width, source.getBounds().height, 0, 0, width, height);
+        gc.drawImage(source, 0, 0, width, height);
         gc.dispose();
         
         return image;
