@@ -69,7 +69,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.ImageManagerDialog"; //$NON-NLS-1$
     
-    private static final int DEFAULT_GALLERY_ITEM_SIZE = 96;
+    private static final int DEFAULT_GALLERY_ITEM_SIZE = 120;
     private static final int MIN_GALLERY_ITEM_SIZE = 64;
     private static final int MAX_GALLERY_ITEM_SIZE = 256;
     
@@ -176,11 +176,17 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         modelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         modelsViewer.setInput(this);
         
-        // Selection
+        // Models Tree Selection
         modelsViewer.addSelectionChangedListener(event -> {
-            if(event.getStructuredSelection().getFirstElement() instanceof IArchimateModel model) {
+            Object selected = event.getStructuredSelection().getFirstElement();
+            if(selected instanceof IArchimateModel model
+                                  && (fSelectedModelPathInfo == null || fSelectedModelPathInfo.getModel() != model)) {
                 disposeItems();
                 updateGallery(model);
+            }
+            else if(selected instanceof String) {
+                disposeItems();
+                fSelectedModelPathInfo = null;
             }
         });
         
