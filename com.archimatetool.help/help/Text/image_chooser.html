@@ -38,13 +38,18 @@
     
     <p>Supported image formats are PNG, JPG, JPEG, GIF, TIF, TIFF, BMP, ICO and SVG.</p>
     
-    <p>Please note that the SVG image format is only supported in Archi 5.8 or later and is not backward-compatible. <strong>If you open a model that contains SVG images in an earlier version of Archi and save the model you will lose the SVG images!</strong></p>
+    <h4>SVG Support</h4>
+
+    <p>Please note that SVG image support is available only in Archi 5.8 and later versions, and it is not backward compatible. <strong>If you open a model containing SVG images in an earlier version of Archi and then save it, the SVG images will be permanently lost!</strong> To help prevent this, when attempting to open a model created in Archi 5.8.0 or later with an older version, you will be prompted to confirm whether you wish to proceed.</p>
+
+    <p>Additionally, when exporting a View (diagram) as an SVG image, any figures that incorporate SVG images will be rendered as raster images. This can result in poor quality when figures containing SVG images are resized larger than their native size (scaled up).</p>
+        
+    <p>For the best results, use SVG images with a large native width and height, and ensure that figures display them at their original size, or, if resizing is necessary, scale them down rather than up.</p>
     
     <br/>
 
     <h3>Removing an image from an object</h3>
     <p>To remove an image from an object select the "Remove Image" option from the Image Chooser.</p>
-
 
     <br/>
 
