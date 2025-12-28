@@ -3,18 +3,18 @@
       title="Create a Map View">
    <intro>
       <description>
-         This cheat sheet shows you how to create a Map View of your existing Views. A Map View contains graphical boxes that are shortcuts that when double-clicked will open the linked View.<br/>
+         This cheat sheet shows you how to create a Map View of your existing Views in a model. A Map View contains shortcuts to Views that when double-clicked will open the linked View.<br/>
 <br/>
-You can create these manually by dragging a View from the tree to an open Diagram view.<br/>
+You can also create these manually by dragging a View from the Models Tree to another view.<br/>
 <br/>
-This cheat sheet can create one for you automatically, provided you have the Model Tree View open, that you have an Archimate model selected in the tree and the model has more than one View.
+This cheat sheet can create one for you automatically, provided you have the Models Tree open, that you have an Archimate model selected in the Models Tree, and the model has at least one View.
       </description>
    </intro>
    <item
          skip="true"
          title="Open the Model Tree">
       <description>
-         Firstly, you need to ensure that the Model Tree is open. You can either do that manually from the <b>Window &gt; Models</b> main menu or from this cheat sheet automatically.
+         Firstly, you need to ensure that the Models Tree is open. You can either do that manually from the <b>Window &gt; Models</b> main menu or from this cheat sheet automatically.
       </description>
       <action
       		required="false"
@@ -26,7 +26,7 @@ This cheat sheet can create one for you automatically, provided you have the Mod
    <item
          title="Create the Map View">
       <description>
-         Create the new Map View here automatically. <b>Make sure you have a model selected in the Model Tree,  and that it has more than one View.</b>
+         Create the new Map View here automatically. <b>Make sure you have a model selected in the Models Tree,  and that it has at least one View.</b>
       </description>
       <action
       		required="false"
