@@ -24,7 +24,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.URLTransfer;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 
 import com.archimatetool.canvas.model.ICanvasFactory;
 import com.archimatetool.canvas.model.ICanvasModelImage;
@@ -168,10 +168,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
         CompoundCommand result = new CompoundCommand(Messages.CanvasDNDEditPolicy_0);
 
         for(File file : files) {
-            ICanvasModelImage canvasModelImage = ICanvasFactory.eINSTANCE.createCanvasModelImage();
-            canvasModelImage.setName(Messages.CanvasDNDEditPolicy_1);
             String pathName;
-            
             try {
                 pathName = archiveManager.addImageFromFile(file);
             }
@@ -180,31 +177,27 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
                 continue;
             }
             
-            canvasModelImage.setImagePath(pathName);
-
             // Get width and height of the image
-            Image image = null;
-            try {
-                image = archiveManager.createImage(pathName);
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
+            ImageData imageData = archiveManager.createImageData(pathName);
+            if(imageData == null) {
                 continue;
             }
             
-            int image_width = image.getBounds().width;
-            int image_height = image.getBounds().height;
-            image.dispose();
+            int width = imageData.width;
+            int height = imageData.height;
 
-            canvasModelImage.setBounds(x, y, image_width, image_height);
+            ICanvasModelImage canvasModelImage = ICanvasFactory.eINSTANCE.createCanvasModelImage();
+            canvasModelImage.setName(Messages.CanvasDNDEditPolicy_1);
+            canvasModelImage.setBounds(x, y, width, height);
+            canvasModelImage.setImagePath(pathName);
 
             result.add(new AddDiagramObjectCommand(getTargetContainer(), canvasModelImage));
 
             // Increase x,y like a Carriage Return
-            x += image_width + 10;
+            x += width + 10;
             if(x > origin + 1000) {
                 x = origin;
-                y += image_height + 10;
+                y += height + 10;
             }
         }
         
