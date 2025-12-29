@@ -7,11 +7,15 @@ package com.archimatetool.editor.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -255,6 +259,7 @@ public class FileUtilsTests {
     @Test
     public void deleteFolder_NotExists() {
         File folderSrc = new File("/aFolder/absolutely_bogus/");
+        
         try {
             FileUtils.deleteFolder(folderSrc);
             assertTrue(true);
@@ -263,6 +268,41 @@ public class FileUtilsTests {
         }
     }
 
+    // ---------------------------------------------------------------------------------------------
+
+    @Test
+    public void deleteDir() throws Exception {
+        File folder = TestUtils.createTempFolder("delete_folder");
+        
+        Path sub1 = Files.createDirectory(folder.toPath().resolve("sub1"));
+        Path sub2 = Files.createDirectory(folder.toPath().resolve("sub2"));
+        
+        Files.createFile(folder.toPath().resolve("file1"));
+        Files.createFile(sub1.resolve("file2"));
+        Files.createFile(sub2.resolve("file3"));
+        
+        FileUtils.deleteDir(folder.toPath());
+        assertFalse(folder.exists(), "Deleted Folder should not exist");
+    }
+    
+    @Test
+    public void deleteDir_NotDirectory() throws Exception {
+        File file = TestUtils.createTempFile(".tmp");
+        
+        IOException thrown = assertThrows(IOException.class, () -> {
+            FileUtils.deleteDir(file.toPath());
+        });
+        
+        assertTrue(thrown.getMessage().contains("is not a directory"));
+    }
+    
+    @Test
+    public void deleteDir_NotExists() {
+        assertThrows(NoSuchFileException.class, () -> {
+            FileUtils.deleteDir(Path.of("/aFolder/absolutely_bogus/"));
+        });
+    }
+    
     // ---------------------------------------------------------------------------------------------
     
     @Test

@@ -11,8 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -271,6 +275,7 @@ public final class FileUtils  {
 	
 	/**
 	 * Delete a folder and its contents
+	 * Deprecated - use {@link #deleteDir(Path)}
 	 * @param afolder -  a folder
 	 */
 	public static void deleteFolder(File afolder) throws IOException {
@@ -302,6 +307,52 @@ public final class FileUtils  {
 	        
 	        afolder.delete();
 	    }
+	}
+	
+	/**
+	 * Delete a directory and its contents
+	 * @param dir path to directory
+	 * @throws IOException
+	 */
+	public static void deleteDir(Path dir) throws IOException {
+	    if(dir == null) {
+            return;
+        }
+	    
+        if(!Files.exists(dir)) {
+            throw new NoSuchFileException(dir + " does not exist");
+        }
+
+        if(!Files.isDirectory(dir)) {
+            throw new IOException(dir + " is not a directory");
+        }
+
+        // Safety check: prevent deletion of root folders (e.g., / on Unix, C:\ on Windows)
+        if(dir.equals(dir.getRoot())) {
+            throw new IOException("Cannot delete root directory: " + dir);
+        }
+
+        // Additional check: ensure it has a parent (redundant but extra safe)
+        if(dir.getParent() == null) {
+            throw new IOException("Cannot delete a path without a parent: " + dir);
+        }
+	    
+	    Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+            
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                if(exc != null) {
+                    throw exc;
+                }
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
 	}
 	
     /**
