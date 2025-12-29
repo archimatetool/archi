@@ -223,13 +223,7 @@ public class ArchiveManager implements IArchiveManager {
             // This ensures we don't load any image file that doesn't belong in the model
             if(paths.contains(entryName) && !byteArrayStorage.hasEntry(entryName)) {
                 byte[] bytes = Files.readAllBytes(imageFile.toPath());
-                try {
-                    testImageBytesValid(bytes);
-                    byteArrayStorage.addByteContentEntry(entryName, bytes);
-                }
-                catch(IOException ex) {
-                    // Ignore
-                }
+                byteArrayStorage.addByteContentEntry(entryName, bytes);
             }
         }
         
