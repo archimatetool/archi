@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ImageExportProviderManagerTests {
     
     @Test
     public void testImageExportProviderInfo() {
-        IImageExportProvider provider = mock(IImageExportProvider.class);
+        IImageExportProvider provider = new ImageExportProvider();
         
         String id = "id1";
         String label = "My Image Exporter";

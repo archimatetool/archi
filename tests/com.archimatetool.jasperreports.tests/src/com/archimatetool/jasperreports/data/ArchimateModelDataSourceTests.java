@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -20,6 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.jasperreports.TestSupport;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -29,7 +28,6 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
@@ -117,16 +115,10 @@ public class ArchimateModelDataSourceTests {
 
     @Test
     public void getFieldValue() throws JRException {
-        JRField field = mock(JRField.class);
-        
-        when(field.getName()).thenReturn("this");
-        assertEquals(model, ds.getFieldValue(field));
-        
-        when(field.getName()).thenReturn("name");
-        assertEquals(model.getName(), ds.getFieldValue(field));
+        assertEquals(model, ds.getFieldValue(TestSupport.mockJRField("this")));
+        assertEquals(model.getName(), ds.getFieldValue(TestSupport.mockJRField("name")));
     }
 
-    
     @Test
     public void getClasses() {
         assertEquals(0, ArchimateModelDataSource.getClasses("").size());
@@ -146,7 +138,6 @@ public class ArchimateModelDataSourceTests {
         assertEquals(3, ArchimateModelDataSource.getClasses("BusinessService|Node|DataObject|NOTREAL").size());
     }
 
-   
     @Test
     public void getConceptsInDiagram() {
         IDiagramModel dm = (IDiagramModel)tm.getObjectByID("4056"); // "Layered View"

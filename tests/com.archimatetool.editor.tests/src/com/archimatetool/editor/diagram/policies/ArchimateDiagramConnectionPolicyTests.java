@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.junit.jupiter.api.Test;
 
@@ -43,13 +43,24 @@ public class ArchimateDiagramConnectionPolicyTests {
     private IDiagramModelArchimateComponent sourceDiagramComponent;
     private IDiagramModelArchimateComponent targetDiagramComponent;
     
+    private class MockEditPart extends AbstractGraphicalEditPart {
+        
+        MockEditPart(Object model) {
+            setModel(model);
+        }
+        
+        @Override
+        protected IFigure createFigure() {
+            return null;
+        }
+        
+        @Override
+        protected void createEditPolicies() {
+        }
+    }
+    
     // Setup source policy
     private void setupSourcePolicy(IArchimateConcept sourceConcept) {
-        sourcePolicy = new ArchimateDiagramConnectionPolicy();
-        
-        EditPart sourceEditPart = mock(EditPart.class);
-        sourcePolicy.setHost(sourceEditPart);
-        
         if(sourceConcept instanceof IArchimateElement) {
             sourceDiagramComponent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         }
@@ -57,17 +68,16 @@ public class ArchimateDiagramConnectionPolicyTests {
             sourceDiagramComponent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         }
         
+        EditPart sourceEditPart = new MockEditPart(sourceDiagramComponent);
+
+        sourcePolicy = new ArchimateDiagramConnectionPolicy();
+        sourcePolicy.setHost(sourceEditPart);
+        
         sourceDiagramComponent.setArchimateConcept(sourceConcept);
-        when(sourceEditPart.getModel()).thenReturn(sourceDiagramComponent);
     }
         
     // Setup target policy
     private void setupTargetPolicy(IArchimateConcept targetConcept) {
-        targetPolicy = new ArchimateDiagramConnectionPolicy();
-        
-        EditPart targetEditPart = mock(EditPart.class);
-        targetPolicy.setHost(targetEditPart);
-        
         if(targetConcept instanceof IArchimateElement) {
             targetDiagramComponent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         }
@@ -75,8 +85,12 @@ public class ArchimateDiagramConnectionPolicyTests {
             targetDiagramComponent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         }
         
+        EditPart targetEditPart = new MockEditPart(targetDiagramComponent);
+        
+        targetPolicy = new ArchimateDiagramConnectionPolicy();
+        targetPolicy.setHost(targetEditPart);
+        
         targetDiagramComponent.setArchimateConcept(targetConcept);
-        when(targetEditPart.getModel()).thenReturn(targetDiagramComponent);
     }
     
     @Test
@@ -129,8 +143,7 @@ public class ArchimateDiagramConnectionPolicyTests {
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship()));
-        EditPart sourceEditPart = mock(EditPart.class);
-        when(sourceEditPart.getModel()).thenReturn(sourceDiagramComponent);
+        EditPart sourceEditPart = new MockEditPart(sourceDiagramComponent);
         request.setSourceEditPart(sourceEditPart);
         
         Command startCommand = sourcePolicy.getConnectionCreateCommand(request);

@@ -13,28 +13,10 @@
     <artifactId>com.archimatetool.testing</artifactId>
     <packaging>pom</packaging>
 
-    <name>Tests</name>
+    <name>Archi Tests</name>
         
-    <properties>
-    	<!-- Add this to stop warning message when using Mockito/ByteBuddy -->
-        <mockito.args>-Xshare:off -javaagent:${org.mockito:mockito-core:jar}</mockito.args>
-        
-        <!-- <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
-        <tycho.testArgLine>${mockito.args}</tycho.testArgLine>
-    </properties>
-    
-    <!-- Get Mockito from here -->
-    <repositories>
-        <repository>
-            <id>Update Site</id>
-            <layout>p2</layout>
-            <url>https://download.eclipse.org/eclipse/updates/4.38</url>
-        </repository>
-    </repositories>
-
     <modules>
         <module>com.archimatetool.testsupport</module>
-
         <module>com.archimatetool.canvas.tests</module>
         <module>com.archimatetool.commandline.tests</module>
         <module>com.archimatetool.csv.tests</module>
@@ -53,20 +35,6 @@
 
     <build>
         <plugins>
-            <!-- With this we can resolve ${net.bytebuddy:byte-buddy-agent:jar} or ${org.mockito:mockito-core:jar} -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.9.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>properties</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
@@ -81,7 +49,7 @@
     </build>
 	
     <profiles>
-	    <!-- Profile for Mac. <tycho.testArgLine> is passed as <argLine> to tycho-surefire-plugin -->
+	    <!-- Profile for Mac -->
         <profile>
             <id>mac</id>
             <activation>
@@ -90,7 +58,7 @@
                 </os>
             </activation>
             <properties>
-                <tycho.testArgLine>-XstartOnFirstThread ${mockito.args}</tycho.testArgLine>
+                <tycho.testArgLine>-XstartOnFirstThread</tycho.testArgLine>
             </properties>
         </profile>
     </profiles>

@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -19,13 +17,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.jasperreports.TestSupport;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
@@ -71,14 +69,10 @@ public class ViewChildrenDataSourceTests {
     public void getFieldValue() throws JRException {
         ds.next();
         
-        JRField field = mock(JRField.class);
-        
-        when(field.getName()).thenReturn("this");
-        Object object = ds.getFieldValue(field);
+        Object object = ds.getFieldValue(TestSupport.mockJRField("this"));
         assertEquals("572", ((IArchimateElement)object).getId());
         
-        when(field.getName()).thenReturn("name");
-        assertEquals(((IArchimateElement)object).getName(), ds.getFieldValue(field));
+        assertEquals(((IArchimateElement)object).getName(), ds.getFieldValue(TestSupport.mockJRField("name")));
     }
 
     @Test

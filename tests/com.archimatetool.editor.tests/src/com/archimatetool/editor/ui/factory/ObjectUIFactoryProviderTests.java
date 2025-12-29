@@ -9,11 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +32,15 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 public class ObjectUIFactoryProviderTests {
 
     private ObjectUIFactory factory;
+    
+    private EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    
+    private class MockUIProvider extends AbstractObjectUIProvider {
+        @Override
+        public EClass providerFor() {
+            return eClass;
+        }
+    }
     
     @BeforeEach
     public void runOnceBeforeEachTest() {
@@ -58,26 +66,18 @@ public class ObjectUIFactoryProviderTests {
 
     @Test
     public void testRegisterProvider() {
-        IObjectUIProvider provider = mock(IObjectUIProvider.class);
-        EClass eClass = mock(EClass.class);
-        when(provider.providerFor()).thenReturn(eClass);
-        
         assertNull(factory.getProviderForClass(eClass));
         assertEquals(0, factory.map.size());
         
-        factory.registerProvider(provider);
+        factory.registerProvider(new MockUIProvider());
         assertNotNull(factory.getProviderForClass(eClass));
         assertEquals(1, factory.map.size());
     }
     
     @Test
     public void testNoDuplicateProviders() {
-        IObjectUIProvider provider1 = mock(IObjectUIProvider.class);
-        IObjectUIProvider provider2 = mock(IObjectUIProvider.class);
-        
-        EClass eClass = mock(EClass.class);
-        when(provider1.providerFor()).thenReturn(eClass);
-        when(provider2.providerFor()).thenReturn(eClass);
+        IObjectUIProvider provider1 = new MockUIProvider();
+        IObjectUIProvider provider2 = new MockUIProvider();
         
         factory.registerProvider(provider1);
         assertSame(provider1, factory.getProviderForClass(eClass));

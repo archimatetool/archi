@@ -9,13 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
@@ -111,10 +109,6 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         
         // Layout
         editor.layoutPendingUpdates();
-        
-        // Force a mock repaint since we are not using a GUI
-        // We don't really need to do this here but keep it in case of future tests
-        figure.paint(mock(Graphics.class));
         
         // Figure size is same as bounds
         assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 512, 512), figure.getBounds());

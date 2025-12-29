@@ -10,18 +10,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.jasperreports.TestSupport;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IProperty;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
@@ -70,14 +68,10 @@ public class PropertiesModelDataSourceTests {
     public void getFieldValue() throws JRException {
         ds.next();
         
-        JRField field = mock(JRField.class);
-        
-        when(field.getName()).thenReturn("key");
-        Object object = ds.getFieldValue(field);
+        Object object = ds.getFieldValue(TestSupport.mockJRField("key"));
         assertEquals("key1", object);
         
-        when(field.getName()).thenReturn("value");
-        object = ds.getFieldValue(field);
+        object = ds.getFieldValue(TestSupport.mockJRField("value"));
         assertEquals("value1", object);
     }
 

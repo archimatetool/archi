@@ -7,22 +7,13 @@ package com.archimatetool.editor.views.tree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,36 +31,25 @@ public class TreeModelViewerDragDropHandlerTests {
     private IArchimateModel model;
     
     private TreeViewer treeViewer;
+    private Shell shell;
     
-    // The real TreeModelViewerDragDropHandler to test
+    // The TreeModelViewerDragDropHandler to test
     private TreeModelViewerDragDropHandler dragHandler;
     
     @BeforeEach
     public void runOnceBeforeEachTest() {
         tm = new ArchimateTestModel();
         model = tm.createNewModel(); // We need a real model and Command Stack for some operations
-        treeViewer = mock(TreeViewer.class);
+        shell = new Shell();
+        treeViewer = new TreeViewer(shell);
         dragHandler = new TreeModelViewerDragDropHandler(treeViewer);
     }
     
-    @Test
-    public void verifyDragHandlerRegisteredDragSupport() {
-        // Verify treeViewer added drag support
-        verify(treeViewer).addDragSupport(
-                eq(DND.DROP_COPY | DND.DROP_MOVE),
-                eq(dragHandler.sourceTransferTypes),
-                any(DragSourceListener.class));
+    @AfterEach
+    public void runOnceAfterEachTest() {
+        shell.dispose();
     }
-
-    @Test
-    public void verifyDragHandlerRegisteredDropSupport() {
-        // Verify treeViewer added drop support
-        verify(treeViewer).addDropSupport(
-                eq(DND.DROP_MOVE),
-                eq(dragHandler.targetTransferTypes),
-                any(DropTargetListener.class));
-    }
-
+    
     @Test
     public void testIsValidTreeSelection() {
         // Null selection is not valid
@@ -109,31 +89,6 @@ public class TreeModelViewerDragDropHandlerTests {
         
         selection = new StructuredSelection( new Object[] { e1, e3 } );
         assertFalse(dragHandler.isValidTreeSelection(selection));
-    }
-    
-    @Test
-    public void testDoDropOperation() {
-        // Source
-        IFolder sourceParentFolder = model.getFolder(FolderType.BUSINESS);
-        IArchimateElement childElement = IArchimateFactory.eINSTANCE.createBusinessActor();
-        sourceParentFolder.getElements().add(childElement);
-        assertTrue(sourceParentFolder.getElements().contains(childElement));
-        
-        // Target
-        IFolder targetParentFolder = model.getFolder(FolderType.APPLICATION);
-        assertTrue(targetParentFolder.getElements().isEmpty());
-        assertTrue(targetParentFolder.getFolders().isEmpty());
-        
-        // Set up a mock DropTargetEvent for the DropOperation
-        DropTargetEvent event = createMockDropTargetEvent(targetParentFolder);
-        // Set the selection of elements we want to DnD
-        LocalSelectionTransfer.getTransfer().setSelection(new StructuredSelection(new Object[] { childElement }));
-        
-        // And call the drop method
-        dragHandler.doDropOperation(event);
-
-        assertTrue(sourceParentFolder.getElements().isEmpty());
-        assertTrue(targetParentFolder.getElements().contains(childElement));
     }
     
     /**
@@ -260,40 +215,6 @@ public class TreeModelViewerDragDropHandlerTests {
     }    
 
     @Test
-    public void testGetTargetParent() {
-        // A Folder is ok
-        Object target = IArchimateFactory.eINSTANCE.createFolder();
-        DropTargetEvent event = createMockDropTargetEvent(target);
-        assertEquals(target, dragHandler.getTargetParent(event));
-        
-        // Anything else is not OK
-        target = IArchimateFactory.eINSTANCE.createBusinessActor();
-        event = createMockDropTargetEvent(target);
-        assertNull(dragHandler.getTargetParent(event));
-        
-        // Simulate dropping on blank area of tree
-        event.item = null;
-        assertNull(dragHandler.getTargetParent(event));
-    }
-    
-    @Test
-    public void testIsValidDropTarget() {
-        IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-        IArchimateElement childElement = IArchimateFactory.eINSTANCE.createBusinessActor();
-        folder.getElements().add(childElement);
-        
-        LocalSelectionTransfer.getTransfer().setSelection(new StructuredSelection(new Object[] { childElement }));
-
-        // Can only drop onto a folder
-        DropTargetEvent event = createMockDropTargetEvent(folder);
-        assertTrue(dragHandler.isValidDropTarget(event));
-        
-        // And not something else
-        event = createMockDropTargetEvent(childElement);
-        assertFalse(dragHandler.isValidDropTarget(event));
-    }
-
-    @Test
     public void testHasCommonAncestorFolder() {
         // Test with folders and elements that have a root model
         IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
@@ -361,37 +282,13 @@ public class TreeModelViewerDragDropHandlerTests {
         // Null tree item is no good
         assertFalse(dragHandler.canDropObject(e1, null));
         
+        TreeItem treeItem = new TreeItem(treeViewer.getTree(), 0);
+        treeItem.setData(e1);
+
         // Cannot drop onto itself
-        DropTargetEvent event = createMockDropTargetEvent(e1);
-        assertFalse(dragHandler.canDropObject(e1, (TreeItem)event.item));
+        assertFalse(dragHandler.canDropObject(e1, treeItem));
         
         // OK
-        assertTrue(dragHandler.canDropObject(e2, (TreeItem)event.item));
-
-        // Can't test "If moving a folder check that target folder is not a descendant of the source folder"
-        // Because parent tree items are created by the system
+        assertTrue(dragHandler.canDropObject(e2, treeItem));
     }
-    
-    
-    // ====================================================================================================
-    
-    /**
-     * Create a mock DropTargetEvent
-     */
-    private DropTargetEvent createMockDropTargetEvent(Object target) {
-        DropTargetEvent event = mock(DropTargetEvent.class);
-        
-        // Set event type to LocalSelectionTransfer type
-        event.currentDataType = LocalSelectionTransfer.getTransfer().getSupportedTypes()[0];
-        
-        // Set item to a mock tree item
-        event.item = mock(TreeItem.class);
-        
-        // The mock item should return the target
-        when(event.item.getData()).thenReturn(target);
-
-        return event;
-    }
-    
-
 }

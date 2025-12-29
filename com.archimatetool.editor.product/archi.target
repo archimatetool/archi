@@ -9,9 +9,5 @@
         <unit id="org.eclipse.jgit.feature.group" version="7.5.0.202512021534-r"/>
         <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="7.5.0.202512021534-r"/>
     </location>
-     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/eclipse/updates/4.38"/>
-        <unit id="org.mockito.mockito-core" version="5.20.0"/>
-    </location>
 </locations>
 </target>

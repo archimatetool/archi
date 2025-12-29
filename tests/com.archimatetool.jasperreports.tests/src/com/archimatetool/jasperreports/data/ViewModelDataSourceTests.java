@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -19,12 +17,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.jasperreports.TestSupport;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
@@ -120,14 +118,10 @@ public class ViewModelDataSourceTests {
     public void getFieldValue() throws JRException {
         ds.next();
         
-        JRField field = mock(JRField.class);
-        
         System.setProperty("JASPER_IMAGE_PATH", "/img");
-        when(field.getName()).thenReturn("imagePath");
-        assertEquals("/img/4165.png", ds.getFieldValue(field));
+        assertEquals("/img/4165.png", ds.getFieldValue(TestSupport.mockJRField("imagePath")));
         
-        when(field.getName()).thenReturn("viewpoint");
-        assertEquals("No viewpoint", ds.getFieldValue(field));
+        assertEquals("No viewpoint", ds.getFieldValue(TestSupport.mockJRField("viewpoint")));
     }
 
     @Test
