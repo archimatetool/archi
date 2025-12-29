@@ -8,9 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.tests
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- junit-jupiter-api;bundle-version="[5.10.0,6.0.0)";visibility:=reexport,
- junit-jupiter-params;bundle-version="[5.10.0,6.0.0)";visibility:=reexport,
- junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)";visibility:=reexport
+ org.eclipse.ui
 Bundle-ClassPath: .
 Automatic-Module-Name: com.archimatetool.testsupport

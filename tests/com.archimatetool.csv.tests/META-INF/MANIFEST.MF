@@ -5,6 +5,8 @@ Bundle-SymbolicName: com.archimatetool.csv.tests
 Bundle-Version: 5.8.0.qualifier
 Fragment-Host: com.archimatetool.csv
 Bundle-Vendor: Archi
-Require-Bundle: com.archimatetool.testsupport
+Require-Bundle: com.archimatetool.testsupport,
+ junit-jupiter-api;bundle-version="[5.10.0,6.0.0)",
+ junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.csv.tests

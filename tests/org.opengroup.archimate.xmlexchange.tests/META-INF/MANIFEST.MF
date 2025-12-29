@@ -7,6 +7,8 @@ Fragment-Host: org.opengroup.archimate.xmlexchange
 Import-Package: com.archimatetool.testingtools
 Bundle-Vendor: Archi, The Open Group
 Require-Bundle: com.archimatetool.testsupport,
- com.archimatetool.canvas
+ com.archimatetool.canvas,
+ junit-jupiter-api;bundle-version="[5.10.0,6.0.0)",
+ junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests
