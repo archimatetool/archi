@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.draw2d;
 
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -20,10 +23,6 @@ import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.TextLayout;
-
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * The Graphics class allows you to draw to a surface. The drawXxx() methods
@@ -142,6 +141,43 @@ public abstract class Graphics {
         drawFocus(r.x, r.y, r.width, r.height);
     }
 
+    /**
+     * Draws the full source image into a specified rectangular area in the
+     * receiver. The image will be stretched or shrunk as needed to exactly fit the
+     * destination rectangle.
+     * 
+     * Added by Phillipus
+     * Implementation by Patrick Ziegler at the GEF project
+     *
+     * @param image      the source image
+     * @param destX      the x coordinate in the destination
+     * @param destY      the y coordinate in the destination
+     * @param destWidth  the width in points of the destination rectangle
+     * @param destHeight the height in points of the destination rectangle
+     * @since 5.8.0
+     */
+    public void drawImage(Image image, int destX, int destY, int destWidth, int destHeight) {
+        org.eclipse.swt.graphics.Rectangle imageBounds = image.getBounds();
+        drawImage(image, 0, 0, imageBounds.width, imageBounds.height, destX, destY, destWidth, destHeight);
+    }
+    
+    /**
+     * Draws the full source image into a specified rectangular area in the
+     * receiver. The image will be stretched or shrunk as needed to exactly fit the
+     * destination rectangle.
+     *
+     * Added by Phillipus
+     * Credit to Patrick Ziegler at the GEF project
+     * 
+     * @param image the source image
+     * @param dest  the destination rectangle
+     * @see #drawImage(Image, int, int, int, int)
+     * @since 5.8.0
+     */
+    public final void drawImage(Image image, Rectangle dest) {
+        drawImage(image, dest.x, dest.y, dest.width, dest.height);
+    }
+    
     /**
      * Draws the given Image at the location (x,y).
      * 
