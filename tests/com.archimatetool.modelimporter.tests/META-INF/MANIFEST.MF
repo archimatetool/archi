@@ -5,10 +5,10 @@ Bundle-SymbolicName: com.archimatetool.modelimporter.tests
 Bundle-Version: 5.8.0.qualifier
 Fragment-Host: com.archimatetool.modelimporter
 Bundle-Vendor: Archi
-Require-Bundle: com.archimatetool.testsupport,
- junit-jupiter-api;bundle-version="[5.10.0,6.0.0)",
- junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.modelimporter.tests
-Import-Package: com.archimatetool.testingtools
+Import-Package: com.archimatetool.testingtools,
+ com.archimatetool.tests,
+ org.junit.jupiter.api;version="[5.14.0,6.0.0)",
+ org.junit.platform.suite.api;version="[1.14.0,2.0.0)"

@@ -4,11 +4,11 @@ Bundle-Name: JUnit Tests for ArchiMate Open Exchange Plugin
 Bundle-SymbolicName: org.opengroup.archimate.xmlexchange.tests
 Bundle-Version: 5.8.0.qualifier
 Fragment-Host: org.opengroup.archimate.xmlexchange
-Import-Package: com.archimatetool.testingtools
+Import-Package: com.archimatetool.canvas,
+ com.archimatetool.testingtools,
+ com.archimatetool.tests,
+ org.junit.jupiter.api;version="5.14.1",
+ org.junit.platform.suite.api;version="[1.14.0,2.0.0)"
 Bundle-Vendor: Archi, The Open Group
-Require-Bundle: com.archimatetool.testsupport,
- com.archimatetool.canvas,
- junit-jupiter-api;bundle-version="[5.10.0,6.0.0)",
- junit-platform-suite-api;bundle-version="[1.10.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.opengroup.archimate.xmlexchange.tests
