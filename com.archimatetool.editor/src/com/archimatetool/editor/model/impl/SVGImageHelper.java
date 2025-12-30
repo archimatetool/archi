@@ -83,7 +83,7 @@ class SVGImageHelper {
      * Create a temporary SVG image file and return the Path to it
      */
     private Path createTempImageFile(byte[] imageBytes) throws IOException {
-        tempDir.toFile().mkdirs();
+        Files.createDirectories(tempDir);
         
         // Write image bytes to temp file
         Path path = Files.createTempFile(tempDir, null, ".svg");
