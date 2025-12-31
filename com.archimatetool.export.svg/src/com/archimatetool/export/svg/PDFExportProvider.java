@@ -5,14 +5,14 @@
  */
 package com.archimatetool.export.svg;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
+import java.io.StringReader;
+import java.util.Map.Entry;
 
-import org.apache.batik.transcoder.SVGAbstractTranscoder;
+import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.fop.svg.PDFTranscoder;
@@ -62,6 +62,16 @@ public class PDFExportProvider extends AbstractExportProvider implements IPrefer
         // And set some attributes on the root element
         setViewBoxAttribute(root, 0, 0, viewPortBounds.width, viewPortBounds.height);
         
+        // Set width and height
+        setSizeAttributes(root, viewPortBounds.width, viewPortBounds.height);
+        
+        // Set any other attributes on the root element
+        if(attributes != null) {
+            for(Entry<String, String> att : attributes.entrySet()) {
+                root.setAttributeNS(null, att.getKey(), att.getValue());
+            }
+        }
+        
         // Save the root element
         writeElementToFile(root, file);
         
@@ -83,33 +93,35 @@ public class PDFExportProvider extends AbstractExportProvider implements IPrefer
     /**
      * Write the DOM element to file
      */
-    private void writeElementToFile(Element root, File file) throws Exception {
-        // PDF Transcoder
-        PDFTranscoder transcoder = new PDFTranscoder();
-        //transcoder.addTranscodingHint(AbstractFOPTranscoder.KEY_AUTO_FONTS, false); // Not needed in latest FOP
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)viewPortBounds.width);
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)viewPortBounds.height);
-
-        String svgString;
+    private void writeElementToFile(Element root, File file) throws IOException, TranscoderException {
+        // Make sure parent folder exists
+        File parent = file.getParentFile();
+        if(parent != null) {
+            parent.mkdirs();
+        }
         
         // Get SVG as String
-        try(StringWriter out = new StringWriter()) {
-            svgGraphics2D.stream(root, out);
-            svgString = out.toString();
+        String svgString = getSVGString(root);
+        
+        // PDF Transcoder
+        PDFTranscoder transcoder = new PDFTranscoder();
+        
+        // Not needed in latest FOP
+        // transcoder.addTranscodingHint(AbstractFOPTranscoder.KEY_AUTO_FONTS, false);
+        
+        // Not needed if we set the width and height root element attributes
+        // transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)viewPortBounds.width);
+        // transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)viewPortBounds.height);
+
+        TranscoderInput input = new TranscoderInput(new StringReader(svgString));
+        
+        // PDFTranscoder needs an OutputStream
+        try(OutputStream out = new FileOutputStream(file)) {
+            TranscoderOutput output = new TranscoderOutput(out);
+            transcoder.transcode(input, output);
         }
         finally {
             svgGraphics2D.dispose();
-        }
-        
-        // Stream to PDF
-        try(OutputStream outStream = new FileOutputStream(file)) {
-            TranscoderOutput outputPDF = new TranscoderOutput(outStream);
-            
-            try(InputStream svgStringStream = new ByteArrayInputStream(svgString.getBytes("UTF-8"));) { //$NON-NLS-1$
-                TranscoderInput inputSVG = new TranscoderInput(svgStringStream);
-                transcoder.transcode(inputSVG, outputPDF);
-                outStream.flush();
-            }
         }
     }
 

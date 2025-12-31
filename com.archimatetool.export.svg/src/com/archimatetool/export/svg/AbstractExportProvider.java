@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -190,7 +192,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     }
 
     /**
-     * Set the "viewBox" attribute of the DOM root Element from the SVGGraphics2D instance.
+     * Set the "viewBox" attribute of the DOM root Element.
      * See http://www.justinmccandless.com/blog/Making+Sense+of+SVG+viewBox%27s+Madness
      *     http://www.w3.org/TR/SVG/coords.html#ViewBoxAttribute
      * @param root The DOM root element
@@ -201,6 +203,17 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
      */
     protected void setViewBoxAttribute(Element root, int min_x, int min_y, int width, int height) {
         root.setAttributeNS(null, "viewBox", min_x + " " + min_y + " " + width + " " + height);
+    }
+    
+    /**
+     * Set the "width" and "height" attributes of the DOM root Element.
+     * @param root The DOM root element
+     * @param width
+     * @param height
+     */
+    protected void setSizeAttributes(Element root, int width, int height) {
+        root.setAttributeNS(null, "width", Integer.toString(width));
+        root.setAttributeNS(null, "height", Integer.toString(height));
     }
     
     /**
@@ -226,6 +239,9 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         
         // Get the Element root from the SVGGraphics2D instance
         Element root = svgGraphics2D.getRoot();
+        
+        // Set width and height attributes
+        setSizeAttributes(root, viewPortBounds.width, viewPortBounds.height);
 
         // Set the Viewbox
         if(setViewBox) {
@@ -240,6 +256,16 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         }
         
         return root;
+    }
+    
+    /**
+     * Return the root element as String
+     */
+    protected String getSVGString(Element root) throws IOException {
+        try(StringWriter out = new StringWriter()) {
+            svgGraphics2D.stream(root, out);
+            return out.toString();
+        }
     }
 
     /**

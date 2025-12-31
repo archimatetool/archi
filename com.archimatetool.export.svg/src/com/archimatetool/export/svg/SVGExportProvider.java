@@ -9,9 +9,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map.Entry;
 
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -61,9 +67,19 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         // Get the Element root from the SVGGraphics2D instance
         Element root = svgGraphics2D.getRoot();
         
+        // Set width and height
+        setSizeAttributes(root, viewPortBounds.width, viewPortBounds.height);
+        
         // And set some attributes on the root element from user options
         if(fSetViewboxButton.getSelection()) {
             setViewBoxAttribute(root, fSpinner1.getSelection(), fSpinner2.getSelection(), fSpinner3.getSelection(), fSpinner4.getSelection());
+        }
+        
+        // Set any other attributes on the root element
+        if(attributes != null) {
+            for(Entry<String, String> att : attributes.entrySet()) {
+                root.setAttributeNS(null, att.getKey(), att.getValue());
+            }
         }
         
         // Save the root element
@@ -94,10 +110,9 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
      */
     public String getSVGString(IDiagramModel diagramModel, boolean setViewBox) throws Exception {
         Element root = createElementForView(diagramModel, setViewBox);
-
-        // Write to stream
+        
         try(StringWriter out = new StringWriter()) {
-            svgGraphics2D.stream(root, out);
+            writeElement(root, out);
             return out.toString();
         }
         finally {
@@ -106,24 +121,44 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
     }
     
     /**
-     * Write the DOM element to file
+     * Write the root element to file
      */
-    private void writeElementToFile(Element root, File file) throws IOException {
+    private void writeElementToFile(Element root, File file) throws IOException, TranscoderException {
         // Make sure parent folder exists
         File parent = file.getParentFile();
         if(parent != null) {
             parent.mkdirs();
         }
-
-        // Write to stream using UTF-8
+        
         try(Writer out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8")) { //$NON-NLS-1$
-            svgGraphics2D.stream(root, out);
+            writeElement(root, out);
         }
         finally {
             svgGraphics2D.dispose();
         }
     }
-
+    
+    /**
+     * Output the root element to Writer using a SVGTranscoder so we can set transcoding hints
+     */
+    private void writeElement(Element root, Writer out) throws IOException, TranscoderException {
+        // TranscoderInput input from SVG as string
+        String svgString = getSVGString(root);
+        TranscoderInput input = new TranscoderInput(new StringReader(svgString));
+        
+        SVGTranscoder transcoder = new SVGTranscoder();
+        
+        // Don't save DocType
+        transcoder.addTranscodingHint(SVGTranscoder.KEY_DOCTYPE, SVGTranscoder.VALUE_DOCTYPE_REMOVE);
+        
+        //transcoder.addTranscodingHint(SVGTranscoder.KEY_FORMAT, SVGTranscoder.VALUE_FORMAT_OFF);
+        
+        // TranscoderOutput to Writer
+        TranscoderOutput output = new TranscoderOutput(out);
+        
+        transcoder.transcode(input, output);
+    }
+    
     @Override
     public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
         setFigure(figure);

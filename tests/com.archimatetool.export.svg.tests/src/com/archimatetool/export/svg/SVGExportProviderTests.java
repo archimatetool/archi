@@ -21,6 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -32,15 +35,20 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
     @Override
     @BeforeEach
     public void runOnceBeforeEachTest() {
-        svgProvider = new SVGExportProvider();
-        provider = svgProvider;
+        super.runOnceBeforeEachTest();
         
         // Set prefs to defaults
         IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
         store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX);
-        
-        super.runOnceBeforeEachTest();
+    }
+    
+    @Override
+    protected SVGExportProvider getProvider() {
+        if(svgProvider == null) {
+            svgProvider = new SVGExportProvider();
+        }
+        return svgProvider;
     }
     
     @Test
@@ -59,11 +67,26 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         childFigure.setBounds(new Rectangle(0, 0, 50, 50));
         rootFigure.add(childFigure);
         
-        provider.init(null, shell, rootFigure);
-        provider.export(SVGExportProvider.SVG_IMAGE_EXPORT_PROVIDER, tmp);
+        getProvider().init(null, shell, rootFigure);
+        getProvider().export(SVGExportProvider.SVG_IMAGE_EXPORT_PROVIDER, tmp);
         assertTrue(tmp.exists());
         assertTrue(tmp.length() > 100);
         // How do you test the integrity of an SVG file? Look at it in a viewer? ;-)
+    }
+    
+    @Test
+    public void testExportDiagramModel() throws Exception  {
+        File tmp = TestUtils.createTempFile(null);
+        
+        IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        note.setBounds(10, 10, 100, 100);
+        dm.getChildren().add(note);
+        
+        getProvider().export(dm, tmp, true);
+        
+        assertTrue(tmp.exists());
+        assertTrue(tmp.length() > 100);
     }
 
     @Test
@@ -73,13 +96,25 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         childFigure.setBounds(new Rectangle(0, 0, 200, 100));
         rootFigure.add(childFigure);
         
-        provider.init(null, shell, rootFigure);
+        getProvider().init(null, shell, rootFigure);
         assertTrue(shell.getChildren().length > 0);
         
         // Check that two spinners are set to the image width and height
-        Rectangle rect = provider.getViewportBounds(rootFigure);
-        assertEquals(rect.width, svgProvider.fSpinner3.getSelection());
-        assertEquals(rect.height, svgProvider.fSpinner4.getSelection());
+        Rectangle rect = getProvider().getViewportBounds(rootFigure);
+        assertEquals(rect.width, getProvider().fSpinner3.getSelection());
+        assertEquals(rect.height, getProvider().fSpinner4.getSelection());
+    }
+    
+    @Test
+    public void testGetSVGStringDiagramModel() throws Exception {
+        IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        note.setBounds(10, 10, 100, 100);
+        dm.getChildren().add(note);
+        
+        String s = getProvider().getSVGString(dm , true);
+        assertTrue(s.startsWith("<?xml version=\"1.0\"?>"));
+        assertFalse(s.contains("<!DOCTYPE"));
     }
 
     @Test
@@ -91,15 +126,15 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
 
     @Test
     public void testSavePreferences() {
-        provider.init(null, shell, rootFigure);
+        getProvider().init(null, shell, rootFigure);
 
-        svgProvider.fSetViewboxButton.setSelection(false);
-        svgProvider.fTextAsShapesButton.setSelection(false);
+        getProvider().fSetViewboxButton.setSelection(false);
+        getProvider().fTextAsShapesButton.setSelection(false);
 
-        svgProvider.fSpinner1.setSelection(1);
-        svgProvider.fSpinner2.setSelection(2);
+        getProvider().fSpinner1.setSelection(1);
+        getProvider().fSpinner2.setSelection(2);
         
-        svgProvider.savePreferences();
+        getProvider().savePreferences();
 
         IPreferenceStore store = ExportSVGPlugin.getInstance().getPreferenceStore();
         
@@ -115,11 +150,11 @@ public class SVGExportProviderTests extends AbstractExportProviderTests {
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED, false);
         store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX, "5 6");
         
-        provider.init(null, shell, rootFigure);
+        getProvider().init(null, shell, rootFigure);
         
-        assertFalse(svgProvider.fSetViewboxButton.getSelection());
+        assertFalse(getProvider().fSetViewboxButton.getSelection());
         
-        assertEquals(5, svgProvider.fSpinner1.getSelection());
-        assertEquals(6, svgProvider.fSpinner2.getSelection());
+        assertEquals(5, getProvider().fSpinner1.getSelection());
+        assertEquals(6, getProvider().fSpinner2.getSelection());
     }
 }
