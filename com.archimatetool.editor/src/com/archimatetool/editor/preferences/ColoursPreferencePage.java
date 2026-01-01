@@ -754,7 +754,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
             
             if(themeColorChanged) {
-                PrefUtils.savePrefs();
+                PrefUtils.saveInstancePrefs(PrefUtils.ORG_ECLIPSE_UI_WORKBENCH);
                 ThemeUtils.resetCurrentTheme();
             }
         }

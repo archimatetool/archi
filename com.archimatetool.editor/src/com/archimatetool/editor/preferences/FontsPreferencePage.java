@@ -497,7 +497,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        PrefUtils.savePrefs();
+        PrefUtils.saveInstancePrefs(PrefUtils.ORG_ECLIPSE_UI_WORKBENCH);
         
         return true;
     }
