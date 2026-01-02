@@ -862,7 +862,7 @@ public final class CopySnapshot {
                 }
                 catch(IOException ex) {
                     ex.printStackTrace();
-                    Logger.logError("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
+                    Logger.error("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
                 }
             }
         }

@@ -118,11 +118,11 @@ class ConceptImporter extends AbstractImporter {
                         targetObject.getProfiles().add(targetProfile);
                     }
                     else {
-                        Logger.logError("Could not get referenced Profile!"); //$NON-NLS-1$
+                        Logger.error("Could not get referenced Profile!"); //$NON-NLS-1$
                     }
                 }
                 catch(ImportException ex) {
-                    Logger.logError("Error getting referenced Profile!", ex); //$NON-NLS-1$
+                    Logger.error("Error getting referenced Profile!", ex); //$NON-NLS-1$
                     ex.printStackTrace();
                 }
             }

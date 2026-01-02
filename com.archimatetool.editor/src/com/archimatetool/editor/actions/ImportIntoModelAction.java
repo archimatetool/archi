@@ -42,7 +42,7 @@ public class ImportIntoModelAction extends AbstractModelAction {
                 }
             }
             catch(IOException | CoreException ex) {
-                Logger.logError("Error on Export", ex); //$NON-NLS-1$
+                Logger.error("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportIntoModelAction_0, ex.getMessage());
             }
         }

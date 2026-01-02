@@ -79,7 +79,7 @@ public class IconicDelegate {
             }
             catch(Exception ex) {
                 ex.printStackTrace();
-                Logger.logError("Could not create image!", ex);
+                Logger.error("Could not create image!", ex);
             }
         }
     }

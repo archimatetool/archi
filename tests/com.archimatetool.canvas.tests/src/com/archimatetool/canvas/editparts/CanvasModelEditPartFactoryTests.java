@@ -43,7 +43,7 @@ public class CanvasModelEditPartFactoryTests {
 
     @Test
     public void testEmptyEditPart() {
-        Logger.enabled = false;
+        Logger.setEnabled(false); // Don't log the error message
         assertTrue(editPartFactory.createEditPart(null, new Object()) instanceof EmptyEditPart);
     }
     

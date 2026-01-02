@@ -43,7 +43,7 @@ public class CanvasTemplateManager extends TemplateManager {
                         group.addTemplate(createTemplate(file));
                     }
                     catch(IOException ex) {
-                        Logger.logError("Error loading template", ex); //$NON-NLS-1$
+                        Logger.error("Error loading template", ex); //$NON-NLS-1$
                     }
                 }
             }

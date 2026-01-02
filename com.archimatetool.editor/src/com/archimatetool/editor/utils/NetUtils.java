@@ -55,8 +55,7 @@ public final class NetUtils  {
                     return new PasswordAuthentication(userName, pw.toCharArray());
                 }
                 catch(StorageException ex) {
-                    ex.printStackTrace();
-                    Logger.logError("Could not get secure storage", ex);
+                    Logger.error("Could not get secure storage", ex);
                 }
             }
             
@@ -145,8 +144,7 @@ public final class NetUtils  {
 
             @Override
             public void connectFailed(URI uri, SocketAddress sa, IOException ex) {
-                ex.printStackTrace();
-                Logger.logError("Proxy connect failed", ex);
+                Logger.error("Proxy connect failed", ex);
             }
         });
     }

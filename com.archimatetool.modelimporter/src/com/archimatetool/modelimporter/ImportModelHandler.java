@@ -47,7 +47,7 @@ public class ImportModelHandler extends AbstractHandler {
                 doImport(window, model);
             }
             catch(Exception ex) {
-                Logger.logError("Error on Export", ex); //$NON-NLS-1$
+                Logger.error("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(window.getShell(), Messages.ImportModelHandler_1, ex.getMessage());
             }
         }

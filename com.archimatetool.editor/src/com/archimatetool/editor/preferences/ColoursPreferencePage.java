@@ -431,7 +431,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 importUserColors();
             }
             catch(IOException ex) {
-                Logger.logError("Error importing", ex); //$NON-NLS-1$
+                Logger.error("Error importing", ex); //$NON-NLS-1$
             }
         }));
         
@@ -444,7 +444,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 exportUserColors();
             }
             catch(IOException ex) {
-                Logger.logError("Error exporting", ex); //$NON-NLS-1$
+                Logger.error("Error exporting", ex); //$NON-NLS-1$
             }
         }));
         

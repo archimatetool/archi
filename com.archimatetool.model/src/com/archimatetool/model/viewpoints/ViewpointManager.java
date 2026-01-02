@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
@@ -28,7 +29,6 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.model.util.Logger;
 
 /**
  * Viewpoint Manager
@@ -101,8 +101,7 @@ public class ViewpointManager {
             loadDefaultViewpointsFile();
         }
         catch(IOException | JDOMException ex) {
-            ex.printStackTrace();
-            Logger.logError("Could not load Viewpoints", ex); //$NON-NLS-1$
+            ILog.of(getClass()).error("Could not load Viewpoints", ex); //$NON-NLS-1$
         }
     }
     

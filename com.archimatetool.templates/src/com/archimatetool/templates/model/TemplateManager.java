@@ -152,7 +152,7 @@ public abstract class TemplateManager implements ITemplateXMLTags {
             doc = JDOMUtils.readXMLFile(getUserTemplatesManifestFile());
         }
         catch(Exception ex) {
-            Logger.logError("Error loading templates manifest", ex); //$NON-NLS-1$
+            Logger.error("Error loading templates manifest", ex); //$NON-NLS-1$
             return;
         }
         
@@ -175,7 +175,7 @@ public abstract class TemplateManager implements ITemplateXMLTags {
                         userTemplateMap.put(id, template);
                     }
                     catch(IOException ex) {
-                        Logger.logError("Error loading template", ex); //$NON-NLS-1$
+                        Logger.error("Error loading template", ex); //$NON-NLS-1$
                     }
                 }
             }

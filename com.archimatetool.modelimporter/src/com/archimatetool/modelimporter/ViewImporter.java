@@ -219,11 +219,11 @@ class ViewImporter extends AbstractImporter {
                                 ref.setReferencedModel(targetDM);
                             }
                             else {
-                                Logger.logError("Could not get referenced View!"); //$NON-NLS-1$
+                                Logger.error("Could not get referenced View!"); //$NON-NLS-1$
                             }
                         }
                         catch(ImportException ex) {
-                            Logger.logError("Error getting referenced View!", ex); //$NON-NLS-1$
+                            Logger.error("Error getting referenced View!", ex); //$NON-NLS-1$
                             ex.printStackTrace();
                         }
                     }

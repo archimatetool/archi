@@ -45,7 +45,7 @@ implements IWorkbenchAction {
             }
         }
         catch(IOException | CoreException ex) {
-            Logger.logError("Error on Import", ex); //$NON-NLS-1$
+            Logger.error("Error on Import", ex); //$NON-NLS-1$
             MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
         }
     }

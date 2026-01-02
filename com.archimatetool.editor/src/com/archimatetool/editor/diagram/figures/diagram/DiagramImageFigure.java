@@ -141,7 +141,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
                 return archiveManager.createImage(imagePath);
             }
             catch(Exception ex) {
-                Logger.logError("Failed to create image: " + imagePath, ex); //$NON-NLS-1$
+                Logger.error("Failed to create image: " + imagePath, ex); //$NON-NLS-1$
             }
         }
         

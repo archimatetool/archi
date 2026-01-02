@@ -15,8 +15,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageFileNameProvider;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.model.util.Logger;
 
 /**
  * Helper to create temporary SVG image files on Mac/Linux
@@ -99,7 +99,7 @@ class SVGImageHelper {
                     Files.deleteIfExists(path);
                 }
                 catch(IOException ex) {
-                    Logger.logError("Could not delete temporary SVG image", ex);
+                    Logger.error("Could not delete temporary SVG image", ex);
                 }
             }
             

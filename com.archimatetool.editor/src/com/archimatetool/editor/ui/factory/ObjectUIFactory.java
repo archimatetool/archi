@@ -52,7 +52,7 @@ public class ObjectUIFactory {
                 }
             } 
             catch(CoreException ex) {
-                Logger.logError("Cannot register UI Provider", ex); //$NON-NLS-1$
+                Logger.error("Cannot register UI Provider", ex); //$NON-NLS-1$
                 ex.printStackTrace();
             } 
         }
