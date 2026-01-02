@@ -5,111 +5,133 @@
  */
 package com.archimatetool.editor;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.osgi.framework.Bundle;
 
 /**
- * Logger utility class
+ * Logger for Archi
+ * Don't use this in third-party plug-ins outside of Archi and its core plug-ins
  * 
  * @author Phillip Beauvoir
  */
 public final class Logger {
 
-    public static boolean enabled = true;
+    private static boolean enabled = true;
+    
+    private static Bundle bundle = ArchiPlugin.getInstance().getBundle();
     
     /**
-     * Convenience method to log an OK event
-     * 
-     * @param message Message to print
-     * @param t Exception that is thrown
+     * Set logging enabled
+     * @since 5.8.0
      */
-    public static void logOK(String message, Throwable t) {
-        log(IStatus.OK, message, t);
+    public static void setEnabled(boolean enable) {
+        enabled = enable;
+    }
+    
+    /**
+     * Log info
+     * @param message the message to log
+     * @since 5.8.0
+     */
+    public static void info(String message) {
+        log(new Status(IStatus.INFO, bundle.getSymbolicName(), message));
     }
 
     /**
-     * Convenience method to log an OK event
-     * 
-     * @param message Message to print
+     * Log info
+     * @param message the message to log
+     * @param throwable an optional Throwable to associate with this log
+     * @since 5.8.0
      */
-    public static void logOK(String message) {
-        log(IStatus.OK, message, null);
+    public static void info(String message, Throwable throwable) {
+        log(new Status(IStatus.INFO, bundle.getSymbolicName(), message, throwable));
     }
 
     /**
-     * Convenience method to log an error
-     * 
-     * @param message Message to print
-     * @param t Exception that is thrown
+     * Log warning
+     * @param message Message to log
+     * @since 5.8.0
      */
-    public static void logError(String message, Throwable t) {
-        log(IStatus.ERROR, message, t);
+    public static void warning(String message) {
+        log(new Status(IStatus.WARNING, bundle.getSymbolicName(), message));
     }
 
     /**
-     * Convenience method to log an error
-     * 
-     * @param message Message to print
+     * Log warning
+     * @param message the message to log
+     * @param throwable an optional Throwable to associate with this log
+     * @since 5.8.0
      */
-    public static void logError(String message) {
-        log(IStatus.ERROR, message, null);
+    public static void warning(String message, Throwable throwable) {
+        log(new Status(IStatus.WARNING, bundle.getSymbolicName(), message, throwable));
     }
 
     /**
-     * Convenience method to log some info
-     * 
-     * @param message Message to print
-     * @param t Exception that is thrown
+     * Log an error
+     * @param message the message to log
+     * @since 5.8.0
      */
-    public static void logInfo(String message, Throwable t) {
-        log(IStatus.INFO, message, t);
+    public static void error(String message) {
+        log(new Status(IStatus.ERROR, bundle.getSymbolicName(), message));
     }
 
     /**
-     * Convenience method to log some info
-     * 
-     * @param message Message to print
-     * @param t Exception that is thrown
+     * Log an error
+     * @param message the message to log
+     * @param throwable an optional Throwable to associate with this log
+     * @since 5.8.0
      */
-    public static void logInfo(String message) {
-        log(IStatus.INFO, message, null);
+    public static void error(String message, Throwable throwable) {
+        log(new Status(IStatus.ERROR, bundle.getSymbolicName(), message, throwable));
     }
 
     /**
-     * Convenience method to log a warning
-     * 
-     * @param message Message to print
-     * @param t Exception that is thrown
+     * Log the given status.
+     * @param status the status to log
+     * @since 5.8.0
      */
-    public static void logWarning(String message, Throwable t) {
-        log(IStatus.WARNING, message, t);
-    }
-
-    /**
-     * Convenience method to log a warning
-     * 
-     * @param message Message to print
-     */
-    public static void logWarning(String message) {
-        log(IStatus.WARNING, message, null);
-    }
-
-    /**
-     * Helper logger to log events for this bundle plug-in
-     * 
-     * @param severity can be
-     *          IStatus.WARNING
-     *          IStatus.INFO
-     *          IStatus.ERROR
-     *          IStatus.OK
-     *          IStatus.CANCEL
-     * @param message Message to print
-     * @param t Exception that is thrown
-     */
-    public static void log(int severity, String message, Throwable t) {
+    public static void log(IStatus status) {
         if(enabled) {
-            ArchiPlugin.getInstance().getLog().log(
-                    new Status(severity, ArchiPlugin.getInstance().getId(), IStatus.OK, message, t));
+            ILog.of(bundle).log(status);
         }
+    }
+    
+   
+    // ------------------------------------------------------------------ 
+    // Deprecated methods
+    // ------------------------------------------------------------------ 
+    
+    /**
+     * @deprecated use {@link #error(String)}
+     */
+    @Deprecated
+    public static void logError(String message) {
+        error(message);
+    }
+
+    /**
+     * @deprecated use {@link #error(String, Throwable)}
+     */
+    @Deprecated
+    public static void logError(String message, Throwable throwable) {
+        error(message, throwable);
+    }
+    
+    /**
+     * @deprecated use {@link #warning(String)}
+     */
+    @Deprecated
+    public static void logWarning(String message) {
+        warning(message);
+    }
+
+    /**
+     * @deprecated use {@link #warning(String, Throwable)}
+     */
+    @Deprecated
+    public static void logWarning(String message, Throwable throwable) {
+        warning(message, throwable);
     }
 }

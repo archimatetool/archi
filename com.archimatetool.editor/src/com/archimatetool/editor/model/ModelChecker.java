@@ -193,7 +193,7 @@ public class ModelChecker {
             sb.append('\n');
         }
         
-        Logger.logError(sb.toString());
+        Logger.error(sb.toString());
     }
 
     protected List<String> checkFolderStructure() {

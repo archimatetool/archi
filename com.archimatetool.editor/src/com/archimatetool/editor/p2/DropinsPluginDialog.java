@@ -118,7 +118,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     return handler.getInstalledPlugins().toArray();
                 }
                 catch(IOException ex) {
-                    Logger.logError("Error getting installed plug-in", ex); //$NON-NLS-1$
+                    Logger.error("Error getting installed plug-in", ex); //$NON-NLS-1$
                 }
                 
                 return new Object[0];
@@ -201,7 +201,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     }
                 }
                 catch(IOException ex) {
-                    Logger.logError("Error installing plug-in", ex); //$NON-NLS-1$
+                    Logger.error("Error installing plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 
@@ -215,7 +215,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     }
                 }
                 catch(IOException ex) {
-                    Logger.logError("Error uninstalling plug-in", ex); //$NON-NLS-1$
+                    Logger.error("Error uninstalling plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 

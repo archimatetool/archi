@@ -33,6 +33,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
@@ -47,7 +48,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.util.LightweightEContentAdapter;
-import com.archimatetool.model.util.Logger;
 
 
 
@@ -107,7 +107,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             return newFigure;
         }
         catch(Exception ex) {
-            Logger.logError("Couldn't instantiate figure from class: " + figureClass, ex); //$NON-NLS-1$
+            Logger.error("Couldn't instantiate figure from class: " + figureClass, ex); //$NON-NLS-1$
             return null;
         }
     }

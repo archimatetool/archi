@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.wizard;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -88,7 +87,7 @@ public class ExportAsImageWizard extends Wizard {
                     fPage.storePreferences();
                 }
                 catch(Throwable ex) {
-                    Logger.log(IStatus.ERROR, "Error exporting image", ex); //$NON-NLS-1$
+                    Logger.error("Error exporting image", ex); //$NON-NLS-1$
                     
                     MessageDialog.openError(getShell(),
                             Messages.ExportAsImageWizard_5,

@@ -14,12 +14,12 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
-import com.archimatetool.model.util.Logger;
 
 
 
@@ -54,7 +54,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
             return newFigure;
         }
         catch(Exception ex) {
-            Logger.logError("Couldn't instantiate figure from class: " + figureClass, ex);
+            Logger.error("Couldn't instantiate figure from class: " + figureClass, ex);
             return null;
         }
     }

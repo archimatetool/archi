@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -18,7 +19,6 @@ import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IJunction;
-import com.archimatetool.model.util.Logger;
 
 /**
  * Render Text for display in Text controls in diagrams
@@ -125,7 +125,7 @@ public class TextRenderer {
             } while((!resultSet.contains(result)));
         }
         catch(Throwable t) { // Catch all errors so that we can continue working in case we can't open a diagram
-            Logger.logError("Error in Label Expression", t);
+            Logger.error("Error in Label Expression", t);
             return "*** Error in Label Expression ***";
         }
 

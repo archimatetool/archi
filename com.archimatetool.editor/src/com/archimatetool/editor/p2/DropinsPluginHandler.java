@@ -218,7 +218,7 @@ public class DropinsPluginHandler {
                 addFileToDeleteOnExit(file);
             }
             else {
-                Logger.logError(NLS.bind(Messages.DropinsPluginHandler_1, bundle.getLocation()));
+                Logger.error(NLS.bind(Messages.DropinsPluginHandler_1, bundle.getLocation()));
             }
         }
         
@@ -475,7 +475,7 @@ public class DropinsPluginHandler {
             }
         }
         catch(Exception ex) {
-            Logger.logError("Error deleting file", ex); //$NON-NLS-1$
+            Logger.error("Error deleting file", ex); //$NON-NLS-1$
         }
     }
 }

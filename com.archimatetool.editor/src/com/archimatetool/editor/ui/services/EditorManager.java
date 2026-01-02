@@ -54,7 +54,7 @@ public class EditorManager {
             return page.openEditor(input, editorID, activate);
         }
         catch(PartInitException ex) {
-            Logger.logError("Could not open Editor " + editorID); //$NON-NLS-1$
+            Logger.error("Could not open Editor " + editorID); //$NON-NLS-1$
             ex.printStackTrace();
             return null;
         }

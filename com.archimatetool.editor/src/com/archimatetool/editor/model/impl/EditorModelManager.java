@@ -139,7 +139,7 @@ implements IEditorModelManager {
                 loadState();
             }
             catch(Exception ex) {
-                Logger.logError("Error loading state", ex); //$NON-NLS-1$
+                Logger.error("Error loading state", ex); //$NON-NLS-1$
                 ex.printStackTrace();
             }
         }
@@ -682,7 +682,7 @@ implements IEditorModelManager {
             archiveManager.loadImages();
         }
         catch(IOException ex) {
-            Logger.logError("Could not load images", ex); //$NON-NLS-1$
+            Logger.error("Could not load images", ex); //$NON-NLS-1$
             ex.printStackTrace();
         }
         

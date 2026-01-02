@@ -87,7 +87,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
         Location instanceLoc = Platform.getInstanceLocation();
         
         if(instanceLoc == null) {
-            Logger.logWarning("Instance Location is null. Using user.home");
+            Logger.warning("Instance Location is null. Using user.home");
             return new File(System.getProperty("user.home"), "Archi");
         }
         

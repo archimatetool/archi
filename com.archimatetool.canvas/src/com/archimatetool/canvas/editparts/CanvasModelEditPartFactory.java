@@ -49,7 +49,7 @@ implements EditPartFactory {
          * Returning null is disastrous and means the Diagram View won't open.
          */
         if(child == null) {
-            Logger.logError("Could not create EditPart for: " + model); //$NON-NLS-1$
+            Logger.warning("Could not create EditPart in CanvasModelEditPartFactory for: " + model); //$NON-NLS-1$
             child = new EmptyEditPart();
         }
 

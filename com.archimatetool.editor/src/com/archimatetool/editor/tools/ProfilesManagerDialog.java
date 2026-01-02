@@ -518,7 +518,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
             }
             catch(Exception ex) {
                 ex.printStackTrace();
-                Logger.logError("Could not create image!", ex); //$NON-NLS-1$
+                Logger.error("Could not create image!", ex); //$NON-NLS-1$
             }
         }
         
@@ -568,7 +568,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                 }
                 catch(Exception ex) {
                     ex.printStackTrace();
-                    Logger.logError("Could not create image!", ex); //$NON-NLS-1$
+                    Logger.error("Could not create image!", ex); //$NON-NLS-1$
                 }
 
                 // Select to update image preview

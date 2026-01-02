@@ -102,7 +102,7 @@ public class PrefUtils {
                 prefs.flush();
             }
             catch(BackingStoreException ex) {
-                Logger.logError("Could not save prefs", ex);
+                Logger.error("Could not save prefs", ex);
             }
         }
     }

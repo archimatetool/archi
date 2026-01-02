@@ -5,7 +5,6 @@
  */
 package com.archimatetool.zest;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -53,7 +52,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
-                    Logger.log(IStatus.ERROR, "Error exporting image", ex); //$NON-NLS-1$
+                    Logger.error("Error exporting image", ex); //$NON-NLS-1$
                     
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
                             Messages.CopyZestViewAsImageToClipboardAction_0,
