@@ -53,7 +53,9 @@ public class ErrorMessageDialog extends MessageDialog {
 
     private static String getExceptionAsString(Throwable throwable) {
         StringWriter sw = new StringWriter();
-        throwable.printStackTrace(new PrintWriter(sw));
+        try(PrintWriter pw = new PrintWriter(sw)) {
+            throwable.printStackTrace(pw);
+        }
         return sw.toString();
     }
 
