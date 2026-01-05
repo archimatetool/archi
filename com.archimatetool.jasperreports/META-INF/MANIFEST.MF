@@ -8,7 +8,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
- lib/commons-beanutils-1.10.0.jar,
+ lib/commons-beanutils-1.11.0.jar,
  lib/commons-collections-3.2.2.jar,
  lib/commons-collections4-4.4.jar,
  lib/commons-digester-2.1.jar,
