@@ -133,11 +133,11 @@ public final class FontFactory {
     }
 
     /**
-     * @param fontName
+     * @param fontDataString the FontData string
      * @return A font for the fontName that might be scaled on Mac or Windows
      */
-    public static Font getScaledFont(String fontName) {
-        return get(getScaledFontString(fontName));
+    public static Font getScaledFont(String fontDataString) {
+        return get(getScaledFontString(fontDataString));
     }
 
     /**
@@ -152,26 +152,35 @@ public final class FontFactory {
             return fontDataString;
         }
         
+        // Get DPI - note this is deprecated in a later version of Eclipse
         int DPI = Display.getCurrent().getDPI().y;
         
-        if(DPI != 96) {
-            // Font string is null or empty so use default FontData
-            if(!StringUtils.isSet(fontDataString)) {
-                fontDataString = getDefaultUserViewFontData().toString();
-            }
-            
-            try {
-                FontData fd = new FontData(fontDataString);
-                float factor = (float)96 / DPI;
-                int newHeight = (int)(fd.getHeight() * factor);
-                fd.setHeight(newHeight);
-                fontDataString = fd.toString();
-            }
-            catch(Exception ex) {
-            }
+        // If DPI is 96 (Windows) we don't need to do anything so just return fontDataString
+        if(DPI == 96) {
+            return fontDataString;
         }
         
-        return fontDataString;
+        // Check if fontDataString is null or empty and if so use default FontData
+        if(!StringUtils.isSet(fontDataString)) {
+            fontDataString = getDefaultUserViewFontData().toString();
+        }
+
+        // Scale font height accordingly for Windows and Mac.
+        // Mac is always 72 DPI.
+        // Windows can be a different DPI if display scaling is set as follows and swt.autoScale is not "quarter" ("integer200"):
+        // 125% = 120 DPI
+        // 150% = 144 DPI
+        // 175% = 84 DPI
+        // 225% = 108 DPI
+        try {
+            FontData fd = new FontData(fontDataString);    // Get FontData
+            int newHeight = (fd.getHeight() * 96) / DPI;   // New height is FontData height * 96 / DPI
+            fd.setHeight(newHeight);
+            return fd.toString();
+        }
+        catch(Exception ex) {
+            return fontDataString;
+        }
     }
     
     /**
