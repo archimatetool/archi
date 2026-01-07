@@ -10,7 +10,6 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -141,22 +140,12 @@ public final class FontFactory {
     }
 
     /**
-     * Return a font string scaled from 96 DPI if the current DPI is not 96.
-     * This can happen on Windows if the DPI is not 96 or we are on Mac.
-     * @return The adjusted font if DPI is not 96, or the same font string if it is 96 DPI
+     * Return a font string scaled from 72 DPI if on Mac.
+     * @return The adjusted font if on Mac else the same font string
      */
     public static String getScaledFontString(String fontDataString) {
-        // Don't check for DPI scaling on Linux or on Mac if preference not set. Always check on Windows.
-        if(PlatformUtils.isLinux() ||
-                (PlatformUtils.isMac() && !ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING))) {
-            return fontDataString;
-        }
-        
-        // Get DPI - note this is deprecated in a later version of Eclipse
-        int DPI = Display.getCurrent().getDPI().y;
-        
-        // If DPI is 96 (Windows) we don't need to do anything so just return fontDataString
-        if(DPI == 96) {
+        // Don't do font scaling on Windows or Linux or on Mac if preference not set
+        if(!(PlatformUtils.isMac() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING))) {
             return fontDataString;
         }
         
@@ -165,16 +154,10 @@ public final class FontFactory {
             fontDataString = getDefaultUserViewFontData().toString();
         }
 
-        // Scale font height accordingly for Windows and Mac.
-        // Mac is always 72 DPI.
-        // Windows can be a different DPI if display scaling is set as follows and swt.autoScale is not "quarter" ("integer200"):
-        // 125% = 120 DPI
-        // 150% = 144 DPI
-        // 175% = 84 DPI
-        // 225% = 108 DPI
+        // Scale font height accordingly for Mac. Mac is always 72 DPI.
         try {
             FontData fd = new FontData(fontDataString);    // Get FontData
-            int newHeight = (fd.getHeight() * 96) / DPI;   // New height is FontData height * 96 / DPI
+            int newHeight = (fd.getHeight() * 96) / 72;    // New height is FontData height * 96 / DPI
             fd.setHeight(newHeight);
             return fd.toString();
         }
