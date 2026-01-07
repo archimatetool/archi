@@ -26,7 +26,7 @@ jobs:
     - name: Set up Maven
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: 3.9.11
+        maven-version: 3.9.12
         
     - name: Run tests and build product
       run: |
