@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -32,157 +35,218 @@ public final class FontFactory {
     /**
      * Font Registry
      */
-    private static FontRegistry FontRegistry = new FontRegistry();
+    private static FontRegistry fontRegistry = new FontRegistry();
 
-    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold("");
-    
-    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic("");
+    /**
+     * @deprecated since 5.8.0 use JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)
+     */
+    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
     
     /**
-     * @param fontName
-     * @return A Font for the fontName or the default user font if null or exception occurs
+     * @deprecated since 5.8.0 use JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT)
      */
-    public static Font get(String fontName) {
-        if(fontName == null) {
-            return getDefaultUserViewFont();
+    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+    
+    /**
+     * Cache of scaled font data strings
+     */
+    private static Map<String, String> scaledFonts = new HashMap<>();
+    
+    /**
+     * DPI scale factor for Mac
+     */
+    private static final int MAC_DPI = 72;
+    
+    /**
+     * @deprecated since 5.8.0 use {@link #get(String, Font)
+     */
+    public static Font get(String fontDataString) {
+        return get(fontDataString, JFaceResources.getFontRegistry().defaultFont());
+    }
+    
+    /**
+     * Return a Font derived from the FontData string
+     * @param fontDataString The FontData string
+     * @param defaultFont The default font to fall back to if fontDataString is null or malformed or an exception occurs
+     * Return the new Font or defaultFont if fontDataString is null or malformed or an exception occurs
+     * @since 5.8.0
+     */
+    public static Font get(String fontDataString, Font defaultFont) {
+        if(fontDataString == null || fontDataString.isBlank()) {
+            return defaultFont;
         }
         
-        if(!FontRegistry.hasValueFor(fontName)) {
+        // Not in the font registry
+        if(!fontRegistry.hasValueFor(fontDataString)) {
             try {
-                FontData fd = new FontData(fontName);
-                FontRegistry.put(fontName, new FontData[] { fd });
+                FontData fd = new FontData(fontDataString);
+                fontRegistry.put(fontDataString, new FontData[] { fd });
             }
-            // Can cause exception if using font name from different OS platform
+            // Exception if using font name from different OS platform or malformed or empty string
             catch(Exception ex) {
-                return getDefaultUserViewFont();
+                return defaultFont;
             }
         }
         
-        return FontRegistry.get(fontName);
+        return fontRegistry.get(fontDataString);
     }
 
+    /**
+     * Return a font to use for figures and connections in a View (diagram) based on fontDataString.
+     * If on Mac the font will be scaled up if the preference for font scaling is set.
+     * If fontDataString is null, empty or malformed the font from {@link #getDefaultUserViewFont()} is returned.
+     * @param fontDataString the FontData string
+     * @return The font for the fontName. The font height will be scaled up on Mac if the preference for font scaling is set.
+     * @since 5.8.0
+     */
+    public static Font getViewFont(String fontDataString) {
+        // Scale Font height on Mac if preference is set
+        if(PlatformUtils.isMac() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING)) {
+            // A null fontDataString signifies "default" so get the default user font data string
+            if(fontDataString == null || fontDataString.isBlank()) {
+                fontDataString = getDefaultUserViewFontData().toString();
+            }
+            // Return scaled font data string
+            fontDataString = getScaledFontDataString(fontDataString, MAC_DPI);
+        }
+        
+        return get(fontDataString, getDefaultUserViewFont());
+    }
+
+    /**
+     * @return The default Font to use in diagrams (Views)
+     */
     public static Font getDefaultUserViewFont() {
-        // We don't have it, so try to set it
-        if(!FontRegistry.hasValueFor(DEFAULT_VIEW_FONT_NAME)) {
-            getDefaultUserViewFontData();
-        }
-                    
-        return FontRegistry.get(DEFAULT_VIEW_FONT_NAME); 
+        registerDefaultUserViewFontData(); // Ensure it's registered in registry
+        return fontRegistry.get(DEFAULT_VIEW_FONT_NAME); 
     }
     
+    /**
+     * @return The default FontData to use in diagrams (Views)
+     */
     public static FontData getDefaultUserViewFontData() {
-        // We don't have it
-        if(!FontRegistry.hasValueFor(DEFAULT_VIEW_FONT_NAME)) {
-            // So check user prefs...
-            String fontDetails = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_VIEW_FONT);
-            if(StringUtils.isSet(fontDetails)) {
-                try {
-                    // Put font details from user prefs
-                    FontData fd = new FontData(fontDetails);
-                    FontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
-                }
-                catch(Exception ex) {
-                    //ex.printStackTrace();
-                    setDefaultViewOSFontData();
-                }
-            }
-            // Not set in user prefs, so set default font data
-            else {
-                setDefaultViewOSFontData();
-            }
-        }
-        
-        return FontRegistry.getFontData(DEFAULT_VIEW_FONT_NAME)[0];
+        registerDefaultUserViewFontData(); // Ensure it's registered in registry
+        return fontRegistry.getFontData(DEFAULT_VIEW_FONT_NAME)[0]; 
     }
     
-    public static void setDefaultUserViewFont(FontData fd) {
-        // Do this first!
-        FontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
+    /**
+     * Set the default FontData to use in diagrams (Views)
+     * @param fd The FontData to set
+     */
+    public static void setDefaultUserViewFontData(FontData fd) {
+        // Register it first before updating preferences
+        fontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
 
-        // Then set value as this will send property change
+        // Then set the new value in preferences as this will send a property change to listeners
         ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.DEFAULT_VIEW_FONT, fd.toString());
     }
     
     /**
-     * @return The default OS font to use in a View
+     * @return The default font to use in diagrams (Views) for each OS
      */
     public static FontData getDefaultViewOSFontData() {
-        // Default
-        FontData fd = new FontData("Sans", 9, SWT.NORMAL);
-
         // Windows
         if(PlatformUtils.isWindows()) {
-            fd = new FontData("Segoe UI", 9, SWT.NORMAL);
-        }
-        // Linux
-        else if(PlatformUtils.isLinux()) {
-            fd = new FontData("Sans", 9, SWT.NORMAL);
+            return new FontData("Segoe UI", 9, SWT.NORMAL);
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("Lucida Grande", ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING) ? 9 : 12, SWT.NORMAL);
+            return getDefaultViewOSFontData(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING));
+        }
+        // Linux
+        else if(PlatformUtils.isLinux()) {
+            return new FontData("Sans", 9, SWT.NORMAL);
         }
 
-        return fd;
+        // Default
+        return new FontData("Sans", 9, SWT.NORMAL);
     }
     
-    private static void setDefaultViewOSFontData() {
-        FontData fd = getDefaultViewOSFontData();
-        FontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
-    }
-
     /**
-     * @param fontDataString the FontData string
-     * @return A font for the fontName that might be scaled on Mac or Windows
+     * @param useScaling If true return the scaled height value of FontData
+     * @return The default font to use in diagrams (Views) for each OS
      */
-    public static Font getScaledFont(String fontDataString) {
-        return get(getScaledFontString(fontDataString));
-    }
-
-    /**
-     * Return a font string scaled from 72 DPI if on Mac.
-     * @return The adjusted font if on Mac else the same font string
-     */
-    public static String getScaledFontString(String fontDataString) {
-        // Don't do font scaling on Windows or Linux or on Mac if preference not set
-        if(!(PlatformUtils.isMac() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING))) {
-            return fontDataString;
+    public static FontData getDefaultViewOSFontData(boolean useScaling) {
+        // If useScaling is true use 9 points height, else 12
+        if(PlatformUtils.isMac()) {
+            return new FontData("Lucida Grande", useScaling ? 9 : 12, SWT.NORMAL);
         }
         
-        // Check if fontDataString is null or empty and if so use default FontData
-        if(!StringUtils.isSet(fontDataString)) {
-            fontDataString = getDefaultUserViewFontData().toString();
-        }
-
-        // Scale font height accordingly for Mac. Mac is always 72 DPI.
-        try {
-            FontData fd = new FontData(fontDataString);    // Get FontData
-            int newHeight = (fd.getHeight() * 96) / 72;    // New height is FontData height * 96 / DPI
-            fd.setHeight(newHeight);
-            return fd.toString();
-        }
-        catch(Exception ex) {
-            return fontDataString;
-        }
+        return getDefaultViewOSFontData();
     }
     
     /**
-     * @param font
+     * @param font The font
      * @return The italic variant of the given font
      */
     public static Font getItalic(Font font) {
-        String fontName = font.getFontData()[0].toString();
-        get(fontName); // Have to ensure base font is registered
-        return FontRegistry.getItalic(fontName);
+        FontData[] fd = font.getFontData();
+        String key = fd[0].toString();
+        fontRegistry.put(key, fd); // Ensure the base font is registered first
+        return fontRegistry.getItalic(key);
     }
     
     /**
-     * @param font
+     * @param font The font
      * @return The bold variant of the given font
      */
     public static Font getBold(Font font) {
-        String fontName = font.getFontData()[0].toString();
-        get(fontName); // Have to ensure base font is registered
-        return FontRegistry.getBold(fontName);
+        FontData[] fd = font.getFontData();
+        String key = fd[0].toString();
+        fontRegistry.put(key, fd); // Ensure the base font is registered first
+        return fontRegistry.getBold(key);
+    }
+    
+    /**
+     * Register the default User View FontData in the registry.
+     * This will be either the user preference or the OS font data.
+     * This is the font used for diagram objects and connections
+     */
+    private static void registerDefaultUserViewFontData() {
+        if(fontRegistry.hasValueFor(DEFAULT_VIEW_FONT_NAME)) {
+            return;
+        }
+        
+        FontData fd = null;
+
+        // Check User Prefs...
+        String fontString = ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.DEFAULT_VIEW_FONT);
+        
+        // Set in User Prefs
+        if(StringUtils.isSet(fontString)) {
+            try {
+                fd = new FontData(fontString);
+            }
+            catch(Exception ex) {
+            }
+        }
+        
+        // Not set in preferences or an exception occcurred so register the default view OS FontData
+        if(fd == null) {
+            fd = getDefaultViewOSFontData();
+        }
+        
+        fontRegistry.put(DEFAULT_VIEW_FONT_NAME, new FontData[] { fd });
+    }
+    
+    /**
+     * @return a FontData string scaled from DPI.
+     */
+    private static String getScaledFontDataString(String fontDataString, int dpi) {
+        if(fontDataString == null || dpi == 96) { // No point in scaling 96 / 96
+            return fontDataString;
+        }
+        
+        return scaledFonts.computeIfAbsent(fontDataString, key -> {
+            try {
+                FontData fd = new FontData(fontDataString);    // Create FontData
+                int newHeight = (fd.getHeight() * 96) / dpi;   // New height is FontData height * 96 / DPI
+                fd.setHeight(newHeight);
+                return fd.toString();
+            }
+            catch(Exception ex) { // Can happen if string is malformed
+                return fontDataString;
+            }
+        });
     }
 }

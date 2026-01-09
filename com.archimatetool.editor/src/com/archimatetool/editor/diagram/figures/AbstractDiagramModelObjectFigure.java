@@ -220,7 +220,7 @@ implements IDiagramModelObjectFigure {
     protected void setFont() {
         // Set the font for the figure not the text control.
         // (Direct Edit Manager sets its font according to this font and GroupFigure uses it).
-        setFont(FontFactory.getScaledFont(getDiagramModelObject().getFont()));
+        setFont(FontFactory.getViewFont(getDiagramModelObject().getFont()));
         
         // Need to revalidate the text control after a font change
         if(getTextControl() != null) {

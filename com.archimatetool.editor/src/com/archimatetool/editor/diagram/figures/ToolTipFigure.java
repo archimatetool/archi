@@ -14,8 +14,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
-
-import com.archimatetool.editor.ui.FontFactory;
+import org.eclipse.jface.resource.JFaceResources;
 
 
 /**
@@ -49,7 +48,7 @@ public class ToolTipFigure extends Figure {
         if(typeLabel == null) {
             typeLabel = new Label();
             add(typeLabel);
-            nameText.setFont(FontFactory.SystemFontBold); // Name becomes bold if type is set
+            nameText.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)); // Name becomes bold if type is set
         }
         typeLabel.setText(type);
     }
@@ -57,7 +56,7 @@ public class ToolTipFigure extends Figure {
     public void setRubric(String text) {
         if(rubricText == null) {
             rubricText = createTextFlow();
-            rubricText.setFont(FontFactory.SystemFontItalic);
+            rubricText.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         }
         rubricText.setText(text);
     }

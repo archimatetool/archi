@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -91,6 +93,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             return fontData;
         }
         
+        void setFontData(FontData fontData) {
+            this.fontData = fontData;
+        }
+        
         FontData getDefaultFontData() {
             // Get default font that might be set in a pluginCustomization settings file
             FontData fontData = ThemeUtils.getDefaultThemeFontData(fontDefinitionId);
@@ -102,7 +108,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
 
         FontData getSystemFontData() {
-            return getShell().getDisplay().getSystemFont().getFontData()[0];
+            return JFaceResources.getDefaultFont().getFontData()[0];
         }
         
         FontData getSafeFontData(String fontDetails) {
@@ -122,21 +128,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private class ViewFontInfo extends FontInfo {
         public ViewFontInfo() {
             super(Messages.FontsPreferencePage_1, Messages.FontsPreferencePage_12, DEFAULT_VIEW_FONT);
-        }
-        
-        @Override
-        void performDefault() {
-            // If on Mac we need to temporarily apply the value of the scaling checkbox in preferences
-            // so that we can get the default scaled font size.
-            if(fScaleFontsButton != null) {
-                boolean currentValue = getPreferenceStore().getBoolean(FONT_SCALING); // save this
-                getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection()); // apply setting
-                fontData = getDefaultFontData(); // get font data
-                getPreferenceStore().setValue(FONT_SCALING, currentValue); // apply previous value
-            }
-            else {
-                fontData = getDefaultFontData();
-            }
         }
         
         @Override
@@ -168,11 +159,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         @Override
         void performOK() {
-            FontFactory.setDefaultUserViewFont(getFontData());
+            FontFactory.setDefaultUserViewFontData(getFontData());
         }
         
         @Override
         FontData getSystemFontData() {
+            // If using scaling get the scaled font size
+            if(fScaleFontsButton != null) {
+                return FontFactory.getDefaultViewOSFontData(fScaleFontsButton.getSelection());
+            }
+            
             return FontFactory.getDefaultViewOSFontData();
         }
     }
@@ -208,21 +204,28 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         layout.marginWidth = layout.marginHeight = 0;
         client.setLayout(layout);
         
-        client.addDisposeListener((e) -> {
+        client.addDisposeListener(event -> {
             disposeLabelFont();
         });
         
-        // Scale fonts on Mac
+        // Scale fonts in Views on Mac
         if(PlatformUtils.isMac()) {
             fScaleFontsButton = new Button(client, SWT.CHECK);
             fScaleFontsButton.setText(Messages.FontsPreferencePage_22);
             fScaleFontsButton.setToolTipText(Messages.FontsPreferencePage_23);
             fScaleFontsButton.setSelection(getPreferenceStore().getBoolean(FONT_SCALING));
             fScaleFontsButton.setLayoutData(GridDataFactory.defaultsFor(fScaleFontsButton).span(2, 1).create());
-            // When button is selected apply default font and update table
+            
+            // When the button is selected update the default font if it is the current font
             fScaleFontsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
-                fontInfos.get(0).performDefault();
-                fTableViewer.setSelection(fTableViewer.getSelection());
+                FontInfo fontInfo = getFontInfo(DEFAULT_VIEW_FONT);
+                
+                // If the current font data equals the system default font data reset it
+                // !fScaleFontsButton.getSelection() is the value before the click
+                if(Objects.equals(fontInfo.getFontData(), FontFactory.getDefaultViewOSFontData(!fScaleFontsButton.getSelection()))) {
+                    fontInfo.performDefault();
+                    fTableViewer.setSelection(fTableViewer.getSelection());
+                }
             }));
         }
         
@@ -265,7 +268,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     FontInfo fontInfo = (FontInfo)selection.getFirstElement();
                     FontData fd = openFontDialog(fontInfo);
                     if(fd != null) {
-                        fontInfo.fontData = fd;
+                        fontInfo.setFontData(fd);
                         fTableViewer.update(fontInfo, null);
                         updatePreview(fontInfo);
                     }
@@ -351,7 +354,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                     FontData fd = openFontDialog((FontInfo)selection.getFirstElement());
                     if(fd != null) {
                         for(Object object : selection.toList()) {
-                            ((FontInfo)object).fontData = fd;
+                            ((FontInfo)object).setFontData(fd);
                         }
                         updatePreview((FontInfo)selection.getFirstElement());
                         fTableViewer.refresh();
@@ -448,6 +451,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         // Analysis Table font
         fontInfos.add(new FontInfo(Messages.FontsPreferencePage_19, Messages.FontsPreferencePage_20, ANALYSIS_TABLE_FONT));
+    }
+    
+    /**
+     * @return a FontInfo by its fontDefinitionId
+     */
+    private FontInfo getFontInfo(String fontDefinitionId) {
+        for(FontInfo fontInfo : fontInfos) {
+            if(Objects.equals(fontInfo.fontDefinitionId, fontDefinitionId)) {
+                return fontInfo;
+            }
+        }
+        
+        return null;
     }
     
     private FontData openFontDialog(FontInfo fontInfo) {

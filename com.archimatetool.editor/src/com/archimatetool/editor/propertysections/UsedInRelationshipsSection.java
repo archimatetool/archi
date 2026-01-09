@@ -8,6 +8,7 @@ package com.archimatetool.editor.propertysections;
 import java.text.Collator;
 
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -35,7 +36,6 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
@@ -175,7 +175,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     }
     
     private static class UsedInRelationshipsTableLabelProvider extends LabelProvider implements IFontProvider {
-        Font fontItalic = FontFactory.SystemFontItalic;
+        Font fontItalic = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
         
         @Override
         public String getText(Object element) {
