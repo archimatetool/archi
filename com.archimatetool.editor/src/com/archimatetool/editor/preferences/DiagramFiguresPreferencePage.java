@@ -197,9 +197,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewer.getTable().addListener(SWT.EraseItem, new Listener() {   
             @Override
             public void handleEvent(Event event) {
-                // No selection highlighting
-                event.detail &= ~SWT.SELECTED;
-                event.detail &= ~SWT.HOT;
+                // No selection or focus highlighting
+                event.detail &= ~(SWT.FOCUSED | SWT.HOT | SWT.SELECTED);
             }
         });
         
