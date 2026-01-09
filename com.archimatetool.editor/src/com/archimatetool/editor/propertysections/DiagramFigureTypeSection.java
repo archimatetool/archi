@@ -10,15 +10,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
@@ -132,10 +129,8 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         public ImageFigure(Composite parent, int value) {
             super(parent, SWT.NULL);
             setBackgroundMode(SWT.INHERIT_DEFAULT);
-            GridLayout gridLayout = new GridLayout();
-            gridLayout.marginWidth = 3;
-            gridLayout.marginHeight = 3;
-            setLayout(gridLayout);
+            getWidgetFactory().adapt(this);
+            GridLayoutFactory.swtDefaults().margins(4, 4).applyTo(this);
             
             addPaintListener(new PaintListener() {
                 @Override
@@ -144,32 +139,27 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
                         GC graphics = e.gc;
                         graphics.setForeground(ColorConstants.blue);
                         graphics.setLineWidth(2);
-                        Rectangle bounds = getBounds();
-                        graphics.drawRectangle(1, 1, bounds.width - 2, bounds.height - 2);
+                        graphics.drawRectangle(1, 1, e.width - 2, e.height - 2);
                     }
                 }
             });
             
-            label = new Label(this, SWT.NULL);
-            getWidgetFactory().adapt(this);
+            label = new Label(this, SWT.NONE);
             
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseDown(MouseEvent e) {
-                    CompoundCommand result = new CompoundCommand();
+            label.addListener(SWT.MouseDown, e -> {
+                CompoundCommand result = new CompoundCommand();
 
-                    for(EObject eObject : getEObjects()) {
-                        if(isAlive(eObject) && !isLocked(eObject)) {
-                            Command cmd = new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, eObject,
-                                    IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, value);
-                            if(cmd.canExecute()) {
-                                result.add(cmd);
-                            }
+                for(EObject eObject : getEObjects()) {
+                    if(isAlive(eObject) && !isLocked(eObject)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, eObject,
+                                IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, value);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
                         }
                     }
-
-                    executeCommand(result.unwrap());
                 }
+
+                executeCommand(result.unwrap());
             });
         }
         
