@@ -22,6 +22,7 @@ public class OpenDiagramAction extends ViewerAction {
     public OpenDiagramAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText(Messages.OpenDiagramAction_0);
+        setActionDefinitionId("com.archimatetool.editor.action.openDiagram"); //$NON-NLS-1$
         setEnabled(false);
     }
     

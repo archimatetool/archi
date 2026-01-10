@@ -24,6 +24,8 @@ public class CloseModelAction extends ViewerAction {
     public CloseModelAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText(Messages.CloseModelAction_0);
+        // Ensures key binding is displayed
+        setActionDefinitionId("com.archimatetool.editor.action.closeModel"); //$NON-NLS-1$
         setEnabled(false);
     }
     
