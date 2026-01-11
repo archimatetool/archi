@@ -198,4 +198,7 @@ public interface IPreferenceConstants {
     String SEARCHFILTER_SHOW_ALL_FOLDERS = "searchFilterShowAllFolders";
     String SEARCHFILTER_MATCH_CASE = "searchFilterMatchCase";
     String SEARCHFILTER_USE_REGEX = "searchFilterUseRegex";
+    
+    // Maximum number of diagrams to open at once when opening model with option enabled or from "open" menu actions
+    String MAX_DIAGRAMS_TO_OPEN_AT_ONCE = "maxDiagramsToOpenAtOnce";
 }

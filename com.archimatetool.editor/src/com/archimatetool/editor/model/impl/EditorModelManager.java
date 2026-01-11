@@ -202,14 +202,12 @@ implements IEditorModelManager {
         model = loadModel(file);
         
         if(model != null) {
-            // Open Views of newly opened model if set in Preferences up to a maximum for safety
+            // Also open the Views of this model if set in Preferences up to a maximum for safety
             if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.OPEN_DIAGRAMS_ON_LOAD)) {
-                int max = 0;
-                for(IDiagramModel dm : model.getDiagramModels()) {
-                    if(max++ < 30) {
-                        EditorManager.openDiagramEditor(dm);
-                    }
-                }
+                int max = ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.MAX_DIAGRAMS_TO_OPEN_AT_ONCE);
+                model.getDiagramModels().stream()
+                                        .limit(max)
+                                        .forEach(dm -> EditorManager.openDiagramEditor(dm, false)); // Don't activate, it's faster
             }
             
             firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);

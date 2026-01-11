@@ -176,5 +176,7 @@ implements IPreferenceConstants {
         store.setDefault(PROPERTIES_SINGLE_COLUMN, false);
         
         store.setDefault(SEARCHFILTER_NAME, true);
+        
+        store.setDefault(MAX_DIAGRAMS_TO_OPEN_AT_ONCE, 100);
     }
 }

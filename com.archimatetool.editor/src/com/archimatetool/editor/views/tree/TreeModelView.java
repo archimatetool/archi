@@ -59,7 +59,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
-import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.IUIRequestListener;
 import com.archimatetool.editor.ui.services.UIRequest;
 import com.archimatetool.editor.ui.services.UIRequestManager;
@@ -82,7 +81,6 @@ import com.archimatetool.editor.views.tree.actions.SaveModelAction;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
@@ -212,19 +210,17 @@ implements ITreeModelView, IUIRequestListener {
     }
     
     /**
-     * Open Objects could be a selection of various types and user presses Return key
+     * This is called on double click and when the Return key is pressed. Both cases can be multi-select.
      */
     private void handleOpenAction() {
-        for(Object selected : getViewer().getStructuredSelection().toArray()) {
-            // If concept, folder or model open the Properties view
-            if(selected instanceof IArchimateConcept || selected instanceof IFolder || selected instanceof IArchimateModel) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
-            }
-            // Diagram - open diagram
-            else if(selected instanceof IDiagramModel dm) {
-                EditorManager.openDiagramEditor(dm);
-            }
+        // If a concept, folder or model is selected open the Properties view
+        boolean openPropertiesView = getViewer().getStructuredSelection().stream().anyMatch(item -> !(item instanceof IDiagramModel));
+        if(openPropertiesView) {
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
         }
+        
+        // Diagrams
+        fActionOpenDiagram.run();
     }
     
     /**
@@ -451,7 +447,7 @@ implements ITreeModelView, IUIRequestListener {
         }
         
         // Selected a Diagram
-        if(selected instanceof IDiagramModel) {
+        if(fActionOpenDiagram.isEnabled()) {
             manager.add(fActionOpenDiagram);
             manager.add(new Separator("open")); //$NON-NLS-1$
         }

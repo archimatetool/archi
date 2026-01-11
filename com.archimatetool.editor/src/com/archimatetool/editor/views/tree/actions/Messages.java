@@ -35,6 +35,10 @@ public class Messages extends NLS {
 
     public static String OpenDiagramAction_0;
 
+    public static String OpenDiagramAction_1;
+
+    public static String OpenDiagramAction_2;
+
     public static String PasteAction_0;
 
     public static String PasteAction_1;
