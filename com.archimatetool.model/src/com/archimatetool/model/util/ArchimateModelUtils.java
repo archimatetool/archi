@@ -5,9 +5,11 @@
  */
 package com.archimatetool.model.util;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -516,5 +518,22 @@ public class ArchimateModelUtils {
     public static boolean isMatchingProfile(IProfile p1, IProfile p2) {
         return p1.getName() != null && p1.getName().equalsIgnoreCase(p2.getName())
                 && p1.getConceptType() != null && p1.getConceptType().equals(p2.getConceptType());
+    }
+    
+    /**
+     * Sort Profiles by Elements, then Relations and then by name
+     * @param profiles The profiles to sort
+     * @param collator The Collator to use
+     */
+    public static void sortProfiles(List<IProfile> profiles, Collator collator) {
+        profiles.sort(Comparator.comparingInt((IProfile profile) -> {
+            if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(profile.getConceptClass())) {
+                return 0;
+            }
+            if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(profile.getConceptClass())) {
+                return 1;
+            }
+            return 2;
+        }).thenComparing(IProfile::getName, collator::compare));
     }
 }
