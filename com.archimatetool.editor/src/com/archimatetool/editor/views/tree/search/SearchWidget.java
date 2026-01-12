@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.views.tree.search;
 
+import java.beans.PropertyChangeEvent;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,12 +13,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
@@ -54,8 +55,8 @@ import com.archimatetool.editor.ui.dialog.UserPropertiesKeySelectionDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IProfile;
-import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -152,6 +153,11 @@ public class SearchWidget extends Composite {
         
         createToolBar();
         createSearchTextWidget();
+        
+        // Save preferences here as dispose() is not called when parent is disposed()
+        addDisposeListener(e -> {
+            savePreferences();
+        });
     }
     
     @Override
@@ -414,6 +420,17 @@ public class SearchWidget extends Composite {
         };
         dropDownAction.add(actionReset);
         
+        // Refresh
+        IAction actionRefresh = new Action(Messages.SearchWidget_28) {
+            @Override
+            public void run() {
+                if(fSearchFilter.isFiltering()) {
+                    refreshTree();
+                }
+            }
+        };
+        dropDownAction.add(actionRefresh);
+        
         loadPreferences();
         
         // Need to update toolbar manager now
@@ -446,8 +463,11 @@ public class SearchWidget extends Composite {
     }
     
     private void savePreferences() {
-        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
+        if(fSearchFilter == null) {
+            return;
+        }
         
+        IPreferenceStore store = ArchiPlugin.getInstance().getPreferenceStore();
         store.setValue(IPreferenceConstants.SEARCHFILTER_NAME, fSearchFilter.getFilterOnName());
         store.setValue(IPreferenceConstants.SEARCHFILTER_DOCUMENTATION, fSearchFilter.getFilterOnDocumentation());
         store.setValue(IPreferenceConstants.SEARCHFILTER_PROPETY_VALUES, fSearchFilter.getFilterOnPropertyValues());
@@ -488,20 +508,70 @@ public class SearchWidget extends Composite {
     }
     
     /**
-     * Clear and update Properties and Specializations and refresh the tree.
-     * Currently called when a model is opened or closed to update Properties and Specializations
+     * Update this search filter based on Notification
+     * @param msg The Notification to respond to
      */
-    public void softReset() {
-        // Clear & Reset Property keys
-        fSearchFilter.resetPropertyKeyFilter();
+    public void update(Notification msg) {
+        if(isDisposed()) {
+            return;
+        }
         
-        // Clear & Reset Specializations
-        populateSpecializationsMenu();
-        fSearchFilter.resetSpecializationsFilter();
+        Object feature = msg.getFeature();
         
-        refreshTree();
+        // Model Profiles added/deleted/changed
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PROFILES) {
+            // Repopulate the sub-menu
+            populateSpecializationsMenu();
+            
+            // If filtering on Specializations reset filter and refresh tree
+            if(fSearchFilter.isFilteringSpecializations()) {
+                fSearchFilter.resetSpecializationsFilter();
+                refreshTree();
+            }
+        }
+        // Profile added/removed from a Concept or updated
+        else if(feature == IArchimatePackage.Literals.PROFILES__PROFILES || msg.getNotifier() instanceof IProfile) {
+            // If filtering on Specializations() refresh tree
+            if(fSearchFilter.isFilteringSpecializations()) {
+                refreshTree();
+            }
+        }
     }
-
+    
+    /**
+     * Update this search filter based on Notifications
+     * @param notifications The Notifications to respond to
+     */
+    public void update(List<Notification> notifications) {
+        for(Notification msg : notifications) {
+            update(msg);
+        }
+    }
+    
+    /**
+     * Update this search filter based on PropertyChangeEvent
+     * @param evt The PropertyChangeEvent to respond to
+     */
+    public void update(PropertyChangeEvent evt) {
+        if(isDisposed()) {
+            return;
+        }
+        
+        // Model was opened or closed
+        if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_OPENED 
+                                               || evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+            // Reset Property keys
+            fSearchFilter.resetPropertyKeyFilter();
+            
+            // Reset Specializations
+            populateSpecializationsMenu();
+            fSearchFilter.resetSpecializationsFilter();
+            
+            // Refresh
+            refreshTree();
+        }
+    }
+    
 	/**
 	 * Create a concept action based on eClass
 	 */
@@ -562,22 +632,19 @@ public class SearchWidget extends Composite {
     private void populateSpecializationsMenu() {
         fSpecializationsMenu.removeAll();
         
-        // Models that are loaded are the ones in the Models Tree
         List<IProfile> profiles = new ArrayList<>();
 
+        // Models that are loaded are the ones in the Models Tree
         for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-            for(Entry<IProfile, List<IProfiles>> entry : ArchimateModelUtils.findProfilesUsage(model).entrySet()) {
-                if(!hasProfile(profiles, entry.getKey())) {
-                    profiles.add(entry.getKey());
-                }
+            for(IProfile profile : model.getProfiles()) {
+                profiles.add(profile);
             }
         }
         
-        // Sort alphabetically
-        Collator collator = Collator.getInstance();
-        profiles.sort((p1, p2) -> collator.compare(p1.getName(), p2.getName()));
-
-        for(final IProfile profile : profiles) {
+        // Sort Profiles into Elements, then Relations and by name
+        ArchimateModelUtils.sortProfiles(profiles, Collator.getInstance());
+        
+        for(IProfile profile : profiles) {
             IAction action = new Action(profile.getName(), IAction.AS_CHECK_BOX) {
                 @Override
                 public void run() {
@@ -593,7 +660,7 @@ public class SearchWidget extends Composite {
                 @Override
                 public ImageDescriptor getImageDescriptor() {
                     // Windows 11 doen't show checked state if we use an image in the menu
-                    return PlatformUtils.isWindows11() ? null : ArchiLabelProvider.INSTANCE.getImageDescriptor(profile.getConceptClass());
+                    return PlatformUtils.isWindows11() ? null : ArchiLabelProvider.INSTANCE.getImageDescriptorForSpecialization(profile);
                 }
             };
 
@@ -601,16 +668,6 @@ public class SearchWidget extends Composite {
         }
 
         fSpecializationsMenu.update(true);
-    }
-    
-    private boolean hasProfile(List<IProfile> profiles, IProfile profile) {
-        for(IProfile p : profiles) {
-            if(ArchimateModelUtils.isMatchingProfile(p, profile)) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     private void refreshTree() {
@@ -658,11 +715,16 @@ public class SearchWidget extends Composite {
         }
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
+    /**
+     * Close and dispose this widget
+     */
+    public void close() {
+        if(isDisposed()) {
+            return;
+        }
         
-        savePreferences();
+        // This will call dispose listener which will call savePreferences();
+        dispose();
         
         fViewer.removeTreeListener(treeExpansionListener);
         

@@ -238,7 +238,7 @@ implements ITreeModelView, IUIRequestListener {
      */
     private void removeSearchWidget() {
         if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
-            fSearchWidget.dispose();
+            fSearchWidget.close();
             fSearchWidget = null;
             fTreeViewer.getControl().getParent().layout();
         }
@@ -797,17 +797,15 @@ implements ITreeModelView, IUIRequestListener {
                 setDrillDownHome();
                 
                 getViewer().refreshTreePreservingExpandedNodes();
-
-                IArchimateModel model = (IArchimateModel)evt.getNewValue();
                 
                 // Expand and Select new node
+                IArchimateModel model = (IArchimateModel)evt.getNewValue();
                 getViewer().expandToLevel(model.getFolder(FolderType.DIAGRAMS), 1);
                 getViewer().setSelection(new StructuredSelection(model), true);
                 
-                // Search Filter soft reset on open model
-                if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_OPENED && 
-                        fSearchWidget != null && !fSearchWidget.isDisposed()) {
-                    fSearchWidget.softReset();
+                // Update Search Widget
+                if(fSearchWidget != null) {
+                    fSearchWidget.update(evt);
                 }
             }
             
@@ -819,9 +817,9 @@ implements ITreeModelView, IUIRequestListener {
                 // Check Drilldown state
                 checkDrillDownHasValidInput();
 
-                // Search Filter soft reset
-                if(fSearchWidget != null && !fSearchWidget.isDisposed()) {
-                    fSearchWidget.softReset();
+                // Update Search Widget
+                if(fSearchWidget != null) {
+                    fSearchWidget.update(evt);
                 }
 
                 getViewer().refreshTreePreservingExpandedNodes();
@@ -883,7 +881,13 @@ implements ITreeModelView, IUIRequestListener {
         }
         
         super.eCoreChanged(msg);
+        
         checkDrillDownHasValidInput();
+        
+        // Update search widget
+        if(fSearchWidget != null) {
+            fSearchWidget.update(msg);
+        }
     }
     
     @Override
@@ -953,6 +957,11 @@ implements ITreeModelView, IUIRequestListener {
         }
         
         checkDrillDownHasValidInput();
+        
+        // Update Search Widget
+        if(fSearchWidget != null) {
+            fSearchWidget.update(notifications);
+        }
     }
 
     /**

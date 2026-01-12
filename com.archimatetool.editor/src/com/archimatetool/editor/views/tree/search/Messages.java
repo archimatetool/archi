@@ -53,6 +53,8 @@ public class Messages extends NLS {
 
     public static String SearchWidget_27;
 
+    public static String SearchWidget_28;
+
     public static String SearchWidget_3;
 
     public static String SearchWidget_4;
