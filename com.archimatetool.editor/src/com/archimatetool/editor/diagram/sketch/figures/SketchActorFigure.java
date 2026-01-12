@@ -30,8 +30,6 @@ public class SketchActorFigure extends AbstractLabelFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
-        super.paintFigure(graphics);
-        
         graphics.setAlpha(getAlpha());
         
         graphics.setForegroundColor(getFillColor());
