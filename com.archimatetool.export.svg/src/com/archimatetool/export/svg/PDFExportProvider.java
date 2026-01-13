@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.util.Map.Entry;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -66,11 +65,7 @@ public class PDFExportProvider extends AbstractExportProvider implements IPrefer
         setSizeAttributes(root, viewPortBounds.width, viewPortBounds.height);
         
         // Set any other attributes on the root element
-        if(attributes != null) {
-            for(Entry<String, String> att : attributes.entrySet()) {
-                root.setAttributeNS(null, att.getKey(), att.getValue());
-            }
-        }
+        setRootAttributes(root);
         
         // Save the root element
         writeElementToFile(root, file);

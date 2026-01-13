@@ -217,6 +217,19 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     }
     
     /**
+     * Set any attributes on the root element
+     * @param root The DOM root element
+     */
+    protected void setRootAttributes(Element root) {
+        // Set provided attributes on the root element if any. Namespace is null
+        if(attributes != null) {
+            for(Entry<String, String> att : attributes.entrySet()) {
+                root.setAttributeNS(null, att.getKey(), att.getValue());
+            }
+        }
+    }
+    
+    /**
      * Create a DOM element for the given IDiagramModel
      */
     protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) {
@@ -249,11 +262,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         }
         
         // Set any other attributes on the root element
-        if(attributes != null) {
-            for(Entry<String, String> att : attributes.entrySet()) {
-                root.setAttributeNS(null, att.getKey(), att.getValue());
-            }
-        }
+        setRootAttributes(root);
         
         return root;
     }

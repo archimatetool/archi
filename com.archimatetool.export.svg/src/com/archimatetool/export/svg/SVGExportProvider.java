@@ -12,7 +12,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Map.Entry;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -76,11 +75,7 @@ public class SVGExportProvider extends AbstractExportProvider implements IPrefer
         }
         
         // Set any other attributes on the root element
-        if(attributes != null) {
-            for(Entry<String, String> att : attributes.entrySet()) {
-                root.setAttributeNS(null, att.getKey(), att.getValue());
-            }
-        }
+        setRootAttributes(root);
         
         // Save the root element
         writeElementToFile(root, file);
