@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.osgi.service.prefs.BackingStoreException;
 
 import com.archimatetool.editor.ArchiPlugin;
@@ -53,15 +52,9 @@ public class PrefUtils {
         
         // Windows specific
         if(PlatformUtils.isWindows()) {
-            // On Windows 11, Eclipse SWT draws a selection indicator on menu items that have images with style AS_RADIO_BUTTON or AS_CHECK_BOX
+            // On Windows 11, in later versions of SWT an ugly selection indicator is drawn on menu items that have images with style AS_RADIO_BUTTON or AS_CHECK_BOX
             // We don't want this, so set this property. @see org.eclipse.swt.widgets.MenuItem
             System.setProperty("org.eclipse.swt.internal.win32.menu.customSelectionImage", "0");
-            
-            // Set Monitor DPI scaling off if there is a System Property -Dcom.archimatetool.editor.monitorSpecificScaling=false
-            // Don't use "swt.autoScale.updateOnRuntime" because Eclipse will complain about that in Workbench#setRescaleAtRuntimePropertyFromPreference()
-            if("false".equalsIgnoreCase(System.getProperty("com.archimatetool.editor.monitorSpecificScaling"))) {
-                getConfigurationPrefs(ORG_ECLIPSE_UI).putBoolean(IWorkbenchPreferenceConstants.RESCALING_AT_RUNTIME, false);
-            }
         }
 
         // Mac specific
