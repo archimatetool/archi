@@ -5,7 +5,12 @@ on: [push]
 jobs:
   build-and-test:
     
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+      fail-fast: false # Continue even if one fails
 
     steps:
     - name: Checkout
@@ -23,6 +28,11 @@ jobs:
       with:
         maven-version: 3.9.12
         
-    - name: Run Maven tests with a virtual display
-      run: |
-        xvfb-run mvn -V clean verify
+    - name: Run Maven tests (Linux with virtual display)
+      if: ${{ runner.os == 'Linux' }}
+      run: xvfb-run mvn clean verify
+
+    - name: Run Maven tests (macOS/Windows)
+      if: ${{ runner.os != 'Linux' }}
+      run: mvn clean verify
+  
