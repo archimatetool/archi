@@ -5,11 +5,11 @@ Bundle-SymbolicName: com.archimatetool.model.tests
 Bundle-Version: 5.8.0.qualifier
 Fragment-Host: com.archimatetool.model
 Import-Package: com.archimatetool.tests,
- org.junit.jupiter.api;version="[5.14.0,6.0.0)",
- org.junit.jupiter.api.function;version="[5.14.0,6.0.0)",
- org.junit.jupiter.params;version="[5.14.0,6.0.0)",
- org.junit.jupiter.params.provider;version="[5.14.0,6.0.0)",
- org.junit.platform.suite.api;version="[1.14.0,2.0.0)"
+ org.junit.jupiter.api;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.api.function;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.params;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.params.provider;version="[5.10.0,6.0.0)",
+ org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.model.tests

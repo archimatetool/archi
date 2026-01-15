@@ -8,6 +8,6 @@ Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: com.archimatetool.testingtools,
  com.archimatetool.tests,
- org.junit.jupiter.api;version="[5.14.0,6.0.0)",
- org.junit.platform.suite.api;version="[1.14.0,2.0.0)"
+ org.junit.jupiter.api;version="[5.10.0,6.0.0)",
+ org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Automatic-Module-Name: com.archimatetool.hammer.tests

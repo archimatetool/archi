@@ -5,10 +5,10 @@ Bundle-SymbolicName: com.archimatetool.canvas.tests
 Bundle-Version: 5.8.0.qualifier
 Fragment-Host: com.archimatetool.canvas
 Import-Package: com.archimatetool.testingtools,
- org.junit.jupiter.api;version="[5.14.0,6.0.0)",
- org.junit.jupiter.params;version="[5.14.0,6.0.0)",
- org.junit.jupiter.params.provider;version="[5.14.0,6.0.0)",
- org.junit.platform.suite.api;version="[1.14.0,2.0.0)"
+ org.junit.jupiter.api;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.params;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.params.provider;version="[5.10.0,6.0.0)",
+ org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.archimatetool.canvas.tests
