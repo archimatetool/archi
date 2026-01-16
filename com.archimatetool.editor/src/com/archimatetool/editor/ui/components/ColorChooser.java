@@ -23,8 +23,10 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageGcDrawer;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
@@ -32,7 +34,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -264,21 +265,32 @@ public class ColorChooser extends EventManager {
      * setting.
      */
     protected void updateColorImage() {
-        ImageGcDrawer gcDrawer = (gc, width, height) -> {
+        Image image = new Image(fColorButton.getDisplay(), (ImageDataProvider) zoom -> {
+            final int width = 40;
+            final int height = 15;
+            
+            Image tmp = new Image(fColorButton.getDisplay(), width, height);
+            GC gc = new GC(tmp);
+            
             gc.setBackground(fDoShowColorImage ? new Color(fColorValue) : new Color(255, 255, 255));
             gc.fillRectangle(0, 0, width - 1, height - 1);
             gc.drawRectangle(0, 0, width - 1, height - 1);
+            
             if(!fDoShowColorImage) {
                 gc.drawLine(0, 1, width - 1, height - 2);
             }
-        };
+            
+            gc.dispose();
+            
+            ImageData imageData = tmp.getImageData(zoom);
+            tmp.dispose();
+            return imageData;
+        });
         
-        Image image = new Image(Display.getCurrent(), gcDrawer, 40, 15);
-        
-        // Get previous button's image *first* so we can dispose it *after* setting a new image
+        // Get previous button's image *first* so we can dispose it *after* setting image
         Image oldImage = fColorButton.getImage();
 
-        // Set new image (this is needed on Linux)
+        // Replace with autoscaled image (this is needed on Linux)
         fColorButton.setImage(image);
 
         if(oldImage != null) {

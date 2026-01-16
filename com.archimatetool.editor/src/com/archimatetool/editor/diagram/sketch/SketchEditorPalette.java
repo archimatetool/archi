@@ -15,9 +15,9 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageGcDrawer;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
@@ -141,13 +141,14 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         ImageDescriptor id = new ImageDescriptor() {
             @Override
             public ImageData getImageData(int zoom) {
-                ImageGcDrawer gcDrawer = (gc, width, height) -> {
-                    gc.setBackground(new Color(r, g, b));
-                    gc.fillRectangle(0, 0, 15, 15);
-                    gc.drawRectangle(0, 0, 15, 15);
-                };
+                Image image = new Image(Display.getDefault(), 16, 16);
                 
-                Image image = new Image(Display.getCurrent(), gcDrawer, 16, 16);
+                GC gc = new GC(image);
+                gc.setBackground(new Color(r, g, b));
+                gc.fillRectangle(0, 0, 15, 15);
+                gc.drawRectangle(0, 0, 15, 15);
+                gc.dispose();
+                
                 ImageData id = image.getImageData(zoom);
                 image.dispose();
                 
