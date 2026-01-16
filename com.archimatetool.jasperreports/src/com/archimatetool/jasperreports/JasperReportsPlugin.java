@@ -41,13 +41,35 @@ public class JasperReportsPlugin extends AbstractUIPlugin {
     public JasperReportsPlugin() {
         instance = this;
     }
-
+    
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
         
         // Create user templates folder
         getUserTemplatesFolder().mkdirs();
+        
+        // Temp font files
+        deleteTempFontFiles();
+    }
+    
+    /**
+     * Delete Jasper temp font files that may have been left over from last time.
+     * We can't delete them on exit because they are locked at that point.
+     * See https://github.com/TIBCOSoftware/jasperreports/issues/505
+     */
+    static void deleteTempFontFiles() {
+        File tempFolder = new File(System.getProperty("java.io.tmpdir"));
+        
+        File[] tempFiles = tempFolder.listFiles((dir, name) -> {
+            return name.startsWith("jr-font") && name.endsWith(".ttf");
+        });
+        
+        if(tempFiles != null) {
+            for(File f : tempFiles) {
+                f.delete();
+            }
+        }
     }
     
     /**
