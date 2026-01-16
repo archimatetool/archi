@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractLabelFigure;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.ISketchModelActor;
 
@@ -30,6 +31,9 @@ public class SketchActorFigure extends AbstractLabelFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.setAlpha(getAlpha());
         
         graphics.setForegroundColor(getFillColor());

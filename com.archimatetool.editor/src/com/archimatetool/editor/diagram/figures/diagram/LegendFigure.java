@@ -13,6 +13,7 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.model.IDiagramModelNote;
 
 
@@ -73,6 +74,9 @@ public class LegendFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.setAntialias(SWT.ON);
         
         // Rectangle

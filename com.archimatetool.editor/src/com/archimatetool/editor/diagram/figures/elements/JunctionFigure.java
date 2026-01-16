@@ -15,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IJunction;
 
@@ -32,6 +33,9 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
 
     @Override
     public void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.pushState();
         
         graphics.setAntialias(SWT.ON);

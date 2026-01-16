@@ -20,7 +20,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.diagram.figures.IFigureCallback;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -248,8 +250,22 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         showTargetFeedback = show;
     }
 
+    /**
+     * If graphics is an instance of IFigureCallback notify of event
+     * @param graphics The graphics instance
+     * @param event the FigureEvent
+     */
+    protected void notifyCallback(Graphics graphics, FigureEvent event) {
+        if(graphics instanceof IFigureCallback callback) {
+            callback.onFigureEvent(this, event);
+        }
+    }
+    
     @Override
     public void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+
         if(showTargetFeedback || (isSelected && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_SELECTED_CONNECTIONS))) {
             setLineWidth(getModelConnection().getLineWidth() + 1);
             setForegroundColor(highlightedColor);

@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -141,6 +142,17 @@ implements IDiagramModelObjectFigure {
     protected void drawFigure(Graphics graphics) {
         if(getFigureDelegate() != null) {
             getFigureDelegate().drawFigure(graphics);
+        }
+    }
+    
+    /**
+     * If graphics is an instance of IFigureCallback notify of event
+     * @param graphics The graphics instance
+     * @param event the FigureEvent
+     */
+    protected void notifyCallback(Graphics graphics, FigureEvent event) {
+        if(graphics instanceof IFigureCallback callback) {
+            callback.onFigureEvent(this, event);
         }
     }
     

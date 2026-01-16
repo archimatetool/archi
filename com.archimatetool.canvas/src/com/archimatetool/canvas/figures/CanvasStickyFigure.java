@@ -23,6 +23,7 @@ import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -106,6 +107,9 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
 
     @Override
     protected void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.pushState();
         
         graphics.setAntialias(SWT.ON);

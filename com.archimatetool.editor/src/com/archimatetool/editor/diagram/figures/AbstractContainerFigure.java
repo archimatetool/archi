@@ -15,6 +15,7 @@ import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -94,6 +95,9 @@ implements IContainerFigure {
 
     @Override
     protected void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.setAntialias(SWT.ON);
         drawFigure(graphics);
         if(showTargetFeedback) {

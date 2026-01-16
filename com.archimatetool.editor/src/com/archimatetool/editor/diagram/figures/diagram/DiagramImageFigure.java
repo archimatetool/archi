@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.IFigureCallback.FigureEvent;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -71,6 +72,9 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        // Notify callback
+        notifyCallback(graphics, FigureEvent.BEFORE_PAINT);
+        
         graphics.pushState();
         
         graphics.setAntialias(SWT.ON);
