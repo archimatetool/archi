@@ -306,28 +306,6 @@ public class ScaledGraphics extends Graphics {
         graphics.drawFocus(zoomRect(x, y, w, h));
     }
 
-    /**
-     * Draws the full source image into a specified rectangular area in the
-     * receiver. The image will be stretched or shrunk as needed to exactly fit the
-     * destination rectangle.
-     * 
-     * Added by Phillipus
-     * Implementation by Andreas Koch and Heiko Klare at the GEF project
-     *
-     * @param image      the source image
-     * @param destX      the x coordinate in the destination
-     * @param destY      the y coordinate in the destination
-     * @param destWidth  the width in points of the destination rectangle
-     * @param destHeight the height in points of the destination rectangle
-     * @since 5.8.0
-     */
-    @Override
-    public void drawImage(Image srcImage, int destX, int destY, int destWidth, int destHeight) {
-        graphics.drawImage(srcImage, (int) (Math.floor((destX * zoom + fractionalX))),
-                (int) (Math.floor((destY * zoom + fractionalY))), (int) (Math.floor((destWidth * zoom + fractionalX))),
-                (int) (Math.floor((destHeight * zoom + fractionalY))));
-    }
-    
     /** @see Graphics#drawImage(Image, int, int) */
     @Override
     public void drawImage(Image srcImage, int x, int y) {

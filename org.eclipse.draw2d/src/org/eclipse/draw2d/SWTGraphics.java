@@ -421,27 +421,6 @@ public class SWTGraphics extends Graphics {
     }
 
     /**
-     * Draws the full source image into a specified rectangular area in the
-     * receiver. The image will be stretched or shrunk as needed to exactly fit the
-     * destination rectangle.
-     * 
-     * Added by Phillipus
-     * Implementation by Patrick Ziegler at the GEF project
-     *
-     * @param image      the source image
-     * @param destX      the x coordinate in the destination
-     * @param destY      the y coordinate in the destination
-     * @param destWidth  the width in points of the destination rectangle
-     * @param destHeight the height in points of the destination rectangle
-     * @since 5.8.0
-     */
-    @Override
-    public void drawImage(Image image, int destX, int destY, int destWidth, int destHeight) {
-        checkGC();
-        gc.drawImage(image, destX + translateX, destY + translateY, destWidth, destHeight);
-    }
-
-    /**
      * @see Graphics#drawImage(Image, int, int)
      */
     @Override
