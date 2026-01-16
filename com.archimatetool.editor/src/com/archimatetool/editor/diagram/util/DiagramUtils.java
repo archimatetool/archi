@@ -16,6 +16,7 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -74,6 +75,13 @@ public final class DiagramUtils {
         
         RootEditPart rootPart = new FreeformGraphicalRootEditPart();
         viewer.setRootEditPart(rootPart);
+        
+        // Apply background color
+        // Get this from IDiagramModel and if not null...
+        LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        rootFigure.setOpaque(true);
+        rootFigure.setBackgroundColor(new Color(123, 123, 200));
         
         viewer.setContents(model);
         viewer.flush();
@@ -157,6 +165,9 @@ public final class DiagramUtils {
         else {
             bounds.expand(margin / scale, margin / scale);
         }
+        
+        // Set the root figure's bounds as well so it is centred with the margin
+        figure.setBounds(bounds);
         
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale) );
         GC gc = new GC(image);

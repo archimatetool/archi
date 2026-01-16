@@ -5,10 +5,14 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.print.PrintGraphicalViewerOperation;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
@@ -63,6 +67,12 @@ public class PrintDiagramAction extends WorkbenchPartAction {
                 tempShell = new Shell();
                 GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
                 printer = new Printer(data);
+                
+                // For some reason the background color only prints on the Primary Layer
+                LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
+                IFigure primaryLayer = layerManager.getLayer(LayerConstants.PRIMARY_LAYER);
+                primaryLayer.setOpaque(true);
+                primaryLayer.setBackgroundColor(new Color(123, 123, 200));
                 
                 PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(printer, viewer);
                 op.setPrintMode(printMode);

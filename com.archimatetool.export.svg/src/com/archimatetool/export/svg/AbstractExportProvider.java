@@ -147,9 +147,11 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         Rectangle rect = DiagramUtils.getMinimumBounds(figure);
         if(rect == null) {
             rect = new Rectangle(0, 0, 100, 100); // At least a minimum for a blank image
+            figure.setBounds(rect); // Figure needs to be set as well if background color set
         }
         else {
             rect.expand(10, 10); // margins
+            figure.getBounds().expand(10, 10); // Figure needs to expand as well if background color set
         }
         return rect;
     }
