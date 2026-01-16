@@ -205,7 +205,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
     }
     
     private boolean isImagePath(String path) {
-        Set<String> extensions = Set.of(".png", ".bmp", ".gif", ".jpg", ".jpeg", ".tif", ".tiff", ".ico", ".svg");
+        Set<String> extensions = Set.of(".png", ".bmp", ".gif", ".jpg", ".jpeg", ".tif", ".tiff", ".ico");
         return extensions.stream()
                          .anyMatch(path.toLowerCase()::endsWith);
     }
