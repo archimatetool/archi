@@ -5,6 +5,12 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+
+import com.archimatetool.editor.ui.components.DuplicateNameHandler;
 import com.archimatetool.model.IArchimateConcept;
 
 
@@ -32,8 +38,36 @@ public class ArchimateConceptSection extends AbstractNameDocumentationSection {
     }
     
     @Override
+    protected void createControls(Composite parent) {
+        super.createControls(parent);
+        
+        // Add a DuplicateNameHandler on focus gained in name control
+        fTextName.getTextControl().addFocusListener(new FocusListener() {
+            private DuplicateNameHandler duplicateNameHandler;
+            
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(duplicateNameHandler != null) {
+                    duplicateNameHandler.dispose();
+                }
+                
+                if(isAlive(getFirstSelectedObject()) && getFirstSelectedObject() instanceof IArchimateConcept concept) {
+                    duplicateNameHandler = new DuplicateNameHandler((Text)fTextName.getTextControl(), concept);
+                }
+            }
+            
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(duplicateNameHandler != null) {
+                    duplicateNameHandler.dispose();
+                    duplicateNameHandler = null;
+                }
+            }
+        });
+    }
+    
+    @Override
     protected IObjectFilter getFilter() {
         return new Filter();
     }
-
 }

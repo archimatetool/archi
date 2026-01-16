@@ -153,6 +153,8 @@ implements IPreferenceConstants {
         // Hints Browser
         store.setDefault(HINTS_BROWSER_JS_ENABLED, false);
         store.setDefault(HINTS_BROWSER_EXTERNAL_HOSTS_ENABLED, false);
+        
+        store.setDefault(SHOW_DUPLICATE_NAME_WARNING, true);
 
         // ======================================= Network / Proxy =======================================
         

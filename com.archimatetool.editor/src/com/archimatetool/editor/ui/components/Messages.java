@@ -17,6 +17,8 @@ public class Messages extends NLS {
 
     public static String ColorChooser_2;
 
+    public static String DuplicateNameHandler_0;
+
     public static String FontChooser_0;
 
     public static String FontChooser_1;
