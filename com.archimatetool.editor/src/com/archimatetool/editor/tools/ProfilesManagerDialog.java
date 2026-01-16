@@ -425,13 +425,15 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                     e.gc.setAntialias(SWT.ON);
                     e.gc.setInterpolation(SWT.HIGH);
                     
+                    Rectangle imageBounds = fPreviewImage.getBounds();
                     Rectangle newSize = ImageFactory.getScaledImageSize(fPreviewImage, IMAGE_SIZE);
                     
                     // Centre the image
                     int x = (IMAGE_SIZE - newSize.width) / 2;
                     int y = (IMAGE_SIZE - newSize.height) / 2;
                     
-                    e.gc.drawImage(fPreviewImage, x, y, newSize.width, newSize.height);
+                    e.gc.drawImage(fPreviewImage, 0, 0, imageBounds.width, imageBounds.height,
+                            x, y, newSize.width, newSize.height);
                 }
             }
         });
