@@ -50,9 +50,9 @@ extends WorkbenchAdvisor
         PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_MEMORY_MONITOR,
                 "true".equals(System.getProperty("showheap")));
         
-        // Edge or IE Browser on Windows - default is Edge so set to IE if preference is not Edge
-        if(PlatformUtils.isWindows() && !ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.EDGE_BROWSER)) {
-            System.setProperty("org.eclipse.swt.browser.DefaultType", "ie");
+        // Edge or IE Browser on Windows
+        if(PlatformUtils.isWindows() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.EDGE_BROWSER)) {
+            System.setProperty("org.eclipse.swt.browser.DefaultType", "edge");
         }
         
         // Show Help Button by default on Dialogs
