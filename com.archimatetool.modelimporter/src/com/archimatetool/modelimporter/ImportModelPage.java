@@ -165,7 +165,7 @@ public class ImportModelPage extends WizardPage implements IPreferenceConstants 
     
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setFilterExtensions("*.archimate", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*.archimate", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         dialog.setFileName(getFileName());
         
         String path = dialog.open();

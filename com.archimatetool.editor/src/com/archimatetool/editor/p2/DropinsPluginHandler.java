@@ -400,7 +400,7 @@ public class DropinsPluginHandler {
 
     private List<File> askOpenFiles() {
         FileDialog dialog = new FileDialog(shell, SWT.OPEN | SWT.MULTI);
-        dialog.setFilterExtensions("*.archiplugin", "*.zip", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        dialog.setFilterExtensions(new String[] { "*.archiplugin", "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         
         List<File> files = new ArrayList<>();

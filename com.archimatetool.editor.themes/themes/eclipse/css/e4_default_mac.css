@@ -13,204 +13,93 @@
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
  *     Patrik Suzzi <psuzzi@gmail.com> - Bug 497591, 501250, 512385
  *     Ingo Mohr <tellastory73@gmail.com> - Bug 566842
- *     SAP SE - light theme improvements
  *******************************************************************************/
 
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(255, 255, 255);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(255, 255, 255);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(255, 255, 255);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(255, 255, 255);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #eaeaea;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-	color: #eaeaea;
+	color: rgb(230, 230, 230);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(230, 230, 230);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #eaeaea;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
-	color: #eaeaea;
+	color: rgb(255, 255, 255);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: rgb(240, 240, 240);
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
-	color: #000000;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_TEXT_COLOR {
-	color: #000000;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR {
-	color: #000000;
+	color: rgb(255, 255, 255);
 }
 
 .MTrimmedWindow {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
+	background-color: rgb(255, 255, 255);
 }
 
 .MTrimBar {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
+	background-color: rgb(255, 255, 255);
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
+	background-color: rgb(255, 255, 255);
 }
 
-CTabFolder Canvas {
-	  background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
- 
-.MTrimBar#org-eclipse-ui-trim-status {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View Composite,
-.View Composite Label,
-.View ToolBar,
-.View Group,
-.View Group Label,
-.View Section,
-.View BusyIndicator,
-.View Text[style~='SWT.READ_ONLY'],
-.View SashForm,
-.View OleFrame,
-.View Browser,
-.View WebSite,
-.View StyledText[style~='SWT.READ_ONLY'],
-.View Link,
-.View FormText,
-.View Hyperlink,
-.View Canvas,
-.View FigureCanvas
-{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
+.MPartStack {
+	swt-simple: false;
+	swt-unselected-tabs-color: rgb(255, 255, 255);
+	swt-outer-keyline-color: rgb(230, 230, 230);
+	swt-inner-keyline-color: rgb(200, 200, 200);
+	swt-tab-outline: rgb(230, 230, 230);
 }
 
-.View TitleRegion{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.MPartStack.active .View TitleRegion{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View Button[style~='SWT.CHECK']{
-	background-color: inherit;
-}
-
-.View Toolbar ToolItem{
-	background-color: #eaeaea;
-}
-
-.View TabbedPropertyList{
-	swt-tabBackground-color: #ffffff;
-}
-
-
-.View Composite Tree[swt-lines-visible=false]{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View Composite PrependingAsteriskFilteredTree,
-.View PrependingAsteriskFilteredTree Text,
-.View Group Text,
-.View Group Combo,
-.View Composite Text,
-.View Button[style~='SWT.PUSH']{
-	background-color: #ffffff;
-}
-
-.MPartStack{
-	swt-selected-tab-highlight: #8a8a8a;
-	swt-selected-highlight-top: false;
+.MPartStack.active > Composite {
+	swt-selected-tab-fill: '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END' 100% 5%;
+	background-color:  rgb(255, 255, 255);
 }
 
 .MPartStack.active {
-	swt-selected-tab-highlight: #5983c5;
-	swt-selected-highlight-top: false;
+	swt-tab-outline: rgb(180, 180, 180);
+	swt-outer-keyline-color: rgb(180, 180, 180);
 }
 
-/* text color of unselected tabs in editor*/
-#org-eclipse-ui-editorss CTabItem{
-	color: #000000;
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
+CTabFolder.MArea {
+	background-color: rgb(255, 255, 255);
+	swt-selected-tab-fill: rgb(255, 255, 255);
+	swt-unselected-tabs-color: rgb(255, 255, 255);
+	swt-outer-keyline-color: rgb(230, 230, 230);
+	swt-inner-keyline-color: rgb(230, 230, 230);
+	swt-tab-outline: rgb(230, 230, 230);
 }
 
-/*text color and background color of selected tab in editor */
-#org-eclipse-ui-editorss CTabItem:selected{
-	color: #000000;
-	background-color: #ffffff;
+CTabFolder {
+  swt-selected-tabs-background: rgb(255, 255, 255);
 }
 
-#org-eclipse-ui-editorss CTabFolder{
-	swt-selected-tab-fill : #ffffff;
-	swt-selected-tab-highlight: #8a8a8a;
-	swt-selected-highlight-top: true;	
-	swt-tab-outline:#eaeaea; 
-	swt-tab-outer-keyline: #eaeaea;
-	swt-draw-custom-tab-content-background: true;
-	swt-unselected-hot-tab-color-background:#ffffff;
+CTabFolder CTabItem:selected {
+  background-color: rgb(230, 230, 230);
 }
 
-#org-eclipse-ui-editorss CTabFolder.active {
-	swt-selected-tab-highlight: #5983c5;
-	swt-selected-highlight-top: true;
-}
-
-#org-eclipse-e4-ui-compatibility-editor Composite{
-	background-color: #ffffff;
-}
-
-Composite.MPartSashContainer{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-Composite.MArea{
-	background-color: #ffffff;
-}
-
-.MPart CTabFolder{
-	swt-outer-keyline-color: #ffffff;
+CTabFolder Canvas {
+  background-color: rgb(255, 255, 255);
 }

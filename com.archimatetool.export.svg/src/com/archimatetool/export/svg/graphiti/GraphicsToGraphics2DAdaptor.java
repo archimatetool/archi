@@ -37,7 +37,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.TextUtilities;
@@ -1059,17 +1058,10 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             // https://github.com/eclipse/gmf-runtime/blob/master/org.eclipse.gmf.runtime.draw2d.ui.render.awt/src/org/eclipse/gmf/runtime/draw2d/ui/render/awt/internal/graphics/GraphicsToGraphics2DAdaptor.java
             // https://github.com/eclipse/gmf-runtime/commit/2d71b27e2d536c459ae115f92f2b9a5790454078#diff-6472b34090ce6cb354ce805448d72e932824883ce9dcecf658bc2515d4a2cae4
             
-            // Since Eclipse 4.38 we should not use Display.getCurrent().getDPI()
-            // float fsize = height * (float) Display.getCurrent().getDPI().x / 72.0f;
-            
-            // On Windows/Linux use 96 for DPI. Mac is 72 DPI anyway
-            if(!Platform.getOS().equals(Platform.OS_MACOSX)) {
-                float fsize = height * 96.0f / 72.0f;
-                
-                // Round down instead of up. Font will be 1 point smaller.
-                //height = Math.round(fsize);
-                height = (int)fsize;
-            }
+            float fsize = height * (float) Display.getCurrent().getDPI().x / 72.0f;
+            // Round down instead of up. Font will be 1 point smaller.
+            //height = Math.round(fsize);
+            height = (int)fsize;
 
             // workaround for some fonts clipping - reduce font height
             if(useTextOffsetWorkaround) {

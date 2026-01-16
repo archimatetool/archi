@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -68,11 +67,6 @@ public class ArchiveManager implements IArchiveManager {
      * Images are loaded
      */
     private boolean fImagesLoaded = false;
-    
-    /**
-     * Temporary SVG image files used on Mac/Linux for SVG images
-     */
-    private SVGImageHelper svgImageHelper;
     
     /**
      * @param model The owning model
@@ -124,19 +118,6 @@ public class ArchiveManager implements IArchiveManager {
     @Override
     public Image createImage(String imagePath) throws Exception {
         if(imagePath != null && byteArrayStorage.hasEntry(imagePath)) {
-            
-            // A scaled SVG image is rendered correctly only on Windows using Image(Display, InputStream)
-            // So if on Mac/Linux create a temporary image file and load it using an ImageFileNameProvider 
-            if(!PlatformUtils.isWindows() && imagePath.toLowerCase().endsWith(".svg")) {
-                if(svgImageHelper == null) {
-                    svgImageHelper = new SVGImageHelper();
-                }
-                Image image = svgImageHelper.createImage(imagePath, getBytesFromEntry(imagePath));
-                if(image != null) {
-                    return image;
-                }
-            }
-            
             return new Image(Display.getCurrent(), byteArrayStorage.getInputStream(imagePath));
         }
         
@@ -512,11 +493,6 @@ public class ArchiveManager implements IArchiveManager {
         if(byteArrayStorage != null) {
             byteArrayStorage.dispose();
             byteArrayStorage = null;
-        }
-
-        if(svgImageHelper != null) {
-            svgImageHelper.dispose();
-            svgImageHelper = null;
         }
 
         fModel = null;

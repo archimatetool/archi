@@ -66,7 +66,7 @@ public class CSVImportHandler extends AbstractHandler {
      */
     private File askOpenFile(IWorkbenchWindow window) {
         FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
-        dialog.setFilterExtensions("*.csv", "*.txt", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        dialog.setFilterExtensions(new String[] { "*.csv", "*.txt", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String path = dialog.open();
         return path != null ? new File(path) : null;
     }

@@ -92,8 +92,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         if(fImage != null) {
-            // Draw the image with checks ensuring minimum width and height
-            graphics.drawImage(fImage, rect.x, rect.y, Math.max(0, rect.width), Math.max(0, rect.height));
+            // Safety width and height checks
+            int w1 = Math.max(0, fImage.getBounds().width);
+            int h1 = Math.max(0, fImage.getBounds().height);
+            int w2 = Math.max(0, rect.width);
+            int h2 = Math.max(0, rect.height);
+            graphics.drawImage(fImage, 0, 0, w1, h1, rect.x, rect.y, w2, h2);
         }
         else {
             graphics.setBackgroundColor(ColorConstants.white);

@@ -11,7 +11,6 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
- *     SAP SE - light theme improvements
  *******************************************************************************/
 
 
@@ -31,7 +30,7 @@
 	padding: 0px;
 	color: '#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR';
 	swt-draw-custom-tab-content-background: true;
-	swt-unselected-hot-tab-color-background:#EAEAEA;
+	swt-unselected-hot-tab-color-background:'#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START';
 }
 
 .MPartStack.active {
@@ -57,12 +56,12 @@ CTabFolder.MArea {
 }
 
 CTabFolder {
-	swt-selected-tab-highlight: none;
+    swt-selected-tab-highlight: none;
 }
 
 CTabFolder.active {
-	swt-selected-tab-highlight: rgb(103,145,230);
-	swt-selected-highlight-top: false;
+    swt-selected-tab-highlight: rgb(103,145,230);
+    swt-selected-highlight-top: false;
 }
 
 .MPartStack.active.noFocus > CTabItem:selected {

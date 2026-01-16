@@ -27,6 +27,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -66,6 +67,15 @@ public class ImageFactory {
         // Else return device zoom
         // Else 100
         return scaleImages ? (deviceZoom == 100) ? 200 : deviceZoom : 100;
+    }
+    
+    /**
+     * @return The zoom level for creating cursors.
+     * Windows uses the device zoom
+     * Mac and Linux uses 100
+     */
+    public static int getCursorDeviceZoom() {
+        return PlatformUtils.isWindows() ? getDeviceZoom() : 100;
     }
     
     /**
@@ -324,7 +334,7 @@ public class ImageFactory {
             gc.fillRectangle(0, 0, width, height);
         }
         
-        gc.drawImage(source, 0, 0, width, height);
+        gc.drawImage(source, 0, 0, source.getBounds().width, source.getBounds().height, 0, 0, width, height);
         gc.dispose();
         
         return image;
@@ -405,7 +415,8 @@ public class ImageFactory {
         transform.translate(0, -bounds.height);
         gc.setTransform(transform);
         
-        gc.drawImage(source, 0, 0, bounds.width, bounds.height);
+        gc.drawImage(source, 0, 0, bounds.width, bounds.height,
+                0, 0, bounds.width, bounds.height);
         
         gc.dispose();
         transform.dispose();

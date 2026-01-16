@@ -40,6 +40,7 @@ import com.archimatetool.editor.diagram.figures.IContainerFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateConcept;
@@ -61,10 +62,13 @@ import com.archimatetool.model.viewpoints.ViewpointManager;
  */
 public class MagicConnectionCreationTool extends ConnectionCreationTool {
     
-    private static Cursor cursor = new Cursor(null,
-            zoom -> IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(zoom),
-            0, 0);
+    private static Cursor cursor = new Cursor(
+            null,
+            IArchiImages.ImageFactory.getImage(IArchiImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(ImageFactory.getCursorDeviceZoom()),
+            0,
+            0);
 
+    
     /**
      * Flag to update Factory elements when hovering on relationship menu items
      * This is to ensure that when the user presses escape the menu selection is cancelled

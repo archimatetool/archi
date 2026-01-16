@@ -395,7 +395,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         getShell().setVisible(false);
 
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setFilterExtensions("*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico;*.svg", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             fSelectedFile = new File(path);

@@ -141,14 +141,15 @@ public class IconSection extends ImageChooserSection {
                     e.gc.setAntialias(SWT.ON);
                     e.gc.setInterpolation(SWT.HIGH);
                     
+                    Rectangle imageBounds = fImage.getBounds();
                     Rectangle newSize = ImageFactory.getScaledImageSize(fImage, IMAGE_SIZE);
                     
                     // Centre the image
                     int x = (IMAGE_SIZE - newSize.width) / 2;
                     int y = (IMAGE_SIZE - newSize.height) / 2;
                     
-                    e.gc.drawImage(fImage, x, y, newSize.width, newSize.height);
-                }
+                    e.gc.drawImage(fImage, 0, 0, imageBounds.width, imageBounds.height,
+                            x, y, newSize.width, newSize.height);                }
             }
         });
         

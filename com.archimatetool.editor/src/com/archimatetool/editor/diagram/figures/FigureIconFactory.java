@@ -11,9 +11,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageGcDrawer;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -64,21 +64,25 @@ public class FigureIconFactory {
             
             @Override
             public ImageData getImageData(int zoom) {
-                ImageGcDrawer gcDrawer = (gc, width, height) -> {
-                    gc.setBackground(transparentColor);
-                    gc.fillRectangle(0, 0, 16, 16);
-                    
-                    SWTGraphics graphics = new SWTGraphics(gc);
-                    drawIcon(eClass, graphics, foregroundColor, backgroundColor, pt);
-                    graphics.dispose();
-                };
-                
                 // Blank icon image for background and size
-                Image img = new Image(Display.getCurrent(), gcDrawer, 16, 16);
+                Image img = new Image(Display.getCurrent(), 16, 16);
+
+                GC gc = new GC(img);
+
+                // Set background to this color so we can make it transparent
+                gc.setBackground(transparentColor);
+                gc.fillRectangle(0, 0, 16, 16);
+
+                SWTGraphics graphics = new SWTGraphics(gc);
+
+                drawIcon(eClass, graphics, foregroundColor, backgroundColor, pt);
+
+                graphics.dispose();
+                gc.dispose();
 
                 ImageData data = img.getImageData(zoom);
 
-                // Set transparent pixel to background color on *this* ImageData 
+                // Set transparent pixel to background color
                 data.transparentPixel = data.palette.getPixel(transparentColor.getRGB());
 
                 img.dispose();

@@ -51,10 +51,9 @@ package com.archimatetool.model;
  *       - Add images to IDiagramModelArchimateObject
  *       - Refactor IDiagramModelImageProvider, IIconic and more...
  * 5.0.0 - ArchiMate 3.2
- * 5.8.0 - Legends and Eclipse SVG support. If a model with an SVG file is opened in a previous version and saved the SVG file will be deleted.
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "5.8.0"; //$NON-NLS-1$
+    String VERSION = "5.0.0"; //$NON-NLS-1$
 }

@@ -35,10 +35,10 @@ Form {
 
 Section {
 	background-color: #ffffff;
-	color: #505050;
-	background-color-titlebar: #eaeaea;
-	background-color-gradient-titlebar: #eaeaea;
-	border-color-titlebar: #ffffff;
+  	color: #505050;
+  	background-color-titlebar: #eaeaea;
+  	background-color-gradient-titlebar: #eaeaea;
+  	border-color-titlebar: #ffffff;
 }
 
 TabbedPropertyTitle > CLabel{

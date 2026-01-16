@@ -249,7 +249,7 @@ public class IconicDelegate {
             x = figureBounds.x - (newWidth / 2) + (figureBounds.width / 2);
             y = figureBounds.y - (newHeight / 2) + (figureBounds.height / 2);
             
-            drawImage(graphics, x, y, newWidth, newHeight);
+            drawImage(imageBounds, graphics, x, y, newWidth, newHeight);
         }
         // Full image size
         else if(fMaxImageSize == MAX_IMAGESIZE) {
@@ -257,7 +257,7 @@ public class IconicDelegate {
         }
         // Scaled image size
         else {
-            drawImage(graphics, x, y, width, height);
+            drawImage(imageBounds, graphics, x, y, width, height);
         }
         
         graphics.popState();
@@ -266,8 +266,14 @@ public class IconicDelegate {
     /**
      * Draw the image with checks ensuring minimum width and height
      */
-    private void drawImage(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawImage(fImage, x, y, Math.max(0, width), Math.max(0, height));
+    private void drawImage(Rectangle imageBounds, Graphics graphics, int x, int y, int width, int height) {
+        // Safety width and height checks
+        int w1 = Math.max(0, imageBounds.width);
+        int h1 = Math.max(0, imageBounds.height);
+        int w2 = Math.max(0, width);
+        int h2 = Math.max(0, height);
+        
+        graphics.drawImage(fImage, 0, 0, w1, h1, x, y, w2, h2);
     }
     
     /**

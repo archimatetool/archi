@@ -14,26 +14,3 @@ CTabFolder.active {
     swt-selected-tab-highlight: rgb(55, 124, 247);
     swt-selected-highlight-top: true;
 }
-
-.MPartStack{
-    /* Highlight at the top on View Parts */
-    swt-selected-highlight-top: true;
-}
-
-.MPartStack.active {
-    /* A nicer blue highlight on View Parts */
-    swt-selected-tab-highlight: rgb(55, 124, 247);
-    
-    /* Highlight at the top on View Parts */
-    swt-selected-highlight-top: true;
-}
-
-#org-eclipse-ui-editorss CTabFolder.active {
-    /* A nicer blue highlight on Editor Parts */
-    swt-selected-tab-highlight: rgb(55, 124, 247);
-}
-
-/* If we want to not have a #f8f8f8 secondary color */
-ColorDefinition#org-eclipse-ui-workbench-SECONDARY_BACKGROUND {
-    color: #FFFFFF;
-}

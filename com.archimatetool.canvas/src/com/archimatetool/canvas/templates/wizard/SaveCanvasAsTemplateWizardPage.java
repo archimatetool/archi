@@ -251,7 +251,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         // On Mac, the extension is appended to the file name again. This is because it's not a registered extension like *.png or *.xml
         // Not setting filter extensions avoids this.
         if(!PlatformUtils.isMac()) {
-            dialog.setFilterExtensions("*" + fTemplateManager.getTemplateFileExtension(), "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+            dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         File file = new File(fFileTextField.getText());

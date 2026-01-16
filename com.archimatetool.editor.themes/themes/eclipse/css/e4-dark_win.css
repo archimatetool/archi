@@ -23,22 +23,22 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark-drag-styling.css");
 
 CTabFolder Canvas {
-	background-color: #2F2F2F;
-	color: #CCC;
+    background-color: #2F2F2F;
+    color: #CCC;
 }
 
 CTabFolder Scale {
-	background-color: inherit;
+    background-color: inherit;
 }
 
 .MPartStack.active CTabFolder Canvas {
-	background-color: #262626;
-	color: #CCC;
+    background-color: #262626;
+    color: #CCC;
 }
 
 .MPartStack.active Table {
-	background-color: #2F2F2F;
-	color: #CCC;
+    background-color: #2F2F2F;
+    color: #CCC;
 }
 
 Tree, Table {
@@ -53,7 +53,7 @@ ImageBasedFrame,
 #org-eclipse-ui-StatusLine CLabel,
 #org-eclipse-ui-ProgressBar,
 #org-eclipse-ui-ProgressBar Canvas {
-	color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
+     color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
 }
 
 
@@ -102,8 +102,8 @@ ImageBasedFrame,
 .MPartStack.active .MPart Form ListEditorComposite,
 .MPartStack.active .MPart Form Text[style~='SWT.READ_ONLY'],
 .MPartStack.active .MPart Form DependenciesComposite > SashForm > Section > * { /* Section > DependenciesComposite$... */ 
-	background-color: #4f5355;
-	color: #f4f7f7;
+    background-color: #4f5355;
+    color: #f4f7f7;
 }
 #org-eclipse-help-ui-HelpView Form,
 #org-eclipse-help-ui-HelpView Form Sash,
@@ -114,8 +114,8 @@ ImageBasedFrame,
 #org-eclipse-help-ui-HelpView Form Group,
 #org-eclipse-help-ui-HelpView Form ScrolledPageBook,
 #org-eclipse-help-ui-HelpView Form Text[style~='SWT.READ_ONLY'] {
-	background-color: #2F2F2F;
-	color: #CCCCCC;
+    background-color: #2F2F2F;
+    color: #CCCCCC;
 }
 .MPartStack.active #org-eclipse-help-ui-HelpView Form,
 .MPartStack.active #org-eclipse-help-ui-HelpView Form Sash,
@@ -126,69 +126,12 @@ ImageBasedFrame,
 .MPartStack.active #org-eclipse-help-ui-HelpView Form Group,
 .MPartStack.active #org-eclipse-help-ui-HelpView Form ScrolledPageBook,
 .MPartStack.active #org-eclipse-help-ui-HelpView Form Text[style~='SWT.READ_ONLY'] {
-	background-color: #262626;
-	color: #BBBBBB;
+    background-color: #262626;
+    color: #BBBBBB;
 }
 .MPart Form Section Tree,
 .MPartStack.active .MPart Form Section Tree {
-	background-color: #313538;
-	color: #DDDDDD;
+    background-color: #313538;
+    color: #DDDDDD;
 }
 
-/* Inactive view tabs  */
-.MPartStack{
-	swt-selected-tab-highlight: #a6a6a6;
-    swt-selected-highlight-top: false;
-    swt-draw-custom-tab-content-background: true;
-	swt-unselected-hot-tab-color-background: #161616;
-}
-
-.MPartStack.active {
-    swt-selected-tab-highlight: #2b79d7;
-    swt-selected-highlight-top: false;
-}
-
-.MPartStack CTabFolder[style~='SWT.DOWN'][style~='SWT.BOTTOM'] {
-    /* Set the styles for the bottom inner tabs (Bug 430051): */
-    swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-    swt-unselected-hot-tab-color-background: #161616;/*  Bug 465711 */
-    swt-selected-tab-highlight: #a6a6a6;
-    swt-selected-highlight-top: true;
-}
-.MPartStack.active CTabFolder[style~='SWT.DOWN'][style~='SWT.BOTTOM'] {
-    /* Set the styles for the bottom inner tabs (Bug 430051): */
-    swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-    swt-unselected-hot-tab-color-background: #161616;/*  Bug 465711 */
-    swt-selected-tab-highlight: #2b97d7;
-    swt-selected-highlight-top: true;
-}
-
-/*text color of selected tab in editor */
-#org-eclipse-ui-editorss CTabItem:selected{
-	color: '#FFFFFF';
-}
-
-#org-eclipse-ui-editorss CTabFolder{
- 	swt-selected-tab-fill : '#1E1F22';
-    swt-selected-highlight-top: true;
-    swt-draw-custom-tab-content-background: true;
-	swt-unselected-hot-tab-color-background:#161616;
-}
-
-#org-eclipse-ui-editorss CTabFolder.active {
-    swt-selected-tab-highlight: '#2b79d7';
-    swt-selected-highlight-top: true;
-} 
-
-.Editor Form Composite,
-.Editor Form Composite Tree,
-.MPartStack.active .Editor Form Composite Tree
-{
-	background-color: #1E1F22;
-}
-
-#org-eclipse-e4-ui-compatibility-editor Canvas,
-#org-eclipse-e4-ui-compatibility-editor Canvas > *
-{
-	background-color: #1E1F22;
-}

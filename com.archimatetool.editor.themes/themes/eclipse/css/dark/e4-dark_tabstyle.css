@@ -40,10 +40,11 @@ CTabFolder {
 CTabFolder[style~='SWT.DOWN'][style~='SWT.BOTTOM'] {
     /* Set the styles for the bottom inner tabs (Bug 430051): */
     swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-    swt-unselected-hot-tab-color-background: #161616;/*  Bug 465711 */
+    swt-unselected-hot-tab-color-background: #161616; /* Bug 465711 */
     swt-selected-tab-highlight: #316c9b;
     swt-selected-highlight-top: false;
 }
+
 
 CTabFolder.active {
     swt-selected-tab-highlight: #316c9b;

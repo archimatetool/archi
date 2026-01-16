@@ -46,7 +46,7 @@ implements IWorkbenchAction
     @Override
     public void run() {
         FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
-        dialog.setFilterExtensions(IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             final File file = new File(path);
