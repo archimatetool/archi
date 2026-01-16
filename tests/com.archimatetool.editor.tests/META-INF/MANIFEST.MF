@@ -10,7 +10,8 @@ Import-Package: com.archimatetool.tests,
  org.junit.jupiter.api.function;version="[5.10.0,6.0.0)",
  org.junit.jupiter.params;version="[5.10.0,6.0.0)",
  org.junit.jupiter.params.provider;version="[5.10.0,6.0.0)",
- org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
+ org.junit.platform.suite.api;version="[1.10.0,2.0.0)",
+ org.opentest4j;version="[1.3.0,2.0.0)"
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: .

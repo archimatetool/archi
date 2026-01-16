@@ -7,11 +7,13 @@ package com.archimatetool.editor.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Display;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.condition.OS;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -69,6 +72,9 @@ public class FontFactoryTests {
     
     @Test
     public void getViewFont() {
+        // If Windows DPI == 96, else OK on Mac and Linux
+        assumeTrue(!PlatformUtils.isWindows() || Display.getCurrent().getDPI().y == 96);
+        
         Font template = new Font(null, "Arial", 11, SWT.NORMAL);
         String fontDataString = template.getFontData()[0].toString();
         
@@ -76,12 +82,18 @@ public class FontFactoryTests {
         Font font = FontFactory.getViewFont(fontDataString);
         assertEquals(template.getFontData()[0], font.getFontData()[0]);
         
+        template.dispose();
+        font.dispose();
+    }
+    
+    @Test
+    public void getViewFont_Null() {
+        // If Windows DPI == 96, else OK on Mac and Linux
+        assumeTrue(!PlatformUtils.isWindows() || Display.getCurrent().getDPI().y == 96);
+        
         // If null, should return default view user font
         Font viewFont = FontFactory.getViewFont(null); // Don't dispose this
         assertEquals(FontFactory.getDefaultUserViewFont(), viewFont);
-        
-        template.dispose();
-        font.dispose();
     }
     
     @Test
