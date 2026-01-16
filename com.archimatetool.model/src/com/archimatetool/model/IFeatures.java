@@ -8,6 +8,8 @@ package com.archimatetool.model;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 
+import com.archimatetool.model.impl.FeatureEntry;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Features</b></em>'.
@@ -18,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IFeatures#getFeatures <em>Features</em>}</li>
+ *   <li>{@link com.archimatetool.model.IFeatures#getThings <em>Things</em>}</li>
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getFeatures()
@@ -38,6 +41,20 @@ public interface IFeatures extends EObject {
      * @generated NOT
      */
     IFeaturesEList getFeatures();
+    
+    /**
+     * Returns the value of the '<em><b>Things</b></em>' map.
+     * The key is of type {@link java.lang.String},
+     * and the value is of type {@link java.lang.String},
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Things</em>' map.
+     * @see com.archimatetool.model.IArchimatePackage#getFeatures_Things()
+     * @model mapType="com.archimatetool.model.FeatureEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
+     *        extendedMetaData="name='thing' kind='element'"
+     * @generated NOT
+     */
+    IFeaturesEMap getThings();
     
     /**
      * @param msg The Notification message
@@ -69,6 +86,40 @@ public interface IFeatures extends EObject {
         // Feature value changed
         return msg.getFeature() == IArchimatePackage.Literals.FEATURE__VALUE
             && name.equals(((IFeature)msg.getNotifier()).getName());
+    }
+
+    
+    
+    /**
+     * @param msg The Notification message
+     * @return true if the Notification message is a general IFeatures notification
+     */
+    public static boolean isFeatureMapNotification(Notification msg) {
+        return msg.getFeature() == IArchimatePackage.Literals.FEATURES__THINGS ||
+                msg.getFeature() == IArchimatePackage.Literals.FEATURE_ENTRY__VALUE;
+    }
+
+    /**
+     * @param msg The Notification message
+     * @param name The name of the feature to check
+     * @return true if the Notification message is an IFeatures notification of the given name
+     */
+    public static boolean isFeatureMapNotification(Notification msg, String name) {
+        // Feature added or removed
+        if(msg.getFeature() == IArchimatePackage.Literals.FEATURES__THINGS) {
+            // Added
+            if(msg.getNewValue() instanceof FeatureEntry entry) {
+                return name.equals(entry.getKey());
+            }
+            // Removed
+            if(msg.getOldValue() instanceof FeatureEntry entry) {
+                return name.equals(entry.getKey());
+            }
+        }
+        
+        // Feature value changed
+        return msg.getFeature() == IArchimatePackage.Literals.FEATURE_ENTRY__VALUE
+            && name.equals(((FeatureEntry)msg.getNotifier()).getKey());
     }
 
 } // IFeatures

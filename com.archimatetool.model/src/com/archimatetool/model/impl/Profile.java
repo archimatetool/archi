@@ -11,8 +11,10 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -27,6 +29,7 @@ import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFeaturesEList;
+import com.archimatetool.model.IFeaturesEMap;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProfile;
@@ -43,6 +46,7 @@ import com.archimatetool.model.util.UUIDFactory;
  *   <li>{@link com.archimatetool.model.impl.Profile#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Profile#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Profile#getFeatures <em>Features</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Profile#getThings <em>Things</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Profile#getImagePath <em>Image Path</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Profile#isSpecialization <em>Specialization</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Profile#getConceptType <em>Concept Type</em>}</li>
@@ -100,6 +104,16 @@ public class Profile extends EObjectImpl implements IProfile {
      * @ordered
      */
     protected EList<IFeature> features;
+
+    /**
+     * The cached value of the '{@link #getThings() <em>Things</em>}' map.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getThings()
+     * @generated
+     * @ordered
+     */
+    protected EMap<String, String> things;
 
     /**
      * Map for arbitrary objects
@@ -226,6 +240,19 @@ public class Profile extends EObjectImpl implements IProfile {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
+    public IFeaturesEMap getThings() {
+        if (things == null) {
+            things = new FeaturesEMap(this, IArchimatePackage.PROFILE__THINGS);
+        }
+        return (IFeaturesEMap)things;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -344,6 +371,8 @@ public class Profile extends EObjectImpl implements IProfile {
         switch (featureID) {
             case IArchimatePackage.PROFILE__FEATURES:
                 return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.PROFILE__THINGS:
+                return ((InternalEList<?>)getThings()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -385,6 +414,9 @@ public class Profile extends EObjectImpl implements IProfile {
                 return getId();
             case IArchimatePackage.PROFILE__FEATURES:
                 return getFeatures();
+            case IArchimatePackage.PROFILE__THINGS:
+                if (coreType) return getThings();
+                else return getThings().map();
             case IArchimatePackage.PROFILE__IMAGE_PATH:
                 return getImagePath();
             case IArchimatePackage.PROFILE__SPECIALIZATION:
@@ -413,6 +445,9 @@ public class Profile extends EObjectImpl implements IProfile {
             case IArchimatePackage.PROFILE__FEATURES:
                 getFeatures().clear();
                 getFeatures().addAll((Collection<? extends IFeature>)newValue);
+                return;
+            case IArchimatePackage.PROFILE__THINGS:
+                ((EStructuralFeature.Setting)getThings()).set(newValue);
                 return;
             case IArchimatePackage.PROFILE__IMAGE_PATH:
                 setImagePath((String)newValue);
@@ -444,6 +479,9 @@ public class Profile extends EObjectImpl implements IProfile {
             case IArchimatePackage.PROFILE__FEATURES:
                 getFeatures().clear();
                 return;
+            case IArchimatePackage.PROFILE__THINGS:
+                getThings().clear();
+                return;
             case IArchimatePackage.PROFILE__IMAGE_PATH:
                 setImagePath(IMAGE_PATH_EDEFAULT);
                 return;
@@ -471,6 +509,8 @@ public class Profile extends EObjectImpl implements IProfile {
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.PROFILE__FEATURES:
                 return features != null && !features.isEmpty();
+            case IArchimatePackage.PROFILE__THINGS:
+                return things != null && !things.isEmpty();
             case IArchimatePackage.PROFILE__IMAGE_PATH:
                 return IMAGE_PATH_EDEFAULT == null ? imagePath != null : !IMAGE_PATH_EDEFAULT.equals(imagePath);
             case IArchimatePackage.PROFILE__SPECIALIZATION:
@@ -503,6 +543,7 @@ public class Profile extends EObjectImpl implements IProfile {
         if (baseClass == IFeatures.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.PROFILE__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
+                case IArchimatePackage.PROFILE__THINGS: return IArchimatePackage.FEATURES__THINGS;
                 default: return -1;
             }
         }
@@ -542,6 +583,7 @@ public class Profile extends EObjectImpl implements IProfile {
         if (baseClass == IFeatures.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.PROFILE__FEATURES;
+                case IArchimatePackage.FEATURES__THINGS: return IArchimatePackage.PROFILE__THINGS;
                 default: return -1;
             }
         }

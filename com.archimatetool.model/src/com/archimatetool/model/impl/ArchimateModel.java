@@ -15,8 +15,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -37,6 +39,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFeaturesEList;
+import com.archimatetool.model.IFeaturesEMap;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
@@ -68,6 +71,7 @@ import com.archimatetool.model.util.UUIDFactory;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFeatures <em>Features</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getThings <em>Things</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFile <em>File</em>}</li>
@@ -133,6 +137,15 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @ordered
      */
     protected EList<IFeature> features;
+    /**
+     * The cached value of the '{@link #getThings() <em>Things</em>}' map.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getThings()
+     * @generated
+     * @ordered
+     */
+    protected EMap<String, String> things;
     /**
      * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -506,6 +519,19 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     @Override
+    public IFeaturesEMap getThings() {
+        if (things == null) {
+            things = new FeaturesEMap(this, IArchimatePackage.ARCHIMATE_MODEL__THINGS);
+        }
+        return (IFeaturesEMap)things;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    @Override
     public IArchimateModel getArchimateModel() {
         return this;
     }
@@ -676,6 +702,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return ((InternalEList<?>)getFolders()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
                 return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.ARCHIMATE_MODEL__THINGS:
+                return ((InternalEList<?>)getThings()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
@@ -702,6 +730,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return getId();
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
                 return getFeatures();
+            case IArchimatePackage.ARCHIMATE_MODEL__THINGS:
+                if (coreType) return getThings();
+                else return getThings().map();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -740,6 +771,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
                 getFeatures().clear();
                 getFeatures().addAll((Collection<? extends IFeature>)newValue);
+                return;
+            case IArchimatePackage.ARCHIMATE_MODEL__THINGS:
+                ((EStructuralFeature.Setting)getThings()).set(newValue);
                 return;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 getProperties().clear();
@@ -785,6 +819,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
                 getFeatures().clear();
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__THINGS:
+                getThings().clear();
+                return;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 getProperties().clear();
                 return;
@@ -823,6 +860,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.ARCHIMATE_MODEL__FEATURES:
                 return features != null && !features.isEmpty();
+            case IArchimatePackage.ARCHIMATE_MODEL__THINGS:
+                return things != null && !things.isEmpty();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -866,6 +905,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if (baseClass == IFeatures.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.ARCHIMATE_MODEL__FEATURES: return IArchimatePackage.FEATURES__FEATURES;
+                case IArchimatePackage.ARCHIMATE_MODEL__THINGS: return IArchimatePackage.FEATURES__THINGS;
                 default: return -1;
             }
         }
@@ -910,6 +950,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if (baseClass == IFeatures.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.FEATURES__FEATURES: return IArchimatePackage.ARCHIMATE_MODEL__FEATURES;
+                case IArchimatePackage.FEATURES__THINGS: return IArchimatePackage.ARCHIMATE_MODEL__THINGS;
                 default: return -1;
             }
         }
