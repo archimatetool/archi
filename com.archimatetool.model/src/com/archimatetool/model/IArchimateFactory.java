@@ -24,6 +24,19 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IArchimateFactory eINSTANCE = com.archimatetool.model.impl.ArchimateFactory.init();
+    
+    /**
+     * @return IFeature
+     */
+    IFeature createFeature();
+
+    /**
+     * Convenience method to create a Feature
+     * @param name The name
+     * @param value The value
+     * @return New feature
+     */
+    IFeature createFeature(String name, String value);
 
     /**
      * Returns a new object of class '<em>Property</em>'.
@@ -34,23 +47,6 @@ public interface IArchimateFactory extends EFactory {
      */
     IProperty createProperty();
     
-    /**
-     * Returns a new object of class '<em>Feature</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Feature</em>'.
-     * @generated
-     */
-    IFeature createFeature();
-    
-    /**
-     * Convenience method to create a Feature
-     * @param name The name
-     * @param value The value
-     * @return New feature
-     */
-    IFeature createFeature(String name, String value);
-
     /**
      * Convenience method to create a Property
      * @param key The key

@@ -151,7 +151,7 @@ public class SetConceptTypeCommandFactoryTests {
         assertNotEquals(oldElement.getId(), newElement.getId());
         assertEquals(oldElement.getDocumentation(), newElement.getDocumentation());
         assertTrue(EcoreUtil.equals(oldElement.getProperties(), newElement.getProperties()));
-        assertTrue(EcoreUtil.equals(oldElement.getFeatures(), newElement.getFeatures()));
+        assertTrue(oldElement.getFeatures().map().equals(newElement.getFeatures().map()));
         assertTrue(oldElement.getReferencingDiagramObjects().isEmpty());
         assertTrue(oldElement.getSourceRelationships().isEmpty());
         assertTrue(oldElement.getTargetRelationships().isEmpty());
@@ -276,7 +276,7 @@ public class SetConceptTypeCommandFactoryTests {
         assertNotEquals(oldRelation.getId(), newRelation.getId());
         assertEquals(oldRelation.getDocumentation(), newRelation.getDocumentation());
         assertTrue(EcoreUtil.equals(oldRelation.getProperties(), newRelation.getProperties()));
-        assertTrue(EcoreUtil.equals(oldRelation.getFeatures(), newRelation.getFeatures()));
+        assertTrue(oldRelation.getFeatures().map().equals(newRelation.getFeatures().map()));
         assertTrue(oldRelation.getReferencingDiagramConnections().isEmpty());
         
         assertSame(oldSource, newRelation.getSource());

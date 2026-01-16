@@ -170,7 +170,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
     
     @Override
     public boolean isLegend() {
-        return getFeatures().getFeature(FEATURE_LEGEND) != null;
+        return getFeatures().get(FEATURE_LEGEND) != null;
     }
     
     @Override

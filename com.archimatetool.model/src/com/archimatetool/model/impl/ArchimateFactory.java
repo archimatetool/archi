@@ -106,7 +106,6 @@ import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IValueStream;
 import com.archimatetool.model.IWorkPackage;
-import java.util.Map;
 
 
 /**
@@ -154,8 +153,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case IArchimatePackage.PROPERTY: return createProperty();
-            case IArchimatePackage.FEATURE: return createFeature();
-            case IArchimatePackage.FEATURE_ENTRY: return (EObject)createFeatureEntry();
+            case IArchimatePackage.FEATURE: return (EObject)createFeature();
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.PROFILE: return createProfile();
             case IArchimatePackage.FOLDER: return createFolder();
@@ -294,7 +292,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     @Override
     public IFeature createFeature() {
@@ -308,16 +306,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
         feature.setName(name);
         feature.setValue(value);
         return feature;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Map.Entry<String, String> createFeatureEntry() {
-        FeatureEntry featureEntry = new FeatureEntry();
-        return featureEntry;
     }
 
     /* (non-Javadoc)

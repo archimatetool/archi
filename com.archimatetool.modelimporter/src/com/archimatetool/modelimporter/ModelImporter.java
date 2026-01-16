@@ -8,8 +8,10 @@ package com.archimatetool.modelimporter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -36,7 +38,6 @@ import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProfile;
@@ -388,12 +389,12 @@ public class ModelImporter {
     private static class UpdateFeaturesCommand extends Command {
         private IFeatures importedObject;
         private IFeatures targetObject;
-        private ArrayList<IFeature> oldFeatures;
+        private Collection<Entry<String, String>> oldFeatures;
 
         private UpdateFeaturesCommand(IFeatures importedObject, IFeatures targetObject) {
             this.importedObject = importedObject;
             this.targetObject = targetObject;
-            oldFeatures = new ArrayList<>(targetObject.getFeatures());
+            oldFeatures = EcoreUtil.copyAll(targetObject.getFeatures());
         }
 
         @Override
@@ -410,7 +411,8 @@ public class ModelImporter {
         
         @Override
         public boolean canExecute() {
-            return !EcoreUtil.equals(importedObject.getFeatures(), oldFeatures);
+            // TODO Not sure about this
+            return !importedObject.getFeatures().equals(oldFeatures);
         }
         
         @Override

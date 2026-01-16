@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeaturesEMap;
 
 /**
@@ -22,7 +23,7 @@ import com.archimatetool.model.IFeaturesEMap;
 public class FeaturesEMap extends EcoreEMap<String, String> implements IFeaturesEMap {
     
     public FeaturesEMap(InternalEObject owner, int featureID) {
-        super(IArchimatePackage.Literals.FEATURE_ENTRY, FeatureEntry.class, owner, featureID);
+        super(IArchimatePackage.Literals.FEATURE, Feature.class, owner, featureID);
     }
 
     @Override
@@ -107,10 +108,10 @@ public class FeaturesEMap extends EcoreEMap<String, String> implements IFeatures
     }
 
     @Override
-    public FeatureEntry getFeatureEntry(String name) {
+    public IFeature getFeature(String name) {
         checkNull(name);
         int index = indexOfKey(name);
-        return index == -1 ? null : (FeatureEntry)get(index);
+        return index == -1 ? null : (IFeature)get(index);
     }
 
     private void checkNull(String s) {

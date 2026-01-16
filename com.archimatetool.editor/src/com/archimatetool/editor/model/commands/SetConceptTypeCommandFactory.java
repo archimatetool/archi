@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
@@ -34,7 +35,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -140,7 +140,7 @@ public class SetConceptTypeCommandFactory {
                 newElement.getProperties().addAll(props);
                 
                 // Copy Features
-                Collection<IFeature> features = EcoreUtil.copyAll(element.getFeatures());
+                Collection<Entry<String, String>> features = EcoreUtil.copyAll(element.getFeatures());
                 newElement.getFeatures().addAll(features);
 
                 // Copy Documentation
@@ -276,7 +276,7 @@ public class SetConceptTypeCommandFactory {
                 newRelation.getProperties().addAll(props);
                 
                 // Copy Features
-                Collection<IFeature> features = EcoreUtil.copyAll(relation.getFeatures());
+                Collection<Entry<String, String>> features = EcoreUtil.copyAll(relation.getFeatures());
                 newRelation.getFeatures().addAll(features);
 
                 // Copy Documentation

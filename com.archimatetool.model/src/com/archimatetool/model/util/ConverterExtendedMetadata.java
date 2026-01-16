@@ -68,8 +68,8 @@ public class ConverterExtendedMetadata extends BasicExtendedMetaData {
         }
         
         // Map "name" to "key" for feature map entry
-        if("name".equals(name) && eClass == IArchimatePackage.eINSTANCE.getFeatureEntry()) {
-            return IArchimatePackage.Literals.FEATURE_ENTRY__KEY;
+        if("name".equals(name) && eClass == IArchimatePackage.eINSTANCE.getFeature()) {
+            return IArchimatePackage.Literals.FEATURE__KEY;
         }
         
         return super.getAttribute(eClass, namespace, name);

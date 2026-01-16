@@ -79,7 +79,6 @@ import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFacility;
-import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
@@ -193,13 +192,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass featureEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass featureEntryEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1280,7 +1272,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
-    public EAttribute getFeature_Name() {
+    public EAttribute getFeature_Key() {
         return (EAttribute)featureEClass.getEStructuralFeatures().get(0);
     }
 
@@ -1292,36 +1284,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EAttribute getFeature_Value() {
         return (EAttribute)featureEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EClass getFeatureEntry() {
-        return featureEntryEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EAttribute getFeatureEntry_Key() {
-        return (EAttribute)featureEntryEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EAttribute getFeatureEntry_Value() {
-        return (EAttribute)featureEntryEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1342,16 +1304,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EReference getFeatures_Features() {
         return (EReference)featuresEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EReference getFeatures_Things() {
-        return (EReference)featuresEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -3356,16 +3308,11 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(propertiesEClass, PROPERTIES__PROPERTIES);
 
         featureEClass = createEClass(FEATURE);
-        createEAttribute(featureEClass, FEATURE__NAME);
+        createEAttribute(featureEClass, FEATURE__KEY);
         createEAttribute(featureEClass, FEATURE__VALUE);
-
-        featureEntryEClass = createEClass(FEATURE_ENTRY);
-        createEAttribute(featureEntryEClass, FEATURE_ENTRY__KEY);
-        createEAttribute(featureEntryEClass, FEATURE_ENTRY__VALUE);
 
         featuresEClass = createEClass(FEATURES);
         createEReference(featuresEClass, FEATURES__FEATURES);
-        createEReference(featuresEClass, FEATURES__THINGS);
 
         metadataEClass = createEClass(METADATA);
         createEReference(metadataEClass, METADATA__ENTRIES);
@@ -3967,17 +3914,12 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(propertiesEClass, IProperties.class, "Properties", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getProperties_Properties(), this.getProperty(), null, "properties", null, 0, -1, IProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(featureEClass, IFeature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getFeature_Name(), ecorePackage.getEString(), "name", "", 0, 1, IFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-        initEAttribute(getFeature_Value(), ecorePackage.getEString(), "value", "", 0, 1, IFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-
-        initEClass(featureEntryEClass, Map.Entry.class, "FeatureEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getFeatureEntry_Key(), ecorePackage.getEString(), "key", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-        initEAttribute(getFeatureEntry_Value(), ecorePackage.getEString(), "value", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEClass(featureEClass, Map.Entry.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getFeature_Key(), ecorePackage.getEString(), "key", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getFeature_Value(), ecorePackage.getEString(), "value", "", 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(featuresEClass, IFeatures.class, "Features", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getFeatures_Features(), this.getFeature(), null, "features", null, 0, -1, IFeatures.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEReference(getFeatures_Things(), this.getFeatureEntry(), null, "things", null, 0, -1, IFeatures.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(metadataEClass, IMetadata.class, "Metadata", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getMetadata_Entries(), this.getProperty(), null, "entries", null, 0, -1, IMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -4408,7 +4350,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
                "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
            });
         addAnnotation
-          (getFeatureEntry_Key(),
+          (getFeature_Key(),
            source,
            new String[] {
                "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
@@ -4418,13 +4360,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
            source,
            new String[] {
                "name", "feature", //$NON-NLS-1$ //$NON-NLS-2$
-               "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });
-        addAnnotation
-          (getFeatures_Things(),
-           source,
-           new String[] {
-               "name", "thing", //$NON-NLS-1$ //$NON-NLS-2$
                "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
            });
         addAnnotation

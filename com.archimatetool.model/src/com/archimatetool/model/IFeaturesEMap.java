@@ -7,8 +7,6 @@ package com.archimatetool.model;
 
 import org.eclipse.emf.common.util.EMap;
 
-import com.archimatetool.model.impl.FeatureEntry;
-
 
 /**
  * Convenience class to set and get and set keys and values from a IFeatures Map
@@ -100,7 +98,7 @@ public interface IFeaturesEMap extends EMap<String, String> {
     
     /**
      * @param name The name, non-null.
-     * @return the feature entry of the given name, or null if not found
+     * @return the feature of the given name, or null if not found
      */
-    FeatureEntry getFeatureEntry(String name);
+    IFeature getFeature(String name);
 }
