@@ -10,24 +10,6 @@ CTabFolder.active {
     swt-selected-highlight-top: true;
 }
 
-.MPartStack{
-    /* Highlight at the top on View Parts */
-    swt-selected-highlight-top: true;
-}
-
-.MPartStack.active {
-    /* A nicer blue highlight on View Parts */
-    swt-selected-tab-highlight: rgb(50, 114, 237);
-    
-    /* Highlight at the top on View Parts */
-    swt-selected-highlight-top: true;
-}
-
-#org-eclipse-ui-editorss CTabFolder.active {
-    /* A nicer blue highlight on Editor Parts */
-    swt-selected-tab-highlight: rgb(50, 114, 237);
-}
-
 /* Theme colors */
 
 ColorDefinition#com-archimatetool-editor-VIEW_BACKGROUND {

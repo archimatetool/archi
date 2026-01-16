@@ -13,103 +13,74 @@
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 420836
  *     Mickael Istria <mistria@redhat.com> - 325937
  *     Patrik Suzzi <psuzzi@gmail.com> - Bug 501250
- *     SAP SE - light theme improvements
  *******************************************************************************/
 
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #E1DEDB;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #F8F8F8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #E1DEDB;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #e5e5e5;
+	color: #CDC7C2;
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #CDC7C2;
 }
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-	color: #e5e5e5;
+	color: #CDC7C2;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #EAE8E6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #EAE8E6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-	color: #e5e5e5;
+	color: #D5D0CC;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #D5D0CC;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
-	color: #e5e5e5;
+	color: #D5D0CC;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #F6F5F4;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START{
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-	color: #f8f8f8;  /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #F6F5F4;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
+	color: #EAE8E6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_NOFOCUS_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-	color: #f8f8f8; /* same as '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND' cannot use it directly*/
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
-	color: #000000;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_TEXT_COLOR {
-	color: #000000;
-}
-
-ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR {
-	color: #000000;
+	color: #EAE8E6;
 }
 
 .MTrimmedWindow {
-	background-color: #f6f5f4;
+	background-color: #F6F5F4;
 }
 
 .MTrimBar {
-	background-color: #f6f5f4;
+	background-color: #F6F5F4;
 }
 
 .MTrimBar#org-eclipse-ui-main-toolbar  {
-	background-color: COLOR-WIDGET-BACKGROUND #f6f5f4 100%;
+	background-color: COLOR-WIDGET-BACKGROUND #F6F5F4 100%;
 }
 
 .MPartStack {
@@ -117,127 +88,14 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR {
 }
 
 CTabFolder.MArea {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-	swt-selected-tab-fill: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-	swt-unselected-tabs-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-	swt-outer-keyline-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-	swt-inner-keyline-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-	swt-tab-outline: #ffffff;
+	background-color: #F6F5F4;
+	swt-selected-tab-fill: #F6F5F4;
+	swt-unselected-tabs-color: #F6F5F4;
+	swt-outer-keyline-color: #F6F5F4;
+	swt-inner-keyline-color: #F6F5F4;
+	swt-tab-outline: #F6F5F4;
 }
 
 CTabFolder Canvas {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.MTrimBar#org-eclipse-ui-trim-status {
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View Composite,
-.View Composite Tree,
-.View Composite Label,
-.View ToolBar,
-.View Group,
-.View Group Label,
-.View Section,
-.View BusyIndicator,
-.View Text[style~='SWT.READ_ONLY'],
-.View SashForm,
-.View OleFrame,
-.View Browser,
-.View WebSite,
-.View StyledText[style~='SWT.READ_ONLY'],
-.View Link,
-.View FormText,
-.View Hyperlink,
-.View Canvas,
-.View FigureCanvas
-{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View TitleRegion{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.MPartStack.active .View TitleRegion{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-.View Button[style~='SWT.CHECK']{
-	background-color: inherit;
-}
-
-.View Toolbar ToolItem{
-	background-color: #eaeaea;
-}
-
-.View TabbedPropertyList{
-	swt-tabBackground-color: #ffffff;
-}
-
-.View Composite PrependingAsteriskFilteredTree,
-.View PrependingAsteriskFilteredTree Text,
-.View Group Text,
-.View Group Combo,
-.View Composite Text,
-.View Button[style~='SWT.PUSH']{
-	background-color: #ffffff;
-}
-
-.MPartStack{
-	swt-selected-tab-highlight: #8a8a8a;
-	swt-selected-highlight-top: false;
-}
-
-.MPartStack.active {
-	swt-selected-tab-highlight: #2160bb;
-	swt-selected-highlight-top: false;
-}
-
-/* text color and background color of unselected tabs in editor*/
-#org-eclipse-ui-editorss CTabItem{
-	color: #000000;
-	background-color: #f8f8f8;
-}
-
-/*text color and background color of selected tab in editor */
-#org-eclipse-ui-editorss CTabItem:selected{
-	color: #000000;
-	background-color: #ffffff;
-}
-
-#org-eclipse-ui-editorss CTabFolder{
-	swt-selected-tab-fill : #ffffff;
-	swt-selected-tab-highlight: #8a8a8a;
-	swt-selected-highlight-top: true;	
-	swt-tab-outline:#e5e5e5; 
-	swt-tab-outer-keyline: #e5e5e5;
-	swt-draw-custom-tab-content-background: true;
-	swt-unselected-hot-tab-color-background:#ffffff;
-}
-
-#org-eclipse-ui-editorss CTabFolder.active {
-	swt-selected-tab-highlight: #2160bb;
-	swt-selected-highlight-top: true;
-}
-
-#org-eclipse-e4-ui-compatibility-editor Composite{
-	background-color: #ffffff;
-}
-
-Composite.MPartSashContainer{
-	background-color: '#org-eclipse-ui-workbench-SECONDARY_BACKGROUND';
-}
-
-Composite.MArea{
-	background-color: #ffffff;
-}
-
-.MPart CTabFolder{
-	swt-outer-keyline-color: #ffffff;
+	background-color: #F8F7F6;
 }

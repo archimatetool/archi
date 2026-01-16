@@ -20,13 +20,13 @@
 @import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/dark/e4-dark-drag-styling.css");
 
 CTabFolder Canvas {
-	background-color: #2F2F2F;
-	color: #CCC;
+    background-color: #2F2F2F;
+    color: #CCC;
 }
 
 .MPartStack.active CTabFolder Canvas {
-	background-color: #262626;
-	color: #CCC;
+    background-color: #262626;
+    color: #CCC;
 }
 
 /* #################### Bottom Status Bar ######################## */
@@ -37,42 +37,44 @@ ImageBasedFrame,
 #org-eclipse-ui-StatusLine CLabel,
 #org-eclipse-ui-ProgressBar,
 #org-eclipse-ui-ProgressBar Canvas {
-	color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
+     color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
 }
 
 
 /* ###################### Global Styles ########################## */
 
 TabFolder {
-	/* background-color is not applied to the whole button, but text color is changed, so it appear light on light */
-	background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
-	color: #222;
+    /* background-color is not applied to the whole button,
+       but text color is changed, so it appear light on light */
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
+    color: #222;
 }
 
 Button {
-	/* background-color is not applied to the whole button, but text color is changed, so it appear light on light */
-	background-color: #2F2F2F;
-	color: #CCCCCC;
+    /* background-color is not applied to the whole button,
+       but text color is changed, so it appear light on light */
+    background-color: #2F2F2F;
+    color: #CCCCCC;
 }
 Button[style~='SWT.CHECK'] {
-	/* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
-	/* so, css rules applied to Button have to be overridden for non-Button matches */
-	background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
-	color: #ddd;
+    /* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
+    /* so, css rules applied to Button have to be overridden for non-Button matches */
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
+    color: #ddd;
 }
 Button[style~='SWT.RADIO'] {
-	/* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
-	/* so, css rules applied to Button have to be overridden for non-Button matches */
-	background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
-	color: #ddd;
+    /* currently, Button object isn't consistent (eg. also a checkbox is seen as Button) */
+    /* so, css rules applied to Button have to be overridden for non-Button matches */
+    background-color: '#org-eclipse-ui-workbench-DARK_BACKGROUND'; 
+    color: #ddd;
 }
 
 Combo {
-	background-color: #949DA5; 
-	color: #222;  /* background of drop-drown list is hard-coded to white */
+    background-color: #949DA5; 
+    color: #222;  /* background of drop-drown list is hard-coded to white */
 }
 Combo:selected {
-	background-color: #41464A;
-	color: #FFF;
+    background-color: #41464A;
+    color: #FFF;
 }
 
