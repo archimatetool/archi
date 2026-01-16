@@ -230,11 +230,11 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.ExportJasperReportsWizardPage2_5);
         if(!PlatformUtils.isMac()) { // Single file filtering in the Open dialog doesn't work on Mac
-            dialog.setFilterExtensions("main.jrxml", "*.jrxml", "*.*");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            dialog.setFilterExtensions(new String[] { "main.jrxml", "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             dialog.setFileName("main.jrxml"); //$NON-NLS-1$
         }
         else {
-            dialog.setFilterExtensions("*.jrxml", "*.*");  //$NON-NLS-1$ //$NON-NLS-2$
+            dialog.setFilterExtensions(new String[] { "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$
         }
         String path = dialog.open();
         if(path != null) {

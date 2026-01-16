@@ -79,7 +79,7 @@ public class XMLExchangeImportHandler extends AbstractHandler implements IXMLExc
     
     private File askOpenFile(IWorkbenchWindow window) {
         FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
-        dialog.setFilterExtensions(FILE_EXTENSION_WILDCARD, "*.*"); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String[] { FILE_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
         String path = dialog.open();
         return path != null ? new File(path) : null;
     }

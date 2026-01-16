@@ -176,7 +176,7 @@ public class P2InstallHandler {
     
     private List<File> askOpenFiles() {
         FileDialog dialog = new FileDialog(shell, SWT.OPEN | SWT.MULTI);
-        dialog.setFilterExtensions("*.zip", "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*.zip", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         
         List<File> files = new ArrayList<File>();

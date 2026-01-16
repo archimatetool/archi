@@ -311,7 +311,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     protected void openTemplate() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.TemplateManagerDialog_13);
-        dialog.setFilterExtensions("*" + fTemplateManager.getTemplateFileExtension(), "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
             return;

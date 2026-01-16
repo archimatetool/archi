@@ -592,7 +592,7 @@ implements IEditorModelManager {
         shell.setActive(); // Get focus on Mac
         
         FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-        dialog.setFilterExtensions(ARCHIMATE_FILE_WILDCARD, "*.*"); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.*" } ); //$NON-NLS-1$
         
         // Set to true for consistency on all OSs
         dialog.setOverwrite(true);

@@ -307,7 +307,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.NewModelFromTemplateWizardPage_4);
-        dialog.setFilterExtensions("*" + fTemplateManager.getTemplateFileExtension(), "*.*"); //$NON-NLS-1$ //$NON-NLS-2$
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
             getContainer().getShell().setVisible(true);

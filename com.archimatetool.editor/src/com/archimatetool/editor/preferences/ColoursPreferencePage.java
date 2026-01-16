@@ -673,7 +673,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void importUserColors() throws IOException {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.ColoursPreferencePage_22);
-        dialog.setFilterExtensions("ArchiColours.prefs", "*.prefs", "*.*");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        dialog.setFilterExtensions(new String[] { "ArchiColours.prefs", "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
         
         String path = dialog.open();

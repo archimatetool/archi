@@ -204,7 +204,7 @@ public class ExportToXMLPage extends WizardPage implements IPreferenceConstants 
         File file = new File(fFileTextField.getText());
         dialog.setFileName(file.getName());
         
-        dialog.setFilterExtensions(IXMLExchangeGlobals.FILE_EXTENSION_WILDCARD, "*.*"); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String[] { IXMLExchangeGlobals.FILE_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
         
         // Does nothing on macOS 10.15+. On Windows will work after Eclipse 4.21
         dialog.setOverwrite(false);
