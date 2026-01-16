@@ -40,7 +40,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.gef.internal.GEFMessages;
-import org.eclipse.gef.internal.InternalGEFPlugin;
 import org.eclipse.gef.internal.InternalImages;
 import org.eclipse.gef.internal.ui.palette.PaletteColorUtil;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -1662,49 +1661,72 @@ public class FlyoutPaletteComposite extends Composite {
 
         public static final int RIGHT = 2;
 
-        private static final Cursor[] cursors = new Cursor[3];
+        private final static Cursor cursors[] = new Cursor[3];
 
         /**
-         * Return the cursor for a drop scenario, as identified by code. Code must be
-         * one of INVALID, LEFT, RIGHT. If the code is not found default to INVALID.
-         * Note that since these three cursors are static, they will only be created
-         * once for the lifetime of the eclipse session and shared (i.e this is not an
-         * image leak).
-         *
-         * @param code the code
+         * Return the cursor for a drop scenario, as identified by code. Code
+         * must be one of INVALID, LEFT, RIGHT. If the code is not found default
+         * to INVALID. Note that since these three cursors are static, they will
+         * only be created once for the lifetime of the eclipse session and
+         * shared (i.e this is not an image leak).
+         * 
+         * @param code
+         *            the code
          * @return the cursor
          */
         public static Cursor getCursor(int code) {
+            Display display = Display.getCurrent();
             if (cursors[code] == null) {
+                ImageDescriptor source = null;
+                ImageDescriptor mask = null;
                 switch (code) {
                 case LEFT:
-                    cursors[LEFT] = createCursor(ISharedImages.IMG_OBJS_DND_LEFT);
+                    source = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_LEFT_SOURCE);
+                    mask = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_LEFT_MASK);
+                    cursors[LEFT] = new Cursor(display, source.getImageData(),
+                            mask.getImageData(), 16, 16);
                     break;
                 case RIGHT:
-                    cursors[RIGHT] = createCursor(ISharedImages.IMG_OBJS_DND_RIGHT);
+                    source = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_RIGHT_SOURCE);
+                    mask = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_RIGHT_MASK);
+                    cursors[RIGHT] = new Cursor(display, source.getImageData(),
+                            mask.getImageData(), 16, 16);
                     break;
                 default:
                 case INVALID:
-                    cursors[INVALID] = createCursor(ISharedImages.IMG_OBJS_DND_INVALID);
+                    source = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_INVALID_SOURCE);
+                    mask = PlatformUI
+                            .getWorkbench()
+                            .getSharedImages()
+                            .getImageDescriptor(
+                                    ISharedImages.IMG_OBJS_DND_INVALID_MASK);
+                    cursors[INVALID] = new Cursor(display,
+                            source.getImageData(), mask.getImageData(), 16, 16);
                     break;
                 }
             }
             return cursors[code];
         }
 
-        /**
-         * Creates a new cursor using the shared images as source and mask,
-         * respectively. The cursors are created with respect to the current device
-         * zoom, with the hotspot being the center of the image.<br>
-         * The strings passed as arguments must belong to the source and mask ids of a
-         * cursor contributed by {@link ISharedImages}.
-         */
-        private static Cursor createCursor(String sourceName) {
-            ImageDescriptor source = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(sourceName);
-            // Hotspot should be the center of the image. e.g. (16, 16) on 100% zoom
-            int hotspotX = source.getImageData(100).width / 2;
-            int hotspotY = source.getImageData(100).height / 2;
-            return InternalGEFPlugin.createCursor(source, hotspotX, hotspotY);
-        }
     }
 }
