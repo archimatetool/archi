@@ -162,7 +162,7 @@ implements IDiagramModelObjectFigure {
     protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
         graphics.setLineWidth(lineWidth);
         
-        final double scale = FigureUtils.getGraphicsScale(graphics);
+        final double scale = FigureUtils.getFigureScale(this);
         
         // If line width is 1 and scale is 100% and don't use offset then do nothing
         if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {

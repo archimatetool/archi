@@ -8,9 +8,7 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScalableFigure;
-import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -32,27 +30,13 @@ public class FigureUtils {
      * @return The Current Zoom drawing scale for a Figure
      */
     public static double getFigureScale(IFigure figure) {
-        if(figure instanceof ScalableFigure) {
-            return ((ScalableFigure)figure).getScale();
+        if(figure instanceof ScalableFigure scalable) {
+            return scalable.getScale();
         }
         
         return figure == null ? 1.0 : getFigureScale(figure.getParent());
     }
     
-    /**
-     * @param graphics
-     * @return The scale factor of the Graphics instance
-     */
-    public static double getGraphicsScale(Graphics graphics) {
-        if(graphics instanceof SWTGraphics) {
-            return ((SWTGraphics)graphics).getScale();
-        }
-        else if(graphics instanceof ScaledGraphics) {
-            return graphics.getAbsoluteScale();
-        }
-        return 1.0;
-    }
-
     /**
      * Gradient Direction
      */
