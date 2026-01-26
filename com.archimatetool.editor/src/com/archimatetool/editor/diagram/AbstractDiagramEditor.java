@@ -125,6 +125,7 @@ import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
+import com.archimatetool.editor.diagram.tools.PinchZoomGestureHandler;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -350,7 +351,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Listen to selections
         hookSelectionListener();
-        
+
+        // Zoom
+        hookZoomListener();
+
         // Set CSS ID
         ThemeUtils.registerCssId(viewer.getControl(), "ArchiFigureCanvas"); //$NON-NLS-1$
         
@@ -364,7 +368,15 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             updateStatusBarWithSelection(event.getStructuredSelection().isEmpty() ? null : event.getStructuredSelection().toList().getLast());
         });
     }
-    
+
+    private void hookZoomListener() {
+        // Trackpad pinch-to-zoom gesture
+        ZoomManager zoomManager = getAdapter(ZoomManager.class);
+        if(zoomManager != null) {
+            getGraphicalViewer().getControl().addListener(SWT.Gesture, new PinchZoomGestureHandler(zoomManager));
+        }
+    }
+
     @Override
     public void setFocus() {
         if(fNullInput != null) {
@@ -430,10 +442,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected void setProperties() {
         // Grid Preferences
         applyUserGridPreferences();
-        
+
         // Ctrl + Scroll wheel Zooms
         getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
-        
+
         // Shift + Scroll wheel horizontal scroll
         getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD2), MouseWheelHorizontalScrollHandler.SINGLETON);
     }
