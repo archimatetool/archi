@@ -61,6 +61,20 @@
                 <tycho.testArgLine>-XstartOnFirstThread</tycho.testArgLine>
             </properties>
         </profile>
+        
+        <!-- Profile for Windows -->
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- Disable scaling for Draw2d in case display is not 100% scaling -->
+                <tycho.testArgLine>-Ddraw2d.enableAutoscale=false</tycho.testArgLine>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
