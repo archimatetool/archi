@@ -56,7 +56,6 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
         
         // Thumbnail is contents of LWS
         thumbnail = new ScrollableThumbnail((Viewport)editPart.getFigure());
-        thumbnail.setUseScaledGraphics(false);
         thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
         thumbnail.setBorder(new MarginBorder(3));
         lws.setContents(thumbnail);
