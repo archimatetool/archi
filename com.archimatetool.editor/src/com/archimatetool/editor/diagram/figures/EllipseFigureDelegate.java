@@ -30,9 +30,6 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle rect = getBounds();
 
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {

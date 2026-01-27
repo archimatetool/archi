@@ -177,14 +177,26 @@ implements IDiagramModelObjectFigure {
             scale = scale / (ImageFactory.getDeviceZoom() / 100);
         }
         
+        // If scale is below 100% bottom and right hand rectangle line might not be drawn
+        if(scale < 1.0) {
+            figureBounds.resize(-1, -1);
+        }
+        
         // If line width is 1 and scale is 100% and don't use line offset then don't apply an offset
         // useLineOffset is false if Mac/Linux or user set preference off on Windows
         // Typically we want it on for Windows where display scaling > 100%
         if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {
+            figureBounds.resize(-1, -1);
             return;
         }
-    
-        // Width and height reduced by line width
+        
+        // If linewidth is even shrink by half of lineWidth
+        if((lineWidth & 1) == 0) { // 
+            figureBounds.shrink(lineWidth / 2, lineWidth / 2);
+            return;
+        }
+        
+        // If linewidth is odd...
         figureBounds.resize(-lineWidth, -lineWidth);
         
         // x,y offset is half of line width

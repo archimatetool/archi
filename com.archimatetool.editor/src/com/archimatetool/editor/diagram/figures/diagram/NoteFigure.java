@@ -98,9 +98,6 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
