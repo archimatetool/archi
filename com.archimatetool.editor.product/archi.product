@@ -27,6 +27,7 @@ openFile
 -Declipse.p2.data.area=@config.dir/p2
 -Ddata.location=@user.home/Documents/Archi
 -Dslf4j.internal.verbosity=ERROR
+-Declipse.e4.inject.javax.warning=false
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsLin>-Dosgi.instance.area=@user.home/.archi
@@ -67,19 +68,11 @@ openFile
    <features>
       <feature id="com.archimatetool.editor.feature"/>
       <feature id="com.archimatetool.gef.feature"/>
-      <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.help"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.e4.rcp"/>
       <feature id="org.eclipse.equinox.p2.core.feature"/>
-      <feature id="org.eclipse.ecf.core.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
-      <feature id="org.eclipse.ecf.core.ssl.feature"/>
       <feature id="org.eclipse.equinox.p2.extras.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclientjava.feature"/>
       <feature id="org.eclipse.emf.compare"/>
       <feature id="org.eclipse.jgit"/>
       <feature id="org.eclipse.jgit.ssh.apache"/>
