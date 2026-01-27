@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import org.eclipse.draw2d.zoom.ZoomListener;
 import org.eclipse.gef.Disposable;
-import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.action.Action;
 
