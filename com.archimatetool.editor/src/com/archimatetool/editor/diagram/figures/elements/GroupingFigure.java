@@ -50,9 +50,6 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
