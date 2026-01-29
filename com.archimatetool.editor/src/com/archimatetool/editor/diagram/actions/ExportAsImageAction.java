@@ -6,10 +6,10 @@
 package com.archimatetool.editor.diagram.actions;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
-import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Button;
@@ -48,7 +48,7 @@ public class ExportAsImageAction extends WorkbenchPartAction {
     public void run() {
         Shell tempShell = new Shell();
         IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
         
         LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);

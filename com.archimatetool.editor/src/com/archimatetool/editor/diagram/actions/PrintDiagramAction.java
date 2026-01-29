@@ -5,9 +5,9 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.print.PrintGraphicalViewerOperation;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
-import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.printing.Printer;
@@ -61,7 +61,7 @@ public class PrintDiagramAction extends WorkbenchPartAction {
             
             try {
                 tempShell = new Shell();
-                GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, tempShell);
+                GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
                 printer = new Printer(data);
                 
                 PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(printer, viewer);

@@ -16,8 +16,8 @@ import java.io.IOException;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
-import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
@@ -55,7 +55,7 @@ public class DiagramUtilsTests {
         assertTrue(dm instanceof IArchimateDiagramModel);
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         
         assertNotNull(viewer);
         assertTrue(viewer.getEditPartFactory() instanceof ArchimateDiagramEditPartFactory);
@@ -73,7 +73,7 @@ public class DiagramUtilsTests {
         assertTrue(dm instanceof ISketchModel);
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         
         assertNotNull(viewer);
         assertTrue(viewer.getEditPartFactory() instanceof SketchEditPartFactory);
@@ -145,7 +145,7 @@ public class DiagramUtilsTests {
         IDiagramModel dm = model.getDiagramModels().get(2);
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         
         Image img = DiagramUtils.createImage(viewer, 1, 0);
         assertNotNull(img);
@@ -218,7 +218,7 @@ public class DiagramUtilsTests {
         IDiagramModel dm = model.getDiagramModels().get(0);
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         shell.dispose();
         
         org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
@@ -233,7 +233,7 @@ public class DiagramUtilsTests {
         int height = 468 + 85; // x of furthest object in diagram, and its height
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         shell.dispose();
         
         org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
@@ -245,7 +245,7 @@ public class DiagramUtilsTests {
         IDiagramModel dm = model.getDiagramModels().get(3);
         
         Shell shell = new Shell();
-        GraphicalViewerImpl viewer = DiagramUtils.createViewer(dm, shell);
+        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
         shell.dispose();
         
         org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);

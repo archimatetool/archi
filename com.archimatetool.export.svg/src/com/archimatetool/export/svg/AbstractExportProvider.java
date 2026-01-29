@@ -19,9 +19,9 @@ import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -237,7 +237,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         
         try {
             // Create Draw2d figure
-            GraphicalViewerImpl viewer = DiagramUtils.createViewer(diagramModel, shell);
+            GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, shell);
             LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
             IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
             setFigure(figure);
