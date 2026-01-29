@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.importexportexample;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.archimatetool.editor
