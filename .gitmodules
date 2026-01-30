@@ -1,0 +1,4 @@
+[submodule "gef-classic"]
+	path = gef-classic
+	url = https://github.com/archimatetool/gef-classic
+	branch = archi
