@@ -3,11 +3,14 @@
 <target includeMode="feature" name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2026-03"/>
+        <repository location="https://download.eclipse.org/eclipse/updates/4.39-I-builds"/>
         <unit id="org.eclipse.sdk.ide" version="0.0.0"/>
-        <unit id="org.eclipse.emf.compare.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="0.0.0"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+        <repository location="https://download.eclipse.org/releases/2025-12"/>
+        <unit id="org.eclipse.emf.compare.feature.group" version="3.3.27.202508281322"/>
+        <unit id="org.eclipse.jgit.feature.group" version="7.5.0.202512021534-r"/>
+        <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="7.5.0.202512021534-r"/>
     </location>
 </locations>
 </target>
