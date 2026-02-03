@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.model,
  org.eclipse.help.ui,
  org.eclipse.ui,
+ org.eclipse.ui.views.properties.tabbed,
  com.archimatetool.editor,
  com.archimatetool.jdom,
  com.archimatetool.templates

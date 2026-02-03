@@ -10,6 +10,7 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help.ui,
+ org.eclipse.ui.views.properties.tabbed,
  com.archimatetool.editor,
  org.eclipse.zest.core;bundle-version="[1.5.400,1.6.0)",
  org.eclipse.zest.layouts;bundle-version="[1.1.400,1.2.0)"
