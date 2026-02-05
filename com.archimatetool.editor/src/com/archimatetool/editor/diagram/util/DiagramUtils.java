@@ -19,7 +19,7 @@ import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -44,10 +44,10 @@ public final class DiagramUtils {
     /**
      * Create a simple GraphicalViewer for the diagram model.
      * @param model The diagram model
-     * @param parent the Canvas or Shell on which to create the GraphicalViewer. The caller must dispose of it.
+     * @param parent the parent Composite (usually a Shell) on which to create the GraphicalViewer.
      * @return The Graphical Viewer which is actually a GraphicalViewerImpl
      */
-    public static GraphicalViewer createViewer(IDiagramModel model, Canvas parent) {
+    public static GraphicalViewer createViewer(IDiagramModel model, Composite parent) {
         EditPartFactory editPartFactory = null;
         
         if(model instanceof IArchimateDiagramModel) {
@@ -69,7 +69,7 @@ public final class DiagramUtils {
         }
         
         GraphicalViewer viewer = new GraphicalViewerImpl();
-        viewer.setControl(parent);
+        viewer.createControl(parent); // Use createControl not setControl so it's wrapped in a Canvas
         
         viewer.setEditPartFactory(editPartFactory);
         
