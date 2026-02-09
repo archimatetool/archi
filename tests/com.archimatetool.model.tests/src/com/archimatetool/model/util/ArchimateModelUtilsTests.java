@@ -20,12 +20,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Test;
 
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
@@ -174,6 +176,27 @@ public class ArchimateModelUtilsTests {
             IIdentifier eObject = (IIdentifier)iter.next();
             assertSame(eObject, map.get(eObject.getId()));
         }
+    }
+    
+    @Test
+    public void testGetParentFolderHierarchy() {
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.setDefaults();
+
+        assertTrue(ArchimateModelUtils.getParentFolderHierarchy(model).isEmpty());
+        
+        IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+        folder.setName("subFolder");
+        model.getFolder(FolderType.BUSINESS).getElements().add(folder);
+
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        folder.getElements().add(element);
+        
+        List<IFolder> folders = ArchimateModelUtils.getParentFolderHierarchy(element);
+        assertEquals(model.getFolder(FolderType.BUSINESS), folders.get(0));
+        assertEquals(folder, folders.get(1));
+        
+        assertEquals("Business/subFolder/", ArchimateModelUtils.getParentFolderHierarchyAsString(element, '/'));
     }
     
     @Test

@@ -9,6 +9,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IProfile;
@@ -239,6 +241,44 @@ public class ArchimateModelUtils {
         return map;
     }
     
+    /**
+     * Get the parent folder hierarchy of an eObject as a string
+     * @param eObject The object
+     * @param separator The separator
+     * @return The parent folder hierarchy as a string. Example - "Business/subFolder/"
+     */
+    public static String getParentFolderHierarchyAsString(EObject eObject, char separator) {
+        StringBuilder sb = new StringBuilder();
+        
+        for(IFolder folder : getParentFolderHierarchy(eObject)) {
+            sb.append(folder.getName());
+            sb.append(separator);
+        }
+        
+        return sb.toString();
+    }
+    
+    /**
+     * Get the parent folder hierarchy of an eObject
+     * @param eObject The object
+     * @return The parent folder hierarchy 
+     */
+    public static List<IFolder> getParentFolderHierarchy(EObject eObject) {
+        List<IFolder> folders = new ArrayList<>();
+
+        EObject parent = eObject.eContainer();
+        
+        while(parent instanceof IFolder folder) {
+            folders.add(folder);
+            parent = parent.eContainer();
+        }
+
+        // Reverse so index 0 = immediate parent, last index = "Views" folder
+        Collections.reverse(folders);
+        
+        return folders;
+    }
+
     /**
      * @return A list of all EClass types in the Strategy layer in preferred order
      */
