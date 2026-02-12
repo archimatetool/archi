@@ -47,7 +47,7 @@ public final class DiagramUtils {
      * @param parent the parent Composite (usually a Shell) on which to create the GraphicalViewer.
      * @return The Graphical Viewer which is actually a GraphicalViewerImpl
      */
-    public static GraphicalViewer createViewer(IDiagramModel model, Composite parent) {
+    public static GraphicalViewerImpl createViewer(IDiagramModel model, Composite parent) {
         EditPartFactory editPartFactory = null;
         
         if(model instanceof IArchimateDiagramModel) {
@@ -68,7 +68,7 @@ public final class DiagramUtils {
             throw new RuntimeException("Unsupported model type"); //$NON-NLS-1$
         }
         
-        GraphicalViewer viewer = new GraphicalViewerImpl();
+        GraphicalViewerImpl viewer = new GraphicalViewerImpl();
         viewer.createControl(parent); // Use createControl not setControl so it's wrapped in a Canvas
         
         viewer.setEditPartFactory(editPartFactory);
