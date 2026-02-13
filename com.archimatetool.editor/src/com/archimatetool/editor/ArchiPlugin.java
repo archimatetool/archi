@@ -161,7 +161,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
         
         // Check is valid file path
         try {
-            Path p = Paths.get(path);
+            Path p = Paths.get(path).normalize(); // Normalise in case of ".." in path
             return p.toFile();
         }
         catch(InvalidPathException ex) {
