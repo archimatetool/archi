@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.help.IContextProvider;
@@ -279,7 +280,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         
         String title = "", content = null, path = null;
-        Hint hint = getHintForObject(actualObject);
+        Hint hint = getHintForObject(source, actualObject);
         
         // We have a hint so these are the defaults
         if(hint != null) {
@@ -326,7 +327,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
     }
     
-    private Hint getHintForObject(Object object) {
+    private Hint getHintForObject(Object source, Object object) {
         if(object == null) {
             return null;
         }
@@ -334,8 +335,8 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         String className;
         
         // This will be from the Palette hover/select or the Magic Connector hover
-        if(object instanceof EClass) {
-            className = ((EClass)object).getName();
+        if(object instanceof EClass eClass) {
+            className = eClass.getName();
         }
         // Object Instance
         else {
@@ -343,12 +344,13 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         
         // Archimate Diagram Model so append the Viewpoint name
-        if(object instanceof IArchimateDiagramModel) {
-            className += ((IArchimateDiagramModel)object).getViewpoint();
+        if(object instanceof IArchimateDiagramModel dm) {
+            className += dm.getViewpoint();
         }
         
-        // Legend
-        if(object instanceof IDiagramModelNote note && note.isLegend()) {
+        // Legend object or ToolEntry
+        if((object instanceof IDiagramModelNote note && note.isLegend())
+                || (source instanceof ToolEntry toolEntry && toolEntry.getToolProperty("type") == IDiagramModelNote.LEGEND_MODEL_NAME)) {
             className = IDiagramModelNote.LEGEND_MODEL_NAME;
         }
         

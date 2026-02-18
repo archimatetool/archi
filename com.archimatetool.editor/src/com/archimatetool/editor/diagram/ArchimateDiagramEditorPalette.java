@@ -122,6 +122,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote(), IDiagramModelNote.LEGEND_MODEL_NAME),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LEGEND),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LEGEND));
+        legendEntry.setToolProperty("type", IDiagramModelNote.LEGEND_MODEL_NAME); //$NON-NLS-1$
         group.add(legendEntry);
         PaletteKeyHandler.setKeyBinding(legendEntry, IDiagramModelNote.LEGEND_MODEL_NAME);
 
