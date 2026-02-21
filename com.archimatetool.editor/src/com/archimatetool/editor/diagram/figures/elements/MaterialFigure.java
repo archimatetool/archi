@@ -50,10 +50,11 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         // Reduce width and height by 1 pixel
         rect.resize(-1, -1);
         
-        Rectangle imageBounds = rect.getCopy();
-        
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, rect);
+        
+        // Get this *after* setLineWidth
+        Rectangle imageBounds = rect.getCopy();
         
         setFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
         
