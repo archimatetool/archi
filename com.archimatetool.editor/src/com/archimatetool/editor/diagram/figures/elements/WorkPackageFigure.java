@@ -56,7 +56,8 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         Rectangle rect = getBounds().getCopy();
         
-        Rectangle imageBounds = rect.getCopy();
+        // Reduce by one pixel in case of bottom/right postion
+        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
         
         setFigurePositionFromTextPosition(rect, 8/7.0);
         

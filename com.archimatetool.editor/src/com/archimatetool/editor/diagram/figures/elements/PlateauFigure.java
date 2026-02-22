@@ -43,7 +43,8 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         Rectangle rect = getBounds().getCopy();
         
-        Rectangle imageBounds = rect.getCopy();
+        // Reduce by one pixel in case of bottom/right postion
+        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
         
         setFigurePositionFromTextPosition(rect, 5/3.5);
         

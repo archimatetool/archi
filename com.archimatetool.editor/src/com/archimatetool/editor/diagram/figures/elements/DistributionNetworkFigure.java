@@ -49,16 +49,19 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
+
+        // Reduce by one pixel in case of bottom/right postion
+        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
         
         if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
-        setFigurePositionFromTextPosition(rect, 5/3.0);
-        
         // Calculate line width depending on size
         int lineWidth = (int)Math.max(3, Math.sqrt(rect.width * rect.height) / 24);
 
+        setFigurePositionFromTextPosition(rect, 5/3.0);
+        
         // Shrink the arrow size area depending on line width
         Dimension arrowSize = getArrowSize(rect);
         rect.shrink(lineWidth, lineWidth);
@@ -78,7 +81,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         drawHorizontalLine(graphics, rect, arrowSize);
         
         // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }

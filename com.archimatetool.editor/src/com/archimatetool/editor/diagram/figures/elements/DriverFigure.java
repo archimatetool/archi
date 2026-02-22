@@ -42,13 +42,10 @@ public class DriverFigure extends AbstractMotivationFigure {
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
-        //rect.width--;
-        //rect.height--;
         
-        Rectangle imageBounds = rect.getCopy();
+        // Reduce by one pixel in case of bottom/right postion
+        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        //setLineWidth(graphics, 1, rect);
         int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 20);
         graphics.setLineWidth(lineWidth);
         
