@@ -9,6 +9,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Text;
@@ -29,7 +30,7 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
     private GlobalActionDisablementHandler fGlobalActionHandler;
     private VerifyListener verifyListener;
 
-    public AbstractDirectEditManager(GraphicalEditPart source, Class<?> editorType, CellEditorLocator locator) {
+    public AbstractDirectEditManager(GraphicalEditPart source, Class<? extends CellEditor> editorType, CellEditorLocator locator) {
         super(source, editorType, locator);
     }
 
