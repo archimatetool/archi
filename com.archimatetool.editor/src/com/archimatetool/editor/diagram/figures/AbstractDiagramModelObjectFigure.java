@@ -166,6 +166,7 @@ implements IDiagramModelObjectFigure {
         
         // If line width is 1 and scale is 100% and don't use offset then do nothing
         if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {
+            bounds.resize(-1, -1);
             return;
         }
     

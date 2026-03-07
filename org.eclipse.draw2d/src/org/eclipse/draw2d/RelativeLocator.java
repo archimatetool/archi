@@ -127,9 +127,9 @@ public class RelativeLocator implements Locator {
     @Override
     public void relocate(IFigure target) {
         IFigure reference = getReferenceFigure();
-        Rectangle targetBounds = new PrecisionRectangle(getReferenceBox()
-                .getResized(-1, -1));
+        Rectangle targetBounds = new PrecisionRectangle(getReferenceBox()); // Phillipus changed this
         reference.translateToAbsolute(targetBounds);
+        targetBounds.resize(-1, -1);  // Phillipus added this
         target.translateToRelative(targetBounds);
         targetBounds.resize(1, 1);
 
