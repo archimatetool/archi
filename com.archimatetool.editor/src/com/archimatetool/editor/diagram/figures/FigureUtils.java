@@ -176,7 +176,7 @@ public class FigureUtils {
             path.lineTo(points[i], points[i + 1]);
         }
         
-        path.lineTo(points[0], points[1]);
+        path.close();
         
         return path;
     }

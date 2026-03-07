@@ -7,9 +7,9 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Path;
-
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 
 
 
@@ -24,16 +24,44 @@ public class PathDrawnPolygonDecoration extends PolygonDecoration {
     }
     
     @Override
-    protected void outlineShape(Graphics g) {
-        Path path = FigureUtils.createPathFromPoints(getPoints());
-        g.drawPath(path);
-        path.dispose();
+    protected void outlineShape(Graphics graphics) {
+        Path path = createPathFromPoints();
+        if(path != null) {
+            graphics.drawPath(path);
+            path.dispose();
+        }
     }
     
     @Override
-    protected void fillShape(Graphics g) {
-        Path path = FigureUtils.createPathFromPoints(getPoints());
-        g.fillPath(path);
-        path.dispose();
+    protected void fillShape(Graphics graphics) {
+        Path path = createPathFromPoints();
+        if(path != null) {
+            graphics.fillPath(path);
+            path.dispose();
+        }
+    }
+    
+    protected Path createPathFromPoints() {
+        PointList points = getPoints();
+        
+        if(points.size() == 0) {
+            return null;
+        }
+        
+        Path path = new Path(null);
+        
+        for(int i = 0; i < points.size(); i++) {
+            Point p = points.getPoint(i);
+            if(i == 0) {
+                path.moveTo(p.x(), p.y());
+            }
+            else {
+                path.lineTo(p.x(), p.y());
+            }
+        }
+        
+        path.close();
+        
+        return path;
     }
 }
