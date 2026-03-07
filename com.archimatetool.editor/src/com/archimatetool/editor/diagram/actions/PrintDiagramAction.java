@@ -17,7 +17,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -66,13 +65,6 @@ public class PrintDiagramAction extends WorkbenchPartAction {
                 
                 PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(printer, viewer);
                 op.setPrintMode(printMode);
-                
-                // Setting scaled graphics off seems to be OK on Mac but not on Windows and Linux
-                // "Fit Page" doesn't work. See https://github.com/archimatetool/archi/issues/1133
-                if(PlatformUtils.isMac()) {
-                    op.setUseScaledGraphics(false);
-                }
-                
                 op.run(getWorkbenchPart().getTitle());
             }
             finally {
