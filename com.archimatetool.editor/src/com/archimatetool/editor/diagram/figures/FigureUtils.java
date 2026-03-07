@@ -8,9 +8,7 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScalableFigure;
-import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -28,31 +26,18 @@ import org.eclipse.swt.widgets.Display;
 public class FigureUtils {
 
     /**
-     * @param figure
-     * @return The Current Zoom drawing scale for a Figure
+     * Get the current scale from the ancestor ScalableFigure.
+     * This will be when we have zoomed in/out in a GEF diagram
+     * @return The Current GEF Zoom scale for a figure's ancestor ScalableFigure or 1.0 if no parent
      */
     public static double getFigureScale(IFigure figure) {
-        if(figure instanceof ScalableFigure) {
-            return ((ScalableFigure)figure).getScale();
+        if(figure instanceof ScalableFigure scalableFigure) {
+            return scalableFigure.getScale();
         }
         
         return figure == null ? 1.0 : getFigureScale(figure.getParent());
     }
     
-    /**
-     * @param graphics
-     * @return The scale factor of the Graphics instance
-     */
-    public static double getGraphicsScale(Graphics graphics) {
-        if(graphics instanceof SWTGraphics) {
-            return ((SWTGraphics)graphics).getScale();
-        }
-        else if(graphics instanceof ScaledGraphics) {
-            return graphics.getAbsoluteScale();
-        }
-        return 1.0;
-    }
-
     /**
      * Gradient Direction
      */
@@ -71,40 +56,28 @@ public class FigureUtils {
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * Adapted from https://www.eclipse.org/forums/index.php?t=msg&th=198946&goto=894610&#msg_894610
+     * Create a Gradient Pattern
      */
-    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1,
-            int alpha1, Color color2, int alpha2) {
-        
-        double scale = graphics.getAbsoluteScale();
-        
-        return new Pattern(device, (int)(x1 * scale), (int)(y1 * scale), (int)(x2 * scale), (int)(y2 * scale), color1, alpha1, color2,
-                alpha2);
+    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1, int alpha1, Color color2, int alpha2) {
+        return new Pattern(device, x1, y1, x2, y2, color1, alpha1, color2, alpha2);
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * Adapted from https://www.eclipse.org/forums/index.php?t=msg&th=198946&goto=894610&#msg_894610
+     * Create a Gradient Pattern
      */
-    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1,
-            Color color2) {
-        
-        double scale = graphics.getAbsoluteScale();
-        
-        return new Pattern(device, (int)(x1 * scale), (int)(y1 * scale), (int)(x2 * scale), (int)(y2 * scale), color1, color2);
+    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1, Color color2) {
+        return new Pattern(device, x1, y1, x2, y2, color1, color2);
     }
     
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the given gradient direction and default gradient end color
+     * Create a Gradient Pattern
      */
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, Direction direction) {
         return createGradient(graphics, r, color, 255, direction);
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the
-     * given gradient direction and default gradient end color and alpha transparency
+     * Create a Gradient Pattern using the given gradient direction and default gradient end color and alpha transparency
      */
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha, Direction direction) {
         if(direction == null) {
@@ -136,23 +109,6 @@ public class FigureUtils {
         }
     }
 
-    /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the LEFT gradient direction and default gradient end color
-     */
-    @Deprecated
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color) {
-        return createGradient(graphics, r, color, 255);
-    }
-
-    /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * using the LEFT direction and default gradient end color and alpha transparency
-     */
-    @Deprecated
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
-        return createGradient(graphics, r, color, alpha, Direction.LEFT);
-    }
-    
     /**
      * Create a Path from a points list
      * @param points The points list
