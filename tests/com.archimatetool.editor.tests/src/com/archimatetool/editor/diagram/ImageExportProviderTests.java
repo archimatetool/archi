@@ -90,7 +90,7 @@ public class ImageExportProviderTests {
         assertTrue(tmp.exists());
 
         ImageData imageData = new ImageData(tmp.getPath());
-        int scale = ImageFactory.getImageDeviceZoom() / 100; // Image Exporter exports using this
+        float scale = ImageFactory.getImageDeviceZoom() / 100f; // Image Exporter exports using this
         assertEquals(148 * scale, imageData.width); // 128 width + 10 margins
         assertEquals(72 * scale, imageData.height); // 52 height + 10 margins
         
