@@ -64,6 +64,8 @@ public class CSVImporterTests {
     
     File commentsFile = new File(testFolder, "test5-elements.csv");
     
+    File duplicateRelationsFile = new File(testFolder, "test6-relations.csv");
+    
     private IArchimateModel model;
     private CSVImporter importer;
     
@@ -517,6 +519,14 @@ public class CSVImporterTests {
         });
         
         assertTrue(ex.getMessage().contains(CSVImporter.EXPECTED_ERROR_MESSAGE));
+    }
+    
+    @Test
+    public void testDuplicateRelationThrowsException() {
+        importer.copyModel();
+        assertThrows(CSVParseException.class, () -> {
+            importer.importRelations(duplicateRelationsFile);
+        });
     }
 
     private void testGetRecords(char delimiter) throws Exception {

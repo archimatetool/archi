@@ -333,6 +333,11 @@ public class CSVImporter implements CSVConstants {
         // Find relation in model
         IArchimateRelationship relation = (IArchimateRelationship)findObjectInModel(id, eClass);
         
+        // If the relation is found but has no source or target then this is a duplicate in the CSV file
+        if(relation != null && (relation.getSource() == null || relation.getTarget() == null)) {
+            throw new CSVParseException(Messages.CSVImporter_0 + relation.getId());
+        }
+        
         // Relation does not exist or does exist but source or target id has changed in CSV, so create a new one
         if(relation == null ||
                     !(Objects.equals(sourceID, relation.getSource().getId()) && Objects.equals(targetID, relation.getTarget().getId()))) {

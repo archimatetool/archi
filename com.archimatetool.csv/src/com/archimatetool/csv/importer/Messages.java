@@ -6,6 +6,8 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.csv.importer.messages"; //$NON-NLS-1$
 
+    public static String CSVImporter_0;
+
     public static String CSVImporter_1;
 
     public static String CSVImporter_10;
