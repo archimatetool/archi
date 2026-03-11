@@ -682,6 +682,9 @@ public class SearchWidget extends Composite {
                 return;
             }
             
+            // Store the current selection
+            IStructuredSelection selection = fViewer.getStructuredSelection();
+
             // Doing this first ensures that TreeViewer.refresh() is faster in many cases, especially on Windows
             fViewer.collapseAll();
 
@@ -695,6 +698,7 @@ public class SearchWidget extends Composite {
             // Else restore the tree
             else {
                 restoreTreeState();
+                fViewer.setSelection(selection);
             }
         });
     }
