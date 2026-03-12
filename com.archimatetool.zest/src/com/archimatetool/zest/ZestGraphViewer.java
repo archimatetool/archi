@@ -12,6 +12,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
+import org.eclipse.zest.core.widgets.Graph;
+import org.eclipse.zest.core.widgets.ZestStyles;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
@@ -32,14 +34,22 @@ public class ZestGraphViewer extends GraphViewer {
      */
     private IPropertyChangeListener prefsListener = event -> {
         if(AnimationUtil.supportsAnimation()) {
-            if(IPreferenceConstants.ANIMATE_VISUALISER_NODES.equals(event.getProperty())) {
-                getGraphControl().setAnimationEnabled(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
-            }
-            else if(IPreferenceConstants.ANIMATE_VISUALISER_TIME.equals(event.getProperty())) {
-                getGraphControl().setAnimationTime(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+            if(IPreferenceConstants.ANIMATE_VISUALISER_TIME.equals(event.getProperty())) {
+                getGraphControl().setData(Graph.KEY_ANIMATION_TIME, ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
             }
         }
     };
+    
+    @Override
+    public int getNodeStyle() {
+        // Animate nodes
+        if(AnimationUtil.supportsAnimation()) {
+            return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES) ?
+                    super.getNodeStyle() : super.getNodeStyle() | ZestStyles.NODES_NO_LAYOUT_ANIMATION;
+        }
+        
+        return super.getNodeStyle();
+    }
     
     public ZestGraphViewer(Composite composite, int style) {
         super(composite, style);
@@ -48,8 +58,7 @@ public class ZestGraphViewer extends GraphViewer {
         
         // Animate nodes
         if(AnimationUtil.supportsAnimation()) {
-            getGraphControl().setAnimationEnabled(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.ANIMATE_VISUALISER_NODES));
-            getGraphControl().setAnimationTime(ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+            getGraphControl().setData(Graph.KEY_ANIMATION_TIME, ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
         }
         
         // Preference listener
