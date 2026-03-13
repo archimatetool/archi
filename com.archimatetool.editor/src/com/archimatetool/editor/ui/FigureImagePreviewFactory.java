@@ -5,16 +5,19 @@
  */
 package com.archimatetool.editor.ui;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
@@ -85,32 +88,40 @@ public class FigureImagePreviewFactory {
             GraphicalEditPart editPart = (GraphicalEditPart)uiProvider.createEditPart();
             editPart.setModel(dmo);
             
-            IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
-            figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
-            figure.refreshVisuals();
-            figure.validate();
+            IDiagramModelObjectFigure previewFigure = (IDiagramModelObjectFigure)editPart.getFigure();
+            previewFigure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
+            previewFigure.refreshVisuals();
+
+            Shell shell = new Shell();
             
-            image = new Image(Display.getDefault(), (ImageDataProvider) zoom -> {
-                Image tmp = new Image(Display.getCurrent(), FIGURE_WIDTH, FIGURE_HEIGHT);
-                GC gc = new GC(tmp);
-                SWTGraphics graphics = new SWTGraphics(gc);
-                figure.paint(graphics);
-                ImageData imageData = tmp.getImageData(zoom);
+            try {
+                GraphicalViewer viewer = new GraphicalViewerImpl();
+                viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
+
+                viewer.setContents(new AbstractGraphicalEditPart() {
+                    @Override
+                    protected IFigure createFigure() {
+                        return previewFigure;
+                    }
+
+                    @Override
+                    protected void createEditPolicies() {
+                    }
+                });
                 
-                tmp.dispose();
-                graphics.dispose();
-                gc.dispose();
+                // Call validate() *not* viewer.flush()
+                previewFigure.validate();
 
-                return imageData;
-            });
-            
-            // Use ImageGcDrawer in later Eclipse
-//            image = new Image(Display.getDefault(), (gc, width, height) -> {
-//                SWTGraphics graphics = new SWTGraphics(gc);
-//                figure.paint(graphics);
-//                graphics.dispose();
-//            }, FIGURE_WIDTH, FIGURE_HEIGHT);
-
+                image = new Image(Display.getDefault(), (gc, width, height) -> {
+                    SWTGraphics graphics = new SWTGraphics(gc);
+                    previewFigure.paint(graphics);
+                    graphics.dispose();
+                }, FIGURE_WIDTH, FIGURE_HEIGHT);
+            }
+            finally {
+                shell.dispose();
+            }
+ 
             imageRegistry.put(key, image);
         }
         
