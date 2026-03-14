@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 
 import com.archimatetool.editor.diagram.figures.ISelectableFigure;
@@ -49,7 +48,7 @@ public class SelectedEditPartPolicy extends SelectionEditPolicy {
     }
     
     protected void setSelected(boolean selected) {
-        if(((GraphicalEditPart)getHost()).getFigure() instanceof ISelectableFigure figure) {
+        if(getHost().getFigure() instanceof ISelectableFigure figure) {
             figure.setSelected(selected);
         }
     }

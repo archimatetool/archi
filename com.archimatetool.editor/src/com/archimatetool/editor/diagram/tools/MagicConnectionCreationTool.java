@@ -100,7 +100,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         setCurrentCommand(endCommand);
         
         // Get this now!
-        CreateConnectionRequest request = (CreateConnectionRequest)getTargetRequest();
+        CreateConnectionRequest request = getTargetRequest();
         
         EditPart sourceEditPart = request.getSourceEditPart();
         EditPart targetEditPart = request.getTargetEditPart();
@@ -594,7 +594,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             
             // Select EditPart and edit name
             if(fViewer != null && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
-                EditPart editPart = (EditPart)fViewer.getEditPartRegistry().get(fChild);
+                EditPart editPart = fViewer.getEditPartRegistry().get(fChild);
                 if(editPart != null) {
                     // Async this otherwise the edit label is not aligned
                     Display.getCurrent().asyncExec(() -> {

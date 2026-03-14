@@ -96,6 +96,7 @@ implements IArchimateDiagramEditor {
         return (IArchimateDiagramModel)super.getModel();
     }
     
+    @SuppressWarnings("removal")
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();
@@ -159,7 +160,6 @@ implements IArchimateDiagramEditor {
      * Add some extra Actions - *after* the graphical viewer has been created
      */
     @Override
-    @SuppressWarnings("unchecked")
     protected void createActions(GraphicalViewer viewer) {
         super.createActions(viewer);
         

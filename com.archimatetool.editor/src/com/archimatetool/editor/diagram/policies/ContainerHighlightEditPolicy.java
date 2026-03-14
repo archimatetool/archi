@@ -6,7 +6,6 @@
 package com.archimatetool.editor.diagram.policies;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
@@ -40,7 +39,7 @@ public class ContainerHighlightEditPolicy extends GraphicalEditPolicy {
                 || request.getType().equals(DiagramDropRequest.REQ_DIAGRAM_DROP)
                 ) {
             
-            if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+            if(getHost().getFigure() instanceof ITargetFeedbackFigure figure) {
                 figure.showTargetFeedback(true);
             }
         }
@@ -48,7 +47,7 @@ public class ContainerHighlightEditPolicy extends GraphicalEditPolicy {
     
     @Override
     public void eraseTargetFeedback(Request request) {
-        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+        if(getHost().getFigure() instanceof ITargetFeedbackFigure figure) {
             figure.showTargetFeedback(false);
         }
     }

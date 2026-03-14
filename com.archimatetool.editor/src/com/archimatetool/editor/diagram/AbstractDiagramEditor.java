@@ -320,9 +320,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Create the Root Edit Part
      */
     protected void createRootEditPart(GraphicalViewer viewer) {
-        viewer.setRootEditPart(new ScalableFreeformRootEditPart(false));
+        viewer.setRootEditPart(new ScalableFreeformRootEditPart());
     }
     
+    @SuppressWarnings("removal")
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();
@@ -492,6 +493,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Configure the Palette Viewer
      */
+    @SuppressWarnings("removal")
     protected void configurePaletteViewer(final PaletteViewer viewer) {
         PaletteViewerPreferences prefs = viewer.getPaletteViewerPreferences();
         
