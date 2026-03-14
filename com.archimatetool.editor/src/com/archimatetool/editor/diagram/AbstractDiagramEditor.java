@@ -652,7 +652,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Add some extra Actions - *after* the graphical viewer has been created
      */
-    @SuppressWarnings("unchecked")
     protected void createActions(GraphicalViewer viewer) {
         ActionRegistry registry = getActionRegistry();
         IAction action;
@@ -691,19 +690,29 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Direct Edit Rename
         action = new DirectEditAction(this);
-        action.setId(ActionFactory.RENAME.getId()); // Set this for Global Handler
+        action.setId(ActionFactory.RENAME.getId());
+        action.setActionDefinitionId(ActionFactory.RENAME.getCommandId());
         action.setText(Messages.AbstractDiagramEditor_4); // Externalise this one
         action.setToolTipText(Messages.AbstractDiagramEditor_13);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
-        // Change the Delete Action label
+        // Change the Delete Action label and add action definition id
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText(Messages.AbstractDiagramEditor_2);
         action.setToolTipText(action.getText());
+        action.setActionDefinitionId(ActionFactory.DELETE.getCommandId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
+        // Undo action has action definition id
+        action = registry.getAction(ActionFactory.UNDO.getId());
+        action.setActionDefinitionId(ActionFactory.UNDO.getCommandId());
+        
+        // Redo action has action definition id
+        action = registry.getAction(ActionFactory.REDO.getId());
+        action.setActionDefinitionId(ActionFactory.REDO.getCommandId());
+
         // Delete Container
         action = new DeleteContainerAction(this);
         registry.registerAction(action);
@@ -985,7 +994,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         List<EditPart> editParts = new ArrayList<EditPart>();
         
         for(Object object : selection) {
-            EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(object);
+            EditPart editPart = getGraphicalViewer().getEditPartRegistry().get(object);
             if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
                 editParts.add(editPart);
             }
