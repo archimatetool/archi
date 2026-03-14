@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -583,12 +583,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     }
 
     @Override
-    public void commandStackChanged(EventObject event) {
-        super.commandStackChanged(event);
-        updateCommandStackActions(); // Need to update these too
+    public void stackChanged(CommandStackEvent event) {
+        // Do this first
         setDirty(getCommandStack().isDirty());
+
+        super.stackChanged(event);
         
-        refreshFiguresWithLabelFeature(); // Refresgh Figures with Label Features
+        if(event.isPostChangeEvent()) {
+            updateCommandStackActions(); // Need to update these too
+            refreshFiguresWithLabelFeature(); // Refresh Figures with Label Features
+        }
     }
     
     /**
