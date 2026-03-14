@@ -26,7 +26,6 @@ public class ArchimateDiagramTransferDropTargetListener extends AbstractDiagramT
         super(viewer);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void drop(DropTargetEvent event) {
         // If Copy key held down then don't add connections to elements

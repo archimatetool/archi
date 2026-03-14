@@ -94,7 +94,7 @@ public class CreateDiagramObjectCommand extends Command {
         if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
             EditPartViewer viewer = fParentEditPart.getViewer();
             if(viewer != null) {
-                EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fChild);
+                EditPart editPart = viewer.getEditPartRegistry().get(fChild);
                 if(editPart != null) {
                     // Async this
                     Display.getCurrent().asyncExec(() -> {

@@ -52,6 +52,7 @@ implements ISketchEditor {
         return (ISketchModel)super.getModel();
     }
     
+    @SuppressWarnings("removal")
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();

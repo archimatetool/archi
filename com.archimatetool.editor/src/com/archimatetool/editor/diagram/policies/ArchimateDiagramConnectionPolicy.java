@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.policies;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
@@ -250,7 +249,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
     @Override
     public void eraseTargetFeedback(Request request) {
-        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+        if(getHost().getFigure() instanceof ITargetFeedbackFigure figure) {
             figure.showTargetFeedback(false);
         }
     }
@@ -283,7 +282,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     }
     
     private void showTargetFeedback() {
-        if(((GraphicalEditPart)getHost()).getFigure() instanceof ITargetFeedbackFigure figure) {
+        if(getHost().getFigure() instanceof ITargetFeedbackFigure figure) {
             figure.showTargetFeedback(true);
         }
     }
