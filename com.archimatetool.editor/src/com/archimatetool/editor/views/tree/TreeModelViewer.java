@@ -7,7 +7,6 @@ package com.archimatetool.editor.views.tree;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.ui.components.AlphanumericComparator;
 import com.archimatetool.editor.ui.components.TreeTextCellEditor;
 import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
@@ -59,9 +57,6 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProfile;
-
-
-
 
 /**
  * Tree Viewer for Model Tree View
@@ -122,45 +117,7 @@ public class TreeModelViewer extends TreeViewer {
         setDisplayIncrementally(limit);
         
         // Sort
-        setComparator(new ViewerComparator(Collator.getInstance()) {
-            Comparator<String> alphanumericComparator = new AlphanumericComparator(getComparator());
-            
-            @Override
-            public int compare(Viewer viewer, Object e1, Object e2) {
-                int cat1 = category(e1);
-                int cat2 = category(e2);
-
-                if(cat1 != cat2) {
-                    return cat1 - cat2;
-                }
-                
-                // Only user folders are sorted
-                if((e1 instanceof IFolder folder1 && e2 instanceof IFolder folder2) && (folder1.getType() != FolderType.USER 
-                        || folder2.getType() != FolderType.USER)) {
-                    return 0;
-                }
-                
-                // Get rendered text or name
-                String label1 = getAncestorFolderRenderText((IArchimateModelObject)e1);
-                if(label1 == null) {
-                    label1 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e1));
-                }
-
-                // Get rendered text or name
-                String label2 = getAncestorFolderRenderText((IArchimateModelObject)e2);
-                if(label2 == null) {
-                    label2 = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(e2));
-                }
-                
-                // Use either alphanumeric compare or default
-                return useAlphanumericComparator ? alphanumericComparator.compare(label1, label2) : getComparator().compare(label1, label2);
-            }
-            
-            @Override
-            public int category(Object element) {
-                return element instanceof IFolder ? 0 : 1;
-            }
-        });
+        setComparator(new CanonicalViewerComparator(Collator.getInstance()));
         
         // Cell Editor
         TreeTextCellEditor cellEditor = new TreeTextCellEditor(getTree());
@@ -415,6 +372,106 @@ public class TreeModelViewer extends TreeViewer {
         return null;
     }
     
+    private String buildInternalSortLabel(Object obj) {
+        if(obj instanceof IArchimateModelObject modelObject) {
+            String label = getAncestorFolderRenderText(modelObject);
+            if(label == null) {
+                label = StringUtils.safeString(ArchiLabelProvider.INSTANCE.getLabelNormalised(obj));
+            }
+            return label;
+        }
+        
+        return StringUtils.safeString(String.valueOf(obj));
+    }
+    
+    private String buildVisibleTreeText(Object element) {
+        String text = element instanceof IArchimateModelObject modelObject ? getAncestorFolderRenderText(modelObject) : null;
+        if(text != null) {
+            return text;
+        }
+        
+        String name = ArchiLabelProvider.INSTANCE.getLabelNormalised(element);
+        
+        // If a dirty model show asterisk
+        if(element instanceof IArchimateModel model && IEditorModelManager.INSTANCE.isModelDirty(model)) {
+            name = "*" + name; //$NON-NLS-1$
+        }
+        // If a relationship show source and target
+        else if(element instanceof IArchimateRelationship relationship) {
+            name += " ("; //$NON-NLS-1$
+            name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getSource());
+            name += " - "; //$NON-NLS-1$
+            name += ArchiLabelProvider.INSTANCE.getLabelNormalised(relationship.getTarget());
+            name += ")"; //$NON-NLS-1$
+        }
+        
+        return name;
+    }
+    
+    private String buildCanonicalSortKey(Object obj) {
+        StringBuilder sb = new StringBuilder();
+        
+        String internalLabel = buildInternalSortLabel(obj);
+        sb.append(normalizeSortText(internalLabel, useAlphanumericComparator));
+        sb.append('|');
+        
+        String visibleText = buildVisibleTreeText(obj);
+        sb.append(normalizeSortText(visibleText, useAlphanumericComparator));
+        sb.append('|');
+        
+        sb.append(obj.getClass().getName());
+        sb.append('|');
+        
+        if(obj instanceof IArchimateModelObject modelObject) {
+            sb.append(StringUtils.safeString(modelObject.getId()));
+        }
+        else {
+            sb.append(StringUtils.safeString(String.valueOf(obj)));
+        }
+        
+        return sb.toString();
+    }
+    
+    private String normalizeSortText(String text, boolean alphanumeric) {
+        text = StringUtils.safeString(text).trim();
+        
+        if(text.isEmpty()) {
+            return text;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        int len = text.length();
+        int i = 0;
+        
+        while(i < len) {
+            char ch = text.charAt(i);
+            
+            if(alphanumeric && Character.isDigit(ch)) {
+                int j = i + 1;
+                while(j < len && Character.isDigit(text.charAt(j))) {
+                    j++;
+                }
+                
+                String digits = text.substring(i, j);
+                
+                sb.append('[');
+                for(int k = digits.length(); k < 12; k++) {
+                    sb.append('0');
+                }
+                sb.append(digits);
+                sb.append(']');
+                
+                i = j;
+            }
+            else {
+                sb.append(Character.toLowerCase(ch));
+                i++;
+            }
+        }
+        
+        return sb.toString();
+    }
+    
     /**
      * Get the root expanded elements in case the DrillDownAdapter is active.
      * Note that some of these elements might have been deleted when the tree was drilled into.
@@ -423,6 +480,38 @@ public class TreeModelViewer extends TreeViewer {
      */
     Object[] getRootVisibleExpandedElements() {
         return rootVisibleExpandedElements != null ? rootVisibleExpandedElements : getVisibleExpandedElements();
+    }
+    
+    private class CanonicalViewerComparator extends ViewerComparator {
+        public CanonicalViewerComparator(Collator collator) {
+            super(collator);
+        }
+        
+        @Override
+        public int compare(Viewer viewer, Object e1, Object e2) {
+            int cat1 = category(e1);
+            int cat2 = category(e2);
+
+            if(cat1 != cat2) {
+                return cat1 - cat2;
+            }
+            
+            // Only user folders are sorted
+            if((e1 instanceof IFolder folder1 && e2 instanceof IFolder folder2) && (folder1.getType() != FolderType.USER 
+                    || folder2.getType() != FolderType.USER)) {
+                return 0;
+            }
+            
+            String key1 = buildCanonicalSortKey(e1);
+            String key2 = buildCanonicalSortKey(e2);
+            
+            return key1.compareTo(key2);
+        }
+        
+        @Override
+        public int category(Object element) {
+            return element instanceof IFolder ? 0 : 1;
+        }
     }
     
     // ========================= Model Providers =====================================
