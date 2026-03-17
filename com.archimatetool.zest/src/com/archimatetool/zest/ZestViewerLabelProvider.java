@@ -168,7 +168,7 @@ implements IBaseLabelProvider, ISelfStyleProvider {
     }
 
     public int getLineWidth(Object rel) {
-        return 0;
+        return 1;
     }
 
     // ========================================================================================
@@ -177,7 +177,7 @@ implements IBaseLabelProvider, ISelfStyleProvider {
     
     @Override
     public void selfStyleConnection(Object element, GraphConnection connection) {
-        connection.setLineWidth(0);
+        connection.setLineWidth(1);
         connection.setTooltip(getTooltip(element));
         connection.setLineColor(ColorConstants.black);
         connection.setText(getText(element));
