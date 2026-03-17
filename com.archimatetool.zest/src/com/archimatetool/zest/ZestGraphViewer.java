@@ -8,8 +8,6 @@ package com.archimatetool.zest;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.Graph;
@@ -56,44 +54,35 @@ public class ZestGraphViewer extends GraphViewer {
         setContentProvider(new ZestViewerContentProvider());
         setLabelProvider(new ZestViewerLabelProvider());
         
+        Graph graph = getGraphControl();
+        
         // Animate nodes
         if(AnimationUtil.supportsAnimation()) {
-            getGraphControl().setData(Graph.KEY_ANIMATION_TIME, ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
+            graph.setData(Graph.KEY_ANIMATION_TIME, ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.ANIMATE_VISUALISER_TIME));
         }
         
         // Preference listener
         ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
         
         // Un-Preference listener
-        getGraphControl().addDisposeListener(e -> {
+        graph.addDisposeListener(e -> {
             ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(prefsListener);
         });
         
-        // Mouse Wheel listener
-        getGraphControl().addMouseWheelListener(new MouseWheelListener() {
-            // Scrolling down scrolls to the right
-            private static final int DIRECTION = -1;
-            
-            // How many pixels to scroll
-            private static final int DELTA = 30;
-            
-            @Override
-            public void mouseScrolled(MouseEvent event) {
-                // Zoom in and out with Ctrl Key and mouse wheel - need better icons for this to look good
-//                if((event.stateMask & SWT.MOD1) != 0) {
-//                    if(event.count < 0) {
-//                        getZoomManager().zoomOut();
-//                    }
-//                    else if(event.count > 0) {
-//                        getZoomManager().zoomIn();
-//                    }
-//                }
-                
-                // Scroll left/right with mouse wheel and Shift key
-                if((event.stateMask & SWT.MOD2) != 0) {
-                    Viewport viewPort = getGraphControl().getViewport();
-                    viewPort.setViewLocation(viewPort.getViewLocation().translate(event.count * DELTA * DIRECTION, 0));
+        // Mouse scroll wheel
+        graph.addListener(SWT.MouseVerticalWheel, event -> {
+            // Zoom
+            if((event.stateMask & SWT.MOD1) != 0) {
+                switch(Integer.signum(event.count)) {
+                    case  1 -> getZoomManager().zoomIn();
+                    case -1 -> getZoomManager().zoomOut();
                 }
+            }
+            
+            // Scroll left/right with mouse wheel and Shift key
+            else if((event.stateMask & SWT.MOD2) != 0) {
+                Viewport viewPort = graph.getViewport();
+                viewPort.setViewLocation(viewPort.getViewLocation().translate(event.count * -30, 0));
             }
         });
         

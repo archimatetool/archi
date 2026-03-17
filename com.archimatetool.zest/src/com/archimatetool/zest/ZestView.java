@@ -103,6 +103,10 @@ implements IZestView, ISelectionListener {
     private List<IAction> fImplementationMigrationElementActions;
     private List<IAction> fMotivationElementActions;
     private List<IAction> fOtherElementActions;
+    
+    private IAction zoomInAction;
+    private IAction zoomOutAction;
+    private IAction zoomNormalAction;
   
     private DrillDownManager fDrillDownManager;
     
@@ -392,6 +396,50 @@ implements IZestView, ISelectionListener {
                 if(view != null && !selection.isEmpty()) {
                     view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
                 }
+            }
+        };
+        
+        zoomInAction = new Action() {
+            {
+                setId("org.eclipse.gef.zoom_in"); //$NON-NLS-1$
+                setActionDefinitionId(getId());
+            }
+            
+            @Override
+            public void run() {
+                fGraphViewer.getGraphControl().getZoomManager().zoomIn();
+            }
+        };
+        
+        zoomOutAction = new Action() {
+            {
+                setId("org.eclipse.gef.zoom_out"); //$NON-NLS-1$
+                setActionDefinitionId(getId());
+            }
+            
+            @Override
+            public void run() {
+                fGraphViewer.getGraphControl().getZoomManager().zoomOut();
+            }
+        };
+        
+        zoomNormalAction = new Action() {
+            {
+                setId("org.eclipse.gef.zoom_normal"); //$NON-NLS-1$
+                setActionDefinitionId(getId());
+                setEnabled(isEnabledState());
+                fGraphViewer.getGraphControl().getZoomManager().addZoomListener(e -> {
+                    setEnabled(isEnabledState());
+                });
+            }
+            
+            private boolean isEnabledState() {
+                return fGraphViewer.getGraphControl().getZoomManager().getZoom() != 1.0;
+            }
+
+            @Override
+            public void run() {
+                fGraphViewer.getGraphControl().getZoomManager().setZoom(1);
             }
         };
     }
@@ -718,6 +766,9 @@ implements IZestView, ISelectionListener {
 
         // Register our interest in the global menu actions
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
+        actionBars.setGlobalActionHandler(zoomInAction.getId(), zoomInAction);
+        actionBars.setGlobalActionHandler(zoomOutAction.getId(), zoomOutAction);
+        actionBars.setGlobalActionHandler(zoomNormalAction.getId(), zoomNormalAction);
     }
 
     /**
