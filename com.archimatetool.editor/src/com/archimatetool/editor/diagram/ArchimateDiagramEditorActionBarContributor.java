@@ -13,6 +13,7 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
+import com.archimatetool.editor.diagram.actions.InvertConnectionAction;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -34,7 +35,12 @@ extends AbstractDiagramEditorActionBarContributor {
         RetargetAction retargetAction = new RetargetAction(DeleteFromModelAction.ID, DeleteFromModelAction.TEXT);
         retargetAction.setActionDefinitionId(DeleteFromModelAction.ID);
         addRetargetAction(retargetAction);
-        
+
+        // Invert Connection Direction
+        retargetAction = new RetargetAction(InvertConnectionAction.ID, InvertConnectionAction.TEXT);
+        retargetAction.setActionDefinitionId(InvertConnectionAction.ID);
+        addRetargetAction(retargetAction);
+
         // Viewpoints
         for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             retargetAction = new RetargetAction(viewPoint.toString(), viewPoint.getName(), IAction.AS_RADIO_BUTTON);
