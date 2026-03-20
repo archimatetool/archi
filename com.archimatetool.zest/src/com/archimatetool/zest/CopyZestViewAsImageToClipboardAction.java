@@ -5,6 +5,7 @@
  */
 package com.archimatetool.zest;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -27,11 +28,11 @@ import com.archimatetool.editor.ui.ImageFactory;
  */
 public class CopyZestViewAsImageToClipboardAction extends Action {
     
-    private ZestGraphViewer fGraphViewer;
+    private ZestGraphViewer graphViewer;
 
     public CopyZestViewAsImageToClipboardAction(ZestView zestView) {
         super(Messages.CopyZestViewAsImageToClipboardAction_0);
-        fGraphViewer = zestView.getViewer();
+        graphViewer = zestView.getViewer();
         setToolTipText(getText());
         
         // Register for key binding
@@ -47,7 +48,8 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
             public void run() {
                 Image image = null;
                 try {
-                    image = DiagramUtils.createImage(fGraphViewer.getGraphControl().getContents(), 1, 10);
+                    IFigure figure = (IFigure)graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
+                    image = DiagramUtils.createImage(figure, 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }

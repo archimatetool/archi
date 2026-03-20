@@ -5,6 +5,7 @@
  */
 package com.archimatetool.zest;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -23,21 +24,21 @@ import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
  */
 public class ExportAsImageAction extends Action {
     
-    private ZestGraphViewer fGraphViewer;
+    private ZestGraphViewer graphViewer;
 
     public ExportAsImageAction(ZestGraphViewer graphViewer) {
         super(Messages.ExportAsImageAction_0 + "..."); //$NON-NLS-1$
         setToolTipText(Messages.ExportAsImageAction_0);
-        fGraphViewer = graphViewer;
+        this.graphViewer = graphViewer;
     }
     
     @Override
     public void run() {
-        Object model = fGraphViewer.getInput();
-        String name = ArchiLabelProvider.INSTANCE.getLabel(model);
+        IFigure figure = (IFigure)graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
+        String name = ArchiLabelProvider.INSTANCE.getLabel(graphViewer.getInput());
         
-        WizardDialog dialog = new ExtendedWizardDialog(fGraphViewer.getControl().getShell(),
-                new ExportAsImageWizard(fGraphViewer.getGraphControl().getContents(), name),
+        WizardDialog dialog = new ExtendedWizardDialog(graphViewer.getControl().getShell(),
+                new ExportAsImageWizard(figure, name),
                 "ExportZestViewAsImage") { //$NON-NLS-1$
 
             @Override
