@@ -48,7 +48,7 @@ public class PrefUtils {
         // Set Eclipse theming default enabled to true to counteract possible future regressions
         // See https://github.com/eclipse-platform/eclipse.platform.ui/issues/629
         // See https://github.com/eclipse-platform/eclipse.platform.ui/pull/630
-        getInstancePrefs(ORG_ECLIPSE_E4_UI_WORKBENCH_RENDERERS_SWT).putBoolean("themeEnabled", true);
+        getDefaultPrefs(ORG_ECLIPSE_E4_UI_WORKBENCH_RENDERERS_SWT).putBoolean("themeEnabled", true);
         
         // Windows specific
         if(PlatformUtils.isWindows()) {
