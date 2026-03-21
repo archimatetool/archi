@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -24,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Device
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class DeviceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -48,65 +50,63 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        int height_indent = rect.height / 5;
+        int lineWidth = getLineWidth();
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
+        // Top part fill
+        Rectangle topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent + 1);
         
-        int height_indent = rect.height / 6;
-        
-        graphics.setAlpha(getAlpha());
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        // Bottom part
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-
-        Path path = new Path(null);
-        path.moveTo(rect.x, rect.y + rect.height);
-        path.lineTo(rect.x + INDENT + 1, rect.y + rect.height - height_indent);
-        path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent);
-        path.lineTo(rect.x + rect.width, rect.y + rect.height);
-        path.lineTo(rect.x, rect.y + rect.height);
-        
-        Pattern gradient1 = applyGradientPattern(graphics, rect);
-        graphics.fillPath(path);
-        disposeGradientPattern(graphics, gradient1);
-        
-        graphics.setForegroundColor(getLineColor());
-        graphics.setAlpha(getLineAlpha());
-        graphics.drawPath(path);
-        
-        path.dispose();
-
-        // Top part
-        Rectangle topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent);
-
         graphics.setBackgroundColor(getFillColor());
         graphics.setAlpha(getAlpha());
-
         Pattern gradient2 = applyGradientPattern(graphics, topRect);
+        //FigureUtils.fillRoundRectanglePath(graphics, topRect, 30, 30);
         graphics.fillRoundRectangle(topRect, 30, 30);
         disposeGradientPattern(graphics, gradient2);
 
-        graphics.setForegroundColor(getLineColor());
-        graphics.setAlpha(getLineAlpha());
-        graphics.drawRoundRectangle(topRect, 30, 30);
+        // Bottom part fill
+        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        Pattern gradient1 = applyGradientPattern(graphics, rect);
+        Path path = getBottomPath(rect, height_indent, lineWidth);
+        graphics.fillPath(path);
+        path.dispose();
+        disposeGradientPattern(graphics, gradient1);
         
         // Image icon
         Rectangle imageArea = new Rectangle(rect.x + 3, rect.y + 3, rect.width - 6, rect.height - height_indent - 6);
-        drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
+        drawIconImage(graphics, getBounds().getCopy(), imageArea);
+
+        // Top part line
+        graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
+        FigureUtils.drawRoundRectanglePath(graphics, topRect, 30, 30, lineWidth);
         
+        // Bottom part line
+        graphics.setLineWidth(lineWidth);
+        graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
+        path = getBottomPath(rect, height_indent, lineWidth);
+        FigureUtils.drawPath(graphics, path, lineWidth);
+        path.dispose();
+
         graphics.popState();
+    }
+    
+    private Path getBottomPath(Rectangle rect, int height_indent, int lineWidth) {
+        float inset = lineWidth > 1 ? lineWidth / 2f : 0;
+        
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x + INDENT + 1, rect.y + rect.height - height_indent - inset);
+        path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent - inset);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.close();
+        return path;
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
@@ -161,7 +161,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 15 - getLineWidth(), rect.y + 5);
+        return new Point(rect.x + rect.width - 16, rect.y + 5);
     }
     
     @Override

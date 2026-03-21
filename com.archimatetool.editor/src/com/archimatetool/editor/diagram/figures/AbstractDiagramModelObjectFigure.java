@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+import org.eclipse.draw2d.Animation;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -32,6 +33,7 @@ import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -47,9 +49,6 @@ import com.archimatetool.model.IIconic;
  */
 public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
-    
-    // Use line width offset handling
-    boolean useLineOffset = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
     
     private IDiagramModelObject diagramModelObject;
     
@@ -145,22 +144,16 @@ implements IDiagramModelObjectFigure {
         }
     }
     
-    /**
-     * Set the line width to that in the diagram model and compensate the figure bounds width and height for this line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param bounds The bounds of the object
-     */
-    protected void setLineWidth(Graphics graphics, Rectangle bounds) {
-        setLineWidth(graphics, getLineWidth(), bounds);
-    }
+    // Whether to use line width offset when scale == 1.0 and line width == 1
+    private boolean useLineOffsetForLineWidthAndScale1 = PlatformUtils.isWindows() && ImageFactory.getDeviceZoom() > 100;
     
     /**
-     * Set the line width and compensate the figure bounds width and height for the line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param lineWidth The line width
-     * @param figureBounds The bounds of the figure
+     * Set the line width to that in the diagram model and adjust the figure bounds as necessary.
+     * @param graphics The graphics instance.
+     * @param figureBounds The bounds of the figure. This will change depending on platform and scaling.
      */
-    protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle figureBounds) {
+    protected void applyLineWidthAndOffset(Graphics graphics, Rectangle figureBounds) {
+        int lineWidth = getLineWidth();
         graphics.setLineWidth(lineWidth);
         
         // Sanity check in case we have a bounds that is too small to be reduced
@@ -172,34 +165,42 @@ implements IDiagramModelObjectFigure {
         // Otherwise Graphics will be plain SWTGraphics and the scale is the zoom
         final double scale = graphics instanceof ExtendedSWTGraphics extGraphics ? extGraphics.getScale() : FigureUtils.getFigureScale(this);
         
-        // If line width is 1 and scale is 100% and don't use line offset then don't apply an offset
-        // useLineOffset is false if Mac/Linux or user set preference off on Windows
+        // If scale is below 100% bottom and right rectangle lines might not be drawn
+        if(scale < 1) {
+            figureBounds.resize(-1, -1);
+        }
+        
+        // If line width is 1 and scale is 1 and don't use line offset then don't apply an offset
+        // useLineOffsetForLineWidthAndScale1 is false if Mac/Linux and true if Windows and monitor scaling > 100%
         // Typically we want it on for Windows where display scaling > 100%
-        if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {
+        if(lineWidth == 1 && scale == 1 && !useLineOffsetForLineWidthAndScale1) {
+            figureBounds.resize(-1, -1);
             return;
         }
-    
-        // Width and height reduced by line width
+        
+        // If linewidth is even shrink by half of lineWidth
+        if((lineWidth & 1) == 0) { // 
+            figureBounds.shrink(lineWidth / 2, lineWidth / 2);
+            return;
+        }
+        
+        // If linewidth is odd...
         figureBounds.resize(-lineWidth, -lineWidth);
         
+        // If we are animating then reduce figure size so that line remnants are not drawn
+        if(Animation.isAnimating()) {
+            figureBounds.resize(-1, -1);
+        }
+        
         // x,y offset is half of line width
-        float offset = (float)lineWidth / 2;
+        float offset = lineWidth / 2.0f;
         
         // If this is a non hi-res device and scale == 100% round up to integer to stop anti-aliasing
-        if(ImageFactory.getDeviceZoom() == 100 && scale == 1.0) {
+        if(ImageFactory.getDeviceZoom() == 100 && scale == 1) {
             offset = (float)Math.ceil(offset);
         }
         
         graphics.translate(offset, offset);
-    }
-    
-    /**
-     * Set the drawing state when disabled
-     * @param graphics
-     */
-    protected void setDisabledState(Graphics graphics) {
-        //graphics.setLineStyle(SWT.LINE_DASH);
-        //graphics.setLineDash(new int[] { 4, 3 });
     }
     
     /**
@@ -329,6 +330,15 @@ implements IDiagramModelObjectFigure {
     public void drawIconImage(Graphics graphics, Rectangle drawArea) {
         if(hasIconImage()) {
             getIconicDelegate().drawIcon(graphics, drawArea); // Call this directly in case offsets are set elsewhere
+        }
+    }
+    
+    /**
+     * If there is a delegate, draw the icon image in the given area
+     */
+    public void drawIconImage(Graphics graphics, Rectangle figureBounds, Rectangle drawArea) {
+        if(hasIconImage()) {
+            getIconicDelegate().drawIcon(graphics, figureBounds, drawArea); // Call this directly in case offsets are set elsewhere
         }
     }
     

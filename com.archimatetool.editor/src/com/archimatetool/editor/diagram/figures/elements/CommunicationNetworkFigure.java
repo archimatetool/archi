@@ -22,6 +22,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Communication Network Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class CommunicationNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -44,14 +45,10 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         Rectangle rect = getBounds().getCopy();
 
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
-        
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -107,9 +104,6 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         graphics.drawPath(path);
         path.dispose();
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -176,7 +170,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 14);
+        return new Point(rect.x + rect.width - 18, rect.y + 14);
     }
 
     @Override

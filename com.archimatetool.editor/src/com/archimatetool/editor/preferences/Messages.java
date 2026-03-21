@@ -201,15 +201,11 @@ public class Messages extends NLS {
 
     public static String DiagramPreferencePage_24;
 
-    public static String DiagramPreferencePage_3;
-
     public static String DiagramPreferencePage_4;
 
     public static String DiagramPreferencePage_6;
 
     public static String DiagramPreferencePage_7;
-
-    public static String DiagramPreferencePage_8;
 
     public static String DiagramPreferencePage_9;
 

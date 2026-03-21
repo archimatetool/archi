@@ -96,14 +96,6 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
 
     /**
-     * Set the drawing state when disabled
-     * @param graphics
-     */
-    protected void setDisabledState(Graphics graphics) {
-        getOwner().setDisabledState(graphics);
-    }
-    
-    /**
      * @return The owner's line width
      */
     protected int getLineWidth() {
@@ -111,24 +103,14 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
     
     /**
-     * Set the line width to that in the diagram model and compensate the figure bounds width and height for this line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param bounds The bounds of the object
+     * Set the line width to that in the diagram model and adjust the figure bounds as necessary.
+     * @param graphics The graphics instance.
+     * @param figureBounds The bounds of the figure. This will change depending on platform and scaling.
      */
-    protected void setLineWidth(Graphics graphics, Rectangle bounds) {
-        getOwner().setLineWidth(graphics, bounds);
+    protected void applyLineWidthAndOffset(Graphics graphics, Rectangle figureBounds) {
+        getOwner().applyLineWidthAndOffset(graphics, figureBounds);
     }
 
-    /**
-     * Set the line width and compensate the figure bounds width and height for this line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param lineWidth The line width
-     * @param bounds The bounds of the object
-     */
-    protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle bounds) {
-        getOwner().setLineWidth(graphics, lineWidth, bounds);
-    }
-    
     protected int getLineStyle() {
         return getOwner().getLineStyle();
     }

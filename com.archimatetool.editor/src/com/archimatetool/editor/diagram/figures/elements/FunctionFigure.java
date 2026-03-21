@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -53,39 +54,17 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        Path path = getFigurePath(rect);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = getFigurePath(rect);
-        
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
 
-        // Line
-        graphics.setForegroundColor(getLineColor());
-        graphics.setAlpha(getLineAlpha());
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
         // Image Icon
-        //drawIconImage(graphics, bounds, 0, 0, 0, 0);
-        //drawIconImage(graphics, bounds, bounds.height / 5 + 1, 0, -(bounds.height / 5 + 1), 0);
-        
         int top = 0, right = 0, left = 0, bottom = 0;
-        
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
             case IIconic.ICON_POSITION_TOP_RIGHT:
@@ -101,9 +80,15 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
                 bottom = -(rect.height / OFFSET / 3);
                 break;
         }
-        
-        drawIconImage(graphics, rect, top, right, bottom, left);
+        drawIconImage(graphics, getBounds().getCopy(), top, right, bottom, left);
 
+        // Line
+        graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
+        FigureUtils.drawPath(graphics, path, getLineWidth());
+        
+        path.dispose();
+        
         graphics.popState();
     }
     
@@ -189,7 +174,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 16 - getLineWidth(), rect.y + 19);
+        return new Point(rect.x + rect.width - 16, rect.y + 19);
     }
     
     @Override

@@ -20,10 +20,10 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate
+public class RoundedRectangleFigureDelegate extends AbstractFigureDelegate
 implements IRoundedRectangleFigure {
 
-    private Dimension fArc = new Dimension(20, 20);
+    private Dimension arc = new Dimension(20, 20);
     
     public RoundedRectangleFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
@@ -34,56 +34,37 @@ implements IRoundedRectangleFigure {
         graphics.pushState();
         
         Rectangle rect = getBounds();
-
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-
         graphics.setAlpha(getAlpha());
-
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        // Fill
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-
-        graphics.fillRoundRectangle(rect, fArc.width, fArc.height);
-        
+        //FigureUtils.fillRoundRectanglePath(graphics, rect, arc.width, arc.height);
+        graphics.fillRoundRectangle(rect, arc.width, arc.height);
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        //Rectangle imageArea = new Rectangle(rect.x + 2, rect.y + 2, rect.width - 4, rect.height - 4);
+        //getOwner().drawIconImage(graphics, getBounds().getCopy(), imageArea);
+        getOwner().drawIconImage(graphics, getBounds().getCopy());
+        
         // Outline
-        if(drawOutline) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawRoundRectangle(rect, fArc.width, fArc.height);
+            FigureUtils.drawRoundRectanglePath(graphics, rect, arc.width, arc.height, getLineWidth());
         }
-
-        // Image Icon
-        Rectangle imageArea = new Rectangle(rect.x + 2, rect.y + 2, rect.width - 4, rect.height - 4);
-        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
         
         graphics.popState();
     }
     
     @Override
     public void setArc(Dimension arc) {
-        fArc.width = arc.width;
-        fArc.height = arc.height;
+        this.arc = arc.getCopy();
     }
     
     @Override
     public Dimension getArc() {
-        return fArc.getCopy();
+        return arc.getCopy();
     }
-
 }

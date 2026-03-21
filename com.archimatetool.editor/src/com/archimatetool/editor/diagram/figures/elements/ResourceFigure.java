@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -24,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Resource
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ResourceFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -46,40 +48,35 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        Dimension nubSize = new Dimension(rect.width / 12, rect.height / 3);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
+        Path path = getFigurePath(rect, nubSize);
+
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = getFigurePath(rect);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
-        Dimension nubSize = new Dimension(rect.width / 10, rect.height / 3);
-        
-        graphics.drawLine(rect.x + rect.width - nubSize.width,
-                rect.y + (rect.height - nubSize.height) / 2,
-                rect.x + rect.width - nubSize.width,
-                rect.y + (rect.height - nubSize.height) / 2 + nubSize.height);
-
+        Path pathLine = new Path(null);
+        float x = rect.x + rect.width - nubSize.width - getLineWidth() / 2f;
+        float y = rect.y + (rect.height - nubSize.height) / 2;
+        pathLine.moveTo(x, y);
+        pathLine.lineTo(x, y + nubSize.height);
+        graphics.drawPath(pathLine);
+        pathLine.dispose();
         
         int lineTop = rect.y + rect.height / 5;
         int lineBottom = rect.y + rect.height * 4 / 5;
@@ -89,14 +86,10 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         graphics.drawLine(rect.x + lineGap * 2, lineTop, rect.x + lineGap * 2, lineBottom);
         graphics.drawLine(rect.x + lineGap * 3, lineTop, rect.x + lineGap * 3, lineBottom);
         
-        // Image Icon
-        drawIconImage(graphics, rect, 0, 0, 0, 0);
-        
         graphics.popState();
     }
 
-    private Path getFigurePath(Rectangle rect) {
-        Dimension nubSize = new Dimension(rect.width / 10, rect.height / 3);
+    private Path getFigurePath(Rectangle rect, Dimension nubSize) {
         int arc1 = 5;
         int arc2 = 3;
         
@@ -142,10 +135,22 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
                      rect.y + rect.height);
         
         path.lineTo(rect.x + arc1, rect.y + rect.height);
-        path.cubicTo(rect.x + arc1, rect.y + rect.height, rect.x, rect.y + rect.height, rect.x, rect.y + rect.height - arc1);
+
+        path.cubicTo(rect.x + arc1,
+                     rect.y + rect.height,
+                     rect.x,
+                     rect.y + rect.height,
+                     rect.x,
+                     rect.y + rect.height - arc1);
+
         path.lineTo(rect.x, rect.y + arc1);
-        path.cubicTo(rect.x, rect.y + arc1, rect.x, rect.y, rect.x + arc1, rect.y);
-        path.close();
+
+        path.cubicTo(rect.x,
+                     rect.y + arc1,
+                     rect.x,
+                     rect.y,
+                     rect.x + arc1,
+                     rect.y);
         
         return path;
     }
@@ -228,7 +233,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 19 - getLineWidth(), rect.y + 7);
+        return new Point(rect.getRight().x - 20, rect.y + 7);
     }
 
     @Override

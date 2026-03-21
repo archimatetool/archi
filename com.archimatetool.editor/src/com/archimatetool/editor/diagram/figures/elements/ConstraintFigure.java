@@ -22,10 +22,10 @@ import com.archimatetool.editor.ui.IIconDelegate;
  */
 public class ConstraintFigure extends AbstractMotivationFigure {
     
-    protected IFigureDelegate fAltFigureDelegate;
+    private IFigureDelegate figureDelegate;
     
     public ConstraintFigure() {
-        fAltFigureDelegate = new ParallelogramFigureDelegate(this, true);
+        figureDelegate = new ParallelogramFigureDelegate(this, true);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ConstraintFigure extends AbstractMotivationFigure {
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 19, rect.y + 8);
     }
 
     @Override
@@ -103,6 +103,6 @@ public class ConstraintFigure extends AbstractMotivationFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? null : figureDelegate;
     }
 }

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -21,6 +22,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for an Outcome
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class OutcomeFigure extends AbstractMotivationFigure {
     
@@ -39,46 +41,32 @@ public class OutcomeFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
 
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        int radius = getRadius(rect);
+        int diameter = radius * 2;
+        Point center = getCenter(rect);
         
-        // Fill
+        // Circle
+        float circleX = (float)center.preciseX() - radius;
+        float circleY = (float)center.preciseY() - radius;
+        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = new Path(null);
-        
-        int radius = getRadius(rect);
-        Point center = getCenter(rect);
-        
-        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius, (radius * 2), (radius * 2), 0, 360);
-        
-        graphics.fillPath(path);
-
+        FigureUtils.fillOvalPath(graphics,circleX, circleY, diameter, diameter);
         disposeGradientPattern(graphics, gradient);
         
-        // Lines
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
+        // Circle Line
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawPath(path);
-        
-        path.dispose();
+        FigureUtils.drawOvalPath(graphics, circleX, circleY, diameter, diameter, getLineWidth());
         
         graphics.setBackgroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
         
         int radius2 = Math.round(radius * 2.0f / 3.0f - (graphics.getLineWidth() / 2));
         graphics.drawOval(center.x - radius2, center.y - radius2, 2 * radius2, 2 * radius2);
@@ -116,9 +104,6 @@ public class OutcomeFigure extends AbstractMotivationFigure {
                           (int)(center.y + ratio * (arrowLength * 1.2d - radius)),
                           (int)(center.x + radius * ratio) - arrowLength - arrowLineWidth,
                           (int)(center.y - radius * ratio));
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -208,7 +193,7 @@ public class OutcomeFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 24 - getLineWidth(), rect.y + 9);
+        return new Point(rect.x + rect.width - 24, rect.y + 9);
     }
     
     @Override

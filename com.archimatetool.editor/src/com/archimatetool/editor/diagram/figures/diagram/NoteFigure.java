@@ -9,7 +9,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
@@ -98,55 +97,64 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         if(drawBorder) {
-            setLineWidth(graphics, rect);
+            graphics.setLineWidth(getLineWidth());
             setLineStyle(graphics);
         }
         
-        // Fill
-        PointList points = new PointList();
-        
+        // Dog ear
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
-            points.addPoint(rect.x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y - 13);
-            points.addPoint(rect.getTopRight().x - 13, rect.getBottomRight().y);
-            points.addPoint(rect.x, rect.getBottomLeft().y);
-        }
-        else {
-            points.addPoint(rect.x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y);
-            points.addPoint(rect.x, rect.getBottomLeft().y);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
-        graphics.setBackgroundColor(getFillColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = FigureUtils.createPathFromPoints(points);
-        graphics.fillPath(path);
-        path.dispose();
-        
-        disposeGradientPattern(graphics, gradient);
+            Path path = createDogEarPath(rect);
 
-        // Icon
-        drawIconImage(graphics, rect);
-
-        if(drawBorder) {
+            // Fill
+            graphics.setAlpha(getAlpha());
+            graphics.setBackgroundColor(getFillColor());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            graphics.fillPath(path);
+            disposeGradientPattern(graphics, gradient);
+            
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawPolygon(points);
+            
+            // Icon
+            drawIconImage(graphics, getBounds().getCopy());
+
+            if(drawBorder) {
+                FigureUtils.drawPath(graphics, path, getLineWidth());
+                path.dispose();
+            }
+            
+            path.dispose();
+        }
+        // Rectangle
+        else {
+            graphics.setAlpha(getAlpha());
+            graphics.setBackgroundColor(getFillColor());
+            graphics.fillRectangle(rect);
+            
+            // Icon
+            drawIconImage(graphics, rect.getCopy());
+
+            if(drawBorder) {
+                graphics.setAlpha(getLineAlpha());
+                graphics.setForegroundColor(getLineColor());
+                FigureUtils.drawRectangle(graphics, rect, getLineWidth());
+            }
         }
         
         graphics.popState();
+    }
+    
+    private Path createDogEarPath(Rectangle rect) {
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height - 13);
+        path.lineTo(rect.x + rect.width - 13, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y);
+        return path;
     }
 }

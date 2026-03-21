@@ -10,10 +10,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -23,6 +23,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Gap Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class GapFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -45,61 +46,43 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect, 5/3.0); // Should match 'widthFraction' formula
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        int widthFraction = 3 * (rect.width / 10); // 3/10ths of width
-        int circleRadius = widthFraction;
+        float widthFraction = 3f * (rect.width / 10f); // 3/10ths of width
+        float circleRadius = widthFraction;
         
         // height < width
         if(rect.height < rect.width) {
-            circleRadius = Math.min(rect.height / 2, widthFraction); // half height or 3/10ths
+            circleRadius = Math.min(rect.height / 2f, widthFraction); // half height or 3/10ths
         }
 
-        int xCenter = rect.x + rect.width / 2;
-        int yCenter = rect.y + rect.height / 2;
+        float xCenter = rect.x + rect.width / 2f;
+        float yCenter = rect.y + rect.height / 2f;
+        //Rectangle circleRect = new Rectangle(xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2);
         
-        Path path = new Path(null);
-        
-        path.addArc(xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2, 0, 360);
-        graphics.fillPath(path);
-        
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        FigureUtils.fillOvalPath(graphics, xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2);
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
+        // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
-        
-        path.dispose();
+        graphics.setLineWidth(getLineWidth());
+        FigureUtils.drawOvalPath(graphics, xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2, getLineWidth());
 
-        graphics.drawLine(xCenter - (circleRadius + circleRadius / 2),
-                yCenter - circleRadius / 4,
-                xCenter + (circleRadius + circleRadius / 2),
-                yCenter - circleRadius / 4);
+        int x1 = (int)(xCenter - (circleRadius + circleRadius / 2));
+        int x2 = (int)(xCenter + (circleRadius + circleRadius / 2));
+        int y1 = (int)(yCenter - circleRadius / 4);
+        int y2 = (int)(yCenter + circleRadius / 4);
         
-        graphics.drawLine(xCenter - (circleRadius + circleRadius / 2),
-                yCenter + circleRadius / 4,
-                xCenter + (circleRadius + circleRadius / 2),
-                yCenter + circleRadius / 4);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
+        graphics.drawLine(x1, y1, x2, y1);
+        graphics.drawLine(x1, y2, x2, y2);
         
         graphics.popState();
     }
@@ -155,7 +138,7 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 18, rect.y + 6);
     }
     
     @Override

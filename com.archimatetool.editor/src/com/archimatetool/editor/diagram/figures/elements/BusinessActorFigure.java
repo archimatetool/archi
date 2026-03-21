@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -23,6 +24,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Business Actor
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class BusinessActorFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -44,21 +46,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
-
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
         
         setFigurePositionFromTextPosition(rect, 2/3.0);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
         
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
@@ -67,43 +56,51 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         Path path = new Path(null);
         
         int diameter = Math.min(rect.width / 2, rect.height / 3);
+        int centerX = rect.x + rect.width / 2;
+        int centerY = rect.y + rect.height / 2;
         
-        path.addArc((rect.x + rect.width / 2 - diameter / 2), (rect.y + rect.height / 2 - diameter - diameter / 2), diameter, diameter, 0, 360);
+        path.addArc(centerX - diameter / 2,
+                    centerY - diameter - diameter / 2,
+                    diameter,
+                    diameter,
+                    0, 360);
+        
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Lines
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         path.dispose();
         
         graphics.setLineCap(SWT.CAP_ROUND);
+        graphics.setLineWidth(getLineWidth());
         
-        graphics.drawLine(rect.x + rect.width / 2,
-                          rect.y + rect.height / 2 - diameter / 2,
-                          rect.x + rect.width / 2,
-                          rect.y + rect.height / 2 - diameter / 2 + diameter);
+        graphics.drawLine(centerX,
+                          centerY - diameter / 2,
+                          centerX,
+                          centerY - diameter / 2 + diameter);
         
-        graphics.drawLine(rect.x + rect.width / 2,
-                          rect.y + rect.height / 2 - diameter / 2 + diameter,
-                          rect.x + rect.width / 2 - diameter,
-                          rect.y + rect.height / 2 - diameter / 2 + diameter + diameter);
+        graphics.drawLine(centerX,
+                          centerY - diameter / 2 + diameter,
+                          centerX - diameter,
+                          centerY - diameter / 2 + diameter * 2);
         
-        graphics.drawLine(rect.x + rect.width / 2,
-                          rect.y + rect.height / 2 - diameter / 2 + diameter,
-                          rect.x + rect.width / 2 + diameter,
-                          rect.y + rect.height / 2 - diameter / 2 + diameter + diameter);
+        graphics.drawLine(centerX,
+                          centerY - diameter / 2 + diameter,
+                          centerX + diameter,
+                          centerY - diameter / 2 + diameter * 2);
         
-        graphics.drawLine(rect.x + rect.width / 2 - diameter,
-                          rect.y + rect.height / 2 - diameter / 4,
-                          rect.x + rect.width / 2 + diameter,
-                          rect.y + rect.height / 2 - diameter / 4);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
+        graphics.drawLine(centerX - diameter,
+                          centerY - diameter / 4,
+                          centerX + diameter,
+                          centerY - diameter / 4);
         
         graphics.popState();
     }
@@ -167,7 +164,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds().getCopy();
-        return new Point(rect.x + rect.width - 10 - getLineWidth(), rect.y + 4);
+        return new Point(rect.x + rect.width - 11, rect.y + 4);
     }
 
     @Override

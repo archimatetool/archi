@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -23,6 +24,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Facility Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class FacilityFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -46,48 +48,33 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
+        Path path = getFigurePath(rect);
+
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = getFigurePath(rect);
-        
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
-        
+        FigureUtils.drawPath(graphics, path, getLineWidth());
+
         path.dispose();
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
     
     private Path getFigurePath(Rectangle rect) {
         final float buildingHeightFactor = 2f;
-        
-        Path path = new Path(null);
         
         int figureWidth = 0;
         int figureHeight = 0;
@@ -108,6 +95,8 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         
         int xTooth = figureWidth / 4 + figureWidth / 20;
         int yTooth = figureHeight / 5;
+        
+        Path path = new Path(null);
         
         path.moveTo(rect.x + xMargin, rect.y + yMargin);
         path.lineTo(rect.x + xMargin, rect.y + yMargin + figureHeight);
@@ -186,7 +175,7 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 19 - getLineWidth(), rect.y + 17);
+        return new Point(rect.getRight().x - 19, rect.y + 17);
     }
     
     @Override

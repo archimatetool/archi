@@ -14,11 +14,11 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
-import com.archimatetool.model.IIconic;
 
 
 
@@ -27,6 +27,7 @@ import com.archimatetool.model.IIconic;
  * Artifact Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ArtifactFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
@@ -51,64 +52,59 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        Path mainPath = createFigurePath(rect);
 
+        // Main fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path1 = new Path(null);
-        path1.moveTo(rect.x, rect.y);
-        path1.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
-        path1.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
-        path1.lineTo(rect.x + rect.width, rect.y + rect.height);
-        path1.lineTo(rect.x, rect.y + rect.height);
-        path1.close();
-        graphics.fillPath(path1);
-        
+        graphics.fillPath(mainPath);
         disposeGradientPattern(graphics, gradient);
 
-        // Fold
+        // Fold fill
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        Path foldPath = new Path(null);
+        foldPath.moveTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
+        foldPath.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        foldPath.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
+        graphics.fillPath(foldPath);
+        foldPath.dispose();
         
-        Path path2 = new Path(null);
-        path2.moveTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
-        path2.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
-        path2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
-        graphics.fillPath(path2);
-        
-        path2.dispose();
-        
+        // Icon Image
+        //int rightOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_RIGHT ? -FOLD_HEIGHT : 0;
+        //drawIconImage(graphics, getBounds().getCopy(), 0, rightOffset, 0, 0);
+        drawIconImage(graphics, getBounds().getCopy());
+
         // Lines
+        int lineWidth = getLineWidth();
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         
-        graphics.drawPath(path1);
-        path1.dispose();
+        // Main outline
+        FigureUtils.drawPath(graphics, mainPath, lineWidth);
+        mainPath.dispose();
         
-        Path path3 = new Path(null);
-        path3.moveTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
-        path3.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
-        path3.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
-        graphics.drawPath(path3);
+        // Fold outline
+        graphics.setLineWidth(lineWidth);
+        Path foldPath2 = new Path(null);
+        foldPath2.moveTo(rect.x + rect.width - lineWidth, rect.y + FOLD_HEIGHT);
+        foldPath2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
+        foldPath2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + lineWidth);
+        graphics.drawPath(foldPath2);
+        foldPath2.dispose();
         
-        path3.dispose();
-        
-        // Icon
-        // drawIconImage(graphics, bounds);
-        int rightOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_RIGHT ? -(FOLD_HEIGHT + 1) : 0;
-        //int rightOffset = -(FOLD_HEIGHT + 1);
-        drawIconImage(graphics, rect, 0, rightOffset, 0, 0);
-
         graphics.popState();
+    }
+    
+    private Path createFigurePath(Rectangle rect) {
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y);
+        path.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.close();
+        return path;
     }
     
     /**
@@ -173,7 +169,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 15 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 16, rect.y + 6);
     }
 
     @Override

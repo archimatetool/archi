@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -20,6 +21,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Principle
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class PrincipleFigure extends AbstractMotivationFigure {
     
@@ -38,28 +40,48 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
+        Path path = createPath(rect);
+
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
+        graphics.fillPath(path);
+        disposeGradientPattern(graphics, gradient);
         
-        Path path = new Path(null);
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
+        // Lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        FigureUtils.drawPath(graphics, path, getLineWidth());
+        
+        path.dispose();
+        
+        Point center = rect.getCenter();
+        int width = Math.max(1, Math.round((rect.height - 2.0f * graphics.getLineWidth()) / 20.0f));
+        
+        if(width >= rect.width / 2) {
+            width = Math.max(1, rect.width / 4);
+        }
+        
+        graphics.setBackgroundColor(getLineColor());
+
+        graphics.fillPolygon(new int[] { center.x - Math.round(width), rect.y + 3 * width, center.x + Math.round(width),
+                rect.y + 3 * width, center.x + Math.round(0.8f * width), rect.y + rect.height - 7 * width,
+                center.x - Math.round(0.8f * width), rect.y + rect.height - 7 * width} );
+        
+        graphics.fillPolygon(new int[] { center.x + Math.round(0.8f * width), rect.y + rect.height - 5 * width,
+                center.x - Math.round(0.8f * width), rect.y + rect.height - 5 * width, center.x - Math.round(0.8f * width),
+                rect.y + rect.height - 3 * width, center.x + Math.round(0.8F * width), rect.y + rect.height - 3 * width });
+        
+        graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect) {
         int divisions = 24;
         int div1 = 8;
         int div2 = 16;
@@ -67,6 +89,8 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         int fractionX = rect.width / divisions;
         int fractionY = rect.height / divisions;
         int corner = Math.min(fractionX, fractionY);
+        
+        Path path = new Path(null);
         
         path.moveTo(rect.x + corner, rect.y + corner);
 
@@ -76,63 +100,31 @@ public class PrincipleFigure extends AbstractMotivationFigure {
                      rect.y,
                      rect.x + rect.width - corner,
                      rect.y + corner);
-        
+
         path.cubicTo(rect.x + rect.width,
                      rect.y + fractionY * div1,
                      rect.x + rect.width,
                      rect.y + fractionY * div2,
                      rect.x + rect.width - corner,
                      rect.y + rect.height - corner);
-        
+
         path.cubicTo(rect.x + fractionX * div2,
                      rect.y + rect.height,
                      rect.x + fractionX * div1,
                      rect.y + rect.height,
                      rect.x + corner,
                      rect.y + rect.height - corner);
-   
+
         path.cubicTo(rect.x,
                      rect.y + fractionY * div2,
                      rect.x,
                      rect.y + fractionY * div1,
                      rect.x + corner,
-                     rect.y + corner);
+                     rect.y + corner);        
         
         path.close();
         
-        graphics.fillPath(path);
-
-        disposeGradientPattern(graphics, gradient);
-        
-        // Lines
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
-        graphics.setBackgroundColor(getLineColor());
-
-        Point center = rect.getCenter();
-        int width = Math.max(1, Math.round((rect.height - 2.0f * graphics.getLineWidth()) / 20.0f));
-        
-        if(width >= rect.width / 2) {
-            width = Math.max(1, rect.width / 4);
-        }
-        
-        graphics.fillPolygon(new int[] { center.x - Math.round(width), rect.y + 3 * width, center.x + Math.round(width),
-                rect.y + 3 * width, center.x + Math.round(0.8f * width), rect.y + rect.height - 7 * width,
-                center.x - Math.round(0.8f * width), rect.y + rect.height - 7 * width} );
-        
-        graphics.fillPolygon(new int[] { center.x + Math.round(0.8f * width), rect.y + rect.height - 5 * width,
-                center.x - Math.round(0.8f * width), rect.y + rect.height - 5 * width, center.x - Math.round(0.8f * width),
-                rect.y + rect.height - 3 * width, center.x + Math.round(0.8F * width), rect.y + rect.height - 3 * width });
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
-        graphics.popState();
+        return path;
     }
     
     /**
@@ -198,7 +190,7 @@ public class PrincipleFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 20, rect.y + 6);
     }
     
     @Override

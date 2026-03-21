@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -23,6 +24,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Capability
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class CapabilityFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -45,33 +47,61 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
         
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         
-        Path path = new Path(null);
-        
         // block length
-        int blockLength = Math.min(rect.height / 3, rect.width / 3);
-        int figureLength = blockLength * 3;
+        float blockLength = Math.min(rect.height / 3.0f, rect.width / 3.0f);
+        float figureLength = blockLength * 3;
         
-        int xMargin = (rect.width - figureLength) / 2;
-        int yMargin = (rect.height - figureLength) / 2;
+        float xMargin = (rect.width - figureLength) / 2.0f;
+        float yMargin = (rect.height - figureLength) / 2.0f;
+        
+        // Fill
+        Path mainPath = createPath(rect, xMargin, yMargin, blockLength);
+        graphics.fillPath(mainPath);
+        disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
+        // Outer lines
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        
+        FigureUtils.drawPath(graphics, mainPath, getLineWidth());
+        mainPath.dispose();
+        
+        // Inner lines
+        int lineWidth = getLineWidth();
+        float half = lineWidth / 2.0f;
+        graphics.setLineWidth(lineWidth);
+        
+        Path innerPath = new Path(null);
+        
+        innerPath.moveTo(rect.x + xMargin + blockLength + half, rect.y + yMargin + 3 * blockLength);
+        innerPath.lineTo(rect.x + xMargin + blockLength + half, rect.y + yMargin + 2 * blockLength);
+        
+        innerPath.moveTo(rect.x + xMargin + blockLength * 2 + half, rect.y + yMargin + 3 * blockLength);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 2 + half, rect.y + yMargin + blockLength);
+        
+        innerPath.moveTo(rect.x + xMargin + blockLength * 1, rect.y + yMargin + 2 * blockLength + half);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + 2 * blockLength + half);
+        
+        innerPath.moveTo(rect.x + xMargin + blockLength * 2, rect.y + yMargin + blockLength + half);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + blockLength + half);
+        
+        graphics.drawPath(innerPath);
+        innerPath.dispose();
+        
+        graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect, float xMargin, float yMargin, float blockLength) {
+        Path path = new Path(null);
         
         path.moveTo(rect.x + xMargin, rect.y + yMargin + 3 * blockLength);
         path.lineTo(rect.x + xMargin, rect.y + yMargin + 2 * blockLength);
@@ -83,42 +113,7 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         path.lineTo(rect.x + xMargin + 3 * blockLength, rect.y + yMargin + 3 * blockLength);
         path.close();
         
-        graphics.fillPath(path);
-        
-        disposeGradientPattern(graphics, gradient);
-        
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
-        // Inner lines
-        
-        graphics.drawLine(rect.x + xMargin + 1 * blockLength,
-                rect.y + yMargin + 3 * blockLength,
-                rect.x + xMargin + 1 * blockLength,
-                rect.y + yMargin + 2 * blockLength);
-        
-        graphics.drawLine(rect.x + xMargin + 2 * blockLength,
-                rect.y + yMargin + 3 * blockLength,
-                rect.x + xMargin + 2 * blockLength,
-                rect.y + yMargin + 1 * blockLength);
-        
-        graphics.drawLine(rect.x + xMargin + 1 * blockLength,
-                rect.y + yMargin + 2 * blockLength,
-                rect.x + xMargin + 3 * blockLength,
-                rect.y + yMargin + 2 * blockLength);
-        
-        graphics.drawLine(rect.x + xMargin + 2 * blockLength,
-                rect.y + yMargin + 1 * blockLength,
-                rect.x + xMargin + 3 * blockLength,
-                rect.y + yMargin + 1 * blockLength);
-
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
-        graphics.popState();
+        return path;
     }
     
     /**
@@ -197,7 +192,7 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 16 - getLineWidth(), rect.y + 5);
+        return new Point(rect.getRight().x - 17, rect.y + 5);
     }
 
     @Override

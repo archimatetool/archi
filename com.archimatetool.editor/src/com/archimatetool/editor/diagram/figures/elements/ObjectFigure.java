@@ -10,7 +10,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -26,6 +25,7 @@ import com.archimatetool.model.ITextPosition;
  * Object Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ObjectFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -41,42 +41,18 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
         
         @Override
         public void drawFigure(Graphics graphics) {
+            super.drawFigure(graphics);
+            
             graphics.pushState();
             
             Rectangle rect = getBounds();
             
-            // Reduce width and height by 1 pixel
-            rect.resize(-1, -1);
-            
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-
-            graphics.setAlpha(getAlpha());
-            
-            if(!isEnabled()) {
-                setDisabledState(graphics);
-            }
-            
-            // Main Fill
-            graphics.setBackgroundColor(getFillColor());
-            
-            Pattern gradient = applyGradientPattern(graphics, rect);
-            
-            graphics.fillRectangle(rect);
-            
-            disposeGradientPattern(graphics, gradient);
-
-            // Outline
+            // Line
+            graphics.setLineWidth(getLineWidth());
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
-
-            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
-            graphics.drawRectangle(rect);
+            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width - 1, rect.y + TOP_MARGIN);
             
-            // Icon
-            // getOwner().drawIconImage(graphics, bounds);
-            getOwner().drawIconImage(graphics, rect, TOP_MARGIN, 0, 0, 0);
-
             graphics.popState();
         }
         
@@ -157,7 +133,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
     
     @Override

@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -80,17 +81,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawBorder) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
         if(fImage != null) {
             // Draw the image with checks ensuring minimum width and height
             graphics.drawImage(fImage, rect.x, rect.y, Math.max(0, rect.width), Math.max(0, rect.height));
@@ -103,10 +93,11 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(drawBorder) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            setLineStyle(graphics);
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();

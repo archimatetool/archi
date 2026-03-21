@@ -20,6 +20,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Driver
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class DriverFigure extends AbstractMotivationFigure {
     
@@ -43,18 +44,11 @@ public class DriverFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
-        
         int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 20);
         graphics.setLineWidth(lineWidth);
         
         setFigurePositionFromTextPosition(rect);
 
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
@@ -71,6 +65,9 @@ public class DriverFigure extends AbstractMotivationFigure {
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Outline
         graphics.setAlpha(getLineAlpha());
@@ -102,9 +99,6 @@ public class DriverFigure extends AbstractMotivationFigure {
         
         radius = Math.round(radius / 4.0f);
         graphics.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -188,7 +182,7 @@ public class DriverFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 20, rect.y + 6);
     }
     
     @Override

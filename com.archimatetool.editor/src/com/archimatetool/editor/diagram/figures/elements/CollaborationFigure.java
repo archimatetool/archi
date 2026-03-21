@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -22,6 +23,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Collaboration
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class CollaborationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -44,57 +46,41 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect, 1.5); // Should match 'diameter'
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
-        graphics.setBackgroundColor(getFillColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        int diameter;
-        int x1 = rect.x, x2;
+        float diameter;
+        float x1 = rect.x;
 
         // width < height or same
         if(rect.width <= rect.height) {
-            diameter = (rect.width / 3) * 2;
+            diameter = (rect.width / 3f) * 2f;
         }
         // height < width
         else {
-            diameter = Math.min(rect.height, (rect.width / 3) * 2); // minimum of height or 2/3 of width
-            x1 += (rect.width / 2) - (diameter * .75);
+            diameter = Math.min(rect.height, (rect.width / 3f) * 2f); // minimum of height or 2/3 of width
+            x1 += (rect.width / 2f) - (diameter * .75);
         }
         
-        x2 = x1 + diameter / 2;
-        int y = rect.y + (rect.height - diameter) / 2;
+        float x2 = x1 + diameter / 2f;
+        float y = rect.y + (rect.height - diameter) / 2f;
         
-        graphics.fillOval(x1, y, diameter, diameter);
-        graphics.fillOval(x2, y, diameter, diameter);
-        
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        FigureUtils.fillOvalPath(graphics, x1, y, diameter, diameter);
+        FigureUtils.fillOvalPath(graphics, x2, y, diameter, diameter);
         disposeGradientPattern(graphics, gradient);
         
-        // Line
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
+        // Lines
+        int lineWidth = getLineWidth();
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawOval(x1, y, diameter, diameter);
-        graphics.drawOval(x2, y, diameter, diameter);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
+        FigureUtils.drawOvalPath(graphics, x1, y, diameter, diameter, lineWidth);
+        FigureUtils.drawOvalPath(graphics, x2, y, diameter, diameter, lineWidth);
         
         graphics.popState();
     }
@@ -155,7 +141,7 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 7);
+        return new Point(rect.x + rect.width - 18, rect.y + 7);
     }
 
     @Override
