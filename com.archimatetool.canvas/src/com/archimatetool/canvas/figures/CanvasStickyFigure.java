@@ -107,18 +107,12 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
     @Override
     protected void paintFigure(Graphics graphics) {
         graphics.pushState();
-        
+
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
         
         Rectangle rect = getBounds().getCopy();
-        
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=568864
@@ -132,28 +126,29 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
             graphics.fillGradient(rect, false);
         }
         
-        // Icon
-        drawIconImage(graphics, rect);
+        // Icon Image
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Border
         if(getBorderColor() != null) {
+            graphics.setLineWidth(2); // twice line width for clip
             graphics.setAlpha(getLineAlpha());
             
-            float lineOffset = (float)getLineWidth() / 2;
-
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
-            path.moveTo(rect.x - lineOffset, rect.y);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x + rect.width, rect.y);
             path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
 
             graphics.setForegroundColor(getBorderColor());
             path = new Path(null);
-            path.moveTo(rect.x, rect.y - lineOffset);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x, rect.y + rect.height);
-            path.lineTo(rect.x + rect.width + lineOffset, rect.y + rect.height);
+            path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
         }

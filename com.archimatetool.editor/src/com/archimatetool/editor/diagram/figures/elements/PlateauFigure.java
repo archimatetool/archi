@@ -21,6 +21,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Plateau Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class PlateauFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -43,14 +44,10 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
-        
         setFigurePositionFromTextPosition(rect, 5/3.5);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -76,9 +73,6 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
                 rect.y + yMargin + 1 * figureMaxSize / 4,
                 rect.x + xMargin + figureMaxSize,
                 rect.y + yMargin + 1 * figureMaxSize / 4);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -127,7 +121,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 13);
+        return new Point(rect.x + rect.width - 20, rect.y + 13);
     }
     
     @Override

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -21,6 +22,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for an Assessment
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class AssessmentFigure extends AbstractMotivationFigure {
     
@@ -39,21 +41,10 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
+        int lineWidth = getLineWidth();
         
         setFigurePositionFromTextPosition(rect);
 
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         int radius = getRadius(rect);
         Point center = getCenter(rect);
 
@@ -62,16 +53,17 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         
-        Path path = new Path(null);
-        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius, (radius * 2), (radius * 2), 0.0F, 360.0F);
+        Path path = getCirclePath(radius, center);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+
         // Lines
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, lineWidth);
         
         path.dispose();
         
@@ -81,14 +73,19 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         Point intersection = getCircleIntersection(x1, y1, center.preciseX(), center.preciseY(), center.preciseX(), center.preciseY(), radius);
         if(intersection != null) {
-            graphics.setClip(rect); // Need this so line doesn't draw out of bounds at bottom of rect
-            graphics.drawLine((int)Math.round(intersection.preciseX()), (int)Math.round(intersection.preciseY() - 1), x1, y1);
+            graphics.setLineWidth(getLineWidth());
+            graphics.drawLine((int)Math.round(intersection.preciseX()), (int)Math.round(intersection.preciseY() - 1), x1 + radius + 1, y1 - radius - 1);
         }
         
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
+    }
+    
+    private Path getCirclePath(int radius, Point center) {
+        Path path = new Path(null);
+        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius,
+                    radius * 2, radius * 2,
+                    0.0f, 360.0f);
+        return path;
     }
     
     private int getRadius(Rectangle rect) {
@@ -174,7 +171,7 @@ public class AssessmentFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 14 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 15, rect.y + 6);
     }
     
     @Override

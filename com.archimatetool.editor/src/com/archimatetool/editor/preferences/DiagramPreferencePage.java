@@ -63,8 +63,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             Messages.DiagramPreferencePage_2
     };
     
-    private Button fUseFigureLineOffsetButton;
-    
 	public DiagramPreferencePage() {
 		setPreferenceStore(ArchiPlugin.getInstance().getPreferenceStore());
 	}
@@ -164,27 +162,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fResizeBehaviourButtons[i]);
         }
 
-        // -------------- Other ----------------------------
-        
-        Group otherGroup = new Group(client, SWT.NULL);
-        otherGroup.setText(Messages.DiagramPreferencePage_3);
-        otherGroup.setLayout(new GridLayout(2, false));
-        otherGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        // Use line width offset on Windows hi-res
-        fUseFigureLineOffsetButton = new Button(otherGroup, SWT.CHECK);
-        fUseFigureLineOffsetButton.setText(Messages.DiagramPreferencePage_8);
-        fUseFigureLineOffsetButton.setLayoutData(createHorizontalGridData(2));
-        
         setValues();
         
         return client;
-    }
-    
-    private GridData createHorizontalGridData(int span) {
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = span;
-        return gd;
     }
     
     private void setValues() {
@@ -209,8 +189,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
-        
-        fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getBoolean(USE_FIGURE_LINE_OFFSET));
     }
     
     private void setSpinnerValues() {
@@ -246,8 +224,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         }
         
-        getPreferenceStore().setValue(USE_FIGURE_LINE_OFFSET, fUseFigureLineOffsetButton.getSelection());
-        
         return true;
     }
     
@@ -275,8 +251,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(int i = 0; i < fResizeBehaviourButtons.length; i++) {
             fResizeBehaviourButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR) == i);
         }
-        
-        fUseFigureLineOffsetButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_FIGURE_LINE_OFFSET));
         
         super.performDefaults();
     }

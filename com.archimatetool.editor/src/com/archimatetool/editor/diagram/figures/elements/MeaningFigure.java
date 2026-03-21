@@ -22,6 +22,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Meaning Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class MeaningFigure extends AbstractMotivationFigure {
     
@@ -40,24 +41,15 @@ public class MeaningFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // The following is a not so awful code to draw a cloud...
-        
-        graphics.setAlpha(getAlpha());
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        setFigurePositionFromTextPosition(rect, 5/3.0);
         
         // Meaning icon is drawn inside a 12x7 grid using bezier curves
         // (online tool to help define curves: https://www.victoriakirst.com/beziertool/)
         float gridUnitX = (float)(rect.width / 12.0);
         float gridUnitY = (float)(rect.height / 7.0);
         
-        // Define Path
         Path path = new Path(null);
+        
         // Big bubble
         path.moveTo( rect.x +    gridUnitX, rect.y + 2*gridUnitY);
         path.cubicTo(rect.x               , rect.y              , rect.x +  2*gridUnitX, rect.y              , rect.x +  3*gridUnitX, rect.y +   gridUnitY);
@@ -68,28 +60,32 @@ public class MeaningFigure extends AbstractMotivationFigure {
         path.cubicTo(rect.x + 11*gridUnitX, rect.y + 7*gridUnitY, rect.x +  8*gridUnitX, rect.y + 7*gridUnitY, rect.x +  7*gridUnitX, rect.y + 6*gridUnitY);
         path.cubicTo(rect.x +  6*gridUnitX, rect.y + 7*gridUnitY, rect.x +  2*gridUnitX, rect.y + 7*gridUnitY, rect.x +  2*gridUnitX, rect.y + 5*gridUnitY);
         path.cubicTo(rect.x               , rect.y + 5*gridUnitY, rect.x               , rect.y + 3*gridUnitY, rect.x +    gridUnitX, rect.y + 2*gridUnitY);
+        path.close();
+       
         // Small bubble
         path.moveTo(rect.x + 0.5f*gridUnitX, rect.y + 5.5f*gridUnitY);
         path.cubicTo(rect.x + gridUnitX, rect.y +    5*gridUnitY, rect.x + 2*gridUnitX, rect.y + 5.5f*gridUnitY, rect.x + 1.5f*gridUnitX, rect.y +    6*gridUnitY);
         path.cubicTo(rect.x + gridUnitX, rect.y	+ 6.5f*gridUnitY, rect.x              , rect.y +    6*gridUnitY, rect.x + 0.5f*gridUnitX, rect.y + 5.5f*gridUnitY);
+        path.close();
         
-        // Main fill
+        // Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
         
+        // Icon
+        drawIconImage(graphics, getBounds().getCopy());
+
         // Outline
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPath(path);
         
-        // Delete Path and free memory
         path.dispose();
                 
-        // Icon
-        drawIconImage(graphics, rect);
-
         graphics.popState();
     }
     
@@ -174,7 +170,7 @@ public class MeaningFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds().getCopy();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 17, rect.y + 8);
     }
 
     @Override

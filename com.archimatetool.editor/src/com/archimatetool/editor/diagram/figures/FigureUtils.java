@@ -136,4 +136,142 @@ public class FigureUtils {
         
         return path;
     }
+    
+    /**
+     * Draw a path by setting line width x2 and setClip to path
+     */
+    public static void drawPath(Graphics graphics, Path path, int lineWidth) {
+        graphics.pushState();
+        graphics.setLineWidth(lineWidth * 2);
+        graphics.setClip(path);
+        graphics.drawPath(path);
+        graphics.popState();
+    }
+    
+    /**
+     * Draw a rectangle using best option.
+     * If lineWidth is 1,3,5 use a Path else use simple drawRectangle
+     */
+    public static void drawRectangle(Graphics graphics, Rectangle rect, int lineWidth) {
+        if((lineWidth & 1) == 0) {
+            graphics.setLineWidth(lineWidth);
+            graphics.drawRectangle(rect.getCopy().shrink(lineWidth / 2, lineWidth / 2));
+        }
+        else {
+            graphics.pushState();
+            graphics.setLineWidth(lineWidth * 2);
+            // Use a Path. Don't use graphics.setClip(rect) and graphics.drawRectangle(rect) because it doesn't work on SVG export
+            Path path = new Path(null);
+            path.addRectangle(rect.x, rect.y, rect.width, rect.height);
+            graphics.setClip(path);
+            graphics.drawPath(path);
+            path.dispose();
+            graphics.popState();
+        }
+    }
+
+    /**
+     * Draw a round rectangle using a Path
+     */
+    public static void drawRoundRectanglePath(Graphics graphics, Rectangle rect, int arcWidth, int arcHeight, int lineWidth) {
+        Path path = createRoundRectanglePath(rect, arcWidth, arcHeight);
+        graphics.pushState();
+        graphics.setLineWidth(lineWidth * 2);
+        graphics.setClip(path);
+        graphics.drawPath(path);
+        path.dispose();
+        graphics.popState();
+    }
+    
+    /**
+     * Fill a round rectangle using a Path
+     */
+    public static void fillRoundRectanglePath(Graphics graphics, Rectangle rect, int arcWidth, int arcHeight) {
+        Path path = createRoundRectanglePath(rect, arcWidth, arcHeight);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+    
+    private static Path createRoundRectanglePath(Rectangle rect, int arcWidth, int arcHeight) {
+        float rx = arcWidth / 2f;
+        float ry = arcHeight / 2f;
+        
+        int x = rect.x;
+        int y = rect.y;
+        int width = rect.width;
+        int height = rect.height;
+        
+        Path path = new Path(null);
+        
+        // Start at top side, after top-left corner arc
+        path.moveTo(x + rx, y);
+        
+        // Top line
+        path.lineTo(x + width - rx, y);
+        
+        // Top-right arc (quarter circle)
+        path.addArc(x + width - arcWidth, y, arcWidth, arcHeight, 90, -90);
+        
+        // Right line
+        path.lineTo(x + width, y + height - ry);
+        
+        // Bottom-right arc
+        path.addArc(x + width - arcWidth, y + height - arcHeight, arcWidth, arcHeight, 0, -90);
+        
+        // Bottom line
+        path.lineTo(x + rx, y + height);
+        
+        // Bottom-left arc
+        path.addArc(x, y + height - arcHeight, arcWidth, arcHeight, 270, -90);
+        
+        // Left line
+        path.lineTo(x, y + ry);
+        
+        // Top-left arc — closes the path
+        path.addArc(x, y, arcWidth, arcHeight, 180, -90);
+        
+        return path;
+    }
+
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, Rectangle rect, int lineWidth) {
+        drawOvalPath(graphics, rect.x, rect.y, rect.width, rect.height, lineWidth);
+    }
+
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, float x, float y, float width, float height, int lineWidth) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.pushState();
+        graphics.setLineWidth(lineWidth * 2);
+        graphics.setClip(path);
+        graphics.drawPath(path);
+        path.dispose();
+        graphics.popState();
+    }
+    
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, Rectangle rect) {
+        fillOvalPath(graphics, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, float x, float y, float width, float height) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+    
+    private static Path createOvalPath(float x, float y, float width, float height) {
+        Path path = new Path(null);
+        path.addArc(x, y, width, height, 0, 360);
+        return path;
+    }
 }

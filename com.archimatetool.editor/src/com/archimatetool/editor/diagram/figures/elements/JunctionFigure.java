@@ -15,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IJunction;
 
@@ -36,14 +37,7 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         
         graphics.setAntialias(SWT.ON);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         Rectangle rect = getBounds().getCopy();
-        
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
         
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
@@ -54,10 +48,9 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
-                setLineWidth(graphics, rect);
                 graphics.setAlpha(getLineAlpha());
                 graphics.setForegroundColor(getLineColor());
-                graphics.drawOval(rect);
+                FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
                 break;
         }
         

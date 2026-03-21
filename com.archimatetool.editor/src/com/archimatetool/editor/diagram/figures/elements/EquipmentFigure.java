@@ -26,6 +26,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Equipment Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class EquipmentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -48,22 +49,14 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         graphics.pushState();
         
         Rectangle rect = getBounds().getCopy();
-        
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
+        rect.shrink(2, 2);
         
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
@@ -86,6 +79,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         disposeGradientPattern(graphics, gradient);
         
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
 
@@ -98,9 +92,6 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         drawCircle(graphics, rect1);
         drawCircle(graphics, rect2);
 
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
     }
     
@@ -256,7 +247,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 17);
+        return new Point(rect.x + rect.width - 19, rect.y + 17);
     }
     
     @Override

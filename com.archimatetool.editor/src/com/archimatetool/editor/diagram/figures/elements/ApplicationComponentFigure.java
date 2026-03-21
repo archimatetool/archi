@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -15,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -25,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for an Application Component
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ApplicationComponentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -49,66 +50,48 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
         // Main Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-
         graphics.fillRectangle(rect.x + INDENT, rect.y, rect.width - INDENT, rect.height);
-        
         disposeGradientPattern(graphics, gradient);
         
-        graphics.setAlpha(getLineAlpha());
-        
+        // Icon
+        drawIconImage(graphics, getBounds().getCopy(), 0, 0, 0, INDENT * 2);
+
         // Outline
+        int lineWidth = getLineWidth();
+        
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        PointList points = new PointList();
-        Point pt1 = new Point(rect.x + INDENT, rect.y + 10);
-        points.addPoint(pt1);
-        Point pt2 = new Point(pt1.x, rect.y);
-        points.addPoint(pt2);
-        Point pt3 = new Point(rect.x + rect.width, rect.y);
-        points.addPoint(pt3);
-        Point pt4 = new Point(pt3.x, rect.y + rect.height);
-        points.addPoint(pt4);
-        Point pt5 = new Point(pt1.x, pt4.y);
-        points.addPoint(pt5);
-        Point pt6 = new Point(pt1.x, rect.y + 43);
-        points.addPoint(pt6);
-        graphics.drawPolyline(points);
         
-        graphics.drawLine(rect.x + INDENT, rect.y + 23, rect.x + INDENT, rect.y + 30);
+        Path path = new Path(null);
+        path.moveTo(rect.x + INDENT, rect.y + 10);
+        path.lineTo(rect.x + INDENT, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.lineTo(rect.x + INDENT, rect.y + rect.height);
+        path.lineTo(rect.x + INDENT, rect.y + 43);
         
-        graphics.setAlpha(getAlpha());
+        path.moveTo(rect.x + INDENT, rect.y + 23);
+        path.lineTo(rect.x + INDENT, rect.y + 30);
+        
+        FigureUtils.drawPath(graphics, path, lineWidth);
+        path.dispose();
         
         // Nubs Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         graphics.fillRectangle(rect.x, rect.y + 10, INDENT * 2, 13);
         graphics.fillRectangle(rect.x, rect.y + 30, INDENT * 2, 13);
         
-        graphics.setAlpha(getLineAlpha());
-        
         // Nubs Outline
+        graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(rect.x, rect.y + 10, INDENT * 2, 13);
-        graphics.drawRectangle(rect.x, rect.y + 30, INDENT * 2, 13);
+        FigureUtils.drawRectangle(graphics, new Rectangle(rect.x, rect.y + 10, INDENT * 2, 13), lineWidth);
+        FigureUtils.drawRectangle(graphics, new Rectangle(rect.x, rect.y + 30, INDENT * 2, 13), lineWidth);
         
-        // Icon
-        // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, rect, 0, 0, 0, INDENT * 2);
-
         graphics.popState();
     }
     
@@ -181,7 +164,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 14 - getLineWidth(), rect.y + 19);
+        return new Point(rect.x + rect.width - 14, rect.y + 19);
     }
     
     @Override

@@ -25,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * System Software Service Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class SystemSoftwareFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
 
@@ -47,27 +48,8 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(getFillColor());
-        graphics.setForegroundColor(getLineColor());
-
-        Pattern gradient = applyGradientPattern(graphics, rect);
-
         int diameter = (rect.width / 3) * 2;
         int x1 = rect.x + (rect.width - diameter) / 4;
         int x2 = x1 + diameter / 6;
@@ -75,22 +57,32 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
         int y1 = rect.y + (rect.height - diameter) / 2;
         int y2 = y1 + diameter / 6;
         
+        graphics.setBackgroundColor(getFillColor());
+        graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+
+        // Fill
+        graphics.setAlpha(getAlpha());
         graphics.fillOval(x2, y1, diameter, diameter);
         
+        // Draw
         graphics.setAlpha(getLineAlpha());
         graphics.drawOval(x2, y1, diameter, diameter);
         
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.fillOval(x1, y2, diameter, diameter);
         
+        // Draw
         graphics.setAlpha(getLineAlpha());
         graphics.drawOval(x1, y2, diameter, diameter);
 
         disposeGradientPattern(graphics, gradient);
         
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-
         graphics.popState();
     }
     
@@ -148,7 +140,7 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure imp
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds().getCopy();
-        return new Point(rect.x + rect.width - 16 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 17, rect.y + 7);
     }
     
     @Override

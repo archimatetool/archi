@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -25,6 +26,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Deliverable Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class DeliverableFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -47,56 +49,47 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        graphics.setAlpha(getAlpha());
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        Path path = getFigurePath(8, rect, (float)getLineWidth() / 2);
-        
         // Main Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
+        
+        Path path = getFigurePath(8, rect, 0);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        //drawIconImage(graphics, getBounds().getCopy(), 0, 0, -14, 0);
 
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
-        // Icon
-        // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, rect, 0, 0, -14, 0);
-
         graphics.popState();
     }
     
-    protected static Path getFigurePath(float curveHeight, Rectangle rect, float lineOffset) {
+    protected static Path getFigurePath(float curveHeight, Rectangle rect, float inset) {
         float curveY = rect.bottom() - curveHeight;
         
         Path path = new Path(null);
         
-        path.moveTo(rect.x, rect.y);
-        path.lineTo(rect.x, curveY - 1);
+        path.moveTo(rect.x + inset, rect.y + inset);
         
-        path.quadTo(rect.x + (rect.width / 4), rect.bottom() + curveHeight,
+        path.lineTo(rect.x + inset, curveY - 1);
+        
+        path.quadTo(rect.x + (rect.width / 4), rect.bottom() + curveHeight - inset,
                     rect.x + (rect.width / 2) + 1, curveY);
 
         path.quadTo(rect.right() - (rect.width / 4), curveY - curveHeight - 1,
-                    rect.right(), curveY);
+                    rect.right() - inset, curveY);
         
-        path.lineTo(rect.x + rect.width, rect.y);
-        path.lineTo(rect.x - lineOffset, rect.y);
+        path.lineTo(rect.x + rect.width - inset, rect.y + inset);
+        
+        path.close();
         
         return path;
     }
@@ -150,7 +143,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 18, rect.y + 6);
     }
     
     @Override

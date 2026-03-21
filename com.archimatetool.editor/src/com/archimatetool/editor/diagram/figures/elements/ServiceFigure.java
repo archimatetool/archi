@@ -92,7 +92,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 7);
+        return new Point(rect.x + rect.width - 20, rect.y + 7);
     }
 
     @Override

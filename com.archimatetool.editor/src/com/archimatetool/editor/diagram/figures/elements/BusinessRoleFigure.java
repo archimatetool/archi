@@ -105,7 +105,7 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure imple
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 17 - getLineWidth(), rect.y + 7);
+        return new Point(rect.getRight().x - 18, rect.y + 7);
     }
     
     @Override

@@ -50,50 +50,32 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        graphics.setAntialias(SWT.ON);
-        
-        graphics.setAlpha(getAlpha());
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
-        graphics.setBackgroundColor(getFillColor());
-        graphics.setForegroundColor(getLineColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        int[] mainRectangle;
-        
+        // Rectangle type
         if(getDiagramModelArchimateObject().getType() == 0) {
-            mainRectangle = new int[] {
-                    rect.x, rect.y,
-                    rect.x + rect.width, rect.y,
-                    rect.x + rect.width, rect.y + rect.height,
-                    rect.x, rect.y + rect.height
-            };
+            // Fill
+            graphics.setBackgroundColor(getFillColor());
+            graphics.setAlpha(getAlpha());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            graphics.fillRectangle(rect);
+            disposeGradientPattern(graphics, gradient);
             
-            Path path = FigureUtils.createPathFromPoints(mainRectangle);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            // Icon
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(0);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
+            }
+            
+            // Outline
+            if(drawOutline) {
+                graphics.setForegroundColor(getLineColor());
+                setLineStyle(graphics);
+                graphics.setAlpha(getLineAlpha());
+                FigureUtils.drawRectangle(graphics, rect, getLineWidth());
             }
         }
+        // Tabbed
         else {
             tabWidth = (int)(rect.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
@@ -111,54 +93,47 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 tabHeight = Math.max(TOPBAR_HEIGHT, textHeight);
             }
             
-            mainRectangle = new int[] {
-                    rect.x, rect.y + tabHeight,
-                    rect.x + rect.width, rect.y + tabHeight,
-                    rect.x + rect.width, rect.y + rect.height,
-                    rect.x, rect.y + rect.height
-            };
+            Rectangle topRectangle = new Rectangle(rect.x, rect.y, tabWidth, tabHeight);
+            Rectangle mainRectangle = new Rectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
             
-            int[] fillShape = new int[] {
-                    rect.x, rect.y,
-                    rect.x + tabWidth, rect.y,
-                    rect.x + tabWidth, rect.y + tabHeight,
-                    rect.getRight().x, rect.y + tabHeight,
-                    rect.getRight().x, rect.getBottom().y,
-                    rect.x, rect.getBottom().y
-            };
+            // Top rectangle fill
+            graphics.setBackgroundColor(getFillColor());
+            graphics.setAlpha(getAlpha());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            graphics.fillRectangle(topRectangle);
             
-            Path path = FigureUtils.createPathFromPoints(fillShape);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            // Icon
+            // Main rectangle fill
+            graphics.fillRectangle(mainRectangle);
+            disposeGradientPattern(graphics, gradient);
+
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(tabHeight);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
             }
 
             if(drawOutline) {
+                graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
-                path = new Path(null);
+                setLineStyle(graphics);
+                
+                // Main rectangle
+                FigureUtils.drawRectangle(graphics, mainRectangle, getLineWidth());
+                
+                // Top rectangle
+                Path path = new Path(null);
                 path.moveTo(rect.x, rect.y + tabHeight);
                 path.lineTo(rect.x, rect.y);
                 path.lineTo(rect.x + tabWidth, rect.y);
                 path.lineTo(rect.x + tabWidth, rect.y + tabHeight);
-                graphics.drawPath(path);
+                FigureUtils.drawPath(graphics, path, getLineWidth());
                 path.dispose();
             }
         }
         
-        disposeGradientPattern(graphics, gradient);
-
-        // Outlines
-        if(drawOutline) {
-            graphics.setAlpha(getLineAlpha());
-            graphics.drawPolygon(mainRectangle);
-        }
-        
         graphics.popState();
         
+        // Draw this *after* popState
         if(getDiagramModelArchimateObject().getType() == 0) {
             drawIcon(graphics);
         }
@@ -269,7 +244,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
     
     @Override

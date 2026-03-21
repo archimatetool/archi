@@ -10,7 +10,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
@@ -22,6 +21,7 @@ import com.archimatetool.model.ITextPosition;
  * Contract Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ContractFigure extends ObjectFigure {
     
@@ -35,42 +35,17 @@ public class ContractFigure extends ObjectFigure {
         
         @Override
         public void drawFigure(Graphics graphics) {
+            super.drawFigure(graphics);
+            
             graphics.pushState();
             
             Rectangle rect = getBounds();
             
-            // Reduce width and height by 1 pixel
-            rect.resize(-1, -1);
-            
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-
-            graphics.setAlpha(getAlpha());
-            
-            if(!isEnabled()) {
-                setDisabledState(graphics);
-            }
-            
-            // Main Fill
-            graphics.setBackgroundColor(getFillColor());
-            
-            Pattern gradient = applyGradientPattern(graphics, rect);
-            
-            graphics.fillRectangle(rect);
-            
-            disposeGradientPattern(graphics, gradient);
-
-            // Outline
+            // Line
             graphics.setForegroundColor(getLineColor());
             graphics.setAlpha(getLineAlpha());
-
-            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
+            graphics.setLineWidth(getLineWidth());
             graphics.drawLine(rect.x, rect.getBottom().y - TOP_MARGIN, rect.getRight().x, rect.getBottom().y - TOP_MARGIN);
-            graphics.drawRectangle(rect);
-            
-            // Icon
-            // getOwner().drawIconImage(graphics, bounds);
-            getOwner().drawIconImage(graphics, rect, TOP_MARGIN, 0, -TOP_MARGIN, 0);
             
             graphics.popState();
         }

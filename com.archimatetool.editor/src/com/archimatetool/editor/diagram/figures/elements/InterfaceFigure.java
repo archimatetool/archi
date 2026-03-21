@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -44,54 +45,22 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
+        // Fill
         graphics.setAlpha(getAlpha());
-        
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        int diameter;
-        int x = rect.x, y = rect.y;
-
-        // width < height or same
-        if(rect.width <= rect.height) {
-            diameter = rect.width;
-            // 'x' is unchanged
-            y += (rect.height - diameter) / 2;
-        }
-        // height < width
-        else {
-            diameter = rect.height;
-            x += (rect.width - diameter) / 2;
-            // 'y' is unchanged
-        }
-        
-        graphics.fillOval(x, y, diameter, diameter);
-        
+        FigureUtils.fillOvalPath(graphics, rect);
         disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Line
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(x, y, diameter, diameter);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
+        FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
         
         graphics.popState();
     }
@@ -147,7 +116,7 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 13 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 14, rect.y + 6);
     }
     
     @Override

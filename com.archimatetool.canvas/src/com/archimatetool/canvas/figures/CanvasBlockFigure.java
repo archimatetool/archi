@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
@@ -131,32 +132,22 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         graphics.setAntialias(SWT.ON);
         
-        graphics.setAlpha(getAlpha());
-        
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawBorder) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
+        // Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(background);
         graphics.fillRectangle(rect);
         
-        // Icon
-        drawIconImage(graphics, rect);
+        // Icon Image
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Border
-        if(drawBorder) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();
