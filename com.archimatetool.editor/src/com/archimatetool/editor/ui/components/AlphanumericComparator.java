@@ -8,9 +8,13 @@ package com.archimatetool.editor.ui.components;
 import java.util.Comparator;
 
 /**
- * Comparator that sorts strings with numbers so that "file 2" comes before "file 10".
- * Also supports hierarchical numeric prefixes such as "1.2", "1-2-3", etc.,
- * and ensures deterministic ordering for labels with numeric prefixes.
+ * Comparator that performs deterministic alphanumeric sorting so that
+ * strings containing numbers are ordered in a natural way
+ * (for example "file 2" before "file 10").
+ * 
+ * Supports hierarchical numeric prefixes using any separator
+ * (for example "1.2", "1-2-3", "2.1.10", etc.) and ensures
+ * consistent ordering for labels with structured numeric prefixes.
  *
  * @author Phillip Beauvoir
  * @author Franky De Pestel
