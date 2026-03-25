@@ -6,18 +6,17 @@
 package com.archimatetool.editor.ui.components;
 
 import java.util.Comparator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Comparator that sorts strings with numbers in so "file 2" comes before "file 10"
- * 
+ * Comparator that sorts strings with numbers so that "file 2" comes before "file 10".
+ * Also supports hierarchical numeric prefixes such as "1.2", "1-2-3", etc.,
+ * and ensures deterministic ordering for labels with numeric prefixes.
+ *
  * @author Phillip Beauvoir
+ * @author Franky De Pestel
  */
 @SuppressWarnings("nls")
 public class AlphanumericComparator implements Comparator<String> {
-    
-    private static final Pattern HIERARCHY_PATTERN = Pattern.compile("^(\\d+(?:[^0-9]+\\d+)*)([^0-9]+)(.*)$");
 
     private Comparator<? super String> comparator;
 
@@ -200,12 +199,73 @@ public class AlphanumericComparator implements Comparator<String> {
     }
 
     private HierarchyLabel parseHierarchyLabel(String s) {
-        Matcher matcher = HIERARCHY_PATTERN.matcher(s);
-        if(!matcher.matches()) {
+        int len = s.length();
+        int i = 0;
+
+        while(i < len && Character.isWhitespace(s.charAt(i))) {
+            i++;
+        }
+
+        boolean hasOpeningParen = i < len && s.charAt(i) == '(';
+        if(hasOpeningParen) {
+            i++;
+        }
+
+        int pathStart = i;
+
+        if(i >= len || !Character.isDigit(s.charAt(i))) {
             return null;
         }
 
-        return new HierarchyLabel(matcher.group(1), matcher.group(3));
+        boolean hasMultipleSegments = false;
+
+        while(true) {
+            int segmentStart = i;
+
+            while(i < len && Character.isDigit(s.charAt(i))) {
+                i++;
+            }
+
+            if(segmentStart == i) {
+                return null;
+            }
+
+            int separatorStart = i;
+
+            while(i < len && !Character.isDigit(s.charAt(i))) {
+                i++;
+            }
+
+            if(separatorStart == i) {
+                break;
+            }
+
+            if(i < len && Character.isDigit(s.charAt(i))) {
+                hasMultipleSegments = true;
+                continue;
+            }
+
+            String path = s.substring(pathStart, separatorStart);
+            String remainder = s.substring(separatorStart).trim();
+
+            if(hasOpeningParen && remainder.startsWith(")")) {
+                remainder = remainder.substring(1).trim();
+            }
+
+            return hasMultipleSegments ? new HierarchyLabel(path, remainder) : null;
+        }
+
+        String path = s.substring(pathStart, i);
+        String remainder = ""; //$NON-NLS-1$
+
+        if(hasOpeningParen && i < len && s.charAt(i) == ')') {
+            remainder = s.substring(i + 1).trim();
+        }
+        else if(i < len) {
+            remainder = s.substring(i).trim();
+        }
+
+        return hasMultipleSegments ? new HierarchyLabel(path, remainder) : null;
     }
 
     private static final class HierarchyLabel {
