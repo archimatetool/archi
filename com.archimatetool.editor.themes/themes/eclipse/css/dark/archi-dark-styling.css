@@ -22,35 +22,10 @@ ColorDefinition#com-archimatetool-editor-VISUALISER_BACKGROUND {
 
 /* GEF Palette */
 
-ColorDefinition#org-eclipse-gef-PALETTE_BACKGROUND {
-    color: #7f7f7f;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_LABEL_FOREGROUND {
-    color: #DDDDDD;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_TOOLBAR_BACKGROUND {
-    color: #6f6f6f;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_FOREGROUND {
-    color: #DDDDDD;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_START {
-    color: #515658;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_TITLE_LABEL_BACKGROUND_END {
-    color: #515658;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_ARROW_BUTTON_BACKGROUND {
-    color: #515658;
-}
-
-ColorDefinition#org-eclipse-gef-PALETTE_ARROW_BUTTON_FOREGROUND {
-    color: #ffffff;
+IEclipsePreferences#org-eclipse-ui-workbench:com-archimatetool-editor {
+    preferences:
+        'org.eclipse.gef.PALETTE_BACKGROUND=127,127,127'
+        'org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND=111,111,111'
+        'org.eclipse.gef.PALETTE_TITLE_BACKGROUND=64,64,64'
 }
 

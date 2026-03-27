@@ -484,8 +484,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return new PaletteViewerProvider(getEditDomain()) {
             @Override
             protected void hookPaletteViewer(PaletteViewer viewer) {
+                AbstractDiagramEditor.this.configurePaletteViewer(viewer); // This first
                 super.hookPaletteViewer(viewer);
-                AbstractDiagramEditor.this.configurePaletteViewer(viewer);
             }
         };
     }
@@ -571,6 +571,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
                 }
             }
         });
+        
+        // Custom PaletteColorProvider
+        viewer.setColorProvider(CustomPaletteColorProvider.getInstance());
+        
+        // Custom PaletteEditPartFactory
+        viewer.setEditPartFactory(CustomPaletteEditPartFactory.getInstance());
     }
     
     /**
