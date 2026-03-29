@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for CSV Import/Export
 Bundle-SymbolicName: com.archimatetool.csv.tests
-Bundle-Version: 5.8.0.qualifier
+Bundle-Version: 5.9.0.qualifier
 Fragment-Host: com.archimatetool.csv
 Import-Package: com.archimatetool.tests,
  org.junit.jupiter.api;version="[5.10.0,6.0.0)",
