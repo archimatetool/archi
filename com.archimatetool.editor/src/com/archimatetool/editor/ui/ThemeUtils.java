@@ -48,12 +48,6 @@ public final class ThemeUtils {
     public static final String HIGH_CONTRAST_THEME_ID = "org.eclipse.e4.ui.css.theme.high-contrast";
     
     /**
-     * SWT CSS Tabs are square by default in Eclipse 4.16 and greater
-     * Stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
-     */
-    public static final String USE_ROUND_TABS = "USE_ROUND_TABS";
-    
-    /**
      * Whether the theme engine is in use or not
      * Stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
      */
