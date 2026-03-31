@@ -56,7 +56,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private ComboViewer fThemeComboViewer;
     
     private Button fUseThemes;
-    private Button fUseRoundTabsButton;
     private Button fShowStatusLineButton;
     
     private Button fMacNativeItemHeightButton;
@@ -141,11 +140,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fThemeComboViewer.getCombo().setEnabled(!highContrastMode);
         }
         
-        // Use Round Tabs
-        fUseRoundTabsButton = new Button(client, SWT.CHECK);
-        fUseRoundTabsButton.setText(Messages.AppearancePreferencePage_3);
-        fUseRoundTabsButton.setLayoutData(createHorizontalGridData(2));
-        
         // Show Status Line
         fShowStatusLineButton = new Button(client, SWT.CHECK);
         fShowStatusLineButton.setText(Messages.AppearancePreferencePage_2);
@@ -214,7 +208,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fUseThemes.setSelection(themeEngine != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
-        fUseRoundTabsButton.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.USE_ROUND_TABS, false));
         
         // Mac native item height
         if(fMacNativeItemHeightButton != null) {
@@ -256,9 +249,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Enable Theming
         swtPrefs.putBoolean(ThemeUtils.THEME_ENABLED, fUseThemes.getSelection());
         
-        // Round tabs
-        swtPrefs.putBoolean(ThemeUtils.USE_ROUND_TABS, fUseRoundTabsButton.getSelection());
-        
         try {
             // Have to do this for it to persist
             swtPrefs.flush();
@@ -286,7 +276,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         fUseThemes.setSelection(true);
-        fUseRoundTabsButton.setSelection(false);
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
         if(fMacNativeItemHeightButton != null) {
