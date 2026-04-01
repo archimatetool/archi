@@ -11,11 +11,6 @@
               label="%theme.basic">
         </theme>
 		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic.css"
-			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="%theme.classic">
-		</theme>
-		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
 			label="%theme.light"
@@ -76,12 +71,6 @@
              uri="themes/eclipse/css/dark/e4-dark_preferencestyle.css">
           <themeid
                 refid="org.eclipse.e4.ui.css.theme.e4_dark">
-          </themeid>
-       </stylesheet>
-       <stylesheet
-             uri="themes/archi/css/common/archi-globalstyle.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_classic">
           </themeid>
        </stylesheet>
        <stylesheet
