@@ -133,7 +133,7 @@ implements IPreferenceConstants {
         store.setDefault(SHOW_SPECIALIZATIONS_IN_MODEL_TREE_MENU, true);
         store.setDefault(TREE_DISPLAY_NODE_INCREMENT, 0);
         
-        store.setDefault(TREE_ALPHANUMERIC_SORT, true);
+        store.setDefault(TREE_ALPHANUMERIC_SORT, false);
         
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 
