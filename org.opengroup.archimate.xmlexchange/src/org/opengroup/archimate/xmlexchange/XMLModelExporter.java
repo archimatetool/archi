@@ -52,6 +52,8 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.UUIDFactory;
@@ -552,18 +554,28 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * @return All unique property types in the model
      */
     Map<String, String> getAllUniquePropertyKeysForModel() {
-        Map<String, String> list = new TreeMap<String, String>();
+        Map<String, String> list = new TreeMap<>();
         
         String id = "propid-"; //$NON-NLS-1$
         int idCount = 1;
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject element = iter.next();
-            if(element instanceof IProperty) {
-                String name = ((IProperty)element).getKey();
+            if(iter.next() instanceof IProperty property) {
+                String name = property.getKey();
                 if(name != null && !list.containsKey(name)) {
                     list.put(name, id + (idCount++));
                 }
+            }
+        }
+        
+        // Specializations
+        id = "specialization-"; //$NON-NLS-1$
+        idCount = 1;
+        
+        for(IProfile profile : fModel.getProfiles()) {
+            String name = profile.getConceptType() + ":" + profile.getName(); //$NON-NLS-1$
+            if(!list.containsKey(name)) {
+                list.put(name, id + (idCount++));
             }
         }
         
@@ -574,7 +586,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write all property values for a given element
      * @param properties
      * @param parentElement
-     * @return The Element or null
+     * @return The Element
      */
     Element writeProperties(IProperties properties, Element parentElement) {
         Element propertiesElement = new Element(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
@@ -585,7 +597,19 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             if(hasSomeText(name)) {
                 String propertyRefID = fPropertyDefsList.get(name);
                 if(propertyRefID != null) {
-                    writePropertyValue(propertiesElement, propertyRefID, value);
+                    writePropertyValue(propertiesElement, propertyRefID, value, true);
+                }
+            }
+        }
+        
+        // Write a property for a specialization if one exists
+        if(properties instanceof IProfiles profilesObject) {
+            IProfile profile = profilesObject.getPrimaryProfile();
+            if(profile != null) {
+                String name = profile.getConceptType() + ":" + profile.getName(); //$NON-NLS-1$
+                String propertyRefID = fPropertyDefsList.get(name);
+                if(propertyRefID != null) {
+                    writePropertyValue(propertiesElement, propertyRefID, "true", false); //$NON-NLS-1$
                 }
             }
         }
@@ -600,14 +624,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write a Property value referencing a property ref id
      */
-    Element writePropertyValue(Element propertiesElement, String propertyRefID, String propertyValue) {
+    Element writePropertyValue(Element propertiesElement, String propertyRefID, String propertyValue, boolean withLanguageCode) {
         Element propertyElement = new Element(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE);
         propertiesElement.addContent(propertyElement);
         propertyElement.setAttribute(ATTRIBUTE_PROPERTY_IDENTIFIERREF, propertyRefID);
         
         Element valueElement = new Element(ELEMENT_VALUE, ARCHIMATE3_NAMESPACE);
         propertyElement.addContent(valueElement);
-        writeElementTextWithLanguageCode(valueElement, propertyValue);
+        writeElementTextWithLanguageCode(valueElement, propertyValue, withLanguageCode);
 
         return propertyElement;
     }
@@ -1126,16 +1150,16 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(mandatory || hasSomeText(text)) {
             element = new Element(childElementName, ARCHIMATE3_NAMESPACE);
             parentElement.addContent(element);
-            writeElementTextWithLanguageCode(element, text);
+            writeElementTextWithLanguageCode(element, text, true);
         }
         
         return element;
     }
 
-    private void writeElementTextWithLanguageCode(Element element, String text) {
+    private void writeElementTextWithLanguageCode(Element element, String text, boolean withLanguageCode) {
         element.setText(text);
         
-        if(fLanguageCode != null) {
+        if(withLanguageCode && fLanguageCode != null) {
             element.setAttribute(ATTRIBUTE_LANG, fLanguageCode, Namespace.XML_NAMESPACE);
         }
     }

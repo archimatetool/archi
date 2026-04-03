@@ -59,8 +59,11 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IProfile;
+import com.archimatetool.model.IProfiles;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -172,11 +175,16 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         // Properties
         addProperties(fModel, rootElement);
+        
+        // Specializations
+        addSpecializations();
     }
     
-    // ========================================= Properties ======================================
+    // ========================================= Properties / Specializations ======================================
 
-    private void addProperties(IProperties propertiesModel, Element parentElement) {
+    private record SpecializationProperty(String profileType, String profileName) {}
+    
+    private void addProperties(IProperties propertiesObject, Element parentElement) {
         Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
         
         if(propertiesElement != null) {
@@ -186,15 +194,58 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 if(idref != null) {
                     String propertyName = fPropertyDefinitionsList.get(idref);
                     if(propertyName != null) {
-                        String propertyValue = getChildElementText(propertyElement, ELEMENT_VALUE, true);
-                        IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-                        property.setKey(propertyName);
-                        property.setValue(propertyValue);
-                        propertiesModel.getProperties().add(property);
+                        // Specialization
+                        if(idref.startsWith("specialization") && propertiesObject instanceof IProfiles profilesObject) { //$NON-NLS-1$
+                            SpecializationProperty spec = getSpecializationProperty(propertyName);
+                            if(spec != null) {
+                                IProfile profile = ArchimateModelUtils.getProfileByNameAndType(fModel, spec.profileName(), spec.profileType());
+                                if(profile != null && !profilesObject.getProfiles().contains(profile)) {
+                                    profilesObject.getProfiles().add(profile);
+                                }
+                            }
+                        }
+                        // Property
+                        else {
+                            String propertyValue = getChildElementText(propertyElement, ELEMENT_VALUE, true);
+                            IProperty property = IArchimateFactory.eINSTANCE.createProperty();
+                            property.setKey(propertyName);
+                            property.setValue(propertyValue);
+                            propertiesObject.getProperties().add(property);
+                        }
                     }
                 }
             }
         }
+    }
+    
+    /**
+     * Add Specializations from Property definitions
+     */
+    private void addSpecializations() {
+        for(Entry<String, String> propertyDef : fPropertyDefinitionsList.entrySet()) {
+            if(propertyDef.getKey().startsWith("specialization")) { //$NON-NLS-1$
+                SpecializationProperty spec = getSpecializationProperty(propertyDef.getValue());
+                if(spec != null) {
+                    // If we don't already have the profile and the profileType is valid create a new one
+                    IProfile profile = ArchimateModelUtils.getProfileByNameAndType(fModel, spec.profileName(), spec.profileType());
+                    if(profile == null) {
+                        profile = IArchimateFactory.eINSTANCE.createProfile();
+                        profile.setConceptType(spec.profileType());
+                        profile.setName(spec.profileName());
+                        fModel.getProfiles().add(profile);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * @return a pair of strings of specialization type and name from a property definition name value
+     *         returns null if it can't be split into two and the specialization concept is not valid
+     */
+    private SpecializationProperty getSpecializationProperty(String propertyDefName) {
+        String[] result = propertyDefName.split(":", 2); //$NON-NLS-1$
+        return result.length == 2 && IArchimatePackage.eINSTANCE.getEClassifier(result[0]) != null ? new SpecializationProperty(result[0], result[1]) : null;
     }
     
     // ========================================= Elements ======================================
