@@ -9,6 +9,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
+import com.archimatetool.editor.ui.components.AlphanumericComparatorTests;
 import com.archimatetool.editor.ui.factory.AllUIFactoryTests;
 import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
 
@@ -20,6 +21,8 @@ import com.archimatetool.editor.ui.textrender.AllTextRenderTests;
     FigureImagePreviewFactoryTests.class,
     FontFactoryTests.class,
     ImageFactoryTests.class,
+    // components
+    AlphanumericComparatorTests.class,
     // factory
     AllUIFactoryTests.class,
     // textrender
