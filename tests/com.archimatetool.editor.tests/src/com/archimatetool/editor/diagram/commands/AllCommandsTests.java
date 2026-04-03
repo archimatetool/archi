@@ -11,7 +11,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
 @SelectClasses({
-    CreateDiagramArchimateConnectionWithDialogCommandTests.class
+    CreateDiagramArchimateConnectionWithDialogCommandTests.class,
+    InvertConnectionCommandTests.class
 })
 @SuiteDisplayName("All Commands Tests")
 public class AllCommandsTests {
