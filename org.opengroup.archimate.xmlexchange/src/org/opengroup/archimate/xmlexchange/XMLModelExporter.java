@@ -560,22 +560,16 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         int idCount = 1;
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            if(iter.next() instanceof IProperty property) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IProperty property) {
                 String name = property.getKey();
                 if(name != null && !list.containsKey(name)) {
                     list.put(name, id + (idCount++));
                 }
             }
-        }
-        
-        // Specializations
-        id = "specialization-"; //$NON-NLS-1$
-        idCount = 1;
-        
-        for(IProfile profile : fModel.getProfiles()) {
-            String name = profile.getConceptType() + ":" + profile.getName(); //$NON-NLS-1$
-            if(!list.containsKey(name)) {
-                list.put(name, id + (idCount++));
+            // If this is an object with a Profile add a special property definition
+            if(eObject instanceof IProfiles profilesObject && profilesObject.getPrimaryProfile() != null) {
+                list.put("Specialization", "specialization"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
         
@@ -602,15 +596,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             }
         }
         
-        // Write a property for a specialization if one exists
+        // If this is an object with a Profile write a property with the specialization name
         if(properties instanceof IProfiles profilesObject) {
             IProfile profile = profilesObject.getPrimaryProfile();
             if(profile != null) {
-                String name = profile.getConceptType() + ":" + profile.getName(); //$NON-NLS-1$
-                String propertyRefID = fPropertyDefsList.get(name);
-                if(propertyRefID != null) {
-                    writePropertyValue(propertiesElement, propertyRefID, "true", false); //$NON-NLS-1$
-                }
+                writePropertyValue(propertiesElement, "specialization", profile.getName(), true); //$NON-NLS-1$
             }
         }
         
