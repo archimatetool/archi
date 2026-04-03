@@ -23,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
+import com.archimatetool.editor.diagram.actions.InvertConnectionAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
@@ -169,7 +170,12 @@ implements IArchimateDiagramEditor {
         action = new DeleteFromModelAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        
+
+        // Invert Connection Direction
+        action = new InvertConnectionAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+
         // Viewpoints
         for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             action = new ViewpointAction(this, viewPoint);

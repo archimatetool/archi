@@ -1005,6 +1005,12 @@
             name="%command.name.34">
       </command>
       <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.35"
+            id="com.archimatetool.editor.action.invertConnection"
+            name="%command.name.35">
+      </command>
+      <command
             categoryId="org.eclipse.gef.category.view"
             description="%command.description.22"
             id="com.archimatetool.editor.bringToFront"

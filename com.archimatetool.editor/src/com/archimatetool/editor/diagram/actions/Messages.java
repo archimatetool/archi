@@ -164,6 +164,8 @@ public class Messages extends NLS {
     public static String ViewpointAction_0;
 
     public static String ZoomNormalAction_0;
+
+    public static String InvertConnectionAction_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
