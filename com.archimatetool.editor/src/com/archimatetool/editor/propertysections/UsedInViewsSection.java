@@ -9,14 +9,11 @@ import java.text.Collator;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -34,6 +31,7 @@ import com.archimatetool.editor.ui.textrender.TextRenderer;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -61,9 +59,8 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         }
     }
 
-    private IArchimateConcept fArchimateConcept;
-    
-    private TableViewer fTableViewer;
+    private IArchimateConcept archimateConcept;
+    private TableViewer tableViewer;
     
     @Override
     protected void createControls(Composite parent) {
@@ -76,56 +73,48 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
-        fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
+        tableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
         
         // Set CSS ID
-        ThemeUtils.registerCssId(fTableViewer.getTable(), "AnalysisTable"); //$NON-NLS-1$
+        ThemeUtils.registerCssId(tableViewer.getTable(), "AnalysisTable"); //$NON-NLS-1$
         
         // Set font in case CSS theming is disabled
-        ThemeUtils.setFontIfCssThemingDisabled(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT);
+        ThemeUtils.setFontIfCssThemingDisabled(tableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT);
         
         // Column
-        TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
+        TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         
         // On Mac shows alternate table row colours
-        fTableViewer.getTable().setLinesVisible(true);
+        tableViewer.getTable().setLinesVisible(true);
         
         // Help ID
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(tableViewer.getTable(), HELP_ID);
 
-        fTableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-            
-            @Override
-            public void dispose() {
-            }
-            
+        tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {
                 return DiagramModelUtils.findReferencedDiagramsForArchimateConcept((IArchimateConcept)inputElement).toArray();
             }
         });
         
-        fTableViewer.setLabelProvider(new LabelProvider() {
+        tableViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
                 IDiagramModel dm = (IDiagramModel)element;
-                
+
                 // Display label according to ancestor folder's label expression, if present and preference is set
                 if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE)) {
                     String expression = TextRenderer.getDefault().getFormatExpressionFromAncestorFolder(dm);
                     if(expression != null) {
                         String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().renderWithExpression(dm, expression));
                         if(text != null) {
-                            return text;
+                            return ArchimateModelUtils.getParentFolderHierarchyAsString(dm, '/') + text;
                         }
                     }
                 }
                 
-                return dm.getName();
+                return ArchimateModelUtils.getParentFolderHierarchyAsString(dm, '/') + dm.getName();
             }
             
             @Override
@@ -134,32 +123,25 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
             }
         });
         
-        fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                if(!isAlive(fArchimateConcept)) {
-                    return;
-                }
-                IDiagramModel diagramModel = (IDiagramModel)((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(diagramModel != null) {
-                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel, false);
-                    if(editor != null) {
-                        // Needs to be asyncExec to allow EditorPart to open if it is currently closed
-                        getPart().getSite().getShell().getDisplay().asyncExec(()-> { 
-                            editor.selectObjects(new Object[] { fArchimateConcept });
-                        });
-                    }
+        tableViewer.addDoubleClickListener(event -> {
+            if(((IStructuredSelection)event.getSelection()).getFirstElement() instanceof IDiagramModel dm && isAlive(archimateConcept)) {
+                IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm, false);
+                if(editor != null) {
+                    // Needs to be asyncExec to allow EditorPart to open if it is currently closed
+                    getPart().getSite().getShell().getDisplay().asyncExec(()-> { 
+                        editor.selectObjects(new Object[] { archimateConcept });
+                    });
                 }
             }
         });
         
-        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
+        tableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
     }
     
     @Override
     protected void update() {
-        fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
-        fTableViewer.setInput(fArchimateConcept);
+        archimateConcept = (IArchimateConcept)getFirstSelectedObject();
+        tableViewer.setInput(archimateConcept);
     }
     
     @Override

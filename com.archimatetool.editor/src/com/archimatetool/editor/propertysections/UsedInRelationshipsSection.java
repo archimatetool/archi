@@ -11,8 +11,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,7 +18,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -69,9 +66,8 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         }
     }
 
-    private IArchimateConcept fArchimateConcept;
-    
-    private TableViewer fTableViewer;
+    private IArchimateConcept archimateConcept;
+    private TableViewer tableViewer;
     
     @Override
     protected void createControls(Composite parent) {
@@ -84,62 +80,51 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
         TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
-        fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+        tableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
         
         // Set CSS ID
-        ThemeUtils.registerCssId(fTableViewer.getTable(), "AnalysisTable"); //$NON-NLS-1$
+        ThemeUtils.registerCssId(tableViewer.getTable(), "AnalysisTable"); //$NON-NLS-1$
         
         // Set font in case CSS theming is disabled
-        ThemeUtils.setFontIfCssThemingDisabled(fTableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT);
+        ThemeUtils.setFontIfCssThemingDisabled(tableViewer.getTable(), IPreferenceConstants.ANALYSIS_TABLE_FONT);
 
         // Column
-        TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
+        TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE, 0);
         tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         
         // On Mac shows alternate table row colours
-        fTableViewer.getTable().setLinesVisible(true);
+        tableViewer.getTable().setLinesVisible(true);
         
         // Help ID
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(tableViewer.getTable(), HELP_ID);
 
-        fTableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-            
-            @Override
-            public void dispose() {
-            }
-            
+        tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {
                 return ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateConcept)inputElement).toArray();
             }
         });
         
-        fTableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider());
+        tableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider());
         
-        fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                if(((IStructuredSelection)event.getSelection()).getFirstElement() instanceof IArchimateRelationship relation && isAlive(relation)) {
-                    ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
-                    if(view != null) {
-                        view.getViewer().setSelection(new StructuredSelection(relation), true);
-                    }
+        tableViewer.addDoubleClickListener(event -> {
+            if(((IStructuredSelection)event.getSelection()).getFirstElement() instanceof IArchimateRelationship relation && isAlive(relation)) {
+                ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
+                if(view != null) {
+                    view.getViewer().setSelection(new StructuredSelection(relation), true);
                 }
             }
         });
         
-        fTableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
+        tableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
         
         // DND
-        fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE, new Transfer[] { LocalSelectionTransfer.getTransfer() },
+        tableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE, new Transfer[] { LocalSelectionTransfer.getTransfer() },
                 new DragSourceListener() {
             @Override
             public void dragStart(DragSourceEvent event) {
                 // Drag started from the Table
-                LocalSelectionTransfer.getTransfer().setSelection(fTableViewer.getSelection());
+                LocalSelectionTransfer.getTransfer().setSelection(tableViewer.getSelection());
                 event.doit = true;
             }
             
@@ -160,8 +145,8 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
     
     @Override
     protected void update() {
-        fArchimateConcept = (IArchimateConcept)getFirstSelectedObject();
-        fTableViewer.setInput(fArchimateConcept);
+        archimateConcept = (IArchimateConcept)getFirstSelectedObject();
+        tableViewer.setInput(archimateConcept);
     }
     
     @Override
@@ -185,7 +170,7 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
             name += " - "; //$NON-NLS-1$
             name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
             name += ")"; //$NON-NLS-1$
-            return name;
+            return ArchimateModelUtils.getParentFolderHierarchyAsString(relationship, '/') + name;
         }
         
         @Override
@@ -196,10 +181,10 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         @Override
         public Font getFont(Object element) {
             // Italicise unused elements
-            if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
-                if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
-                    return fontItalic;
-                }
+            if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE)
+                    && element instanceof IArchimateConcept concept
+                    && !DiagramModelUtils.isArchimateConceptReferencedInDiagrams(concept)) {
+                return fontItalic;
             }
             
             return null;
