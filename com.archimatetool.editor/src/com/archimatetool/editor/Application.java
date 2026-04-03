@@ -57,6 +57,9 @@ public class Application implements IApplication {
         // Create Display
         Display display = PlatformUI.createDisplay();
 
+        // Patch workbench *after* creating Display
+        WorkbenchPatcher.patchWorkbench();
+        
         // Hook into opening documents from the desktop
         OpenDocumentHandler.getInstance().hook(display);
 
