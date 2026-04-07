@@ -139,9 +139,13 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
 
             if(drawOutline) {
                 graphics.setAlpha(getLineAlpha());
-                graphics.drawLine(rect.x, rect.y, rect.x, rect.y + tabHeight);
-                graphics.drawLine(rect.x, rect.y, rect.x + tabWidth, rect.y);
-                graphics.drawLine(rect.x + tabWidth, rect.y, rect.x + tabWidth, rect.y + tabHeight);
+                path = new Path(null);
+                path.moveTo(rect.x, rect.y + tabHeight);
+                path.lineTo(rect.x, rect.y);
+                path.lineTo(rect.x + tabWidth, rect.y);
+                path.lineTo(rect.x + tabWidth, rect.y + tabHeight);
+                graphics.drawPath(path);
+                path.dispose();
             }
         }
         
