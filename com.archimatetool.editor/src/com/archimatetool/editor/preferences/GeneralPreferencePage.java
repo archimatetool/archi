@@ -5,6 +5,14 @@
  */
 package com.archimatetool.editor.preferences;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.PreferencePage;
@@ -24,6 +32,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -164,13 +173,31 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Internal Browser
         Group browserGroup = new Group(client, SWT.NULL);
         browserGroup.setText(Messages.GeneralPreferencePage_19);
-        GridLayoutFactory.swtDefaults().applyTo(browserGroup);
+        GridLayoutFactory.swtDefaults().numColumns(2).applyTo(browserGroup);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(browserGroup);
 
         // Edge Browser on Windows
         if(PlatformUtils.isWindows()) {
             fUseEdgeBrowserButton = new Button(browserGroup, SWT.CHECK);
             fUseEdgeBrowserButton.setText(Messages.GeneralPreferencePage_15);
+            
+            Button clearEdgeCacheButton = new Button(browserGroup, SWT.PUSH);
+            clearEdgeCacheButton.setText(Messages.GeneralPreferencePage_28);
+            clearEdgeCacheButton.addSelectionListener(widgetSelectedAdapter(event -> {
+                if(getShell().getDisplay().getData("org.eclipse.swt.internal.win32.Edge.userDataFolder") instanceof String pathStr) { //$NON-NLS-1$
+                    Path path = Paths.get(pathStr, "EBWebView"); //$NON-NLS-1$
+                    if(Files.isDirectory(path)) {
+                        try {
+                            FileUtils.deleteDir(path);
+                        }
+                        catch(IOException ex) {
+                            MessageDialog.openError(getShell(),
+                                    Messages.GeneralPreferencePage_28,
+                                    Messages.GeneralPreferencePage_29);
+                        }
+                    }
+                }
+            }));
         }
         
         fEnableJSHintsButton = new Button(browserGroup, SWT.CHECK);
