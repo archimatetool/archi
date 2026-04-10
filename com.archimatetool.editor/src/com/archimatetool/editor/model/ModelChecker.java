@@ -324,14 +324,13 @@ public class ModelChecker {
             }
             
             // Connection source end != relation source end
-            if(connection.getSource() instanceof IDiagramModelArchimateComponent dmcSource
-                                      && dmcSource.getArchimateConcept() != relation.getSource()) {
+            if(connection.getSource() instanceof IDiagramModelArchimateComponent dmc && dmc.getArchimateConcept() != relation.getSource()) {
                 messages.add(NLS.bind(Messages.ModelChecker_14, name));
             }
+            
             // Connection target end != relation target end
-            if(connection.getTarget() instanceof IDiagramModelArchimateComponent dmcTarget
-                                      && dmcTarget.getArchimateConcept() != relation.getTarget()) {
-                messages.add(NLS.bind(Messages.ModelChecker_14, name));
+            if(connection.getTarget() instanceof IDiagramModelArchimateComponent dmc && dmc.getArchimateConcept() != relation.getTarget()) {
+                messages.add(NLS.bind(Messages.ModelChecker_27, name));
             }
         }
         
