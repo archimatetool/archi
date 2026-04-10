@@ -91,7 +91,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
 
             @Override
             public Rectangle calculateTextControlBounds() {
-                Rectangle rect = getBounds();
+                Rectangle rect = getTextControlBoundsWithIconImageOffset();
                 
                 int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
                 
