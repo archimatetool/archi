@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 
@@ -31,34 +32,41 @@ public class InvertConnectionCommand extends Command {
     // Can be set manually in .metadata/.plugins/org.eclipse.core.runtime/.settings/com.archimatetool.editor.prefs
     private static final boolean INVERT_LABEL_POSITIONS = ArchiPlugin.getInstance().getPreferenceStore().getBoolean("invertConnectionLabels"); //$NON-NLS-1$
 
-    private IArchimateRelationship fRelationship;
+    private IArchimateRelationship relationship;
 
     // Saved state
-    private List<ConnectionState> fConnectionStates;
+    private List<ConnectionState> connectionStates;
 
-    private record ConnectionState(IDiagramModelArchimateConnection connection, int textPosition, List<IDiagramModelBendpoint> bendpoints) {}
+    private record ConnectionState(IDiagramModelArchimateConnection connection, int textPosition, int sourcePosition, int targetPosition, List<IDiagramModelBendpoint> bendpoints) {
+        static ConnectionState of(IDiagramModelArchimateConnection connection) {
+            return new ConnectionState(connection,
+                                       connection.getTextPosition(),
+                                       connection.getSource().getSourceConnections().indexOf(connection),
+                                       connection.getTarget().getTargetConnections().indexOf(connection),
+                                       (List<IDiagramModelBendpoint>)EcoreUtil.copyAll(connection.getBendpoints()));
+        }
+    }
 
     public InvertConnectionCommand(IArchimateRelationship relationship) {
         if(relationship == null) {
             throw new IllegalArgumentException();
         }
 
-        fRelationship = relationship;
+        this.relationship = relationship;
         setLabel(Messages.InvertConnectionCommand_0);
     }
     
     @Override
     public boolean canExecute() {
-        return ArchimateModelUtils.isValidRelationship(fRelationship.getTarget(), fRelationship.getSource(), fRelationship.eClass());
+        return ArchimateModelUtils.isValidRelationship(relationship.getTarget(), relationship.getSource(), relationship.eClass());
     }
 
     @Override
     public void execute() {
-        fConnectionStates = new ArrayList<>();
+        connectionStates = new ArrayList<>();
         
-        for(IDiagramModelArchimateConnection connection : fRelationship.getReferencingDiagramConnections()) {
-            List<IDiagramModelBendpoint> bendpoints = (List<IDiagramModelBendpoint>)EcoreUtil.copyAll(connection.getBendpoints());
-            fConnectionStates.add(new ConnectionState(connection, connection.getTextPosition(), bendpoints));
+        for(IDiagramModelArchimateConnection connection : relationship.getReferencingDiagramConnections()) {
+            connectionStates.add(ConnectionState.of(connection));
         }
 
         doInvert();
@@ -72,7 +80,7 @@ public class InvertConnectionCommand extends Command {
     @Override
     public void undo() {
         // Restore each diagram connection
-        for(ConnectionState state : fConnectionStates) {
+        for(ConnectionState state : connectionStates) {
             // Bendpoints
             for(int i = 0; i < state.connection().getBendpoints().size(); i++) {
                 IDiagramModelBendpoint bp = state.connection().getBendpoints().get(i);
@@ -88,12 +96,23 @@ public class InvertConnectionCommand extends Command {
 
             // This last
             state.connection().connect(state.connection().getTarget(), state.connection().getSource());
+            
+            // Restore connection positions in  list
+            EList<IDiagramModelConnection> sources = state.connection().getSource().getSourceConnections();
+            if(state.sourcePosition() >= 0 && state.sourcePosition() < sources.size() && sources.contains(state.connection())) {
+                sources.move(state.sourcePosition(), state.connection());
+            }
+            
+            EList<IDiagramModelConnection> targets = state.connection().getTarget().getTargetConnections();
+            if(state.targetPosition() >= 0 && state.targetPosition() < targets.size() && targets.contains(state.connection())) {
+                targets.move(state.targetPosition(), state.connection());
+            }
         }
     }
 
     private void doInvert() {
         // Swap source/target on each diagram connection and adjust bendpoints/text position
-        for(ConnectionState state : fConnectionStates) {
+        for(ConnectionState state : connectionStates) {
             // Bendpoints in reverse
             List<IDiagramModelBendpoint> reversed = state.bendpoints().reversed();
             
@@ -125,7 +144,7 @@ public class InvertConnectionCommand extends Command {
 
     @Override
     public void dispose() {
-        fRelationship = null;
-        fConnectionStates = null;
+        relationship = null;
+        connectionStates = null;
     }
 }
