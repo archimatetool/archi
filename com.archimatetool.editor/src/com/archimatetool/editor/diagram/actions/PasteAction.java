@@ -5,9 +5,9 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -43,20 +43,13 @@ public class PasteAction extends SelectionAction {
         }
     };
     
-    private MouseListener mouseListener = new MouseListener() {
+    private MouseListener mouseListener = new MouseListener.Stub() {
         @Override
-        public void mousePressed(MouseEvent me) {
-            Point pt = new Point(me.x, me.y);
-            ((IFigure)me.getSource()).translateFromParent(pt);
+        public void mousePressed(MouseEvent event) {
+            Point pt = new Point(event.x, event.y);
+            Viewport vp = (Viewport)event.getSource();
+            vp.getContents().translateToRelative(pt); // for negative co-ordinates and scaling
             fMousePosition = pt;
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseDoubleClicked(MouseEvent me) {
         }
     };
     
