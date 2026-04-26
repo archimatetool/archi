@@ -32,6 +32,8 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.editparts.GridLayer;
+import org.eclipse.gef.editparts.HierarchicalGridLayer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -323,7 +325,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Create the Root Edit Part
      */
     protected void createRootEditPart(GraphicalViewer viewer) {
-        viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+        viewer.setRootEditPart(new ScalableFreeformRootEditPart() {
+            @Override
+            protected GridLayer createGridLayer() {
+                // Use new HierarchicalGridLayer
+                return new HierarchicalGridLayer();
+            }
+        });
     }
     
     @Override
