@@ -61,8 +61,9 @@ public class MoveHandleLocator implements Locator {
             bounds = ((HandleBounds) getReference()).getHandleBounds();
         else
             bounds = getReference().getBounds();
-        bounds = new PrecisionRectangle(bounds.getResized(-1, -1));
+        bounds = new PrecisionRectangle(bounds); // Phillipus changed this
         getReference().translateToAbsolute(bounds);
+        bounds.resize(-1, -1); // Phillipus added this
         target.translateToRelative(bounds);
         bounds.translate(-insets.left, -insets.top);
         bounds.resize(insets.getWidth() + 1, insets.getHeight() + 1);
