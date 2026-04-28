@@ -6,6 +6,7 @@
 package com.archimatetool.zest;
 
 import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.zoom.MouseLocationZoomScrollPolicy;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -85,6 +86,9 @@ public class ZestGraphViewer extends GraphViewer {
                 viewPort.setViewLocation(viewPort.getViewLocation().translate(event.count * -30, 0));
             }
         });
+        
+        // Mouse Location Zoom
+        getZoomManager().setScrollPolicy(new MouseLocationZoomScrollPolicy(graph));
         
         // Set CSS ID
         ThemeUtils.registerCssId(getGraphControl(), "ArchiGraph"); //$NON-NLS-1$

@@ -19,6 +19,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.zoom.MouseLocationZoomScrollPolicy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
@@ -364,17 +365,20 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         ThemeUtils.setBackgroundColorIfCssThemingDisabled(viewer.getControl(), IPreferenceConstants.VIEW_BACKGROUND_COLOR);
     }
     
-    private void hookSelectionListener() {
+    protected void hookSelectionListener() {
         getGraphicalViewer().addSelectionChangedListener(event -> {
             // Update status bar. In GEF the primary object is the last selected object.
             updateStatusBarWithSelection(event.getStructuredSelection().isEmpty() ? null : event.getStructuredSelection().toList().getLast());
         });
     }
 
-    private void hookZoomListener() {
-        // Trackpad pinch-to-zoom gesture
+    protected void hookZoomListener() {
         ZoomManager zoomManager = getAdapter(ZoomManager.class);
         if(zoomManager != null) {
+            // Mouse Location Zoom
+            zoomManager.setScrollPolicy(new MouseLocationZoomScrollPolicy(getGraphicalViewer().getControl()));
+            
+            // Trackpad Pinch to Zoom
             getGraphicalViewer().getControl().addGestureListener(new PinchZoomGestureHandler(zoomManager));
         }
     }
