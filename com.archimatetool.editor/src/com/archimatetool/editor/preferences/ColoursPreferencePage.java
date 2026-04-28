@@ -31,10 +31,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageDataProvider;
+import org.eclipse.swt.graphics.ImageGcDrawer;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -380,22 +378,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 ColorInfo colorInfo = fColorInfoMap.get(element);
                 if(colorInfo != null && colorInfo.getCurrentColor() != null) {
                     image = fImageRegistry.get(colorInfo.toString());
+                    
                     if(image == null) {
-                        image = new Image(getShell().getDisplay(), (ImageDataProvider) zoom -> {
-                            // Draw the color rectangle onto a temp Image
-                            Image img = new Image(getShell().getDisplay(), 16, 16);
-
-                            GC gc = new GC(img);
+                        ImageGcDrawer gcDrawer = (gc, width, height) -> {
                             gc.setBackground(colorInfo.getCurrentColor());
                             gc.fillRectangle(0, 0, 15, 15);
                             gc.drawRectangle(0, 0, 15, 15);
-                            gc.dispose();
-
-                            ImageData imageData = img.getImageData(zoom);
-                            img.dispose();
-                            return imageData;
-                        });
-
+                        };
+                        
+                        image = new Image(getShell().getDisplay(), gcDrawer, 16, 16);
                         fImageRegistry.put(colorInfo.toString(), image);
                     }
                 }

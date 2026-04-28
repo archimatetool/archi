@@ -265,6 +265,22 @@ public class ColorChooser extends EventManager {
      * setting.
      */
     protected void updateColorImage() {
+        // ImageGcDrawer doesn't work on Linux 200% when button is disabled
+        // See https://github.com/eclipse-platform/eclipse.platform.swt/issues/3142
+        
+        /*
+        ImageGcDrawer gcDrawer = (gc, width, height) -> {
+            gc.setBackground(fDoShowColorImage ? new Color(fColorValue) : new Color(255, 255, 255));
+            gc.fillRectangle(0, 0, width - 1, height - 1);
+            gc.drawRectangle(0, 0, width - 1, height - 1);
+            if(!fDoShowColorImage) {
+                gc.drawLine(0, 1, width - 1, height - 2);
+            }
+        };
+        
+        Image image = new Image(Display.getCurrent(), gcDrawer, 40, 15);
+        */
+        
         Image image = new Image(fColorButton.getDisplay(), (ImageDataProvider) zoom -> {
             final int width = 40;
             final int height = 15;
@@ -287,10 +303,10 @@ public class ColorChooser extends EventManager {
             return imageData;
         });
         
-        // Get previous button's image *first* so we can dispose it *after* setting image
+        // Get previous button's image *first* so we can dispose it *after* setting a new image
         Image oldImage = fColorButton.getImage();
 
-        // Replace with autoscaled image (this is needed on Linux)
+        // Set new image (this is needed on Linux)
         fColorButton.setImage(image);
 
         if(oldImage != null) {
