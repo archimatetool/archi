@@ -24,6 +24,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -76,6 +77,31 @@ public class FigureImagePreviewFactory {
             // Special case for text alignment
             if(eClass == IArchimatePackage.eINSTANCE.getGrouping()) {
                 dmo.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
+            }
+            
+            // Special cases for text position on icon type figures
+            if(type == 1) {
+                switch(eClass.getClassifierID()) {
+                    case IArchimatePackage.ASSESSMENT,
+                         IArchimatePackage.BUSINESS_ACTOR,
+                         IArchimatePackage.CAPABILITY,
+                         IArchimatePackage.COMMUNICATION_NETWORK,
+                         IArchimatePackage.COURSE_OF_ACTION,
+                         IArchimatePackage.DISTRIBUTION_NETWORK,
+                         IArchimatePackage.DRIVER,
+                         IArchimatePackage.EQUIPMENT,
+                         IArchimatePackage.FACILITY,
+                         IArchimatePackage.GAP,
+                         IArchimatePackage.GOAL,
+                         IArchimatePackage.LOCATION,
+                         IArchimatePackage.MATERIAL,
+                         IArchimatePackage.OUTCOME,
+                         IArchimatePackage.PLATEAU,
+                         IArchimatePackage.PRINCIPLE,
+                         IArchimatePackage.SYSTEM_SOFTWARE,
+                         IArchimatePackage.WORK_PACKAGE
+                                                        -> dmo.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
+                }
             }
             
             // Use inbuilt default colours
