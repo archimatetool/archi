@@ -94,22 +94,6 @@
     color: #BBBBBB;
 }
 
-.MPart FormHeading,
-.MPart FormHeading > TitleRegion,
-.MPart FormHeading > TitleRegion > Label,
-.MPart FormHeading > TitleRegion > StyledText {
-    background-color: #505f70;
-    color: #9ac9d8;
-}
-
-.MPart FormHeading,
-.MPart FormHeading > TitleRegion {
-    swt-background-mode: none;
-}
-.MPart FormHeading > CLabel {
-    background-color: #505f70;
-}
-
 .MPartFormHeaderCLabelError {
 	color:'#org-eclipse-ui-workbench-FORM_HEADING_ERROR_COLOR';
 }
