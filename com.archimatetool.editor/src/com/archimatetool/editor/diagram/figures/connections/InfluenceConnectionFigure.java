@@ -13,7 +13,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IInfluenceRelationship;
@@ -62,8 +61,7 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
     
     @Override
     protected float[] getLineDashFloats() {
-        double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
-        return new float[] { (float)(6 * scale), (float)(3 * scale) };
+        return new float[] { 6, 3 };
     }
     
     @Override

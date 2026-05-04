@@ -204,12 +204,10 @@ implements IDiagramModelObjectFigure {
                 graphics.setLineStyle(Graphics.LINE_SOLID);
             }
             case IDiagramModelObject.LINE_STYLE_DASHED -> {
-                final double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
-                graphics.setLineDash(new float[] { (float)(8 * scale), (float)(4 * scale) });
+                graphics.setLineDash(new float[] { 8, 4 });
             }
             case IDiagramModelObject.LINE_STYLE_DOTTED -> {
-                final double scale = Math.min(FigureUtils.getFigureScale(this), 1.0); // only scale below 1.0
-                graphics.setLineDash(new float[] { (float)(2 * scale), (float)(4 * scale) });
+                graphics.setLineDash(new float[] { 2, 4 });
             }
         }
     }
