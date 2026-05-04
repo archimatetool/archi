@@ -35,6 +35,7 @@ public abstract class AbstractContainerFigureTests extends AbstractDiagramModelO
         figure.setLocation(new Point(100, 100));
         
         Point pt = new Point(300, 400);
+        figure.translateToAbsolute(pt);  // Translate figure to absolute first in case we are running on Windows with non 100% display scale
         figure.translateMousePointToRelative(pt);
         assertEquals(new Point(200, 300), pt);
     }
