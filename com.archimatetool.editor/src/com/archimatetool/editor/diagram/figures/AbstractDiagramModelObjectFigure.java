@@ -84,10 +84,12 @@ implements IDiagramModelObjectFigure {
         return diagramModelObject;
     }
     
+    @Override
     public IFigureDelegate getFigureDelegate() {
         return figureDelegate;
     }
     
+    @Override
     public void setFigureDelegate(IFigureDelegate figureDelegate) {
         this.figureDelegate = figureDelegate;
     }

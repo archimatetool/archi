@@ -80,4 +80,15 @@ public interface IDiagramModelObjectFigure extends IFigure {
      */
     void updateIconImage();
 
+    /**
+     * @return the figure delegate used for drawing or null if there is no delegate
+     */
+    IFigureDelegate getFigureDelegate();
+    
+    /**
+     * Set the figure delegate used for drawing
+     * @param figureDelegate
+     */
+    void setFigureDelegate(IFigureDelegate figureDelegate);
+
 }
