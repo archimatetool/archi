@@ -50,10 +50,6 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         setFigurePositionFromTextPosition(rect);
 
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         int radius = getRadius(rect);
         Point center = getCenter(rect);
 

@@ -44,10 +44,6 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
 
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
 
         Path path = new Path(null);

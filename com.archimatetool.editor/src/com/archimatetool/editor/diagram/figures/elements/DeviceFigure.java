@@ -58,10 +58,6 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Bottom part
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
 

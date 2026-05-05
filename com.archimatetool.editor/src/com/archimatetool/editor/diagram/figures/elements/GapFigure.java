@@ -56,10 +56,6 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
         
         setFigurePositionFromTextPosition(rect, 5/3.0); // Should match 'widthFraction' formula
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

@@ -34,10 +34,6 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setBackgroundColor(getFillColor());
         
         Rectangle rect = getBounds();

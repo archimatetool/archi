@@ -56,10 +56,6 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         
         setFigurePositionFromTextPosition(rect, 2/3.0);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

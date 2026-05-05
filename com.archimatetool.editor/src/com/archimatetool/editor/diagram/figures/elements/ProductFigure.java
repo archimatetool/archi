@@ -55,10 +55,6 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
 
                 graphics.setAlpha(getAlpha());
                 
-                if(!isEnabled()) {
-                    setDisabledState(graphics);
-                }
-                
                 // Fill
                 graphics.setBackgroundColor(getFillColor());
                 

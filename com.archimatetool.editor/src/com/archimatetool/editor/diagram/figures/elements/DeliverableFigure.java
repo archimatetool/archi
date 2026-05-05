@@ -55,10 +55,6 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         Path path = getFigurePath(8, rect, (float)getLineWidth() / 2);
         
         // Main Fill

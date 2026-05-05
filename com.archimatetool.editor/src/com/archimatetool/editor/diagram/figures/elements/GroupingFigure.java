@@ -58,10 +58,6 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         if(drawOutline) {

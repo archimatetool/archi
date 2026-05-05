@@ -46,10 +46,6 @@ implements IRoundedRectangleFigure {
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setBackgroundColor(getFillColor());
         
         Pattern gradient = applyGradientPattern(graphics, rect);

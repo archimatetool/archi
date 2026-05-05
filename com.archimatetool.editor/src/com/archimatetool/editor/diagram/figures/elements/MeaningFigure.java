@@ -47,10 +47,6 @@ public class MeaningFigure extends AbstractMotivationFigure {
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Meaning icon is drawn inside a 12x7 grid using bezier curves
         // (online tool to help define curves: https://www.victoriakirst.com/beziertool/)
         float gridUnitX = (float)(rect.width / 12.0);

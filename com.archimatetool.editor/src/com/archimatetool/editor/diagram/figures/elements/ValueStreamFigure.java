@@ -59,10 +59,6 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
 
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Shape
         Path path = new Path(null);
         path.moveTo(rect.x, rect.y);

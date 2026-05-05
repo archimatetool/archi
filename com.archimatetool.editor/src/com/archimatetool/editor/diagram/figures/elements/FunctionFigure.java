@@ -59,10 +59,6 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
         // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
         setLineWidth(graphics, rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

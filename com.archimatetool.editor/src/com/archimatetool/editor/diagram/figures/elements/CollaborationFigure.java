@@ -55,10 +55,6 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
         
         setFigurePositionFromTextPosition(rect, 1.5); // Should match 'diameter'
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         
         graphics.setBackgroundColor(getFillColor());

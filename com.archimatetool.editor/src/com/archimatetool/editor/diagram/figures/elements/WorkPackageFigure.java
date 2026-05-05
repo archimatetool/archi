@@ -61,10 +61,6 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         setFigurePositionFromTextPosition(rect, 8/7.0);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setBackgroundColor(getLineColor());

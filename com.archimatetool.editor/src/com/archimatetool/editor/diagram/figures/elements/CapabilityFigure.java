@@ -56,10 +56,6 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

@@ -47,10 +47,6 @@ public class ContractFigure extends ObjectFigure {
 
             graphics.setAlpha(getAlpha());
             
-            if(!isEnabled()) {
-                setDisabledState(graphics);
-            }
-            
             // Main Fill
             graphics.setBackgroundColor(getFillColor());
             

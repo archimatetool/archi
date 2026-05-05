@@ -49,10 +49,6 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setBackgroundColor(getLineColor());

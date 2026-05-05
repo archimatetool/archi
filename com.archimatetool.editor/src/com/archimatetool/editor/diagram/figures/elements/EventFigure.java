@@ -59,10 +59,6 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Main Fill
         Path path = new Path(null);
         path.moveTo(rect.x, rect.y);

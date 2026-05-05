@@ -96,14 +96,6 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
 
     /**
-     * Set the drawing state when disabled
-     * @param graphics
-     */
-    protected void setDisabledState(Graphics graphics) {
-        getOwner().setDisabledState(graphics);
-    }
-    
-    /**
      * @return The owner's line width
      */
     protected int getLineWidth() {

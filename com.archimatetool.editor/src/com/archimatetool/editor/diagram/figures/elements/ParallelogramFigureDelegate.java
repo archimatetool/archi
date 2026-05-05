@@ -53,10 +53,6 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-
         // Fill
         graphics.setBackgroundColor(getFillColor());
         

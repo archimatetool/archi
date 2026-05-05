@@ -36,10 +36,6 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         
         graphics.setAntialias(SWT.ON);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         Rectangle rect = getBounds().getCopy();
         
         // Reduce width and height by 1 pixel

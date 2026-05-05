@@ -49,10 +49,6 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());

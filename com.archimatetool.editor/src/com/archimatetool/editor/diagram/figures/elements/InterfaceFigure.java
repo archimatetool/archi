@@ -55,10 +55,6 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         
         setFigurePositionFromTextPosition(rect);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         
         graphics.setBackgroundColor(getFillColor());

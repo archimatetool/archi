@@ -57,10 +57,6 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         
         setFigurePositionFromTextPosition(rect, 1.24); // Should match '3.1 / 2.5' (values used in getRadius() and getCenter())
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

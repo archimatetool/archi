@@ -48,10 +48,6 @@ implements IRoundedRectangleFigure {
 
         graphics.setAlpha(getAlpha());
 
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Fill
         graphics.setBackgroundColor(getFillColor());
         

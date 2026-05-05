@@ -63,10 +63,6 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Fill
         graphics.setBackgroundColor(getFillColor());
         

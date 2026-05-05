@@ -51,10 +51,6 @@ public class RepresentationFigure extends DeliverableFigure {
 
         graphics.setAlpha(getAlpha());
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         Path path = getFigurePath(6, rect, (float)getLineWidth() / 2);
         
         // Main Fill

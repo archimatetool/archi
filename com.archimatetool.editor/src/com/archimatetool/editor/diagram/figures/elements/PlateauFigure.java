@@ -48,10 +48,6 @@ public class PlateauFigure extends AbstractTextControlContainerFigure implements
         
         setFigurePositionFromTextPosition(rect, 5/3.5);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         

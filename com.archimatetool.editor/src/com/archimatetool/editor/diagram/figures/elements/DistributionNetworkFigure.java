@@ -53,10 +53,6 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         // Reduce by one pixel in case of bottom/right postion
         Rectangle imageBounds = rect.getCopy().resize(-1, -1);
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         // Calculate line width depending on size
         int lineWidth = (int)Math.max(3, Math.sqrt(rect.width * rect.height) / 24);
 

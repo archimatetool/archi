@@ -58,10 +58,6 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         
         setFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
         
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-        
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);

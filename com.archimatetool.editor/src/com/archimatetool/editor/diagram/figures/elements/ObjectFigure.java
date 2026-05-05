@@ -53,10 +53,6 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
 
             graphics.setAlpha(getAlpha());
             
-            if(!isEnabled()) {
-                setDisabledState(graphics);
-            }
-            
             // Main Fill
             graphics.setBackgroundColor(getFillColor());
             
