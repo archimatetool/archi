@@ -38,12 +38,9 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.elements.ValueFigure;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -211,8 +208,8 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		// Find reference point relative position
 		int pos = 0;
 		
-		Dimension corner = getCornerDimensions(getOwner());
-		corner = corner.scale(FigureUtils.getFigureScale(getOwner()));
+		Dimension corner = getCornerDimension(getOwner());
+		getOwner().translateToAbsolute(corner); // This will take care of any scaling factor
 		
 		// Check X axis
 		if (reference.x < figureBBox.x)
@@ -317,13 +314,15 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		// CreateConnectionRequest needs to refresh fRemoteFig each time
         switch(fAnchorType) {
             case CRCONREQ_SRC:
-                fRemoteFig = (((CreateConnectionRequest)fRequest).getTargetEditPart() != null)
-                        ? ((GraphicalEditPart)((CreateConnectionRequest)fRequest).getTargetEditPart()).getFigure()
+                CreateConnectionRequest req = (CreateConnectionRequest)fRequest;
+                fRemoteFig = (req.getTargetEditPart() != null)
+                        ? ((GraphicalEditPart)req.getTargetEditPart()).getFigure()
                         : null;
                 break;
             case CRCONREQ_TGT:
-                fRemoteFig = (((CreateConnectionRequest)fRequest).getSourceEditPart() != null)
-                        ? ((GraphicalEditPart)((CreateConnectionRequest)fRequest).getSourceEditPart()).getFigure()
+                req = (CreateConnectionRequest)fRequest;
+                fRemoteFig = (req.getSourceEditPart() != null)
+                        ? ((GraphicalEditPart)req.getSourceEditPart()).getFigure()
                         : null;
                 break;
         }
@@ -345,20 +344,22 @@ public class OrthogonalAnchor extends ChopboxAnchor {
                 		: null;
                 break;
             case RECONREQ_SRC:
-                fRemoteFig = (((ReconnectRequest)fRequest).getConnectionEditPart().getTarget() != null)
-                        ? ((GraphicalEditPart)((ReconnectRequest)fRequest).getConnectionEditPart().getTarget()).getFigure()
+                ReconnectRequest req = (ReconnectRequest)fRequest;
+                fRemoteFig = (req.getConnectionEditPart().getTarget() != null)
+                        ? ((GraphicalEditPart)req.getConnectionEditPart().getTarget()).getFigure()
                         : null;
-                if(((Connection)((ReconnectRequest)fRequest).getConnectionEditPart().getFigure()).getTargetAnchor() instanceof OrthogonalAnchor)
-                    ((OrthogonalAnchor)((Connection)((ReconnectRequest)fRequest).getConnectionEditPart().getFigure()).getTargetAnchor())
-                            .setAlternateRemoteFig(getOwner());
+                if(((Connection)req.getConnectionEditPart().getFigure()).getTargetAnchor() instanceof OrthogonalAnchor oa) {
+                    oa.setAlternateRemoteFig(getOwner());
+                }
                 break;
             case RECONREQ_TGT:
-                fRemoteFig = (((ReconnectRequest)fRequest).getConnectionEditPart().getSource() != null)
-                        ? ((GraphicalEditPart)((ReconnectRequest)fRequest).getConnectionEditPart().getSource()).getFigure()
+                req = (ReconnectRequest)fRequest;
+                fRemoteFig = (req.getConnectionEditPart().getSource() != null)
+                        ? ((GraphicalEditPart)req.getConnectionEditPart().getSource()).getFigure()
                         : null;
-                if(((Connection)((ReconnectRequest)fRequest).getConnectionEditPart().getFigure()).getSourceAnchor() instanceof OrthogonalAnchor)
-                    ((OrthogonalAnchor)((Connection)((ReconnectRequest)fRequest).getConnectionEditPart().getFigure()).getSourceAnchor())
-                            .setAlternateRemoteFig(getOwner());
+                if(((Connection)req.getConnectionEditPart().getFigure()).getSourceAnchor() instanceof OrthogonalAnchor oa) {
+                    oa.setAlternateRemoteFig(getOwner());
+                }
                 break;
         }
     }
@@ -370,31 +371,22 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 	 * 
 	 * @return corner dimension
 	 */
-	private Dimension getCornerDimensions(IFigure figure) {
-        // Default is pure rectangle
-        Dimension corner = new Dimension(0, 0);
-        
-        // roundedRectangle case
-        if(figure instanceof AbstractDiagramModelObjectFigure) {
-            IFigureDelegate figureDelegate = ((AbstractDiagramModelObjectFigure)figure).getFigureDelegate();
-            if(figureDelegate instanceof IRoundedRectangleFigure) {
-                return ((IRoundedRectangleFigure)figureDelegate).getArc();
-            }
+	private Dimension getCornerDimension(IFigure figure) {
+	    // Check for figure delegate first
+        if(figure instanceof IDiagramModelObjectFigure f && f.getFigureDelegate() instanceof IRoundedRectangleFigure rf) {
+            return rf.getArc();
         }
-        
-        if(figure instanceof IRoundedRectangleFigure) {
-            // roundedRectangle case
-            corner = ((IRoundedRectangleFigure)figure).getArc();
+        else if(figure instanceof IRoundedRectangleFigure f) {
+            return f.getArc();
         }
-        else if(figure instanceof RoundedRectangle) {
-            // roundedRectangle case
-            corner = ((RoundedRectangle)figure).getCornerDimensions();
+        else if(figure instanceof ValueFigure vf && vf.getDiagramModelArchimateObject().getType() == 1) {
+            return figure.getSize();
         }
-        else if(figure instanceof ValueFigure && ((IDiagramModelArchimateObject)((ValueFigure)figure).getDiagramModelObject()).getType() == 1) {
-            // ellipse case
-            corner = figure.getSize();
+        else if(figure instanceof RoundedRectangle f) {
+            return f.getCornerDimensions();
         }
 		
-		return corner;
+        // Default is pure rectangle
+		return new Dimension(0, 0);
 	}
 }
