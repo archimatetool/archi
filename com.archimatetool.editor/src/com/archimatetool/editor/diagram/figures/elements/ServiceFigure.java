@@ -7,14 +7,16 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.RoundedRectangleAnchor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
 
@@ -102,7 +104,12 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
     
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(this);
+        return new RoundedRectangleAnchor(this, null) {
+            @Override
+            public Dimension getCornerDimensions() {
+                return ((IRoundedRectangleFigure)getFigureDelegate()).getArc();
+            }
+        };
     }
 
     @Override

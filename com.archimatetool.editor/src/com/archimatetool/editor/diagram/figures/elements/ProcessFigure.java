@@ -8,13 +8,13 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.RoundedRectangleAnchor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
@@ -126,7 +126,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure implements
 
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
-        return getDiagramModelArchimateObject().getType() == 0 ? new RoundedRectangleAnchor(this) : new ChopboxAnchor(this);
+        return getFigureDelegate() instanceof RoundedRectangleFigureDelegate rf ? new RoundedRectangleAnchor(this, rf.getArc()) : new ChopboxAnchor(this);
     }
     
     @Override

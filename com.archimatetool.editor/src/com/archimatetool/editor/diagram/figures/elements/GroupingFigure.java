@@ -10,6 +10,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
@@ -37,7 +38,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     private static final int TOPBAR_HEIGHT = 18;
     private static final float INSET = 1.4f;
     
-    private int tabHeight;
+    private int tabHeight = TOPBAR_HEIGHT;
     private int tabWidth;
     
     public GroupingFigure() {
@@ -202,16 +203,21 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             }
             
             Rectangle r = getBox().getCopy();
-            getOwner().translateToAbsolute(r);
+    		r.translate(-1, -1);
+    		r.resize(1, 1);
+    		getOwner().translateToAbsolute(r);
             
-            int shiftY = tabHeight - (pt.y - r.y) - 1;
+            int shiftY = tabHeight - (pt.y - r.y);
+            Dimension d = new Dimension(0, shiftY);
+            getOwner().translateToAbsolute(d); // This will take care of any scaling factor on Windows
+            shiftY = d.height();
             
             if(pt.x > r.x + (r.width / INSET) && shiftY > 0) {
                 pt.y += shiftY;
             }
             
             return pt;
-        };
+        }
     }
     
     @Override
