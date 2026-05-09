@@ -649,11 +649,8 @@ public class PaletteSettingsDialog extends Dialog {
         contents.setLayoutData(data);
         contents.setText(title);
 
-        Button b = createButton(contents, buttonId,
+        createButton(contents, buttonId,
                 PaletteMessages.SETTINGS_USE_LARGE_ICONS_LABEL, SWT.CHECK, null);
-
-        // Modified by Phillipus to disable this setting
-        b.setEnabled(false);
         
         return contents;
     }

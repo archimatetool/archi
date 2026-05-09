@@ -158,7 +158,9 @@ public interface IArchiImages {
     String ICON_FILTER = IMGPATH + "filter.png";
     String ICON_FONT = IMGPATH + "font.png";
     String ICON_FORMAT_PAINTER = IMGPATH + "formatpainter.png";
+    String ICON_FORMAT_PAINTER24 = IMGPATH + "formatpainter24.png";
     String ICON_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey.png";
+    String ICON_FORMAT_PAINTER_GREY24 = IMGPATH + "formatpainter-grey24.png";
     String ICON_GROUP = IMGPATH + "group.png";
     String ICON_LINKED = IMGPATH + "linked.png";
     String ICON_LANDSCAPE = IMGPATH + "landscape.png";

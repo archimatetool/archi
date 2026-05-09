@@ -495,12 +495,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected void configurePaletteViewer(final PaletteViewer viewer) {
         PaletteViewerPreferences prefs = viewer.getPaletteViewerPreferences();
         
-        // Don't use large icons
-        prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_ICONS, false);
-        prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_COLUMNS, false);
-        prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_DETAILS, false);
-        prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_LIST, false);
-        
         // First time use so set to icons layout
         IEclipsePreferences gefPrefs = InstanceScope.INSTANCE.getNode("org.eclipse.gef"); //$NON-NLS-1$
         if(!gefPrefs.getBoolean("com.archimatetool.paletteSet", false)) { //$NON-NLS-1$

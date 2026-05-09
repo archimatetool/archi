@@ -70,11 +70,11 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     private void setIcons() {
         if(FormatPainterInfo.INSTANCE.hasSourceComponent()) {
-            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
+            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER24));
             setSmallIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
         }
         else {
-            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY));
+            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY24));
             setSmallIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY));
         }
     }
