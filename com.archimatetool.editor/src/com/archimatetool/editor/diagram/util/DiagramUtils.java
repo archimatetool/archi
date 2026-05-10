@@ -16,6 +16,7 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
+import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -69,7 +70,7 @@ public final class DiagramUtils {
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        viewer.createControl(parent); // Use createControl not setControl so it's wrapped in a Canvas
+        viewer.createControl(parent).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
         
         viewer.setEditPartFactory(editPartFactory);
         
