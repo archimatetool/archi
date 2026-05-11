@@ -44,7 +44,6 @@ import com.archimatetool.model.ITextAlignment;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTarget <em>Target</em>}</li>
@@ -184,26 +183,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
      * @ordered
      */
     protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getText() <em>Text</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getText()
-     * @generated
-     * @ordered
-     */
-    protected static final String TEXT_EDEFAULT = ""; //$NON-NLS-1$
-
-    /**
-     * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getText()
-     * @generated
-     * @ordered
-     */
-    protected String text = TEXT_EDEFAULT;
 
     /**
      * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
@@ -384,31 +363,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
         documentation = newDocumentation;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION, oldDocumentation, documentation));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public void setText(String newText) {
-        String oldText = text;
-        text = newText;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT, oldText, text));
     }
 
     /**
@@ -687,8 +641,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return getLineColor();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return getTextAlignment();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
-                return getText();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
                 return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
@@ -733,9 +685,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment((Integer)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
-                setText((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
@@ -786,9 +735,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
-                setText(TEXT_EDEFAULT);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
@@ -830,8 +776,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
-                return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
@@ -952,8 +896,6 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
         result.append(lineColor);
         result.append(", textAlignment: "); //$NON-NLS-1$
         result.append(textAlignment);
-        result.append(", text: "); //$NON-NLS-1$
-        result.append(text);
         result.append(", textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
         result.append(", type: "); //$NON-NLS-1$

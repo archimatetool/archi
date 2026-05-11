@@ -2352,7 +2352,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
-    public EAttribute getDiagramModelConnection_Text() {
+    public EAttribute getDiagramModelConnection_TextPosition() {
         return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(0);
     }
 
@@ -2362,18 +2362,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     @Override
-    public EAttribute getDiagramModelConnection_TextPosition() {
-        return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
     public EReference getDiagramModelConnection_Source() {
-        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(2);
+        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -2383,7 +2373,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     @Override
     public EReference getDiagramModelConnection_Target() {
-        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(3);
+        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -2393,7 +2383,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     @Override
     public EReference getDiagramModelConnection_Bendpoints() {
-        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(4);
+        return (EReference)diagramModelConnectionEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -2403,7 +2393,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     @Override
     public EAttribute getDiagramModelConnection_Type() {
-        return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(5);
+        return (EAttribute)diagramModelConnectionEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -3570,7 +3560,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelImageEClass = createEClass(DIAGRAM_MODEL_IMAGE);
 
         diagramModelConnectionEClass = createEClass(DIAGRAM_MODEL_CONNECTION);
-        createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__TEXT);
         createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__TEXT_POSITION);
         createEReference(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__SOURCE);
         createEReference(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__TARGET);
@@ -4215,7 +4204,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(diagramModelImageEClass, IDiagramModelImage.class, "DiagramModelImage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelConnectionEClass, IDiagramModelConnection.class, "DiagramModelConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getDiagramModelConnection_Text(), ecorePackage.getEString(), "text", "", 0, 1, IDiagramModelConnection.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
         initEAttribute(getDiagramModelConnection_TextPosition(), ecorePackage.getEInt(), "textPosition", null, 0, 1, IDiagramModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEReference(getDiagramModelConnection_Source(), this.getConnectable(), null, "source", null, 0, 1, IDiagramModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEReference(getDiagramModelConnection_Target(), this.getConnectable(), null, "target", null, 0, 1, IDiagramModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

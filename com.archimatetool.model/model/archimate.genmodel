@@ -245,7 +245,6 @@
     <genClasses ecoreClass="archimate.ecore#//DiagramModelNote"/>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelImage"/>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelConnection">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/text"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/textPosition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/target"/>

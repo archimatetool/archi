@@ -9111,22 +9111,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT = CONNECTABLE_FEATURE_COUNT + 6;
 
     /**
-     * The feature id for the '<em><b>Text</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__TEXT = CONNECTABLE_FEATURE_COUNT + 7;
-
-    /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = CONNECTABLE_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = CONNECTABLE_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -9135,7 +9126,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__SOURCE = CONNECTABLE_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_CONNECTION__SOURCE = CONNECTABLE_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -9144,7 +9135,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TARGET = CONNECTABLE_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_CONNECTION__TARGET = CONNECTABLE_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
@@ -9153,7 +9144,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = CONNECTABLE_FEATURE_COUNT + 11;
+    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = CONNECTABLE_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -9162,7 +9153,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TYPE = CONNECTABLE_FEATURE_COUNT + 12;
+    int DIAGRAM_MODEL_CONNECTION__TYPE = CONNECTABLE_FEATURE_COUNT + 11;
 
     /**
      * The number of structural features of the '<em>Diagram Model Connection</em>' class.
@@ -9171,7 +9162,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 13;
+    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 12;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateConnection <em>Diagram Model Archimate Connection</em>}' class.
@@ -10121,15 +10112,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT_ALIGNMENT = DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT = DIAGRAM_MODEL_CONNECTION__TEXT;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -12310,17 +12292,6 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelConnection();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelConnection#getText <em>Text</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Text</em>'.
-     * @see com.archimatetool.model.IDiagramModelConnection#getText()
-     * @see #getDiagramModelConnection()
-     * @generated
-     */
-    EAttribute getDiagramModelConnection_Text();
-
-    /**
      * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -14340,14 +14311,6 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass DIAGRAM_MODEL_CONNECTION = eINSTANCE.getDiagramModelConnection();
-
-        /**
-         * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute DIAGRAM_MODEL_CONNECTION__TEXT = eINSTANCE.getDiagramModelConnection_Text();
 
         /**
          * The meta object literal for the '<em><b>Text Position</b></em>' attribute feature.

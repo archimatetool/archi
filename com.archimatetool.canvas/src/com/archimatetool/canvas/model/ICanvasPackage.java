@@ -977,15 +977,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_CONNECTION__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
 
     /**
-     * The feature id for the '<em><b>Text</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_CONNECTION__TEXT = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT;
-
-    /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
