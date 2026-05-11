@@ -57,6 +57,8 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_NODE = "node";
     String ELEMENT_CONNECTION = "connection";
     String ELEMENT_FILLCOLOR = "fillColor";
+    String ELEMENT_SOURCE_ATTACHMENT = "sourceAttachment";
+    String ELEMENT_TARGET_ATTACHMENT = "targetAttachment";
     String ELEMENT_BENDPOINT = "bendpoint";
     String ELEMENT_LINECOLOR = "lineColor";
     String ELEMENT_FONT = "font";

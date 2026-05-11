@@ -21,5 +21,6 @@ public class TestSupport {
     public static File TESTDATA_FOLDER = TestUtils.getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
     public static File TEST_MODEL_FILE_ARCHISURANCE = new File(TESTDATA_FOLDER, "Archisurance.archimate");
     public static File XML_FILE1 = new File(TESTDATA_FOLDER, "Sample1.xml");
+    public static File XML_BENDPOINT_FILE = new File(TESTDATA_FOLDER, "bendpoint.test.xml");
     
 }
