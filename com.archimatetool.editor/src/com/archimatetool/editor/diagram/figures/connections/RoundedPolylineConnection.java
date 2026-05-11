@@ -133,12 +133,12 @@ public class RoundedPolylineConnection extends PolylineConnection {
 				Point bpprev;
 				Point bpnext;
 				if(!prev2next) {
-					bpprev = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
-					bpnext = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
+					bpprev = PolarPoint.SINGLETON.set(arc_radius, start_angle).toAbsolutePoint(center);
+					bpnext = PolarPoint.SINGLETON.set(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
 				}
 				else {
-					bpprev = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
-					bpnext = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
+					bpprev = PolarPoint.SINGLETON.set(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
+					bpnext = PolarPoint.SINGLETON.set(arc_radius, start_angle).toAbsolutePoint(center);
 				}
 				
 				// Now that bendpoint position has been refined we can add line segment
@@ -147,10 +147,10 @@ public class RoundedPolylineConnection extends PolylineConnection {
 				// Create circle approximation
 				for(double a = 1; a < MAX_ITER; a++) {
 					if(prev2next) {
-					    linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * (1 - a / MAX_ITER)).toAbsolutePoint(center));
+					    linepoints.addPoint(PolarPoint.SINGLETON.set(arc_radius, start_angle + full_angle * (1 - a / MAX_ITER)).toAbsolutePoint(center));
 					}
 					else {
-						linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * a / MAX_ITER).toAbsolutePoint(center));
+						linepoints.addPoint(PolarPoint.SINGLETON.set(arc_radius, start_angle + full_angle * a / MAX_ITER).toAbsolutePoint(center));
 					}
 				}
 				
@@ -179,7 +179,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		// If line-jumps are enabled, draw them using half circles
 		if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
 			// Compute angle between line segment and horizontal line
-			PolarPoint end_p = new PolarPoint(start, end);
+			PolarPoint end_p = PolarPoint.SINGLETON.set(start, end);
 			double angle = end_p.theta % Math.PI;
 			boolean reverse = (end_p.theta != angle);
 			
@@ -195,11 +195,11 @@ public class RoundedPolylineConnection extends PolylineConnection {
 					Point crosspoint = lineIntersect(start, end, bp, next);
 					// Check if crossing point found and not too close from ends
 					if (crosspoint != null
-					        && new PolarPoint(crosspoint, start).r > JUMP_MAX_RADIUS
-					        && new PolarPoint(crosspoint, end).r > JUMP_MAX_RADIUS
-					        && new PolarPoint(crosspoint, bp).r > JUMP_MAX_RADIUS
-					        && new PolarPoint(crosspoint, next).r > JUMP_MAX_RADIUS) {
-						double con_angle = ((new PolarPoint(bp, next)).theta % Math.PI);
+					        && PolarPoint.SINGLETON.set(crosspoint, start).r > JUMP_MAX_RADIUS
+					        && PolarPoint.SINGLETON.set(crosspoint, end).r > JUMP_MAX_RADIUS
+					        && PolarPoint.SINGLETON.set(crosspoint, bp).r > JUMP_MAX_RADIUS
+					        && PolarPoint.SINGLETON.set(crosspoint, next).r > JUMP_MAX_RADIUS) {
+						double con_angle = PolarPoint.SINGLETON.set(bp, next).theta % Math.PI;
 
 						if(angle > con_angle && !crosspoints.contains(crosspoint)) {
 							crosspoints.add(crosspoint);
@@ -222,10 +222,10 @@ public class RoundedPolylineConnection extends PolylineConnection {
 				for(int i = 1; i < crosspoints.size(); i++ ) {
 					for(double a = 0; a <= MAX_ITER; a++) {
 						if(reverse) {
-							linepoints.addPoint((new PolarPoint(JUMP_MAX_RADIUS, angle - a * Math.PI / MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+							linepoints.addPoint(PolarPoint.SINGLETON.set(JUMP_MAX_RADIUS, angle - a * Math.PI / MAX_ITER).toAbsolutePoint(crosspoints.get(i)));
 						}
 						else {
-							linepoints.addPoint((new PolarPoint(JUMP_MAX_RADIUS, angle - Math.PI + a * Math.PI / MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+							linepoints.addPoint(PolarPoint.SINGLETON.set(JUMP_MAX_RADIUS, angle - Math.PI + a * Math.PI / MAX_ITER).toAbsolutePoint(crosspoints.get(i)));
 						}
 					}
 				}

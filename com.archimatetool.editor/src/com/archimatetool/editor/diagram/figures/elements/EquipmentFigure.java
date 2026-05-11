@@ -138,11 +138,9 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         PrecisionPoint secondPoint = new PrecisionPoint();
         secondPoint.setPreciseLocation((rect.x + figureWidth / 2) - figureWidth / 5.9d, rect.y + figureHeight / 6.5d);
         
-        PrecisionPoint firstCirclePoint = new PrecisionPoint();
-        firstCirclePoint = rotatePoint(firstPoint, center, alphaFirstCircle);
+        PrecisionPoint firstCirclePoint = rotatePoint(firstPoint, center, alphaFirstCircle);
         
-        PrecisionPoint secondCirclePoint = new PrecisionPoint();
-        secondCirclePoint = rotatePoint(secondPoint, center, alphaSecondCircle);
+        PrecisionPoint secondCirclePoint = rotatePoint(secondPoint, center, alphaSecondCircle);
         secondCirclePoint = rotatePoint(secondCirclePoint, center, betaSecondCirlce);
         
         path.moveTo((float)firstPoint.preciseX() + xMargin, (float)firstPoint.preciseY() + yMargin);
@@ -229,10 +227,10 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
     	final double delta = halfSeg / 4;
     	
     	for(int i = 0; i<segments; i++) {
-    		outer.addPoint(new PolarPoint(r2, 2*Math.PI*i/segments-halfSeg).toAbsolutePoint(center));
-    		outer.addPoint(new PolarPoint(r3, 2*Math.PI*i/segments-halfSeg+delta).toAbsolutePoint(center));
-    		outer.addPoint(new PolarPoint(r3, 2*Math.PI*i/segments+halfSeg-delta).toAbsolutePoint(center));
-    		outer.addPoint(new PolarPoint(r2, 2*Math.PI*i/segments+halfSeg).toAbsolutePoint(center));
+    		outer.addPoint(PolarPoint.SINGLETON.set(r2, 2*Math.PI*i/segments-halfSeg).toAbsolutePoint(center));
+    		outer.addPoint(PolarPoint.SINGLETON.set(r3, 2*Math.PI*i/segments-halfSeg+delta).toAbsolutePoint(center));
+    		outer.addPoint(PolarPoint.SINGLETON.set(r3, 2*Math.PI*i/segments+halfSeg-delta).toAbsolutePoint(center));
+    		outer.addPoint(PolarPoint.SINGLETON.set(r2, 2*Math.PI*i/segments+halfSeg).toAbsolutePoint(center));
     	}
     	if(backgroundColor != null) {
     	    graphics.setBackgroundColor(backgroundColor);

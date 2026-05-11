@@ -18,7 +18,13 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class PolarPoint {
 	
-	/**
+    /**
+     * A singleton for use in short calculations.
+     * Use to avoid creating new unnecessary objects.
+     */
+    public static final PolarPoint SINGLETON = new PolarPoint(0, 0);
+
+    /**
 	 * The radial coordinate 
 	 */
 	public double r;
@@ -33,8 +39,7 @@ public class PolarPoint {
 	 * @param theta The angular coordinate in radians
 	 */
 	public PolarPoint(double r, double theta) {
-		this.r = r;
-		this.theta = theta;
+	    set(r, theta);
 	}
 	
 	/**
@@ -43,15 +48,41 @@ public class PolarPoint {
 	 * @param point the point to be converted
 	 */
 	public PolarPoint(Point pole, Point point) {
-		int x = point.x - pole.x;
-		int y = point.y - pole.y;
-		
-		this.r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-		
-		this.theta = Math.acos(x/r);
-		if(y > 0)
-			this.theta = 2*Math.PI - this.theta;
+		set(pole, point);
 	}
+	
+	/**
+	 * Set values and convert a point to polar point
+	 * @param pole the pole of the polar coordinate system.
+	 * @param point the point to be converted
+	 * @return this PolarPoint
+	 */
+	public PolarPoint set(Point pole, Point point) {
+	    int x = point.x - pole.x;
+        int y = point.y - pole.y;
+        
+        r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        
+        theta = Math.acos(x / r);
+        
+        if(y > 0) {
+            theta = 2 * Math.PI - theta;
+        }
+        
+        return this;
+	}
+	
+    /**
+     * Set values
+     * @param r The radial coordinate 
+     * @param theta The angular coordinate in radians
+     * @return this PolarPoint
+     */
+    public PolarPoint set(double r, double theta) {
+        this.r = r;
+        this.theta = theta;
+        return this;
+    }
 	
 	/**
 	 * Transform the polar point to the {@link Point} in rectangular coordinates. 
