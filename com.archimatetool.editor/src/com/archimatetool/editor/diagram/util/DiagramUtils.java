@@ -205,13 +205,13 @@ public final class DiagramUtils {
         
         Rectangle minimumBounds = null;
         
-        for(Object child : figure.getChildren()) {
+        for(IFigure child : figure.getChildren()) {
             Rectangle bounds;
             if(child instanceof FreeformFigure) {
-                bounds = getMinimumBounds((IFigure)child);
+                bounds = getMinimumBounds(child);
             }
             else {
-                bounds = ((IFigure)child).getBounds();
+                bounds = child.getBounds();
             }
             
             if(bounds != null) {

@@ -78,8 +78,7 @@ implements IContainerFigure {
             // Start with zero and build up from that...
             Dimension d = new Dimension();
             
-            for(Object child : getContentPane().getChildren()) {
-                IFigure figure = (IFigure)child;
+            for(IFigure figure : getContentPane().getChildren()) {
                 Rectangle bounds = figure.getBounds();
                 d.width = Math.max(bounds.x + bounds.width + 10, d.width);
                 d.height = Math.max(bounds.y + bounds.height + 10, d.height);

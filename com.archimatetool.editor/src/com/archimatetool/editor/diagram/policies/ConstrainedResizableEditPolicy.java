@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Handle;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -29,7 +29,7 @@ public class ConstrainedResizableEditPolicy extends ResizableEditPolicy {
     
     @Override
     protected ResizeTracker getResizeTracker(int direction) {
-        return new ResizeTracker((GraphicalEditPart) getHost(), direction) {
+        return new ResizeTracker(getHost(), direction) {
             @Override
             protected Request createSourceRequest() {
                 ChangeBoundsRequest request = new ChangeBoundsRequest(REQ_RESIZE) {
@@ -60,10 +60,9 @@ public class ConstrainedResizableEditPolicy extends ResizableEditPolicy {
         };
     }
     
-    @SuppressWarnings("rawtypes")
     @Override
-    protected List createSelectionHandles() {
-        List list = new ArrayList();
+    protected List<Handle> createSelectionHandles() {
+        List<Handle> list = new ArrayList<>();
         createMoveHandle(list);
         createResizeHandle(list, PositionConstants.SOUTH_EAST);
         createResizeHandle(list, PositionConstants.SOUTH_WEST);

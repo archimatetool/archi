@@ -906,7 +906,7 @@ public final class CopySnapshot {
                 List<EditPart> selected = new ArrayList<EditPart>();
                 
                 for(EObject object : topLevelObjects) {
-                    EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(object);
+                    EditPart editPart = viewer.getEditPartRegistry().get(object);
                     if(editPart != null && editPart.isSelectable()) {
                         selected.add(editPart);
                     }

@@ -120,7 +120,7 @@ extends Command {
     protected void selectConnection() {
         if(fRequest.getSourceEditPart() != null && fRequest.getSourceEditPart().getViewer() != null) {
             EditPartViewer viewer = fRequest.getSourceEditPart().getViewer();
-            EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fConnection);
+            EditPart editPart = viewer.getEditPartRegistry().get(fConnection);
             if(editPart != null) {
                 // Async this so that the Properties view can catch up
                 Display.getCurrent().asyncExec(() -> {

@@ -42,6 +42,7 @@ implements ICanvasEditor {
         return (CanvasEditorPalette)fPaletteRoot;
     }
 
+    @SuppressWarnings("removal")
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();
