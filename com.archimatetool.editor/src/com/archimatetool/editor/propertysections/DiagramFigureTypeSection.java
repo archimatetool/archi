@@ -5,8 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.util.Objects;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -45,8 +48,8 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         public boolean isRequiredType(Object object) {
-            if(object instanceof IDiagramModelArchimateObject) {
-                IArchimateElementUIProvider provider = (IArchimateElementUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelArchimateObject)object);
+            if(object instanceof IDiagramModelArchimateObject dmo) {
+                IArchimateElementUIProvider provider = (IArchimateElementUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
                 return provider.hasAlternateFigure();
             }
             return false;
@@ -71,14 +74,13 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
     
     @Override
     protected void update() {
-        figure1.setVisible(false);
-        figure2.setVisible(false);
-        
-        // Ensure we have the same type of figure
+        // Ensure we have selected the same type of figure
         for(int i = 0; i < getEObjects().size() - 1; i++) {
             IDiagramModelArchimateObject first = (IDiagramModelArchimateObject)getEObjects().get(i);
             IDiagramModelArchimateObject next = (IDiagramModelArchimateObject)getEObjects().get(i + 1);
             if(first.getArchimateConcept().eClass() != next.getArchimateConcept().eClass()) {
+                figure1.setVisible(false);
+                figure2.setVisible(false);
                 return;
             }
         }
@@ -89,11 +91,8 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         IDiagramModelArchimateObject firstSelected = (IDiagramModelArchimateObject)getFirstSelectedObject();
         IArchimateElement element = firstSelected.getArchimateElement();
         
-        Image image1 = FigureImagePreviewFactory.getPreviewImage(element.eClass(), 0);
-        Image image2 = FigureImagePreviewFactory.getPreviewImage(element.eClass(), 1);
-        
-        figure1.setImage(image1);
-        figure2.setImage(image2);
+        figure1.update(element.eClass(), 0);
+        figure2.update(element.eClass(), 1);
         
         figure1.getParent().layout();
 
@@ -122,9 +121,23 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         return true;
     }
     
+    @Override
+    public void dispose() {
+        super.dispose();
+        
+        if(figure1 != null) {
+            figure1.disposeImage();
+        }
+        if(figure2 != null) {
+            figure2.disposeImage();
+        }
+    }
+    
     private class ImageFigure extends Composite {
         boolean selected;
         Label label;
+        EClass eClass;
+        Image image;
 
         public ImageFigure(Composite parent, int value) {
             super(parent, SWT.NULL);
@@ -163,8 +176,20 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
             });
         }
         
-        void setImage(Image image) {
-            label.setImage(image);
+        void update(EClass eClass, int type) {
+            if(!Objects.equals(eClass, this.eClass)) {
+                disposeImage();
+                image = FigureImagePreviewFactory.getPreviewImage(eClass, type);
+                label.setImage(image);
+            }
+            
+            this.eClass = eClass;
+        }
+
+        void disposeImage() {
+            if(image != null) {
+                image.dispose();
+            }
         }
         
         void setSelected(boolean set) {

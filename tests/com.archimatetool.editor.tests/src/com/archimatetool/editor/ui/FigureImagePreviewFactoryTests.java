@@ -25,6 +25,7 @@ public class FigureImagePreviewFactoryTests {
             if(provider instanceof IArchimateElementUIProvider) {
                 Image image = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
                 assertNotNull(image);
+                image.dispose();
             }
         }
     }
@@ -32,11 +33,12 @@ public class FigureImagePreviewFactoryTests {
     @Test
     public void testGetPreviewImageType2() {
         for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
-            if(provider instanceof IArchimateElementUIProvider) {
-                Image image = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
+            if(provider instanceof IArchimateElementUIProvider elementProvider) {
+                Image image = FigureImagePreviewFactory.getPreviewImage(elementProvider.providerFor(), 1);
                 
-                if(((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
+                if(elementProvider.hasAlternateFigure()) {
                     assertNotNull(image);
+                    image.dispose();
                 }
                 else {
                     assertNull(image);

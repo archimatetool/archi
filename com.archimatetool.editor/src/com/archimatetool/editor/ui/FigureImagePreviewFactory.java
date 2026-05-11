@@ -5,11 +5,11 @@
  */
 package com.archimatetool.editor.ui;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -35,12 +35,6 @@ import com.archimatetool.model.ITextPosition;
  */
 public class FigureImagePreviewFactory {
     
-    /**
-     * Image Registry
-     * We need to check Display.getCurrent() because it can be null if running headless (tests, scripting, command line)
-     */
-    private static final ImageRegistry imageRegistry = new ImageRegistry(Display.getCurrent() != null ? Display.getCurrent() : Display.getDefault());
-    
     private static final int FIGURE_WIDTH = 120;
     private static final int FIGURE_HEIGHT = 55;
     
@@ -63,83 +57,74 @@ public class FigureImagePreviewFactory {
             return null;
         }
         
-        String key = eClass.getName() + type;
-        
-        Image image = imageRegistry.get(key);
-        
-        if(image == null) {
-            IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-            dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
-            dmo.setName(uiProvider.getDefaultName());
-            dmo.setType(type);
-            dmo.setDeriveElementLineColor(false);
-            
-            // Special case for text alignment
-            if(eClass == IArchimatePackage.eINSTANCE.getGrouping()) {
-                dmo.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
-            }
-            
-            // Special cases for text position on icon type figures
-            if(type == 1) {
-                switch(eClass.getClassifierID()) {
-                    case IArchimatePackage.ASSESSMENT,
-                         IArchimatePackage.BUSINESS_ACTOR,
-                         IArchimatePackage.CAPABILITY,
-                         IArchimatePackage.COMMUNICATION_NETWORK,
-                         IArchimatePackage.COURSE_OF_ACTION,
-                         IArchimatePackage.DISTRIBUTION_NETWORK,
-                         IArchimatePackage.DRIVER,
-                         IArchimatePackage.EQUIPMENT,
-                         IArchimatePackage.FACILITY,
-                         IArchimatePackage.GAP,
-                         IArchimatePackage.GOAL,
-                         IArchimatePackage.LOCATION,
-                         IArchimatePackage.MATERIAL,
-                         IArchimatePackage.OUTCOME,
-                         IArchimatePackage.PLATEAU,
-                         IArchimatePackage.PRINCIPLE,
-                         IArchimatePackage.SYSTEM_SOFTWARE,
-                         IArchimatePackage.WORK_PACKAGE
-                                                        -> dmo.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
-                }
-            }
-            
-            // Use inbuilt default colours
-            dmo.setFillColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultFillColor(dmo)));
-            dmo.setLineColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultLineColor(dmo)));
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
+        dmo.setName(uiProvider.getDefaultName());
+        dmo.setType(type);
+        dmo.setDeriveElementLineColor(false);
 
-            GraphicalEditPart editPart = (GraphicalEditPart)uiProvider.createEditPart();
-            editPart.setModel(dmo);
-            
-            IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
-            figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
-            figure.refreshVisuals();
-            figure.validate();
-            
-            image = new Image(Display.getDefault(), (ImageDataProvider) zoom -> {
-                Image tmp = new Image(Display.getCurrent(), FIGURE_WIDTH, FIGURE_HEIGHT);
-                GC gc = new GC(tmp);
-                SWTGraphics graphics = new SWTGraphics(gc);
-                figure.paint(graphics);
-                ImageData imageData = tmp.getImageData(zoom);
-                
-                tmp.dispose();
-                graphics.dispose();
-                gc.dispose();
-
-                return imageData;
-            });
-            
-            // Use ImageGcDrawer in later Eclipse
-//            image = new Image(Display.getDefault(), (gc, width, height) -> {
-//                SWTGraphics graphics = new SWTGraphics(gc);
-//                figure.paint(graphics);
-//                graphics.dispose();
-//            }, FIGURE_WIDTH, FIGURE_HEIGHT);
-
-            imageRegistry.put(key, image);
+        // Special case for text alignment
+        if(eClass == IArchimatePackage.eINSTANCE.getGrouping() && type == 1) {
+            dmo.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
+
+        // Special cases for text position on icon type figures
+        if(type == 1) {
+            switch(eClass.getClassifierID()) {
+                case IArchimatePackage.ASSESSMENT,
+                     IArchimatePackage.BUSINESS_ACTOR,
+                     IArchimatePackage.CAPABILITY,
+                     IArchimatePackage.COMMUNICATION_NETWORK,
+                     IArchimatePackage.COURSE_OF_ACTION,
+                     IArchimatePackage.DISTRIBUTION_NETWORK,
+                     IArchimatePackage.DRIVER,
+                     IArchimatePackage.EQUIPMENT,
+                     IArchimatePackage.FACILITY,
+                     IArchimatePackage.GAP,
+                     IArchimatePackage.GOAL,
+                     IArchimatePackage.LOCATION,
+                     IArchimatePackage.MATERIAL,
+                     IArchimatePackage.OUTCOME,
+                     IArchimatePackage.PLATEAU,
+                     IArchimatePackage.PRINCIPLE,
+                     IArchimatePackage.SYSTEM_SOFTWARE,
+                     IArchimatePackage.WORK_PACKAGE
+                                                 -> dmo.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
+            }
+        }
+
+        // Use inbuilt default colours
+        dmo.setFillColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultFillColor(dmo)));
+        dmo.setLineColor(ColorFactory.convertColorToString(ColorFactory.getInbuiltDefaultLineColor(dmo)));
+
+        GraphicalEditPart editPart = (GraphicalEditPart)uiProvider.createEditPart();
+        editPart.setModel(dmo);
+
+        IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
+        figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
+        figure.refreshVisuals();
+
+        return createImage(figure);
+    }
+    
+    /**
+     * Create the image using a ImageDataProvider
+     */
+    private static Image createImage(IFigure previewFigure) {
+        previewFigure.validate(); // Call this here
         
-        return image;
+        return new Image(Display.getDefault(), (ImageDataProvider) zoom -> {
+            Image tmp = new Image(Display.getCurrent(), FIGURE_WIDTH, FIGURE_HEIGHT);
+            GC gc = new GC(tmp);
+            SWTGraphics graphics = new SWTGraphics(gc);
+            previewFigure.paint(graphics);
+            ImageData imageData = tmp.getImageData(zoom);
+            
+            tmp.dispose();
+            graphics.dispose();
+            gc.dispose();
+
+            return imageData;
+        });
     }
 }

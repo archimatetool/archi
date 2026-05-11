@@ -271,4 +271,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public void init(IWorkbench workbench) {
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        
+        for(ImageChoice imageChoice : fChoices) {
+            imageChoice.images[0].dispose();
+            imageChoice.images[1].dispose();
+        }
+    }
 }
