@@ -28,10 +28,11 @@ package com.archimatetool.editor.diagram.figures.connections;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -52,56 +53,53 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
  */
 public class RoundedPolylineConnection extends PolylineConnection {
 	// Maximum radius length from line-curves
-	final double CURVE_MAX_RADIUS = 14.0;
+	private static final double CURVE_MAX_RADIUS = 14.0;
+
 	// Radius from line-jumps
-	final double JUMP_MAX_RADIUS = 5.0;
+	private static final double JUMP_MAX_RADIUS = 5.0;
+
 	// Number of intermediate points for circle and ellipse approximation
-	final double MAX_ITER = 6.0;
+	private static final double MAX_ITER = 6.0;
+
 	// Constants
-	final double SQRT2 = Math.sqrt(2.0);
-	final double PI34 = Math.PI * 3.0 / 4.0;
-	final double PI2 = Math.PI * 2.0;
-	final double PI12 = Math.PI * 1.0 / 2.0;
+	private static final double PI2 = Math.PI * 2.0;
 
 	@Override
 	public Rectangle getBounds() {
-		if (ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
-			return super.getBounds().getCopy().expand(10, 10);
-		else
-			return super.getBounds();
+		return ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS) ?
+		        super.getBounds().getCopy().expand(10, 10) : super.getBounds();
 	}
 	
 	@Override
-	@SuppressWarnings("rawtypes")
 	protected void outlineShape(Graphics g) {
-		// Original list of bendpoints
-		PointList bendpoints = getPoints();
+		// Original list of figure points - start, end, and bendpoints
+		PointList points = getPoints();
+        if(points.size() < 2) { // shouldn't happen
+            return;
+        }
+        
 		// List of bendpoints and points added to draw line-curves and line-jumps
 		PointList linepoints = new PointList();
-		// List of all connections on current diagram
-		ArrayList connections = getAllConnections();
-
-		if (bendpoints.size() == 0) {
-			return;
-		}
 		
+		// All connection figures on connection layer except this one
+		List<Connection> connections = getOtherConnections();
+
 		// Start point is the first "previous" point
-		Point prev = bendpoints.getPoint(0);
+		Point prev = points.getPoint(0);
 		
-		// Main loop: check all bendpoints and add curve is needed 
-		for (int i = 1; i < bendpoints.size(); i++) {
+		// Main loop: check all points and add curve as needed 
+		for(int i = 1; i < points.size(); i++) {
 			// Current bendpoint
-			Point bp = bendpoints.getPoint(i);
+			Point bp = points.getPoint(i);
 
-			// If last bendpoint, define points for line segment
-			// and then draw polyline
-			if (i == bendpoints.size() - 1) {
-				addSegment(g, prev, bp, connections, linepoints);
+			// If last point, define points for line segment and then draw polyline
+			if(i == points.size() - 1) {
+				addSegment(prev, bp, connections, linepoints);
 				continue;
 			}
 
 			// Next bendpoint
-			Point next = bendpoints.getPoint(i + 1);
+			Point next = points.getPoint(i + 1);
 			
 			// If line-curves are enabled draw bendpoints using ellipse approximation
 			if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
@@ -134,30 +132,34 @@ public class RoundedPolylineConnection extends PolylineConnection {
 
 				Point bpprev;
 				Point bpnext;
-				if (!prev2next) {
+				if(!prev2next) {
 					bpprev = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
 					bpnext = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
-				} else {
+				}
+				else {
 					bpprev = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
 					bpnext = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
 				}
 				
 				// Now that bendpoint position has been refined we can add line segment
-				addSegment(g, prev, bpprev, connections, linepoints);
+				addSegment(prev, bpprev, connections, linepoints);
 				
 				// Create circle approximation
-				for (double a = 1; a < MAX_ITER; a++) {
-					if (prev2next)
-						linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * (1 - a/ MAX_ITER)).toAbsolutePoint(center));
-					else
+				for(double a = 1; a < MAX_ITER; a++) {
+					if(prev2next) {
+					    linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * (1 - a / MAX_ITER)).toAbsolutePoint(center));
+					}
+					else {
 						linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * a / MAX_ITER).toAbsolutePoint(center));
+					}
 				}
 				
 				// Prepare next iteration
 				prev = bpnext;
-			} else {
+			}
+			else {
 				// Add line segment
-				addSegment(g, prev, bp, connections, linepoints);
+				addSegment(prev, bp, connections, linepoints);
 				// Prepare next iteration
 				prev = bp;
 			}
@@ -167,18 +169,15 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		g.drawPolyline(linepoints);
 	}
 	
-	@SuppressWarnings({ "rawtypes" })
-	private void addSegment(Graphics g, Point start, Point end, ArrayList connections, PointList linepoints){
+	private void addSegment(Point start, Point end, List<Connection> connections, PointList linepoints) {
 		// List of crossing points
-		ArrayList<Point> crosspoints = new ArrayList<Point>();
-		//
-		int radius = (int) JUMP_MAX_RADIUS;
+		List<Point> crosspoints = new ArrayList<>();
 		
 		// Add start point to the list
 		linepoints.addPoint(start);
 		
 		// If line-jumps are enabled, draw them using half circles
-		if (ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
+		if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
 			// Compute angle between line segment and horizontal line
 			PolarPoint end_p = new PolarPoint(start, end);
 			double angle = end_p.theta % Math.PI;
@@ -186,41 +185,48 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			
 			// For each other connection, check if a crossing point exist.
 			// If yes, add it to the list
-			for (Iterator I = connections.iterator(); I.hasNext();) {
-				RoundedPolylineConnection conn = (RoundedPolylineConnection) I.next();
+			for(Connection conn : connections) {
 				PointList bendpoints = conn.getPoints();
 				
 				// Iterate on connection segments
-				for (int j = 0; j < bendpoints.size() - 1; j++) {
+				for(int j = 0; j < bendpoints.size() - 1; j++) {
 					Point bp = bendpoints.getPoint(j);
 					Point next = bendpoints.getPoint(j + 1);
 					Point crosspoint = lineIntersect(start, end, bp, next);
 					// Check if crossing point found and not too close from ends
 					if (crosspoint != null
-						&& (new PolarPoint(crosspoint, start)).r > JUMP_MAX_RADIUS
-						&& (new PolarPoint(crosspoint, end)).r > JUMP_MAX_RADIUS
-						&& (new PolarPoint(crosspoint, bp)).r > JUMP_MAX_RADIUS
-						&& (new PolarPoint(crosspoint, next)).r > JUMP_MAX_RADIUS) {
+					        && new PolarPoint(crosspoint, start).r > JUMP_MAX_RADIUS
+					        && new PolarPoint(crosspoint, end).r > JUMP_MAX_RADIUS
+					        && new PolarPoint(crosspoint, bp).r > JUMP_MAX_RADIUS
+					        && new PolarPoint(crosspoint, next).r > JUMP_MAX_RADIUS) {
 						double con_angle = ((new PolarPoint(bp, next)).theta % Math.PI);
-						if (angle > con_angle && !crosspoints.contains(crosspoint))
+
+						if(angle > con_angle && !crosspoints.contains(crosspoint)) {
 							crosspoints.add(crosspoint);
+						}
 					}
 				}
 			}
 	
 			// If crossing points found, render them using a half circle
-			if (crosspoints.size() != 0) {
+			if(crosspoints.size() != 0) {
 				// Sort crosspoints from start to end
 				crosspoints.add(start);
-				Collections.sort(crosspoints, new PointCompare());
-				if (crosspoints.get(0) != start) Collections.reverse(crosspoints);
+				crosspoints.sort(PointCompare);
+
+				if(crosspoints.get(0) != start) {
+				    Collections.reverse(crosspoints);
+				}
+				
 				// Do not add start point to the list a second time, so start at i=1
-				for (int i = 1; i < crosspoints.size(); i++ ) {
-					for (double a = 0; a <= MAX_ITER; a++) {
-						if (reverse)
-							linepoints.addPoint((new PolarPoint(radius, angle - a*Math.PI/MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
-						else
-							linepoints.addPoint((new PolarPoint(radius, angle - Math.PI + a*Math.PI/MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+				for(int i = 1; i < crosspoints.size(); i++ ) {
+					for(double a = 0; a <= MAX_ITER; a++) {
+						if(reverse) {
+							linepoints.addPoint((new PolarPoint(JUMP_MAX_RADIUS, angle - a * Math.PI / MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+						}
+						else {
+							linepoints.addPoint((new PolarPoint(JUMP_MAX_RADIUS, angle - Math.PI + a * Math.PI / MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+						}
 					}
 				}
 			}
@@ -230,32 +236,20 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		linepoints.addPoint(end);
 	}
 
-	@SuppressWarnings("rawtypes")
-	private ArrayList getAllConnections() {
-		ArrayList result = new ArrayList();
-		getAllConnections(getRoot(), result);
-		return result;
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void getAllConnections(IFigure figure, ArrayList list) {
-		for (Iterator I = figure.getChildren().iterator(); I.hasNext();) {
-			IFigure child = (IFigure) I.next();
-			if (child == this)
-				continue;
-			getAllConnections(child, list);
-
-			if (!(child instanceof RoundedPolylineConnection))
-				continue;
-			list.add(child);
-		}
-	}
-
-	private IFigure getRoot() {
-		IFigure figure = this;
-		while (figure.getParent() != null)
-			figure = figure.getParent();
-		return figure;
+	/**
+	 * @return all connections on the connection layer except this one
+	 */
+	@SuppressWarnings("unchecked")
+    private List<Connection> getOtherConnections() {
+	    if(getParent() instanceof ConnectionLayer layer) {
+	        return layer.getChildren().stream()
+                                      .filter(child -> child != this)
+                                      .filter(Connection.class::isInstance)
+                                      .map(Connection.class::cast)
+                                      .toList();
+	    }
+	    
+	    return List.of();
 	}
 	
 	/**
@@ -265,24 +259,26 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	 */
 	private static Point lineIntersect(Point p1, Point p2, Point p3, Point p4) {
 		double denom = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
-		if (denom == 0.0) { // Lines are parallel.
+		if(denom == 0.0) { // Lines are parallel.
 			return null;
 		}
-		double ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x))/denom;
-		double ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x))/denom;
-		if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
-			// Get the intersection point.
-			Point c = new Point((int) (p1.x + ua*(p2.x - p1.x)), (int) (p1.y + ua*(p2.y - p1.y)));
+
+		double ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denom;
+		double ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denom;
+
+		if(ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+			// Get the intersection point
+			Point c = new Point((int) (p1.x + ua * (p2.x - p1.x)), (int) (p1.y + ua * (p2.y - p1.y)));
 			Rectangle r1 = new Rectangle(p1, p2);
 			Rectangle r2 = new Rectangle(p3, p4);
-			if (r1.contains(c) && r2.contains(c)
+
+			if(r1.contains(c) && r2.contains(c)
 					&& !c.equals(p1.x, p1.y)
 					&& !c.equals(p2.x, p2.y)
 					&& !c.equals(p3.x, p3.y)
-					&& !c.equals(p4.x, p4.y))
+					&& !c.equals(p4.x, p4.y)) {
 				return c;
-			else
-				return null;
+			}
 		}
 
 		return null;
@@ -292,18 +288,15 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	 * Allow points comparison
 	 * Originally based on this thread (works only for aligned points) :
 	 * http://stackoverflow.com/questions/4199509/java-how-to-sort-an-arraylist-of-point-objects
-	 * Changed in Nov. 2017 to work for loosely aligned points
+	 * Changed in Nov. 2017 to work for loosely aligned points.
+	 * Modernised in May 2026.
 	 */
-	private static class PointCompare implements Comparator<Point> {
-		@Override
-		public int compare(final Point a, final Point b) {
-			int delta_x = a.x - b.x;
-			int delta_y = a.y - b.y;
-			if (Math.abs(delta_x) > Math.abs(delta_y)) {
-				return (int) Math.signum(delta_x);
-			} else {
-				return (int) Math.signum(delta_y);
-			}
-		}
-	}
+	private static final Comparator<Point> PointCompare = (p1, p2) -> {
+	    int delta_x = p1.x - p2.x;
+	    int delta_y = p1.y - p2.y;
+	    
+	    return Math.abs(delta_x) > Math.abs(delta_y)
+	            ? Integer.signum(delta_x)
+	            : Integer.signum(delta_y);
+	};
 }
