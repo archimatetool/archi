@@ -243,7 +243,10 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     @Override
     public void showTargetFeedback(boolean show) {
-        showTargetFeedback = show;
+        if(showTargetFeedback != show) {
+            showTargetFeedback = show;
+            repaint();
+        }
     }
 
     @Override
