@@ -13,14 +13,19 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.viewers.BaseLabelProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
+import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -51,7 +56,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "com.archimatetool.help.RelationshipsMatrixDialog"; //$NON-NLS-1$
     
-    private List<EClass> fAllClasses;
+    private List<EClass> allClasses;
     
     public RelationshipsMatrixDialog(Shell parentShell) {
         super(parentShell, "RelationshipsMatrixDialog"); //$NON-NLS-1$
@@ -64,6 +69,10 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         super.configureShell(shell);
         shell.setText(Messages.RelationshipsMatrixDialog_0);
     }
+    
+    private boolean modKeyPressed;
+    private boolean shiftKeyPressed;
+    private int lastColumnSelected;
 
     @Override
     protected Control createDialogArea(Composite parent) {
@@ -72,47 +81,105 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
 
         setTitle(Messages.RelationshipsMatrixDialog_0);
         setMessage(Messages.RelationshipsMatrixDialog_1);
+        
         Composite composite = (Composite)super.createDialogArea(parent);
 
         Composite client = new Composite(composite, SWT.NULL);
-        GridLayout layout = new GridLayout(2, false);
-        client.setLayout(layout);
-        client.setLayoutData(new GridData(GridData.FILL_BOTH));
+        client.setLayout(new GridLayout(2, false));
+        GridDataFactory.create(GridData.FILL_BOTH).applyTo(client);
         
         GridTableViewer viewer = new GridTableViewer(client);
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        gd.widthHint = 800;
-        gd.heightHint = 500;
-        viewer.getControl().setLayoutData(gd);
+        GridDataFactory.create(GridData.FILL_BOTH).applyTo(viewer.getControl());
         
-        viewer.getGrid().setHeaderVisible(true);
-        //viewer.getGrid().setRowHeaderVisible(true); // Don't set this here!
-        viewer.getGrid().setRowsResizeable(true);
-        viewer.getGrid().setCellSelectionEnabled(true);
+        Grid grid = viewer.getGrid();
         
-        //viewer.setColumnProperties(new String[] {"1", "2", "3"});
+        grid.setHeaderVisible(true);
+        //grid.setRowHeaderVisible(true); // Don't set this here!
+        grid.setRowsResizeable(true);
+        grid.setCellSelectionEnabled(true);
         
+        // Row header label provider
         viewer.setRowHeaderLabelProvider(new CellLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-                cell.setText(ArchiLabelProvider.INSTANCE.getDefaultName((EClass)cell.getElement()));
-                cell.setImage(ArchiLabelProvider.INSTANCE.getImage(cell.getElement()));
+                if(cell.getElement() == IArchimatePackage.eINSTANCE.getArchimateRelationship()) {
+                    cell.setText(Messages.RelationshipsMatrixDialog_3);
+                    cell.setImage(ArchiLabelProvider.INSTANCE.getImage(IArchimatePackage.eINSTANCE.getAssociationRelationship()));
+                }
+                else {
+                    cell.setText(ArchiLabelProvider.INSTANCE.getDefaultName((EClass)cell.getElement()));
+                    cell.setImage(ArchiLabelProvider.INSTANCE.getImage(cell.getElement()));
+                }
             }
         });
         
-        GC gc = new GC(viewer.getGrid());
+        // Listen to key presses
+        grid.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.keyCode == SWT.MOD1) {
+                    modKeyPressed = true;
+                }
+                if(e.keyCode == SWT.SHIFT) {
+                    shiftKeyPressed = true;
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.keyCode == SWT.MOD1) {
+                    modKeyPressed = false;
+                }
+                if(e.keyCode == SWT.SHIFT) {
+                    shiftKeyPressed = false;
+                }
+            }
+        });
+        
+        // Measure min column width
+        GC gc = new GC(grid);
         int columnWidth = gc.textExtent("acfginorstv").x + 8; //$NON-NLS-1$
         gc.dispose();
         
+        // Add columns
         for(EClass eClass : getData()) {
-            GridColumn column = new GridColumn(viewer.getGrid(), SWT.NONE);
+            GridColumn column = new GridColumn(grid, SWT.NONE);
             column.setWidth(columnWidth);
-            column.setImage(ArchiLabelProvider.INSTANCE.getImage(eClass));
-            column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
+            
+            // Colum header
+            if(eClass == IArchimatePackage.eINSTANCE.getArchimateRelationship()) {
+                column.setImage(ArchiLabelProvider.INSTANCE.getImage(IArchimatePackage.eINSTANCE.getAssociationRelationship()));
+                column.setHeaderTooltip(Messages.RelationshipsMatrixDialog_3);
+            }
+            else {
+                column.setImage(ArchiLabelProvider.INSTANCE.getImage(eClass));
+                column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
+            }
+            
+            // Select column when clicking on header
+            column.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+                int c = column.getCellRenderer().getColumn();
+                
+                if(shiftKeyPressed && lastColumnSelected >= 0) {
+                    int start = Math.min(lastColumnSelected, c);
+                    int end = Math.max(lastColumnSelected, c);
+                    for(int i = start; i <= end; i++) {
+                        grid.selectColumn(i);
+                    }
+                }
+                else if(modKeyPressed) {
+                    grid.selectColumn(c);
+                } 
+                else {
+                    grid.deselectAll();
+                    grid.selectColumn(c);
+                }
+                
+                lastColumnSelected = c;
+            }));
         }
         
-        // Set row header visible *after* setting columns so that correct width is displayed
-        viewer.getGrid().setRowHeaderVisible(true, columnWidth);
+        // Set row header visible *after* setting columns so that the correct width is displayed
+        grid.setRowHeaderVisible(true, columnWidth);
         
         viewer.setContentProvider(new IStructuredContentProvider() {
             @Override
@@ -121,33 +188,42 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             }
         });
         
+        // Column label provider
         viewer.setLabelProvider(new MatrixLabelProvider());
         
         viewer.setInput(getData());
         
-        String text = ""; //$NON-NLS-1$
+        // Relationships letter keys
+        StringBuilder sb = new StringBuilder();
         for(Entry<EClass, Character> entry : RelationshipsMatrix.INSTANCE.getRelationshipsValueMap().entrySet()) {
-            text += entry.getValue() + ": " + ArchiLabelProvider.INSTANCE.getDefaultName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(entry.getValue());
+            sb.append(": "); //$NON-NLS-1$
+            sb.append(ArchiLabelProvider.INSTANCE.getDefaultName(entry.getKey()));
+            sb.append('\n');
         }
+        
         Label label = new Label(client, SWT.NULL);
-        label.setText(text);
+        label.setText(sb.toString());
         label.setLayoutData(new GridData(SWT.TOP, SWT.TOP, false, true));
         
         return composite;
     }
     
     private List<EClass> getData() {
-        if(fAllClasses == null) {
-            fAllClasses = new ArrayList<>();
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
-            fAllClasses.add(IArchimatePackage.eINSTANCE.getJunction());
+        if(allClasses == null) {
+            allClasses = new ArrayList<>();
+            allClasses.addAll(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
+            allClasses.addAll(Arrays.asList(ArchimateModelUtils.getConnectorClasses()));
+            allClasses.add(IArchimatePackage.eINSTANCE.getArchimateRelationship());
         }
         
-        return fAllClasses;
+        return allClasses;
     }
     
-    private class MatrixLabelProvider extends LabelProvider implements ITableLabelProvider {
-
+    private class MatrixLabelProvider extends BaseLabelProvider implements ITableLabelProvider {
+        Map<EClass, List<TargetMatrix>> matrixMap = RelationshipsMatrix.INSTANCE.getRelationshipsMatrix();
+        Map<EClass, Character> valueMap = RelationshipsMatrix.INSTANCE.getRelationshipsValueMap();
+        
         @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
@@ -157,25 +233,17 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         public String getColumnText(Object element, int columnIndex) {
             EClass eClassRow = (EClass)element;
             EClass eClassColumn = getData().get(columnIndex);
+            StringBuilder sb = new StringBuilder();
             
-            String text = ""; //$NON-NLS-1$
+            matrixMap.getOrDefault(eClassRow, List.of())
+                                              .stream()
+                                              .filter(targetMatrix -> targetMatrix.getTargetClass() == eClassColumn)
+                                              .findFirst()
+                                              .ifPresent(targetMatrix -> targetMatrix.getRelationships().stream()
+                                                      .map(valueMap::get)
+                                                      .forEach(sb::append));
             
-            Map<EClass, List<TargetMatrix>> matrixMap = RelationshipsMatrix.INSTANCE.getRelationshipsMatrix();
-            Map<EClass, Character> valueMap = RelationshipsMatrix.INSTANCE.getRelationshipsValueMap();
-            
-            List<TargetMatrix> list = matrixMap.get(eClassRow);
-            if(list != null) {
-                for(TargetMatrix targetMatrix : list) {
-                    if(targetMatrix.getTargetClass() == eClassColumn) {
-                        for(EClass relation : targetMatrix.getRelationships()) {
-                            text += valueMap.get(relation);
-                        }
-                        break;
-                    }
-                }
-            }
-            
-            return text;
+            return sb.toString();
         }
     }
     

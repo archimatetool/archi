@@ -30,6 +30,8 @@ public class Messages extends NLS {
 
     public static String RelationshipsMatrixDialog_2;
 
+    public static String RelationshipsMatrixDialog_3;
+
     public static String UserPropertiesKeySelectionDialog_0;
 
     public static String UserPropertiesKeySelectionDialog_1;
