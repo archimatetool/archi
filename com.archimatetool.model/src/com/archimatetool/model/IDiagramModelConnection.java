@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
+@SuppressWarnings("nls")
 public interface IDiagramModelConnection extends IConnectable, IFontAttribute, IProperties, IDocumentable, ILineObject, ITextAlignment {
     
     /**
@@ -63,10 +64,30 @@ public interface IDiagramModelConnection extends IConnectable, IFontAttribute, I
     int ARROW_LINE_SOURCE = 128;      // 1 << 7
     
     /**
-     * Feature of name visible
+     * Feature of name (label) visible
      */
-    String FEATURE_NAME_VISIBLE = "nameVisible"; //$NON-NLS-1$
+    String FEATURE_NAME_VISIBLE = "nameVisible";
     boolean FEATURE_NAME_VISIBLE_DEFAULT = true;
+    
+    // Relative text label positions. These correspond to those in org.eclipse.draw2d.PositionConstants
+    // @since 5.10
+    int CENTER = 2;
+    int NORTH = 1;
+    int SOUTH = 4;
+    int WEST = 8;
+    int EAST = 16;
+    int NORTH_EAST = NORTH | EAST;
+    int NORTH_WEST = NORTH | WEST;
+    int SOUTH_EAST = SOUTH | EAST;
+    int SOUTH_WEST = SOUTH | WEST;
+    
+    /**
+     * Feature of text label relative position
+     * @since 5.10
+     */
+    String FEATURE_TEXT_RELATIVE_POSITION = "textRelativePosition";
+    int FEATURE_TEXT_RELATIVE_POSITION_DEFAULT = CENTER;
+    
     
     /**
      * @return True if a name label should be visible
@@ -78,6 +99,19 @@ public interface IDiagramModelConnection extends IConnectable, IFontAttribute, I
      * @param value
      */
     void setNameVisible(boolean value);
+    
+    /**
+     * @return The relative position of the text label
+     * @since 5.10
+     */
+    int getRelativePosition();
+    
+    /**
+     * Set the relative position of the text label
+     * @param pos
+     * @since 5.10
+     */
+    void setRelativePosition(int pos);
 
     
     /**

@@ -42,11 +42,11 @@ public class CanvasConnectionUIProvider extends DiagramConnectionUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CONNECTION_ARROW);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CONNECTION_PLAIN);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN);
     }
 }

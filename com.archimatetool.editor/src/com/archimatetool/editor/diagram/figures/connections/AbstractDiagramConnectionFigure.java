@@ -44,6 +44,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     private IDiagramModelConnection diagramModelConnection;
 
     protected int fTextPosition = -1;
+    protected int fTextRelativePosition = -1;
     protected Color fFontColor;
     protected Color fLineColor;
     
@@ -72,10 +73,11 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 
     @Override
     public void refreshVisuals() {
-        // If the text position has been changed by user update it
-        if(getModelConnection().getTextPosition() != fTextPosition) {
+        // If the text position has been changed update it
+        if(getModelConnection().getTextPosition() != fTextPosition || getModelConnection().getRelativePosition() != fTextRelativePosition) {
             fTextPosition = getModelConnection().getTextPosition();
-            setLabelLocator(fTextPosition);
+            fTextRelativePosition = getModelConnection().getRelativePosition();
+            setLabelLocator();
         }
         
         setLabelFont();
@@ -127,16 +129,20 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         getFlowPage().setHorizontalAligment(alignment);
     }
 
-    private void setLabelLocator(int position) {
-        Locator locator = switch (position) {
+    private void setLabelLocator() {
+        Locator locator = switch (getModelConnection().getTextPosition()) {
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE ->
                 new ArchiConnectionEndpointLocator(this, false);
 
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET ->
                 new ArchiConnectionEndpointLocator(this, true);
 
-            default ->
-                new ConnectionLocator(this, ConnectionLocator.MIDDLE);
+            default -> {
+                ConnectionLocator cl = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
+                cl.setRelativePosition(getModelConnection().getRelativePosition());
+                cl.setGap(5); // Add some clearance if not centre
+                yield cl;
+            }
         };
 
         setConstraint(getFlowPage(), locator);

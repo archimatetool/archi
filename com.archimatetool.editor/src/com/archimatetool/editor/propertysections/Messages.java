@@ -59,6 +59,8 @@ public class Messages extends NLS {
 
     public static String BorderTypeSection_1;
 
+    public static String DiagramConnectionLabelSection_0;
+
     public static String DiagramConnectionLineStyleSection_0;
 
     public static String DiagramConnectionLineStyleSection_1;
@@ -89,15 +91,33 @@ public class Messages extends NLS {
 
     public static String DiagramConnectionLineStyleSection_9;
 
-    public static String DiagramConnectionSection_0;
+    public static String DiagramConnectionLabelPositionComposite_0;
 
-    public static String DiagramConnectionSection_1;
+    public static String DiagramConnectionLabelPositionComposite_1;
 
-    public static String DiagramConnectionSection_2;
+    public static String DiagramConnectionLabelPositionComposite_2;
 
-    public static String DiagramConnectionSection_6;
+    public static String DiagramConnectionLabelPositionComposite_3;
 
-    public static String DiagramConnectionSection_8;
+    public static String DiagramConnectionLabelRelativePositionComposite_0;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_1;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_2;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_3;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_4;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_5;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_6;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_7;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_8;
+
+    public static String DiagramConnectionLabelRelativePositionComposite_9;
 
     public static String DiagramFigureTypeSection_0;
 

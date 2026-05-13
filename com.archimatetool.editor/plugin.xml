@@ -485,13 +485,20 @@
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.DiagramConnectionSection"
-               filter="com.archimatetool.editor.propertysections.DiagramConnectionSection$Filter"
-               id="connectionAppearanceSection"
+               class="com.archimatetool.editor.propertysections.DiagramConnectionLabelSection"
+               filter="com.archimatetool.editor.propertysections.DiagramConnectionLabelSection$Filter"
+               id="connectionLabelSection"
                tab="appearance.tab">
          </propertySection>
          <propertySection
-               afterSection="connectionAppearanceSection"
+               afterSection="connectionLabelSection"
+               class="com.archimatetool.editor.propertysections.DiagramConnectionLabelPositionSection"
+               filter="com.archimatetool.editor.propertysections.DiagramConnectionLabelPositionSection$Filter"
+               id="connectionPositionSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
+               afterSection="connectionPositionSection"
                class="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection"
                filter="com.archimatetool.editor.propertysections.DiagramConnectionLineStyleSection$Filter"
                id="connectionTypeSection"

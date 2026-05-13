@@ -23,6 +23,8 @@ public class Messages extends NLS {
 
     public static String ConnectionTextPositionCommand_0;
 
+    public static String ConnectionTextRelativePositionCommand_0;
+
     public static String CreateArchimateConnectionWithDialogCommand_0;
 
     public static String CreateArchimateConnectionWithDialogCommand_1;

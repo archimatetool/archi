@@ -272,6 +272,16 @@ public class DiagramModelConnection extends Connectable implements IDiagramModel
     public void setNameVisible(boolean value) {
         getFeatures().putBoolean(FEATURE_NAME_VISIBLE, value, FEATURE_NAME_VISIBLE_DEFAULT);
     }
+    
+    @Override
+    public int getRelativePosition() {
+        return getFeatures().getInt(FEATURE_TEXT_RELATIVE_POSITION, FEATURE_TEXT_RELATIVE_POSITION_DEFAULT);
+    }
+    
+    @Override
+    public void setRelativePosition(int pos) {
+        getFeatures().putInt(FEATURE_TEXT_RELATIVE_POSITION, pos, FEATURE_TEXT_RELATIVE_POSITION_DEFAULT);
+    }
 
     /**
      * <!-- begin-user-doc -->

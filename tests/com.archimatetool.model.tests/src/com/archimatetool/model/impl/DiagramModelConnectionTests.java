@@ -148,6 +148,13 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     }
     
     @Test
+    public void testRelativePosition() {
+        assertEquals(IDiagramModelConnection.CENTER, connection.getRelativePosition());
+        connection.setRelativePosition(IDiagramModelConnection.NORTH);
+        assertEquals(IDiagramModelConnection.NORTH, connection.getRelativePosition());
+    }
+    
+    @Test
     public void testGetProperties() {
         CommonTests.testProperties(connection);
     }
