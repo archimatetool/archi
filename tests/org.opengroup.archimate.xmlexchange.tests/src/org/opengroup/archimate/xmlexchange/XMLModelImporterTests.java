@@ -9,12 +9,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.model.ModelChecker;
 import com.archimatetool.editor.utils.FileUtils;
@@ -23,6 +27,8 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.tests.TestUtils;
 
@@ -96,5 +102,26 @@ public class XMLModelImporterTests {
         // Check Model
         ModelChecker checker = new ModelChecker(model);
         checker.checkAll();
+    }
+    
+    @Test
+    public void testArchimateModelHasConnectionWithBendpoints() throws Exception {
+    	IArchimateModel model = importer.createArchiMateModel(TestSupport.XML_BENDPOINT_FILE);
+    	
+    	EList<IDiagramModel> diagramModels = model.getDiagramModels();
+    	
+    	assertEquals(1, diagramModels.size());
+    	
+    	IDiagramModel dm = diagramModels.get(0);
+    	
+    	assertEquals("View", dm.getName()); //$NON-NLS-1$
+    	
+    	// Each connection should have one bendpoint
+    	for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelArchimateConnection conn) {
+            	assertEquals(1, conn.getBendpoints().size());
+            }
+        }
     }
 }

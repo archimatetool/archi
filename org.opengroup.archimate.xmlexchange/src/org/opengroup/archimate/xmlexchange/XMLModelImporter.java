@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -923,6 +924,35 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
         
+    private Point getPointFromElement(Element element) throws XMLModelParserException {
+    	String xString = element.getAttributeValue(ATTRIBUTE_X);
+        String yString = element.getAttributeValue(ATTRIBUTE_Y);
+
+        if(!hasValue(xString) || !hasValue(yString)) {
+            throw new XMLModelParserException(Messages.XMLModelImporter_13);
+        }
+        
+    	return new Point(Integer.valueOf(xString), Integer.valueOf(yString));
+    }
+
+    /**
+     *  Add a source or target attachment point as a bendpoint
+     */
+    private void addAttachmentpoint(IDiagramModelConnection connection, Element srcElement, Element tgtElement) throws XMLModelParserException {
+        Point srcPoint = getPointFromElement(srcElement);
+        Point tgtPoint = getPointFromElement(tgtElement);
+
+        int xDistance = tgtPoint.x() - srcPoint.x() != 0 ? (tgtPoint.x() - srcPoint.x()) / 2 : 0;
+        int yDistance = tgtPoint.y() - srcPoint.y() != 0 ? (tgtPoint.y() - srcPoint.y()) / 2 : 0;
+        int x = srcPoint.x() + xDistance;
+        int y = srcPoint.y() + yDistance;
+
+        IDiagramModelBendpoint bendpoint = DiagramModelUtils.createBendPointFromAbsolutePosition(connection, x, y);
+        if(bendpoint != null) {
+            connection.getBendpoints().add(bendpoint);
+        }
+    }
+
     /**
      * Add bendpoints
      */
@@ -931,10 +961,25 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
             return;
         }
+        
+        Element sourceAttachment = connectionElement.getChild(ELEMENT_SOURCE_ATTACHMENT, ARCHIMATE3_NAMESPACE);
+        Element targetAttachment = connectionElement.getChild(ELEMENT_TARGET_ATTACHMENT, ARCHIMATE3_NAMESPACE);
+        List<Element> bendpoints = connectionElement.getChildren(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE);
+        
+        // Special case: if sourceAttachment and targetAttachment and no bend points then just create one bend point 
+        if(sourceAttachment != null && targetAttachment != null && bendpoints.isEmpty()) {
+        	addAttachmentpoint(connection, sourceAttachment, targetAttachment);
+        	return;
+        }
+        
+        if(sourceAttachment != null && !bendpoints.isEmpty()) {
+        	addAttachmentpoint(connection, sourceAttachment, bendpoints.getFirst());
+        }
 
-        for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE)) {
+        for(Element bendpointElement : bendpoints) {
             String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
             String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
+ 
             if(!hasValue(xString) || !hasValue(yString)) {
                 throw new XMLModelParserException(Messages.XMLModelImporter_13);
             }
@@ -946,6 +991,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             if(bendpoint != null) {
                 connection.getBendpoints().add(bendpoint);
             }
+        }
+        
+        if(targetAttachment != null && !bendpoints.isEmpty()) {
+            addAttachmentpoint(connection, targetAttachment, bendpoints.getLast());
         }
     }
     
