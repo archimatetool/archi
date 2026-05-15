@@ -71,30 +71,17 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         // Line Style
         if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(getLineDashFloats());
+            setLineDash(new float[] { 4 });
         }
         else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(getLineDashFloats());
+            setLineDash(new float[] { 1, 4 });
         }
         else {
             setLineStyle(Graphics.LINE_SOLID);
         }
         
         repaint(); // repaint when figure changes
-    }
-    
-    @Override
-    protected float[] getLineDashFloats() {
-        int connectionType = getModelConnection().getType();
-        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
-            return new float[] { 4 };
-        }
-        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
-            return new float[] { 1, 4 };
-        }
-        
-        return null;
     }
     
     protected PolygonDecoration getArrowheadSourceFilled() {

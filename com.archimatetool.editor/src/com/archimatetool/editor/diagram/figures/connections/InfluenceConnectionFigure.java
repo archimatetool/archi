@@ -41,7 +41,7 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
     @Override
     protected void setFigureProperties() {
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(getLineDashFloats());
+        setLineDash(new float[] { 6, 3 });
     }
     
     @Override
@@ -57,11 +57,6 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
                 getConnectionLabel().setText(text);
             }
         }
-    }
-    
-    @Override
-    protected float[] getLineDashFloats() {
-        return new float[] { 6, 3 };
     }
     
     @Override
