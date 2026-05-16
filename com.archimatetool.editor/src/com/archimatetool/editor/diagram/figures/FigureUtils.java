@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.eclipse.draw2d.AutoscaleFreeformViewport;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -15,7 +16,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
+
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -23,6 +27,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class FigureUtils {
 
     /**
@@ -32,12 +37,33 @@ public class FigureUtils {
      */
     public static double getFigureScale(IFigure figure) {
         if(figure instanceof ScalableFigure scalableFigure) {
+            // On Windows if parent is AutoscaleFreeformViewport then it also
+            // applies the display scaling so we have to remove that.
+            // This won't happen in a diagram but will in {@link com.archimatetool.editor.diagram.util.DiagramUtils#createViewer}
+            if(scalableFigure.getParent() instanceof AutoscaleFreeformViewport) {
+                return scalableFigure.getScale() / getDisplayScale();
+            }
             return scalableFigure.getScale();
         }
         
         return figure == null ? 1.0 : getFigureScale(figure.getParent());
     }
     
+    /**
+     * Whether Draw2d scaling is enabled on Windows
+     */
+    public static boolean isAutoScaleEnabled() {
+        return PlatformUtils.isWindows() && Boolean.parseBoolean(System.getProperty("draw2d.enableAutoscale", Boolean.TRUE.toString()));
+    }
+
+    /**
+     * @return the display scaling if on Windows and draw2d enableAutoscale is true, else return 1
+     */
+    @SuppressWarnings("restriction")
+    public static float getDisplayScale() {
+        return isAutoScaleEnabled() ? DPIUtil.getDeviceZoom() / 100f : 1f;
+    }
+
     /**
      * Gradient Direction
      */
