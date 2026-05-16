@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -130,10 +131,10 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     private void setLabelLocator() {
         Locator locator = switch (getModelConnection().getTextPosition()) {
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE ->
-                new ArchiConnectionEndpointLocator(this, false);
+                new ConnectionEndpointLocator(this, false);
 
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET ->
-                new ArchiConnectionEndpointLocator(this, true);
+                new ConnectionEndpointLocator(this, true);
 
             default -> {
                 ConnectionLocator cl = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
