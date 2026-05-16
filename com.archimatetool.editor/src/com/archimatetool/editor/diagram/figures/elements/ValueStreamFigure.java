@@ -22,9 +22,10 @@ import com.archimatetool.model.IIconic;
 
 
 /**
- * Figure for a Resource
+ * Figure for a Value Stream
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ValueStreamFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -45,49 +46,20 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        Path path = createPath(rect);
 
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
-        int indent = Math.min(rect.height / 2, rect.width / 2);
-        int centre_y = rect.y + rect.height / 2;
-        int point_startx = rect.x + rect.width - indent;
-
-        graphics.setAlpha(getAlpha());
-        
-        // Shape
-        Path path = new Path(null);
-        path.moveTo(rect.x, rect.y);
-        path.lineTo(rect.x + indent, centre_y);
-        path.lineTo(rect.x, rect.y + rect.height);
-        path.lineTo(point_startx, rect.y + rect.height);
-        path.lineTo(rect.x + rect.width, centre_y);
-        path.lineTo(point_startx, rect.y);
-        path.lineTo(rect.x, rect.y);
-        path.lineTo(rect.x + indent, centre_y);
-        
         // Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
-
         Pattern gradient = applyGradientPattern(graphics, rect);
-
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
 
-        // Outline
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
-        path.dispose();
-        
-        // Icon
-        // drawIconImage(graphics, bounds);
-        
         int top = 0, right = 0, left = 0, bottom = 0;
+        int indent = Math.min(rect.height / 2, rect.width / 2);
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
             case IIconic.ICON_POSITION_BOTTOM_LEFT:
@@ -107,15 +79,40 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
                 right = -10;
                 break;
         }
-        drawIconImage(graphics, rect, top, right, bottom, left);
+        drawIconImage(graphics, getBounds().getCopy(), top, right, bottom, left);
 
+        // Outline
+        graphics.setLineWidth(getLineWidth());
+        graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
         graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect) {
+        int indent = Math.min(rect.height / 2, rect.width / 2);
+        int centre_y = rect.y + rect.height / 2;
+        int point_startx = rect.x + rect.width - indent;
+        float lineOffset = getLineWidth() / 2.0f;
+        
+        Path path = new Path(null);
+        path.moveTo(rect.x + lineOffset, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
+        path.lineTo(rect.x + lineOffset, rect.y + rect.height);
+        path.lineTo(point_startx, rect.y + rect.height);
+        path.lineTo(rect.x + rect.width, centre_y);
+        path.lineTo(point_startx, rect.y);
+        path.close();
+        return path;
     }
     
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
         }
@@ -177,7 +174,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 18 - getLineWidth(), rect.y + 7);
+        return new Point(rect.getRight().x - 19, rect.y + 7);
     }
     
     @Override

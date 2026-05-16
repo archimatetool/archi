@@ -28,41 +28,32 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds();
-
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-
         boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds();
         
+        // Fill
         graphics.setAlpha(getAlpha());
-        
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
         graphics.fillOval(rect);
-        
         disposeGradientPattern(graphics, gradient);
-
+        
         // Outline
         if(drawOutline) {
+            setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawOval(rect);
+            graphics.setLineWidth(getLineWidth());
+            graphics.drawOval(applyLineWidthOffset(graphics));
         }
         
         // Image Icon
         Rectangle imageArea = new Rectangle(rect.x + (rect.width / 6), rect.y + (rect.height / 6),
                 rect.width - (rect.width / 3), rect.height - (rect.height / 3));
-        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
+        getOwner().drawIconImage(graphics, getBounds().getCopy(), imageArea);
 
         graphics.popState();
     }
+
 }

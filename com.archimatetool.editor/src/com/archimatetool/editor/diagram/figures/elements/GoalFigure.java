@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -20,6 +21,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Goal
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class GoalFigure extends AbstractMotivationFigure {
     
@@ -38,51 +40,44 @@ public class GoalFigure extends AbstractMotivationFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        // Adjust size by line width
+        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
+        rect.shrink(shrink, shrink);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect);
+        // And then set figure position
+        rect = getFigurePositionFromTextPosition(rect);
+
+        int radius = getRadius(rect);
+        Point center = rect.getCenter();
+        float x = (float)center.preciseX() - radius;
+        float y = (float)center.preciseY() - radius;
+        float width = radius * 2;
+        float height = radius * 2;
+        float lineOffset = getLineWidth() / 2.0f;
 
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = new Path(null);
-        
-        int radius = getRadius(rect);
-        Point center = rect.getCenter();
-        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius, radius * 2, radius * 2, 0, 360);
-        path.close();
-        
-        graphics.fillPath(path);
-
+        FigureUtils.fillOvalPath(graphics, x, y, width, height);
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
-        graphics.drawPath(path);
-        
-        path.dispose();
+        FigureUtils.drawOvalPath(graphics, x, y, width, height);
         
         graphics.setBackgroundColor(getLineColor());
 
-        radius = Math.round(radius * 2.0f / 3.0f - (graphics.getLineWidth() / 2));
+        radius = Math.round(radius * 2.0f / 3.0f - lineOffset);
         graphics.drawOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
         
-        radius = Math.round(radius / 3.0f - (graphics.getLineWidth() / 2));
+        radius = Math.round(radius / 3.0f - lineOffset);
         graphics.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -148,7 +143,7 @@ public class GoalFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 19, rect.y + 6);
     }
     
     @Override

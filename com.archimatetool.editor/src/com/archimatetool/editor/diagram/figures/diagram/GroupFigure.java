@@ -52,19 +52,9 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
+        // Tabbed style
         if(getDiagramModelObject().getBorderType() == IDiagramModelGroup.BORDER_TABBED) {
             tabWidth = (int)(rect.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
@@ -82,77 +72,79 @@ public class GroupFigure extends AbstractTextControlContainerFigure {
                 tabHeight = Math.max(TOPBAR_HEIGHT, textHeight);
             }
             
-            // Top Rectangle
+            // Top rectangle fill
+            graphics.setAlpha(getAlpha());
             graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+            graphics.fillRectangle(createTopRectangle(rect));
             
-            Path path1 = new Path(null);
-            path1.moveTo(rect.x, rect.y);
-            path1.lineTo(rect.x + tabWidth, rect.y);
-            path1.lineTo(rect.x + tabWidth, rect.y + tabHeight);
-            path1.lineTo(rect.x, rect.y + tabHeight);
-            path1.lineTo(rect.x, rect.y);
-            graphics.fillPath(path1);
-            path1.dispose();
-            
-            // Main rectangle
+            // Main rectangle fill (with gradient)
             graphics.setBackgroundColor(getFillColor());
             Pattern gradient = applyGradientPattern(graphics, rect);
-            
-            Path path2 = new Path(null);
-            path2.moveTo(rect.x, rect.y + tabHeight);
-            path2.lineTo(rect.x + rect.width, rect.y + tabHeight);
-            path2.lineTo(rect.x + rect.width, rect.y + rect.height);
-            path2.lineTo(rect.x, rect.y + rect.height);
-            graphics.fillPath(path2);
-            path2.dispose();
-            
+            graphics.fillRectangle(createMainRectangle(rect));
             disposeGradientPattern(graphics, gradient);
             
-            // Icon
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(tabHeight);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
             }
 
-            // Line
+            // Lines
             if(drawOutline) {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
+                graphics.setLineWidth(getLineWidth());
+                setLineStyle(graphics);
                 
+                rect = applyLineWidthOffset(graphics);
+                
+                // Main rectangle
+                graphics.drawRectangle(createMainRectangle(rect));
+
+                // Top rectangle
                 Path path = new Path(null);
                 path.moveTo(rect.x, rect.y + tabHeight);
                 path.lineTo(rect.x, rect.y);
-                path.lineTo(rect.x + tabWidth, rect.y);
-                path.lineTo(rect.x + tabWidth, rect.y + tabHeight);
+                path.lineTo(rect.x + tabWidth - 1, rect.y);
+                path.lineTo(rect.x + tabWidth - 1, rect.y + tabHeight);
                 graphics.drawPath(path);
                 path.dispose();
-                
-                graphics.drawRectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
             }
         }
+        // Rectangle style
         else {
+            // Fill
+            graphics.setAlpha(getAlpha());
             graphics.setBackgroundColor(getFillColor());
             Pattern gradient = applyGradientPattern(graphics, rect);
-            
             graphics.fillRectangle(rect);
-            
             disposeGradientPattern(graphics, gradient);
             
-            // Icon
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(0);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
             }
 
-            // Line
+            // Lines
             if(drawOutline) {
                 graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
-                graphics.drawRectangle(rect);
+                graphics.setLineWidth(getLineWidth());
+                setLineStyle(graphics);
+                graphics.drawRectangle(applyLineWidthOffset(graphics));
             }
         }
 
         graphics.popState();
+    }
+    
+    private Rectangle createTopRectangle(Rectangle rect) {
+        return new Rectangle(rect.x, rect.y, tabWidth, tabHeight);
+    }
+
+    private Rectangle createMainRectangle(Rectangle rect) {
+        return new Rectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
     }
     
     @Override

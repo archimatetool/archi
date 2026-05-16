@@ -113,9 +113,6 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements";
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements";
 
-    // Whether to use a line offset in all cases for figures drawn on hi-res screens
-    String USE_FIGURE_LINE_OFFSET = "figureLineOffset";
-    
     // Appearance
     
     String DEFAULT_ARCHIMATE_FIGURE_WIDTH = "defaultArchiMateFigureWidth";

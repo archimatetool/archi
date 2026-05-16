@@ -22,6 +22,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Node
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class NodeFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -107,7 +108,7 @@ public class NodeFigure extends AbstractTextControlContainerFigure implements IA
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 18, rect.y + 8);
     }
     
     @Override

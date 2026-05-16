@@ -24,6 +24,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a CourseOfAction
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class CourseOfActionFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -46,16 +47,14 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        // Adjust size by line width
+        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
+        rect.shrink(shrink, shrink);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
+        rect = getFigurePositionFromTextPosition(rect, 1.24); // Should match '3.1 / 2.5' (values used in getRadius() and getCenter())
         
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect, 1.24); // Should match '3.1 / 2.5' (values used in getRadius() and getCenter())
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
@@ -75,6 +74,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         // Lines
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
 
         graphics.drawPath(path);
         
@@ -95,8 +95,6 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
                                                    center.preciseX() - radius3, center.preciseY() - radius3, radius);
         
         if(intersection != null) {
-            graphics.setClip(rect); // Need this so line doesn't draw out of bounds at bottom of rect
-            
             int arrowLength = (int)(radius3 * 1.5f);
             
             //int arrowLineWidth = Math.round(graphics.getLineWidth() * 1.5f);
@@ -106,22 +104,14 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
             graphics.fillPolygon(new int[]{intersection.x, intersection.y, intersection.x - arrowLength, intersection.y - arrowLength / 3,
                     intersection.x - arrowLength / 3, intersection.y + arrowLength});
             
-            graphics.setLineCap(SWT.CAP_ROUND);
-            
-            graphics.drawLine(x,
-                              rect.y + rect.height,
-                              x + (intersection.x - x) / 3,
-                              intersection.y + (y - intersection.y) / 3);
-            
-            graphics.drawLine(x + (intersection.x - x) / 3,
-                              intersection.y + (y - intersection.y) / 3,
-                              intersection.x - arrowLineWidth,
-                              intersection.y + arrowLineWidth);
+            Path linePath = new Path(null);
+            linePath.moveTo(x, rect.y + rect.height - 1);
+            linePath.lineTo(x + (intersection.x - x) / 3, intersection.y + (y - intersection.y) / 3);
+            linePath.lineTo(intersection.x - arrowLineWidth, intersection.y + arrowLineWidth);
+            graphics.drawPath(linePath);
+            linePath.dispose();
         }
 
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
     }
     
@@ -239,7 +229,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 16 - getLineWidth(), rect.y + 2 + getLineWidth());
+        return new Point(rect.getRight().x - 17, rect.y + 4);
     }
 
     @Override
