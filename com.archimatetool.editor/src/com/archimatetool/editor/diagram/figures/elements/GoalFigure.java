@@ -38,14 +38,7 @@ public class GoalFigure extends AbstractMotivationFigure {
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-        
-        // And then set figure position
-        rect = getFigurePositionFromTextPosition(rect);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
 
         int radius = getRadius(rect);
         Point center = rect.getCenter();
@@ -53,7 +46,6 @@ public class GoalFigure extends AbstractMotivationFigure {
         float y = (float)center.preciseY() - radius;
         float width = radius * 2;
         float height = radius * 2;
-        float lineOffset = getLineWidth() / 2.0f;
 
         // Fill
         graphics.setAlpha(getAlpha());
@@ -69,14 +61,14 @@ public class GoalFigure extends AbstractMotivationFigure {
         graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        FigureUtils.drawOvalPath(graphics, x, y, width, height);
+        FigureUtils.drawOvalPath(graphics, x, y, width, height, getLineWidth());
         
         graphics.setBackgroundColor(getLineColor());
 
-        radius = Math.round(radius * 2.0f / 3.0f - lineOffset);
+        radius = Math.round(radius * 2.0f / 3.0f - (graphics.getLineWidth() / 2));
         graphics.drawOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
         
-        radius = Math.round(radius / 3.0f - lineOffset);
+        radius = Math.round(radius / 3.0f - (graphics.getLineWidth() / 2));
         graphics.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
         
         graphics.popState();

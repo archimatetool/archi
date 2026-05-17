@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 
 
 /**
@@ -32,8 +33,7 @@ public class CylinderFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds();
         
         // Fill
         graphics.setAlpha(getAlpha());
@@ -51,13 +51,13 @@ public class CylinderFigureDelegate extends AbstractFigureDelegate {
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setLineWidth(getLineWidth());
-        graphics.drawPath(path);
         
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         path.dispose();
         
         Path path2 = new Path(null);
         path2.addArc((rect.x + rect.width) - (rect.width / OFFSET), rect.y, rect.width / OFFSET, rect.height, 90, 180);
-        graphics.drawPath(path2);
+        FigureUtils.drawPath(graphics, path2, getLineWidth());
         path2.dispose();
         
         graphics.popState();

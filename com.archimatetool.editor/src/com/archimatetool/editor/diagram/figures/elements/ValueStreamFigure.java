@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -46,8 +47,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         Path path = createPath(rect);
 
@@ -82,10 +82,9 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         drawIconImage(graphics, getBounds().getCopy(), top, right, bottom, left);
 
         // Outline
-        graphics.setLineWidth(getLineWidth());
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path,getLineWidth());
         
         path.dispose();
         
@@ -96,12 +95,11 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         int indent = Math.min(rect.height / 2, rect.width / 2);
         int centre_y = rect.y + rect.height / 2;
         int point_startx = rect.x + rect.width - indent;
-        float lineOffset = getLineWidth() / 2.0f;
         
         Path path = new Path(null);
-        path.moveTo(rect.x + lineOffset, rect.y);
+        path.moveTo(rect.x, rect.y);
         path.lineTo(rect.x + indent, centre_y);
-        path.lineTo(rect.x + lineOffset, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
         path.lineTo(point_startx, rect.y + rect.height);
         path.lineTo(rect.x + rect.width, centre_y);
         path.lineTo(point_startx, rect.y);

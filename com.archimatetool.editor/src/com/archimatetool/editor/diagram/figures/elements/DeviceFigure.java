@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -47,10 +48,10 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
 
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         int height_indent = rect.height / 5;
+        int lineWidth = getLineWidth();
         
         // Top part fill
         Rectangle topRect = new Rectangle(rect.x, rect.y, rect.width, rect.height - height_indent + 1);
@@ -58,14 +59,16 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         graphics.setBackgroundColor(getFillColor());
         graphics.setAlpha(getAlpha());
         Pattern gradient2 = applyGradientPattern(graphics, topRect);
+        //FigureUtils.fillRoundRectanglePath(graphics, topRect, 30, 30);
         graphics.fillRoundRectangle(topRect, 30, 30);
         disposeGradientPattern(graphics, gradient2);
 
         // Bottom part fill
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         Pattern gradient1 = applyGradientPattern(graphics, rect);
-        Path path = getBottomPath(rect, height_indent);
+        Path path = getBottomPath(rect, height_indent, lineWidth);
         graphics.fillPath(path);
+        path.dispose();
         disposeGradientPattern(graphics, gradient1);
         
         // Image icon
@@ -75,24 +78,27 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         // Top part line
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawRoundRectangle(topRect, 30, 30);
+        FigureUtils.drawRoundRectanglePath(graphics, topRect, 30, 30, lineWidth);
         
         // Bottom part line
+        graphics.setLineWidth(lineWidth);
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.drawPath(path);
+        path = getBottomPath(rect, height_indent, lineWidth);
+        FigureUtils.drawPath(graphics, path, lineWidth);
         path.dispose();
 
         graphics.popState();
     }
     
-    private Path getBottomPath(Rectangle rect, int height_indent) {
+    private Path getBottomPath(Rectangle rect, int height_indent, int lineWidth) {
+        float inset = lineWidth > 1 ? lineWidth / 2f : 0;
+        
         Path path = new Path(null);
-        path.moveTo(rect.x + getLineWidth(), rect.y + rect.height);
-        path.lineTo(rect.x + INDENT + 1, rect.y + rect.height - height_indent + 1);
-        path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent + 1);
-        path.lineTo(rect.x + rect.width - getLineWidth(), rect.y + rect.height);
+        path.moveTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x + INDENT + 1, rect.y + rect.height - height_indent - inset);
+        path.lineTo(rect.x + rect.width - INDENT, rect.y + rect.height - height_indent - inset);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
         path.close();
         return path;
     }

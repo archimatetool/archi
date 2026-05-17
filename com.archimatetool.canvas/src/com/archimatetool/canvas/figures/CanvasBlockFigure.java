@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
@@ -131,10 +132,12 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         graphics.setAntialias(SWT.ON);
         
+        Rectangle rect = getBounds().getCopy();
+        
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(background);
-        graphics.fillRectangle(getBounds().getCopy());
+        graphics.fillRectangle(rect);
         
         // Icon Image
         drawIconImage(graphics, getBounds().getCopy());
@@ -144,8 +147,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.setLineWidth(getLineWidth());
-            graphics.drawRectangle(applyLineWidthOffset(graphics));
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();

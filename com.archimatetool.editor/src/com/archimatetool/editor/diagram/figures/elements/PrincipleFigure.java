@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -37,14 +38,7 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-        
-        // And then set the figure position
-        rect = getFigurePositionFromTextPosition(rect);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
         Path path = createPath(rect);
 
@@ -59,10 +53,9 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         drawIconImage(graphics, getBounds().getCopy());
         
         // Lines
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         

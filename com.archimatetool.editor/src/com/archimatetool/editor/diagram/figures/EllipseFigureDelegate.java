@@ -28,24 +28,22 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds();
+        Rectangle rect = getBounds();
         
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
+        //FigureUtils.fillOvalPath(graphics, rect, drawOutline);
         graphics.fillOval(rect);
         disposeGradientPattern(graphics, gradient);
         
         // Outline
-        if(drawOutline) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.setLineWidth(getLineWidth());
-            graphics.drawOval(applyLineWidthOffset(graphics));
+            FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
         }
         
         // Image Icon

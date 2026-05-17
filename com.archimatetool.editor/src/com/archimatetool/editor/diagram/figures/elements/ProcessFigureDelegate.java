@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -33,8 +34,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds();
         
         Path path = createPath(rect);
 
@@ -51,8 +51,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         // Line
         graphics.setForegroundColor(getLineColor());
         graphics.setAlpha(getLineAlpha());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
@@ -63,14 +62,13 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         float x1 = rect.x + (rect.width * 0.7f);
         float y1 = rect.y + (rect.height / 5);
         float y2 = rect.y + rect.height - (rect.height / 5);
-        float lineOffset = getLineWidth() / 2.0f;
         
         Path path = new Path(null);
         path.moveTo(rect.x, y1);
         path.lineTo(x1, y1);
-        path.lineTo(x1, rect.y + lineOffset);
+        path.lineTo(x1, rect.y);
         path.lineTo(rect.x + rect.width, rect.y + (rect.height / 2));
-        path.lineTo(x1, rect.y + rect.height - lineOffset);
+        path.lineTo(x1, rect.y + rect.height);
         path.lineTo(x1, y2);
         path.lineTo(rect.x, y2);
         path.close();

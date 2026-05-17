@@ -52,11 +52,13 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
             drawIconImage(graphics, rect);
             
             // Outline
-            rect = applyLineWidthOffset(graphics);
             drawOutline(graphics, rect);
             
             // Line
-            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
+            graphics.setLineWidth(getLineWidth());
+            graphics.setForegroundColor(getLineColor());
+            graphics.setAlpha(getLineAlpha());
+            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width - 1, rect.y + TOP_MARGIN);
             
             graphics.popState();
         }

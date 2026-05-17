@@ -33,13 +33,12 @@ implements IRoundedRectangleFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds();
+        Rectangle rect = getBounds();
         
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
+        //FigureUtils.fillRoundRectanglePath(graphics, rect, arc.width, arc.height);
         graphics.fillRoundRectangle(rect, arc.width, arc.height);
         disposeGradientPattern(graphics, gradient);
         
@@ -49,12 +48,11 @@ implements IRoundedRectangleFigure {
         getOwner().drawIconImage(graphics, getBounds());
         
         // Outline
-        if(drawOutline) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.setLineWidth(getLineWidth());
-            graphics.drawRoundRectangle(rect, arc.width, arc.height);
+            FigureUtils.drawRoundRectanglePath(graphics, rect, arc.width, arc.height, getLineWidth());
         }
         
         graphics.popState();

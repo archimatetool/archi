@@ -53,10 +53,13 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 drawIconImage(graphics, rect);
                 
                 // Outline
-                rect = applyLineWidthOffset(graphics);
                 drawOutline(graphics, rect);
 
                 // Line
+                graphics.setAlpha(getLineAlpha());
+                graphics.setForegroundColor(getLineColor());
+                graphics.setLineWidth(getLineWidth());
+                
                 Path path = new Path(null);
                 path.moveTo(rect.x, rect.y + TOP_MARGIN);
                 path.lineTo(rect.getCenter().x, rect.y + TOP_MARGIN);

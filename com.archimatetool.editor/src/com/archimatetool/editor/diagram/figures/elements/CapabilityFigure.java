@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -46,6 +47,10 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         
         Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        
         // block length
         float blockLength = Math.min(rect.height / 3.0f, rect.width / 3.0f);
         float figureLength = blockLength * 3;
@@ -54,47 +59,38 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         float yMargin = (rect.height - figureLength) / 2.0f;
         
         // Fill
-        graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, rect);
         Path mainPath = createPath(rect, xMargin, yMargin, blockLength);
         graphics.fillPath(mainPath);
-        mainPath.dispose();
         disposeGradientPattern(graphics, gradient);
         
         // Image Icon
         drawIconImage(graphics, getBounds().getCopy());
         
         // Outer lines
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
         
-        rect = applyLineWidthOffset(graphics, rect);
-        
-        // Recaclulate these on new rect
-        blockLength = Math.min(rect.height / 3.0f, rect.width / 3.0f);
-        figureLength = blockLength * 3;
-        
-        mainPath = createPath(rect, xMargin, yMargin, blockLength);
-        graphics.drawPath(mainPath);
+        FigureUtils.drawPath(graphics, mainPath, getLineWidth());
         mainPath.dispose();
         
         // Inner lines
+        int lineWidth = getLineWidth();
+        float half = lineWidth / 2.0f;
+        graphics.setLineWidth(lineWidth);
+        
         Path innerPath = new Path(null);
         
-        innerPath.moveTo(rect.x + xMargin + blockLength, rect.y + yMargin + 3 * blockLength);
-        innerPath.lineTo(rect.x + xMargin + blockLength, rect.y + yMargin + 2 * blockLength);
+        innerPath.moveTo(rect.x + xMargin + blockLength + half, rect.y + yMargin + 3 * blockLength);
+        innerPath.lineTo(rect.x + xMargin + blockLength + half, rect.y + yMargin + 2 * blockLength);
         
-        innerPath.moveTo(rect.x + xMargin + blockLength * 2, rect.y + yMargin + 3 * blockLength);
-        innerPath.lineTo(rect.x + xMargin + blockLength * 2, rect.y + yMargin + blockLength);
+        innerPath.moveTo(rect.x + xMargin + blockLength * 2 + half, rect.y + yMargin + 3 * blockLength);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 2 + half, rect.y + yMargin + blockLength);
         
-        innerPath.moveTo(rect.x + xMargin + blockLength * 1, rect.y + yMargin + 2 * blockLength);
-        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + 2 * blockLength);
+        innerPath.moveTo(rect.x + xMargin + blockLength * 1, rect.y + yMargin + 2 * blockLength + half);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + 2 * blockLength + half);
         
-        innerPath.moveTo(rect.x + xMargin + blockLength * 2, rect.y + yMargin + blockLength);
-        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + blockLength);
+        innerPath.moveTo(rect.x + xMargin + blockLength * 2, rect.y + yMargin + blockLength + half);
+        innerPath.lineTo(rect.x + xMargin + blockLength * 3, rect.y + yMargin + blockLength + half);
         
         graphics.drawPath(innerPath);
         innerPath.dispose();
