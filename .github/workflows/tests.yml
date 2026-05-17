@@ -32,9 +32,9 @@ jobs:
         
     - name: Run Maven tests (Linux with virtual display)
       if: ${{ runner.os == 'Linux' }}
-      run: xvfb-run mvn clean verify
+      run: xvfb-run mvn clean verify -U
 
     - name: Run Maven tests (macOS/Windows)
       if: ${{ runner.os != 'Linux' }}
-      run: mvn clean verify
+      run: mvn clean verify -U
   

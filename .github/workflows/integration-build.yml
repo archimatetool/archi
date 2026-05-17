@@ -31,7 +31,7 @@ jobs:
         
     - name: Run tests and build product
       run: |
-        xvfb-run mvn -V clean verify -P tests,product
+        xvfb-run mvn -V clean verify -P tests,product -U
 
     - name: Today's date
       run: |
