@@ -33,7 +33,6 @@
         <module>com.archimatetool.editor.feature</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>
-        <module>com.archimatetool.gef.feature</module>
         <module>com.archimatetool.hammer</module>
         <module>com.archimatetool.help</module>
         <module>com.archimatetool.jasperreports</module>
