@@ -96,7 +96,16 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
+                    <!-- Each module's timestamp is taken from its last commit date and time  -->
+                    <timestampProvider>jgit</timestampProvider>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-buildtimestamp-jgit</artifactId>
+                        <version>${tycho-version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             
             <plugin>

@@ -16,6 +16,7 @@ jobs:
       with:
         ref: integration-build
         submodules: 'true'
+        fetch-depth: 0
     
     - name: Set up Java
       uses: actions/setup-java@v5
